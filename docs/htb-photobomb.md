@@ -1,5 +1,6 @@
 ---
 title: "Photobomb Machine"
+author: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
@@ -8,7 +9,7 @@ TableOfContents: true
 
 ## About the machine
 
-{{< figure src="../../images/photobomb.png" title="Photobomb Machine Banner" width="600" >}}
+![Photobomb Machine Banner](../img/photobomb.png)
 
 
 

@@ -1,5 +1,6 @@
 ---
 title: "Support Machine"
+author: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
@@ -8,7 +9,7 @@ TableOfContents: true
 
 ## About the machine
 
-{{< figure src="../../images/support.png" title="Support Machine Banner" width="600" >}}
+![Support Machine Banner](../img/support.png)
 
 
 

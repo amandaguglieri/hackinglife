@@ -1,5 +1,6 @@
 ---
 title: "Trick Machine"
+auhtor: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
@@ -8,8 +9,7 @@ TableOfContents: true
 
 ## About the machine
 
-{{< figure src="../../images/trick.png" title="Trick Machine Banner" width="600" >}}
-
+![Trick Machine Banner](../img/trick.png)
 
 
 | data |  |

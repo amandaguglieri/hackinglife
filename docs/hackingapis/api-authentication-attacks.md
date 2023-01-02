@@ -1,0 +1,203 @@
+---
+title: "API authentication attacks"
+author: amandaguglieri
+draft: false
+TableOfContents: true
+---
+
+
+## Classic authentication attacks
+
+We'll consider two attacks: Password Brute-Force Attack, and Password Spraying. These attacks may take place every time that Basic Authentication is deployed in the context of a RESTful API.
+
+The principle of Basic authentication is that the consumer issues a request containing a username and password, th>
+
+As RESTful APIs don't maintain a state, the API need to leverage basic authentication across all endpoints. Instead of doing this, the API may leverage basic authentication once using an authentication portal, then upon providing the correct credentials, a token would be issued to be used in subsequent requests.
+ 
+### 1. Password Brute-Force Attacks
+
+Brute-forcing an API's authentication is not very different from any other brute-force attack, except you will send the request to an API endpoint, the payload will often be in JSON, and the authentication values may be base64 encoded.
+
+Infinite ways to do it. You can use: 
+
++ Intruder module of BurpSuite.
++ ZAP proxy tool.
++ wfuzz.
++ ffuzz. 
++ others.
+
+Let's see wfuzz:
+
+```bash
+wfuzz -d {"email":"hapihacker@hapihacjer.com","password":"PASSWORD"} -z file,/usr/share/wordlists/rockyou.txt -u http://localhost:8888/identity/api/auth/login --hc 500
+# -H to specify content-type headers. 
+# -d allows you to include the POST Body data. 
+# -u specifies the url
+# --hc/hl/hw/hh hide responses with the specified code/lines/words/chars. In our case, "--hc 500" hides 500 code responses.
+# -z specifies a payload   
+```
+
+Tools to build password lists:
++ https://github.com/sc0tfree/mentalist
++ https://github.com/Mebus/cupp
++ crunch (already installed in kali)
+
+### 2. Password Spraying
+
+Very useful if you know the password policy of the API we are attacking. Say that there is a lockout account policy for te tries. Then you can password spray attack with 9 tries and use for that the 9 most probable password for all the accounts email spotted.
+
+As in crapi we have detected before a disclosure of information in the forum page (a json response with all kind of data from users who have posted on the forum), we can save that json response as response.json and filter out the emails of users:
+
+Also, using this grep command should pull everything out of a file that resembles an email. Then you can save those captured emails to a file and use that file as a payload in Burp Suite. You can then use a command like sort -u to get rid of duplicate emails.
+
+```bash
+grep -oe "[a-zA-Z0-9._]\+@[a-zA-Z]\+.[a-zA-Z]\+" response.json | uniq | sort -u > mailusers.txt
+```
+
+
+## API Authentication Attacks
+
+To go further in authentification attacks we will need to analyze the API tokens and the way they are generated, and when talking about token generation and analysis, a word comes out inmediately: **entropy**.
+
+*Entropy definition: Entropy, in cyber security, is a measure of the randomness or diversity of a data-generating >
+
+
+### Entropy analysis: BurpSuite Sequencer's live capture
+
+BurpSuite Sequencer provides two methods for token analysis:
+
++ Manually analysing tokens provided in a text file. To perform a manual analys, you need to provide to BurpSuite Sequencer a minimum of 100 tokens.
++ Performing a live capture to automatically generate tokens.
+
+Let's focus out attention on a live capture using BurpSuite Sequencer. A live capture  will provide us with 20.000 tokens automatically generated. What for?
+
++ To elaborate a token analysis report that measures the entropy of the token generation process (and gives us precious tips about how to brute-force, or password spray, or bypass the authentication). For instance, if an API provider is generating tokens sequentially, then even if the token were 20 plus characters long, it could be the case that many of the characters in the token do not actually change.
++ To have this large collection of 20.000 identities can help us to evade security controls.
+
+
+**The token analysis report**
+
++ *The summary of the findings* provides info about the quality of randomness within the token sample. The goal is to determine if there are parts of the token that do not change and other parts that often change. So full entropy would be a 100% of ramdonness (any patterns found). 
++ *Character-level analysis* provides the degree of confidence in the randomness of the sample at each character position. The significance level at each position is the probability of the observed character-level results occurring.
+* *Bit-level analysis* indicates the degree of confidence in the randomness of the sample at each bit position.
+
+
+### JWT attacks
+
+Two tools: [jwt.io](https://jwt.io) and [jwt_tools](https://github.com/ticarpi/jwt_tool).
+
+To see a jwt decoded on your CLI:
+
+```bash
+jwt_tool eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0IjoxNjY5NDYxODk5LCJleHAiOjE2Njk
+1NDgyOTl9.yeyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0IjoxNjY5NDYxODk5LCJleHAiOjE2Njk121Lj2Doa7rA9oUQk1Px7b2hUCMQJeyCsGYLbJ8hZMWc7304aX_hfkLB__1o2YfU49VajMBhhRVP_OYNafttug 
+```
+
+Result:
+
+{{< figure src="../../images/jwt-tool.png" title="Running JWT TOOL" width="600" >}}
+
+
+Also, to see the decoded jwt, knowing that is encoded in base64, we could echo each of its parts:
+
+```bash
+echo eyJhbGciOiJIUzUxMiJ9 | base64 -d  && echo eyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0
+IjoxNjY5NDYxODk5LCJleHAiOjE2Njk1NDgyOTl9 | base64 -d
+```
+
+Results:
+
+```
+{"alg":"HS512"}{"sub":"hapihacker@hapihacher.com","iat":1669461899,"exp":1669548299} 
+```
+
+To run a JWT scan with jwt_tool, run: 
+
+```bash
+jwt_tool -t <http://target-site.com/> -rc "<Header>: <JWT_Token>" -M pb
+# in the target site specify a path that leverages a call to a token
+# replace Header with the name of the Header and JWT_Tocker with the actual token.
+# -M: Scanning mode. 'pb' is playbook audit. 'er': fuzz existing claims to force errors. 'cc': fuzz common claims. 'at': All tests.
+```
+
+
+Some more jwt_tool flags that may come in hand:
+
+```
+# -X EXPLOIT, --exploit EXPLOIT
+#                        eXploit known vulnerabilities:
+#                        a = alg:none
+#                        n = null signature
+#                        b = blank password accepted in signature
+#                        s = spoof JWKS (specify JWKS URL with -ju, or set in jwtconf.ini to automate this attack)
+#                        k = key confusion (specify public key with -pk)
+#                        i = inject inline JWKS
+
+```
+
+
+#### The none attack
+
+A JWT with "none" as its algorithm is a free ticket. Modify user and become admin, root,... 
+Also, in poorly implemented JWT, sometimes user and password can be found in the payload.
+
+To craft a jwt with "none" as the value for "alg", run:
+
+```bash
+jwt_tool <JWT_Token> -X a
+```
+
+
+#### The null signature attack
+
+Second attack in this section is removing the signature from the token. This can be done by erasing the signature altogether and leaving the last period in place.
+
+
+#### The blank password accepted in signature
+
+Launching this attack is relatively simple. Just remove the password value from the payload and leave it in blank. Then, regenerate the jwt.
+
+Also, with jwt_tool, run:
+
+```bash 
+jwt_tool <JWT_Token> -X b
+```
+ 
+#### The algorithm switch (or key-confusion) attack
+
+A more likely scenario than the provider accepting no algorithm is that they accept multiple algorithms. For example, if the provider uses RS256 but doesn’t limit the acceptable algorithm values, we could alter the algorithm to HS256. This is useful, as RS256 is an asymmetric encryption scheme, meaning we need both the provider’s private key and a public key in order to accurately hash the JWT signature. Meanwhile, HS256 is symmetric encryption, so only one key is used for both the signature and verification of the token. If you can discover the provider’s RS256 public key and then switch the algorithm from RS256 to HS256, there is a chance you may be able to leverage the RS256 public key as the HS256 key.
+
+```bash
+jwt_tool <JWT_Token> -X k -pk public-key.pem
+# You will need to save the captured public key as a file on your attacking machine.
+```
+
+
+#### The jwt crack attack
+
+JWT_Tool can still test 12 million passwords in under a minute. To perform a JWT Crack attack using JWT_Tool, use the following command:
+
+
+```bash
+jwt_tool <JWT Token> -C -d /wordlist.txt
+# -C indicates that you are conducting a hash crack attack
+# -d specifies the dictionary or wordlist
+```
+
+Once you crack the secret of the signature, we can create our own trusted tokens. 
+1. Grab another user email (in the crapi app, from the data exposure vulnerability when getting the forum (GET {{baseUrl}}/community/api/v2/community/posts/recent).
+2. Generate a token with the secret.
+
+
+#### Spoofing JWS 
+
+Specify JWS URL with -ju, or set in jwtconf.ini to automate this attack.
+
+
+#### Inject inline JW
+
+¿?¿?¿?¿?
+
+
+
+

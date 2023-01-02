@@ -1,5 +1,6 @@
 ---
 title: "Metatwo Machine"
+author: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
@@ -9,7 +10,7 @@ TableOfContents: true
 
 ## About the machine
 
-{{< figure src="../../images/metatwo.png" title="Metatwo Machine Banner" width="600" >}}
+![Metatwo Machine Banner](../img/metatwo.png)
 
 | data |  |
 |--------| ------- |
