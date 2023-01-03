@@ -9,7 +9,7 @@ TableOfContents: true
 
 ## About the machine
 
-![Trick Machine Banner](../img/trick.png)
+![Trick Machine Banner](img/trick.png)
 
 
 | data |  |

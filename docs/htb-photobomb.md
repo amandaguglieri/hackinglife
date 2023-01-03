@@ -9,7 +9,7 @@ TableOfContents: true
 
 ## About the machine
 
-![Photobomb Machine Banner](../img/photobomb.png)
+![Photobomb Machine Banner](img/photobomb.png)
 
 
 

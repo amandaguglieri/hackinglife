@@ -10,7 +10,7 @@ TableOfContents: true
 
 ## About the machine
 
-![Metatwo Machine Banner](../img/metatwo.png)
+![Metatwo Machine Banner](img/metatwo.png)
 
 | data |  |
 |--------| ------- |

@@ -9,7 +9,7 @@ TableOfContents: true
 
 ## About the machine
 
-![Support Machine Banner](../img/support.png)
+![Support Machine Banner](img/support.png)
 
 
 
