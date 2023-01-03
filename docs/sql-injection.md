@@ -3,7 +3,7 @@ title: SQL injection
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: pentesting,web 
+tag: pentesting,web 
 ---
 
 SQL stands for Structure Query Language.

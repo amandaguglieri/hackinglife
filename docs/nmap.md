@@ -1,7 +1,9 @@
 ---
 title: "Nmap"
+author: amandaguglieri
 draft: false
 TableOfContents: true
+tag: reconnaissance,scanning,"active recon","passive recon"
 ---
 
 ## Description
@@ -69,17 +71,27 @@ nmap -sT 10.0.2.1
 # Scan a list of hosts. One per line in the file
 nmap -sn -iL 10.0.2.1 hosttoscanlist.txt 
 
-nmap -sL 10.0.2.1  // lists targets to scan
-nmap -sC -sV -p-10.0.2.1  // Full scanner
-nmap -sU -sV  10.0.2.1 //UDP quick
-nmap -sA 10.0.2.1 // called ACK scan. Returns if the port is filtered or not. Useful to determine if there is a firewall.
-nmap -sW 10.0.2.1 // It sends a ACK packet. In the response we pay attention to the windows size of the TCP header. If the windows size is different from zero, the port is open. If it is zero, then port is either closed or filtered.
+# List targets to scan
+nmap -sL 10.0.2.1  
+
+# Full scanner
+nmap -sC -sV -p-10.0.2.1  
+
+
+# UDP quick
+nmap -sU -sV  10.0.2.1 
+
+# Called ACK scan. Returns if the port is filtered or not. Useful to determine if there is a firewall.
+nmap -sA 10.0.2.1 
+
+# It sends a ACK packet. In the response we pay attention to the windows size of the TCP header. If the windows size is different from zero, the port is open. If it is zero, then port is either closed or filtered. 
+nmap -sW 10.0.2.1 
 ```
 
 To redirect results to a file > targetfile.txt
 
 
-Search an script in nmap:
+## Search an script in nmap
 
 ```bash
 locate -r nse$|grep <term>
@@ -87,13 +99,13 @@ locate -r nse$|grep <term>
 sudo updatedb
 ```
 
-Attacking a ssh connection:
+## Attacking a ssh connection:
 
 ```bash
 nmap 192.153.213.3 -p 22 --script ssh-brute --script-args userdb=users.txt,passdb=/usr/share/nmap/nselib/data/passwords.lst
 ```
 
-To get services in a range
+## To get services in a range
 
 ```bash
 nmap -sV --script=banner 192.217.70.0/24

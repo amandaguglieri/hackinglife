@@ -3,7 +3,7 @@ title: sqlmap
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: pentesting 
+tag: pentesting 
 ---
 
 

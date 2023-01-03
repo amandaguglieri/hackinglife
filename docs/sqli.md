@@ -3,7 +3,7 @@ title: SQLi Cheat sheet
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: pentesting
+tag: pentesting
 ---
 
 See a more detailed [explanation about SQL injection](sql-injection.md).

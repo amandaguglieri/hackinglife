@@ -1,11 +1,13 @@
 ---
 title: "Amass"
-date: 2022-12-09T00:00:00Z
+author: amandaguglieri
 draft: false
+TableOfContents: true
+tag: pentesting,reconnaissance,dns
 ---
 
 
-In depth DNS Enumeration and network mapping
+In depth DNS Enumeration and network mapping.
 
 ## Install
 
@@ -21,7 +23,7 @@ snap install amass
 snap run amass
 ```
 
-Some flags:
+## Some flags:
 
 ```
 -active: Attempt zone transfer and certificate name grabs.
