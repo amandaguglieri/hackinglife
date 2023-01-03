@@ -31,15 +31,18 @@ tag: pentesting
 
 ## Vulnerability assessment
 
-| Available scanners | URL | 
+| Available scanners + Cheat sheet | URL | 
 | ------------------ | --- |
-| Nessus | [https://www.tenable.com/downloads/nessus](https://www.tenable.com/downloads/nessus) |  
+| [Nessus](nessus.md) | [https://www.tenable.com/downloads/nessus](https://www.tenable.com/downloads/nessus) |  
 | OpenVAS | [https://www.openvas.org/](https://www.openvas.org/) | 
 | Nexpose | [https://www.rapid7.com/products/nexpose/](https://www.rapid7.com/products/nexpose/) | 
 | GFOLAnGuard | [https://www.gfi.com/products-and-solutions/network-security-solutions/gfi-languard](https://www.gfi.com/products-and-solutions/network-security-solutions/gfi-languard) |
 
 
-
+| Tool + Cheat sheet | What it does |
+| ------------------ | ------------ |
+| [netcat](netcat.md) | netcat (often abbreviated to nc) is a computer networking utility for reading from and writing to network connections using TCP or UDP. |
+| [openSSL](openssl.md) |    |
 
 
 
