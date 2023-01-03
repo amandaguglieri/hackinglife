@@ -1,5 +1,5 @@
 ---
-title: "3306 mariadb"
+title: "3306 mariadb mysql"
 draft: false
 TableOfContents: true
 ---
@@ -12,12 +12,22 @@ TableOfContents: true
 
 
 
-## Connect to database
+## Connect to database: mariadb
 
 ```bash
 # -h host/ip   
 # -u user As default mariadb has a root user with no authentication
 mariadb -h <host/IP> -u root
+```
+
+
+## Connect to database: mysql 
+
+```bash
+# -h host/ip   
+# -u user As default mysql has a root user with no authentication
+mysql --host=INSTANCE_IP --user=root --password=thepassword
+mysql -h <host/IP> -u root -p fArFLP29UySm4bZj
 ```
 
 ## mariadb commands

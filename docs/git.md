@@ -64,6 +64,22 @@ Commit the changes you have staged properly with:
 git commit -m "message that describes what you have changed"
 ```
 
+To undo the most recent commit we've made:
+
+```bash
+git reset --soft HEAD~
+```
+
+### git config
+
+To setup user name and user email:
+
+```bash
+git config --global user.name "NameOfUser"
+git config --global user.email "email@email.com"
+```
+
+
 ### git branch
 
 To create a new branch:
@@ -99,6 +115,7 @@ If you want to force the deletion (maybe some changes are not staged), then:
 ```bash
 git branch <branchName> -D
 ```
+
 
 ### git merge
 
@@ -140,6 +157,12 @@ git remove --cache <fileName>
 
 ### git remote 
 
+To check out which remote repository our local repository is connected to:
+
+```bash
+git remote
+```
+
 To connect my local project folder to the github repo.
 
 ```bash
@@ -148,11 +171,13 @@ git remote add origin https://github.com/username/reponame.git
 
 
 ### git push
+
 To push our local changes into the connected github repo:
-```
+
+```bash
 git push -u origin main
 ```
-Note: origin references the connection, and main is because we are in the main branch (that's what we are pushing).
+Note: origin references the connection, and main is because we are in the main branch (that's what we are pushing). The first git push is a little different from future gitpushes, since we'll need to use the -u gflag in order to set origin as the defaulto remote repository so we won't have to provide its name every time.
 
 ### Some tricks
 

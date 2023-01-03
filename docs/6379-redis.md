@@ -1,21 +1,27 @@
 ---
 title: 6379 redis
+author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
 ## Description
 
-Redis (REmote DIctionary Server) is an open-source advanced NoSQL key-value data store used as a database, cache, and message broker. The data is stored in a dictionary format having key-value pairs. It is typically used for short term storage of data that needs fast retrieval. Redis does backup data to hard drives to provide consistency.
+Redis (REmote DIctionary Server) is an open-source advanced NoSQL key-value data store used as a database, cache, and message broker. The Redis command line interface (redis-cli) is a terminal program used to send commands to and read replies from the Redis server. Redis popularized the idea of a system that can be considered a store and a cache at the same time.Redis is an open-source, in-memory key-value data store. Whether you’ve installed Redis locally or you’re working with a remote instance, you need to connect to it in order to perform most operations.
+
 
 ### The server
 
 Redis runs as server-side software so its core functionality is in its server component. The server listens for connections from clients, programmatically or through the command-line interface.
 
+
 ### The CLI
+
 The command-line interface (CLI) is a powerful tool that gives you complete access to Redis’s data and its functionalities if you are developing a software or tool that needs to interact with it.
 
+
 ### Database
+
 The database is stored in the server's RAM to enable fast data access. Redis also writes the contents of the database to disk at varying intervals to persist it as a backup, in case of failure.
 
 
@@ -42,6 +48,29 @@ sudo apt-get install redis
 ```
 
 ## To connect to a terminal
+
+First thing to know is that you can use “telnet” (usually on Redis default port 6379)
+
+```bash
+telnet localhost 6379
+```
+
+If you have redis-server installed locally, you can connect to the Redis instance with the redis-cli command.
+
+If you want to connect to a remote Redis datastore, you can specify its host and port numbers with the -h and -p flags, respectively. Also, if you’ve configured your Redis database to require a password, you can include the -a flag followed by your password in order to authenticate:
+
+```bash
+redis-cli -h host -p port_number -a password
+```
+
+If you’ve set a Redis password, clients will be able to connect to Redis even if they don’t include the -a flag in their redis-cli command. However, they won’t be able to add, change, or query data until they authenticate. To authenticate after connecting, use the auth command followed by the password:
+
+```bash
+auth password
+```
+
+If the password passed to auth is valid, the command will return OK. Otherwise, it will return an error.
+
 
 ```bash
 redis-cli -h 10.129.124.88
@@ -71,17 +100,17 @@ Or you can just get all the keyspaces (databases) with:
 INFO keyspace
 ```
 
-In that example the database 0 and 1 are being used. Database 0 contains 4 keys and database 1 contains 1. By default Redis will use database 0. In order to dump for example database 1 you need to do:
+Redis has a concept of separated namespaces called “databases”. You can select the database number you want to use with “SELECT”. By default the database with index 0 is used. 
 
 ```redis
-SELECT 1
-# [ ... Indicate the database ... ]
+# Select database
+redis 127.0.0.1:6379> SELECT 1
 
-KEYS *
-# [ ... Get Keys ... ]
+# To see all keys in a given database. First, you enter in it with "SELECT <number>" and then
+redis 127.0.0.1:6379> keys *
 
-GET <KEY>
-# [ ... Get Key ... ]
+# To retrieve a specific key
+redis 127.0.0.1:6379> get flag
 ```
 
 
