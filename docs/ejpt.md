@@ -3,7 +3,7 @@ title: eJPT
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: pentesting 
+tag: pentesting 
 ---
 
 ## Subdomain enumeration
