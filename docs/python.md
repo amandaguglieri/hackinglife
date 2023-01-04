@@ -1,13 +1,10 @@
 ---
-title: documentation
-date:
+title: Installing python
 author: amandaguglieri
+draft: false
+TableOfContents: true
+tag:
 ---
-
-It comes to moment in life when you really need to documentate the knowledge you are acquiring in a field in order to make sense of it. It's quite interesting because it doesn't matter how much information and resources you have available in the Internet, still this is something you need to do for yourself if you want to understand in a deep sense what you are doing, learning and so on. 
-
-What I mean is that the main reason for this repository to exist in me being able to retrieve my notes and build upon them a second brain. Therefore, there is no an intention of being exhaustive or giving a throughful explanation about how things work on a deep level. 
-
 
 ## Installing python 3.8 on Ubuntu 20.04.5
 
@@ -62,10 +59,4 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 3
 # Switch the default Python version 
 sudo update-alternatives --config python
 ```
-
-## Installing PDM
-
-PDM, as described, is a modern Python package and dependency manager supporting the latest PEP standards. But it is more than a package manager. It boosts your development workflow in various aspects. The most significant benefit is it installs and manages packages in a similar way to npm that doesn't need to create a virtualenv at all
-
-curl -sSL https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py | python3 -
 
