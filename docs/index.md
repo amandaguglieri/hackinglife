@@ -16,3 +16,4 @@ Also, It's quite intriguing how brains work because it doesn't matter how much i
 So to be more than clear again: the main reason for this repository to exist is purely selfish. It's me being able to retrieve my notes and build upon them a second brain. Therefore, there is no intention of being exhaustive or giving thoughful explanations about how things work on a deep level.
 
 Nevertheless (and to be fair) this idea is deeply inspired by [Lyz-code](https://github.com/lyz-code) and their [Blue book](https://lyz-code.github.io/blue-book/). Thanks to this inspiring, polished, and... overwhelming repository I've found a way to start making sense of all my notes. Kudos!
+
