@@ -29,6 +29,9 @@ We'll press ALT key, and after that we'll press the character.
 
 ## Basic commands
 
+**Disclaimer**: when creating this cheat sheet, I've realized that I'm totally in love with emacs, meaning this article is full of bias comments. Neutrality is overrated.
+
+
 ### Session and process management
 
 ```
@@ -45,7 +48,7 @@ C-x 1
 
 ### Cursor Movement 
 
-Differently from VIM "cursor mode" and "insert mode" go together in emacs, meaning you will be able to insert any character from whenever the cursor is without having to switch from one mode to another. 
+A difference with vim or neovim editor, "cursor mode" and "insert mode" go together in emacs, meaning you will be able to insert any character from whenever the cursor is without having to switch from one mode to another. 
 
 There is also a small but big difference. Emacs includes a blank character at the end of the line. This alone can sound very vague, but it allows you to move in a more natural and human way from the beginning of one line to the end of the previous one. Just this silly feature makes me love more emacs than vim (#sorryVimDudes). 
 
@@ -105,7 +108,7 @@ DEL
 
 ### Clipboard
 
-Another cool functionality in emacs is that clipboard has history. If having a blank character at the end of the line wasn't not enough for just falling in love, now I cannot make excuses. The ability to navigate through the history of yanked code turns emacs into what you need.
+Another cool functionality in emacs is that clipboard has history. If having a blank character at the end of the line wasn't not enough for just falling in love with emacs, now you cannot make excuses. The ability to navigate through the history of yanked code turns emacs into exactly what you have dreaming with.
 
 ```
 # Browse the clipboard to older yanked text. 
@@ -115,7 +118,7 @@ M-y
 ### Undo
 
 ```
-# Three ways to undo an action text related (non cursor position related)
+# Three ways to undo an action text related (non cursor position related).
 C-/
 C-_
 C-x u
@@ -123,7 +126,7 @@ C-x u
 
 ### Buffers
 
-Browsing your buffers is insanely easy. One more reason to love emacs.
+Also, browsing your buffers in emacs is insanely easy. One more reason to love emacs.
 
 The emacs autosaved file has this syntax:
 
@@ -185,6 +188,8 @@ C-r
 ```
 
 ### Windows management
+
+Only a few things can compete with the beauty of [i3 windows manager](i3.md), and in my opinion emacs is not as neat and direct as i3, but still, emacs is not exactly a windows management tool but it manages its windows in a quite easy way:
 
 ```
 # Divide vertically current window in two.
