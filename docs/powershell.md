@@ -5,6 +5,50 @@ draft: false
 TableOfContents: true
 ---
 
+
+## Basic commands
+
+```ps
+
+# List contents
+dir
+Get-ChilItem
+
+# Print working directory
+pwd
+Get-Location
+
+# Change directory
+cd
+cd ..			// it gets you up one level
+cd ..\brotherdirectory	// go to a brother directory
+cd ~\Desktop		// go to logged user's Desktop
+
+# Creates folder
+mkdir nameOfFolder
+New-Item -ItemType Directory nameOfDirectory
+
+# Display all commands saved in a file
+history
+Get-history
+
+# Browse the command history
+CTRL-R
+
+# Clear screen
+clear
+Clear-Host
+
+# Copy item
+cp nameOfSource nameOfDestiny
+Copy-Item nameOfSource nameOfDestiny
+
+# Copy a folder and its content
+cp originFolder destinyPath -Recurse
+Copy-Iten originFolder destinyPath -Recurse
+```
+
+
 ## Disk Management
 
 ```powershell
@@ -66,7 +110,6 @@ shrink desired=2048
 
 ## Basic commands for reconnaissance
 
-
 ```ps
 # Display Powershell relevant Powershell version information
 echo $PSVersion
@@ -75,53 +118,4 @@ echo $PSVersion
 # - "Restricted": Ps scripts cannot run.
 # - "RemoteSigned": Downloaded scripts will require the script to be signed by a trusted publisher.
 Get-Execution-Policy
-
-
-
 ```
-
-## Basic commands
-
-
-```ps
-
-# List contents
-dir
-Get-ChilItem
-
-# Print working directory
-pwd
-Get-Location
-
-# Change directory
-cd
-cd ..			// it gets you up one level
-cd ..\brotherdirectory	// go to a brother directory
-cd ~\Desktop		// go to logged user's Desktop
-
-# Creates folder
-mkdir nameOfFolder
-New-Item -ItemType Directory nameOfDirectory
-
-# Display all commands saved in a file
-history
-Get-history
-
-# Browse the command history
-CTRL-R
-
-# Clear screen
-clear
-Clear-Host
-
-# Copy item
-cp nameOfSource nameOfDestiny
-Copy-Item nameOfSource nameOfDestiny
-
-# Copy a folder and its content
-cp originFolder destinyPath -Recurse
-Copy-Iten originFolder destinyPath -Recurse
-```
-
-
-
