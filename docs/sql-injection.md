@@ -17,7 +17,7 @@ SQL injection is a web security vulnerability that allows an attacker to interfe
 + to compromise the infraestructure with what is known for instance as a denial of service attack.
 
 
-A detailed Cheat sheet with manual union and blind attacks can be found in the [SQLi Cheat sheet](sqli.md).
+A detailed Cheat sheet with manual union and blind attacks can be found in the [SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
 
 ## Examples
 
@@ -99,7 +99,7 @@ Such is the case of Microsoft SQL Server's xp_dirtree command, which can be used
 
 ## Cheat sheet
 
-A detailed Cheat sheet with manual union and blind attacks can be found in the [SQLi Cheat sheet](sqli.md).
+A detailed Cheat sheet with manual union and blind attacks can be found in the [SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
 
 ## DUAL
 
