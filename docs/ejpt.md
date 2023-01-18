@@ -38,6 +38,16 @@ tag: pentesting
 | [httprint](httprint.md) | HTTPRINT is a **web server** fingerprinting tool. It identifies web servers and detects web enabled devices which do not have a server banner string, such as wireless access points, routers, switches, cable modems, etc. | 
 | [wpscan](wpscan.md) | WPSCAN is a **wordpress** security scanner. | 
 
+## Dictionaries
+
+[List of dictionaries](dictionaries.md).
+
+
+| Tool + Cheat sheet | What it does |
+| ------------------ | ------------ |
+| [crunch](crunch.md) | Generate combinations of words and manglings to be used later off as attacking dictionaries. |
+| 
+
 
 ## Vulnerability assessment: scanners
 
@@ -62,11 +72,30 @@ tag: pentesting
 
 | Vulnerability / Technique | What it does |
 | ------------------ | ------------ |
-| [Backdoors with netcat](netcat.md) |   |
-| 
+| [Backdoors with netcat](netcat.md#backdoors-with-netcat) |   |
+| [Buffer Overflow attacks](buffer-overflow.md) |   |
+| [Remote Code Execution](remote-code-execution-rce.md) |   |
+| [XSS attack - Cross-site Scripting attack](cross-site-scripting-xss.md) | **Cross-Site Scripting** attacks or **XSS** attacks enable attackers to inject client-side scripts into web pages. This is done through an URL than the attacker sends. Crafted in the URL, this js payload is injected. | 
+| [SQL injection](sql-injection.md) | SQL stands for Structure Query Language. SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. |
 
 
 
+### Password cracker
 
+
+| Tool + Cheat sheet | What it does |
+| ------------------ | ------------ |
+| [ophcrack](ophcrack.md) | Ophcrack is a free Windows password cracker based on rainbow tables. It is a efficient implementation of rainbow tables. It comes with a Graphical User Interface and runs on multiple platforms. |
+| [hashcat](hashcat.md) | Hashcat is a password recovery tool. It had a proprietary code base until 2015, but was then released as open source software. Versions are available for Linux, OS X, and Windows. [wikipedia](https://en.wikipedia.org/wiki/Hashcat). |
+| [John the Ripper](john-the-ripper.md) | John the Ripper is one of those tools that can be used for several things: hash cracker and dictionary attack. | 
+| [hydra](hydra.md) | Hydra can attack nearly 50 services including: Cisco auth, FTP, HTTP, IMAP, RDP, SMB, SSH, Telnet... It uses modules for each protocol. |
+
+
+### Dictionary attacks
+
+| Tool + Cheat sheet | What it does |
+| ------------------ | ------------ |
+| [John the Ripper](john-the-ripper.md) | John the Ripper is one of those tools that can be used for several things: hash cracker and dictionary attack. |
+| [hydra](hydra.md) | Hydra can attack nearly 50 services including: Cisco auth, FTP, HTTP, IMAP, RDP, SMB, SSH, Telnet... It uses modules for each protocol. |
 
 

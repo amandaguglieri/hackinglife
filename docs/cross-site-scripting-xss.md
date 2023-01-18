@@ -8,6 +8,14 @@ tag: pentesting, webpentesting
 
 **Cross-Site Scripting** attacks or **XSS** attacks enable attackers to inject client-side scripts into web pages. This is done through an URL than the attacker sends. Crafted in the URL, this js payload is injected.
 
+```
+# Quick steps to test XSS 
+# 1. Find a reflection point (inspect source code and expand all tags to make sure that it's really a reflection point and it's not parsing your input)
+# 2. Test with <i> tag
+# 3. Test with HTML/JavaScript code (alert('XSS'))
+```
+
+
 ## Cross-Site Scripting XSS: reflected, persistent or DOM based
 
 **Reflected attacks**: malicious payload is carried inside the request that the browser sends. You need to bypass the anti-xss filters. This way when the victim clicks on it it will be sending their information to the attacker (limited to js events).  

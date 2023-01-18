@@ -12,7 +12,7 @@ tag: pentesting
 
 
 
-## Installing wordlist in your kali
+## Installing wordlists in your kali
 
 ```bash
 # This package contains the rockyou.txt wordlist and has an installation size of 134 MB.
@@ -40,4 +40,13 @@ You will be adding:
 |-- wfuzz -> /usr/share/wfuzz/wordlist
 `-- wifite.txt -> /usr/share/dict/wordlist-probable.txt
 ```
+
+## Dictionary generators
+
+- [crunch](crunch.md).
+- [cewl](cewl.md).
+- [Common User Password Profiler: CUPP](common-user-password-profiler-cupp.md).
+## More dictionaries
+
+- [Dictionaries for cracking passwords: https://wiki.skullsecurity.org/index.php/Passwords](https://wiki.skullsecurity.org/index.php/Passwords).
 

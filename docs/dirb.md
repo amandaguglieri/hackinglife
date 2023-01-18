@@ -13,7 +13,7 @@ Scan the web server (http://192.168.1.224/) for directories using a dictionary f
 
 ## Dictionaries 
 
-See [wordlists](wordlists.md).
+See [dictionaries in this repo](dictionaries.md).
 
 Path to default dictionary: /usr/share/dirb/wordlists/
 
