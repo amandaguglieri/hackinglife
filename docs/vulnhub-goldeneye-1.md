@@ -1,5 +1,5 @@
 ---
-title: "GoldenEye 1 machine" Walkthrough
+title: GoldenEye 1 machine walkthrough
 author: amandaguglieri
 draft: false
 TableOfContents: true

@@ -6,11 +6,10 @@ draft: false
 
 ## Pending
 
-- [ ] Trying out mkdocs, docusaurus, obsidian
+- [ ] git.md update
+- [ ] ejpt.md complete
+- [ ]  
 - [ ] Trying out batcat.
-- [ ] To investigate: PDM. VirtualEnv (+ virtualenvwrapper)
-- [ ] Gestor de ventanas (tiling windows manager) i3 (https://i3wm.org/)
-- [ ] Pull request Lyz with installation.
 
 - [ ] migrate contents: notes from github repositories, doc files, notebooks.
 - [ ] dotfiles
@@ -18,6 +17,8 @@ draft: false
 
 ## Done
 
+- [x] To investigate: PDM. VirtualEnv (+ virtualenvwrapper)
+- [x] Gestor de ventanas (tiling windows manager) i3 (https://i3wm.org/)
 - [x] investigate how to create a github page and how to use hugo server in it.
 - [x] Pick a name for the site.
 - [x] Choose a template and get to know it.

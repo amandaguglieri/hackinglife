@@ -16,6 +16,8 @@ From 2011!!!!!!
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/-DackF8HsIE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Tools 
 
-XSS-Me
+## Tools and payloads 
+
+- See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
+

@@ -29,7 +29,17 @@ tag: pentesting
 | [masscan](masscan.md) |  Masscan was designed to deal with large networks and to scan thousands of Ip addresses at once. It’s faster than nmap but probably less accurate. |
 
 
-## Vulnerability assessment
+## Enumeration tools 
+
+|  Tool + Cheat sheet | URL | 
+| ------------------ | --- |
+| [dirb](dirb.md) | DIRB is a **web content** fingerprinting tool. It scans the web server for directories using a dictionary file | 
+| [feroxbuster](feroxbuster.md) | FEROXBUSTER is a **web content** fingerprintinf tool that uses brute force combined with a wordlist to search for unlinked content in target directories. |
+| [httprint](httprint.md) | HTTPRINT is a **web server** fingerprinting tool. It identifies web servers and detects web enabled devices which do not have a server banner string, such as wireless access points, routers, switches, cable modems, etc. | 
+| [wpscan](wpscan.md) | WPSCAN is a **wordpress** security scanner. | 
+
+
+## Vulnerability assessment: scanners
 
 | Available scanners + Cheat sheet | URL | 
 | ------------------ | --- |
@@ -39,10 +49,22 @@ tag: pentesting
 | GFOLAnGuard | [https://www.gfi.com/products-and-solutions/network-security-solutions/gfi-languard](https://www.gfi.com/products-and-solutions/network-security-solutions/gfi-languard) |
 
 
+
+## Tools for exploitation
+
 | Tool + Cheat sheet | What it does |
 | ------------------ | ------------ |
 | [netcat](netcat.md) | netcat (often abbreviated to nc) is a computer networking utility for reading from and writing to network connections using TCP or UDP. |
-| [openSSL](openssl.md) |    |
+| [openSSL](openssl.md) | OpenSSL is a software library for applications that provide secure communications over computer networks against eavesdropping or need to identify the party at the other end. It is widely used by Internet servers, including the majority of HTTPS websites. |
+
+
+## Web pentesting
+
+| Vulnerability / Technique | What it does |
+| ------------------ | ------------ |
+| [Backdoors with netcat](netcat.md) |   |
+| 
+
 
 
 

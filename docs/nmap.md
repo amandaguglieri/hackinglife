@@ -7,8 +7,17 @@ tag: reconnaissance,scanning,"active recon","passive recon"
 ---
 
 ## Description
+
 Network Mapper is an open source tool for network exploration and security auditing. Free and open-source scanner created by Gordon Lyon. Nmap is used to discover hosts and services on a computer network by sending packages and analyzing the responses.
 Another discovery feature is that of operating system detection. These features are extensible by scripts that provide more advanced service detection.
+
+```
+# commonly used
+nmap -sT -Pn --unprivileged --script banner targetIP
+
+# enumerate ciphers supported by the application server-+
+nmap -sT -p 443 -Pn -unprivilegeds --script ssl-enum-ciphers targetIP
+```
 
 ## Cheat Sheet
 

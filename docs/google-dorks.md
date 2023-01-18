@@ -8,6 +8,8 @@ tag: reconnaissance,scanning,osint
 
 Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using.   
 
+This is an awesome database with more than 7K googledork entries: [https://www.exploit-db.com/google-hacking-database](https://www.exploit-db.com/google-hacking-database).
+
 | Google Dorking Query | Expected results |
 |------------------------------- | ---------------------- |
 | intitle:"api" site: "example.com" |  Finds all publicly available API related content in a given hostname. Another cool example for API versions:  inurl:"/api/v1" site: "example.com" |

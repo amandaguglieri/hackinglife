@@ -1,5 +1,5 @@
 ---
-title: Cross-site Request Forgery CSRF
+title: CSRF attack - Cross-site Request Forgery
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -21,15 +21,10 @@ CSRF vulnerabilities may arise when applications rely solely on HTTP cookies to 
 
 Burp has a quite awesome PoC so you can attach proofs to your security reports. Manual is They've released an article about it in [https://portswigger.net/burp/documentation/desktop/functions/generate-csrf-poc](https://portswigger.net/burp/documentation/desktop/functions/generate-csrf-poc).
 
-## Using CSRFtester
 
-CSRFTester has been developed 
+## Tools and payloads 
 
-## Resources
-
-- [PayloadsAllTheThings: https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CSRF%20Injection](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CSRF%20Injection).
-
-
+- See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
 
 
 

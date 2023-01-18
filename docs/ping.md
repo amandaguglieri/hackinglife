@@ -15,10 +15,3 @@ ping 8.8.8.8
 
 Ping sweeping tools automatically perform the same operation to every host in a subnet or IP range. 
 
----
-title: ping
-author: amandaguglieri
-draft: false
-TableOfContents: true
-tags: scanning,reconnaissance
----

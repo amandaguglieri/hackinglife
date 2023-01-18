@@ -97,10 +97,6 @@ It's used when an attacjer is unabled to use the same channel to launch the atta
 Such is the case of Microsoft SQL Server's xp_dirtree command, which can be used to make DNS request to a server that an attacker controls, as well as Oracle Database's UTL_HTTP package, which can be used to send HTTP requests from SQL and PL/SQL ti a server that an attacker controls.
 
 
-## Cheat sheet
-
-A detailed Cheat sheet with manual union and blind attacks can be found in the [SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
-
 ## DUAL
 
 The DUAL is a special one row, one column table present by default in all Oracle databases. The owner of DUAL is SYS, but DUAL can be accessed by every user. This is a possible payload for SQLi:
@@ -110,3 +106,9 @@ The DUAL is a special one row, one column table present by default in all Oracle
 ```
 
 Oracle syntax requires the use of FROM, but some queries don't requires any table. For these case we use DUAL. Also Oracle doesn't allow the queries that employ information_schema.tables.
+
+
+## Tools and payloads 
+
+- See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
+- Detailed **Cheat sheet** with manual union and blind attacks can be found in the [SQLi Cheat sheet for manual attack](sqli-manual-attack.md).

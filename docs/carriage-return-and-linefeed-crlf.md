@@ -15,7 +15,7 @@ A CRLF Injection attack occurs when a user manages to submit a CRLF into an appl
 The term CRLF refers to Carriage Return (ASCII 13, \r) Line Feed (ASCII 10, \n). They’re used to note the termination of a line, however, dealt with differently in today’s popular Operating Systems. For example: in Windows both a CR and LF are required to note the end of a line, whereas in Linux/UNIX a LF is only required. In the HTTP protocol, the CR-LF sequence is always used to terminate a line.
 
 
-## Resources
+## Tools and payloads 
 
-- [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CRLF%20Injection](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CRLF%20Injection).
+- See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
 
