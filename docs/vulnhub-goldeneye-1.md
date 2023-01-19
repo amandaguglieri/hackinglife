@@ -1,5 +1,5 @@
 ---
-title: GoldenEye 1 machine walkthrough
+title: Walkthrough - GoldenEye 1, a vulnhub machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
