@@ -638,6 +638,8 @@ If everything is ok, now we'll have two sessions.
 We've done this to be able to escalate privileges, since the session with shell cmd/unix didn't allow us to escalate privileges using exploit/linux/local/overlayfs_priv_esc.
 
 
+### Escalating privileges
+
 **Module exploit/linux/local/overlayfs_priv_esc**
 
 We'll be using this module to escalate privileges. How have we got here? We run:
