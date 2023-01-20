@@ -15,15 +15,14 @@ tag: pentesting, webpentesting, walkthrough
 |--------| ------- |
 | Machine | Raven 1 |
 | Platform | Vulnhub |
-| url | [link](https://www.vulnhub.com/entry//) | 
-| Download | [https://drive.google.com/open?id=1M7mMdSMHHpiFKW3JLqq8boNrI95Nv4tq](https://drive.google.com/open?id=1M7mMdSMHHpiFKW3JLqq8boNrI95Nv4tq) |
-| Download Mirror | [https://download.vulnhub.com/goldeneye/GoldenEye-v1.ova](https://download.vulnhub.com/goldeneye/GoldenEye-v1.ova) |
-| Size | 805 MB |
+| url | [link](https://www.vulnhub.com/entry/raven-1,256/) | 
+| Download | [https://drive.google.com/open?id=1pCFv-OXmknLVluUu_8ZCDr1XYWPDfLxW](https://drive.google.com/open?id=1pCFv-OXmknLVluUu_8ZCDr1XYWPDfLxW) |
+| Download Mirror | [https://download.vulnhub.com/raven/Raven.ova](https://download.vulnhub.com/raven/Raven.ova) |
+| Size | 1.4 GB |
 | Author | [creosote](https://www.vulnhub.com/author/creosote,584/) |
 | Release date | 4 May 2018 |
-| Description | OSCP type vulnerable machine that's themed after the great James Bond film (and even better n64 game) GoldenEye. The goal is to get root and capture the secret GoldenEye codes - flag.txt. |
-| Difficulty | Easy |
-| Points | 20 |
+| Description | Raven is a Beginner/Intermediate boot2root machine. There are four flags to find and two intended ways of getting root. Built with VMware and tested on Virtual Box. Set up to use NAT networking. |
+| Difficulty | Beginner/Intermediate |
 
 
 ## Walkthrough
@@ -85,7 +84,7 @@ First, let's start by running a much deeper scanner with [wpscanner](wpscaner.md
 
 
 ```bash
-wpscan --url http://192.168.56.101/wordpress --enumerate u --force --wp-content-dir wp-content
+wpscan --url http://192.168.56.104/wordpress --enumerate u --force --wp-content-dir wp-content
 ```
 
 And the results show us some interesting findings:

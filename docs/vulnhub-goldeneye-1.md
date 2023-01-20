@@ -20,8 +20,8 @@ tag: walkthroughs
 | Author | [creosote](https://www.vulnhub.com/author/creosote,584/) |
 | Release date | 4 May 2018 |
 | Description | OSCP type vulnerable machine that's themed after the great James Bond film (and even better n64 game) GoldenEye. The goal is to get root and capture the secret GoldenEye codes - flag.txt. |
-| Dificulty | Easy |
-| Points | 20 |
+| Difficulty | Easy |
+
 
 
 ## Walkthrough
