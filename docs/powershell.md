@@ -46,6 +46,13 @@ Copy-Item nameOfSource nameOfDestiny
 # Copy a folder and its content
 cp originFolder destinyPath -Recurse
 Copy-Iten originFolder destinyPath -Recurse
+
+# Get running processes filtered by name
+get-process -name ccSvcHst
+
+# Kill processes called ccSvcHst* // Notice here wild card *
+taskkill /f /im ccSvcHst*
+
 ```
 
 
@@ -118,4 +125,17 @@ echo $PSVersion
 # - "Restricted": Ps scripts cannot run.
 # - "RemoteSigned": Downloaded scripts will require the script to be signed by a trusted publisher.
 Get-Execution-Policy
+
+# Bypass execution policy
+powershell -ep bypass
+
+#You can tell if PowerShell is running with administrator privileges (a.k.a “elevated” rights) with the following snippet:
+[Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544'
+# [Security.Principal.WindowsIdentity]::GetCurrent() - Retrieves the WindowsIdentity for the currently running user.
+# (...).groups - Access the groups property of the identity to find out what user groups the identity is a member of.
+# -contains "S-1-5-32-544" returns true if groups contains the Well Known SID of the Administrators group (the identity will only contain it if “run as administrator” was used) and otherwise false.
+
+
+# List which processes are elevated:
+Get-Process | Add-Member -Name Elevated -MemberType ScriptProperty -Value {if ($this.Name -in @('Idle','System')) {$null} else {-not $this.Path -and -not $this.Handle} } -PassThru | Format-Table Name,Elevated
 ```
