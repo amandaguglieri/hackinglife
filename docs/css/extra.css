@@ -1,0 +1,75 @@
+h1 { bookmark-level: 1 }
+h2 { bookmark-level: 2 }
+h3 { bookmark-level: 3 }
+h4 { bookmark-level: 4 }
+h5 { bookmark-level: 5 }
+h6 { bookmark-level: 6 }
+
+html {
+	font-family: system-ui;
+	line-height: 1.5;
+}
+
+h1 {
+  	string-set: title content();
+	font-size: 3.5rem;
+	margin-bottom:0rem;
+	margin-top:0%;
+}
+
+h2 {
+  margin-top: 3rem;
+  page-break-before: always;
+  string-set: heading content();
+}
+
+h2::before {
+  background-color: #e72464;
+  content: "H" centered;
+  color: white;
+  display: inline-block;
+  height: 1.2rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  width: 1.2rem;
+}
+@page {    
+    size: a4 portrait;
+    margin: 25mm 10mm 25mm 10mm;
+    counter-increment: page;
+    color: white;
+    background-color:#e72464;
+    @bottom-left {
+	content: '2023 @amandaguglieri';
+        font-size: 12px;
+    }
+    @top-center {
+        content: string(title) " - " string(heading);
+    }
+    @top-left {
+ 	background: url(../img/hackinglife.png) #ccc no-repeat left;      }
+    @bottom-right {
+	content: counter(page) " of " counter(pages); 
+	font-size: 12px;    
+    }
+}
+@page :first {
+    size: a4 portrait;
+    margin: 125mm 10mm 25mm 10mm;    
+    background-color:white;
+    @top-center {        
+	font-size: 40px;
+        color: #e72464;        
+	margin-top:50px;
+	content: "HackingLife";
+    }
+    @bottom-left {        
+	content: " ";
+    }    
+    @top-left {
+        content: " ";    
+    }
+    @bottom-right {        
+	    content: " ";
+    }
+}

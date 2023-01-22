@@ -1,27 +1,12 @@
 ---
 title: "Markdown"
+author: amandaguglieri
+TableOfContents: true
 draft: false
+tag: tool, language
 ---
 
-
-## Table of contents
-
-1. [Titles](#title)
-2. [Formating the text](#text)
-3. [Blockquote code](#blockquote)
-4. [Lists](#list)
-5. [Horizontal rule](#horizontal)
-6. [Link](#link)
-7. [Image](#image)
-8. [Tables](#tables)
-9. [Footnote reference](#footnote)
-10. [Task list](#task)
-11. [Fenced coded block](#coded)
-12. [Strikethrough](#strike)
-13. [Emojis](#emoji)
-
-
-### Titles: code<a name="title"></a> 
+## Titles: code
 
 ```
 # H1
@@ -35,7 +20,7 @@ draft: false
 ### H3
 ```
 
-### Formating the text<a name="text"></a>
+## Formating the text
  
 ```
 *italic*   
@@ -49,14 +34,14 @@ draft: false
 ==highlight==
 ```
 
-### Blockquote code<a name="blockquote"></a> 
+## Blockquote code
 
 
 ```
 > blockquote
 ```
 
-### Lists<a name="list"></a> 
+## Lists
 
 **Bullets**
 
@@ -81,34 +66,35 @@ draft: false
 - Third item
 ```
 
-### Horizontal rule<a name="horizontal"></a> 
+## Horizontal rule
 
 ```
 --- 
 ```
 
-### Link<a name="link"></a> 
+## Links
 
 
 ```
 [link](https://www.example.com)
 ```
 
-### Image: code<a name="image"></a> 
+## Image: code
 
 ```
 ![alt text](image.jpg)
 ```
 
 
-### Tables<a name="tables"></a>
+## Tables
 
 ```
 | ColumnName | ColumnName |
 | ---------- | ---------- |
 | Content | Content that you want |
+```
 
-### Footnote: code<a name="footnote"></a> 
+## Footnote: code
 
 
 ```
@@ -117,7 +103,7 @@ Here's a sentence with a footnote. [^1]
 [^1]: This is the footnote. 
 ```
 
-### Task list<a name="task"></a> 
+## Task list
 
 ```
 - [x] Write the press release
@@ -125,7 +111,7 @@ Here's a sentence with a footnote. [^1]
 - [ ] Contact the media 
 ```
 
-### Fenced coded block: code<a name="coded"></a> 
+## Fenced coded block: code
 
 ``` 
 \```
@@ -134,14 +120,14 @@ code inside
 
 ```
 
-### Strikethrough<a name="strike"></a> 
+## Strikethrough
 
 ```
 ~~Love is flat.~~ 
 ```
 
 
-### Emojis <a name="emoji"></a>
+## Emojis
 
 ```
 :emoji-code: 

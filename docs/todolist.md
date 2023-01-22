@@ -1,7 +1,8 @@
 ---
 title: "To-do list"
-date: 2022-12-09T00:00:00Z
+author: amandaguglieri
 draft: false
+TableOfContents: true
 ---
 
 ## Pending
@@ -9,9 +10,11 @@ draft: false
 - [ ] git.md update
 - [ ] ejpt.md complete
 - [ ] img with border:0.5 solid gray 
-- [ ]
+- [ ] install psizer and treat images
+- [ ] 
 
-
+- Intall a plugin to download pages as pdf: https://github.com/zhaoterryy/mkdocs-pdf-export-plugin
+- Adding style to exported pdf: https://drafts.csswg.org/css-page-3/
 - [ ] Styling walkthoughs:
 	- all tools linked to cheatsheets
 	- section structured: 

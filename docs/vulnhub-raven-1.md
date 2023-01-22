@@ -6,6 +6,7 @@ TableOfContents: true
 tag: pentesting, webpentesting, walkthrough
 ---
 
+# Walkthrough: Raven 1, a vulnhub machine
 
 
 ## About the machine
@@ -319,5 +320,4 @@ find . -name flag*.txt 2>/dev/null
 + [netdiscover](netdiscover.md).
 + [nmap](nmap.md).
 + [wpscan](wpscan.md).
-+ [Spawning shells](spawn-a-shell.md).
 

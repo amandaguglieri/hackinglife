@@ -21,15 +21,15 @@ A detailed Cheat sheet with manual union and blind attacks can be found in the [
 
 ## Examples
 
-1. [Retrieving hidden data](#data)
-2. [Subverting application logic](#logic)
-3. [UNION attacks](#union)
-4. [Examining the database](#database)
-5. [Blind SQL injection](#blind)
+1. Retrieving hidden data.
+2. Subverting application logic.
+3. UNION attacks.
+4. Examining the database.
+5. Blind SQL injection.
 
 
 
-### Retrieving hidden data<a name="data"></a>
+### Retrieving hidden data
 
 Examples at a shopping application 
 
@@ -40,7 +40,7 @@ Examples at a shopping application
 | https://insecure-website.com/products?category=Gifts'+OR+1=1-- | SELECT * FROM products WHERE category='Gifts' OR 1=1--' AND released=1 | This will return all items where category is Gifts, or 1=1. Since 1=1 is always true, the query will return all items. | 
 
 
-### Subverting application logic<a name="logic"></a>
+### Subverting application logic
 
 | Request URL | SQL Query | Explained |
 | ----------- | --------- | --------- |
@@ -48,7 +48,7 @@ Examples at a shopping application
 | Login: Adding admin'-- in the username and '' in the password field | SELECT * FROM users where username="admin'-- AND password='' | This query returns the user whose name is admin and succesfully logs the attacker as that user. |
 
 
-### UNION attacks<a name="union"></a>
+### UNION attacks
 
 In cases where the results of a SQL query are returned within the application responses, an attacker may try to retrieve data from others tables using the keyword UNION. They also can examine the existing database.
 

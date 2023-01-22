@@ -291,7 +291,7 @@ Open UserInfo.exe in the program and inspect the code. There are several parts i
 
 In the UserInfo.Services you can find the LdadQuery():
 
-![ILSpy](https://github.com/amandaguglieri/walkthroughs/blob/main/resources/ilspy.png)
+![ILSpy](img/ilspy.png)
 
 
 ```
@@ -417,7 +417,7 @@ firefox domain_users.html
 
 Results:
 
-![screenshot](https://github.com/amandaguglieri/walkthroughs/blob/main/resources/users-ldap.png)
+![screenshot](img/users-ldap.png)
 
 It looks like the support user account has the most permissions. We have a closer look to this user in the results obtained in the ldapsearch:
 
