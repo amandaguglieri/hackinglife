@@ -8,12 +8,24 @@ draft: false
 
 - [ ] git.md update
 - [ ] ejpt.md complete
-- [ ]  
-- [ ] Trying out batcat.
+- [ ] img with border:0.5 solid gray 
+- [ ]
 
+
+- [ ] Styling walkthoughs:
+	- all tools linked to cheatsheets
+	- section structured: 
+		- About the machine
+		- Walkthough
+		- Tools and commands
+	
+- [ ] Trying out batcat.
 - [ ] migrate contents: notes from github repositories, doc files, notebooks.
 - [ ] dotfiles
-- [ ] ...
+
+- [ ] Contents to work on:
+	- spawn-a-shell.md
+
 
 ## Done
 

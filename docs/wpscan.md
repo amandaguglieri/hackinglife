@@ -56,3 +56,12 @@ wpscan --url https://target.tld/ --plugins-detection -pasive
 #	m (Media IDs range. e.g m1-15)
 ```
 
+## Examples from labs:
+
+
+```bash
+# Raven 1 machine
+wpscan --url http://192.168.56.104/wordpress --enumerate u --force --wp-content-dir wp-content
+```
+
+
