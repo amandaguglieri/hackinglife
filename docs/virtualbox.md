@@ -8,7 +8,7 @@ tag: windows, bypass techniques
 
 # VirtualBox and Extension Pack
 
-How to install the Extension Pack manually, bypassing possible policies.
+How to install the Extension Pack manually, bypassing possible policies existing in a Windows DC.
 
 1. The .vbox-extpack file that can be downloaded. Actually, it is just a .tar.gz archive so its contents can be unpacked. 
 
