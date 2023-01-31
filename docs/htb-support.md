@@ -1,11 +1,12 @@
 ---
-title: "Support Machine"
+title: Walkthrough - Support, a Hack The Box machine
 author: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
 ---
 
+# Walkthrough - Support, a Hack The Box machine
 
 ## About the machine
 

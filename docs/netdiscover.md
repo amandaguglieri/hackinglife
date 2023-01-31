@@ -1,11 +1,12 @@
 ---
-title: netdiscover
+title: netdiscover - A network enumeration tool based on ARP request  
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: reconnaissance, pentesting
 ---
 
+# netdiscover - A network enumeration tool based on ARP request
 
 Netdiscover is another discovery tool, built in Kali Linux 2018.2. It performs reconnaissance and discovery on both wireless and switched networks using ARP requests.
 

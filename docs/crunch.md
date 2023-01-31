@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting, enumeration, dictionaries, tools
 ---
 
+# crunch - A dictionary generator
+
 **Crunch** generates combinations of words and manglings to be used later off as attacking dictionaries.
 
 ## Installation

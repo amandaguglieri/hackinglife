@@ -6,6 +6,8 @@ TableOfContents: true
 tag: scanning,reconnaissance
 ---
 
+# Ping
+
 ping works by sending one or more special ICMP packets (Type 8 - echo request) to a host. If the destination host replies with ICMP echo reply packets, then the host is alive.
 
 ```bash

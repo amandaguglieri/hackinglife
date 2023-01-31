@@ -1,11 +1,12 @@
 ---
-title: "Trick Machine"
+title: Walkthrough - Trick, a Hack The Box machine
 auhtor: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
 ---
 
+# Walkthrough - Trick, a Hack The Box machine
 
 ## About the machine
 

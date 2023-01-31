@@ -6,8 +6,9 @@ TableOfContents: true
 tag: walkthroughs
 ---
 
-## About the machine
+# Walkthrough - GoldenEye 1, a vulnhub machine
 
+## About the machine
 
 | data |  |
 |--------| ------- |

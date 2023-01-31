@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting, webpentesting
 ---
 
+# SSRF attack - Server Side Request Forgery
+
 Server-side request forgery (also known as SSRF) is a web security vulnerability that allows an attacker to induce the server-side application to make requests to an unintended location. The attacker could create a request to internet or to the intranet, which can be used to port scan or probe a remote machine. Basically, it could allow an atacker to:
 
 - Take control of a remote machine.

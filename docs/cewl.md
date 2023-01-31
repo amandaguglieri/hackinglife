@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting, enumeration, dictionaries
 ---
 
+# cewl - A custom dictionary generator
+
 ## Installation
 
 Preintalled in Kali Linux.
@@ -20,4 +22,9 @@ cewl -m 6 -d 3 URL
 # -m, --min_word_length: Minimum word length, default 3.
 ```
 
+## Examples from real life
 
+```bash
+cewl domain/path-to-post -w wordlist.txt
+# -w output a list of words to a file.
+```

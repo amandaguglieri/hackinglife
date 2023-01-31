@@ -1,12 +1,12 @@
 ---
-title: exiftool
+title: exiftool - A tool for metadata edition
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting
 ---
 
-
+# exiftool - A tool for metadata edition
 
 
 ```

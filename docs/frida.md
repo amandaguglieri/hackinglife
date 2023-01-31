@@ -1,10 +1,12 @@
 ---
-title: Frida
+title: Frida - A dynamic instrumentation toolkit 
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: mobile pentesting
 ---
+
+# Frida - A dynamic instrumentation toolkit
 
 Dynamic instrumentation toolkit for developers, reverse-engineers, and security researchers.  It lets you inject snippets of JavaScript or your own library into native apps on Windows, macOS, GNU/Linux, iOS, watchOS, tvOS, Android, FreeBSD, and QNX. Frida also provides you with some simple tools built on top of the Frida API. These can be used as-is, tweaked to your needs, or serve as examples of how to use the API. [More](https://frida.re/docs/home/).
 

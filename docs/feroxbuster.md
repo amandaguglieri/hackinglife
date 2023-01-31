@@ -1,10 +1,12 @@
 ---
-title: feroxbuster
+title: feroxbuster - A web content enumeration tool for not referenced resources
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, web enumeration, tool, reconnaissance
 ---
+
+# feroxbuster - A web content enumeration tool for not referenced resources
 
 feroxbuster is used to perform forced browsing. Forced browsing allows us to enumerate and access resources that are not referenced by the web application, but are still accessible by an attacker. 
 

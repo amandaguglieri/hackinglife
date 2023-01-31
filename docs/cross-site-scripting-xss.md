@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting, webpentesting
 ---
 
+# XSS attack - Cross-Site Scripting
+
 **Cross-Site Scripting** attacks or **XSS** attacks enable attackers to inject client-side scripts into web pages. This is done through an URL than the attacker sends. Crafted in the URL, this js payload is injected.
 
 ```

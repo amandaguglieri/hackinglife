@@ -1,10 +1,11 @@
 ---
-title: "Mass assignment"
+title: Mass assignment
 author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
+# Mass assignment
 
 ## What is mass asset management?
 

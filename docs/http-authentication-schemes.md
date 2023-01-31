@@ -6,6 +6,8 @@ TableOfContents: true
 tag: authentication, windows, basic, digest, NTLM, negotiate
 ---
 
+# HTTP Authentication Schemes
+
 This resource is pretty awesome: [https://learn.microsoft.com/en-us/dotnet/framework/wcf/feature-details/understanding-http-authentication](https://learn.microsoft.com/en-us/dotnet/framework/wcf/feature-details/understanding-http-authentication).
 
 I'll be (CTRL-c-CTRL-v)ing what I think it's important.

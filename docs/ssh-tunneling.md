@@ -1,9 +1,11 @@
 ---
-title: ssh tunneling
+title: SSH tunneling
 author: amandaguglieri
 TableOfContents: true
 draft:false
 ---
+
+# SSH tunneling
 
 ### Local port forwarding 
 

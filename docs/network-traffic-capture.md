@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting, network, toolS
 ---
 
+# Network traffic capture tools
+
 ## Some proxy tools
 
 - [Wireshark](https://www.wireshark.org/).

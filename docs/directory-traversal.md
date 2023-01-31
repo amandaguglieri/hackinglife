@@ -6,6 +6,7 @@ TableOfContents: true
 tag: pentesting, web pentesting
 ---
 
+# Directory Traversal attack
 
 ## Tools and payloads 
 

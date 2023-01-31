@@ -6,6 +6,7 @@ TableOfContents: true
 tag: mobile pentesting
 ---
 
+# Objection
 
 What it does? It makes a regular ADB connection ant start the frida server in the device. If you are using a rooted device it is needed to select the application that you want to test inside the --gadget option.
 

@@ -1,10 +1,11 @@
 ---
-title: "API authentication attacks"
+title: API authentication attacks
 author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
+# API authentication attacks
 
 ## Classic authentication attacks
 

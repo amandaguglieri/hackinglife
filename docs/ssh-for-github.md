@@ -4,6 +4,8 @@ draft: false
 TableOfContents: true
 ---
 
+# SSH for github
+
 ## How to configure multiple two or more deploy keys for different private github repositories on the same computer without using ssh-agent
 
 Let's say I want to have a ssh key A for repo1 and ssh key b for repo2. 

@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting, enumeration, tool, dictionary generator
 ---
 
+# CUPP - Common User Password Profiler
+
 This **Common User Password Profiler** tool (CUPP) generates a dictionary based on the input that you introduce when asked for names, dates, places... 
 
 ## Installation

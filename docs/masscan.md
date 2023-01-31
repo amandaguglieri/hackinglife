@@ -1,17 +1,16 @@
 ---
-title: masscan
+title: masscan - An IP scanner 
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: reconnaissance,scanning
 ---
 
+# masscan - An IP scanner
 
 Masscan was designed to deal with large networks and to scan thousands of Ip addresses at once. It’s faster than nmap but probably less accurate.
 
-
 ## Installation
-
 
 ```bash
 sudo apt-get install git gcc make libpcap-dev

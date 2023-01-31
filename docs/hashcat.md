@@ -1,10 +1,12 @@
 ---
-title: Hashcat
+title: Hashcat - A password recovery tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, enumeration, cracking tool
 ---
+
+# Hashcat - A password recovery tool
 
 **Hashcat** is a password recovery tool. It had a proprietary code base until 2015, but was then released as open source software. Versions are available for Linux, OS X, and Windows. Wikipedia
 

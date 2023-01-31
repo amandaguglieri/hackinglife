@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting, web app pentesting, HTTP headers
 ---
 
+# CSRF attack - Cross-site Request Forgery
+
 Cross-site request forgery (CSRF) is an attack which forces an end user to execute unwanted actions on a web application to which they are currently authenticated.
 
 CSRF vulnerabilities may arise when applications rely solely on HTTP cookies to identify the user that has issued a particular request. Because browsers automatically add cookies to requests regardless of the request's origin, it may be possible for an attacker to create a malicious web site that forges a cross-domain request to the vulnerable application.

@@ -5,6 +5,8 @@ draft: false
 TableOfContents: true
 ---
 
+# 6379 redis
+
 ## Description
 
 Redis (REmote DIctionary Server) is an open-source advanced NoSQL key-value data store used as a database, cache, and message broker. The Redis command line interface (redis-cli) is a terminal program used to send commands to and read replies from the Redis server. Redis popularized the idea of a system that can be considered a store and a cache at the same time.Redis is an open-source, in-memory key-value data store. Whether you’ve installed Redis locally or you’re working with a remote instance, you need to connect to it in order to perform most operations.

@@ -4,7 +4,9 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, web pentesting
---- 
+---
+
+# RCE attack - Remote Code Execution
 
 Exploiting Blind Remote Execution Vulnerability attack in a GET request in BurpSuite (to run the queries) and Wireshark (to capture the traffic).
 

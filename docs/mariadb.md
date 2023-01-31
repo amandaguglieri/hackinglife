@@ -1,12 +1,14 @@
 ---
-title: MariaDM
+title: MariaDB
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: database,"relational database",SQL
 ---
 
-**MariaDB**: MariaDB is an open source relational database management system (RDBMS) that is a compatible drop-in replacement for the widely used MySQL database technology. It is developed by MariaDB Foundation and initially released on 29 October 2009. MariaDB has a significantly high number of new features, which makes it better in terms of performance and user-orientation than MySQL.
+# MariaDB
+
+MariaDB is an open source relational database management system (RDBMS) that is a compatible drop-in replacement for the widely used MySQL database technology. It is developed by MariaDB Foundation and initially released on 29 October 2009. MariaDB has a significantly high number of new features, which makes it better in terms of performance and user-orientation than MySQL.
 
 ## Basic commands
 

@@ -1,10 +1,12 @@
 ---
-title: dnscan
+title: dnscan - A DNS subdomain scanner
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: scanning,domain,subdomain,reconnaissance,pentesting
 ---
+
+# dnscan - A DNS subdomain scanner
 
 dnscan is a python wordlist-based DNS subdomain scanner.
 
@@ -32,6 +34,7 @@ dnscan.py (-d \<domain\> | -l \<list\>) [OPTIONS]
 ```
 
 ## Optional Arguments
+
     -w --wordlist <wordlist>                  Wordlist of subdomains to use
     -t --threads <threadcount>                Threads (1 - 32), default 8
     -6 --ipv6                                 Scan for IPv6 records (AAAA)

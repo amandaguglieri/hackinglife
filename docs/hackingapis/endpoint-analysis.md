@@ -1,19 +1,16 @@
 ---
-title: "Endpoint analysis"
+title: Endpoint analysis
 author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
+# Endpoint analysis
 
 If an API is not documented or the documentation is unavailable to you, then you will need to build out your own collection of requests. Two different methods:
 
 1. Build a collection in Postman
-
 2. Build out an API specification using mitmproxy2swagger.
-
-
-
 
 ## Build a collection in Postman
 
@@ -22,10 +19,7 @@ In the instance where there is no documentation and no specification file, you w
 - One way is by constructing each request. 
 - The other way is to proxy web traffic through Postman, then use it to capture a stream of requests. This process makes it much easier to construct requests within Postman, but you’ll have to remove or ignore unrelated requests. 
 
-
-
 ### Steps
-
 
 **1.** Start crapi applicationi
 

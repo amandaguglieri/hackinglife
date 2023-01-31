@@ -1,10 +1,12 @@
 ---
-title: pdm
+title: pdm - A python package and dependency manager
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag:
 ---
+
+# pdm - A python package and dependency manager
 
 ## Installation
 

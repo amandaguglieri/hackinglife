@@ -1,9 +1,10 @@
 ---
-title: "Hacking APIs"
+title: Hacking APIs
 author: amandaguglieri
 draft: false
 ---
 
+# Hacking APIs
 
 ## About the course
 

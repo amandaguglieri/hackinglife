@@ -1,11 +1,12 @@
 ---
-title: dirb
+title: dirb - A web content enumeration tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, directory enumeration, tool, vulnerability
 ---
 
+# dirb - A web content enumeration tool
 
 DIRB is a web content fingerprinting tool. It scans the server for directories using a dictionary file.
 

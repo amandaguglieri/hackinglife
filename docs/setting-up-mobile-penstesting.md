@@ -6,6 +6,8 @@ TableOfContents: true
 tag: mobile pentesting 
 ---
 
+# Setting up the mobile pentesting environment
+
 ## Required tools
 
 1. Follow these instructions to [install drozer](drozer.md).

@@ -1,10 +1,11 @@
 ---
-title: "Scanning APIs"
+title: Scanning APIs
 author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
+# Scanning APIs
 
 Once you have discovered an API and used it as it was intended, you can proceed to perform a baseline vulnerability scan. Most of these scans return false-negative results (because they are web-oriented)  but they are helpful in structuring next steps.
 

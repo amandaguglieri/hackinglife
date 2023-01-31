@@ -1,10 +1,12 @@
 ---
-title: httprint
+title: httprint - A web server fingerprinting tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, enumeration, server enumeration, web server, fingerprinting
 ---
+
+# httprint - A web server fingerprinting tool 
 
 httprint is a web server fingerprinting tool. It relies on web server characteristics to accurately identify web servers, despite the fact that they may have been obfuscated by changing the server banner strings, or by plug-ins such as mod_security or servermask. 
 

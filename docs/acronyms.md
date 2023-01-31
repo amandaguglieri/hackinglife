@@ -1,8 +1,11 @@
 ---
 title: cybersecurity Acronyms
+author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
+
+# Acronyms
 
 ## A
 

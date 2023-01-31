@@ -1,10 +1,11 @@
 ---
-title: "Testing for improper assets management"
+title: Testing for improper assets management
 author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
+# Testing for improper assets management
 
 Testing for improper assets management is all about discovering unsupported and non-production versions of an API. 
 

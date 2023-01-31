@@ -6,6 +6,7 @@ TableOfContents: true
 tag: reconnaissance,scanner,"vulnerability assessment"
 ---
 
+# Nessus
 
 Nessus has a client and a server. We use the client to configure the scans and the server to actually perform the scanning processes and report back the result to the client.
 

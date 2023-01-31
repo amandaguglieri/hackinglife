@@ -1,10 +1,13 @@
 ---
-title: Installing python
+title: python
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag:
 ---
+
+# python
+
 
 ## Installing python 3.8 on Ubuntu 20.04.5
 

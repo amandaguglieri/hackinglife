@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting, webpentesting
 ---
 
+# XFS attack - Cross-frame Scripting
+
 ## Tools and payloads 
 
 - See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).

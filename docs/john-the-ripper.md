@@ -1,10 +1,12 @@
 ---
-title: John the Ripper
+title: John the Ripper - A hash cracker and dictionary attack tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, brute force, dictionary attack, enumeration
 ---
+
+# John the Ripper - A hash cracker and dictionary attack tool
 
 John the Ripper is one of those tools that can be used for several things: hash cracker and dictionary attack.
 

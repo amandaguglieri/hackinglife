@@ -1,5 +1,5 @@
 ---
-Title: Vulnhub Raven 2
+Title: Walkthrough - Raven 2, a vulnhub machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -8,9 +8,7 @@ tag: pentesting, webpentesting, walkthrough
 
 # Walkthrough: Raven 2, a vulnhub machine
 
-
 ## About the machine
-
 
 | data |  |
 |--------| ------- |

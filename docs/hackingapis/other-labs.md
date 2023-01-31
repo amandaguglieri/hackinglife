@@ -1,14 +1,17 @@
 ---
-title: "Other labs + Writeups"
+title: Other labs + Writeups
 date: 2022-10-29T00:00:00Z
 draft: false
 ---
+
+# Other labs + Writeups
 
 Here we'll be practising what we have learned in the course. There are plenty of labs in the wild. My intention here is to overview only the well known ones.
 
 Also, to make it to the end, I will include the writeups for every lab.
 
 ## Setting up other labs
+
 Besides "crapi" and "vapi", the book "Hacking APIs" indicates some other interesting labs. Following chapter 5 of Hacking APIs book ("Setting up vuñnerable API targets"), I have installed:
 
 ### vapi app 

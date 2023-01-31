@@ -1,8 +1,11 @@
 ---
-title: "Hugo"
+title: Hugo
+author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
+
+# Hugo
 
 ## Install Hugo
 

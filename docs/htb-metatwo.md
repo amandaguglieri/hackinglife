@@ -1,12 +1,12 @@
 ---
-title: "Metatwo Machine"
+title: Walkthrough - Metatwo, a Hack The Box machine
 author: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
 ---
 
-
+# Walkthrough - Metatwo, a Hack The Box machine
 
 ## About the machine
 

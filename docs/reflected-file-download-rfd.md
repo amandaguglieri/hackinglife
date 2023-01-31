@@ -6,6 +6,7 @@ TableOfContents: true
 tag: pentesting, web pentesting
 ---
 
+# RFD attack - Reflected File Download
 
 **Reflected File Download** attack (RFD) combines url path segments with web servuces vulnerable to JSONP injection, being the goal to deliver malware to end users of the system.
 

@@ -1,8 +1,11 @@
 ---
 title: "bash"
+author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
+
+# Bash
 
 ## Shortcuts
 

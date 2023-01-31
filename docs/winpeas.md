@@ -1,19 +1,18 @@
 ---
-title: winPEAS
+title: winPEAS - Windows Privilege Escalation Awesome Scripts
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: windows privilege escalation
 ---
 
-
-## Windows Privilege Escalation Awesome Scripts: winPEAS
+# Windows Privilege Escalation Awesome Scripts: winPEAS
 
 And that is exactly what winPEAS stands for: windows Privilege Escalation Awesome Scripts. 
 
 Download it from [https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS).
 
-**What it does**
+## What it does
 
 + Check the Local Windows Privilege Escalation checklist from book.hacktricks.xyz that I'm copypasting below.
 + Provide information about how to exploit misconfigurations.

@@ -1,10 +1,12 @@
 ---
-title: drozer
+title: drozer - A security testing framework for Android
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: mobile pentesting
 ---
+
+# drozer - A security testing framework for Android
 
 drozer (formerly Mercury) is the leading security testing framework for Android.
 

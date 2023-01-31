@@ -1,10 +1,12 @@
 ---
-title: Session Puzzling (Session Variable Overloading)
+title: Session Puzzling - Session Variable Overloading
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, web pentesting
 ---
+
+# Session Puzzling - Session Variable Overloading
 
 Owasp vuln description: [https://owasp.org/www-community/vulnerabilities/Session_Variable_Overloading](https://owasp.org/www-community/vulnerabilities/Session_Variable_Overloading).
 

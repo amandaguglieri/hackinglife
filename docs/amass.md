@@ -6,6 +6,7 @@ TableOfContents: true
 tag: pentesting,reconnaissance,dns
 ---
 
+# Amass
 
 In depth DNS Enumeration and network mapping.
 

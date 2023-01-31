@@ -8,6 +8,8 @@ Tags:
 TableOfContents: true
 ---
 
+# Checksum
+
 ## Description
 
 A checksum is a small-sized datum from a block of digital data for the purpose of detecting errors which may have been introduced during its transmission or storage.

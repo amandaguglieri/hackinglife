@@ -1,11 +1,11 @@
 ---
-title: "Vim"
+title: Vim - A text editor
+author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
-
-
+# Vim - A text editor
 
 ### Open a file
 

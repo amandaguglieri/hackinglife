@@ -6,6 +6,8 @@ TableOfContents: true
 tag: pentesting
 ---
 
+# Dictionaries
+
 ## Lists of my most used dictionaries
 
 | Dictionary | Link | Description | Intended for |

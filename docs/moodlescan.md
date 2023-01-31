@@ -6,6 +6,7 @@ TableOfContents: true
 tag: pentesting, web pentesting, cms
 ---
 
+# moodlescan
 
 **my eval**: I'm not sure about how accurate it is. I was working on the [Goldeneye1 machine from vulnhub](vulnhub-goldeneye-1.md) and moodlescan identied the moodle version as 2.2.2 when in reality is 2.2.3.  
 

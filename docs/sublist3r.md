@@ -1,10 +1,12 @@
 ---
-title: sublist3r
+title: sublist3r - A subdomain enumerating tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: scanning,subdomains,reconnaissance,pentesting
 ---
+
+# sublist3r - A subdomain enumerating tool
 
 Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS. Easily blocked by Google.
 

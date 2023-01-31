@@ -1,13 +1,12 @@
 ---
-title: wpscan
+title: wpscan - Wordpress Security Scanner
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, web pentesting, enumeration, wordpress
 ---
 
-WordPress Security Scanner
-
+# wpscan - Wordpress Security Scanner
 
 ## Installation
 
@@ -39,7 +38,7 @@ wpscan --url HOST/domain -usernames admin, webadmin  --password-attack wp-login 
 # -passwords: path/to/dictionary.txt
 
 # Enumerate pluglins on pasive mode 
-wpscan --url https://target.tld/ --plugins-detection -pasive 
+wpscan --url https://target.tld/ --plugins-detection passive 
 # Modes: -mixed (default), -passive or -active
 
 # Common flags

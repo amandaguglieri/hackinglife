@@ -1,10 +1,13 @@
 ---
-title: "Git"
+title: Git - A version controller system for programming 
+author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
-Commands and tips to get the ropes of git.
+# Git - A version controller system for programming
+
+Git is  a distributed version control system that tracks changes in any set of computer files, usually used for coordinating work among programmers [wikipedia](https://en.wikipedia.org/wiki/Git)
 
 ## Install
 

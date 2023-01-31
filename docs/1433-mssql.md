@@ -6,7 +6,7 @@ TableOfContents: true
 tag: pentesting,windows,impacket
 ---
 
-
+# 1433 msSQL
 
 ## Connect to a remote Microsoft SQL database
 
@@ -18,7 +18,6 @@ python3 mssqlclient.py username:password@targetIP -windows-auth
 ```
 
 ## Basic commands
-
 
 ```
 # Get Microsoft SQL server version
@@ -47,7 +46,6 @@ SELECT is_srvrolemember(‘sysadmin’);
 ## Executing cmd shell in a SQL command line
 
 Our goal can be to spawn a Windows command shell and pass in a string for execution. For that Microsoft SQL syntaxis has the command **xp_cmdshell**, that will allow us to use the SQL command line as a CLI. 
-
 
 Because malicious users sometimes attempt to elevate their privileges by using xp_cmdshell, xp_cmdshell is disabled by default. But we can use sp_configure or Policy Based Management to enable it. 
 

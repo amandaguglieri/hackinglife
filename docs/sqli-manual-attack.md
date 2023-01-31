@@ -1,10 +1,12 @@
 ---
-title: SQLi Cheat sheet
+title: SQLi Cheat sheet for manual injection
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting
 ---
+
+# SQLi Cheat sheet for manual injection
 
 See a more detailed [explanation about SQL injection](sql-injection.md).
 

@@ -1,9 +1,11 @@
 ---
-Title: emacs
+Title: emacs - A text editor... and more
 author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
+
+# emacs - A text editor... and more
 
 ## Syntax
 

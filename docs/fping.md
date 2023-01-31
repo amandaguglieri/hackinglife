@@ -1,10 +1,12 @@
 ---
-title: fping
+title: fping - An improved ping tool 
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: scanning,reconnaissance,ping
 ---
+
+# fping - An improved ping tool
 
 Linux tool which is an improved version of the ping utility:
 
