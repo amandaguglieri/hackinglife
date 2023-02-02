@@ -8,6 +8,8 @@ tag: pentesting, web pentesting
 
 # RCE attack - Remote Code Execution
 
+_RCE_ attacks involve attackers manipulating network traffic by exploiting code vulnerabilities to access a corporate system.
+
 Exploiting Blind Remote Execution Vulnerability attack in a GET request in BurpSuite (to run the queries) and Wireshark (to capture the traffic).
 
 ```

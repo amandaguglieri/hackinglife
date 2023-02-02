@@ -1,12 +1,14 @@
 ---
-title: xsser
+title: XSSer - # An automated Web Pentesting Framework Tool to Detect and Exploit XSS vulnerabilities
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, web pentesting
 ---
 
-# xsser
+# XSSer - An automated Web Pentesting Framework Tool to Detect and Exploit XSS vulnerabilities
+
+A Cross Site Scripter (or XSSer) is an automatic framework to detect, exploit and report XSS vulnerabilities in web-based applications.
 
 ## Installation
 

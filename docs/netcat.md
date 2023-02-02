@@ -214,7 +214,7 @@ ncat -l -p <port> -v
 # Example: ncat -l -p 5555 -v
 ```
 
-### Creating a registry in regedit
+## Creating a registry in regedit
 
 - In regedit, go to Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 - Right-Button > New > String value

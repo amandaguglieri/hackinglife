@@ -122,3 +122,20 @@ nmap 192.153.213.3 -p 22 --script ssh-brute --script-args userdb=users.txt,passd
 nmap -sV --script=banner 192.217.70.0/24
 ```
 
+
+## Nmap for smb enumeration
+
+```bash
+# 1. Search for existing script for smb enumeration
+locate -r nse$|grep <term>
+
+# 2. Select smb-enum-shares and run it
+nmap -script=smb-enum-shares <target IP>
+
+# 3. Retrieve users
+nmap -script=smb-enum-users <target IP>
+
+# 4. Retrieve groups with passwords and user
+nmap -script=smb-brute <target IP>
+```
+

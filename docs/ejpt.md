@@ -1,12 +1,17 @@
 ---
-title: eJPT
+title: eJPT - eLearnSecurity Junior Penetration Tester 
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting 
 ---
 
-# eJPT
+# eJPT - eLearnSecurity Junior Penetration Tester Cheat Sheet
+
+**What is eJPT?** The eJPT is **a 100% hands-on certification for penetration testing and essential information security skills**. 
+
+**I'm more than happy to share my personal cheat sheet of the #eJPT Preparation exam**.
+
 
 
 ## Subdomain enumeration
@@ -45,7 +50,6 @@ tag: pentesting
 
 [List of dictionaries](dictionaries.md).
 
-
 | Tool + Cheat sheet | What it does |
 | ------------------ | ------------ |
 | [crunch](crunch.md) | Generate combinations of words and manglings to be used later off as attacking dictionaries. |
@@ -63,23 +67,24 @@ tag: pentesting
 
 
 
-## Tools for exploitation
+## Tools/tecniques for network exploitation
 
 | Tool + Cheat sheet | What it does |
 | ------------------ | ------------ |
 | [netcat](netcat.md) | netcat (often abbreviated to nc) is a computer networking utility for reading from and writing to network connections using TCP or UDP. |
-| [openSSL](openssl.md) | OpenSSL is a software library for applications that provide secure communications over computer networks against eavesdropping or need to identify the party at the other end. It is widely used by Internet servers, including the majority of HTTPS websites. |
+| [openSSL](openssl.md) | OpenSSL is a software library for applications that provide secure communications over computer networks against eavesdropping or need to identify the party at the other end. It is widely used by Internet servers, including the majority of HTTPS websites. | 
+| [Registry creation](create-a-registry.md) | Registries in the victim machine may be used to save a connection to the attacker machine. |
 
 
 ## Web pentesting
 
-| Vulnerability / Technique | What it does |
-| ------------------ | ------------ |
-| [Backdoors with netcat](netcat.md#backdoors-with-netcat) |   |
-| [Buffer Overflow attacks](buffer-overflow.md) |   |
-| [Remote Code Execution](remote-code-execution-rce.md) |   |
-| [XSS attack - Cross-site Scripting attack](cross-site-scripting-xss.md) | **Cross-Site Scripting** attacks or **XSS** attacks enable attackers to inject client-side scripts into web pages. This is done through an URL than the attacker sends. Crafted in the URL, this js payload is injected. | 
-| [SQL injection](sql-injection.md) | SQL stands for Structure Query Language. SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. |
+| Vulnerability / Technique | What it does | Tool |
+| ------------------ | ------------ | --- |
+| [Backdoors with netcat](netcat.md#backdoors-with-netcat) |   |  |
+| [Buffer Overflow attacks](buffer-overflow.md) | A buffer is an area in the RAM (Random Access Memory) reserved for temporary data storage. If a developer does not enforce buffer’s limits, an attacker could find a way to write data beyond those limits.  |  |
+| [Remote Code Execution](remote-code-execution-rce.md) | RCE attacks involve attackers manipulating network traffic by exploiting code vulnerabilities to access a corporate system.  |  |
+| [XSS attack - Cross-site Scripting attack](cross-site-scripting-xss.md) | **Cross-Site Scripting** attacks or **XSS** attacks enable attackers to inject client-side scripts into web pages. This is done through an URL than the attacker sends. Crafted in the URL, this js payload is injected. |   [xsser](xsser.md) |
+| [SQL injection](sql-injection.md) | SQL stands for Structure Query Language. SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. | [sqlmap](sqlmap.md)  |
 
 
 
@@ -102,3 +107,23 @@ tag: pentesting
 | [hydra](hydra.md) | Hydra can attack nearly 50 services including: Cisco auth, FTP, HTTP, IMAP, RDP, SMB, SSH, Telnet... It uses modules for each protocol. |
 
 
+## Windows
+
+Introduction about [NetBIOS](netbios.md).
+
+| Vulnerability / Technique | What it does | Tools |
+| ------------------ | ------------ | --- |
+| [Null session attack](windows-null-session-attack.md) | This attack exploits an authentification vulnerability for Windows Administrative Shares. | [Manual attack](windows-null-session-attack.md), [Winfo](winfo.md), [enum](enum.md), [enum4linux](enum4linux.md), [samrdump.py](samrdump.md), [nmap script](nmap.md#nmap-for-smb-enumeration) |
+| [Arp poisoning](arp-poisoning.md) | This attack is performed by sending gratuitous ARP replies.  | [arpspoof](arpspoof-dniff.md) |
+| [Remote Code Execution](remote-code-execution-rce.md) | RCE attacks involve attackers manipulating network traffic by exploiting code vulnerabilities to access a corporate system.  | Burpsuite and Wireshark |
+
+
+## Linux
+
+[Spawn a shell](spawn-a-shell.md).
+[msfvenom](msfvenom.md).
+
+
+## Lateral movements
+
+[Lateral movements](lateral-movements.md)

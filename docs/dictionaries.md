@@ -52,6 +52,8 @@ You will be adding:
 - [crunch](crunch.md).
 - [cewl](cewl.md).
 - [Common User Password Profiler: CUPP](common-user-password-profiler-cupp.md).
+
+
 ## More dictionaries
 
 - [Dictionaries for cracking passwords: https://wiki.skullsecurity.org/index.php/Passwords](https://wiki.skullsecurity.org/index.php/Passwords).
