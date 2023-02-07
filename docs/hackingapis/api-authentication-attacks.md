@@ -7,11 +7,25 @@ TableOfContents: true
 
 # API authentication attacks
 
+??? abstract "General index of the course"
+    - [Setting up the environment](setting-up-kali.md)
+    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Endpoint Analysis](endpoint-analysis.md).
+    - [Scanning APIS](scanning-apis.md).
+    - [API Authorization Attacks](api-authentication-attacks.md).
+    - [Exploiting API Authorization](exploiting-api-authorization.md).
+    - [Testing for Improper Assets Management](improper-assets-management.md).
+    - [Mass Assignment](mass-assignment.md).
+    - [Server side Request Forgery](server-side-request-forgery-ssrf.md).
+    - [Injection Attacks](injection-attacks.md). 
+    - [Evasion and Combining techniques](evasion-combining-techniques.md).
+    - [Setting up the labs + Writeups](other-labs.md)
+
 ## Classic authentication attacks
 
 We'll consider two attacks: Password Brute-Force Attack, and Password Spraying. These attacks may take place every time that Basic Authentication is deployed in the context of a RESTful API.
 
-The principle of Basic authentication is that the consumer issues a request containing a username and password, th>
+The principle of Basic authentication is that the consumer issues a request containing a username and password. 
 
 As RESTful APIs don't maintain a state, the API need to leverage basic authentication across all endpoints. Instead of doing this, the API may leverage basic authentication once using an authentication portal, then upon providing the correct credentials, a token would be issued to be used in subsequent requests.
  
@@ -22,12 +36,12 @@ Brute-forcing an API's authentication is not very different from any other brute
 Infinite ways to do it. You can use: 
 
 + Intruder module of BurpSuite.
-+ ZAP proxy tool.
-+ wfuzz.
-+ ffuzz. 
-+ others.
++ [ZAP proxy tool](../owasp-zap.md).
++ [wfuzz](../wfuzz.md).
++ [ffuzz](../ffuzz.md). 
++ [others](../index-attacks-tools-web-pentesting.md).
 
-Let's see wfuzz:
+Let's see [wfuzz](../wfuzz.md):
 
 ```bash
 wfuzz -d {"email":"hapihacker@hapihacjer.com","password":"PASSWORD"} -z file,/usr/share/wordlists/rockyou.txt -u http://localhost:8888/identity/api/auth/login --hc 500
@@ -39,13 +53,13 @@ wfuzz -d {"email":"hapihacker@hapihacjer.com","password":"PASSWORD"} -z file,/us
 ```
 
 Tools to build password lists:
-+ https://github.com/sc0tfree/mentalist
-+ https://github.com/Mebus/cupp
-+ crunch (already installed in kali)
++ [https://github.com/sc0tfree/mentalist](https://github.com/sc0tfree/mentalist).
++ [CUPP - Common User Password Profiler](../cupp-common-user-password-profiler.md).
++ [crunch](../crunch.md) (already installed in kali).
 
 ### 2. Password Spraying
 
-Very useful if you know the password policy of the API we are attacking. Say that there is a lockout account policy for te tries. Then you can password spray attack with 9 tries and use for that the 9 most probable password for all the accounts email spotted.
+Very useful if you know the password policy of the API we are attacking. Say that there is a lockout account policy for ten tries. Then you can password spray attack with 9 tries and use for that the 9 most probable passwords for all the accounts email spotted.
 
 As in crapi we have detected before a disclosure of information in the forum page (a json response with all kind of data from users who have posted on the forum), we can save that json response as response.json and filter out the emails of users:
 
@@ -60,10 +74,12 @@ grep -oe "[a-zA-Z0-9._]\+@[a-zA-Z]\+.[a-zA-Z]\+" response.json | uniq | sort -u 
 
 To go further in authentification attacks we will need to analyze the API tokens and the way they are generated, and when talking about token generation and analysis, a word comes out inmediately: **entropy**.
 
-*Entropy definition: Entropy, in cyber security, is a measure of the randomness or diversity of a data-generating >
-
 
 ### Entropy analysis: BurpSuite Sequencer's live capture
+
+[Instructions to set up a proxy in Postman to intercept traffic with BurpSuite](../proxies.md) and have it sent to Sequencer.
+
+Once you send a POST request (in which a token is generated) to Sequencer, **you need to defina the custom token location** in the context menu. After that wou can  click on "Start Live Capture".
 
 BurpSuite Sequencer provides two methods for token analysis:
 
@@ -85,7 +101,7 @@ Let's focus out attention on a live capture using BurpSuite Sequencer. A live ca
 
 ### JWT attacks
 
-Two tools: [jwt.io](https://jwt.io) and [jwt_tools](https://github.com/ticarpi/jwt_tool).
+Two tools: [jwt.io](https://jwt.io) and [jwt_tools](../jwt-tool.md).
 
 To see a jwt decoded on your CLI:
 
@@ -96,7 +112,7 @@ jwt_tool eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaW
 
 Result:
 
-{{< figure src="../../images/jwt-tool.png" title="Running JWT TOOL" width="600" >}}
+![jwt ](../img/jwt-tool.png)
 
 
 Also, to see the decoded jwt, knowing that is encoded in base64, we could echo each of its parts:
@@ -115,11 +131,15 @@ Results:
 To run a JWT scan with jwt_tool, run: 
 
 ```bash
-jwt_tool -t <http://target-site.com/> -rc "<Header>: <JWT_Token>" -M pb
+jwt_tool -t <http://target-site.com/> -rh "<Header>: <JWT_Token>" -M pb
 # in the target site specify a path that leverages a call to a token
 # replace Header with the name of the Header and JWT_Tocker with the actual token.
 # -M: Scanning mode. 'pb' is playbook audit. 'er': fuzz existing claims to force errors. 'cc': fuzz common claims. 'at': All tests.
 ```
+
+Example:
+
+![jwt ](../img/jwt-tool2.png)
 
 
 Some more jwt_tool flags that may come in hand:

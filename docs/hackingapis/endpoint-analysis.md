@@ -7,6 +7,20 @@ TableOfContents: true
 
 # Endpoint analysis
 
+??? abstract "General index of the course"
+    - [Setting up the environment](setting-up-kali.md)
+    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Endpoint Analysis](endpoint-analysis.md).
+    - [Scanning APIS](scanning-apis.md).
+    - [API Authorization Attacks](api-authentication-attacks.md).
+    - [Exploiting API Authorization](exploiting-api-authorization.md).
+    - [Testing for Improper Assets Management](improper-assets-management.md).
+    - [Mass Assignment](mass-assignment.md).
+    - [Server side Request Forgery](server-side-request-forgery-ssrf.md).
+    - [Injection Attacks](injection-attacks.md). 
+    - [Evasion and Combining techniques](evasion-combining-techniques.md).
+    - [Setting up the labs + Writeups](other-labs.md)
+
 If an API is not documented or the documentation is unavailable to you, then you will need to build out your own collection of requests. Two different methods:
 
 1. Build a collection in Postman
@@ -21,7 +35,7 @@ In the instance where there is no documentation and no specification file, you w
 
 ### Steps
 
-**1.** Start crapi applicationi
+**1.** Start crAPI applicationi
 
 ```bash
 cd ~/lab/crapi
@@ -70,7 +84,11 @@ sudo mitmproxy2swagger -i ~/Downloads/flows -o spec.yml -p http://localhost:8888
 # -i: input    |  -o: output   | -p: target   |  -f: force format to the specified.
 ```
 
-**7.** Edit spec.yml to remove "ignore:" when it proceeds, and save changes. Run again mitmproxy2swagger to populate your spec with examples.
+**7.** Edit spec.yml to remove "ignore:" when it proceeds, and save changes . 
+
+![ignore](../img/ignore.png) 
+
+**Run again mitmproxy2swagger to populate your spec with examples.**
 
 ```bash
 sudo mitmproxy2swagger -i ~/Downloads/flows -o spec.yml -p http://localhost:8888/ -f flow --examples
@@ -88,17 +106,14 @@ postman
 **10.** In postman, go to File > Import, and select the spec.yml file. After importing it, you will be able to add it to a collection, and compare this collection against that created by browsing just with postman.
 
 
+## Data Exposure
+
+Quoting directly from the course: "When making a request to an endpoint, make sure you note the request requirements. Requirements could include some form of authentication, parameters, path variables, headers, and information included in the body of the request. The API documentation should tell you what it requires of you and mention which part of the request that information belongs in. If the documentation provides examples, use them to help you. Typically, you can replace the example values with the ones you’re looking for. The table below describes some of the conventions often used in these examples".
+
 ### API Documentation Conventions
 
 | Convention | Example | Meaning |
 | ---------- | ------- | ------- |
-| : or {} | /user/:id
-/user/{id}
-/user/2727
-/account/:username
-/account/{username}
-/account/scuttleph1sh |  The colon or curly brackets are used by some APIs to indicate a path variable. In other words, “:id” represents the variable for an ID number and “{username}” represents the account username you are trying to access. | 
+| : or {} | /user/:id /user/{id} /user/2727 /account/:username  /account/{username}  /account/scuttleph1sh |  The colon or curly brackets are used by some APIs to indicate a path variable. In other words, “:id” represents the variable for an ID number and “{username}” represents the account username you are trying to access. | 
 |  [] | /api/v1/user?find=[name] | Square brackets indicate that the input is optional. |
-| || | “blue” || “green” || “red” | Double bars represent different possible values that can be used. |
-
-
+| \|\| | “blue” \|\| “green” \|\| “red” | Double bars represent different possible values that can be used. |

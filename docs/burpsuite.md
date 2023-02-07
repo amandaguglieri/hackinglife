@@ -1,13 +1,11 @@
 ---
-title: Server-side Request Forgery
+title: Burpsuite
 author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
 
-# Server side Request Forgery
+# Burpsuite
 
-
-
-
+Coming...
 

@@ -38,7 +38,7 @@ See a more detailed [explanation about SQL injection](sql-injection.md).
 1' OR '1'='1' order by 3;#
 ...
 # Do this until you get an error message and then you will know the number of columns
-# Another method to see the number of columns. ame for 
+# Another method to see the number of columns. 
 ' OR '1'='1' order by 1;-- -   
 
 # 3. Get which column is being displayed. For instance, when we know we have 6 columns:

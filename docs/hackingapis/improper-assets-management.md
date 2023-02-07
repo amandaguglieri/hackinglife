@@ -7,6 +7,20 @@ TableOfContents: true
 
 # Testing for improper assets management
 
+??? abstract "General index of the course"
+    - [Setting up the environment](setting-up-kali.md)
+    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Endpoint Analysis](endpoint-analysis.md).
+    - [Scanning APIS](scanning-apis.md).
+    - [API Authorization Attacks](api-authentication-attacks.md).
+    - [Exploiting API Authorization](exploiting-api-authorization.md).
+    - [Testing for Improper Assets Management](improper-assets-management.md).
+    - [Mass Assignment](mass-assignment.md).
+    - [Server side Request Forgery](server-side-request-forgery-ssrf.md).
+    - [Injection Attacks](injection-attacks.md). 
+    - [Evasion and Combining techniques](evasion-combining-techniques.md).
+    - [Setting up the labs + Writeups](other-labs.md)
+
 Testing for improper assets management is all about discovering unsupported and non-production versions of an API. 
 
 ## Finding API versions
@@ -42,13 +56,15 @@ The discovery of non-production versions of an API might not be treated with the
 
 We'll use postman. We are assuming that we have build our collection of requests and that we have identify those parameters regarding API version.
 
+**0**.  On collection, right click and select "Run Collection". In the following screen you can unmark those requests that don't need to be run.  But, first, define a Test.
+
 **1.** Run a test "Status code: Code is 200". In your collection options, go to tab Test and select the option that gives you this code:
 
 ```
 pm.test("Status code is 200", function () { pm.response.to.have.status(200); })
 ```
 
-**2.** Run an unauthenticated baseline scan of the crAPI collection with the Collection Runner. Make sure that "Save Responses" is checked. Important. Review the results from your unauthenticated baseline scan to have an idea of how the API provider responds to requests using supported production versioning.
+**2.** Run an unauthenticated baseline scan of the crAPI collection with the Collection Runner. Make sure that "Save Responses" is checked. Important. Review the results from your unauthenticated baseline scan to have an idea of how the API provider responds to requests using supported production versioning. After that, repeat the same but this time with an Authenticated user, to obtain an authenticated baseline.
 
 **3.** Next, use "Find and Replace" to turn the collection's current versions into a variable. For that, use Environmental variables.
 

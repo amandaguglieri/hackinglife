@@ -1,14 +1,41 @@
 ---
-title: Other labs + Writeups
+title: Setting up the labs + Writeups
 date: 2022-10-29T00:00:00Z
 draft: false
 ---
 
-# Other labs + Writeups
+# Setting up the labs + Writeups
+
+??? abstract "General index of the course"
+    - [Setting up the environment](setting-up-kali.md)
+    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Endpoint Analysis](endpoint-analysis.md).
+    - [Scanning APIS](scanning-apis.md).
+    - [API Authorization Attacks](api-authentication-attacks.md).
+    - [Exploiting API Authorization](exploiting-api-authorization.md).
+    - [Testing for Improper Assets Management](improper-assets-management.md).
+    - [Mass Assignment](mass-assignment.md).
+    - [Server side Request Forgery](server-side-request-forgery-ssrf.md).
+    - [Injection Attacks](injection-attacks.md). 
+    - [Evasion and Combining techniques](evasion-combining-techniques.md).
+    - [Setting up the labs + Writeups](other-labs.md)
 
 Here we'll be practising what we have learned in the course. There are plenty of labs in the wild. My intention here is to overview only the well known ones.
 
 Also, to make it to the end, I will include the writeups for every lab.
+
+## Setting up crAPI
+
+Download it from: [https://github.com/OWASP/crAPI](https://github.com/OWASP/crAPI)
+
+```bash
+mkdir ~/lab
+cd ~/lab
+sudo curl -o docker-compose.yml https://raw.githubusercontent.com/OWASP/crAPI/main/deploy/docker/docker-compose.yml
+sudo docker-compose pull
+sudo docker-compose -f docker-compose.yml --compatibility up -d
+```
+
 
 ## Setting up other labs
 
@@ -40,7 +67,6 @@ docker-compose up -d
 ### OWASP DevSlop Pixi
 
 Pixi is a MongoDB, Express.js, Angular, Node (MEAN) stack web applica­tion that was designed with deliberately vulnerable APIs.
-
 
 To install it:
 
@@ -123,7 +149,7 @@ cat creds.csv | cut -d, -f3 >pass.txt
 + Burp: send the request to Intruder. Use Pitchfork attack with two payloads (Simplelist). One will be users.txt and second payload, pass.txt. Careful, remove the url encoding when setting up the payloads.
 + Burp: sort by Code (or length). You will get credentials for three users.
 + Postman: Login with the credentials of every user and save the file as an example just in case that you need to go back to this.
-+ Postman: Once you are login into the app, a new enviromental variable has been saved in vAPI_ENV: api2_auth. With this authentication now we can sesend the request Get Details. Flag will be in the response.
++ Postman: Once you are login into the app, a new enviromental variable has been saved in vAPI_ENV: api2_auth. With this authentication now we can resend the request Get Details. Flag will be in the response.
 
 #### Writeup: API3
 
@@ -135,9 +161,36 @@ cat creds.csv | cut -d, -f3 >pass.txt
 
 #### Writeup: API7
 
+
 #### Writeup: API8
 
 #### Writeup: API9
+
+On this lab we'll be testing for improper asset management. The endpoint provided in the Postman collection is:
+
+![request](../img/vapi9-1.png)
+
+Several interesting things to test:
+
+- Only a pin code with 4 digits are required to login.
+- We are running this request using version2 of an api.
+- There are two significant headers:
+	- X-RateLimit-Limit set to 5
+	- X-RateLimit Remaining set to 4.
+
+With this in mind we can run that request six times, obtaining a 500 internal server error instead of the 200 response:
+
+![request](../img/vapi9-2.png)
+
+
+But, if we run the same request but modifying the POST request from v2 to v1, then: 
+![request](../img/vapi9-3.png)
+
+Headers "X-RateLimit-Limit" and "X-RateLimit Remaining" are missing. Looks like there is no Rate limit set for this request and a Brute Force attack can be conducted. So we do it using Burp Intruder and... bingo! we have the flag:
+
+![request](../img/vapi9-4.png)
+
+
 
 #### Writeup: API10
 

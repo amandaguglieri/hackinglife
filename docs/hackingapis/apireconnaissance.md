@@ -7,6 +7,20 @@ TableOfContents: true
 
 # Api Reconnaissance
 
+??? abstract "General index of the course"
+    - [Setting up the environment](setting-up-kali.md)
+    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Endpoint Analysis](endpoint-analysis.md).
+    - [Scanning APIS](scanning-apis.md).
+    - [API Authorization Attacks](api-authentication-attacks.md).
+    - [Exploiting API Authorization](exploiting-api-authorization.md).
+    - [Testing for Improper Assets Management](improper-assets-management.md).
+    - [Mass Assignment](mass-assignment.md).
+    - [Server side Request Forgery](server-side-request-forgery-ssrf.md).
+    - [Injection Attacks](injection-attacks.md). 
+    - [Evasion and Combining techniques](evasion-combining-techniques.md).
+    - [Setting up the labs + Writeups](other-labs.md)
+
 ## Passive reconnaissance
 
 ### Google Dorks
@@ -80,6 +94,7 @@ Also Github can be a good platform to search for overshared information relating
 
 ### nmap
 
+[Nmap Cheat sheet](../nmap.md).
 First, we do a service enumeration. The Nmap general detection scan uses default scripts (-sC) and service enumeration (-sV) against a target and then saves the output in three formats for later review (-oX for XML, -oN for Nmap, -oG for greppable, or -oA for all three):
 
 ```bash
@@ -99,8 +114,11 @@ nmap -sV --script=http-enum <target> -p 80,443,8000,8080
 ```
 
 ### amass
+
+[amass Cheat sheet](../amass.md).
  
 Before diving into using Amass, we should make the most of it by adding API keys to it. 
+
 1. First, we can see which data sources are available for Amass (paid and free) by running:
 
 ```bash
@@ -179,16 +197,19 @@ amass enum -active -brute -w /usr/share/wordlists/API_superlist -d [target domai
 
 ### gobuster
 
+[gobuster Cheat sheet](../gobuster.md).
+
 Great tool to brute force directory discovery but it's not recursive (you need to specify a directory to perform a deeper scanner). Also, dictionaries are not API-specific. But here are some commands for Gobuster:
 
-
 ```bash
-gobuster dir -u <exact target url> -w </path/dic.txt> -b 401
+gobuster dir -u <exact target url> -w </path/dic.txt> --wildcard -b 401
 # -b flag is to exclude from results an specific http response
 ```
 
 
 ### Kiterunner
+
+[kiterunner Cheat sheet](../kiterunner.md).
 
 Kiterunner is an excellent tool that was developed and released by Assetnote. Kiterunner is currently the best tool available for discovering API endpoints and resources. While directory brute force tools like Gobuster/Dirbuster/ work to discover URL paths, it typically relies on standard HTTP GET requests. Kiterunner will not only use all HTTP request methods common with APIs (GET, POST, PUT, and DELETE) but also mimic common API path structures. In other words, instead of requesting GET /api/v1/user/create, Kiterunner will try POST /api/v1/user/create, mimicking a more realistic request.
 
@@ -212,7 +233,6 @@ To use a dictionary (and not a kite file):
 ```bash
 kr brute <target> -w ~/api/wordlists/data/automated/nameofwordlist.txt
 ```
-
 
 If you have many targets, you can save a list of line-separated targets as a text file and use that file as the target.
 

@@ -58,7 +58,6 @@ nmap -O 10.0.2.1 -osscan-limit
 nmap -O 10.0.2.1 -osscan-guess
 
 # Version detection
-
 nmap -sV 10.0.2.1 
 
 # Intensity level goes from 0 to 9
@@ -139,3 +138,9 @@ nmap -script=smb-enum-users <target IP>
 nmap -script=smb-brute <target IP>
 ```
 
+
+## Nmap for detecting a WAF
+
+```bash
+nmap -p 80 -script http-waf-detect <TARGET> 
+```
