@@ -8,7 +8,7 @@ draft: false
 
 ??? abstract "General index of the course"
     - [Setting up the environment](setting-up-kali.md)
-    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Api Reconnaissance](api-reconnaissance.md).
     - [Endpoint Analysis](endpoint-analysis.md).
     - [Scanning APIS](scanning-apis.md).
     - [API Authorization Attacks](api-authentication-attacks.md).

@@ -9,7 +9,7 @@ TableOfContents: true
 
 ??? abstract "General index of the course"
     - [Setting up the environment](setting-up-kali.md)
-    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Api Reconnaissance](api-reconnaissance.md).
     - [Endpoint Analysis](endpoint-analysis.md).
     - [Scanning APIS](scanning-apis.md).
     - [API Authorization Attacks](api-authentication-attacks.md).
@@ -101,6 +101,7 @@ A nice way to do this is with Burp Extension: **Param Miner**.
 ![Param-miner](../img/param-miner.png)
 
 Now, go to Extender tab> Extensions. And in the box below, select Output, and later "Show in UI":
+
 ![Param-miner](../img/param-miner2.png)
 
 After a while you will see results from the attack.

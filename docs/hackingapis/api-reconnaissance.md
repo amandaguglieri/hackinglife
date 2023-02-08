@@ -9,7 +9,7 @@ TableOfContents: true
 
 ??? abstract "General index of the course"
     - [Setting up the environment](setting-up-kali.md)
-    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Api Reconnaissance](api-reconnaissance.md).
     - [Endpoint Analysis](endpoint-analysis.md).
     - [Scanning APIS](scanning-apis.md).
     - [API Authorization Attacks](api-authentication-attacks.md).
@@ -95,6 +95,7 @@ Also Github can be a good platform to search for overshared information relating
 ### nmap
 
 [Nmap Cheat sheet](../nmap.md).
+
 First, we do a service enumeration. The Nmap general detection scan uses default scripts (-sC) and service enumeration (-sV) against a target and then saves the output in three formats for later review (-oX for XML, -oN for Nmap, -oG for greppable, or -oA for all three):
 
 ```bash
@@ -119,25 +120,25 @@ nmap -sV --script=http-enum <target> -p 80,443,8000,8080
  
 Before diving into using Amass, we should make the most of it by adding API keys to it. 
 
-1. First, we can see which data sources are available for Amass (paid and free) by running:
+**1.** First, we can see which data sources are available for Amass (paid and free) by running:
 
 ```bash
 amass enum -list 
 ```
 
-2. Next, we will need to create a config file to add our API keys to.
+**2.** Next, we will need to create a config file to add our API keys to.
 
 ```bash
 sudo curl https://raw.githubusercontent.com/OWASP/Amass/master/examples/config.ini >~/.config/amass/config.ini
 ```
 
-3. Now, see the file ~/.config/amass/config.ini and register in as many services as you can. Once you have obtained your API ID and Secret, edit the config.ini file and add the credentials to the file.
+**3.**  Now, see the file ~/.config/amass/config.ini and register in as many services as you can. Once you have obtained your API ID and Secret, edit the config.ini file and add the credentials to the file.
 
 ```bash
 sudo nano ~/.config/amass/config.ini
 ```
 
-4. Now, edit the file to add the sources. It is recommended to add:
+**4.** Now, edit the file to add the sources. It is recommended to add:
 
 + censys.io: guesswork out of understanding and protecting your organization’s digital footprint.
 + https://asnlookup.com: Quickly lookup updated information about specific Autonomous System Number (ASN), Organization, CIDR, or registered IP addresses (IPv4 and IPv6) among other relevant data. We also offer a free and paid API access!
@@ -151,7 +152,7 @@ sudo nano ~/.config/amass/config.ini
 + https://leakix.net
 + as many more as you can.
 
-5. When ready, we can run amass:
+**5.** When ready, we can run amass:
 
 ```bash
 amass enum -active -d crapi.apisec.ai  
@@ -213,14 +214,14 @@ gobuster dir -u <exact target url> -w </path/dic.txt> --wildcard -b 401
 
 Kiterunner is an excellent tool that was developed and released by Assetnote. Kiterunner is currently the best tool available for discovering API endpoints and resources. While directory brute force tools like Gobuster/Dirbuster/ work to discover URL paths, it typically relies on standard HTTP GET requests. Kiterunner will not only use all HTTP request methods common with APIs (GET, POST, PUT, and DELETE) but also mimic common API path structures. In other words, instead of requesting GET /api/v1/user/create, Kiterunner will try POST /api/v1/user/create, mimicking a more realistic request.
 
-1. First, download the dictionaries from the [project](https://github.com/assetnote/kiterunner). In my case I downloaded it to /usr/share/wordlists/kiterunner/:
+**1.** First, download the dictionaries from the [project](https://github.com/assetnote/kiterunner). In my case I downloaded it to /usr/share/wordlists/kiterunner/:
 
 + https://wordlists-cdn.assetnote.io/rawdata/kiterunner/routes-large.json.tar.gz
 + https://wordlists-cdn.assetnote.io/rawdata/kiterunner/routes-small.json.tar.gz
 + https://wordlists-cdn.assetnote.io/data/kiterunner/routes-large.kite.tar.gz
 + https://wordlists-cdn.assetnote.io/data/kiterunner/routes-small.kite.tar.gz
 
-2. Run a quick scan of your target’s URL or IP address like this:
+**2.** Run a quick scan of your target’s URL or IP address like this:
 
 ```bash
 kr scan HTTP://127.0.0.1 -w ~/api/wordlists/data/kiterunner/routes-large.kite  

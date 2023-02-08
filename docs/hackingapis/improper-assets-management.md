@@ -9,7 +9,7 @@ TableOfContents: true
 
 ??? abstract "General index of the course"
     - [Setting up the environment](setting-up-kali.md)
-    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Api Reconnaissance](api-reconnaissance.md).
     - [Endpoint Analysis](endpoint-analysis.md).
     - [Scanning APIS](scanning-apis.md).
     - [API Authorization Attacks](api-authentication-attacks.md).
@@ -27,15 +27,15 @@ Testing for improper assets management is all about discovering unsupported and 
 
 Paths to check out:
 
-+ api.target.com/v3
-+ /api/v2/accounts
-+ /api/v3/accounts
-+ /v2/accounts
+	api.target.com/v3
+	/api/v2/accounts
+	/api/v3/accounts
+	/v2/accounts
 
 API versioning could also be maintained as a header:
 
-+ Accept: version=2.0
-+ Accept api-version=3
+	Accept: version=2.0
+	Accept api-version=3
 
 In addition versioning could also be set within a query parameter or request body.
 

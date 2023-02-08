@@ -7,12 +7,6 @@ TableOfContents: true
 
 # Proxies
 
-## Setting up BurpSuite with Firefox
-
-
-## Setting up Postman with Firefox
-
-
 ## Setting up Postman with BurpSuite
 
 1 - Postman > Settings 

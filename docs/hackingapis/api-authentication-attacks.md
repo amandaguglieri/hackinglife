@@ -9,7 +9,7 @@ TableOfContents: true
 
 ??? abstract "General index of the course"
     - [Setting up the environment](setting-up-kali.md)
-    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Api Reconnaissance](api-reconnaissance.md).
     - [Endpoint Analysis](endpoint-analysis.md).
     - [Scanning APIS](scanning-apis.md).
     - [API Authorization Attacks](api-authentication-attacks.md).
@@ -79,7 +79,7 @@ To go further in authentification attacks we will need to analyze the API tokens
 
 [Instructions to set up a proxy in Postman to intercept traffic with BurpSuite](../proxies.md) and have it sent to Sequencer.
 
-Once you send a POST request (in which a token is generated) to Sequencer, **you need to defina the custom token location** in the context menu. After that wou can  click on "Start Live Capture".
+Once you send a POST request (in which a token is generated) to Sequencer, **you need to define the custom token location** in the context menu. After that you can  click on "Start Live Capture".
 
 BurpSuite Sequencer provides two methods for token analysis:
 
@@ -157,7 +157,7 @@ Some more jwt_tool flags that may come in hand:
 ```
 
 
-#### The none attack
+#### 1. The none attack
 
 A JWT with "none" as its algorithm is a free ticket. Modify user and become admin, root,... 
 Also, in poorly implemented JWT, sometimes user and password can be found in the payload.
@@ -169,7 +169,7 @@ jwt_tool <JWT_Token> -X a
 ```
 
 
-#### The null signature attack
+#### 2. The null signature attack
 
 Second attack in this section is removing the signature from the token. This can be done by erasing the signature altogether and leaving the last period in place.
 
@@ -184,7 +184,7 @@ Also, with jwt_tool, run:
 jwt_tool <JWT_Token> -X b
 ```
  
-#### The algorithm switch (or key-confusion) attack
+#### 3. The algorithm switch (or key-confusion) attack
 
 A more likely scenario than the provider accepting no algorithm is that they accept multiple algorithms. For example, if the provider uses RS256 but doesn’t limit the acceptable algorithm values, we could alter the algorithm to HS256. This is useful, as RS256 is an asymmetric encryption scheme, meaning we need both the provider’s private key and a public key in order to accurately hash the JWT signature. Meanwhile, HS256 is symmetric encryption, so only one key is used for both the signature and verification of the token. If you can discover the provider’s RS256 public key and then switch the algorithm from RS256 to HS256, there is a chance you may be able to leverage the RS256 public key as the HS256 key.
 
@@ -194,7 +194,7 @@ jwt_tool <JWT_Token> -X k -pk public-key.pem
 ```
 
 
-#### The jwt crack attack
+#### 4. The jwt crack attack
 
 JWT_Tool can still test 12 million passwords in under a minute. To perform a JWT Crack attack using JWT_Tool, use the following command:
 
@@ -210,15 +210,7 @@ Once you crack the secret of the signature, we can create our own trusted tokens
 2. Generate a token with the secret.
 
 
-#### Spoofing JWS 
+#### 5. Spoofing JWS 
 
 Specify JWS URL with -ju, or set in jwtconf.ini to automate this attack.
-
-
-#### Inject inline JW
-
-¿?¿?¿?¿?
-
-
-
 

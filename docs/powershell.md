@@ -54,6 +54,9 @@ get-process -name ccSvcHst
 # Kill processes called ccSvcHst* // Notice here wild card *
 taskkill /f /im ccSvcHst*
 
+# Get ACL for a folder (or a file)
+Get-ACL “C:\Users\Public\Desktop”
+
 ```
 
 
@@ -140,3 +143,20 @@ powershell -ep bypass
 # List which processes are elevated:
 Get-Process | Add-Member -Name Elevated -MemberType ScriptProperty -Value {if ($this.Name -in @('Idle','System')) {$null} else {-not $this.Path -and -not $this.Handle} } -PassThru | Format-Table Name,Elevated
 ```
+
+
+## Howtos
+
+### How to delete shortcuts from Public Desktop
+
+```ps
+# Instead of "everyone" set the group that you prefer
+$acl = Get-ACL “C:\Users\Public\Desktop”
+
+$rule=new-object System.Security.AccessControl.FileSystemAccessRule (“everyone”,”FullControl”, “ContainerInherit,ObjectInherit”, “None”, “Allow”)
+
+$acl.SetAccessRule($rule)
+
+Set-ACL “C:\Users\Public\Desktop” $acl
+```
+

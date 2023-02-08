@@ -9,7 +9,7 @@ TableOfContents: true
 
 ??? abstract "General index of the course"
     - [Setting up the environment](setting-up-kali.md)
-    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Api Reconnaissance](api-reconnaissance.md).
     - [Endpoint Analysis](endpoint-analysis.md).
     - [Scanning APIS](scanning-apis.md).
     - [API Authorization Attacks](api-authentication-attacks.md).
@@ -28,10 +28,10 @@ After that, follow these steps:
 
 ## 1. Install a kali ova on VirtualBox
 
-When Kali machine
+For this course I've downloaded a Kali .ova machine. I will be using VirtualBox and I will modify these elements in the ova installation:
 
-4GB RAM
-Bridge mode Interface
+- 4GB RAM
+- Bridge mode Interface
 
 ## 2.  Update our system
 

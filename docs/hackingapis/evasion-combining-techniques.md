@@ -9,7 +9,7 @@ TableOfContents: true
 
 ??? abstract "General index of the course"
     - [Setting up the environment](setting-up-kali.md)
-    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Api Reconnaissance](api-reconnaissance.md).
     - [Endpoint Analysis](endpoint-analysis.md).
     - [Scanning APIS](scanning-apis.md).
     - [API Authorization Attacks](api-authentication-attacks.md).
@@ -102,14 +102,14 @@ If you are using Burp Suite, the module Decoder is perfect for quickly encoding 
 
 ## Tools 
 
-### BurpSuite Intruder
+### 1. BurpSuite Intruder
 
 Also, once you know which encoding technique is the efective one to bypass the WAF, use BurpSuite Intruder (section Payload processing under the Intruder Payload option) for configuring you attack. Intruder has some more worthy options:
 
 ![BurpSuite Intruder Payload processing](../img/burpsuite-intruder.png)
 
 
-### wfuzz
+### 2. wfuzz
 
 [wfuzz Cheat sheet](../wfuzz.md).
 

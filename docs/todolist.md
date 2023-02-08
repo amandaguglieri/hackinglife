@@ -9,21 +9,17 @@ TableOfContents: true
 
 ## Pending
 
-- [ ] git.md update
-- [ ] ejpt.md complete
-- [ ] img with border:0.5 solid gray 
+
 - [ ] install psizer and treat images
 - [ ] 
-
-- Intall a plugin to download pages as pdf: https://github.com/zhaoterryy/mkdocs-pdf-export-plugin
-- Adding style to exported pdf: https://drafts.csswg.org/css-page-3/
+- [ ] Intall a plugin to download pages as pdf: https://github.com/zhaoterryy/mkdocs-pdf-export-plugin
+- [ ] Adding style to exported pdf: https://drafts.csswg.org/css-page-3/
 - [ ] Styling walkthoughs:
 	- all tools linked to cheatsheets
 	- section structured: 
 		- About the machine
 		- Walkthough
 		- Tools and commands
-	
 - [ ] Trying out batcat.
 - [ ] migrate contents: notes from github repositories, doc files, notebooks.
 - [ ] dotfiles
@@ -41,3 +37,6 @@ TableOfContents: true
 - [x] Choose a template and get to know it.
 - [x] Create the basic structure to start.
 - [X] Fixing images.
+- [x] - [x] git.md update
+- [x] ejpt.md complete
+- [x] img with border:0.5 solid gray 

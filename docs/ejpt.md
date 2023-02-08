@@ -8,9 +8,9 @@ tag: pentesting
 
 # eJPT - eLearnSecurity Junior Penetration Tester Cheat Sheet
 
-**What is eJPT?** The eJPT is **a 100% hands-on certification for penetration testing and essential information security skills**. 
+**What is eJPT?** The eJPT is a 100% hands-on certification for penetration testing and essential information security skills. 
 
-**I'm more than happy to share my personal cheat sheet of the #eJPT Preparation exam**.
+I'm more than happy to share my personal cheat sheet of the #eJPT Preparation exam.
 
 
 

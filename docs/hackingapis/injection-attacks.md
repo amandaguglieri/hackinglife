@@ -9,12 +9,12 @@ TableOfContents: true
 
 ??? abstract "General index of the course"
     - [Setting up the environment](setting-up-kali.md)
-    - [Api Reconnaissance](api-authentication-attacks.md).
+    - [Api Reconnaissance](api-reconnaissance.md).
     - [Endpoint Analysis](endpoint-analysis.md).
     - [Scanning APIS](scanning-apis.md).
     - [API Authorization Attacks](api-authentication-attacks.md).
     - [Exploiting API Authorization](exploiting-api-authorization.md).
-    - [Testing for Improper Assets Management](improper-assets-management.md).
+	- [Testing for Improper Assets Management](improper-assets-management.md).
     - [Mass Assignment](mass-assignment.md).
     - [Server side Request Forgery](server-side-request-forgery-ssrf.md).
     - [Injection Attacks](injection-attacks.md). 
