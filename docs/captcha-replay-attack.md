@@ -3,7 +3,8 @@ title: Captcha Replay attack
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting
+tags: 
+  - web pentesting
 ---
 
 # Captcha Replay attack

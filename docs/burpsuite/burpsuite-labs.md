@@ -3,7 +3,8 @@ title: BurpSuite Labs
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, burpsuite
+tags: 
+  - burpsuite
 ---
 
 # BurpSuite Labs
@@ -13,12 +14,12 @@ tag: pentesting, burpsuite
 
 | Solution | SQL injection| level  | link  | Solved |   
 | ------------- | ------------- | ---- | ----- | -------- |
-| [sql-1](burpsuite-sqli.md#SQL-injection-vulnerability-in-WHERE-clause-allowing-retrieval-of-hidden-data) | SQL injection | Apprentice | [SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://portswigger.net/web-security/sql-injection/lab-retrieve-hidden-data) | Solved | 
-| [sql-2](burpsuite-sqli.md#SQL-injection-vulnerability-allowing-login-bypass) | SQL injection | Apprentice | [SQL injection vulnerability allowing login bypass](https://portswigger.net/web-security/sql-injection/lab-login-bypass) | Solved |  
-|  | SQL injection | Practitioner | [SQL injection UNION attack, determining the number of columns returned by the query](https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns) | Not solved |  
-| | SQL injection | Practitioner | [SQL injection UNION attack, finding a column containing text](https://portswigger.net/web-security/sql-injection/union-attacks/lab-find-column-containing-text) | Not solved |   
-| | SQL injection | Practitioner | [SQL injection UNION attack, retrieving data from other tables](https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-data-from-other-tables) | Not solved |  
-| | SQL injection | Practitioner | [SQL injection UNION attack, retrieving multiple values in a single column](https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column) | Not solved |   
+| [sqli-1](burpsuite-sqli.md#sql-injection-vulnerability-in-where-clause-allowing-retrieval-of-hidden-data) | SQL injection | Apprentice | [SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](https://portswigger.net/web-security/sql-injection/lab-retrieve-hidden-data) | Solved | 
+| [sqli-2](burpsuite-sqli.md#sql-injection-vulnerability-allowing-login-bypass) | SQL injection | Apprentice | [SQL injection vulnerability allowing login bypass](https://portswigger.net/web-security/sql-injection/lab-login-bypass) | Solved |  
+| [sqli-3](burpsuite-sqli.md#sql-injection-union-attack-determining-the-number-of-columns-returned-by-the-query) | SQL injection | Practitioner | [SQL injection UNION attack, determining the number of columns returned by the query](https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns) | Solved |  
+| [sqli-4](burpsuite-sqli.md#sql-injection-union-attack-determining-the-number-of-columns-returned-by-the-query) | SQL injection | Practitioner | [SQL injection UNION attack, finding a column containing text](https://portswigger.net/web-security/sql-injection/union-attacks/lab-find-column-containing-text) | Solved |   
+| [sqli-5](burpsuite-sqli.md#sql-injection-union-attack-finding-a-column-containing-text) | SQL injection | Practitioner | [SQL injection UNION attack, retrieving data from other tables](https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-data-from-other-tables) | Solved |  
+| [sqli-6](burpsuite-sqli.md#sql-injection-union-attack-retrieving-multiple-values-in-a-single-column)  | SQL injection | Practitioner | [SQL injection UNION attack, retrieving multiple values in a single column](https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column) | Solved |   
 | | SQL injection | Practitioner | [SQL injection attack, querying the database type and version on Oracle](https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-oracle) | Not solved |  
 | | SQL injection | Practitioner | [SQL injection attack, querying the database type and version on MySQL and Microsoft](https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-mysql-microsoft) | Not solved |
 | | SQL injection | Practitioner | [SQL injection attack, listing the database contents on non-Oracle databases](https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-non-oracle) | Not solved |  

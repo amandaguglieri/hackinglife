@@ -3,6 +3,8 @@ title: API authentication attacks
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # API authentication attacks

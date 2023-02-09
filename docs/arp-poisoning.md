@@ -3,7 +3,11 @@ title: Arp poisoning
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting,windows,linux  
+tags: 
+  - windows
+  - linux
+  - arp
+  - arp poisoning
 ---
 
 # Arp poisoning

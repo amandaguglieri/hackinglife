@@ -3,6 +3,8 @@ title: Mass assignment
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # Mass assignment

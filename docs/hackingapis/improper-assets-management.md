@@ -3,6 +3,8 @@ title: Testing for improper assets management
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # Testing for improper assets management

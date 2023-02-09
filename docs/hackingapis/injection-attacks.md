@@ -3,6 +3,8 @@ title: Injection attacks
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # Injection Attacks

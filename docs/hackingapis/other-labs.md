@@ -2,6 +2,9 @@
 title: Setting up the labs + Writeups
 date: 2022-10-29T00:00:00Z
 draft: false
+TableOfContents: true
+tags:
+  - api
 ---
 
 # Setting up the labs + Writeups

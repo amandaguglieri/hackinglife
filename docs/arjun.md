@@ -3,7 +3,8 @@ title: arjun
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: api
+tags:
+  - api
 ---
 
 # Arjun

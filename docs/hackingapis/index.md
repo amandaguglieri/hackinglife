@@ -2,6 +2,8 @@
 title: Hacking APIs
 author: amandaguglieri
 draft: false
+tags:
+  - api
 ---
 
 # Hacking APIs

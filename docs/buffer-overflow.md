@@ -3,7 +3,6 @@ title: Buffer Overflow attack
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting
 ---
 
 # Buffer Overflow attack

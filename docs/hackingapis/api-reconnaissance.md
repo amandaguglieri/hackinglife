@@ -3,6 +3,8 @@ title: Api Reconnaissance
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # Api Reconnaissance

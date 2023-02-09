@@ -3,7 +3,9 @@ title: BurpSuite Labs - Cross-site Scripting
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, burpsuite, xss
+tags: 
+  - burpsuite
+  - xss
 ---
 
 # BurpSuite Labs - Cross-site Scripting

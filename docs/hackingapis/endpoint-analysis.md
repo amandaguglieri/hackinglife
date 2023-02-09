@@ -3,6 +3,8 @@ title: Endpoint analysis
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # Endpoint analysis

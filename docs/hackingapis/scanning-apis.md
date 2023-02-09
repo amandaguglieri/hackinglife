@@ -3,6 +3,8 @@ title: Scanning APIs
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # Scanning APIs

@@ -3,6 +3,8 @@ title: Setting up the environment
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # Setting up the environment

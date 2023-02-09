@@ -3,7 +3,8 @@ title: arpspoof from dniff
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting,windows 
+tags: 
+  - windows 
 ---
 
 # arpspoof from dniff

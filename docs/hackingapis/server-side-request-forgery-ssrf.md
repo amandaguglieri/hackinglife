@@ -3,6 +3,8 @@ title: SSRF attack - Server-side Request Forgery
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - api
 ---
 
 # SSRF attack - Server side Request Forgery 
