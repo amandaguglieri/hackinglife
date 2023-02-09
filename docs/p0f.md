@@ -3,7 +3,7 @@ title: p0f
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: scanning,tcp,reconnaissance,"passive reconnaissance"
+tag: scanning,tcp,reconnaissance,passivereconnaissance
 ---
 
 # P0f

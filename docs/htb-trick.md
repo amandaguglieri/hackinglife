@@ -4,6 +4,7 @@ auhtor: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
+tag: walkthrough
 ---
 
 # Walkthrough - Trick, a Hack The Box machine

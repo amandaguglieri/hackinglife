@@ -3,7 +3,7 @@ title: Nessus
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: reconnaissance,scanner,"vulnerability assessment"
+tag: reconnaissance,scanner,vulnerabilityassessment
 ---
 
 # Nessus

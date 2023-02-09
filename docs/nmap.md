@@ -3,7 +3,7 @@ title: nmap - A network exploration and security auditing tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: reconnaissance,scanning,"active recon","passive recon"
+tag: reconnaissance,scanning,activerecon,passiverecon
 ---
 
 # nmap - A network exploration and security auditing tool

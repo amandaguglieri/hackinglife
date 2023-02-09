@@ -3,7 +3,7 @@ title: apktool
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: mobile pentesting
+tag: mobilepentesting
 ---
 
 # apktool
