@@ -45,5 +45,57 @@ ssh-add ~/.ssh/id_ed25519
 [remote "origin"]
         url = "ssh://git@repo2.github.com:username/repo2.git"
 ```
-5. 
 
+5. For each repo set name and email
+
+```bash
+# navigate to your repo1
+git config user.name "yourName1"
+git config user.email "email1@domain.com"
+
+# navigate to your repo2
+git config user.name "name2"
+git config user.email "email2@domain.com"
+```
+
+6. Create a config file in .ssh to manage keys:
+
+```
+# Default github account: username1
+Host github.com/username1
+   HostName github.com
+   IdentityFile ~/.ssh/username1_private_key
+   IdentitiesOnly yes
+   
+# Other github account: username2
+Host github.com/username2
+   HostName github.com
+   IdentityFile ~/.ssh/username2_private_key
+   IdentitiesOnly yes
+```
+
+
+7. Make sure you don't have all credentials cached in your ssh agent
+
+```
+ssh-add -D
+```
+
+8. Add new credentials to your ssh agent
+
+```
+ssh-add ~/.ssh/username1_private_key
+ssh-add ~/.ssh/username2_private_key
+```
+
+9. See added keys
+
+```
+ssh-add -l
+```
+
+10. Test your conection
+
+```bash
+ssh -T git@github.com
+```
