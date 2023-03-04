@@ -7,7 +7,7 @@ TableOfContents: true
 
 # Traffic analysis - Thick client Applications 
 
-??? abstract "General index of the course"
+??? abstract "Open to see the general index of the course"
     - [Introduction](tca-introduction.md)
     - [Basic lab setup](tca-basic-lab-setup.md)
     - [First challenge: enabling a button](tca-first-challenge.md)
@@ -17,20 +17,21 @@ TableOfContents: true
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
 
 
-Used tools: 
+## Tools needed
 
-- Burp Suite
+
+- [BurpSuite](../burpsuite.md)
+- [Echo mirage](../echo-mirage.md), very old and not maintained.
+- [mitm_relay](../mitm-relay.md) 
 - Wireshark
-- Echo Mirage 
-- mitm-relay + BurpSuite
 
 Difficult part here is when the thick app is not using http/https protocol. In that case, BurpSuite alone is out of consideration and we will need to use:
 
 - wireshark, it's ok if we just want to monitor. 
 - [Echo mirage](../echo-mirage.md), very old and not maintained.
-- [MITM-RELAY](../mitm-relay.md) + BurpSuite.
+- [mitm_relay](../mitm-relay.md) + [BurpSuite](../burpsuite.md).
 
-## Traffic monitoring with wireshark
+## Traffic monitoring with Wireshark
 
 **1.** We make sure  that port 21 is listening in the Filezilla Server.
 
@@ -46,6 +47,7 @@ And we start the capture with Wireshark. We will open DVTA with admin credential
 **1.** Open Echo Mirage and add a rule to intercept all inbound and outbound traffic in port 21.
 
 **2.**  In TAB "Process" > Inject, and select the application.
+
 ![graphic](../img/tca-35.png)
 
 **3.** In the vulnerable app DVTA login as admin and click on action "Backup Data to FTP Server". Now in Echo Mirage you will be intercepting the traffic. This way we can capture USER and PASSWORD:
@@ -54,7 +56,7 @@ And we start the capture with Wireshark. We will open DVTA with admin credential
 
 Also, modifying the payload you will be tampering the request.
 
-## Traffic monitoring with mitm_relay
+## Traffic monitoring with mitm_relay + Burpsuite
 
 In DVTA we will configure the server to the IP of the local machine. In my lab set up my IP was 10.0.2.15.
 
@@ -63,7 +65,6 @@ In FTP, we will configure the listening port to 2111. Also we will disable IP ch
 From [https://github.com/jrmdev/mitm_relay](https://github.com/jrmdev/mitm_relay):
 
 ![graphic](../img/tca-39.png)
-
 
 
 This is what we're doing:
@@ -95,9 +96,4 @@ python mitm_relay.py -l 0.0.0.0 -r tcp:21:10.0.2.15:2111 -p 127.0.0.1:8080
 And this is how the interception looks like:
 
 ![graphic](../img/tca-37.png)
-
-
-Also from [https://github.com/jrmdev/mitm_relay](https://github.com/jrmdev/mitm_relay):
-
-![graphic](../img/tca-39.png)
 

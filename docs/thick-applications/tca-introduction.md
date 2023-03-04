@@ -46,10 +46,13 @@ They are considered old, but still might be found in some organizations.
 
 
 
-## Decompilation tools
+## Some decompilation tools
 
 + C++ decompilation: [https://ghidra-sre.org](https://ghidra-sre.org "https://ghidra-sre.org/")
++ C# decompilation: [dnspy](../dnspy.md)
 + JetBrains dotPeek
+
+
 
 
 

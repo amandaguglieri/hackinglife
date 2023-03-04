@@ -40,3 +40,20 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
     - [Enumerate possible exploits with "Linux Exploit Suggester" tool](linux-exploit-suggester.md).
         
 
+
+## Basic commands for reconnaissance
+
+Some basic commands once you have gained access to a Linux machine:
+
+```bash
+whoami
+pwd
+id
+uname -a
+lsb_release -a
+```
+
+
+| System vulnerability  | Exploit |
+| ---------------------- | ------- |
+| Ubuntu 16.04 LTS |  [Exploit 39772](https://www.exploit-db.com/exploits/39772) | 

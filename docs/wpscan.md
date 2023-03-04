@@ -53,6 +53,9 @@ wpscan --url https://target.tld/ --plugins-detection passive
 #	dbe (Db exports)
 # 	u (User IDs range. e.g: u1-5)
 #	m (Media IDs range. e.g m1-15)
+
+# Ignore HTTPS Certificate
+--disable-tls-checks
 ```
 
 ## Examples from labs:
