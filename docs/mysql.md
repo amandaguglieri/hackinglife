@@ -62,3 +62,15 @@ SELECT * FROM oficina JOIN persona ON persona.id=oficina.user_id;
 # UNION query. This means, for an attack, that the number of columns has to be the same
 SELECT * FROM oficina UNION SELECT * from persona;
 ```
+
+
+## Enumeration queries 
+
+```mysql
+# Show current user
+current_user()
+user()
+
+# Show current database
+database()
+```

