@@ -28,6 +28,12 @@ DROP DATABASE nameofdatabase;
 # Select a database
 USE nameofdatabase;
 
+# Show tablesç
+SHOW tables;
+
+# Dump content from nameOftable
+SELECT * FROM NameOfTable
+
 # Create a table with some columns in the previously selected database
 CREATE TABLE person(nombre VARCHAR(255), edad INT, id INT);
 
@@ -44,7 +50,7 @@ INSERT INTO persona VALUES("alvaro", 54, 1);
 ## Basic queries 
 
 ```mysql
-# Select all rows from table
+# Show all rows from table
 SELECT * FROM persona
 
 # Select a row from a table filtering by the value of a given column

@@ -30,7 +30,7 @@ SELECT DB_NAME();
 SELECT name FROM master..syslogins
 
 # Get a list of users that are sysadmins
- SELECT name FROM master..syslogins WHERE sysadmin = 1;
+SELECT name FROM master..syslogins WHERE sysadmin = 1;
 
 # And to make sure: 
 SELECT is_srvrolemember(‘sysadmin’); 

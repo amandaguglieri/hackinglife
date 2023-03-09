@@ -1,4 +1,9 @@
-
+---
+title: weevely - PHP webshell backdoor generator
+draft: false
+TableOfContents: true
+tag: pentesting, web pentesting, enumeration
+---
 
 
 # weevely
@@ -6,11 +11,16 @@
 Weevely is **a stealth PHP web shell that simulate telnet-like connection**. It is an essential tool for web application post exploitation, and can be used as stealth backdoor or as a web shell to manage legit web accounts, even free hosted ones.
 
 ```bash
-# Run terminal to the target
- weevely <URL> <password> [cmd]
 
 # Generate backdoor agent
 weevely generate <password> <path/to/save/your/phpBackdoorNamefile.php>
+#generate is for generating a backdoor
+# password to access the file
+
+# Then, you upload the file into the victim's server and use weevely to connect
+# Run terminal to the target
+ weevely <URL> <password> [cmd]
+
 
 # Load session file
 weevely session <path>

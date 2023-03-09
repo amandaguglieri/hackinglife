@@ -85,7 +85,7 @@ nmap -sn -iL 10.0.2.1 hosttoscanlist.txt
 nmap -sL 10.0.2.1  
 
 # Full scanner
-nmap -sC -sV -p-10.0.2.1  
+nmap -sC -sV -p- 10.0.2.1  
 
 
 # UDP quick
