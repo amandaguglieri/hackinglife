@@ -15,6 +15,8 @@ TableOfContents: true
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
+    - [Common vulnerabilities](tca-common-vulnerabilities.md)
+
 
 ## What we will be doing
 

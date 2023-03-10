@@ -15,6 +15,7 @@ TableOfContents: true
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
+    - [Common vulnerabilities](tca-common-vulnerabilities.md)
 
 
 
@@ -147,9 +148,7 @@ And now we are ... raymond!!!
 
 Application logs are an example of side channel data leaks. Developers offen use logs for debugging purposes during development. 
 
-**Where can you find those files?**
-
-For example in Console logs. Open the command prompt and run the vulnerable thick application this way:
+**Where can you find those files?** For example in Console logs. Open the command prompt and run the vulnerable thick application this way:
 
 ```
 dvta.exe > C:/Users/admin/Desktop/dvta_logs.txt
@@ -165,7 +164,7 @@ dvta.exe >> C:/Users/admin/Desktop/dvta_logs.txt
 
 Now, login into the app as a regular user and browse around. 
 
-Now open the file with the logs of the application and, if you are lucky and debug mode is still on, you will be able to see some stuff such as SQL queries, decrypted database passwords, users, temp location of the ftp file...
+Open the file with the logs of the application and, if you are lucky and debug mode is still on, you will be able to see some stuff such as SQL queries, decrypted database passwords, users, temp location of the ftp file...
 
 ![graphic](../img/tca-52.png)
 
@@ -280,7 +279,9 @@ ps
 migrate <ID>
 ```
 
+
 ## How to connect to a database after getting the credentials
+
 
 ![graphic](../img/tca-49.png)
 

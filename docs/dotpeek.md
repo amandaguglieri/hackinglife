@@ -6,7 +6,7 @@ TableOfContents: true
 ---
 
 
-# dotPeek
+# dotPeek - A tool for decompiling
 
 dotPeek is a tool by JetBrains.
 

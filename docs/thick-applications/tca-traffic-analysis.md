@@ -15,10 +15,10 @@ TableOfContents: true
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
+    - [Common vulnerabilities](tca-common-vulnerabilities.md)
 
 
 ## Tools needed
-
 
 - [BurpSuite](../burpsuite.md)
 - [Echo mirage](../echo-mirage.md), very old and not maintained.
@@ -58,9 +58,9 @@ Also, modifying the payload you will be tampering the request.
 
 ## Traffic monitoring with mitm_relay + Burpsuite
 
-In DVTA we will configure the server to the IP of the local machine. In my lab set up my IP was 10.0.2.15.
+In DVTA we will configure the server to the IP of the local machine. In my lab setup, my IP was 10.0.2.15.
 
-In FTP, we will configure the listening port to 2111. Also we will disable IP check for this lab setup to work.
+In FTP, we will configure the listening port to 2111. Also, we will disable IP check for this lab setup to work.
 
 From [https://github.com/jrmdev/mitm_relay](https://github.com/jrmdev/mitm_relay):
 
@@ -73,11 +73,11 @@ This is what we're doing:
 
 **1.** DVTA application sends traffic to port 21, so to intercept it we configure MITM_relay to be listening on port 21.
 
-**2.** mitm_relay encapsulates the application traffic )no matter the protocol, into HTTP protocol so BurpSuite can read it
+**2.** mitm_relay encapsulates the application traffic (no matter the protocol) into HTTP protocol so BurpSuite can read it.
 
 **3.** Burp Suite will read the traffic. And we can tamper here our code.
 
-**4.** mitm_relay will "unfunnel" the traffic from the HTPP protocol into the raw one
+**4.** mitm_relay will "unfunnel" the traffic from the HTPP protocol into the raw one.
 
 **5.** In a lab setup FTP server will be in the same network, so to not get in conflict with mitm_relay we will modify FTP listen port to 2111. In real life this change is not necessary
 
@@ -90,6 +90,7 @@ python mitm_relay.py -l 0.0.0.0 -r tcp:21:10.0.2.15:2111 -p 127.0.0.1:8080
 # -r relay configuration: <protocol>:<listeningPort>:<IPofDestinationserver>:<listeningPortonDestinationServer>
 # -p Proxy configuration: <IPofProxy>:<portOfProxy> 
 ```
+
 
 ![graphic](../img/tca-36.png)
 

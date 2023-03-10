@@ -15,6 +15,8 @@ TableOfContents: true
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
+    - [Common vulnerabilities](tca-common-vulnerabilities.md)
+
 
 
 ## Reversing .NET applications
@@ -56,7 +58,7 @@ We will try to decompile the app using dotPeek to decrypt the database connectio
 ```
 
 
-(The config file was  DVTA.exe.Config, localted in the same directory as the app).
+(The config file was  DVTA.exe.Config, located in the same directory as the app).
 
 We will use dotpeek + Visual Studio to understand the logic under that connection.
 
@@ -146,7 +148,7 @@ using System.Security.Cryptography;
 Also, it was needed to rename the .exe output file in the Main() function like this
 
 ```
-# what is said
+# what it said
   Application.Run(new Form1());
 # what it needed to say to match to my code
   Application.Run(new Decrypt());
@@ -164,7 +166,7 @@ Also, it was needed to rename the .exe output file in the Main() function like t
 
 ![graphic](../img/tca-61.png)
 
-**3.** Locate the function decryptPassword(). That's the one we would love to run. For that locate where it is called from. Add a Breakpoint there. Run the code. YOu will be asked about which executable to run (select DVTA.exe). After that the code will be executed up to the breakpoint. Enter credentials and see in the Notification area how variables are being called.
+**3.** Locate the function decryptPassword(). That's the one we would love to run. For that locate where it is called from. Add a Breakpoint there. Run the code. You will be asked about which executable to run (select DVTA.exe). After that the code will be executed up to the breakpoint. Enter credentials and see in the Notification area how variables are being called.
 
 ![graphic](../img/tca-62.png)
 
@@ -175,4 +177,89 @@ Eventually, you will see the decrypted connection string in those variables. You
 
 ## Using ILSpy + Reflexil to patch applications
 
-Reflexil 
+
+### ILSpy Setup
+
+Repository: [https://github.com/icsharpcode/ILSpy/releases](https://github.com/icsharpcode/ILSpy/releases)
+
+Requirements: .NET 6.0. Download zip to tools. Place the file ILSpy_binaries_8.0.0.7246-preview3.zip into the tool folder and extract files. 
+
+### Setup Reflexil plugin in ILSpy
+
+**1.** Download from: https://github.com/sailro/Reflexil/releases
+
+**2.** Place the file reflexil.for.ILSpy.2.7.bin into tools and extract files. 
+
+**3.** Enter the Reflexil folder and copy the .dll file Reflexil.ILSpy.Plugin.dll. 
+
+**4.** Place it into ILSpy directory. Now the plugin is installed.
+
+
+### Patching with ILSpy + Reflexil
+
+One interesting thing about ILSpy (different from other tools) is that you can see code in 3 modes: IL, C# and the combined mode, C# + IL. This last mode comes in hand to be able to interpretate much better what the code is about.
+
+**1.** Open DVTA app from ILSpy and locate this code:
+
+![code](../img/tca-64.png)
+
+Access to the admin pannel is decided with an IF statement and a integer variable set to 0/1. We will modify this value using ILSpy + Reflexil and patch again the application.
+
+**2.** Open Reflexil plugin:
+
+![code](../img/tca-65.png)
+
+
+**3.** In the Reflexil pannel, look for the specific instruction (the one that moves to the pile the value 1) and change the value to 0. 
+
+![code](../img/tca-66.png)
+
+
+**4.** Save the changes in your DVTA application with a different name:
+
+![code](../img/tca-67.png)
+
+
+**5.** When opening the new saved application, you will access admin pannel even if you login with normal user credentials.
+
+![code](../img/tca-68.png)
+
+
+### Patching with ilasm and ldasm
+
+ilasm (IL assembler) and ldasm (il disasembler) are tools provided by Microsoft in Visual Studio.
+
+We will use ILDASM to disasembler the DVTA application
+
+```
+C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\ildasm.exe
+```
+
+And ILASM to assemble again the application:
+
+```
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\ilasm.exe
+```
+
+**1.** Open DVTA.exe with ILDASM.exe from command line:
+
+![code](../img/tca-69.png)
+
+
+**2.** Dump the folder. FILES> Dump
+
+![code](../img/tca-70.png)
+
+**3.** Save that dumped code (which will be IL) into a folder. Close the ILDASM application. The folder generated contains the IL code. There is an specific file called DVTA.il
+
+**4.** Open DVTA.il in a text editor and modify the instruction you want to modify. In our case we will change "ldc.i4.1" to "ldc.i4.0".
+
+![code](../img/tca-71.png)
+
+**5.** From command line, we will use ILASM to assemble that DVTA.il file into a new application
+
+```
+cd C:\Windows\Microsoft.NET\Framework\v4.0.30319\
+.\ilasm.exe C:\User\lala\Desktop\RE\DVTA.il
+```
+

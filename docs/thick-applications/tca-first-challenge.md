@@ -15,6 +15,8 @@ TableOfContents: true
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
+    - [Common vulnerabilities](tca-common-vulnerabilities.md)
+
 
 One thing is still missing after the [Basic lab setup](tca-basic-lab-setup.md): launching the application and making sure that it works. If we proceed, sooner than later we will see that one thing is left to be done before starting to use DVTA app: **Setting up the server in the vulnerable app (DVTA)**.
 
