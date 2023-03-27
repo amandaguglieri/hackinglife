@@ -160,3 +160,21 @@ $acl.SetAccessRule($rule)
 Set-ACL “C:\Users\Public\Desktop” $acl
 ```
 
+### How to uninstall winzip from powershell line of command
+
+```powershell
+# Show all software installed:
+Get-WmiObject -Class win32_product
+
+# Find winzip object
+Get-WmiObject -Class win32_product | where { $_.Name -like "*Winzip*"}
+
+# Create a variable for  the object
+$wzip = Get-WmiObject -Class win32_product | where { $_.Name -like "*Winzip*"}
+
+# Uninstall it:
+msiexec /x  $wzip.localpackage /passive
+
+```
+
+This will start un-installation of Winzip and will show only the Progress bar only {because we are using msiexex’s /passive switch”

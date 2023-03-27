@@ -7,15 +7,16 @@ TableOfContents: true
 
 # Attacking thick clients applications: Data storage issues
 
-??? abstract "Open to see the general index of the course"
-    - [Introduction](tca-introduction.md)
-    - [Basic lab setup](tca-basic-lab-setup.md)
-    - [First challenge: enabling a button](tca-first-challenge.md)
+!!! abstract "General index of the course"
+    - [Tools for pentesting thick client applications](tools-for-thick-apps.md).
+    - [Introduction](tca-introduction.md).
+    - [Basic lab setup](tca-basic-lab-setup.md).
+    - [First challenge: enabling a button](tca-first-challenge.md).
     - [Information gathering phase](tca-information-gathering-phase.md).
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
-    - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
-    - [Common vulnerabilities](tca-common-vulnerabilities.md)
+    - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
+    - [Common vulnerabilities](tca-common-vulnerabilities.md).
 
 
 
@@ -46,7 +47,7 @@ We know the FTP conection is done in the Admin screen, so we open the applicatio
 ### regshot
 
 
-**1.**  Run  regshot version according to your thick-app (84 or 64 v).
+**1.**  Run [regshot](../regshot.md) version according to your thick-app (84 or 64 v).
 
 **2.** Click on "First shot". It will make a "shot" of the existing registry entries.
 
@@ -63,7 +64,7 @@ We know the FTP conection is done in the Admin screen, so we open the applicatio
 
 ![graphic](../img/tca-43.png)
 
-An HTM file will be generated and you will see the registry entries:
+An HTML file will be generated and you will see the registry entries:
 
 ![graphic](../img/tca-44.png)
 
@@ -77,11 +78,12 @@ HKU\S-1-5-21-1067632574-3426529128-2637205584-1000\dvta\isLoggedIn: "true"
 ![graphic](../img/tca-45.png)
 
 
-## 3. Database conection strings in memory
+## 3. Database connection strings in memory
 
-When doing a conection to database, that string that does it may be: 
+When doing a connection to database, that string that does it may be: 
+
 - in clear text 
-- or enclypted.
+- or encrypted.
 
 If encrypted, it 's still possible to find it in memory. If we can dump the memory of the process we should be able to find the clear text conection string  in memory. 
 

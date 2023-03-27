@@ -7,15 +7,16 @@ TableOfContents: true
 
 # Reversing and patching thick clients applications
 
-??? abstract "General index of the course"
-    - [Introduction](tca-introduction.md)
-    - [Basic lab setup](tca-basic-lab-setup.md)
-    - [First challenge: enabling a button](tca-first-challenge.md)
+!!! abstract "General index of the course"
+    - [Tools for pentesting thick client applications](tools-for-thick-apps.md).
+    - [Introduction](tca-introduction.md).
+    - [Basic lab setup](tca-basic-lab-setup.md).
+    - [First challenge: enabling a button](tca-first-challenge.md).
     - [Information gathering phase](tca-information-gathering-phase.md).
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
-    - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
-    - [Common vulnerabilities](tca-common-vulnerabilities.md)
+    - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
+    - [Common vulnerabilities](tca-common-vulnerabilities.md).
 
 
 
@@ -152,7 +153,7 @@ Also, it was needed to rename the .exe output file in the Main() function like t
   Application.Run(new Form1());
 # what it needed to say to match to my code
   Application.Run(new Decrypt());
-  ```
+```
 
 
 
@@ -225,7 +226,7 @@ Access to the admin pannel is decided with an IF statement and a integer variabl
 ![code](../img/tca-68.png)
 
 
-### Patching with ilasm and ldasm
+## Using ilasm and ldasm to patch applications
 
 ilasm (IL assembler) and ldasm (il disasembler) are tools provided by Microsoft in Visual Studio.
 

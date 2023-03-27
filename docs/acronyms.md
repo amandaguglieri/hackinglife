@@ -5,6 +5,7 @@ draft: false
 TableOfContents: true
 ---
 
+
 # Acronyms
 
 ## A
@@ -60,7 +61,8 @@ TableOfContents: true
 
 | Acronym | Expression |
 | ------- | ---------- |
-|   |   |
+| IGA | Identity Governance and Administration |
+| ILM  |  Identity Lifecycle Management  |
 
 ## J
 
@@ -114,14 +116,14 @@ TableOfContents: true
 
 | Acronym | Expression |
 | ------- | ---------- |
-|   |   |
+| RBAC   | Role Based Access Control  |
 
 ## S
 
 | Acronym | Expression |
 | ------- | ---------- |
 | SOAP   | Simple Object Access Protocol  |
-|   |   |
+| SCIM  |  System for Cross-domain Identity Management is a standard for automating the exchange of user identity information between service provider and identity providers. It helps with automating functions like provisioning or deprovisioning of users identities on applications integrated with the identity provider.  |
 
 ## T
 

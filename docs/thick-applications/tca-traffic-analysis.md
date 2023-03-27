@@ -7,15 +7,16 @@ TableOfContents: true
 
 # Traffic analysis - Thick client Applications 
 
-??? abstract "Open to see the general index of the course"
-    - [Introduction](tca-introduction.md)
-    - [Basic lab setup](tca-basic-lab-setup.md)
-    - [First challenge: enabling a button](tca-first-challenge.md)
+!!! abstract "General index of the course"
+    - [Tools for pentesting thick client applications](tools-for-thick-apps.md).
+    - [Introduction](tca-introduction.md).
+    - [Basic lab setup](tca-basic-lab-setup.md).
+    - [First challenge: enabling a button](tca-first-challenge.md).
     - [Information gathering phase](tca-information-gathering-phase.md).
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
-    - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
-    - [Common vulnerabilities](tca-common-vulnerabilities.md)
+    - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
+    - [Common vulnerabilities](tca-common-vulnerabilities.md).
 
 
 ## Tools needed

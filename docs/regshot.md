@@ -16,7 +16,7 @@ Download from: https://sourceforge.net/projects/regshot/
 
 ## Usage
 
-In the course [Pentesting thick clients applications](pentesting-thick-applications.md).
+In the course  [Pentesting thick clients applications](thick-applications/tca-introduction.md).
 
 
 

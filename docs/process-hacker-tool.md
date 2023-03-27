@@ -9,7 +9,7 @@ TableOfContents: true
 
 ## Usage
 
-In the course [Pentesting thick clients applications](pentesting-thick-applications.md).
+In the course [Pentesting thick clients applications](thick-applications/tca-introduction.md).
 
 We will be using the portable version.
 

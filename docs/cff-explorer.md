@@ -14,4 +14,4 @@ Created by Erik Pistelli, a freeware suite of tools including a PE editor called
 
 ## Installation
 
-Download from [Explorer Suite – NTCore](https://ntcore.com/?page_id=388)]
+Download from [Explorer Suite – NTCore](https://ntcore.com/?page_id=388).

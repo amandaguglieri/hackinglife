@@ -7,23 +7,28 @@ TableOfContents: true
 
 # Information gathering phase - Thick client Applications 
 
-??? abstract "Open to see the general index of the course"
-    - [Introduction](tca-introduction.md)
-    - [Basic lab setup](tca-basic-lab-setup.md)
-    - [First challenge: enabling a button](tca-first-challenge.md)
+!!! abstract "General index of the course"
+    - [Tools for pentesting thick client applications](tools-for-thick-apps.md).
+    - [Introduction](tca-introduction.md).
+    - [Basic lab setup](tca-basic-lab-setup.md).
+    - [First challenge: enabling a button](tca-first-challenge.md).
     - [Information gathering phase](tca-information-gathering-phase.md).
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
-    - [Reversing and patching thick clients applications](tca-reversing-and-patching.md)
-    - [Common vulnerabilities](tca-common-vulnerabilities.md)
+    - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
+    - [Common vulnerabilities](tca-common-vulnerabilities.md).
 
 
 ## What we will be doing
 
 **1.** Understand the functionality of the application.
+
 **2.** Architecture diagram from the client.
+
 **3.** Network communications in the app.
+
 **4.** Files that are being accessed by the client.
+
 **5.** Interesting files within the application directory.
 
 Tools:  [CFF explorer](../cff-explorer.md), wireshark, and [sysInternalsSuite](../sys-internals-suite.md).
