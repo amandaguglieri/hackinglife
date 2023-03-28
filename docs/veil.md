@@ -39,10 +39,10 @@ Reading list:
 
 * https://www.zonasystem.com/2020/07/shellter-veil-evasion-evasion-de-antivirus-ocultando-shellcodes-de-binarios.html
 * https://www.hackingloops.com/veil-evasion-virustotal/---
-title: BeEF - The browser exploitation framework project
-author: amandaguglieri
-draft: false
-TableOfContents: true
-tag: pentesting, web pentesting
----
 
+
+One nice thing about veil is that it provides a metasploit RC file, meaning that in order to launch the multihandler you just need to run:
+
+```bash
+msfconsole -r path/to/metasploitRCfile
+```

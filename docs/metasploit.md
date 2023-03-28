@@ -127,6 +127,9 @@ msf> sessions
 
 # Switch to session number n (Watch out, prompt is included)
 msf> sessions -i <n>  
+
+# Kill all sessions (Watch out, prompt is included)
+msf> sessions -K  
 ```
    
 
@@ -201,8 +204,6 @@ migrate -N lsass.exe
 
 # Get a windows shell
 execute -f cmd.exe -i -H
-
-
 ```
   
 ## metasploit modules
@@ -237,3 +238,15 @@ It upgrades your shell to a meterpreter
 
 This module provides a SOCKS proxy server that uses the builtin Metasploit routing to relay connections.
 
+
+### exploit/windows/fileformat/adobe_pdf_embedded_exe
+
+And also exploit/windows/fileformat/adobe_pdf_embedded_exe_nojs To include malware into an adobe pdf
+
+### Integration of metasploit with veil
+
+One nice thing about veil is that it provides a metasploit RC file, meaning that in order to launch the multihandler you just need to run:
+
+```bash
+msfconsole -r path/to/metasploitRCfile
+```

@@ -15,16 +15,6 @@ TableOfContents: true
 
 ## Commands
 
-### ss
-Sockets statistic. It can be used to check which ports are listening locally on a given machine.
-
-```bash
-ss -ltn
-#-l: Display only listening sockets.
-#-t: Display TCP sockets.
-#-n: Do not try to resolve service name.
-```
-
 
 ### lsb_release
 
@@ -37,3 +27,20 @@ lsb_release -a
  
 
 
+### ss
+Sockets statistic. It can be used to check which ports are listening locally on a given machine.
+
+```bash
+ss -ltn
+#-l: Display only listening sockets.
+#-t: Display TCP sockets.
+#-n: Do not try to resolve service name.
+```
+
+### netstat
+
+Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships.
+
+```bash
+netstat -tnlp
+```
