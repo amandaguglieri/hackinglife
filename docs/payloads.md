@@ -79,4 +79,6 @@ cd /usr/share/metasploit-framework/tools/exploit/
 
 ## Creating malware in a Firefox addon
 
-Use the metasploit module: exploit/multi/browser/firefox_xpi_bootstrapped_addon
+Use the metasploit module to generate the addon: exploit/multi/browser/firefox_xpi_bootstrapped_addon
+
+It will be served from SRVHOST:SRVPORT/URIPATH. This URL you can serve it from a phishing email.

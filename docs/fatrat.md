@@ -1,4 +1,9 @@
-
+---
+title: FatRat
+author: amandaguglieri
+draft: false
+TableOfContents: true
+---
 
 # FatRat
 
