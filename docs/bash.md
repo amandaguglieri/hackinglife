@@ -9,6 +9,7 @@ TableOfContents: true
 
 ## Shortcuts
 
+
 +Delete last word CTRL-W
 +Fill out the next word that appears in gray: CTRL ->
 
@@ -25,7 +26,7 @@ ss -ltn
 ```
 
 
-lsb_release
+### lsb_release
 
 Print distribution-specific information
 

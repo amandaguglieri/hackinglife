@@ -49,7 +49,7 @@ Our goal can be to spawn a Windows command shell and pass in a string for execut
 
 Because malicious users sometimes attempt to elevate their privileges by using xp_cmdshell, xp_cmdshell is disabled by default. But we can use sp_configure or Policy Based Management to enable it. 
 
-**sp_configure** displays or changes global configuration settings for the current settings. This is how you mmay take advantage of it:
+**sp_configure** displays or changes global configuration settings for the current settings. This is how you may take advantage of it:
 
 ```msSQL
 # To allow advanced options to be changed.   

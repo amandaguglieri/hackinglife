@@ -49,7 +49,7 @@ tag: pentesting, thick client apps
 ### Spot hard coded credentials
 
 + Strings from  [sysInternalsSuite](../sys-internals-suite.md). It's similar to the command "strings" in bash. It displays all the human readable strings in a binary.
-+ [dnspy](../dnspy.md) can be used to spot functions containing hard coded credentials (for conections,...).
++ [dnspy](../dnspy.md) can be used to spot functions containing hard coded credentials (for connections,...).
 
 ### Log analysis
 
@@ -73,7 +73,7 @@ Open the file with the logs of the application and, if you are lucky and debug m
 
 ### Check the memory
 
-[Process Hacker tool](../thick-applications/tca-attacking-thick-clients-applications/#3-database-connection-strings-in-memory) During a  a connection to database the code  that does it may be in clear text or encrypted. If encrypted, it's still possible to find it in memory. Process Hacker tool dumps the memory of the process so we might find the clear text conection string  in memory.
+[Process Hacker tool](../thick-applications/tca-attacking-thick-clients-applications/#3-database-connection-strings-in-memory) During a  a connection to database the code  that does it may be in clear text or encrypted. If encrypted, it's still possible to find it in memory. Process Hacker tool dumps the memory of the process so we might find the clear text connection string  in memory.
 
 ### Scan the application
 
@@ -84,7 +84,7 @@ Open the file with the logs of the application and, if you are lucky and debug m
 
 ### DLL Hickjacking
 
-[Step by step](tca-attacking-thick-clients-applications/#how-is-dll-hijacking-perform). 
+[Step by step](tca-attacking-thick-clients-applications.md#how-is-dll-hijacking-perform). 
 
 **1.** Locate interesting DLL files with ProcessMonitor (or ProcMon).
 

