@@ -1,12 +1,12 @@
 ---
-title: python
+title: Installing python
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag:
+tag: pentesting, python
 ---
 
-# python
+# Installing python
 
 
 ## Installing python 3.8 on Ubuntu 20.04.5
@@ -63,3 +63,23 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 3
 sudo update-alternatives --config python
 ```
 
+## Installing pip
+
+```bash
+python3 -m pip install pip
+```
+
+ If you get error: externally-managed-environment, then the solution is create an environment. As the message explains, _**this is actually not an issue with Python itself**_, but rather your Linux distribution (Kali, Debian, etc.) implementing a deliberate policy to ensure you don't break your operating system and system packages by using `pip` (or Poetry, Hatch, PDM or another non-OS package manager) outside the protection of a virtual environment.
+
+## Creating a virtual environment
+
+```
+python3 -m venv <DIR>
+source <DIR>/bin/activate
+```
+
+Now you can activate or deactive the virtual environment with:
+
+```
+<DIR>\Scripts\activate
+```
