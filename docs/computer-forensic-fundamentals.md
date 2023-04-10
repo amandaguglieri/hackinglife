@@ -1,9 +1,11 @@
 ---
-title: File systems 
+title: Computer Forensic Fundamentals
 author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
+
+# Computer Forensic Fundamentals
 
 ## MBR
 

@@ -1,16 +1,18 @@
 ---
-title: Coding a low level data exfiltration
+title: Coding a low level data exfiltration - TCP connection
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tag: pentesting, python
 ---
 
-# Coding a low level data exfiltration
+# Coding a low level data exfiltration  - TCP connection
 
 From course: Python For Offensive PenTest: A Complete Practical Course
 
 ## Client
+
+To be run on victim's computer.
 
 ```python
 # Python For Offensive PenTest: A Complete Practical Course - All rights reserved 
@@ -20,7 +22,7 @@ import subprocess
 import os
 
 
-# In the transfer function, we first check if the file exisits in the first place, if not we will notify the attacker
+# In the transfer function, we first check if the file exists in the first place, if not we will notify the attacker
 # otherwise, we will create a loop where each time we iterate we will read 1 KB of the file and send it, since the
 # server has no idea about the end of the file we add a tag called 'DONE' to address this issue, finally we close the file
 def transfer(s, path):
@@ -66,6 +68,8 @@ main()
 ```
 
 ### Server 
+
+To be run on attacker's computer.
 
 ```python
 # Python For Offensive PenTest: A Complete Practical Course - All rights reserved 

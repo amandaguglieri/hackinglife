@@ -14,6 +14,7 @@ From eJPT study module + the book Networking computers.
 
 ### Client side
 
+To be run on victim's computer.
 ```python
 from socket import *
 serverName = "servername or ip"
@@ -57,6 +58,8 @@ From the course: Python For Offensive PenTest: A Complete Practical
 
 ### Client side
 
+To be run on victim's computer.
+
 ```python
 # Python For Offensive PenTest: A Complete Practical Course - All rights reserved 
 # Follow me on LinkedIn  https://jo.linkedin.com/in/python2
@@ -88,6 +91,8 @@ main()
 ```
 
 ### Server side
+
+To be run on attacker's computer.
 
 ```python
 # Python For Offensive PenTest: A Complete Practical Course - All rights reserved 

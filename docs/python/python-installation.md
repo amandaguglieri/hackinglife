@@ -71,15 +71,22 @@ python3 -m pip install pip
 
  If you get error: externally-managed-environment, then the solution is create an environment. As the message explains, _**this is actually not an issue with Python itself**_, but rather your Linux distribution (Kali, Debian, etc.) implementing a deliberate policy to ensure you don't break your operating system and system packages by using `pip` (or Poetry, Hatch, PDM or another non-OS package manager) outside the protection of a virtual environment.
 
-## Creating a virtual environment
+## Creating a virtual environment with venv
 
 ```
 python3 -m venv <DIR>
 source <DIR>/bin/activate
 ```
 
-Now you can activate or deactive the virtual environment with:
+Now you can activate or deactivate the virtual environment with:
 
 ```
 <DIR>\Scripts\activate
+```
+
+
+## Creating a virtual environment with mkvirtualenv
+
+```bash
+mkvirtualenv nameOfEnv
 ```
