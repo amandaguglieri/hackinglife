@@ -52,3 +52,14 @@ Let's how it's decrypted:
 
 
 Software based encryption: uses software tools to encrypt data: bitlocker, windows EFS, Veracrypt, 7zip.
+
+
+## Cipher block chaining (CBC)
+
+Source: [wikipedia](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation)
+
+![cbc mechanism](img/cbc-encryption.png)
+
+
+![cbc mechanism](img/cbc-decryption.png)
+
