@@ -3,7 +3,12 @@ title: Coding a DDNS aware shell
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - ddns
+  - reverse shell
 ---
 
 # Coding a DDNS aware shell

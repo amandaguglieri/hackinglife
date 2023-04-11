@@ -1,8 +1,11 @@
 ---
-title: "23 telnet"
+title: 23 telnet
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - telnet
+  - port 23
 ---
 
 # 23 telnet

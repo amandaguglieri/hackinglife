@@ -3,6 +3,9 @@ title: "5432 postgresql"
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - postgresql
+  - port 5432
 ---
 
 # 5432 postgreSQL

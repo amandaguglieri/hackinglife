@@ -3,6 +3,13 @@ title: TCP reverse shell with RSA encryption
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
+  - encryption
+  - rsa
 ---
 
 

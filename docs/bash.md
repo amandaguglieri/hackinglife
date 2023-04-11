@@ -3,6 +3,8 @@ title: "bash"
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - bash
 ---
 
 # Bash

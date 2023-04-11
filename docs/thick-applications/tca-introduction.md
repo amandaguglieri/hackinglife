@@ -3,6 +3,9 @@ title: Pentesting Thick client Applications - Introduction
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - thick client applications
+  - thick client applications pentesting
 ---
 
 # Introduction to Pentesting Thick Clients Applications

@@ -3,6 +3,9 @@ title: 6379 redis
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - redis
+  - port 6379
 ---
 
 # 6379 redis

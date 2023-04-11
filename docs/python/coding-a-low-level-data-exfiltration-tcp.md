@@ -3,7 +3,11 @@ title: Coding a low level data exfiltration - TCP connection
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
 ---
 
 # Coding a low level data exfiltration  - TCP connection

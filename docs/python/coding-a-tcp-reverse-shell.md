@@ -3,7 +3,11 @@ title: Coding a TCP connection and d reverse shell
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
 ---
 
 # Coding a TCP connection and a reverse shell

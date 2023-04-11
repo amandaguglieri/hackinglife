@@ -3,6 +3,14 @@ title: Bypassing Next Generation Firewalls
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - bypassing techniques
+  - firewall
+  - bypassing firewall
+  - next generation firewalls
 ---
 
 # Bypassing Next Generation Firewalls

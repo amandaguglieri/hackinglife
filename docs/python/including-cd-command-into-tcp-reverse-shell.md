@@ -3,7 +3,11 @@ title: Including cd command into TCP reverse shell
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
 ---
 
 # Including cd command into TCP reverse shell

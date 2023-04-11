@@ -3,7 +3,10 @@ title: Installing python
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
 ---
 
 # Installing python

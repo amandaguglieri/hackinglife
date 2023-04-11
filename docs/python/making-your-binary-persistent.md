@@ -3,7 +3,13 @@ title: Making your binary persistent
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
+  - persistence
+  - registry
 ---
 
 # Making your binary persistent

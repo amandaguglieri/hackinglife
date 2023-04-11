@@ -3,7 +3,10 @@ title: 1433 msSQL
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting,windows,impacket
+tags:
+  - mssql
+  - port 1433
+  - impacket
 ---
 
 # 1433 msSQL

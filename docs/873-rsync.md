@@ -1,8 +1,11 @@
 ---
-title: "873 rsync"
+title: 873 rsync
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - rsync
+  - port 873
 ---
 
 # 873 rsync

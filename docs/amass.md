@@ -3,7 +3,10 @@ title: "Amass"
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting,reconnaissance,dns
+tags:
+  - dns enumeration
+  - enumeration
+  - tool
 ---
 
 # Amass

@@ -3,7 +3,10 @@ title: Linux Privilege Checker
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: pentesting, linux pentesting, privilege escalation
+tags:
+  - pentesting
+  - linux pentesting
+  - privilege escalation
 ---
 
 # Linux Privilege Checker 

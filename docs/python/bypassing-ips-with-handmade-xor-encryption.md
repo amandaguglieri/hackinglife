@@ -3,6 +3,12 @@ title: Bypassing IPS with handmade XOR Encryption
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - ips
+  - xor encryption
 ---
 
 # Bypassing IPS with handmade XOR Encryption

@@ -3,7 +3,11 @@ title: Tunning the connection attempts
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
 ---
 
 # Tunning the connection attempts

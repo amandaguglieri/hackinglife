@@ -3,6 +3,10 @@ title: First challenge - Enabling a button - Thick client Applications
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - thick client applications
+  - thick client applications pentesting
+  - dnspy
 ---
 
 # First challenge: enabling a button

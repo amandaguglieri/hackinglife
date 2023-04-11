@@ -3,7 +3,10 @@ title: Tools for pentesting thick client applications
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, thick client apps
+tags:
+  - thick client applications
+  - thick client applications pentesting
+  - tools
 ---
 
 # Tools for pentesting thick client applications

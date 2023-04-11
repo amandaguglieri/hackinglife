@@ -1,8 +1,11 @@
 ---
-title: "21 ftp"
+title: 21 ftp
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - ftp
+  - port 21
 ---
 
 # 21 ftp

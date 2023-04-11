@@ -1,4 +1,15 @@
+---
+title: Thick client Applications Pentesting Checklist 
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - thick client applications
+  - thick client applications pentesting
+  - checklist
+---
 
+# Thick client Applications Pentesting Checklist
 
 [Source](https://github.com/Hari-prasaanth/Thick-Client-Pentest-Checklist)
 

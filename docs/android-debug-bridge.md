@@ -3,7 +3,8 @@ title: Android Debug Bridge - ADB
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: mobile pentesting 
+tags:
+  - mobile pentesting 
 ---
 
 # Android Debug Bridge - ADB

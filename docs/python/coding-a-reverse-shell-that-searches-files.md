@@ -3,6 +3,11 @@ title: Coding a reverse shell that searches files
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
 ---
 
 # Coding a reverse shell that searches files

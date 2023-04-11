@@ -3,6 +3,10 @@ title: pip
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - python
+  - scripting
+  - package manager
 ---
 
 

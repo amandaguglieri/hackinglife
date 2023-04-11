@@ -3,7 +3,12 @@ title: Making a screenshot
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
+  - screenshot capturer
 ---
 
 # Making a screenshot

@@ -3,7 +3,11 @@ title: Coding an http reverse shell
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
 ---
 
 #  Coding an http reverse shell

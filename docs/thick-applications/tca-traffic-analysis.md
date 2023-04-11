@@ -3,6 +3,13 @@ title: Traffic analysis - Thick client Applications
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - thick client applications
+  - thick client applications pentesting
+  - burpsuite
+  - echo mirage
+  - mitm relay
+  - wireshark
 ---
 
 # Traffic analysis - Thick client Applications 

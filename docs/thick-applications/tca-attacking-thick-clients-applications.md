@@ -3,6 +3,15 @@ title: Attacking thick clients applications - Data storage issues
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - thick client applications
+  - thick client applications pentesting
+  - strings
+  - dnspy
+  - regshot
+  - process hacker tool
+  - sql injection
+  - dll hickjacking
 ---
 
 # Attacking thick clients applications: Data storage issues

@@ -3,6 +3,10 @@ title: "3306 mariadb mysql"
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - mariadb
+  - port 3306
+  - mysql
 ---
 
 # 3306 mariaDB - mySQL

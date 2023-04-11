@@ -3,6 +3,12 @@ title: Coding a reverse shell that scans ports
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
+  - port scanner
 ---
 
 # Coding a reverse shell that scans ports

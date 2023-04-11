@@ -3,6 +3,15 @@ title: Reversing and patching thick clients applications
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - thick client applications
+  - thick client applications pentesting
+  - dnspy
+  - dotpeek
+  - ilspy
+  - reflexil
+  - ilasm
+  - idasm
 ---
 
 # Reversing and patching thick clients applications
@@ -167,7 +176,7 @@ Also, it was needed to rename the .exe output file in the Main() function like t
 
 ![graphic](../img/tca-61.png)
 
-**3.** Locate the function decryptPassword(). That's the one we would love to run. For that locate where it is called from. Add a Breakpoint there. Run the code. You will be asked about which executable to run (select DVTA.exe). After that the code will be executed up to the breakpoint. Enter credentials and see in the Notification area how variables are being called.
+**3.** Locate the function decryptPassword(). That's the one we would love to run. For that locate where it is called from. Add a Breakpoint there. Run the code. You will be asked about which executable to run (select DVTA.exe). After that, the code will be executed up to the breakpoint. Enter credentials and see in the Notification area how variables are being called.
 
 ![graphic](../img/tca-62.png)
 

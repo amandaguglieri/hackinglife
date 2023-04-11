@@ -3,6 +3,11 @@ title: Common vulnerabilities
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - thick client applications
+  - thick client applications pentesting
+  - binscope
+  - visual code grepper
 ---
 
 # Common vulnerabilities

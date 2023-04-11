@@ -3,7 +3,11 @@ title: Coding a data exfiltration script for a http shell
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
 ---
 
 # Coding a data exfiltration script for a http shell

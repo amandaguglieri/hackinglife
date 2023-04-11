@@ -4,7 +4,8 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags: 
-  - mobilepentesting
+  - mobile pentesting
+  - tools
 ---
 
 # apktool

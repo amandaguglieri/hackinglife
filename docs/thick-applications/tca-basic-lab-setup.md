@@ -3,6 +3,10 @@ title: Basic Lab Setup - Thick client Applications
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - thick client applications
+  - thick client applications pentesting
+  - labs
 ---
 
 # Basic Lab Setup - Thick client Applications 

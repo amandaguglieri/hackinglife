@@ -3,6 +3,13 @@ title: Hickjack the Internet Explorer process to bypass an host-based firewall
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
+  - bypassing techniques
+  - host based firewall
 ---
 
 # Hickjack the Internet Explorer process to bypass an host-based firewall

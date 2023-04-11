@@ -3,6 +3,14 @@ title: TCP reverse shell with hybrid encryption AES + RSA
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - python
+  - python pentesting
+  - scripting
+  - reverse shell
+  - encryption
+  - aes
+  - rsa
 ---
 
 
