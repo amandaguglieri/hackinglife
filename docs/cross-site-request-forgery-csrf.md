@@ -3,7 +3,10 @@ title: CSRF attack - Cross-site Request Forgery
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web app pentesting, HTTP headers
+tags:
+  - web pentesting
+  - attack
+  - HTTP headers
 ---
 
 # CSRF attack - Cross-site Request Forgery

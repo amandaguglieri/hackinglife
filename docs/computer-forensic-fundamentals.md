@@ -3,6 +3,8 @@ title: Computer Forensic Fundamentals
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - forensic
 ---
 
 # Computer Forensic Fundamentals

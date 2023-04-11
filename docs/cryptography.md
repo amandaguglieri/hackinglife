@@ -3,6 +3,8 @@ title: cryptography
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - crytography
 ---
 
 # Cryptography

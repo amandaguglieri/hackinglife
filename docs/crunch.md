@@ -3,7 +3,11 @@ title: crunch - A dictionary generator
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, enumeration, dictionaries, tools
+tags:
+  - web pentesting
+  - enumeration
+  - dictionaries
+  - tools
 ---
 
 # crunch - A dictionary generator

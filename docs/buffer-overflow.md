@@ -3,6 +3,9 @@ title: Buffer Overflow attack
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - web pentesting
+  - attack
 ---
 
 # Buffer Overflow attack

@@ -6,7 +6,7 @@ TableOfContents: true
 tags:
   - dns enumeration
   - enumeration
-  - tool
+  - tools
 ---
 
 # Amass

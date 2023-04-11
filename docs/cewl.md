@@ -3,7 +3,11 @@ title: cewl - A custom dictionary generator
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, enumeration, dictionaries
+tags:
+  - web pentesting
+  - enumeration
+  - dictionaries
+  - tools
 ---
 
 # cewl - A custom dictionary generator

@@ -3,7 +3,10 @@ title: Data transfer and backdoors
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting, server, backdoors
+tags:
+  - web pentesting
+  - server
+  - backdoors
 ---
 
 # Data transfer and backdoors

@@ -3,7 +3,12 @@ title: CUPP - Common User Password Profiler
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, enumeration, tool, dictionary generator
+tags:
+  - web pentesting
+  - enumeration
+  - tools
+  - dictionary
+  - dictionary generator
 ---
 
 # CUPP - Common User Password Profiler

@@ -3,7 +3,9 @@ title: XFS attack - Cross-frame Scripting
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting
+tags:
+  - web pentesting
+  - attack
 ---
 
 # XFS attack - Cross-frame Scripting

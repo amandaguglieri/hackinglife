@@ -3,7 +3,8 @@ title: Create a Registry
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: #pentesting #privilegeescalation
+tags:
+  - privilegeescalation
 ---
 
 # Create a Registry

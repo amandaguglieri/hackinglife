@@ -5,6 +5,7 @@ draft: false
 TableOfContents: true
 tags: 
   - web pentesting
+  - attack
 ---
 
 # Captcha Replay attack

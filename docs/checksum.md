@@ -1,11 +1,10 @@
 ---
-Title: Checksum
-Author: amandaguglieri
-Collaborators:
-Date: 20221212
-Keywords: 
-Tags: 
+title: Checksum
+author: amandaguglieri
 TableOfContents: true
+tags:
+  - file integrity
+  - checksum
 ---
 
 # Checksum

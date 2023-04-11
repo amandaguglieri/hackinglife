@@ -3,7 +3,10 @@ title: BeEF - The browser exploitation framework project
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting
+tags:
+  - web pentesting
+  - phishing
+  - tools
 ---
 
 # BeEF - The browser exploitation framework project

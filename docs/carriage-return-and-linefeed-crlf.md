@@ -3,7 +3,9 @@ title: Carriage Return and Linefeed - CRLF Attack
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting
+tags:
+  - web pentesting
+  - attack
 ---
 
 # Carriage Return and Linefeed - CRLF Attack

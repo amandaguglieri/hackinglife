@@ -3,7 +3,12 @@ title: ctr.sh
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: scanning,domain,subdomain,reconnaissance,pentesting
+tags:
+  - scanning
+  - domain
+  - subdomain
+  - reconnaissance
+  - tools
 ---
 
 # ctr.sh

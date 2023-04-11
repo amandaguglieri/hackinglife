@@ -3,7 +3,10 @@ title: Dictionaries or wordlists resources
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting
+tags:
+  - web pentesting
+  - dictionary
+  - tools
 ---
 
 # Dictionaries

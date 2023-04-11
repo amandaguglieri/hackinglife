@@ -3,7 +3,10 @@ title: XSS attack - Cross-Site Scripting
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting
+tags:
+  - web pentesting
+  - attack
+  - xss
 ---
 
 # XSS attack - Cross-Site Scripting

@@ -3,6 +3,11 @@ title: Burpsuite
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - web pentesting
+  - proxy
+  - burpsuite
+  - tools
 ---
 
 # Burpsuite
