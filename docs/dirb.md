@@ -21,8 +21,8 @@ Path to default dictionary: /usr/share/dirb/wordlists/
 ## Basic commands
 
 ```bash
-dirb <HOST> -w /path/to/dictionary.txt -o results.txt
-# -w: to specify the path to the dictionary.
+dirb <HOST>  /path/to/dictionary.txt -o results.txt
+# No flag needed to specify path to dictionary.
 # -o: to print results to a file.
 # -a: agent application. In case that the app checks out this header (use it with https://useragentstring.com/pages/useragentstring.php)
 # -p: for indicating a proxy (for instance, Burp: dirb <target host or IP> -p http://127.0.0.1:8080)

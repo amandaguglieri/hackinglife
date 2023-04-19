@@ -7,6 +7,8 @@ TableOfContents: true
 
 # Remove bloatware from android phones
 
+First of all, make sure you have enabled Developer mode in your mobile. Afterward, enable "USB Debug mode" (Depuración USB in spanish). 
+ 
 **1.** Connect mobile to computer with USB cable. 
 
 **2.** Press "File Transfer" in mobile.
