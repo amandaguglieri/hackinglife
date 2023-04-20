@@ -7,6 +7,8 @@ TableOfContents: true
 
 # Remove bloatware from android phones
 
+[Android Debug Bridge - adb cheat sheet](android-debug-bridge.md).
+
 First of all, make sure you have enabled Developer mode in your mobile. Afterward, enable "USB Debug mode" (Depuración USB in spanish). 
  
 **1.** Connect mobile to computer with USB cable. 
@@ -62,7 +64,7 @@ pm disable-user app.package.name
 -   **com.miui.bugreport | com.miui.miservice**: herramientas para reportar fallos de MIUI.
 -   **com.miui.weathe2**: app del tiempo de Xiaomi.
 -   **com.xiaomi.joyose**: herramientas de analítica y publicidad.
--  **com.zhiliaoapp.musically**: TikTok
+-   **com.zhiliaoapp.musically**: TikTok
 -   **com.facebook.katana**: app de Facebook.
 -   **com.facebook.services**: servicios de Facebook.
 -   **com.facebook.system:** instalador de apps de Facebook.
@@ -283,7 +285,9 @@ pm uninstall --user 0 com.facebook.services
 pm uninstall --user 0 com.facebook.system
 pm uninstall --user 0 com.netflix.partner.activation
 
+
 # !EXPERIMENTAL STUFF!
+
 
 #GPS & Location debloat
 #Uninstalling these may break apps like Waze.
@@ -307,4 +311,5 @@ pm uninstall --user 0 com.miui.home
 #Not recommended, and not well-tested in daily usage
 #You have been warned.
 pm uninstall --user 0 com.miui.aod
+```
 

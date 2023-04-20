@@ -40,3 +40,7 @@ pm uninstall -k --user 0 com.package.name
 # Reinstall an uninstalled system app
 cmd package install-existing com.package.name
 ```
+
+## Howtos
+
+- [Remove bloatware from android device](remove-bloatware.md).
