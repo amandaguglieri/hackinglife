@@ -12,11 +12,44 @@ tags:
   - rsa
 ---
 
-
 # TCP reverse shell with RSA encryption
 
-- First, we will generate a pair of keys (private and public) on client side (victim's machine) and on server side (attacker machine).
-- 
+From course: [Python For Offensive PenTest: A Complete Practical Course](https://www.udemy.com/course/python-for-offensive-security-practical-course/).
+
+??? abstract "General index of the course"
+	- Gaining persistence shells (TCP + HTTP):
+		- [Coding a TCP connection and a reverse shell](coding-a-tcp-reverse-shell.md).
+		- [Coding a low level data exfiltration  - TCP connection](coding-a-low-level-data-exfiltration-tcp.md).
+		- [Coding an http reverse shell](coding-an-http-reverse-shell.md).
+		- [Coding a data exfiltration script for a http shell](coding-a-data-exfiltration-script-http-shell.md).
+		- [Tunning the connection attempts](tunning-the-connection-attemps.md).
+		- [Including cd command into TCP reverse shell](including-cd-command-into-tcp-reverse-shell.md).
+	- Advanced scriptable shells:
+		- [Using a Dynamic DNS instead of your bared attacker public ip](ddns-aware-shell.md).
+		- [Making your binary persistent](making-your-binary-persistent.md). 
+		- [Making a screenshot](making-a-screenshot.md). 
+		- [Coding a reverse shell that searches files](coding-a-reverse-shell-that-searches-files.md). 
+	- Techniques for bypassing filters: 
+		- [Coding a reverse shell that scans ports](coding-a-reverse-shell-that-scans-ports.md). 
+		- [Hickjack the Internet Explorer process to bypass an host-based firewall](hickjack-internet-explorer-process-to-bypass-an-host-based-firewall).
+		- [Bypassing Next Generation Firewalls](bypassing-next-generation-firewalls.md).
+		- [Bypassing IPS with handmade XOR Encryption](bypassing-ips-with-handmade-xor-encryption.md).
+	- Malware and crytography:
+		- [TCP reverse shell with AES encryption](tcp-reverse-shell-with-aes-encryption.md).
+		- [TCP reverse shell with RSA encryption](tcp-reverse-shell-with-rsa-encryption.md).
+		- [TCP reverse shell with hybrid encryption AES + RSA](tcp-reverse-shell-with-hybrid-encryption-rsa-aes.md).
+	- Password Hickjacking:
+		- [Simple keylogger in python](python-keylogger.md).
+		- [Hijacking Keepass Password Manager](hijacking-keepass.md).
+		- [Dumping saved passwords from Google Chrome](dumping-chrome-saved-passwords.md).
+		- [Man in the browser attack](man-in-the-browser-attack.md).
+		- [DNS Poisoning](dns-poisoning.md).
+	- Privilege escalation:
+		- [Weak service file permission](privilege-escalation.md).
+
+
+First, we will generate a pair of keys (private and public) on client side (victim's machine) and on server side (attacker machine).
+
 
 
 ## Gen keys
@@ -182,8 +215,8 @@ def encrypt(message):
 
 message = 'H'*500
 
-if len(message) > 470:
-    for i in range(0, len(message), 470):
+if len(message) > 470: # To check the size limitation of messages, which is 470 bites when key size is 4096 bits
+    for i in range(0, len(message), 470): # We will split the messages into chunks so it can be processed
         chunk = message[0+i:470+i]
         encrypt(chunk.encode())
 else:
@@ -207,7 +240,7 @@ def encrypt(message):
     print(encrypted_data)
     return encrypted_data
 
-message = 'H'*470
+message = 'H'*470 # Limitation on size of the clear text message is 470 bytes with a key size of 4096 bits
 encrypted_data = encrypt(message.encode())
 
 

