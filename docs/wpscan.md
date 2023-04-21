@@ -29,8 +29,9 @@ wpscan --url https://target.tld/ -eu
 
 # Enumerate a range of users 1-100
 wpscan --url https://target.tld/ --enumerate u1-100
-
-
+wpscan --url http://46.101.13.204:31822 --plugins-detection passive
+144.126.228.127:30134 
+144.126.228.127:30134 
 # Brute force attack with passwords
 wpscan --url HOST/domain -usernames admin, webadmin  --password-attack wp-login -passwords filename.txt
 # -usernames: those users that you are going to brute force
