@@ -19,6 +19,19 @@ Webshell is a script written in a language that is executed by a server. Web she
 
 Sidenote: Also, you can generate a webshell by using  msfvenom
 
+## 
+
+```bash
+#Upgrafe shell with running these commands all at once:
+
+SHELL=/bin/bash script -q /dev/null
+Ctrl-Z
+stty raw -echo
+fg
+reset
+xterm
+```
+
 
 ## python
 

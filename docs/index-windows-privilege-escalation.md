@@ -32,6 +32,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 		- Cached SAM.
 		- Configuration files: unattend.xml, SiteList.xml, web.config, vnc.ini.
 		- Logs.
+		- [Credentials in recently accessed files/executed commands](windows-privilege-escalation-history.md)
 		- Memory: mimiktenz, Process Dump (minidump).
 		- .rdp Files.
 		- Registry: HKCU\Software\USERNAME\PuTTY\Sessions, AutoLogon, VNC.

