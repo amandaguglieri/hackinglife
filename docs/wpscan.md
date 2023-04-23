@@ -30,15 +30,18 @@ wpscan --url https://target.tld/ -eu
 # Enumerate a range of users 1-100
 wpscan --url https://target.tld/ --enumerate u1-100
 wpscan --url http://46.101.13.204:31822 --plugins-detection passive
-144.126.228.127:30134 
-144.126.228.127:30134 
-# Brute force attack with passwords
+
+# Brute force attack on login page with passwords:
 wpscan --url HOST/domain -usernames admin, webadmin  --password-attack wp-login -passwords filename.txt
 # -usernames: those users that you are going to brute force
 # --password-attack: your URI target (different in the case of the WP api
 # -passwords: path/to/dictionary.txt
 
-# Enumerate pluglins on pasive mode 
+# Brute force attack on xmlrpc with passwords:
+wpscan --password-attack xmlrpc -t 20 -U username1, username2 -P PATH/TO/passwords.txt --url http://<TARGET>
+
+
+# Enumerate plugins on pasive mode 
 wpscan --url https://target.tld/ --plugins-detection passive 
 # Modes: -mixed (default), -passive or -active
 
