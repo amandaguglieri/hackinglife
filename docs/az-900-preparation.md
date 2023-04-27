@@ -327,227 +327,443 @@ Functions are a serverless technology that are best used in cases where you're c
 
 ## Azure Container Instances ACI versus Azure Kubernetes service  AKS
 
+For many organizations, containers have become the preferred way to package, deploy, and manage cloud apps. 
+
+- Azure Container Instances (ACI) is the easiest way to run a container in Azure, without the need for any VMs or other infrastructure.  You can use docker images.
+- However, if you require full container orchestration, Microsoft  recommends Azure Kubernetes Service (AKS). 
+
+### Azure Kubernetes Service (AKS)
+
+AKS simplifies the deployment of a managed Kubernetes cluster in Azure by offloading the operational overhead to Azure. Since it’s hosted, Azure handles the health monitoring and maintenance. The Kubernetes masters are managed by Azure, and you manage and maintain the agent nodes.  
+ 
+It’s important to note that AKS itself is free. You pay only for the agent nodes within your clusters, not for the masters. 
+
+You can deploy an AKS cluster using  Azure CLI, Azure Portal, Azure Powershell, and Template-driven deployment options  (ARM templates, bicep, terraform).
+
+
+## Key Azure Management Tools
+
+There are several tools at your disposal to manage Azure resources and environments. They include the 
+Azure Portal, Azure PowerShell, Azure CLI, the Azure Mobile App, and ARM templates. 
+
+
+### Azure Portal
+
+The Azure portal is a web-based user interface that you can use to access almost every feature of Azure. It can be used to visually understand and manage your Azure environment, while Azure PowerShell allows you to quickly perform one-off tasks and to script tasks as needed. Azure PowerShell is available for Windows, Linux, and Mac, and you can access it in a web browser via Azure Cloud Shell. 
+
+Azure Portal does not offer a way to automate repetitive tasks.
+
+
+### Azure CLI
+
+The Azure CLI is a command-line interface.  A cross-platform command-line program (Windows, Linux and macOs) to connect to Azure and execute administrative commands. It can be  run on
+It’s an executable program that you can use to execute commands in Bash. You can use the Azure CLI to perform every possible management task in Azure. Like Azure PowerShell, the CLI allows you to run one-off commands or you can combine them into a script and execute them together.
+
+```ps
+az vm create --resourcegroup MyResourceGroup --name MyVM01 --image UbuntLTS --generate-ssh-keys
+```
+
+
+### Azure PowerShell
+
+ Azure Powershell needs Windows Powershell run since Azure Powershell builds upon Windows Powershell with added features.
+
+```ps
+New-AzVm -ResourceGroupName "MyResourceGroup" -Name "MyVM01" -Image "UbuntLTS"
+```
+
+
+### Azure Cloud Shell
+
+Browser-based scripting environment that is accessible from Azure Portal. It requires a storage account. It allows you to choose the shell experience that suits you best.
+
+### Azure mobile app
+
+The Azure mobile app is available for iOS and Android devices. It allows you to access Azure resources when you're away from a computer. 
+
+- Access, manage, monitor Azure accounts and resources.
+- Monitor the health and status of Azure resources, check for alerts, diagnose and fix issues.
+- Stop, start, restart a web app or virtual machine.  
+- Run the Azure CLI or Azure PowerShell commands to manage Azure resources. 
+
+
+### Azure REST APIs
+
+Service endpoints that support sets of HTTP operations. CRUD access to services.
+
+
+### Azure Advisor
+
+Free services that helps you follow best practices. 
+
+### ARM templates 
+
+ARM templates allow you to declaratively describe the resources you want to use, using JSON format. The template will then create those resources in parallel. For example, need 25 VMs, all 25 VMs will be created at the same time. 
+
+
+
+
+
+
 
 
 
 ## Flashcard questions
 
-What is Cloud computing?
+**What is Cloud computing?**
+
 The delivery of computing services, such as servers, storage, databases, and networking, over the Internet to provide faster innovation, flexible resources, and economies of scale.
 
+
 **How does cloud computing lower operating costs?**
+
 By only paying for the cloud services used, rather than the capital expense of buying hardware and setting up on-site datacenters.
 
+
 **Why do organizations move to the cloud?**
+
 For cost savings, improved speed and scalability, increased productivity, better performance, reliability, and improved security.
 
 
 **What is the advantage of cloud computing's self-service and on-demand nature?**
+
 It allows for vast amounts of computing resources to be provisioned quickly, giving businesses a lot of flexibility and taking the pressure off capacity planning.
 
+
 **What does "elastically scaling" mean in cloud computing?**
+
 Delivering the right amount of IT resources, such as computing power and storage, at the right time and from the right location.
 
+
 **How does cloud computing improve productivity?**
+
 By removing the need for time-consuming IT management tasks, allowing IT teams to focus on more important business goals.
 
+
 **How does cloud computing improve performance?**
+
 By running on a worldwide network of secure datacenters that are regularly upgraded to the latest generation of efficient computing hardware, reducing network latency and offering greater economies of scale.
 
+
 **How does cloud computing improve reliability?**
+
 By making data backup, disaster recovery, and business continuity easier and less expensive through data mirroring at multiple redundant sites on the cloud provider's network.
 
+
 **How does cloud computing improve security?**
+
 By offering a broad set of policies, technologies, and controls that strengthen the overall security posture, protecting data, apps, and infrastructure from potential threats.
   
+
 **What is the main advantage of using cloud computing?**
+
 Cost savings, improved speed and scalability, increased productivity, better performance, reliability, and improved security.
 
+
 **What is the biggest difference between cloud computing and traditional IT resources?**
+
 Traditional IT resources required buying hardware and software, setting up and running on-site datacenters, and paying for electricity and IT experts. Cloud computing eliminates these expenses and provides flexible and on-demand resources.
 
+
 **What are the benefits of cloud computing services?**
+
 Faster innovation, flexible resources, and economies of scale.
 
+
 **What is the advantage of cloud computing over traditional on-site datacenters?**
+
 Cloud computing eliminates the need for hardware setup, software patching, and other time-consuming IT management tasks, allowing IT teams to focus on more important business goals.
 
+
 **What is the advantage of cloud computing over a single corporate datacenter?**
+
 Reduced network latency for applications and greater economies of scale.
 
+
 **What is the main advantage of data backup, disaster recovery, and business continuity in cloud computing?**
+
 It is easier and less expensive.
 
+
 **What is the main advantage of security in cloud computing?**
+
 Cloud providers offer a broad set of policies, technologies, and controls that strengthen the overall security posture.
 
+
 **What is the shared responsibility model in cloud computing?**
+
 The shared responsibility model in cloud computing refers to the division of responsibilities between the cloud provider and the customer in terms of security tasks and workloads.
 
+
 **What are the different types of cloud deployment?**
+
 The different types of cloud deployment are Software as a Service (SaaS), Platform as a Service (PaaS), Infrastructure as a Service (IaaS), and on-premises datacenter.
 
+
 **In which type of deployment do customers retain the most responsibilities?**
+
 In an on-premises datacenter, customers retain the most responsibilities, as they own the entire stack.
 
+
 **What responsibilities are always retained by the customer, regardless of the type of deployment?**
+
 The responsibilities retained by the customer regardless of the type of deployment are data, endpoints, account, and access management.
 
+
 **In a SaaS deployment, which party is responsible for protecting the security of the data?**
+
 In a SaaS deployment, the customer is responsible for protecting the security of the data.
 
+
 **In a PaaS deployment, who is responsible for managing and maintaining the underlying infrastructure?**
+
 In a PaaS deployment, the cloud provider is responsible for managing and maintaining the underlying infrastructure.
 
+
 **In an IaaS deployment, who is responsible for managing and maintaining the operating systems and middleware?**
+
 In an IaaS deployment, the customer is responsible for managing and maintaining the operating systems and middleware.
 
+
 **What are the three broad categories of cloud computing services?**
+
 Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS)
 
+
 **What are the benefits of migrating your organization's infrastructure to an IaaS solution?**
+
 Migrating to IaaS helps reduce maintenance of on-premises data centers, save money on hardware costs, and gain real-time business insights. It also gives you the flexibility to scale IT resources up and down with demand and quickly provision new applications.
 
+
 **Is lift-and-shift migration a common business scenario for using IaaS?**
+
 Yes. Lift-and-shift migration is a common business scenario for using IaaS. It is the fastest and least expensive method of migrating an application or workload to the cloud.
 
+
 **What is PaaS and how does it differ from IaaS?**
+
 Platform as a service (PaaS) is a complete development and deployment environment in the cloud, with resources that enable you to deliver everything from simple cloud-based apps to sophisticated, cloud-enabled enterprise applications. PaaS includes infrastructure such as servers, storage, and networking, but also middleware, development tools, business intelligence services, and more. IaaS only includes infrastructure resources.
 
+
 **How does PaaS differ from SaaS?**
+
 PaaS provides a complete development and deployment environment in the cloud, including infrastructure, middleware, development tools, and more. SaaS is a type of cloud service where users access software applications over the internet, without the need for installation or maintenance.
 
+
 ** How does SaaS work?**
+
 With SaaS, users connect to the software over the Internet, usually with a web browser. The service provider manages the hardware and software, and with the appropriate service agreement, will ensure the availability and the security of the app and your data.
 
+
 **What are some common examples of SaaS?**
+
 Common examples of SaaS are email, calendaring, and office tools (such as Microsoft Office 365).
 
 
 **What are the components of SaaS?**
+
 The components of SaaS include hosted applications/apps, development tools, database management, business analytics, operating systems, servers and storage, networking firewalls/security, and data center physical plant/building.
 
+
 ** What are the benefits of using SaaS for an organization?**
+
 SaaS provides a complete software solution that you purchase on a pay-as-you-go basis from a cloud service provider. It allows your organization to get quickly up and running with an app at minimal upfront cost.
 
   
-
 **What is a region in Azure?**
+
 A region in Azure is a geographical area on the planet that contains at least one but potentially multiple datacenters that are nearby and networked together with a low-latency network.
 
+
 **Why are regions important in Azure?**
+
 Regions are important in Azure because they provide flexibility to bring applications closer to users no matter where they are, global regions provide better scalability and redundancy, and they preserve data residency for services.
 
+
 **What are some examples of special Azure regions?**
+
 Examples of special Azure regions include US DoD Central, US Gov Virginia, US Gov Iowa, China East, and China North.
 
+
 **What are availability zones in Azure?**
+
 Availability zones in Azure are created by using one or more datacenters, and there is a minimum of three zones available within a single region.
 
+
 **What are region pairs in Azure?**
+
 Each Azure region is paired with another region within the same geography (such as US, Europe, or Asia) at least 300 miles away. This allows for the replication of resources across a geography and helps reduce the likelihood of interruptions because of events such as natural disasters, civil unrest, power outages, or physical network outages that affect both regions at once.
 
+
 **What are the advantages of region pairs in Azure?**
+
 Region pairs in Azure include automatic geo-redundant storage and prioritization of one region out of every pair in the event of an extensive Azure outage. Planned Azure updates are rolled out to paired regions one region at a time to minimize downtime and risk of application outage.
 
+
 **What is the purpose of region pairs in Azure?**
+
 The purpose of region pairs in Azure is to provide reliable services and data redundancy by replicating resources across a geography and reducing the likelihood of interruptions because of events such as natural disasters, civil unrest, power outages, or physical network outages that affect both regions at once.
 
+
 **What happens if a region in a region pair is affected by a natural disaster in Azure?**
+
 If a region in a region pair is affected by a natural disaster in Azure, services will automatically failover to the other region in its region pair.
 
+
 **How does Azure provide a high guarantee of availability?**
+
 Azure provides a high guarantee of availability by having a broadly distributed set of datacenters, creating region pairs that are directly connected and far enough apart to be isolated from regional disasters, and offering automatic geo-redundant storage and failover capabilities.
 
+
 **What is the difference between regions, geographies, and availability zones in Azure?**
+
 In Azure, regions are geographical areas on the planet that contain at least one but potentially multiple datacenters that are nearby and networked together with a low-latency network. Geographies refer to the larger geographical area that a region is located in, such as US, Europe, or Asia. Availability zones are created by using one or more datacenters and there is a minimum of three zones within a single region.
 
+
 **What is an availability zone?**
+
 Availability zones are physically separate datacenters within an Azure region that are equipped with independent power, cooling, and networking, and are connected through high-speed, private fiber-optic networks.
 
+
 **What is the purpose of availability zones?**
+
 The purpose of availability zones is to provide high availability for mission-critical applications by creating duplicate hardware environments, in case one goes down.
 
+
 **How are availability zones connected?**
+
 Availability zones are connected through high-speed, private fiber-optic networks.
 
+
 **What types of Azure services support availability zones?**
+
 VMs, managed disks, load balancers, and SQL databases support availability zones.
 
+
 **What are zonal services?**
+
 Zonal services are resources that are pinned to a specific zone, such as VMs, managed disks, and IP addresses.
 
+
 **What are zone-redundant services?**
+
 Zone-redundant services are services that the platform replicates automatically across zones, such as zone-redundant storage and SQL Database.
 
+
 **What are non-regional services?**
+
 Non-regional services are services that are always available from Azure geographies and are resilient to zone-wide outages as well as region-wide outages.
 
+
 **What is a resource in Azure?**
+
 A manageable item that's available through Azure. Virtual machines (VMs), storage accounts, web apps, databases, and virtual networks are examples of resources.
 
+
 **What is a resource group in Azure?**
+
 A container that holds related resources for an Azure solution. The resource group includes resources that you want to manage as a group.
 
+
 **What is the purpose of a resource group in Azure?**
+
 The purpose of a resource group is to help manage and organize Azure resources by placing resources of similar usage, type, or location in a resource group.
 
+
 **Can a resource belong to multiple resource groups in Azure?**
+
 No, a resource can only be a member of a single resource group.
 
+
 **Can resource groups be nested in Azure?**
+
 No, resource groups can't be nested.
 
+
 **What happens when a resource group is deleted in Azure?**
+
 When a resource group is deleted, all resources contained within it are also deleted.
 
+
 **How can resource groups be used for authorization in Azure?**
+
 Resource groups are also a scope for applying role-based access control (RBAC) permissions. By applying RBAC permissions to a resource group, you can ease administration and limit access to allow only what's needed.
 
+
 **What is the relationship between resources and resource groups in Azure?**
+
 All resources must be in a resource group, and a resource can only be a member of a single resource group.
 
+
 **What is an Azure subscription?**
+
 An Azure subscription is a logical unit of Azure services that links to an Azure account, which is an identity in Azure Active Directory (Azure AD) or in a directory that Azure AD trusts. It provides authenticated and authorized access to Azure products and services and allows you to provision resources.
 
+
 **What are the two types of subscription boundaries in Azure?**
+
 The two types of subscription boundaries in Azure are Billing boundary and Access control boundary.
 
+
 **What happens when you delete a subscription in Azure?**
+
 When you delete a subscription in Azure, all resources contained within it are also deleted.
 
+
 **What is the purpose of creating a billing profile in Azure?**
+
 The purpose of creating a billing profile in Azure is to have its own monthly invoice and payment method.
 
+
 **How can you manage costs in Azure?**
+
 You can manage costs in Azure by creating multiple subscriptions for different types of billing requirements, and Azure generates separate billing reports and invoices for each subscription so that you can organize and manage costs.
 
+
 **What is the purpose of resource access control in Azure?**
+
 The purpose of resource access control in Azure is to manage and control access to the resources that users provision within each subscription.
+
 
 **What is the purpose of an Azure management group?**
 Azure management groups provide a level of scope above subscriptions for efficiently managing access, policies, and compliance for those subscriptions.
 
+
 **How do management groups affect subscriptions?**
+
 All subscriptions within a management group automatically inherit the conditions applied to the management group.
 
+
 **Can all subscriptions within a single management group trust different Azure AD tenants?**
+
 No, all subscriptions within a single management group must trust the same Azure AD tenant.
 
+
 **How can management groups be used for governance?**
+
 You can apply policies to a management group that limit the regions available for VM creation, for example, which would be applied to all management groups, subscriptions, and resources under that management group.
 
+
 **How can management groups be used to provide user access to multiple subscriptions?**
+
 By moving multiple subscriptions under that management group, you can create one role-based access control (RBAC) assignment on the management group, which will inherit that access to all the subscriptions.
 
+
 **How many management groups can be supported in a single directory?**
+
 10,000 management groups can be supported in a single directory.
 
+
 **How many levels of depth can a management group tree support?**
+
 A management group tree can support up to six levels of depth, not including the root level or the subscription level.
 
+
 **Can each management group and subscription have multiple parents?**
+
 No, each management group and subscription can support only one parent.
 
+
 **Is each management group and subscription within a single hierarchy in each directory?**
+
 Yes, all subscriptions and management groups are within a single hierarchy in each directory.
