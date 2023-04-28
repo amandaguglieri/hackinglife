@@ -54,4 +54,12 @@ cat hash
 john --wordlist=/root/Desktop/wordlists/1000000-password-seclists.txt hash
 ```
 
+## Cracking password of a zip file
+
+```bash
+zip2john nameoffile.zip > zip.hashes
+cat zip.hashes
+john zip.hashes
+```
+
 

