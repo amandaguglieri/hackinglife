@@ -26,3 +26,7 @@ gobuster dir -u https://friendzone.red/ -w /usr/share/wordlists/dirbuster/direct
 # -w to indicate a dictionary or wordlist
 ```
 
+
+# -l Display the length of the response
+# -s Show an especific status code
+# -r Follow redirect
