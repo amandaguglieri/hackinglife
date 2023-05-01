@@ -53,6 +53,7 @@ xfreerdp /v:<target IP address> /u:htb-student /p:<password> /cert-ignore
 
 If we get a foothold in an Active Directory Environment, these are some informations we should try to retrieve:
 
+
 - The domain functional level
 - The domain password policy
 - A full inventory of AD users
@@ -82,6 +83,7 @@ Get-ADGroup -Identity "Schema Admins" -Properties *
 These are some groups with special permissions that, if missconfigured, might be exploited:
 
 | Group | Description |
+| ----- | ----------- |
 | Default Administrators | Domain Admins and Enterprise Admins "super" groups. |
 | Server Operators | Members can modify services, access SMB shares, and backup files. |
 | Backup Operators | Members are allowed to log onto DCs locally and should be considered Domain Admins. They can make shadow copies of the SAM/NTDS database, read the registry remotely, and access the file system on the DC via SMB. This group is sometimes added to the local Backup Operators group on non-DCs. |
@@ -94,6 +96,12 @@ These are some groups with special permissions that, if missconfigured, might be
 | Schema Admins | Members can modify the Active Directory schema structure and can backdoor any to-be-created Group/GPO by adding a compromised account to the default object ACL. |
 | DNSAdmins | Members have the ability to load a DLL on a DC but do not have the necessary permissions to restart the DNS server. They can load a malicious DLL and wait for a reboot as a persistence mechanism. Loading a DLL will often result in the service crashing. A more reliable way to exploit this group is to create a WPAD record. |
 
+
+```ps
+Get-ADGroup -Identity "Schema Admins" -Properties *
+
+
+```
 
 ## Acronyms
 
