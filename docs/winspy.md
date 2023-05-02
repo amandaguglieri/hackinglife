@@ -3,8 +3,12 @@ title: winspy - A tool to view windows properties in the system
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, windows, thick client
+tags:
+  - pentesting
+  - windows
+  - thick client
 ---
+
 # winspy - A tool to view windows properties in the system 
 
 

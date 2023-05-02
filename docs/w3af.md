@@ -3,7 +3,9 @@ Title: w3af
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # w3af

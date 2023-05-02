@@ -3,7 +3,9 @@ title: grep
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, reconnaissance
+tags:
+  - pentesting
+  - reconnaissance
 ---
 
 # grep

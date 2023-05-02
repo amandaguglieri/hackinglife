@@ -3,7 +3,8 @@ title: docker
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: docker
+tags:
+  - docker
 ---
 
 # docker 

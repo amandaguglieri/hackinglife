@@ -3,7 +3,9 @@ title: masscan - An IP scanner
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: reconnaissance,scanning
+tags:
+  - reconnaissance
+  - scanning
 ---
 
 # masscan - An IP scanner

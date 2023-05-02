@@ -3,7 +3,10 @@ title: Hashcat - A password recovery tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, enumeration, cracking tool
+tags:
+  - pentesting
+  - enumeration
+  - cracking tool
 ---
 
 # Hashcat - A password recovery tool

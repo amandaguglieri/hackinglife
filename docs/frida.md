@@ -3,7 +3,8 @@ title: Frida - A dynamic instrumentation toolkit
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: mobile pentesting
+tags:
+  - mobile pentesting
 ---
 
 # Frida - A dynamic instrumentation toolkit

@@ -3,7 +3,8 @@ title: Samba Suite
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting
+tags:
+  - pentesting
 ---
 
 # Samba Suite

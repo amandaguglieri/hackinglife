@@ -3,7 +3,9 @@ title: SQL injection
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting,web 
+tags:
+  - pentesting
+  - web pentesting 
 ---
 
 # SQL injection

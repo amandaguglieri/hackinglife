@@ -3,7 +3,9 @@ title: tcpdump - A command-line packet analyzer
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, reconnaissance
+tags:
+  - pentesting
+  - reconnaissance
 ---
 
 # tcpdump - A command-line packet analyzer

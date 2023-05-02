@@ -3,7 +3,10 @@ title: "Welcome to Hacking Life!"
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting,cybersecurity
+tags:
+  - pentesting
+  - cybersecurity
+
 ---
 
 # Welcome to Hacking Life!

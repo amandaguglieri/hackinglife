@@ -3,7 +3,9 @@ title: RFD attack - Reflected File Download
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # RFD attack - Reflected File Download

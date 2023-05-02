@@ -3,7 +3,9 @@ Title: wfuzz
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # wfuzz

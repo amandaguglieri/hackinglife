@@ -3,7 +3,9 @@ title: netdiscover - A network enumeration tool based on ARP request
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: reconnaissance, pentesting
+tags:
+  - reconnaissance
+  - pentesting
 ---
 
 # netdiscover - A network enumeration tool based on ARP request

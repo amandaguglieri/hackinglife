@@ -3,7 +3,11 @@ title: moodlescan
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting, cms
+tags:
+  - pentesting
+  - web pentesting
+  - cms
+  - moodle
 ---
 
 # moodlescan

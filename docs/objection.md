@@ -3,7 +3,8 @@ title: Objection
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: mobile pentesting
+tags:
+  - mobile pentesting
 ---
 
 # Objection

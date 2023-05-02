@@ -3,7 +3,10 @@ title: Google dorks
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: reconnaissance,scanning,osint 
+tags:
+  - reconnaissance
+  - scanning
+  - osint 
 ---
 
 # Google Dorks

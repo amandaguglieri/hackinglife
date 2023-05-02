@@ -3,7 +3,9 @@ title: RCE attack - Remote Code Execution
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # RCE attack - Remote Code Execution

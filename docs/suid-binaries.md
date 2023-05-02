@@ -3,7 +3,9 @@ title: Suid Binaries
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, privilege escalation
+tags:
+  - pentesting
+  - privilege escalation
 ---
 
 

@@ -3,7 +3,9 @@ title: SSRF attack - Server Side Request Forgery
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # SSRF attack - Server Side Request Forgery

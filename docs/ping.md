@@ -3,7 +3,9 @@ title: ping
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: scanning,reconnaissance
+tags:
+  - scanning
+  - reconnaissance
 ---
 
 # Ping

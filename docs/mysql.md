@@ -3,7 +3,10 @@ title: MySQL
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: database,"relational database",SQL
+tags:
+  - database
+  - relational database
+  - SQL
 ---
 
 # MySQL

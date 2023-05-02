@@ -3,7 +3,12 @@ title: httprint - A web server fingerprinting tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, enumeration, server enumeration, web server, fingerprinting
+tags:
+  - pentesting
+  - enumeration
+  - server enumeration
+  - web server
+  - fingerprinting
 ---
 
 # httprint - A web server fingerprinting tool 

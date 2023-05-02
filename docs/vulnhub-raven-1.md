@@ -3,7 +3,10 @@ Title: Walkthrough - Raven 1, a vulnhub machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting,walkthrough
+tags:
+  - pentesting
+  - web pentesting
+  - walkthrough
 ---
 
 # Walkthrough: Raven 1, a vulnhub machine

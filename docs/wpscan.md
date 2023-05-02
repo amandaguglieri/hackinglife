@@ -3,7 +3,11 @@ title: wpscan - Wordpress Security Scanner
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting, enumeration, wordpress
+tags:
+  - pentesting
+  - web pentesting
+  - enumeration
+  - wordpress
 ---
 
 # wpscan - Wordpress Security Scanner

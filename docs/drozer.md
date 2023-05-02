@@ -3,7 +3,8 @@ title: drozer - A security testing framework for Android
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: mobile pentesting
+tags:
+  - mobile pentesting
 ---
 
 # drozer - A security testing framework for Android

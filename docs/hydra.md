@@ -3,7 +3,9 @@ title: hydra
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, brute forcing
+tags:
+  - pentesting
+  - brute forcing
 ---
 
 # Hydra

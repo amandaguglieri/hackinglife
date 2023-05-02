@@ -3,7 +3,8 @@ title: sqlmap - A tool for testing SQL injection
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting 
+tags:
+  - pentesting 
 ---
 
 # sqlmap - A tool for testing SQL injection

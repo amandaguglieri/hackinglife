@@ -3,7 +3,9 @@ title: LFI attack - Local File Inclusion
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # LFI attack - Local File Inclusion

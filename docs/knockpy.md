@@ -2,7 +2,10 @@
 title: knockpy - A subdomain scanner
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting, enumeration
+tags:
+  - pentesting
+  - web pentesting
+  - enumeration
 ---
 
 # knockpy - A subdomain scanner

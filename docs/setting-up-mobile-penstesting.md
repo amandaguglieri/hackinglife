@@ -3,7 +3,8 @@ title: Setting up the mobile pentesting environment
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: mobile pentesting 
+tags:
+  - mobile pentesting 
 ---
 
 # Setting up the mobile pentesting environment

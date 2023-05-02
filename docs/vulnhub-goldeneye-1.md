@@ -3,7 +3,8 @@ title: Walkthrough - GoldenEye 1, a vulnhub machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: walkthrough
+tags:
+  - walkthrough
 ---
 
 # Walkthrough - GoldenEye 1, a vulnhub machine

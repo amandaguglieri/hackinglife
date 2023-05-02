@@ -2,7 +2,9 @@
 title: File Upload
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # File Upload

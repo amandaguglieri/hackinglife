@@ -3,7 +3,8 @@ title: Lateral movements
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting
+tags:
+  - pentesting
 ---
 
 # Lateral movements

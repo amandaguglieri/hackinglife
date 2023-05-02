@@ -3,7 +3,9 @@ title: RFI attack - Remote File Inclusion
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, webpentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # RFI attack - Remote File Inclusion

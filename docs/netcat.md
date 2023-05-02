@@ -3,7 +3,8 @@ title: netcat
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: http
+tags:
+  - http
 ---
 
 # netcat

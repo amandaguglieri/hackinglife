@@ -3,7 +3,10 @@ title: ffuzz - ffuzz - A fast web fuzzer written in Go
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting,webpentesting,enumeration
+tags:
+  - pentesting
+  - web pentesting
+  - enumeration
 ---
 
 # ffuzz - A fast web fuzzer written in Go

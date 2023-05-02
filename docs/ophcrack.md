@@ -3,7 +3,9 @@ title: ophcrack - A windows password cracker based on rainbow tables
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, password cracker
+tags:
+  - pentesting
+  - password cracker
 ---
 
 # ophcrack - A windows password cracker based on rainbow tables

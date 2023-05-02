@@ -3,7 +3,8 @@ title: SAMRDump
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting windows 
+tags:
+  - pentesting windows 
 ---
 
 # SAMRDump

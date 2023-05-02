@@ -3,7 +3,11 @@ title: John the Ripper - A hash cracker and dictionary attack tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, brute force, dictionary attack, enumeration
+tags:
+  - pentesting
+  - brute force
+  - dictionary attack
+  - enumeration
 ---
 
 # John the Ripper - A hash cracker and dictionary attack tool

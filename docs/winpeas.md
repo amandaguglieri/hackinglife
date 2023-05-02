@@ -3,7 +3,9 @@ title: winPEAS - Windows Privilege Escalation Awesome Scripts
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: windows privilege escalation
+tags:
+  - windows 
+  - privilege escalation
 ---
 
 # Windows Privilege Escalation Awesome Scripts: winPEAS

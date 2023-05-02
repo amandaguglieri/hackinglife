@@ -3,7 +3,8 @@ title: SQLi Cheat sheet for manual injection
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting
+tags:
+  - pentesting
 ---
 
 # SQLi Cheat sheet for manual injection

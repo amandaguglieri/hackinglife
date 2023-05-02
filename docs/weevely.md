@@ -2,7 +2,10 @@
 title: weevely - PHP webshell backdoor generator
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting, enumeration
+tags:
+  - pentestingç
+  - web pentesting
+  - enumeration
 ---
 
 

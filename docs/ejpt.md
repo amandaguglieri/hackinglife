@@ -3,7 +3,8 @@ title: eJPT - eLearnSecurity Junior Penetration Tester
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting 
+tags:
+  - pentesting 
 ---
 
 # eJPT - eLearnSecurity Junior Penetration Tester Cheat Sheet

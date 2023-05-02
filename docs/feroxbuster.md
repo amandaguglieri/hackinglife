@@ -3,7 +3,11 @@ title: feroxbuster - A web content enumeration tool for not referenced resources
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web enumeration, tool, reconnaissance
+tags:
+  - pentesting
+  - web enumeration
+  - tool
+  - reconnaissance
 ---
 
 # feroxbuster - A web content enumeration tool for not referenced resources

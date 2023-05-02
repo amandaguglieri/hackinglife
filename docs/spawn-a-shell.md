@@ -3,7 +3,10 @@ title: Spawn a shell
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, terminal, shells
+tags:
+  - pentesting
+  - terminal
+  - shells
 ---
 
 # Spawn a shell

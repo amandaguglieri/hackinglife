@@ -3,7 +3,11 @@ title: sublist3r - A subdomain enumerating tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: scanning,subdomains,reconnaissance,pentesting
+tags:
+  - scanning
+  - subdomains
+  - reconnaissance
+  - pentesting
 ---
 
 # sublist3r - A subdomain enumerating tool

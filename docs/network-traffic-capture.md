@@ -3,7 +3,10 @@ title: Network traffic capture tools
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, network, toolS
+tags:
+  - pentesting
+  - network
+  - toolS
 ---
 
 # Network traffic capture tools

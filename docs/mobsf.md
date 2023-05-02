@@ -3,7 +3,8 @@ title: Mobile Security Framework - MobSF
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: mobile pentesting
+tags:
+  - mobile pentesting
 ---
 
 # Mobile Security Framework - MobSF

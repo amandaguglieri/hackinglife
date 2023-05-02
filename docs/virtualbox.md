@@ -3,7 +3,9 @@ title: Virtualbox and Extension Pack
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: windows, bypass techniques
+tags:
+  - windows
+  - bypass techniques
 ---
 
 # VirtualBox and Extension Pack

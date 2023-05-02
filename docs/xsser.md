@@ -3,7 +3,9 @@ title: XSSer -  An automated Web Pentesting Framework Tool to Detect and Exploit
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # XSSer - An automated Web Pentesting Framework Tool to Detect and Exploit XSS vulnerabilities

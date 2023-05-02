@@ -3,7 +3,9 @@ title: "Markdown"
 author: amandaguglieri
 TableOfContents: true
 draft: false
-tag: tool, language
+tags:
+  - tool
+  - language
 ---
 
 # Markdown

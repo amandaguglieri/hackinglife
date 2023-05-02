@@ -3,7 +3,9 @@ title: veil - A backdoor generator
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting
+tags:
+  - pentesting
+  - web pentesting
 ---
 
 # veil

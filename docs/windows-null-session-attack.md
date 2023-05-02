@@ -3,7 +3,8 @@ title: Windows Null session attack
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting windows 
+tags:
+  - pentesting windows 
 ---
 
 # Windows Null session attack

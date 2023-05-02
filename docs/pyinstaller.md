@@ -3,7 +3,9 @@ title: pyinstaller
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, python
+tags:
+  - pentesting
+  - python
 ---
 
 # Pyinstaller

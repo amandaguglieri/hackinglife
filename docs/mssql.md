@@ -3,7 +3,9 @@ title: msSQL - Microsoft SQL Server
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: database,Cheat sheet
+tags:
+  - database
+  - cheat sheet
 ---
 
 # msSQL - Microsoft SQL Server

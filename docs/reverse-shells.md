@@ -3,7 +3,10 @@ title: Reverse Shells
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting, reverse shells
+tags:
+  - pentesting
+  - web pentesting
+  - reverse shells
 ---
 
 # Reverse Shells
