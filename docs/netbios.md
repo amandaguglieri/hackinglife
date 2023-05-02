@@ -3,7 +3,7 @@ title: NetBIOS - Network Basic Input Output System
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: #windows 
+tag: windows 
 ---
 
 # NetBIOS - Network Basic Input Output System

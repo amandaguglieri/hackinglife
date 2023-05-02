@@ -3,7 +3,12 @@ title: dnscan - A DNS subdomain scanner
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: scanning,domain,subdomain,reconnaissance,pentesting
+tags:
+  - scanning
+  - domain
+  - subdomain
+  - reconnaissance
+  - pentesting
 ---
 
 # dnscan - A DNS subdomain scanner

@@ -3,7 +3,9 @@ title: enum
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: #pentesting #windows 
+tags:
+  - windows
+  - enumeration
 ---
 
 # enum

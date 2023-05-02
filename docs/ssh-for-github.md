@@ -1,5 +1,6 @@
 ---
 title: SSH for github
+author: amandaguglieri
 draft: false
 TableOfContents: true
 ---

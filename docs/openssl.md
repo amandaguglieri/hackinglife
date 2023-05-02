@@ -3,7 +3,6 @@ title: openSSL
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: 
 ---
 
 # openSSL

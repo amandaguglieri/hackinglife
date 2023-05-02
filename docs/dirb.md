@@ -3,7 +3,11 @@ title: dirb - A web content enumeration tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, directory enumeration, tool, vulnerability
+tags:
+  - pentesting
+  - directory enumeration
+  - tool
+  - vulnerability
 ---
 
 # dirb - A web content enumeration tool

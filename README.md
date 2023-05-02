@@ -3,7 +3,6 @@ title: Readme
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: 
 ---
 
 ## About this repo

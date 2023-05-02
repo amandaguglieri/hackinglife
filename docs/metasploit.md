@@ -3,7 +3,7 @@ title: metasploit
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: #pentesting  
+tag: pentesting  
 ---
 
 # metasploit

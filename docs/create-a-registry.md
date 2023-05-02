@@ -4,7 +4,7 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - privilegeescalation
+  - privilege escalation
 ---
 
 # Create a Registry

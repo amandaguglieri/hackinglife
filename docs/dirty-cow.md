@@ -3,7 +3,10 @@ title: Dirty COW (Copy On Write)
 author: amandaguglieri
 TableOfContents: true
 draft: false
-tag: pentesting, linux, privileges escalation
+tags:
+  - pentesting
+  - linux
+  - privileges escalation
 ---
 
 # Dirty COW (Copy On Write)

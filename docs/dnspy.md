@@ -3,7 +3,8 @@ title: DNSpy - A .NET decompiler for windows
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting, web pentesting, enumeration, wordpress
+tags:
+  - pentesting
 ---
 
 # DNSpy - A .NET decompiler for windows

@@ -3,7 +3,7 @@ title: Winfo
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: #pentesting #windows 
+tag: pentesting windows 
 ---
 
 # Winfo
