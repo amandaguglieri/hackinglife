@@ -3,7 +3,7 @@ title: BurpSuite Labs - Cross-site Scripting
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: 
+tags:
   - burpsuite
   - xss
 ---

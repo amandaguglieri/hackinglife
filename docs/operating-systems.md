@@ -3,7 +3,7 @@ title: Repo for legacy Operating system
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: 
+tags:
   - resources
 ---
 

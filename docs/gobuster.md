@@ -24,9 +24,11 @@ gobuster dir -u https://friendzone.red/ -w /usr/share/wordlists/dirbuster/direct
 # -k to avoid error message about certificate: nvalid certificate: x509: certificate has expired or is not yet valid
 # -x to indicate an extension for the file
 # -w to indicate a dictionary or wordlist
-```
+
 
 
 # -l Display the length of the response
 # -s Show an especific status code
 # -r Follow redirect
+
+```

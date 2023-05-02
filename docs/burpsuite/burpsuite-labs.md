@@ -3,7 +3,7 @@ title: BurpSuite Labs
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: 
+tags:
   - burpsuite
 ---
 

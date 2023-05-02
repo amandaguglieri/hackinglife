@@ -2,7 +2,7 @@
 title: Tactics - A HackTheBox machine
 author: amandaguglieri
 TableOfContents: true
-draft: fase
+draft: false
 tags:
   - walkthrough
   - windows

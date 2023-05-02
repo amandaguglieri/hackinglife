@@ -3,7 +3,7 @@ title: BurpSuite Labs - SQL injection
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags: 
+tags:
   - burpsuite
   - sqli
 ---

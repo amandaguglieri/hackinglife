@@ -3,6 +3,8 @@ title: Process Hacker tool
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - thick client application
 ---
 
 # Process Hacker tool

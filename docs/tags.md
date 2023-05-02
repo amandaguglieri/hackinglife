@@ -2,7 +2,8 @@
 title: tags
 author: amandaguglieri
 draft: false
-TableOfContents: true
+tags:
+  - tags
 ---
 
 # tags

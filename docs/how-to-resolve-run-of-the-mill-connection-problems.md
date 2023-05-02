@@ -1,8 +1,8 @@
 ---
-title: How to resolve run-of-the-mill connection problems
+title: How to resolve run of the mill connection problems
 author: amandaguglieri
 TableOfContents: true
-draft: fase
+draft: false
 tags:
   - dns
   - ping

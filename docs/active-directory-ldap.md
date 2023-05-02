@@ -1,5 +1,5 @@
 ---
-title: Active Directory -  LDAP 
+title: Active Directory, LDAP 
 author: amandaguglieri
 draft: false
 TableOfContents: true

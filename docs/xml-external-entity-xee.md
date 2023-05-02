@@ -3,10 +3,6 @@ title: XXE - XEE XML External Entity attack
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tags:
-  - web pentesting
-  - xee
-  - xxe
 ---
 
 # XXE - XEE XML External Entity attacks
