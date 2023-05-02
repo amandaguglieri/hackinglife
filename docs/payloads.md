@@ -20,12 +20,12 @@ TableOfContents: true
 
 ## AV0id
 
-[AV0id cheat sheet](av0id.md).
+AV0id.
 
 
 ## Syringe
 
-[syringe cheat sheet](syringe.md).
+syringe
 
 
 ## FatRat

@@ -3,7 +3,11 @@ title: HTTP Authentication Schemes
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: authentication,windows,basic,digest,NTLM,negotiate
+tags:
+  - authentication
+  - windows
+  - basic digest
+  - NTLM
 ---
 
 # HTTP Authentication Schemes

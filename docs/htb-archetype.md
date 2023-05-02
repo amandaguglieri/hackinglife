@@ -1,10 +1,10 @@
 ---
-title: Archetype - A Hack The Box machine 
+title: Archetype - A HackTheBox machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - tools
+  - walkthrough
 ---
 
 # Archetype - A Hack the Box machine

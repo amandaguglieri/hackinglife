@@ -1,10 +1,11 @@
 ---
-title: Walkthrough - Photobomb, a Hack The Box machine
+title: Walkthrough - Photobomb - A HackTheBox machine
 author: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
-tag: walkthrough
+tags:
+  - walkthrough
 ---
 
 # Walkthrough - Photobomb, a Hack The Box machine

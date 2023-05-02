@@ -1,5 +1,5 @@
 ---
-title: Markup - A HTB machine
+title: Markup - A HackTheBox machine
 author: amandaguglieri
 draft: false
 TableOfContents: true

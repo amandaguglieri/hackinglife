@@ -1,11 +1,10 @@
 ---
-title: Ignition, a Hack The Box machine 
+title: Ignition - A HackTheBox machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
   - walkthrough
-  - htb
 ---
 
 

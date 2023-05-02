@@ -3,7 +3,8 @@ title: HTTP headers
 author: amandaguglieri
 draft: false
 TableOfContents: true
-tag: pentesting HTTP headers
+tags:
+  - pentesting HTTP headers
 ---
 
 # HTTP headers

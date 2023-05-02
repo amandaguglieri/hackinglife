@@ -1,4 +1,15 @@
+---
+title: How to resolve run-of-the-mill connection problems
+author: amandaguglieri
+TableOfContents: true
+draft: fase
+tags:
+  - dns
+  - ping
+  - connection problems
+---
 
+# How to resolve run-of-the-mill connection problems
 
 ```bash
 # Check connection

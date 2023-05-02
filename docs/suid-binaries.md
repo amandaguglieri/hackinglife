@@ -1,7 +1,3 @@
-User postgres may run the following commands on vaccine:
-    (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf
-xUser postgres may run the following commands on vaccine:
-    (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf
 ---
 title: Suid Binaries
 author: amandaguglieri

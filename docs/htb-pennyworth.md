@@ -1,5 +1,5 @@
 ---
-title: Pennyworth - A HackTheBox machine 
+title: Pennyworth - A HackTheBox machine
 author: amandaguglieri
 draft: false
 TableOfContents: true

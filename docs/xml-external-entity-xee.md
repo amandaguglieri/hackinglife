@@ -7,7 +7,6 @@ tags:
   - web pentesting
   - xee
   - xxe
-
 ---
 
 # XXE - XEE XML External Entity attacks

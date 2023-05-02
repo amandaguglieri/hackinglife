@@ -1,10 +1,10 @@
 ---
-title: Oppsie - A Hack The Box machine 
+title: Oppsie - A HackTheBox machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - tools
+  - walkthrough
 ---
 
 # Oopsie - A Hack The Box machine

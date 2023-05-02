@@ -54,6 +54,9 @@ describe <table_name>;
 
 # Dump columns from a table
 show columns from <table>;
+
+# Select column from table
+select usename,password from users;
 ```
 
 ## Upload a shell 

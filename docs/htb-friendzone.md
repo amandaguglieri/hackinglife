@@ -1,8 +1,10 @@
 ---
-title: Walkthrough - Friendzone, a Hack The Box machine
+title: Walkthrough - Friendzone - A HackTheBox machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - walkthrough
 ---
 
 # Walkthrough - Friendzone, a Hack The Box machine

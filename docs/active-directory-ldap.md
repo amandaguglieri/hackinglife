@@ -1,14 +1,16 @@
 ---
-title: Active Directory LDAP 
+title: Active Directory -  LDAP 
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - tools
+  - active directory
+  - ldap
+  - windows
 ---
 
 
-# Active Directory LDAP
+# Active Directory - LDAP
 
 Active Directory (AD) is a directory service for Windows network environments. A basic AD user account with no added privileges can be used to enumerate the majority of objects contained within AD, including but not limited to:
 

@@ -1,5 +1,5 @@
 ---
-title: Cocrodile - A HackTheBox machine 
+title: Crocodile - A HackTheBox machine 
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -7,7 +7,7 @@ tags:
   - walkthrough
 ---
 
-# Cocrodile - A HackTheBox machine 
+# Crocodile - A HackTheBox machine 
 
 
 ```bash

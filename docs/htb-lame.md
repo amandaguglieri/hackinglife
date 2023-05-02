@@ -1,8 +1,10 @@
 ---
-title: HTB lame
+title: Lame - A HackTheBox machine
 author: amandaguglieri
 TableOfContents: true
 draft: false
+tags:
+  - walkthrough
 ---
 
 

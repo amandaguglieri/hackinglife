@@ -1,5 +1,5 @@
 ---
-title: Base, a Hack the Box machine 
+title: Base - A HackTheBox machine 
 author: amandaguglieri
 draft: false
 TableOfContents: true
