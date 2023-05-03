@@ -7,7 +7,7 @@ tags:
   - walkthrough
   - windows
   - smb
-  - 445
+  - port 445
 ---
 
 # Tactics - A HackTheBox machine
