@@ -6,6 +6,8 @@ TableOfContents: true
 tags:
   - walkthrough
   - sql
+  - port 3306
+  - mariadb
 ---
 
 # Sequel - A HackTheBox machine

@@ -5,6 +5,11 @@ TableOfContents: true
 draft: false
 tags:
   - walkthrough
+  - NTLM credential stealing 
+  - responder.py
+  - local file inclusion
+  - php include
+  - web pentesting
 ---
 
 # Responder - A HackTheBox machine

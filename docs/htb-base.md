@@ -5,6 +5,10 @@ draft: false
 TableOfContents: true
 tags:
   - walkthrough
+  - php type juggling
+  - reverse shell
+  - suid binary
+  - linux privilege escalation
 ---
 
 # Base - A Hack The Box machine

@@ -5,6 +5,8 @@ TableOfContents: true
 draft: false
 tags:
   - walkthrough
+  - smb vulnerability
+  - metasploit
 ---
 
 
