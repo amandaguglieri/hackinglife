@@ -100,7 +100,9 @@ So password for Administrator is badminton.
 
 Also, from Responder we have this output:
 
-```Using default input encoding: UTF-8
+
+```
+Using default input encoding: UTF-8
 Loaded 1 password hash (netntlmv2, NTLMv2 C/R [MD4 HMAC-MD5 32/64])
 Will run 8 OpenMP threads
 Press 'q' or Ctrl-C to abort, almost any other key for status
@@ -120,6 +122,6 @@ You will get a powershell session. Browse around to find flag.txt.
 
 To echo it:
 
-```
+```ps
 type c:/users/mike/Desktop/flag.txt
 ```
