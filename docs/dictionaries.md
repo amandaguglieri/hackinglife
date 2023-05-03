@@ -18,8 +18,7 @@ tags:
 | Dotdotpwn | [https://github.com/wireghoul/dotdotpwn](https://github.com/wireghoul/dotdotpwn) | It's a very flexible intelligent fuzzer to discover traversal directory vulnerabilities in software such as HTTP/FTP/TFTP servers, Web platforms such as CMSs, ERPs, Blogs, etc. | Traversal directory |
 | Rockyou | /usr/shared/wordlists/rockyou.txt.gz | RockYou was a company that developed widgets for MySpace and implemented applications for various social networks and Facebook. Since 2014, it has engaged primarily in the purchases of rights to classic video games; it incorporates in-game ads and re-distributes the games.
 | User agents | [Seclist](https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/User-Agents) | Intended to bypass rate limiting (in an API) | User-agent headers |  
-
-
+| Windows Files |  [My dictionaty repo](https://github.com/amandaguglieri/dictionaries/blob/main/windows/file_inclusion) | To read interesting files from windows machines | Intended for information disclosure | 
 
 ## Installing wordlists in your kali
 

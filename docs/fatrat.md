@@ -19,3 +19,9 @@ sudo ./setup.sh
 ```
 
 ## Basic usage
+
+```bash
+# After launching it, browse the menu that fatrat has
+cd TheFatRat
+sudo fatrat
+```
