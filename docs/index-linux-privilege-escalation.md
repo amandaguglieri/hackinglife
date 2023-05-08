@@ -27,6 +27,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 		- Configuration files.
 		- Startup scripts.
 		- [Suid binaries](suid-binaries.md): shared object injection, symlink, environmental variables.
+		- [Lxd privileges escalation](lxd.md).
 	- Kernel.
 	- LD_PRELOAD / LD_LIBRARY_PATH.
 	- NFS.
@@ -57,3 +58,6 @@ lsb_release -a
 | System vulnerability  | Exploit |
 | ---------------------- | ------- |
 | Ubuntu 16.04 LTS |  [Exploit 39772](https://www.exploit-db.com/exploits/39772) | 
+| Ubuntu 18.04 LTS + lxd | [lxd privilege escalation](lxd.md) |
+
+

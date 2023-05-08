@@ -21,7 +21,7 @@ gobuster dir -u https://friendzone.red/ -w /usr/share/wordlists/dirbuster/direct
 
 # dir to search for directories
 # -t number of concurrent threads
-# -k to avoid error message about certificate: nvalid certificate: x509: certificate has expired or is not yet valid
+# -k to avoid error message about certificate: invalid certificate: x509: certificate has expired or is not yet valid
 # -x to indicate an extension for the file
 # -w to indicate a dictionary or wordlist
 
