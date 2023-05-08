@@ -30,7 +30,7 @@ If your user is not in the sudoers file, we can do some workarounds about it. So
 
 Using SSH and postgresql:
 
-1. In the attacking machine:
+**1.** In the attacking machine:
 
 ```bash
 ssh UserNameInTheAttackedMachine@IPOfTheAttackedMachine -L 1234:localhost:5432 
@@ -38,7 +38,7 @@ ssh UserNameInTheAttackedMachine@IPOfTheAttackedMachine -L 1234:localhost:5432
 # We are forwarding traffic from any given local port, for instance 1234, to the port on which PostgreSQL is listening, namely 5432, on the remote server. We therefore specify port 1234 to the left of localhost, and 5432 to the right, indicating the target port.
 ```
 
-2. In another terminal in the attacking machine:
+**2.** In another terminal in the attacking machine:
 
 ```bash
 sudo apt update && sudo apt install postgresql postgresql-client-common 
@@ -66,7 +66,8 @@ psql -U christine -h localhost -p 1234
 \dt
 
 # Dump content from a column
-SELECT * from NameOfColumn;
+SELECT * FROM NameOfColumn;
+# Watch out! Case sensitive
 ```
 
 

