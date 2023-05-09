@@ -14,7 +14,18 @@ gobuster dir -u <exact target url> -w </path/dic.txt> -b 401
 # -b flag is to exclude from results an specific http response`
 ```
 
-## Example
+## Enumerate subdomains:
+
+From HackTheBox machine - Three:
+
+```bash
+gobuster vhost -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u http://thetoppers.htb
+# vhost : Uses VHOST for brute-forcing
+# -w : Path to the wordlist
+# -u : Specify the URL
+```
+
+## Examples from real life
 
 ```bash
 gobuster dir -u https://friendzone.red/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -x txt,php -t 20 -k
@@ -32,3 +43,4 @@ gobuster dir -u https://friendzone.red/ -w /usr/share/wordlists/dirbuster/direct
 # -r Follow redirect
 
 ```
+

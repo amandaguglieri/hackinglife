@@ -27,6 +27,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	    - Registry.
 	    - Executable File.
 	    - bin Path.
+	    - [Abusing a service with PowerUp.ps1](powerup.md)
 	- Kernel.
 	- Password Mining:
 		- Cached SAM.
