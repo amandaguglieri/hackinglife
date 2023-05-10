@@ -37,7 +37,7 @@ LDAP is set up to authenticate credentials against AD using a "BIND" operation t
 LDAP authentication messages are sent in cleartext by default so anyone can sniff out LDAP messages on the internal network. It is recommended to use TLS encryption or similar to safeguard this information in transit.
 
 
-## ldap queries: LDAPFilter
+## LDAP queries: LDAPFilter
 
 By combining the  "Get-ADObject" cmdlet  with the "LDAPFilter" parameter in powershell we can perform some ldap queries via powershell. 
 
@@ -74,12 +74,38 @@ More:
 - [LDAP queries related to AD groups](https://ldapwiki.com/wiki/Wiki.jsp?page=Active%20Directory%20Group%20Related%20Searches).
 
 
-```
-#  LDAP Query - User Related Search
-# '(objectClass=group)'
-Get-ADObject -LDAPFilter '(objectClass=group)' | select cn
+## LDAP queries: Search Filters
 
-# LDAP Query - Detailed Search
-# '(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=2))'
-Get-ADObject -LDAPFilter '(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=2))' | select samaccountname,useraccountcontrol
-```
+The LDAPFilter parameter with the same cmdlets lets us use LDAP search filters when searching for information. 
+
+Operators: 
+
+- & -> and
+- | -> or
+- ! -> not
+
+
+**AND** Operation:
+
+-   One criteria: `(& (..C1..) (..C2..))`
+-   More than two criteria: `(& (..C1..) (..C2..) (..C3..))`
+
+**OR** Operation:
+
+-   One criteria: `(| (..C1..) (..C2..))`
+-   More than two criteria: `(| (..C1..) (..C2..) (..C3..))`
+
+
+### Filters
+
+| **Criteria** | **Rule** | **Example** |
+| ------- | ---- | --------- |
+| Equal to | (attribute=123) | (&(objectclass=user)(displayName=Smith) |
+| Not equal to | (!(attribute=123)) | !objectClass=group) |
+| Present | (attribute=*) |  (department=*) |
+| Not present | (!(attribute=*)) | (!homeDirectory=*) |
+| Greater than | (attribute>=123) | (maxStorage=100000) |
+| Less than | (attribute<=123) | (maxStorage<=100000) |
+| Approximate match | (attribute~=123) | (sAMAccountName~=Jason) | 
+| Wildcards | (attribute=*A) | (givenName=*Sam) |
+

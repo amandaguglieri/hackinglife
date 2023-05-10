@@ -54,16 +54,6 @@ get-process -name ccSvcHst
 # Kill processes called ccSvcHst* // Notice here wild card *
 taskkill /f /im ccSvcHst*
 
-# Get ACL for a folder (or a file)
-Get-ACL “C:\Users\Public\Desktop”
-
-# Search for AD elements. [See more in ldap queries](ldap.md)
-Get-ADObject -LDAPFilter <thespecificfilter>
-
-# Count occurrences in a query, like the one above.
-(Get-ADObject -LDAPFilter <thespecificfilter>
-).count
-
 ```
 
 ## Powershell wildcards
@@ -117,7 +107,7 @@ The Filter operator requires at least one operator:
 The filter can be used with operators to compare, exclude, search for, etc., a variety of AD object properties. Filters can be wrapped in curly braces, single quotes, parentheses, or double-quotes. For example, the following simple search filter using `Get-ADUser` to find information about the user "Sally Jones" can be written as follows:
 
 ```ps
-Get-ADUser -Filter "name -eq 'sally jones'"
+Get-ADUser Filter "name -eq 'sally jones'"
 Get-ADUser -Filter {name -eq 'sally jones'}
 Get-ADUser -Filter 'name -eq "sally jones"'
 ```

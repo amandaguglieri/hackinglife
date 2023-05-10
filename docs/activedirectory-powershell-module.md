@@ -38,10 +38,22 @@ Import-Module C:\ADModule\Microsoft.ActiveDirectory.Management.dll -Verbose
 
 ## Basic commands
 
+```ps
+# Get ACL for a folder (or a file)
+Get-ACL “C:\Users\Public\Desktop”
+
+# Search for AD elements. [See more in ldap queries](ldap.md)
+Get-ADObject -LDAPFilter <thespecificfilter>
+
+# Count occurrences in a query, like the one above.
+(Get-ADObject -LDAPFilter <thespecificfilter>
+).count
+```
+
+
 ### Get-ADUser 
 
 [More on https://learn.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2022-ps](https://learn.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2022-ps).  
-
 
 ```ps
 # This command gets all users in the container OU=Finance,OU=UserAccounts,DC=FABRIKAM,DC=COM.
@@ -61,6 +73,10 @@ Get-ADUser -LDAPFilter '(!userAccountControl:1.2.840.113556.1.4.803:=2)'
 
 # search for all administrative users with the `DoesNotRequirePreAuth` attribute set, meaning that they can be ASREPRoasted:
 Get-ADUser -Filter {adminCount -eq '1' -and DoesNotRequirePreAuth -eq 'True'}
+
+# Find all administrative users with the SPN "servicePrincipalName" attribute set, meaning that they can likely be subject to a Kerberoasting attack
+Get-ADUser -Filter "adminCount -eq '1'" -Properties * | where servicePrincipalName -ne $null | select SamAccountName,MemberOf,ServicePrincipalName | fl
+
 ```
 
 ### Get-ADComputer
