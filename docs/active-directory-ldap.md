@@ -96,6 +96,7 @@ whoami /priv
 
 **Tool for enumeration**: 
 
+- [Enumeration with LDAP queries](ldap.md)
 - [PowerView.ps1 from PowerSploit project (powershell)](powerview.md).
 - [The ActiveDirectory PowerShell module (powershell)](activedirectory-powershell-module.md).
 - [BloodHound (C# and PowerShell Collectors)](bloodhound.md).
@@ -121,8 +122,11 @@ get-ciminstance win32_product \| fl
 Two ways. **First**, if we compromise a domain-joined system (or a client has you perform an AD assessment from one of their workstations) we can leverage RSAT to enumerate AD (Active Directory Users and Computers and ADSI Edit modules). **Second**, we can enumerate the domain from a non-domain joined host (provided that it is in a subnet that communicates with a domain controller) by launching any RSAT snap-ins using "runas" from the command line.
 
 ```ps
+# Gets one or more Active Directory users.
+Get-ADUser
+
 # List disabled users
-Get-ADUser -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=2)' \| select name
+Get-ADUser -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=2)' | select name
 
 # Count all users in an OU
 (Get-ADUser -SearchBase "OU=Employees,DC=INLANEFREIGHT,DC=LOCAL" -Filter *).count
@@ -277,6 +281,10 @@ Active Directory can be easily misconfigurable. These are common attacks:
 **ADSI**
 
 Active Directory Service Interfaces (ADSI) is a set of COM interfaces used to access the features of directory services from different network providers. ADSI is used in a distributed computing environment to present a single set of directory service interfaces for managing network resources. Administrators and developers can use ADSI services to enumerate and manage the resources in a directory service, no matter which network environment contains the resource. ADSI enables common administrative tasks, such as adding new users, managing printers, and locating resources in a distributed computing environment.
+
+
+**CIM**
+The Common Information Model (CIM) is the **Distributed Management Task Force** (DMTF) standard [[DSP0004](https://www.dmtf.org/dsp/DSP0004)] for describing the structure and behavior of managed resources such as storage, network, or software components. One way to describe CIM is to say that it allows multiple parties to exchange management information about these managed elements. However, this falls short of fully capturing CIM's ability not only to describe these managed elements and the management information, but also to actively control and manage them. By using a common model of information, management software can be written once and work with many implementations of the common model without complex and costly conversion operations or loss of information.
 
 
 **DIT**
