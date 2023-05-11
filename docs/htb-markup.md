@@ -40,7 +40,7 @@ Cookie: PHPSESSID=1gjqt353d2lm5222nl3ufqru10
 <?xml version = "1.0"?><order><quantity>2</quantity><item>Home Appliances</item><address>1</address></order>
 ```
 
-Playing around with the request (for instance, nesting some xml) you can check that it's possible to escape the xml tags.
+Playing around with the request (for instance, nesting some xml) you can check that it's possible to escape the xml tags. This request contains a [xml external entity XEE vulnerability](xml-external-entity-xee.md).
 
 
 From some responses like the one below (and also from nmap scanning) you know that server runs on a windows:
