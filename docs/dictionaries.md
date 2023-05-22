@@ -49,6 +49,16 @@ You will be adding:
 `-- wifite.txt -> /usr/share/dict/wordlist-probable.txt
 ```
 
+## Installing seclist
+
+```shell-session
+
+git clone https://github.com/danielmiessler/SecLists
+
+sudo apt install seclists -y
+
+```
+
 ## Dictionary generators
 
 - [crunch](crunch.md).
