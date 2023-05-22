@@ -76,11 +76,20 @@ lsb_release -a
 
 ### netstat
 
-Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships.
+Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships. By default, netstat displays a list of open sockets.  If you don't specify any address families, then the active sockets of all configured address families will be printed.
+
 
 ```bash
 netstat -tnlp
+# -p: Show  the  PID  and name of the program to which each socket belongs. 
+# -l: Show only listening sockets.
+
+# Show networks accessible via VP
+netstat -rn
+# -r: Display the kernel routing tables. Replacement for netstat -r is "ip route".
+# -n: Show numerical addresses instead of trying to determine symbolic host, port or user names.
 ```
+ 
 
 
 ### sed 

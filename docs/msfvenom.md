@@ -18,6 +18,12 @@ You can generate a webshell by using  msfvenom
 msfvenom --list payloads | grep x64 | grep linux | grep reverse  
 ```
 
+Also msfvenom can use metasploit payloads under “cmd/unix”  to generate one-liner bind or reverse shells. List options with:
+
+```bash
+msfvenom -l payloads | grep "cmd/unix" | awk '{print $1}'
+```
+
 
 
 ## Some flags

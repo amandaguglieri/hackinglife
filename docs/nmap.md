@@ -14,18 +14,23 @@ tags:
 
 ## Description
 
-Network Mapper is an open source tool for network exploration and security auditing. Free and open-source scanner created by Gordon Lyon. Nmap is used to discover hosts and services on a computer network by sending packages and analyzing the responses.
-Another discovery feature is that of operating system detection. These features are extensible by scripts that provide more advanced service detection.
+Network Mapper is an open source tool for network exploration and security auditing. Free and open-source scanner created by Gordon Lyon. Nmap is used to discover hosts and services on a computer network by sending packages and analyzing the responses. Another discovery feature is that of operating system detection. These features are extensible by scripts that provide more advanced service detection.
 
 ```
 # commonly used
 nmap -sT -Pn --unprivileged --script banner targetIP
 
-# enumerate ciphers supported by the application server-+
+# enumerate ciphers supported by the application server
 nmap -sT -p 443 -Pn -unprivilegeds --script ssl-enum-ciphers targetIP
+
+# sync-scan the top 10,000 most well-known ports
+nmap -sS $IP --top-ports 10000
 ```
 
+
 ## Cheat Sheet
+
+By default, Nmap will conduct a TCP scan unless specifically requested to perform a UDP scan.
 
 ```bash
 nmap 10.0.2.1
@@ -90,6 +95,7 @@ nmap -sL 10.0.2.1
 
 # Full scanner
 nmap -sC -sV -p- 10.0.2.1  
+# The script scan `-sC` flag causes `Nmap` to report the server headers `http-server-header` page and the page title `http-title` for any web page hosted on the webserver.
 
 
 # UDP quick
@@ -105,13 +111,29 @@ nmap -sW 10.0.2.1
 To redirect results to a file > targetfile.txt
 
 
-## Search an script in nmap
+## Search and run a script in nmap
 
 ```bash
 locate -r nse$|grep <term>
 # if this doesn’t work, update the db with:
 sudo updatedb
+
+
+# Also:
+locate scripts/<nameOfservice>
 ```
+
+Run a script:
+
+```bash
+nmap --script <script name> -p<port> <host>
+
+# For instance, a script to grab a banner
+nmap -sV --script=banner <target>
+```
+
+
+
 
 ## Attacking a ssh connection:
 
@@ -140,6 +162,9 @@ nmap -script=smb-enum-users <target IP>
 
 # 4. Retrieve groups with passwords and user
 nmap -script=smb-brute <target IP>
+
+# Interact with the SMB service to extract the reported operating system version
+nmap --script smb-os-discovery.nse -p445 <target IP>
 ```
 
 
@@ -147,4 +172,12 @@ nmap -script=smb-brute <target IP>
 
 ```bash
 nmap -p 80 -script http-waf-detect <TARGET> 
+```
+
+
+## Introducing delays
+
+```bash
+# While connecting to the service, we noticed that the connection took longer than usual (about 15 seconds). There are some services whose connection speed, or response time, can be configured. Now that we know that an FTP server is running on this port, we can deduce the origin of our "failed" scan. We could confirm this again by specifying the minimum `probe round trip time` (`--min-rtt-timeout`) in Nmap to 15 or 20 seconds and rerunning the scan.
+nmap $IP --min-rtt-timeout 15
 ```

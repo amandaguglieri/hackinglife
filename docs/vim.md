@@ -15,6 +15,12 @@ To edit a new file.
 nvim <file>
 ```
 
+Open a file in a recovery mode:
+
+```bash
+nvim -r <file>
+```
+
 ### Go to INSERT mode
 
 To enter into edit mode, press Supr twice and start writting
@@ -29,7 +35,8 @@ To get out of INSERT mode, press ESC.
 
 ### Browsing the file in CURSOR mode
 
-+ g : Go to line 1 of the file.
++ 2:  Go to line 2 of the file.
++ gg: Go to line 1 of the file.
 + G : Go to last line.
 + <n>G : Go to line n. 
 + 0 : Go to the beginning of line.
@@ -40,12 +47,16 @@ To get out of INSERT mode, press ESC.
 There is no delete in CURSOR mode. What it does is to CUT the content. There is also no need to enter into the INSERT mode to remove some text. You can delete text in the CURSOR mode with these keys:
 
 + x : Cut character.
-+ dd : Cut line.
++ dd : Cut full line.
 + dw : Cut word.
 + d$ : Cut from the cursor position to the end of line.
 + d<n>w : Cut n words from cursor position. For instance, "d3w" cuts three words. 
 + d<n>d : Cut n lines from cursor position. For instance, "d4d" cuts four lines.
 + ciw : Cut word no matter cursor position. Also no matter it word was in parathesis or "".
++ yw: Copy word.
++ yy: Copy full line.
+
+**Tip**: We can multiply any command to run multiple times by adding a number before it. For example, '4yw' would copy 4 words instead of one, and so on.
 
 
 ### Select text
