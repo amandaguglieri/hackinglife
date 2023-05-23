@@ -83,6 +83,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB markup](https://amandaguglieri.github.io/hackinglife/htb-markup/)
 -   [HTB metatwo](https://amandaguglieri.github.io/hackinglife/htb-metatwo/)
 -   [HTB mongod](https://amandaguglieri.github.io/hackinglife/htb-mongod/)
+-  [HTB nibbles](htb-nibbles.md)
 -   [HTB oopsie](https://amandaguglieri.github.io/hackinglife/htb-oopsie/)
 -   [HTB pennyworth](https://amandaguglieri.github.io/hackinglife/htb-pennyworth/)
 -   [HTB photobomb](https://amandaguglieri.github.io/hackinglife/htb-photobomb/)
