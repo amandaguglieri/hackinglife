@@ -35,38 +35,31 @@ lsb_release -a
 
 ## Enumeration scripts
 
-- [Linenum](linenum.md).
-- [LinPEAS](linpeas.md).
-- [Linux Privilege Checker](linux-privilege-checker.md).
-- [Linux Exploit Suggester](linux-exploit-suggester.md)
+!!! abstract "Enumeration scripts"
 
-!!! abstract "Techniques"
-	
-    - Cron: path, wildcards, file overwrite.
-    - Daemons. 
-	- [Dirty cow](dirty-cow.md).
-	- File Permissions: 
-		- Configuration files.
-		- Startup scripts.
-		- [Suid binaries](suid-binaries.md): shared object injection, symlink, environmental variables.
-		- [Lxd privileges escalation](lxd.md).
-	- Kernel.
-	- LD_PRELOAD / LD_LIBRARY_PATH.
-	- NFS.
-	- Password Mining: logs, memory, history, configuration files.
-	- Sudo: shell escape sequences, abuse intended functionality.
-
-
-!!! abstract "Resources and tools"
-
+    - [Scan the Linux system with "linEnum"](linenum.md).
+    - [Search for possible paths to escalate privileges with "linPEAS"](linpeas.md).
     - [Enumerate privileges with "Linux Privilege Checker" tool](linux-privilege-checker.md).
     - [Enumerate possible exploits with "Linux Exploit Suggester" tool](linux-exploit-suggester.md).
         
 
+## Privilege escalation techniques  
 
-| System vulnerability  | Exploit |
-| ---------------------- | ------- |
-| Ubuntu 16.04 LTS |  [Exploit 39772](https://www.exploit-db.com/exploits/39772) | 
-| Ubuntu 18.04 LTS + lxd | [lxd privilege escalation](lxd.md) |
+!!! abstract "Techniques"
+	
+    - [Cron jobs: path, wildcards, file overwrite](cron-jobs.md).
+    - Daemons. 
+	- [Dirty cow](dirty-cow.md).
+	- File Permissions: 
+		- [Configuration files](configuration-files.md).
+		- Startup scripts.
+		- [Suid binaries](suid-binaries.md): shared object injection, symlink, environmental variables.
+		- [Lxd privileges escalation](lxd.md).
+	- [Kernel vulnerability exploitation](kernel-vulnerability-exploitation.md).
+	- LD_PRELOAD / LD_LIBRARY_PATH.
+	- NFS.
+	- Password Mining: logs, memory, history, configuration files.
+	- Sudo: shell escape sequences, abuse intended functionality.
+	- [ssh keys](ssh-keys.md).
 
 

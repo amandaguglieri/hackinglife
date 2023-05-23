@@ -58,7 +58,7 @@ powershell -ep bypass
 Invoke-BloodHound -CollectionMethod All -Domain CONTROLER.local -ZipFileName loot.zip
 ```
 
-**2.** [Transfer](data-transfer-and-backdoors.md) loot.zip file to you attacker machine
+**2.** [Transfer](transferring-files-techniques.md) loot.zip file to you attacker machine
 
 **3.** Import loot.zip into Bloodhoud.
 

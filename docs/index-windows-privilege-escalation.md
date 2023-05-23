@@ -22,10 +22,14 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 ## Enumeration scripts
 
-- [Seatbelt](seatbelt.md).
-- [JAWS](jaws.md).
-- [Windows Privilege Escalation Awesome Scripts: winPEAS tool](winpeas.md).
+!!! abstract "Enumeration scripts"
+	
+    - [Windows Privilege Escalation Awesome Scripts: winPEAS tool](winpeas.md).
+    - [Seatbelt](seatbelt.md).
+    - [JAWS](jaws.md).
 
+
+## Privilege escalation techniques  
 
 !!! abstract "Techniques"
 
@@ -34,7 +38,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	    - Uniqued Path.
 	    - Named Pipes.
 	    - Registry.
-	    - Executable File.
+	    - [Windows binaries: LOLBAS](windows-binaries.md).
 	    - bin Path.
 	    - [Abusing a service with PowerUp.ps1](powerup.md)
 	- Kernel.
@@ -55,7 +59,3 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	- Hot Potato.
 	- Startup Applications
 
-!!! abstract "Resources and tools"
-
-    - [Windows Privilege Escalation Awesome Scripts: winPEAS tool](winpeas.md).
-  

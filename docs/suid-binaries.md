@@ -6,12 +6,14 @@ TableOfContents: true
 tags:
   - pentesting
   - privilege escalation
+  - linux
 ---
-
 
 # Suid binaries
 
-Resources: [https://gtfobins.github.io/](https://gtfobins.github.io/).
+Resources: [https://gtfobins.github.io/](https://gtfobins.github.io/) contains a list of commands and how they can be exploited through "sudo". 
+
+Equivalent to suid binaries in Windows would be: [LOLBAS](https://lolbas-project.github.io/)
 
 
 ## Most used (by me)

