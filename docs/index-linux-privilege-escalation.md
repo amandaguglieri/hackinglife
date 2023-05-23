@@ -3,6 +3,8 @@ title: Index for Linux Privilege Escalation
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - privilege escalation
 ---
 
 # Index for Linux Privilege Escalation
@@ -18,8 +20,28 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 ![local-privilege-escalation.jpg](img/local-privilege-escalation.jpg)
 
 
-!!! abstract "Techniques"
+## Basic commands for reconnaissance
 
+Some basic commands once you have gained access to a Linux machine:
+
+```bash
+whoami
+pwd
+id
+uname -a
+lsb_release -a
+```
+
+
+## Enumeration scripts
+
+- [Linenum](linenum.md).
+- [LinPEAS](linpeas.md).
+- [Linux Privilege Checker](linux-privilege-checker.md).
+- [Linux Exploit Suggester](linux-exploit-suggester.md)
+
+!!! abstract "Techniques"
+	
     - Cron: path, wildcards, file overwrite.
     - Daemons. 
 	- [Dirty cow](dirty-cow.md).
@@ -40,19 +62,6 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
     - [Enumerate privileges with "Linux Privilege Checker" tool](linux-privilege-checker.md).
     - [Enumerate possible exploits with "Linux Exploit Suggester" tool](linux-exploit-suggester.md).
         
-
-
-## Basic commands for reconnaissance
-
-Some basic commands once you have gained access to a Linux machine:
-
-```bash
-whoami
-pwd
-id
-uname -a
-lsb_release -a
-```
 
 
 | System vulnerability  | Exploit |

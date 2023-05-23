@@ -3,6 +3,8 @@ title: Index for Windows Privilege Escalation
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - privilege escalation
 ---
 
 # Index for Windows Privilege Escalation
@@ -16,6 +18,13 @@ TableOfContents: true
 This is a nice summary related to Local Privilege Escalation by [@s4gi_](https://twitter.com/s4gi_/status/866501430374301696/photo/1):
 
 ![local-privilege-escalation.jpg](img/local-privilege-escalation.jpg)
+
+
+## Enumeration scripts
+
+- [Seatbelt](seatbelt.md).
+- [JAWS](jaws.md).
+- [Windows Privilege Escalation Awesome Scripts: winPEAS tool](winpeas.md).
 
 
 !!! abstract "Techniques"

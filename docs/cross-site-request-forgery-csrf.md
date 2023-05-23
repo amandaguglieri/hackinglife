@@ -44,7 +44,7 @@ Burp has a quite awesome PoC so you can generate HTML (and javascript) code to r
 
 ## Tools and payloads 
 
-- See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
+- See updated chart: [Attacks and tools for web pentesting](web-exploitation.md).
 
 
 

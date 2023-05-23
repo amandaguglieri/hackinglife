@@ -40,8 +40,8 @@ Infinite ways to do it. You can use:
 + Intruder module of BurpSuite.
 + [ZAP proxy tool](../owasp-zap.md).
 + [wfuzz](../wfuzz.md).
-+ [ffuzz](../ffuzz.md). 
-+ [others](../index-attacks-tools-web-pentesting.md).
++ [ffuf](../ffuf.md). 
++ [others](../web-exploitation.md).
 
 Let's see [wfuzz](../wfuzz.md):
 

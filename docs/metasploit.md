@@ -86,7 +86,6 @@ workspace         Switch between database workspaces
 Cheat sheet: 
 
 ```msf
-
 # Search modules
 search (mysearchitem> 
 
@@ -117,6 +116,9 @@ msf  exploit/cmd/linux/tcp_reverse> show payloads
 # Set a payload for the exploit (Watch out, prompt is included)
 msf  exploit/cmd/linux/tcp_reverse> set payload <value> 
 
+# Before we run an exploit-script, we can run a check to ensure the server is vulnerable (Note that not every exploit in the Metasploit Framework supports the `check` function)
+msf6 exploit(windows/smb/ms17_010_psexec) > check
+ 
 # Run the exploit (Watch out, prompt is included)
 msf  exploit/cmd/linux/tcp_reverse> run  
 

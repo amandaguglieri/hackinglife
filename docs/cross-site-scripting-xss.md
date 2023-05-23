@@ -145,7 +145,7 @@ Which sinks can lead to DOM-XSS vulnerabilities:
 
 ## Tools and payloads
 
-+ See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
++ See updated chart: [Attacks and tools for web pentesting](web-exploitation.md).
 + Vectors (payload) regularly updated: [https://portswigger.net/web-security/cross-site-scripting/cheat-sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet).
 + OWASP Cheat Sheet series: XSS Filter Evasion Cheat Sheet: [https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html).
  

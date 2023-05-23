@@ -26,5 +26,5 @@ Read more: [https://hackerone.com/reports/39658](https://hackerone.com/reports/3
 
 ## Tools and payloads 
 
-- See updated chart: [Attacks and tools for web pentesting](index-attacks-tools-web-pentesting.md).
+- See updated chart: [Attacks and tools for web pentesting](web-exploitation.md).
 

@@ -25,6 +25,8 @@ gobuster vhost -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000
 # -u : Specify the URL
 ```
 
+## Enumerate DNS
+
 ## Examples from real life
 
 ```bash

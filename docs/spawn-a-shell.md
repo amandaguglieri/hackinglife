@@ -31,9 +31,9 @@ There are three main types of shell connections:
 
 | **Shell Type** |  **Description** | 
 | ----------- | -------------- |
-| Reverse shell |  Initiates a connection back to a "listener" on our attack box. | 
-| Bind shell | "Binds" to a specific port on the target host and waits for a connection from our attack box. | 
-| Web shell | Runs operating system commands via the web browser, typically not interactive or semi-interactive. It can also be used to run single commands (i.e., leveraging a file upload vulnerability and uploading a PHP script to run a single command. |
+| [Reverse shell](reverse-shells.md) |  Initiates a connection back to a "listener" on our attack box. | 
+| [Bind shells](bind-shells.md) | "Binds" to a specific port on the target host and waits for a connection from our attack box. | 
+| [Web shells](web-shells.md) | Runs operating system commands via the web browser, typically not interactive or semi-interactive. It can also be used to run single commands (i.e., leveraging a file upload vulnerability and uploading a PHP script to run a single command. |
 
 
 ## Spawn a shell
@@ -41,7 +41,7 @@ There are three main types of shell connections:
 ### bash
 
 ```bash
-# Upgrafe shell with running these commands all at once:
+# Upgrade shell with running these commands all at once:
 
 SHELL=/bin/bash script -q /dev/null
 Ctrl-Z
@@ -52,20 +52,6 @@ xterm
 ```
 
 
-### python
-
-```bash
-python -c 'import os; os.system("/bin/sh")'
-```
-
-```bash
- # using python for a pseudo terminal
-python -c 'import pty; pty.spawn("/bin/bash")'
-```
-
-
-### bash
-
 ```bash
 bash -i
 
@@ -73,6 +59,18 @@ bash -i
 echo 'os.system('/bin/bash')'
 ```
 
+
+### python
+
+```bash
+ # using python for a pseudo terminal
+python -c 'import os; os.system("/bin/sh")'
+```
+
+```bash
+ # using python for a pseudo terminal
+python -c 'import pty; pty.spawn("/bin/bash")'
+```
 
 ### ssh
 

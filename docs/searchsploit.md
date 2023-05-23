@@ -1,0 +1,30 @@
+---
+title: searchsploit
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentesting
+  - web pentesting
+  - exploitation
+---
+
+# searchsploit
+
+The Exploit Database is an archive of public exploits and corresponding vulnerable software, developed for use by penetration testers and vulnerability researchers.
+
+## Installation
+
+Pre-installed in kali. Download it from: [https://gitlab.com/exploit-database/exploitdb](https://gitlab.com/exploit-database/exploitdb)
+Also:
+
+```shell-session
+sudo apt install exploitdb -y
+```
+
+## Basic usage
+
+```shell-session
+searchsploit <WhatYouAreLookingFor>
+```
+
