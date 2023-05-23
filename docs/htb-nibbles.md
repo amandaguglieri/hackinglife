@@ -40,17 +40,15 @@ Visiting the IP:80 in the browser and reviewing source code there is a comment:
 
 So, we have a website at http://10.129.96.84/nibbleblog/
 
-Dirb enumeration reveals an login panel: 
+Dirb enumeration reveals a login panel: http://10.129.96.84/nibbleblog/admin.php
 
 ```shell-session
 dirb http://10.129.96.84/nibbleblog/ /usr/share/wordlists/dirb/common.txt
 ```
 
-Login panel: http://10.129.96.84/nibbleblog/admin.php
-
 Too many login attempts too quickly trigger a lockout with the message "Nibbleblog security error - Blacklist protection".
 
-Also, it reveals some directories that are listable. Browsing around we get to this file: http://10.129.96.84/nibbleblog/content/private/users.xml where user "admin" is exposed.
+Also, dirb enumeration reveals some directories that are listable. Browsing around we get to this file: http://10.129.96.84/nibbleblog/content/private/users.xml where user "admin" is exposed.
 
 Also CMS version is disclosed in http://10.129.96.84/nibbleblog/README:
 
