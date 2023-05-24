@@ -70,6 +70,8 @@ python -c 'import os; os.system("/bin/sh")'
 ```bash
  # using python for a pseudo terminal
 python -c 'import pty; pty.spawn("/bin/bash")'
+
+python3 -c "import pty;pty.spawn('/bin/bash')"
 ```
 
 ### ssh

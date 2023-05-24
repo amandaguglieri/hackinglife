@@ -30,6 +30,21 @@ wfuzz -d '{"email":"hapihacker@hapihacker.com","password":"PASSWORD"}' -H 'Conte
 wfuzz -d '{"email":"hapihacker@hapihacker.com", "otp":"FUZZ" "password":"NewPasswordreseted"}' -H 'Content-Type: application/json'-z file,/usr/share/wordlists/SecLists-master/Fuzzing/4-digits-0000-9999.txt -u http://localhost:8888/identity/api/auth/v2/check-otp  --hc 500
 ```
 
+Subdomain enumeration:
+
+```shell-session
+wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H "Host: FUZZ.nunchucks.htb" --hl 546
+# -c: Color in output
+# –hc 404: Hide 404 code responses
+# -t 200: Concurrent Threads
+# -u http://nunchucks.htb/: Target URL
+# -w /usr/share/dirb/wordlists/common.txt: Wordlist 
+# -H “Host: FUZZ.nunchucks.htb”: Header. Also with "FUZZ" we indicate the injection point for payloads
+# –hl 546: Filter out responses with a specific number of lines. In this case, 546
+```
+
+
+
 
 ### Encoding
 

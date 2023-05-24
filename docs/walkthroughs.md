@@ -84,6 +84,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB metatwo](https://amandaguglieri.github.io/hackinglife/htb-metatwo/)
 -   [HTB mongod](https://amandaguglieri.github.io/hackinglife/htb-mongod/)
 -  [HTB nibbles](htb-nibbles.md)
+- [HTB nunchucks](htb-nunchucks.md)
 -   [HTB oopsie](https://amandaguglieri.github.io/hackinglife/htb-oopsie/)
 -   [HTB pennyworth](https://amandaguglieri.github.io/hackinglife/htb-pennyworth/)
 -   [HTB photobomb](https://amandaguglieri.github.io/hackinglife/htb-photobomb/)
@@ -95,3 +96,28 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB trick](https://amandaguglieri.github.io/hackinglife/htb-trick/)
 -   [HTB unified](https://amandaguglieri.github.io/hackinglife/htb-unified/)
 -   [HTB vaccine](https://amandaguglieri.github.io/hackinglife/htb-vaccine/)
+
+
+
+
+After finishing all of the above, there are still many other checkboxes that we need to complete to keep learning, and `Hack The Box` is full of learning opportunities. Here are some ideas:
+
+- [ ]  Root a Retired Easy Box  
+    
+- [ ]  Root a Retired Medium Box  
+    
+- [ ]  Root an Active Box  
+    
+- [ ]  Complete an Easy Challenge  
+    
+- [ ]  Share a Walkthrough of a Retired Box  
+    
+- [ ]  Complete Offensive Academy Modules  
+    
+- [ ]  Root Live Medium/Hard Boxes  
+    
+- [ ]  Complete A Track  
+    
+- [ ]  Win a `Hack The Box Battlegrounds` Battle  
+    
+- [ ]  Complete A Pro Lab

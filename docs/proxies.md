@@ -7,6 +7,20 @@ TableOfContents: true
 
 # Proxies
 
+A proxy is when a device or service sits in the middle of a connection and acts as a mediator.
+
+- HTTP Proxies: BurpSuite
+-  Postman, mitm_relay
+- SOCKS/SSH Proxy (for pivoting): Chisel, ptunnel, sshuttle.
+
+There are many types of proxy services, but the key ones are:
+
+- Dedicated Proxy` / `Forward Proxy: The Forward Proxy, is what most people imagine a proxy to be. A Forward Proxy is when a client makes a request to a computer, and that computer carries out the request. For example, in a corporate network, sensitive computers may not have direct access to the Internet. To access a website, they must go through a proxy (or web filter).
+- Reverse Proxy: As you may have guessed, a reverse proxy, is the reverse of a Forward Proxy. Instead of being designed to filter outgoing requests, it filters incoming ones. The most common goal with a Reverse Proxy, is to listen on an address and forward it to a closed-off network. Many organizations use CloudFlare as they have a robust network that can withstand most DDOS Attacks.
+- Transparent Proxy
+
+
+
 ## Setting up Postman with BurpSuite
 
 1 - Postman > Settings 

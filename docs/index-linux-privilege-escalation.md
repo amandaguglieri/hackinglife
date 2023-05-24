@@ -53,6 +53,7 @@ lsb_release -a
 	- File Permissions: 
 		- [Configuration files](configuration-files.md).
 		- Startup scripts.
+		- [Process capabilities: getcap](process-capabilities-getcap.md)
 		- [Suid binaries](suid-binaries.md): shared object injection, symlink, environmental variables.
 		- [Lxd privileges escalation](lxd.md).
 	- [Kernel vulnerability exploitation](kernel-vulnerability-exploitation.md).

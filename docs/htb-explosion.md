@@ -15,7 +15,8 @@ tags:
 nmap -sC -sV $ip -Pn
 ```
 
-``PORT     STATE SERVICE       VERSION
+```
+PORT     STATE SERVICE       VERSION
 135/tcp  open  msrpc         Microsoft Windows RPC
 139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
 445/tcp  open  microsoft-ds?
