@@ -20,7 +20,7 @@ Example:
 custom_email={{self}}
 ```
 
-What we have here is essentially server-side code execution inside a sandbox. See for instance this Intruder attack with server-side template payloads:
+What we have here is essentially server-side code execution inside a sandbox. See for instance this entrudet performed on Burpsuite Repeater module with server-side template payloads:
 
 ![Example](img/nunchucks_1.png)
 
