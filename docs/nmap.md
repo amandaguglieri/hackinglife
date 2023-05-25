@@ -241,13 +241,6 @@ nmap --script smb-os-discovery.nse -p445 <target IP>
 ```
 
 
-###  Detect a WAF
-
-```bash
-nmap -p 80 -script http-waf-detect <TARGET> 
-```
-
-
 ##  Performance
 
 ### Introducing delays or Timeouts
@@ -297,6 +290,80 @@ Nmap offers six different timing templates (`-T <0-5>`), being defaul one, -T 3.
 | -T 5 | Insane | 
 
 More on [nmap documentation](https://nmap.org/book/performance-timing-templates.html).
+
+## Firewall and IDS/IPS Evasion with nmap
+
+An adversary uses **TCP ACK** segments to gather information about firewall or ACL configuration. The purpose of this type of scan is to discover information about filter configurations rather than port state.
+
+1. An adversary sends TCP packets with the ACK flag set and a sequence number of zero (which means that are not associated with an existing connection to target ports).
+    
+2. An adversary uses the response from the target to determine the port's state. 
+
+	- Filtered port: The target ignores the **packets**, and dropped them. No response is returned or ICMP error codes.
+	- Unfiltered port: The target rejects the packets and returned an RST flag and  different types of ICMP error codes (or none at all): Net Unreachable, Net Prohibited, Host Unreachable, Host Prohibited, Port Unreachable. If a RST packet is received the target port is either closed or the ACK was sent out-of-sync. 
+
+Unlike outgoing connections, all connection attempts (with the `SYN` flag) from external networks are usually blocked by firewalls. However, the packets with the `ACK` flag are often passed by the firewall because the firewall cannot determine whether the connection was first established from the external network or the internal network.
+
+
+###  Detect a WAF
+
+```bash
+nmap -p 80 -script http-waf-detect <TARGET> 
+```
+
+### Decoys
+
+There are cases in which administrators block specific subnets from different regions in principle. Decoys can be used for SYN, ACK, ICMP scans, and OS detection scans. 
+
+With the **Decoy scanning method (-D)**, Nmap generates various random IP addresses inserted into the IP header to disguise the origin of the packet sent.  
+
+```shell-session
+sudo nmap $IP -p 80 -sS -Pn -n --disable-arp-ping --packet-trace -D RND:5
+# -D RND:5  Generates five random IP addresses that indicates the source IP the connection comes from.
+```
+
+Manually specify **IP address (-S)** for getting to services only accessible from individual subnets:
+
+```shell-session
+sudo nmap 10.129.2.28 -n -Pn -p 445 -O -S 10.129.2.200 -e tun0
+# -n: Disables DNS resolution.
+# -Pn: Disables ICMP Echo requests.
+# -p 445: Scans only the specified ports.
+# -O: Performs operation system detection scan.
+# -S: Scans the target by using different source IP address.
+# -e tun0: Sends all requests through the specified interface.
+```
+
+### DNS proxying
+
+The DNS queries are made over the `UDP port 53`. The `TCP port 53` was previously only used for the so-called "`Zone transfers`" between the DNS servers or data transfer larger than 512 bytes. More and more, this is changing due to IPv6 and DNSSEC expansions. These changes cause many DNS requests to be made via TCP port 53.
+
+Bypassing demilitarized zone (DMZ) by specifying DNS servers ourselves (we can use the company's DNS server). 
+`--dns-server <ns>,<ns>`
+
+We can also use TCP port 53 as a source port (`--source-port`) for our scans. If the administrator uses the firewall to control this port and does not filter IDS/IPS properly, our TCP packets will be trusted and passed through. 
+
+Example:
+
+```bash
+# Simple SYS-Scan of a filtered port
+sudo nmap 10.129.2.28 -p50000 -sS -Pn -n --disable-arp-ping --packet-trace
+# PORT      STATE    SERVICE
+# 50000/tcp filtered ibm-db2
+
+
+# SYN-Scan From DNS Port
+sudo nmap 10.129.2.28 -p50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
+# PORT      STATE SERVICE
+# 50000/tcp open  ibm-db2
+```
+
+Following the example, a possible exploitation for this weak configuration would be:
+
+```shell-session
+nc -nv -p 53 10.129.2.28 50000
+```
+
 
 ## How nmap works
 
@@ -380,9 +447,9 @@ If the response is:
 
 #### -sA (ACK scan)
 
-Returns if the port is filtered or  not. It's useful to detect a firewall.
+Returns if the port is filtered or  not. It's useful to detect a firewall. Filtered ports reveals the existence of some kind of firewall.
 
-![TCP SYN scan](img/nmap_sa.jpeg)
+![TCP SYN scan](img/nmap_sa.png)
 
 A variation of the TCP ACK scan is the TCP Windows scan.
 
@@ -393,6 +460,7 @@ It also sends an ACK packet. In the response we pay attention to the Windows siz
 
 - If the windows size is different from 0, the port is open.
 - If the windows size is 0, the port is either close or filtered.
+
 
 ## How To Identify Operating System Using TTL Value And Ping Command
 
