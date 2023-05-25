@@ -38,6 +38,15 @@ HEAD / HTTP/1.0
 # And hit RETURN twice
 ```
 
+Also, Nmap does not always recognize all information by default. Sometimes you can use netcat to interpelate a service:
+
+```shell-session
+ nc -nv <TARGET IP> <PORT NUMBER>
+```
+
+
+
+
 ## Netcat commands
 
 

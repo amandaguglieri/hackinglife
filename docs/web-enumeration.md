@@ -39,6 +39,15 @@ curl -IL https://<TARGET>
 # -L, --location: (HTTP) If the server reports that the requested page has moved to a different location (indicated with a Location: header and a 3XX response  code),  this  option  will make  curl  redo the request on the new place. If used together with -i, --include or -I, --head, headers from all requested pages will be shown. 
 ```
 
+
+## Hostname discovery
+
+```shell-session
+nmap --script smb-os-discovery $IP
+```
+
+
+
 ## DNS enumeration
 
 [Gobuster](gobuster.md):
@@ -107,6 +116,7 @@ Also, you can use a script for nmap:
 ```bash
 nmap --script ssl-enum-ciphers <HOSTNAME>
 ```
+
 
 
 ## Tools
