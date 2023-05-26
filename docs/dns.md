@@ -7,3 +7,8 @@
 
 
 [See DNS enumeration](web-enumeration.md)
+
+
+## DNS transfer zones
+
+[See dig axfr](dig.md). 
