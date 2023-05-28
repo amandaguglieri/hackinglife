@@ -89,6 +89,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB oopsie](htb-oopsie.md)
 -   [HTB pennyworth](htb-pennyworth.md)
 -   [HTB photobomb](htb-photobomb.md)
+-   [HTB popcorn](htb-popcorn.md)
 -   [HTB redeemer](htb-redeemer.md)
 -   [HTB responder](htb-responder.md)
 -   [HTB sequel](htb-sequel.md)
