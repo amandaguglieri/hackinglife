@@ -22,17 +22,25 @@ rsync rsync://IP
 
 ## Basic rsync commands
 
-### Copy a file the server to your machine
-
 General syntax:
 
 ```
 rsync [OPTION] ... [USER@]HOST::SRC [DEST]
 ```
 
-Example
+
 
 ```bash
-rsync rsync://IP/folder/sourcefile.txt destinationfile.txt    
+# List content
+rsync IP::
+
+# List recursively a directory
+rsync -r IP::folder
+
+# Download a file from  the server to your machine
+rsync IP::folder/sourcefile.txt destinationfile.txt    
+
+# Downloa a folder
+rsync -r IP::folder/sourcefile.txt destinationfile.txt   
 ```
 
