@@ -34,6 +34,23 @@ cat << EOF > stream.txt
 
 ## Commands
 
+### host
+
+host is a simple utility for performing DNS lookups. It is normally used to convert names to IP addresses and vice versa. When no arguments or options are given, host prints a short summary of its command-line arguments and options.
+
+```shell-session
+# General syntax
+host <name> <server> 
+
+# <name> is the domain name that is to be looked up. It can also be a dotted-decimal IPv4 address or a colon-delimited IPv6 address, in which case host by default performs  a  reverse  lookup  for  that  address.   
+# <server>  is  an optional argument which is either the name or IP address of the name server that host should query instead of the server or servers listed in /etc/resolv.conf.
+```
+
+Example:
+
+```shell-session
+host example.com 8.8.8.8
+```
 
 ### lsblk 
 

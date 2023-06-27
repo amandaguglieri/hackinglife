@@ -56,6 +56,14 @@ nmap --script smb-os-discovery $IP
 gobuster dns -d <DOMAIN (without http)> -w /usr/share/SecLists/Discovery/DNS/namelist.txt
 ```
 
+[Dig](dig.md):
+
+```bash
+# Get email of administrator of the domain
+dig soa www.example.com
+# The email will contain a (.) dot notation instead of @
+```
+
 ## Subdomain enumeration
 
 [Gobuster](gobuster.md):

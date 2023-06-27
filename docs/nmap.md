@@ -198,19 +198,38 @@ NSE (Nmap Script Engine) provides us with the possibility to create scripts in L
 |`version`|Extension for service detection.|
 |`vuln`|Identification of specific vulnerabilities.|
 
-### Vulnerability assessment
+### General vulnerability assessment
 
 ```shell-session
 sudo nmap 10.129.2.28 -p 80 -sV --script vuln 
 ```
 
-### Attack a ssh connection:
+#### Port 21: footprinting FTP
+
+```shell-session
+# Locate all ftp scripts related
+find / -type f -name ftp* 2>/dev/null | grep scripts
+
+# Run a general scanner for version, mode aggresive and perform default scripts
+sudo nmap -sV -p21 -sC -A <TargetIP>
+# ftp-anon NSE script checks whether the FTP server allows anonymous access.
+# ftp-syst, for example, executes the `STAT` command, which displays information about the FTP server status.
+```
+
+#### Port 22: attack a ssh connection
 
 ```bash
 nmap 192.153.213.3 -p 22 --script ssh-brute --script-args userdb=users.txt,passdb=/usr/share/nmap/nselib/data/passwords.lst
 ```
 
-### Grab banners of services
+#### Ports 137, 138, 139, 445: footprinting SMB
+
+```shell-session
+sudo nmap <TargetIP> -sV -sC -p139,445
+```
+
+
+#### Grab banners of services
 
 ```bash
 # Grab banner of services in an IP
@@ -431,7 +450,7 @@ By default, `Nmap` scans the top 1000 TCP ports with the SYN scan (`-sS`). This 
 
 TCP connect scan is the default TCP scan type when SYN scan is not an option (when not running with privileges).  The Nmap [TCP Connect Scan](https://nmap.org/book/scan-methods-connect-scan.html) (-sT) uses the TCP three-way handshake to determine if a specific port on a target host is open or closed. The scan sends an `SYN` packet to the target port and waits for a response. It is considered open if the target port responds with an SYN-ACK packet and closed if it responds with an RST packet.
 
-![TCP SYN scan](img/nmap_st.jpeg)
+![TCP Connect scan](img/nmap_st.jpeg)
 
 
 #### -sN (A NULL scan)
@@ -449,7 +468,7 @@ If the response is:
 
 Returns if the port is filtered or  not. It's useful to detect a firewall. Filtered ports reveals the existence of some kind of firewall.
 
-![TCP SYN scan](img/nmap_sa.png)
+![TCP ACK  scan](img/nmap_sa.png)
 
 A variation of the TCP ACK scan is the TCP Windows scan.
 

@@ -9,7 +9,7 @@ tags:
 
 # SAMRDump
 
-Impacket’s samrdump.py communicates with the Security Account Manager Remote (SAMR) interface to list system user accounts, available resource shares, and other sensitive information.
+[Impacket](impacket.md)’s [samrdump.py](https://github.com/fortra/impacket/blob/master/examples/samrdump.py) communicates with the Security Account Manager Remote (SAMR) interface to list system user accounts, available resource shares, and other sensitive information.
 
 ## Basic commands
 
