@@ -56,12 +56,24 @@ nmap --script smb-os-discovery $IP
 gobuster dns -d <DOMAIN (without http)> -w /usr/share/SecLists/Discovery/DNS/namelist.txt
 ```
 
-[Dig](dig.md):
+[Dig](dig.md): 
 
 ```bash
 # Get email of administrator of the domain
 dig soa www.example.com
 # The email will contain a (.) dot notation instead of @
+
+# ENUMERATION
+# List nameservers known for that domain
+dig ns example.com @<IP>
+# -ns: other name servers are known in NS record
+#  `@` character specifies the DNS server we want to query.
+
+# View all available records
+dig any example.com @<IP>
+
+# Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
+dig CH TXT version.bind <IP>
 ```
 
 ## Subdomain enumeration
@@ -89,6 +101,13 @@ wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/
 # –hl 546: Filter out responses with a specific number of lines. In this case, 546
 ```
 
+Using [dnsenum](dnsenum.md).
+
+Bash script, using Sec wordlist:
+
+```shell-session
+for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @<IP> | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
+```
 
 ## Directory/File enumeration
 

@@ -31,13 +31,15 @@ dig CH TXT version.bind <IP>
 
 ## dig axfr
 
-dig is a DNS lookup utility but combined with "axfr" is used to do DNS zone transfer. AXFR refes to the protocol used during a DNS zone transfer. 
+dig is a DNS lookup utility but combined with "axfr" is used to do DNS zone transfer. This procedure is abbreviated `Asynchronous Full Transfer Zone` (`AXFR`), which is the protocol used during a DNS zone transfer. 
 
 Basically, in a DNS query a client provide a human-readable hostname and the DNS server responses with an IP address. 
 
 ### What is a DNS zone? 
 
-DNS servers host zones. One example of a DNS zone might be example.com and all its subdomains. However secondzone.example.com can also be a separated zone.
+DNS servers host zones. One example of a DNS zone might be example.com and all its subdomains. However secondzone.example.com can also be a separated zone. 
+
+A zone file is a text file that describes a DNS zone with the BIND file format. In other words it is a point of delegation in the DNS tree. The BIND file format is the industry-preferred zone file format and is now well established in DNS server software. A zone file describes a zone completely. 
 
 ### Why Is DNS Zone Transfer Needed
 
@@ -47,10 +49,16 @@ However, a zone may be large and may require frequent changes. If you manually e
 
 You can use different mechanisms for DNS zone transfer but the simplest one is AXFR (technically speaking, AXFR refers to the protocol used during a DNS zone transfer). It is a client-initiated request. Therefore, you can edit information on the primary DNS server and then use AXFR from the secondary DNS server to download the entire zone.
 
+Synchronization between the servers involved is realized by zone transfer. Using a secret key `rndc-key`, which we have seen initially in the default configuration, the servers make sure that they communicate with their own master or slave. A DNS server that serves as a direct source for synchronizing a zone file is called a master. A DNS server that obtains zone data from a master is called a slave. A primary is always a master, while a secondary can be both a slave and a master. For some `Top-Level Domains` (`TLDs`), making zone files for the `Second Level Domains` accessible on at least two servers is mandatory.
+
 Initiating an AXFR zone-transfer request from a secondary server is as simple as using the following dig commands, where zonetransfer.me is the domain that we want to initiate a zone transfer for. First, we will need to get the list of DNS servers for the domain.
 
 
-`Zone transfer` refers to the transfer of zones to another server in DNS, which generally happens over TCP port 53. This procedure is abbreviated `Asynchronous Full Transfer Zone` (`AXFR`). Since a DNS failure usually has severe consequences for a company, the zone file is almost invariably kept identical on several name servers. When changes are made, it must be ensured that all servers have the same data. Synchronization between the servers involved is realized by zone transfer. Using a secret key `rndc-key`, which we have seen initially in the default configuration, the servers make sure that they communicate with their own master or slave. Zone transfer involves the mere transfer of files or records and the detection of discrepancies in the data sets of the servers involved.
+```shell-session
+dig axfr example.htb @<IP>
+```
+
+If the administrator used a subnet for the `allow-transfer` option for testing purposes or as a workaround solution or set it to `any`, everyone would query the entire zone file at the DNS server.
 
 ## HTB machines
 

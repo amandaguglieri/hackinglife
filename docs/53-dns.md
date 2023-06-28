@@ -1,5 +1,5 @@
 ---
-title: Domain Name Server (DNS)
+title: Port 53 - Domain Name Server (DNS)
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -10,7 +10,7 @@ tags:
   - pentesting
 ---
 
-# Domain Name Server (DNS) 
+# Port 53 - Domain Name Server (DNS) 
 
 Globally distributed DNS servers translate domain names into IP addresses and thus control which server a user can reach via a particular domain. There are several types of DNS servers that are used worldwide:
 
@@ -89,7 +89,7 @@ The DNS server [Bind9](https://www.isc.org/bind/) is very often used on Linux-ba
 - `/etc/bind/named.conf.options`
 - `/etc/bind/named.conf.log`
 
-In the file `/etc/bind/named.conf.local`  we can define the different zones.. A `zone file` is a text file that describes a DNS zone with the BIND file format. In other words it is a point of delegation in the DNS tree. The BIND file format is the industry-preferred zone file format and is now well established in DNS server software. A zone file describes a zone completely. There must be precisely one `SOA` record and at least one `NS` record. The SOA resource record is usually located at the beginning of a zone file. The main goal of these global rules is to improve the readability of zone files. A syntax error usually results in the entire zone file being considered unusable. The name server behaves similarly as if this zone did not exist. It responds to DNS queries with a `SERVFAIL` error message.
+In the file `/etc/bind/named.conf.local`  we can define the different zones. A `zone file` is a text file that describes a DNS zone with the BIND file format. In other words it is a point of delegation in the DNS tree. The BIND file format is the industry-preferred zone file format and is now well established in DNS server software. A zone file describes a zone completely. There must be precisely one `SOA` record and at least one `NS` record. The SOA resource record is usually located at the beginning of a zone file. The main goal of these global rules is to improve the readability of zone files. A syntax error usually results in the entire zone file being considered unusable. The name server behaves similarly as if this zone did not exist. It responds to DNS queries with a `SERVFAIL` error message.
 
 DNS misconfigurations and vulnerabilities.
 
@@ -119,5 +119,28 @@ dig any example.com @<IP>
 # Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
 dig CH TXT version.bind <IP>
 
+# Get email of administrator of the domain
+dig soa www.example.com
+# The email will contain a (.) dot notation instead of @
+
 ```
+
+Transfer a zone ([more on dig axfr](dig.md))
+
+```shell-session
+dig axfr example.htb @<IP>
+```
+
+If the administrator used a subnet for the `allow-transfer` option for testing purposes or as a workaround solution or set it to `any`, everyone would query the entire zone file at the DNS server.
+
+## Subdomain brute enumeration
+
+Using Sec wordlist:
+
+```shell-session
+for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @<IP> | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
+```
+
+
+Also there are some tools, such as [dnsenum](dnsenum.md).
 
