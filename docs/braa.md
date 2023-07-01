@@ -28,7 +28,7 @@ sudo apt install braa
 
 
 ```shell-session
-braa <community string>@<IP>:.1.3.6.*   
+braa <community string>@$ip:.1.3.6.*   
 
 	# Example:
 	# braa public@10.129.14.128:.1.3.6.*

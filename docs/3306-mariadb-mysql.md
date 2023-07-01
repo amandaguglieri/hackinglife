@@ -19,7 +19,7 @@ tags:
 
 
 ```shell-session
-sudo nmap <IP> -sV -sC -p3306 --script mysql*
+sudo nmap $ip -sV -sC -p3306 --script mysql*
 ```
 
 

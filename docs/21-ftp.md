@@ -43,7 +43,7 @@ sudo apt install ftp -y
 Then to connect with ftp, run:
 
 ```bash
-ftp <IP> 
+ftp $ip 
 ```
 
 The prompt will ask us for the username we want to log in with. Here is where the magic happens. A typical misconfiguration for running FTP services allows an anonymous account to access the service like any other authenticated user. The anonymous username can be input when the prompt appears, followed by any password whatsoever since the service will disregard the password for this specific account.
@@ -52,7 +52,7 @@ The prompt will ask us for the username we want to log in with. Here is where th
 
 ```
 # Connect with ftp
-ftp <IP>
+ftp $ip
 
 # If anonymous login is allowed, enter anonymous as user and press Enter when prompted for password
 
@@ -82,7 +82,7 @@ More posibilities with wget:
 
 ```
 # Download all available files at once
-wget -m --no-passive ftp://anonymous:anonymous@<TargetIP>
+wget -m --no-passive ftp://anonymous:anonymous@$ip
 
 ```
 
@@ -94,7 +94,7 @@ wget -m --no-passive ftp://anonymous:anonymous@<TargetIP>
 find / -type f -name ftp* 2>/dev/null | grep scripts
 
 # Run a general scanner for version, mode aggresive and perform default scripts
-sudo nmap -sV -p21 -sC -A <TargetIP>
+sudo nmap -sV -p21 -sC -A $ip
 # ftp-anon NSE script checks whether the FTP server allows anonymous access.
 # ftp-syst, for example, executes the `STAT` command, which displays information about the FTP server status.
 ```

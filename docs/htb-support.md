@@ -401,7 +401,7 @@ Now we can use a tool such as ldapsearch to open a connection to the LDAP server
 Using ldapsearch, we run:
 
 ```bash
-# # ldapsearch -x -H ldap://<IP> -D '<DOMAIN>\<username>' -w '<password>' -b "CN=Users,DC=<1_SUBDOMAIN>,DC=<TLD>"
+# # ldapsearch -x -H ldap://$ip -D '<DOMAIN>\<username>' -w '<password>' -b "CN=Users,DC=<1_SUBDOMAIN>,DC=<TLD>"
 
 ldapsearch -x -H ldap://support.htb -D 'support\ldap' -w 'nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz' -b "CN=Users,DC=support,DC=htb"
 ```
@@ -526,13 +526,18 @@ Then, follow the instructions from the repo.
 
 Preinstalled in a kali machine. Tool to exploit null sessions by using some PERL scripts. Some cool commands here:
 
-enum4linux -S <target IP>     // enumerates shares
-enum4linux -U <target IP>     // enumerates users
-enum4linux -M <target IP>     // enumerates machine list
-enum4linux -enuP<target IP>   // displays the password policy in case you need to mount a network authentification attack
-enum4linux -u <target IP>     // specify username to use (default “”)
-enum4linux -p <target IP>     // specify password to use (default “”)
-enum4linux -s /usr/share/enum4linux/share-list.txt <target IP>    // Also you can use brute force by adding a file
+```bash
+# enumerates shares
+enum4linux -S $ip
+
+# enumerates users
+enum4linux -U $ip
+enum4linux -M $ip     // enumerates machine list
+enum4linux -enuP $ip   // displays the password policy in case you need to mount a network authentification attack
+enum4linux -u $ip     // specify username to use (default “”)
+enum4linux -p $ip    // specify password to use (default “”)
+enum4linux -s /usr/share/enum4linux/share-list.txt $ip    // Also you can use brute force by adding a file
+```
 
 **dnspy**
 
@@ -583,8 +588,8 @@ ldap-utils are preinstalled in kali, but before this lab, I didn't have had the 
 
 Syntax:
 
-```
-ldapsearch -x -H ldap://<IP> -D '<DOMAIN>\<username>' -w '<password>' -b "CN=Users,DC=<1_SUBDOMAIN>,DC=<TLD>"
+```bash
+ldapsearch -x -H ldap://$ip -D '<DOMAIN>\<username>' -w '<password>' -b "CN=Users,DC=<1_SUBDOMAIN>,DC=<TLD>"
 ```
 
 An example:

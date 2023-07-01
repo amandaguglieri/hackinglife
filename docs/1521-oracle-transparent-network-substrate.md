@@ -24,7 +24,7 @@ Oracle TNS is often used with other Oracle services like Oracle DBSNMP, Oracle D
 Let's now use nmap to scan the default Oracle TNS listener port:
 
 ```shell-session
-sudo nmap -p1521 -sV <IP> --open
+sudo nmap -p1521 -sV $ip --open
 ```
 
 ### Enumerating SIDs
@@ -37,7 +37,7 @@ In Oracle relational databases, also known as **Oracle RDBMS**, there are System
 
 
 ```shell-session
-sudo nmap -p1521 -sV <IP> --open --script oracle-sid-brute
+sudo nmap -p1521 -sV $ip --open --script oracle-sid-brute
 ```
 
 
@@ -46,7 +46,7 @@ sudo nmap -p1521 -sV <IP> --open --script oracle-sid-brute
 We can use the `odat.py`  from [ODAT](odat.md) tool to retrieve database names, versions, running processes, user accounts, vulnerabilities, misconfigurations,...
 
 ```shell-session
-/odat.py all -s <IP>
+/odat.py all -s $ip
 ```
 
 Addittionaly, if you have sysdba admin rights, you might  upload a web shell to the target ([more in odat](odat.md))  
@@ -56,7 +56,7 @@ Addittionaly, if you have sysdba admin rights, you might  upload a web shell to 
 If we manage to get some credentials we can connect to the Oracle TNS service with [sqlplus](sqlplus.md).
 
 ```shell-session
-sqlplus <username>/<password>@<IP>/XE;
+sqlplus <username>/<password>@$ip/XE;
 ```
 
 In case of this error message ( sqlplus: error while loading shared libraries: libsqlplus.so: cannot open shared object file: No such file or directory), there might be an issue with libraries. Possible solution:
@@ -68,7 +68,7 @@ sudo sh -c "echo /usr/lib/oracle/12.2/client64/lib > /etc/ld.so.conf.d/oracle-in
 The System Database Admin  in an Oracle RDBMS is **sysdba**. If an user has more privileges that they should have we can try to exploit it as sysdba.
 
 ```shell-session
-sqlplus <user>/<password>@<IP>/XE as sysdba
+sqlplus <user>/<password>@$ip/XE as sysdba
 ```
 
 ## Upload a web shell
@@ -80,10 +80,10 @@ If we have sysdba admin rights, we might  upload a web shell to the target. This
 echo "Oracle File Upload Test" > testing.txt
 
 # 2. Upload  the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):
-./odat.py utlfile -s <IP> -d XE -U <user> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt
+./odat.py utlfile -s $ip -d XE -U <user> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt
 
 ## 3. Test if the file upload approach worked with curl, or visit via browser.
-curl -X GET http://<IP>/testing.txt
+curl -X GET http://$ip/testing.txt
 ```
 
 
@@ -107,7 +107,7 @@ select name, password from sys.user$;
 	## 1. Creating a non suspicious web shell 
 echo "Oracle File Upload Test" > testing.txt
 	## 2. Uploading the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):
-./odat.py utlfile -s <IP> -d XE -U <user> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt
+./odat.py utlfile -s $ip -d XE -U <user> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt
 ```
 
 

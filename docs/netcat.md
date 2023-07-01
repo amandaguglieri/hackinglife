@@ -27,13 +27,13 @@ sudo apt install ncat
 It’s used for HTTP
 
 ```bash
-nc <IP> <port> -flags
+nc $ip <port> -flags
 ```
 
 ### Fingerprinting with netcat
 
 ```bash
-nc  <IP> 80
+nc $ip 80
 HEAD / HTTP/1.0     
 # And hit RETURN twice
 ```
@@ -41,7 +41,7 @@ HEAD / HTTP/1.0
 Also, Nmap does not always recognize all information by default. Sometimes you can use netcat to interpelate a service:
 
 ```shell-session
- nc -nv <TARGET IP> <PORT NUMBER>
+ nc -nv $ip <PORT NUMBER>
 ```
 
 
@@ -64,7 +64,7 @@ nc -lvp 8888
 ### As a client
 
 ```bash
-nc -v <ip> <port>
+nc -v $ip <port>
 ```
 
 
@@ -80,7 +80,7 @@ nc -lvp <port>
 On the client side:
 
 ```bash
-echo “hello” | nc -v <ip> <port>
+echo “hello” | nc -v $ip <port>
 ```
 
 
@@ -97,7 +97,7 @@ nc -lvp <port> > received.txt
 On the client side:
 
 ```bash
-echo “hello” | nc -v <ip> <port>
+echo “hello” | nc -v $ip <port>
 ```
 
 ## Transfer file and save it 
@@ -112,7 +112,7 @@ nc -lvp <port> > received.txt
 On the client side:
 
 ```bash
-cat tobesentfiel.txt | nc -v <ip> <port>
+cat tobesentfiel.txt | nc -v $ip <port>
 ```
 
 ## Netcat shell
@@ -126,7 +126,7 @@ nc -lvp <port> -e /bin/bash
 On the client side:
 
 ```bash
-nc -v <ip> <port>
+nc -v $ip <port>
 ```
 
 

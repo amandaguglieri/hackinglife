@@ -45,7 +45,7 @@ Check installation with:
 We can use the `odat.py`  from [ODAT](odat.md) tool to retrieve database names, versions, running processes, user accounts, vulnerabilities, misconfigurations,...
 
 ```shell-session
-/odat.py all -s <IP>
+/odat.py all -s $ip
 ```
 
 
@@ -58,8 +58,8 @@ We can use the `odat.py`  from [ODAT](odat.md) tool to retrieve database names, 
 echo "Oracle File Upload Test" > testing.txt
 
 ## 2. Uploading the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):
-./odat.py utlfile -s <IP> -d XE -U <user> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt
+./odat.py utlfile -s $ip -d XE -U <user> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt
 
 ## 3. Test if the file upload approach worked with curl, or visit via browser.
-curl -X GET http://<IP>/testing.txt
+curl -X GET http://$ip/testing.txt
 ```

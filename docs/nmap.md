@@ -17,19 +17,19 @@ tags:
 Network Mapper is an open source tool for network exploration and security auditing. Free and open-source scanner created by Gordon Lyon. Nmap is used to discover hosts and services on a computer network by sending packages and analyzing the responses. Another discovery feature is that of operating system detection. These features are extensible by scripts that provide more advanced service detection.
 
 ```shell-session
-nmap <scan types> <options> <target>
+nmap <scan types> <options> $ip
 ```
 
 
 ```
 # commonly used
-nmap -sT -Pn --unprivileged --script banner targetIP
+nmap -sT -Pn --unprivileged --script banner $ip
 
 # enumerate ciphers supported by the application server
-nmap -sT -p 443 -Pn -unprivilegeds --script ssl-enum-ciphers targetIP
+nmap -sT -p 443 -Pn -unprivilegeds --script ssl-enum-ciphers $ip
 
 # sync-scan the top 10,000 most well-known ports
-nmap -sS $IP --top-ports 10000
+nmap -sS $ip --top-ports 10000
 ```
 
 Worthwhile for understanding how packages are sent and received is the --packet-trace option. Also --reason displays the reason for specific result.
@@ -37,7 +37,7 @@ Worthwhile for understanding how packages are sent and received is the --packet-
 Also, Nmap does not always recognize all information by default. Sometimes you can use [netcat](netcat.md) to interpelate a service:
 
 ```shell-session
- nc -nv <TARGET IP> <PORT NUMBER>
+ nc -nv $ip <PORT NUMBER>
 ```
 
 
@@ -66,82 +66,82 @@ nmap 10.0.2.1 -p U:53, T:80
 # -oX: XML output  with the .xml file extension
 # -oA: Save results in all formats
 # -oA target: Saves the results in all formats, starting the name of each file with 'target'.
-sudo nmap 10.0.2.1 -oA path/to/target
+sudo nmap $ip -oA path/to/target
 
 
 # It forces port enumeration and it's not limited to 1000 ports
-nmap 10.0.2.1 -p-     
+nmap $ip -p-     
 
 # Disables port scanning. If we disable port scan (`-sn`), Nmap automatically ping scan with `ICMP Echo Requests` (`-PE`). Also called ping scan or ping sweep. More reliable that pinging the broadcast address because hosts do not reply to broadcast queries).
-nmap -sn 10.0.2.1
+nmap -sn $ip
 
 # Disables DNS resolution.
-nmap -n 10.0.2.1
+nmap -n $ip
 
 # Disables ARP ping.
-nmap 10.0.2.1 --disable-arp-ping
+nmap $ip --disable-arp-ping
 
 # This option skips the host discovery stage altogether. It deactivates the ICMP echo requests
-nmap  -Pn  10.0.2.1  
+nmap  -Pn  $ip  
 
 # Scans top 100 ports.
-nmap  -F  10.0.2.1  
+nmap  -F  $ip 
 
 # Shows the progress of the scan every 5 seconds.
-nmap 10.0.2.1 --stats-every=5s
+nmap $ip --stats-every=5s
 
 # To skip host discovery and port scan, while still allowing NMAP Scripting Engine to run, we use -Pn -sn combined.
-nmap -Pn -sn 10.0.2.1
+nmap -Pn -sn $ip
 
 # OS detection
-nmap -O 10.0.2.1 
+nmap -O $ip 
 
 # Limit OS detection to promising targets
-nmap -O 10.0.2.1 -osscan-limit
+nmap -O $ip -osscan-limit
 
 # Guess OS more aggressively
-nmap -O 10.0.2.1 -osscan-guess
+nmap -O $ip -osscan-guess
 
 # Version detection
-nmap -sV 10.0.2.1 
+nmap -sV $ip 
 
 # Intensity level goes from 0 to 9
-nmap -sV 10.0.2.1 –-version-intensity 8  
+nmap -sV $ip –-version-intensity 8  
 
 # tcpwrapped means that the TCP handshake was completed, 
 # but the remote host closed the connection without receiving any data. 
 # This means that something is blocking connectivity with the target host. 
 
 # OS detection + version detection + script scanning + traceroute
-nmap -A 10.0.2.1
+nmap -A $ip
 
 # Half-open scanning. SYN + SYN ACK + RST
 # A well-configured IDS will still detect the scan
-nmap -sS 10.0.2.1
+nmap -sS $ip
 
 # TCP connect scan: SYN + SYN ACK + ACK + DATA (banner) +RST
 # This scan gets recorded in the application logs on the target systems
-nmap -sT 10.0.2.1 
+nmap -sT $ip
 
 # Scan a list of hosts. One per line in the file
-nmap -sn -iL 10.0.2.1 hosttoscanlist.txt 
+nmap -sn -iL $ip hosttoscanlist.txt 
 
 # List targets to scan
-nmap -sL 10.0.2.1  
+nmap -sL $ip 
 
 # Full scanner
-nmap -sC -sV -p- 10.0.2.1  
+nmap -sC -sV -p- $ip  
 # The script scan `-sC` flag causes `Nmap` to report the server headers `http-server-header` page and the page title `http-title` for any web page hosted on the webserver.
 
 
 # UDP quick
-nmap -sU -sV  10.0.2.1 
+nmap -sU -sV  $ip
 
 # Called ACK scan. Returns if the port is filtered or not. Useful to determine if there is a firewall.
-nmap -sA 10.0.2.1 
+nmap -sA $ip 
 
 # It sends a ACK packet. In the response we pay attention to the windows size of the TCP header. If the windows size is different from zero, the port is open. If it is zero, then port is either closed or filtered. 
-nmap -sW 10.0.2.1 
+nmap -sW $ip
 ```
 
 To redirect results to a file > targetfile.txt
@@ -169,13 +169,13 @@ Run a script:
 
 ```bash
 # Run default scripts 
-nmap <target> -sC
+nmap $ip -sC
 
 # Run  scripts from a category. See categories below
-nmap <target> --script <category>
+nmap $ip --script <category>
 
 # Run specific scripts
-nmap --script <script-name>,<script-name>,<script-name> -p<port> <target>
+nmap --script <script-name>,<script-name>,<script-name> -p<port> $ip
 ```
 
 
@@ -186,7 +186,7 @@ NSE (Nmap Script Engine) provides us with the possibility to create scripts in L
 |`auth`|Determination of authentication credentials.|
 |`broadcast`|Scripts, which are used for host discovery by broadcasting and the discovered hosts, can be automatically added to the remaining scans.|
 |`brute`|Executes scripts that try to log in to the respective service by brute-forcing with credentials.|
-|`default`|Default scripts executed by using the `-sC` option. Syntax: ```sudo nmap <target> -sC ``` |
+|`default`|Default scripts executed by using the `-sC` option. Syntax: ```sudo nmap $ip -sC ``` |
 |`discovery`|Evaluation of accessible services.|
 |`dos`|These scripts are used to check services for denial of service vulnerabilities and are used less as it harms the services.|
 |`exploit`|This category of scripts tries to exploit known vulnerabilities for the scanned port.|
@@ -201,17 +201,17 @@ NSE (Nmap Script Engine) provides us with the possibility to create scripts in L
 ### General vulnerability assessment
 
 ```shell-session
-sudo nmap 10.129.2.28 -p 80 -sV --script vuln 
+sudo nmap $ip -p 80 -sV --script vuln 
 ```
 
 #### Port 21: footprinting FTP
 
-```shell-session
+```bash
 # Locate all ftp scripts related
 find / -type f -name ftp* 2>/dev/null | grep scripts
 
 # Run a general scanner for version, mode aggresive and perform default scripts
-sudo nmap -sV -p21 -sC -A <TargetIP>
+sudo nmap -sV -p21 -sC -A $ip
 # ftp-anon NSE script checks whether the FTP server allows anonymous access.
 # ftp-syst, for example, executes the `STAT` command, which displays information about the FTP server status.
 ```
@@ -219,13 +219,13 @@ sudo nmap -sV -p21 -sC -A <TargetIP>
 #### Port 22: attack a ssh connection
 
 ```bash
-nmap 192.153.213.3 -p 22 --script ssh-brute --script-args userdb=users.txt,passdb=/usr/share/nmap/nselib/data/passwords.lst
+nmap $ip -p 22 --script ssh-brute --script-args userdb=users.txt,passdb=/usr/share/nmap/nselib/data/passwords.lst
 ```
 
 #### Ports 137, 138, 139, 445: footprinting SMB
 
 ```shell-session
-sudo nmap <TargetIP> -sV -sC -p139,445
+sudo nmap $ip -sV -sC -p139,445
 ```
 
 
@@ -233,10 +233,10 @@ sudo nmap <TargetIP> -sV -sC -p139,445
 
 ```bash
 # Grab banner of services in an IP
-nmap -sV --script=banner <target>
+nmap -sV --script=banner $ip
 
 # Grab banners of services in a range
-nmap -sV --script=banner 192.217.70.0/24
+nmap -sV --script=banner $ip/24
 ```
 
 
@@ -247,16 +247,16 @@ nmap -sV --script=banner 192.217.70.0/24
 locate -r nse$|grep <term>
 
 # 2. Select smb-enum-shares and run it
-nmap -script=smb-enum-shares <target IP>
+nmap -script=smb-enum-shares $ip
 
 # 3. Retrieve users
-nmap -script=smb-enum-users <target IP>
+nmap -script=smb-enum-users $ip
 
 # 4. Retrieve groups with passwords and user
-nmap -script=smb-brute <target IP>
+nmap -script=smb-brute $ip
 
 # Interact with the SMB service to extract the reported operating system version
-nmap --script smb-os-discovery.nse -p445 <target IP>
+nmap --script smb-os-discovery.nse -p445 $ip
 ```
 
 
@@ -283,7 +283,7 @@ sudo nmap IP/24 -F --initial-rtt-timeout 50ms --max-rtt-timeout 100ms
 The default value for the retry rate is 10, so if Nmap does not receive a response for a port, it will not send any more packets to the port and will be skipped.
 
 ```shell-session
-sudo nmap 10.129.2.0/24 -F --max-retries 0
+sudo nmap $ip/24 -F --max-retries 0
 ```
 
 ### Rates
@@ -291,7 +291,7 @@ sudo nmap 10.129.2.0/24 -F --max-retries 0
 When setting the minimum rate (--min-rate) for sending packets, we tell `Nmap` to simultaneously send the specified number of packets.
 
 ```bash
-sudo nmap <IP>/24 -F --min-rate 300
+sudo nmap $ip/24 -F --min-rate 300
 # --min-rate 300 Sets the minimum number of packets to be sent per second.
 ```
 
@@ -327,7 +327,7 @@ Unlike outgoing connections, all connection attempts (with the `SYN` flag) from 
 ###  Detect a WAF
 
 ```bash
-nmap -p 80 -script http-waf-detect <TARGET> 
+nmap -p 80 -script http-waf-detect $ip 
 ```
 
 ### Decoys
@@ -337,7 +337,7 @@ There are cases in which administrators block specific subnets from different re
 With the **Decoy scanning method (-D)**, Nmap generates various random IP addresses inserted into the IP header to disguise the origin of the packet sent.  
 
 ```shell-session
-sudo nmap $IP -p 80 -sS -Pn -n --disable-arp-ping --packet-trace -D RND:5
+sudo nmap $ip -p 80 -sS -Pn -n --disable-arp-ping --packet-trace -D RND:5
 # -D RND:5  Generates five random IP addresses that indicates the source IP the connection comes from.
 ```
 
@@ -366,13 +366,13 @@ Example:
 
 ```bash
 # Simple SYS-Scan of a filtered port
-sudo nmap 10.129.2.28 -p50000 -sS -Pn -n --disable-arp-ping --packet-trace
+sudo nmap $ip -p50000 -sS -Pn -n --disable-arp-ping --packet-trace
 # PORT      STATE    SERVICE
 # 50000/tcp filtered ibm-db2
 
 
 # SYN-Scan From DNS Port
-sudo nmap 10.129.2.28 -p50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
+sudo nmap $ip -p50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
 # PORT      STATE SERVICE
 # 50000/tcp open  ibm-db2
 ```
@@ -380,7 +380,7 @@ sudo nmap 10.129.2.28 -p50000 -sS -Pn -n --disable-arp-ping --packet-trace --sou
 Following the example, a possible exploitation for this weak configuration would be:
 
 ```shell-session
-nc -nv -p 53 10.129.2.28 50000
+nc -nv -p 53 $ip 50000
 ```
 
 
@@ -486,7 +486,7 @@ It also sends an ACK packet. In the response we pay attention to the Windows siz
 After running:
 
 ```shell-session
-sudo nmap 10.129.2.18 -sn -oA host -PE --packet-trace --disable-arp-ping 
+sudo nmap $ip -sn -oA host -PE --packet-trace --disable-arp-ping 
 ```
 
 We can get:

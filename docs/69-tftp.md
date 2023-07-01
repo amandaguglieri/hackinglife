@@ -20,7 +20,7 @@ UDP provides a mechanism to detect corrupt data in packets, but it does not atte
 ## Enumeration
 
 ```bash
-nmap -n -Pn -sU -p69 -sV --script tftp-enum <IP>
+nmap -n -Pn -sU -p69 -sV --script tftp-enum $ip
 ```
 
 ## Exploitation

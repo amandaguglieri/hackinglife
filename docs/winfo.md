@@ -20,5 +20,5 @@ Download it from: [https://packetstormsecurity.com/search/?q=winfo&s=files](http
 ## Basic command
 
 ```
-winfo.exe <target IP> -n
+winfo.exe $ip -n
 ```

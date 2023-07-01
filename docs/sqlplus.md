@@ -24,7 +24,7 @@ SQL Plus is a command-line tool that provides access to the Oracle RDBMS. SQLPlu
 If we manage to get some credentials we can connect to the Oracle TNS service with [sqlplus](sqlplus.md).
 
 ```shell-session
-sqlplus <username>/<password>@<IP>/XE;
+sqlplus <username>/<password>@$ip/XE;
 ```
 
 In case of this error message ( sqlplus: error while loading shared libraries: libsqlplus.so: cannot open shared object file: No such file or directory), there might be an issue with libraries. Possible solution:

@@ -34,6 +34,15 @@ hashcat -m 0 -a 0 -D2 example0.hash example.dict
 
 https://hashcat.net/wiki/doku.php?id=example_hashes
 
+### mode 7300
+
+For cracking hashes from [IPMI service](623-intelligent-platform-management-interface-ipmi.md):
+In the event of an HP iLO using a factory default password, we can use this Hashcat mask attack command 
+
+```bash
+hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
+```
+
 
 ## Rules
 
@@ -87,4 +96,9 @@ hashcat -a 0 -m 9600 --status hash /root/Desktop/wordlists/1000000-password-secl
 # -m 9600: Set method to MS Office 2013
 # --status : Enable automatic update of the status screen
 ```
+
+## Resources
+
+[Examples: cracking common hashes: https://infosecwriteups.com/cracking-hashes-with-hashcat-2b21c01c18ec](https://infosecwriteups.com/cracking-hashes-with-hashcat-2b21c01c18ec).
+
 

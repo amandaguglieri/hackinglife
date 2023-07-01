@@ -21,23 +21,23 @@ Download it from: https://www.samba.org/
 1.  **Enumerate File Server services**: 
 
 ```bash
-nmblookup -A <target IP>
+nmblookup -A $ip
 ```
 
 2.  Also with the smbclient we can **enumerate the shares** provides by a host:  
 
 ```bash
-smbclient -L //<target IP> -N
+smbclient -L //$ip -N
 
 # -L  Look at what services are available on a target
-# <targetIP> Prepend the two slahes
+# $ip Prepend the two slahes
 # -N  Force the tool not to ask for a password
 ```
 
 3.  Connect:
 
 ```bash
-smbclient \\<tt IP>\sharedfolder -N
+smbclient \\$ip\sharedfolder -N
 ```
 
 Be careful, sometimes the shell removes the slashes and you need to escape them.
@@ -46,7 +46,7 @@ Be careful, sometimes the shell removes the slashes and you need to escape them.
 5.  When you know the path of a file and you want to retrieve it:
 	- from kali: 
 	```bash
-	smbget smb://<target IP>/SharedFolder/flag_1.txt
+	smbget smb://$ip/SharedFolder/flag_1.txt
 	```
 	- from  smb command line: 
 	```smb

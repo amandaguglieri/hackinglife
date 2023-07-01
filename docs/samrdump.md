@@ -15,5 +15,5 @@ tags:
 
 ```bash
 # path: /usr/share/doc/python3-impacket/examples/samrdump.py
-python3 samrdump.py <target IP>
+python3 samrdump.py $ip
 ```

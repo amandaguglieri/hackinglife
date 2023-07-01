@@ -52,7 +52,7 @@ When it comes to Hacking APIs the best approach is first use the API as it was i
 **3**. Use some tools:
 
 ```bash
-nmap -p 80 -script http-waf-detect <TARGET> 
+nmap -p 80 -script http-waf-detect $ip 
 ```
 
 Also [w3af](../w3af.md), [WAFW00f](https://github.com/EnableSecurity/wafw00f), and this recollection of handy tools: [waf-bypass.com](https://waf-bypass.com/).

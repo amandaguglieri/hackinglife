@@ -113,7 +113,7 @@ nmap -p- [target address] -oA allportscan
 You’ll most likely discover APIs by looking at the results related to HTTP traffic and other indications of web servers. Typically, you’ll find these running on ports 80 and 443, but an API can be hosted on all sorts of different ports. Once you discover a web server, you can perform HTTP enumeration using a Nmap NSE script (use -p to specify which ports you'd like to test).
 
 ```bash
-nmap -sV --script=http-enum <target> -p 80,443,8000,8080
+nmap -sV --script=http-enum $ip -p 80,443,8000,8080
 ```
 
 ### amass

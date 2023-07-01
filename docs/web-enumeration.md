@@ -22,10 +22,11 @@ Along with all these tools and techniques it is always recommendable to review:
 
 ```bash
 # version of web servers, supporting frameworks, and applications
-whatweb <IP/TARGETURL>
+whatweb $ip
+whatweb <hostname>
 
 # Automate web application enumeration across a network.
-whatweb --no-errors 10.10.10.0/24
+whatweb --no-errors $ip/24
 ```
 
 
@@ -65,15 +66,15 @@ dig soa www.example.com
 
 # ENUMERATION
 # List nameservers known for that domain
-dig ns example.com @<IP>
+dig ns example.com @$ip
 # -ns: other name servers are known in NS record
 #  `@` character specifies the DNS server we want to query.
 
 # View all available records
-dig any example.com @<IP>
+dig any example.com @$ip
 
 # Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
-dig CH TXT version.bind <IP>
+dig CH TXT version.bind $ip
 ```
 
 ## Subdomain enumeration
@@ -106,7 +107,7 @@ Using [dnsenum](dnsenum.md).
 Bash script, using Sec wordlist:
 
 ```shell-session
-for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @<IP> | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
+for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
 ```
 
 ## Directory/File enumeration

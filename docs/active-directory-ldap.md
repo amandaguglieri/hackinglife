@@ -29,7 +29,7 @@ In the context of Active Directory, a forest is a collection of one or more doma
 [See cheat sheet](xfreerdp.md).
 
 ```bash
-xfreerdp /v:<target IP address> /u:htb-student /p:<password> /cert-ignore
+xfreerdp /v:$ip /u:htb-student /p:<password> /cert-ignore
 ```
 
 
@@ -254,7 +254,7 @@ Active Directory can be easily misconfigurable. These are common attacks:
 
 | **Command** | **Description** |
 | --------------|-------------------|
-| `xfreerdp /v:<target IP address> /u:htb-student /p:<password>` | RDP to lab target |
+| `xfreerdp /v:$ip /u:htb-student /p:<password>` | RDP to lab target |
 | `Get-ADGroup -Identity "<GROUP NAME"> -Properties *` | Get information about an AD group |
 | `whoami /priv`                                      | View a user's current rights  |
 | ` Get-WindowsCapability -Name RSAT* -Online \| Select-Object -Property Name, State` | Check if RSAT tools are installed |

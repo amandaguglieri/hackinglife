@@ -17,15 +17,15 @@ dig soa www.example.com
 
 # ENUMERATION
 # List nameservers known for that domain
-dig ns example.com @<IP>
+dig ns example.com @$ip
 # -ns: other name servers are known in NS record
 #  `@` character specifies the DNS server we want to query.
 
 # View all available records
-dig any example.com @<IP>
+dig any example.com @$ip
 
 # Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
-dig CH TXT version.bind <IP>
+dig CH TXT version.bind $ip
 ```
 
 
@@ -55,7 +55,7 @@ Initiating an AXFR zone-transfer request from a secondary server is as simple as
 
 
 ```shell-session
-dig axfr example.htb @<IP>
+dig axfr example.htb @$ip
 ```
 
 If the administrator used a subnet for the `allow-transfer` option for testing purposes or as a workaround solution or set it to `any`, everyone would query the entire zone file at the DNS server.

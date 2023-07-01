@@ -109,15 +109,15 @@ See [dig](dig.md).
 ```shell-session
 # ENUMERATION
 # List nameservers known for that domain
-dig ns example.com @<IP>
+dig ns example.com @$ip
 # -ns: other name servers are known in NS record
 #  `@` character specifies the DNS server we want to query.
 
 # View all available records
-dig any example.com @<IP>
+dig any example.com @$ip
 
 # Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
-dig CH TXT version.bind <IP>
+dig CH TXT version.bind $ip
 
 # Get email of administrator of the domain
 dig soa www.example.com
@@ -128,7 +128,7 @@ dig soa www.example.com
 Transfer a zone ([more on dig axfr](dig.md))
 
 ```shell-session
-dig axfr example.htb @<IP>
+dig axfr example.htb @$ip
 ```
 
 If the administrator used a subnet for the `allow-transfer` option for testing purposes or as a workaround solution or set it to `any`, everyone would query the entire zone file at the DNS server.
@@ -138,7 +138,7 @@ If the administrator used a subnet for the `allow-transfer` option for testing p
 Using Sec wordlist:
 
 ```shell-session
-for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @<IP> | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
+for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
 ```
 
 

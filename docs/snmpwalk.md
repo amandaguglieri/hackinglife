@@ -25,15 +25,15 @@ sudo apt-get install snmp
 ## Basic usage
 
 ```shell-session
-snmpwalk -v2c -c public <IP>
+snmpwalk -v2c -c public $ip
 ```
 
 ```shell-session
-snmpwalk -v 2c -c public <TARGET IP> 1.3.6.1.2.1.1.5.0
+snmpwalk -v 2c -c public $ip 1.3.6.1.2.1.1.5.0
 ```
 
 ```shell-session
-snmpwalk -v 2c -c private   <TARGET IP>
+snmpwalk -v 2c -c private $ip
 ```
 
  If we do not know the community string, we can use [onesixtyone](onesixtyone.md) and SecLists wordlists to identify these community strings.

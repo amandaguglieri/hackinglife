@@ -40,7 +40,7 @@ For this, ESMTP uses TLS for encryption and [AUTH PLAIN](https://www.samlogic.ne
 
 ```shell-session
 # We can use telnet protocol to connect to a SMTP server
-telnet <IP> 25
+telnet $ip 25
 
 # AUTH is a service extension used to authenticate the client
 AUTH PLAIN 	
@@ -86,7 +86,7 @@ CONNECT 10.129.14.128:25 HTTP/1.0
 Example:
 
 ```bash
-telnet <IP> 25  
+telnet $ip 25  
 
 # Trying 10.129.14.128... ç
 # Connected to 10.129.14.128. 
@@ -134,16 +134,16 @@ With this setting, this SMTP server can send fake emails and thus initialize com
 ## Footprinting SMTP
 
 ```shell-session
-sudo nmap <IP> -sC -sV -p25
+sudo nmap $ip -sC -sV -p25
 
-sudo nmap <IP> -p25 --script smtp-open-relay -v
+sudo nmap $ip -p25 --script smtp-open-relay -v
 ```
 
 **Scripts for user enumeration**:
 
 ```bash
 # Enumerate users:
-for user in $(cat users.txt); do echo VRFY $user | nc -nv -w 6 10.129.16.141 25  ; done
+for user in $(cat users.txt); do echo VRFY $user | nc -nv -w 6 $ip 25  ; done
 # -w: Include a delay in passing the argument. In seconds.
 ```
 

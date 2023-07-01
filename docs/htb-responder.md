@@ -109,7 +109,7 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 badminton        (Administrator) 
 ```
 
-Now, we will connect to the [WinRM (Windows Remote Management service)](winrm.md) on the target and try to get a session. For that there is a tool called [Evil-WinRM](evil-winrm.md).
+Now, we will connect to the [WinRM (Windows Remote Management service)](5985-5986-winrm-windows-remote-management.md) on the target and try to get a session. For that there is a tool called [Evil-WinRM](evil-winrm.md).
 
 ```bash
 evil-winrm -i <VictimIP> -u <username> -p <password>

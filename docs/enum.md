@@ -20,12 +20,12 @@ Download it from: [https://packetstormsecurity.com/search/?q=win32+enum&s=files]
   
 ```bash
 # Enumerates shares
-enum.exe -s <target IP>     
+enum.exe -s $ip     
 
 # Enumerates users
-enum.exe -u <target IP>
+enum.exe -u $ip
 
 # Displays the password policy in case you need to mount a network authentification attack
-enum.exe -p <target IP> 
+enum.exe -p $ip 
 ```
 

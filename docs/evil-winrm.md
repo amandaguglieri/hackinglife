@@ -11,7 +11,7 @@ tags:
 
 # Evil-WinRm
 
-By default, installed on kali.
+By default, installed on kali. [See winrm](5985-5986-winrm-windows-remote-management.md).
 
 
 ## Basic usage
@@ -19,8 +19,7 @@ By default, installed on kali.
 Example from [HTB machine: Responder](htb-responder.md).
 
 ```bash
-
-evil-winrm -i <VictimIP> -u administrator -p badminton
+evil-winrm -i $ip -u administrator -p badminton
 ```
 
 

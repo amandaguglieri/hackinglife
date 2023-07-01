@@ -25,5 +25,5 @@ sudo apt install onesixtyone
 ## Basic usage
 
 ```shell-session
-onesixtyone -c /opt/useful/SecLists/Discovery/SNMP/snmp.txt <IP>
+onesixtyone -c /opt/useful/SecLists/Discovery/SNMP/snmp.txt $ip
 ```

@@ -56,7 +56,7 @@ Default settings are in `/etc/samba/smb.conf`.
 See 
 ```bash
 # [-L|--list=HOST] : Selecting the targeted host for the connection request.
-smbclient -L //<IP>
+smbclient -L //$ip
 ```
 
 Smbclient will attempt to connect to the remote host and check if there is any authentication required. If there is, it will ask you for a user and a password for your local username. If we do not specify a specific username to smbclient when attempting to connect to the remote host, it will just use your local machine's username.If vulnerable and performing a Null Attack, we will hit Enter when prompted for a password.
@@ -74,15 +74,15 @@ WorkShares - Custom share.
 We will try to connect to each of the shares except for the IPC$ one, which is not valuable for us since it is not browsable as any regular directory would be and does not contain any files that we could use at this stage of our learning experience: 
 ```bash
 # the use of / and \ might be different if you need to escape some characters
-smbclient \\\\<IP>\\ADMIN$
+smbclient \\\\$ip\\ADMIN$
 ```
 
 Important: Sometimes some jugling is needed:
 
 ```shell-session
-smbclient -N -L \\<TARGETIP>
-smbclient -N -L \\\\<TARGETIP>
-smbclient -N -L /\/\<TARGETIP>
+smbclient -N -L \\$ip
+smbclient -N -L \\\\$ip
+smbclient -N -L /\/\$ip
 ```
 
 If we have NT_STATUS_ACCESS_DENIED as output, we do not have the proper credentials to connect to this share. 

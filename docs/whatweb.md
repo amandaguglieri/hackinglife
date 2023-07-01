@@ -24,7 +24,8 @@ Download from: [https://github.com/urbanadventurer/WhatWeb](https://github.com/u
 
 ```bash
 # version of web servers, supporting frameworks, and applications
-whatweb <IP/TARGETURL>
+whatweb $ip
+whatweb <hostname>
 
 # Automate web application enumeration across a network.
 whatweb --no-errors 10.10.10.0/24

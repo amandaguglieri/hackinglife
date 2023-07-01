@@ -16,7 +16,7 @@ It’s used to enumerate info (password, system users, system groups. running sy
 1.  **Enumerate File Server services**:    
 
 ```cmd
-nbtstat -A <target IP>   
+nbtstat -A $ip  
 
 # ELS-WINXP   <00>   UNIQUE   Registered
 # <00> tells us ELS-WINXP is a workstation.
@@ -27,13 +27,13 @@ nbtstat -A <target IP>   
 2.  **Enumerate Windows Shares**. Once we spot a machine with the File Server service running, we can enumerate:
 
 ```
-NET VIEW <target IP>
+NET VIEW $ip
 ```
 
 3.  Verify if a null attack is possible by exploiting the IPC$ administrative share and trying to connect without valid credentials.
 
 ```
-NET USE \\<target IP address>\IPC$ ‘’ /u:’’
+NET USE \\$ip\IPC$ ‘’ /u:’’
 ```
 
 This tells Windows to connect to the IPC$ share by using an empty password and a empty username. It only works with IPC$ (not c$).
@@ -45,23 +45,23 @@ Using the samba suite: https://www.samba.org/
 1.  **Enumerate File Server services**: 
 
 ```bash
-nmblookup -A <target IP>
+nmblookup -A $ip
 ```
 
 2.  Also with the smbclient we can **enumerate the shares** provides by a host:  
 
 ```bash
-smbclient -L //<target IP> -N
+smbclient -L //$ip -N
 
 # -L  Look at what services are available on a target
-# <targetIP> Prepend the two slahes
+# $ip Prepend the two slahes
 # -N  Force the tool not to ask for a password
 ```
 
 3.  Connect:
 
 ```bash
-smbclient \\<tt IP>\sharedfolder -N
+smbclient \\$ip\sharedfolder -N
 ```
 
 Be careful, sometimes the shell removes the slashes and you need to escape them.
@@ -70,7 +70,7 @@ Be careful, sometimes the shell removes the slashes and you need to escape them.
 5.  When you know the path of a file and you want to retrieve it:
 	- from kali: 
 	```bash
-	smbget smb://<target IP>/SharedFolder/flag_1.txt
+	smbget smb://$ip/SharedFolder/flag_1.txt
 	```
 	- from  smb command line: 
 	```smb
@@ -94,7 +94,7 @@ Enumerate the permissions of users with smbmap -H demo.ine.local
 If some users are missing in the permission list, maybe they are accesible, try with:
 
 ```
-smbclient -L //<target IP>\<user> -N
+smbclient -L //$ip\<user> -N
 ```
 
 ## More tools

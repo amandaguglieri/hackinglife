@@ -58,5 +58,5 @@ querygroup <ID>
 ### Brute forcing user enumeration with rpcclient
 
 ```shell-session
-for i in $(seq 500 1100);do rpcclient -N -U "" <TargetIP> -c "queryuser 0x$(printf '%x\n' $i)" | grep "User Name\|user_rid\|group_rid" && echo "";done
+for i in $(seq 500 1100);do rpcclient -N -U "" $ip -c "queryuser 0x$(printf '%x\n' $i)" | grep "User Name\|user_rid\|group_rid" && echo "";done
 ```

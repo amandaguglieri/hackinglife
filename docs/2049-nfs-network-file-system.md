@@ -49,8 +49,8 @@ We can take a look at the `insecure` option. This is dangerous because users can
 ## Mounting a NFS shared folder
 
 ```shell-session
-# Share the folder `/mnt/nfs` to the subnet <IP>
-echo '/mnt/nfs  <IP>/24(sync,no_subtree_check)' >> /etc/exports
+# Share the folder `/mnt/nfs` to the subnet $ip
+echo '/mnt/nfs  $ip/24(sync,no_subtree_check)' >> /etc/exports
 
 # Restart the NFS service
 systemctl restart nfs-kernel-server 
@@ -63,10 +63,10 @@ We have shared the folder `/mnt/nfs` to the subnet `IP/24` with the setting show
 ## Footprinting the service
 
 ```shell-session
-sudo nmap <IP> -p111,2049 -sV -sC
+sudo nmap $ip -p111,2049 -sV -sC
 
 # Also, run all NSE NFS scripts
-sudo nmap --script nfs* 10.129.14.128 -sV -p111,2049
+sudo nmap --script nfs* $ip -sV -p111,2049
 
 ```
 
@@ -74,11 +74,11 @@ Once we have discovered such an NFS service, we can mount it on our local machin
 
 ```shell-session
 # Show Available NFS Shares
-showmount -e <TargetIP>
+showmount -e $ip
 
 # Mounting NFS Share
 mkdir target-NFS
-sudo mount -t nfs 10.129.14.128:/ ./target-NFS/ -o nolock
+sudo mount -t nfs $ip:/ ./target-NFS/ -o nolock
 cd target-NFS
 tree .
 
@@ -90,8 +90,9 @@ ls -n mnt/nfs/
 
 # Unmount the shared
 sudo umount ./target-NFS
-
 ```
+
+By default nfs server has root_squash on which makes client access nobody:nogroup. To bypass it, sudo su your user to be root.
 
 ## Attacking wrong configured NFS 
 
