@@ -56,8 +56,8 @@ A resource record is a four-tuple that contains the following 4 fields:
 
 - `TXT` records: this type of record often contains verification keys for different third-party providers and other security aspects of DNS, such as SPF, DMARC, and DKIM, which are responsible for verifying and confirming the origin of the emails sent. Here we can already see some valuable information if we look closer at the results.
 - `AAAA` records: Returns an IPv6 address of the requested domain.
-- `PTR` record: The PTR record works the other way around (reverse lookup). It converts IP addresses into valid domain names. For the IP address to be resolved from the `Fully Qualified Domain Name` (`FQDN`), the DNS server must have a reverse lookup file. In this file, the computer name (FQDN) is assigned to the last octet of an IP address, which corresponds to the respective host, using a `PTR` record. The PTR records are responsible for the reverse translation of IP addresses into names.
-- `SOA` records: |Provides information about the corresponding DNS zone and email address of the administrative contact. The `SOA` record is located in a domain's zone file and specifies who is responsible for the operation of the domain and how DNS information for the domain is managed.
+- `PTR` record: The PTR (Pointer) record works the other way around (reverse lookup). It converts IP addresses into valid domain names. For the IP address to be resolved from the `Fully Qualified Domain Name` (`FQDN`), the DNS server must have a reverse lookup file. In this file, the computer name (FQDN) is assigned to the last octet of an IP address, which corresponds to the respective host, using a `PTR` record. The PTR records are responsible for the reverse translation of IP addresses into names.
+- `SOA` records: (`Start Of Authority` (`SOA`)). It should be first in a zone file because it indicates the start of a zone. Each zone can only have one `SOA` record, and additionally, it contains the zone's values, such as a serial number and multiple expiration timeouts. Provides information about the corresponding DNS zone and email address of the administrative contact. The `SOA` record is located in a domain's zone file and specifies who is responsible for the operation of the domain and how DNS information for the domain is managed.
 
 ## Security 
 
@@ -102,27 +102,68 @@ DNS misconfigurations and vulnerabilities.
 
 A list of vulnerabilities targeting the BIND9 server can be found at [CVEdetails](https://www.cvedetails.com/product/144/ISC-Bind.html?vendor_id=64). In addition, SecurityTrails provides a short [list](https://securitytrails.com/blog/most-popular-types-dns-attacks) of the most popular attacks on DNS servers.
 
+
 ## Footprinting DNS
+
+See [nslookup](nslookup.md).
+
+```bash
+# Query `A` records by submitting a domain name: default behaviour
+nslookup $TARGET
+
+# We can use the `-query` parameter to search specific resource records
+# Querying: A Records for a Subdomain
+nslookup -query=A $TARGET
+
+# Querying: PTR Records for an IP Address
+nslookup -query=PTR 31.13.92.36
+
+# Querying: ANY Existing Records
+nslookup -query=ANY $TARGET
+
+# Querying: TXT Records
+nslookup -query=TXT $TARGET
+
+# Querying: MX Records
+nslookup -query=MX $TARGET
+
+#  Specify a nameserver if needed by adding `@<nameserver/IP>` to the command
+```
+
 
 See [dig](dig.md).
 
-```shell-session
-# ENUMERATION
-# List nameservers known for that domain
-dig ns example.com @$ip
-# -ns: other name servers are known in NS record
-#  `@` character specifies the DNS server we want to query.
-
-# View all available records
-dig any example.com @$ip
-
-# Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
-dig CH TXT version.bind $ip
+```bash
+# Querying: A Records for a Subdomain
+ dig a www.example @$ip
+ # here, $ip refers to ip of DNS server
 
 # Get email of administrator of the domain
 dig soa www.example.com
 # The email will contain a (.) dot notation instead of @
 
+# ENUMERATION
+# List nameservers known for that domain
+dig ns example.com @$ip
+# -ns: other name servers are known in NS record
+#  `@` character specifies the DNS server we want to query.
+# here, $ip refers to ip of DNS server
+
+# View all available records
+dig any example.com @$ip
+ # here, $ip refers to ip of DNS server. The more recent RFC8482 specified that `ANY` DNS requests be abolished. Therefore, we may not receive a response to our `ANY` request from the DNS server.
+
+# Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
+dig CH TXT version.bind $ip
+
+# Querying: PTR Records for an IP Address
+dig -x $ip @1.1.1.1
+
+# Querying: TXT Records
+dig txt example.com @$ip
+
+# Querying: MX Records
+dig mx example.com @1.1.1.1
 ```
 
 Transfer a zone ([more on dig axfr](dig.md))

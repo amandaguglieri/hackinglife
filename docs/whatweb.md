@@ -29,5 +29,9 @@ whatweb <hostname>
 
 # Automate web application enumeration across a network.
 whatweb --no-errors 10.10.10.0/24
-```
 
+
+whatweb -a3 https://www.example.com -v
+# -a3: aggression level 3
+# -v: verbose mode
+```

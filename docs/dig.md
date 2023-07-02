@@ -11,6 +11,10 @@ draft: false
 ## Footprinting DNS with dig
 
 ```bash
+# Querying: A Records for a Subdomain
+ dig a www.example @$ip
+ # here, $ip refers to ip of DNS server
+
 # Get email of administrator of the domain
 dig soa www.example.com
 # The email will contain a (.) dot notation instead of @
@@ -20,12 +24,23 @@ dig soa www.example.com
 dig ns example.com @$ip
 # -ns: other name servers are known in NS record
 #  `@` character specifies the DNS server we want to query.
+# here, $ip refers to ip of DNS server
 
 # View all available records
 dig any example.com @$ip
+ # here, $ip refers to ip of DNS server. The more recent RFC8482 specified that `ANY` DNS requests be abolished. Therefore, we may not receive a response to our `ANY` request from the DNS server.
 
 # Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
 dig CH TXT version.bind $ip
+
+# Querying: PTR Records for an IP Address
+dig -x $ip @1.1.1.1
+
+# Querying: TXT Records
+dig txt example.com @$ip
+
+# Querying: MX Records
+dig mx example.com @1.1.1.1
 ```
 
 
