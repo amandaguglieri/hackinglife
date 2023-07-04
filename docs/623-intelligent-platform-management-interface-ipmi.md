@@ -116,7 +116,7 @@ hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
 
 ## How does IPMI work
 
-IPMI can monitor a range of different things such as system temperature, voltage, fan status, and power supplies. It can also be used for querying inventory information, reviewing hardware logs, and alerting using [SNMP](snmp.md). The host system can be powered off, but the IPMI module requires a power source and a LAN connection to work correctly.
+IPMI can monitor a range of different things such as system temperature, voltage, fan status, and power supplies. It can also be used for querying inventory information, reviewing hardware logs, and alerting using [SNMP](161-162-snmp.md). The host system can be powered off, but the IPMI module requires a power source and a LAN connection to work correctly.
 
 Systems using IPMI version 2.0 can be administered via serial over LAN, giving sysadmins the ability to view serial console output in band. To function, IPMI requires the following components:
 
