@@ -60,6 +60,15 @@ md5sum hosts
 ```
 
 
+## Certutil
+
+It's possible to [download a file with certutil](https://isc.sans.edu/forums/diary/A+Suspicious+Use+of+certutilexe/23517/):
+
+```cmd
+certutil.exe -urlcache -split -f "https://download.sysinternals.com/files/PSTools.zip" pstools.zip
+```
+
+
 ## PowerShell  [System.Net.WebClient](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient?view=net-5.0)
 
 PowerShell offers many file transfer options. In any version of PowerShell, the [System.Net.WebClient](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient?view=net-5.0) class can be used to download a file over `HTTP`, `HTTPS` or `FTP`.

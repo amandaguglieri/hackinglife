@@ -5,6 +5,8 @@ draft: false
 TableOfContents: true
 tags:
   - pentesting windows 
+  - server
+  - impacket
 ---
 
 # smbserver - from impacket

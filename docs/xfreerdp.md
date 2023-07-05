@@ -6,6 +6,7 @@ TableOfContents: true
 tags:
   - tools
   - windows
+  - rdp
 ---
 
 # xfreerdp

