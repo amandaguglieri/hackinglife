@@ -42,6 +42,7 @@ sudo apt install python3 python3-pip
 
 ## Basic tools included
 
-[samrdump](samrdump.md)
+- [samrdump](samrdump.md) 
+- [smbserver](smbserver.md)
 
 

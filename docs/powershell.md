@@ -13,7 +13,9 @@ TableOfContents: true
 
 # List contents
 dir
-Get-ChilItem
+Get-ChildItem -Force
+# -Force: Display hidden files 
+
 
 # Print working directory
 pwd
@@ -46,13 +48,37 @@ Copy-Item nameOfSource nameOfDestiny
 
 # Copy a folder and its content
 cp originFolder destinyPath -Recurse
-Copy-Iten originFolder destinyPath -Recurse
+Copy-Item originFolder destinyPath -Recurse
 
 # Get running processes filtered by name
 get-process -name ccSvcHst
 
 # Kill processes called ccSvcHst* // Notice here wild card *
 taskkill /f /im ccSvcHst*
+
+# Remove a file
+rm nameofFile -Recurse
+# -Recurse: Remove it recursively (in a folder)
+
+# Display content of a file
+cat nameofFile
+Get-Content nameofFile
+
+# Display one page of a file at a time
+more nameofFile
+
+# Display the first lines of a file
+head nameofFile
+
+# Open a file with an app
+start nameofApp nameofFile
+
+# Runs commands or expressions on the local computer.
+$Command = "Get-Process"
+Invoke-Expression $Command
+
+# PS uses Invoke-Expression to evaluate the string. Otherwise the output of $Command would be the text "Get-Process". Invoke-Expression is similar to $($command) in linux.
+# IEX is an alias
 
 ```
 
@@ -123,6 +149,7 @@ Get-ADUser -filter {-name -like "joe*"}
 ## Escaping characters
 
 When using filters, certain characters must be escaped:
+
 | **Character** | **Escaped As** | **Note** |
 | ----------  | ------------ | ------ |
 | “ | `” | Only needed if the data is enclosed in double-quotes.  |
@@ -161,6 +188,11 @@ Get-Process | Add-Member -Name Elevated -MemberType ScriptProperty -Value {if ($
 
 # List installed software on a computer
 get-ciminstance win32_product | fl
+
+
+# Gets content from a web page on the internet.
+Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 -OutFile PowerView.ps1
+# alias: `iwr`, `curl`, and `wget`
 
 ```
 
