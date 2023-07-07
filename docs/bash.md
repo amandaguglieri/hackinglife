@@ -34,16 +34,6 @@ cat << EOF > stream.txt
 
 ## Commands
 
-### df
-
-Displays the amount of space available on the file system containing each file name argument.
-
-```bash
-df -H
-# -H: Print sizes in powers of 1000
-# -h: Print sizes in powers of 1024. Humanly readable.
-```
-
 ### host
 
 host is a simple utility for performing DNS lookups. It is normally used to convert names to IP addresses and vice versa. When no arguments or options are given, host prints a short summary of its command-line arguments and options.
@@ -187,5 +177,4 @@ uname -r
        -o, --operating-system
 ```
 ```
-
 
