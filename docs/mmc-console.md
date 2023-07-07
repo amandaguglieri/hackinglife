@@ -1,4 +1,4 @@
-	---
+---
 title: Microsoft Management Console (MMC)
 author: amandaguglieri
 draft: false

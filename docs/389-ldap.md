@@ -1,5 +1,5 @@
 ---
-title: LDAP 
+title: Port 389 - LDAP 
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -7,17 +7,18 @@ tags:
   - active directory
   - ldap
   - windows
+  - port 389
 ---
 
-# LDAP
+# Port 389 - LDAP
+
+>Application protocol for accessing and maintaining distributed directory information services over an Internet Protocol (IP) network. 
 
 Lightweight Directory Access Protocol (LDAP) is an integral part of Active Directory (AD). The **Lightweight Directory Access Protocol** (**LDAP**) is an open, vendor-neutral, industry standard application protocol for accessing and maintaining distributed directory information services over an Internet Protocol (IP) network.  A common use of LDAP is to provide a central place to store usernames and passwords. This allows many different applications and services to connect to the LDAP server to validate users.
 
 The latest LDAP specification is Version 3, which is published as [RFC 4511](https://tools.ietf.org/html/rfc4511). **AD** stores user account information and security information such as passwords and facilitates sharing this information with other devices on the network. **LDAP** is the language that applications use to communicate with other servers that also provide directory services. In other words, LDAP is a way that systems in the network environment can "speak" to AD.
 
 The relationship between AD and LDAP can be compared to Apache and HTTP. The same way Apache is a web server that uses the HTTP protocol, Active Directory is a directory server that uses the LDAP protocol. While uncommon, you may come across organizations while performing an assessment that does not have AD but does have LDAP, meaning that they most likely use another type of LDAP server such as OpenLDAP.
-
-
 
 - TCP and UDP port 389.
 - It's a binary protocol and by default not encrypted.

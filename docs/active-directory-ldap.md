@@ -19,7 +19,7 @@ In the context of Active Directory, a forest is a collection of one or more doma
 ![AD structure](img/ldap-1.png)
 
 
-[And what about LDAP? See here](ldap.md).
+[And what about LDAP? See here](389-ldap.md).
 
 
 ## Tools
@@ -35,7 +35,7 @@ xfreerdp /v:$ip /u:htb-student /p:<password> /cert-ignore
 
 ### RSAT (Remote Server Administration Tools)
 
-[RSAT (Remote Server Administration Tools)](rsat-remote-server-administration-tools.md) tools cheat sheet:
+[RSAT (Remote Server Administration Tools)](rsat-remote-server-administration-tools.md) cheat sheet:
 
 ```ps
 # Check if RSAT tools are installed
@@ -96,7 +96,7 @@ whoami /priv
 
 **Tool for enumeration**: 
 
-- [Enumeration with LDAP queries](ldap.md)
+- [Enumeration with LDAP queries](389-ldap.md)
 - [PowerView.ps1 from PowerSploit project (powershell)](powerview.md).
 - [The ActiveDirectory PowerShell module (powershell)](activedirectory-powershell-module.md).
 - [BloodHound (C# and PowerShell Collectors)](bloodhound.md).
@@ -204,7 +204,6 @@ Get-ADGroup -Identity "DNSAdmins" -Properties *
 
 
 
-
 ### **4.** Default Domain Policy
 
 ### **5.** Domain Functional Levels
@@ -291,7 +290,7 @@ The Common Information Model (CIM) is the **Distributed Management Task Force** 
 Directory Information Tree. 
 
 
-**MMC**
+**[MMC](mmc-console.md)**
 You use **Microsoft Management Console** (MMC) to create, save and open administrative tools, called consoles, which manage the hardware, software, and network components of your Microsoft Windows operating system.
 
 
