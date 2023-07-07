@@ -1,5 +1,5 @@
 ---
-title: File Upload
+title: Bypass file upload restrictions
 draft: false
 TableOfContents: true
 tags:
@@ -7,7 +7,11 @@ tags:
   - web pentesting
 ---
 
-# File Upload
+# Bypass file upload restrictions
+
+Uploaded files represent a significant risk to applications. The first step in many attacks is to get some code to the system to be attacked. Then the attack only needs to find a way to get the code executed. Using a file upload helps the attacker accomplish the first step.
+
+
 
 
 ## Cheat sheet for php 
@@ -56,6 +60,4 @@ phppng.png
 
 # backdoor in php chunks 
 xsspng.png 
-
-
 ```

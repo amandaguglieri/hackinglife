@@ -261,8 +261,8 @@ We can use [xfreerdp](xfreerdp.md) or [rdesktop](rdesktop.md) to download a file
 
 ### Mounting a Linux Folder Using rdesktop
 
- ```bash
-rdesktop $ipVictim -d <domain> -u <username> -p <'Password0@'> -r disk:linux='/home/user/rdesktop/files'
+```bash
+rdesktop $ipVictim -d <domain> -u <username> -p <'Password0@'> -r disk:linux="/home/user/rdesktop/files"
 ```
 
 
