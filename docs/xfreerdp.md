@@ -36,3 +36,4 @@ xfreerdp [/d:domain] /u:<username> /pth:<hash> /v:$ip
 
 ```
 
+xfreerdp /d:domain /u:htb-student /p:"HTB_@cademy_stdnt!" /v:10.129.154.94 

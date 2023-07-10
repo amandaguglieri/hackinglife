@@ -80,6 +80,10 @@ Invoke-Expression $Command
 # PS uses Invoke-Expression to evaluate the string. Otherwise the output of $Command would be the text "Get-Process". Invoke-Expression is similar to $($command) in linux.
 # IEX is an alias
 
+# Deactivate antivirus from powershell session (if user has rights to do so)
+Set-MpPreference -DisableRealtimeMonitoring $true
+
+
 ```
 
 ## Powershell wildcards

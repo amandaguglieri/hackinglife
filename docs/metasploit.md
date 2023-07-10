@@ -138,6 +138,8 @@ msf> sessions -K 
 
 ## Meterpreter
 
+Meterpreter is a payload that uses in-memory DLL injection to stealthfully establish a communication channel between an attack box and a target. 
+
 When having an active session on the victim machine, the best module to run a Meterpreter is s4u_persistence:
 
 ```msf

