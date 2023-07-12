@@ -1,5 +1,5 @@
 ---
-title: "bash"
+title: bash - Bourne Again Shell
 author: amandaguglieri
 draft: false
 TableOfContents: true

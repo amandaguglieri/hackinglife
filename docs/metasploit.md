@@ -9,6 +9,8 @@ tags:
 
 # metasploit
 
+Developed in ruby by [rapid7](https://www.rapid7.com/products/metasploit/). "Free" edition preinstalled in Kali at /usr/share/metasploit-framework
+
 ## Run metasploit
 
 ```bash
@@ -56,10 +58,33 @@ db_connect        Connect to an existing data service
 db_disconnect     Disconnect from the current data service
 
 db_export         Export a file containing the contents of the database
+Before closing the session, save a backup:
+db_export -f xml backup.xml
 
 db_import         Import a scan result file (filetype will be auto-detected)
+For instance: 
+db_import Target.xml
+db_import Target.nmap
 
 db_nmap           Executes nmap and records the output automatically
+
+After that, we can query: 
+hosts
+# The hosts command displays a database table automatically populated with the host addresses, hostnames, and other information we find about these during our scans and interactions. 
+services. 
+# host -h # to see all commands with hosts 
+
+services
+# It contains a table with descriptions and information on services discovered during scans or interactions.
+# services -h # to see all commands with services 
+
+creds
+# The creds command allows you to visualize the credentials gathered during your interactions with the target host.
+# creds -h # to see all commands with creds 
+
+loot
+# The loot command works in conjunction with the command above to offer you an at-a-glance list of owned services and users. The loot, in this case, refers to hash dumps from different system types, namely hashes, passwd, shadow, and more.
+# loot -h # to see all commands with loot 
 
 db_rebuild_cache  Rebuilds the database-stored module cache (deprecated)
 
@@ -79,24 +104,37 @@ services          List all services in the database
 
 vulns             List all vulnerabilities in the database
 
-workspace         Switch between database workspaces
+workspace         Switch between database 
+workspace         List workspaces
+workspace -v      List workspaces verbosely
+workspace [name]  Switch workspace
+workspace -a [name] ...    Add workspace(s)
+workspace -d [name] ...    Delete workspace(s)
+workspace -D     Delete all workspaces
+workspace -r     Rename workspace
+workspace -h     Show this help information
 ```
-  
 
 Cheat sheet: 
 
 ```msf
 # Search modules
 search (mysearchitem> 
+grep meterpreter show payloads
+grep -c meterpreter grep reverse_tcp show payloads
 
 # Search for exploit of service hfs 2.3 serve
 searchsploit hfs 2.3
+
+#  launch msfconsole and run the reload_all command for the newly installed module to appear in the list
+reload_all
+
 
 # Use a module 
 use <name of module (like exploit/cmd/linux/tcp_reverse) or number> 
 
 # Show options of current module (Watch out, prompt is included)
-msf exploit/cmd/linux/tcp_reverse> show options   
+msf exploit/cmd/linux/tcp_reverse> show options 
 
 # Configure an option (Watch out, prompt is included)
 msf exploit/cmd/linux/tcp_reverse> set <option> <value> 
@@ -116,7 +154,8 @@ msf  exploit/cmd/linux/tcp_reverse> show payloads
 # Set a payload for the exploit (Watch out, prompt is included)
 msf  exploit/cmd/linux/tcp_reverse> set payload <value> 
 
-# Before we run an exploit-script, we can run a check to ensure the server is vulnerable (Note that not every exploit in the Metasploit Framework supports the `check` function)
+# Before we run an exploit-script, we can run a check to ensure the server is vulnerable (Note that no
+t every exploit in the Metasploit Framework supports the `check` function)
 msf6 exploit(windows/smb/ms17_010_psexec) > check
  
 # Run the exploit (Watch out, prompt is included)
@@ -124,6 +163,9 @@ msf  exploit/cmd/linux/tcp_reverse> run 
 
 # Run the exploit (Watch out, prompt is included)
 msf  exploit/cmd/linux/tcp_reverse> exploit 
+
+# Run an exploit as a job by typing exploit -j
+exploit -j
 
 # See all sessions (Watch out, prompt is included)
 msf> sessions
@@ -134,11 +176,80 @@ msf> sessions -i <n> 
 # Kill all sessions (Watch out, prompt is included)
 msf> sessions -K  
 ```
+
+
+To kill a session we don't use CTRL-C, because the port would be still in use. For that we have jobs
+
+```
++++++++++
+jobs
+++++++++++
+    -K        Terminate all running jobs.
+    -P        Persist all running jobs on restart.
+    -S <opt>  Row search filter.
+    -h        Help banner.
+    -i <opt>  Lists detailed information about a running job.
+    -k <opt>  Terminate jobs by job ID and/or range.
+    -l        List all running jobs.
+    -p <opt>  Add persistence to job by job ID
+    -v        Print more detailed info.  Use with -i and -l
+```
+
    
+### Databases
+
+```bash
+# Start PostgreSQL
+sudo systemctl start postgresql
+
+# Initiate a Database
+sudo msfdb init
+
+# Check status
+sudo msfdb status
+
+# Connect to the Initiated Database
+sudo msfdb run
+
+# Reinitiate the Database
+[!bash!]$ msfdb reinit
+[!bash!]$ cp /usr/share/metasploit-framework/config/database.yml ~/.msf4/
+[!bash!]$ sudo service postgresql restart
+[!bash!]$ msfconsole -q
+msf6 > db_status
+```
+
+
+## Plugins
+
+To start using a plugin, we will need to ensure it is installed in the correct directory on our machine. 
+
+```bash
+ls /usr/share/metasploit-framework/plugins
+```
+
+If the plugin is found here, we can fire it up inside msfconsole. Example:
+
+```shell-session
+load nessus
+```
+
+To install new custom plugins not included in new updates of the distro, we can take the .rb file provided on the maker's page and place it in the folder at `/usr/share/metasploit-framework/plugins` with the proper permissions. Many people write many different plugins for the Metasploit framework:
+
+[nMap (pre-installed)](https://nmap.org)
+[NexPose (pre-installed)](https://sectools.org/tool/nexpose/)
+[Nessus (pre-installed)](https://www.tenable.com/products/nessus)
+[Mimikatz (pre-installed V.1)](http://blog.gentilkiwi.com/mimikatz)
+[Stdapi (pre-installed)](https://www.rubydoc.info/github/rapid7/metasploit-framework/Rex/Post/Meterpreter/Extensions/Stdapi/Stdapi)
+[Railgun](https://github.com/rapid7/metasploit-framework/wiki/How-to-use-Railgun-for-Windows-post-exploitation)
+[Priv](https://github.com/rapid7/metasploit-framework/blob/master/lib/rex/post/meterpreter/extensions/priv/priv.rb)
+[Incognito (pre-installed)](https://www.offensive-security.com/metasploit-unleashed/fun-incognito/)
+[Darkoperator's](https://github.com/darkoperator/Metasploit-Plugins)
+
 
 ## Meterpreter
 
-Meterpreter is a payload that uses in-memory DLL injection to stealthfully establish a communication channel between an attack box and a target. 
+The Meterpreter payload is a specific type of multi-faceted payload that uses `DLL injection` to ensure the connection to the victim host is stable, hard to detect by simple checks, and persistent across reboots or system changes. Meterpreter resides completely in the memory of the remote host and leaves no traces on the hard drive, making it very difficult to detect with conventional forensic techniques.
 
 When having an active session on the victim machine, the best module to run a Meterpreter is s4u_persistence:
 
@@ -190,8 +301,20 @@ getuid
 # View all running processes
 ps
 
+# Migrate to a different process with more privileges
+steal_token <PID>
+
 # View the process that we are
 getpid
+
+# Dumps the contents of the SAM database
+hashdump      
+
+# Dumps ...
+lsa_dump_sam
+
+# Meterpreter LSA Secrets Dump
+lsa_dump_secrets
 
 # Enumerate the modules available at this meterpreter session
 use -l   
@@ -209,11 +332,81 @@ migrate -N lsass.exe
 
 # Get a windows shell
 execute -f cmd.exe -i -H
+
+# Display the host ARP cache
+arp           
+
+# Display the current proxy configuration
+get proxy
+
+# Display interfaces
+ifconfig       
+
+# Display the network connections
+netstat       
+
+# Forward a local port to a remote service
+portfwd       
+
+# Resolve a set of hostnames on the target
+resolve       
 ```
-  
+
+More commands
+
+```shell-session
+msf6> help
+	Command        Description
+    -------        -----------
+    enumdesktops   List all accessible desktops and window stations
+    getdesktop     Get the current meterpreter desktop
+    idle time       Returns the number of seconds the remote user has been idle
+    keyboard_send  Send keystrokes
+    keyevent       Send key events
+    keyscan_dump   Dump the keystroke buffer
+    keyscan_start  Start capturing keystrokes
+    keyscan_stop   Stop capturing keystrokes
+    mouse          Send mouse events
+    screenshare    Watch the remote user's desktop in real-time
+    screenshot     Grab a screenshot of the interactive desktop
+    setdesktop     Change the meterpreters current desktop
+    uictl          Control some of the user interface components
+```
+
+
 ## metasploit modules
 
+Located at /usr/share/metasploit-framework/modules. They have the following structure:
 
+```
+<No.> <type>/<os>/<service>/<name>
+794   exploit/windows/ftp/scriptftp_list
+```
+
+
+
+If we do not want to use our web browser to search for a specific exploit within ExploitDB, we can use the CLI version, searchsploit.
+
+```shell-session
+searchsploit nagios3
+```
+
+
+How to download and install an exploit from exploitdb:
+
+```bash
+# Search for it from website or using searchsploit and download it. It should have .rb extension
+searchsploit nagios3
+
+# The default directory where all the modules, scripts, plugins, and `msfconsole` proprietary files are stored is `/usr/share/metasploit-framework`. The critical folders are also symlinked in our home and root folders in the hidden `~/.msf4/` location. 
+# Make sure that our home folder .msf4 location has all the folder structure that the /usr/share/metasploit-framework/. If not, `mkdir` the appropriate folders so that the structure is the same as the original folder so that `msfconsole` can find the new modules.
+
+# After that, we will be proceeding with copying the .rb script directly into the primary location.
+
+
+
+
+```
 
 ### post/windows/gather/hasdump 
 
@@ -240,6 +433,16 @@ If getsystem command fails (in the meterpreter) because of a priv_elevated_getsy
 ### post/multi/manage/shell_to_meterpretersessions
 
 It upgrades your shell to a meterpreter
+
+
+### post/multi/recon/local_exploit_suggester
+
+ local exploit suggester module:
+ 
+```shell-session
+post/multi/recon/local_exploit_suggester
+```
+
 
 ### auxiliary/server/socks_proxy
 
