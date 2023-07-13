@@ -20,6 +20,8 @@ tags:
 | Rockyou | /usr/shared/wordlists/rockyou.txt.gz | RockYou was a company that developed widgets for MySpace and implemented applications for various social networks and Facebook. Since 2014, it has engaged primarily in the purchases of rights to classic video games; it incorporates in-game ads and re-distributes the games.
 | User agents | [Seclist](https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/User-Agents) | Intended to bypass rate limiting (in an API) | User-agent headers |  
 | Windows Files |  [My dictionaty repo](https://github.com/amandaguglieri/dictionaries/blob/main/windows/file_inclusion) | To read interesting files from windows machines | Intended for information disclosure | 
+| Default Credential Cheat sheets | [https://github.com/ihebski/DefaultCreds-cheat-sheet](https://github.com/ihebski/DefaultCreds-cheat-sheet) | Install and run `"python3.11 creds search <service>"` |  | 
+
 
 ## Installing wordlists in your kali
 
@@ -72,3 +74,12 @@ sudo apt install seclists -y
 - [Dictionaries for cracking passwords: https://wiki.skullsecurity.org/index.php/Passwords](https://wiki.skullsecurity.org/index.php/Passwords).
 - [Wordlist from wfuzz](https://github.com/xmendez/wfuzz/tree/master/wordlist.
 
+## Default credentials
+
+Install app "Cred" from: [https://github.com/ihebski/DefaultCreds-cheat-sheet](https://github.com/ihebski/DefaultCreds-cheat-sheet)
+
+```bash
+pip3 install defaultcreds-cheat-sheet
+
+python3.11 creds search tomcat
+```

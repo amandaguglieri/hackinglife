@@ -1,5 +1,13 @@
-
-
+---
+title: CrackMapExec
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - windows
+  - dump hashes
+  - passwords
+---
 
 
 # CrackMapExec

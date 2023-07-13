@@ -20,7 +20,12 @@ Example from [HTB machine: Responder](htb-responder.md).
 
 ```bash
 evil-winrm -i $ip -u <username -p <password>
+
+evil-winrm -i <ip> -u Administrator -H "<passwordhash>"
+# -H: Hash
 ```
+
+
 
 
 

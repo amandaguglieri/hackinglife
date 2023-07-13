@@ -1,4 +1,13 @@
-
+---
+title: mimikatz
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - windows
+  - dump hashes
+  - passwords
+---
 
 
 # mimikatz

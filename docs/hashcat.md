@@ -30,21 +30,10 @@ hashcat -m 0 -a 0 -D2 example0.hash example.dict
 # Results are stored in file hashcat.potfile
 ```
 
-## Modules cheatsheet
-
-https://hashcat.net/wiki/doku.php?id=example_hashes
-
-### mode 7300
-
-For cracking hashes from [IPMI service](623-intelligent-platform-management-interface-ipmi.md):
-In the event of an HP iLO using a factory default password, we can use this Hashcat mask attack command 
-
-```bash
-hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
-```
-
 
 ## Rules
+
+Located at:  `/usr/share/hashcat/rules/`.
 
 You can create rules by creating a file called custom.rule and using these commands: [https://hashcat.net/wiki/doku.php?id=rule_based_attack](https://hashcat.net/wiki/doku.php?id=rule_based_attack).
 
@@ -57,6 +46,11 @@ S
 # By clicking s you can check at any time the status
 ```
 
+Generate a mutate password list based on a custom.rule:
+
+```bash
+hashcat --force password.list -r custom.rule --stdout > mutated_password.list
+```
 
 ## Mask attacks 
 
@@ -70,8 +64,13 @@ These are the possible masks that you can use:
 ?H = 0123456789ABCDEF
 ?s = «space»!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
 ?a = ?l?u?d?s
+?c = Capitalize the first letter and lowercase others
+?sXY = Replace all instances of X with Y.
 ?b = 0x00 - 0xff
+?$! 	Add the exclamation character at the end.
 ``` 
+
+Hashcat will apply the rules of custom.rule for each word in password.list and store the mutated version in our mut_password.list accordingly. 
 
 **Example of a mask attack**:
 
@@ -80,15 +79,20 @@ hashcat -m 0 -a 3 example0.hash ?l?l?l?l?L?l?l?la
 # first 8 letter will be lowercase and the ninth one will be from the all-character pool
 ```
 
+Hashcat and John come with pre-built rule lists that we can use for our password generating and cracking purposes. One of the most used rules is best64.rule
+
+
 ## Cracking Password of Microsoft Word file
 
 ```
 cd /root/Desktop/
 /usr/share/john/office2john.py MS_Word_Document.docx > hash
+
 cat hash
+
 MS_Word_Document.docx:$office$*2013*100000*256*16*ff2563844faca58a12fc42c5036f9cf8*ffaf52db903dbcb6ac2db4bab6d343ab*c237403ec97e5f68b7be3324a8633c9ff95e0bb44b1efcf798c70271a54336a2
 
-Remove the first part. Hash woul be
+Remove the first part. Hash would be
 $office$*2013*100000*256*16*ff2563844faca58a12fc42c5036f9cf8*ffaf52db903dbcb6ac2db4bab6d343ab*c237403ec97e5f68b7be3324a8633c9ff95e0bb44b1efcf798c70271a54336a2
 
 hashcat -a 0 -m 9600 --status hash /root/Desktop/wordlists/1000000-password-seclists.txt --force
@@ -102,3 +106,16 @@ hashcat -a 0 -m 9600 --status hash /root/Desktop/wordlists/1000000-password-secl
 [Examples: cracking common hashes: https://infosecwriteups.com/cracking-hashes-with-hashcat-2b21c01c18ec](https://infosecwriteups.com/cracking-hashes-with-hashcat-2b21c01c18ec).
 
 
+
+## Modules cheatsheet
+
+https://hashcat.net/wiki/doku.php?id=example_hashes
+
+### mode 7300
+
+For cracking hashes from [IPMI service](623-intelligent-platform-management-interface-ipmi.md):
+In the event of an HP iLO using a factory default password, we can use this Hashcat mask attack command 
+
+```bash
+hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
+```

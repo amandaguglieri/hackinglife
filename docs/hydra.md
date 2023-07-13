@@ -6,6 +6,8 @@ TableOfContents: true
 tags:
   - pentesting
   - brute forcing
+  - windows
+  - passwords
 ---
 
 # Hydra
@@ -41,7 +43,8 @@ hydra -L users-txt -P pass.txt http-get://localhost/
 # -L: specify a list with login names
 # -p: specify a single passwords
 # -P: specify a file with passwords
-# -t; how many parallel connections to run when cracking
+# -C: specify a file with user:password
+# -t: how many parallel connections to run when cracking
 # -V: verbose
 # -f: it stops the attack after finding a password
 # -M: list of servers to attack, one entry per line, ‘:’ to specify port

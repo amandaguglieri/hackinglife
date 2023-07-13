@@ -74,8 +74,6 @@ Each Domain Controller hosts a file called `NTDS.dit` that is kept synchronized 
 - Group policy objects
 
 
-
-
 ## Tools for dumping credentials
 
 - [CrackMapExec](crackmapexec.md).

@@ -5,6 +5,9 @@ draft: false
 TableOfContents: true
 tags:
   - tools
+  - port 5985
+  - port 5986
+  - winrm
 ---
 
 # Port 5985, 5986 - WinRM - Windows Remote Management

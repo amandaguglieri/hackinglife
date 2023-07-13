@@ -21,14 +21,15 @@ Github repo: [https://github.com/digininja/CeWL](https://github.com/digininja/Ce
 ## Basic commands
 
 ```bash
-cewl -m 6 -d 3 URL
+cewl -m 6 -d 3 --lowercase  URL
 # -d <x>,--depth <x>: Depth to spider to, default 2.
 # -m, --min_word_length: Minimum word length, default 3.
+# --lowercase: save as lowercase
 ```
 
 ## Examples from real life
 
 ```bash
-cewl domain/path-to-post -w wordlist.txt
+cewl domain/path-to-post -w outputfile.txt
 # -w output a list of words to a file.
 ```
