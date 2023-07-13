@@ -13,7 +13,7 @@ How is WinRM different from [Remote Desktop (RDP)](3389-rdp.md)? WinRM is a prot
 
 WinRM is part of the operating system. However, to obtain data from remote computers, you must configure a WinRM listener.
 
-WinRM uses the Simple Object Access Protocol (`SOAP`) to establish connections to remote hosts and their applications. Therefore, WinRM must be explicitly enabled and configured starting with Windows 10. WinRM relies on `TCP` ports `5985` and `5986` for communication, with the last port `5986 using HTTPS`.
+WinRM is a network protocol based on XML web services using the [Simple Object Access Protocol](https://docs.microsoft.com/en-us/windows/win32/winrm/windows-remote-management-glossary) (`SOAP`) used for remote management of Windows systems. It takes care of the communication between [Web-Based Enterprise Management](https://en.wikipedia.org/wiki/Web-Based_Enterprise_Management) (`WBEM`) and the [Windows Management Instrumentation](https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page) (`WMI`), which can call the [Distributed Component Object Model](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dcom/4a893f3d-bd29-48cd-9f43-d9777a4415b0) (`DCOM`).WinRM uses the Simple Object Access Protocol (`SOAP`) to establish connections to remote hosts and their applications. However, for security reasons, WinRM must be activated and configured manually in Windows 10. WinRM uses the TCP ports `5985` (`HTTP`) and `5986` (`HTTPS`).
 
 Another component that fits WinRM for administration is Windows Remote Shell (`WinRS`), which lets us execute arbitrary commands on the remote system. The program is even included on Windows 7 by default.
 

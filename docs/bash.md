@@ -7,10 +7,10 @@ tags:
   - bash
 ---
 
-# Bash
+# Bash  - Bourne Again Shell
 
 ## File descriptors and redirections
-
+ 
 ```bash
 # <<: # This is known as a "here document" or "here-strings" operator. It allows you to input multiple lines of text into a command or a file. Example:
 cat << EOF > stream.txt

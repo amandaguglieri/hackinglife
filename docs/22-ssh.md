@@ -17,6 +17,8 @@ Implemented natively on all Linux distributions and MacOS, SSH can also be used 
 
 There are two competing protocols: SSH-1 and SSH-2. SSH-2, also known as SSH version 2, is a more advanced protocol than SSH version 1 in encryption, speed, stability, and security. For example, SSH-1 is vulnerable to MITM attacks, whereas SSH-2 is not.
 
+The SSH server runs on TCP port 22 by default, to which we can connect using an SSH client. This service uses three different cryptography operations/methods: symmetric encryption, asymmetric encryption, and hashing.
+
 ## Footprinting ssh
 
 ### ssh-audit

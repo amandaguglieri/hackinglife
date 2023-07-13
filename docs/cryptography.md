@@ -10,6 +10,25 @@ tags:
 # Cryptography
 
 
+## Encryption Technologies
+
+|**Encryption Technology**|**Description**|
+|---|---|
+|`UNIX crypt(3)`|Crypt(3) is a traditional UNIX encryption system with a 56-bit key.|
+|`Traditional DES-based`|DES-based encryption uses the Data Encryption Standard algorithm to encrypt data.|
+|`bigcrypt`|Bigcrypt is an extension of traditional DES-based encryption. It uses a 128-bit key.|
+|`BSDI extended DES-based`|BSDI extended DES-based encryption is an extension of the traditional DES-based encryption and uses a 168-bit key.|
+|`FreeBSD MD5-based` (Linux & Cisco)|FreeBSD MD5-based encryption uses the MD5 algorithm to encrypt data with a 128-bit key.|
+|`OpenBSD Blowfish-based`|OpenBSD Blowfish-based encryption uses the Blowfish algorithm to encrypt data with a 448-bit key.|
+|`Kerberos/AFS`|Kerberos and AFS are authentication systems that use encryption to ensure secure entity communication.|
+|`Windows LM`|Windows LM encryption uses the Data Encryption Standard algorithm to encrypt data with a 56-bit key.|
+|`DES-based tripcodes`|DES-based tripcodes are used to authenticate users based on the Data Encryption Standard algorithm.|
+|`SHA-crypt hashes`|SHA-crypt hashes are used to encrypt data with a 256-bit key and are available in newer versions of Fedora and Ubuntu.|
+|`SHA-crypt` and `SUNMD5 hashes` (Solaris)|SHA-crypt and SUNMD5 hashes use the SHA-crypt and MD5 algorithms to encrypt data with a 256-bit key and are available in Solaris.|
+|`...`|and many more.|
+
+
+
 ## Symmetric Encryption 
 
 There is only a shared secret key

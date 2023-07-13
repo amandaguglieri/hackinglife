@@ -4,7 +4,7 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - tools+
+  - tools
   - active directory
   - windows remote management
 ---
@@ -19,7 +19,7 @@ By default, installed on kali. [See winrm](5985-5986-winrm-windows-remote-manage
 Example from [HTB machine: Responder](htb-responder.md).
 
 ```bash
-evil-winrm -i $ip -u administrator -p badminton
+evil-winrm -i $ip -u <username -p <password>
 ```
 
 

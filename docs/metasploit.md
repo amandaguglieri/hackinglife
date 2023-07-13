@@ -384,7 +384,6 @@ Located at /usr/share/metasploit-framework/modules. They have the following stru
 ```
 
 
-
 If we do not want to use our web browser to search for a specific exploit within ExploitDB, we can use the CLI version, searchsploit.
 
 ```shell-session
@@ -402,11 +401,14 @@ searchsploit nagios3
 # Make sure that our home folder .msf4 location has all the folder structure that the /usr/share/metasploit-framework/. If not, `mkdir` the appropriate folders so that the structure is the same as the original folder so that `msfconsole` can find the new modules.
 
 # After that, we will be proceeding with copying the .rb script directly into the primary location.
-
-
-
-
 ```
+
+
+
+### auxiliary/scanner/smb/smb_login
+
+Use this to enumerate users and brute force passwords in a smb service.
+
 
 ### post/windows/gather/hasdump 
 
