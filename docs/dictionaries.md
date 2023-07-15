@@ -67,6 +67,7 @@ sudo apt install seclists -y
 - [crunch](crunch.md).
 - [cewl](cewl.md).
 - [Common User Password Profiler: CUPP](cupp-common-user-password-profiler.md).
+- Username Anarchy.
 
 
 ## More dictionaries

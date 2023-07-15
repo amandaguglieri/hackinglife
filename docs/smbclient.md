@@ -15,6 +15,7 @@ tags:
 
 # smbclient - A tool for interacting with smb shares
 
+See [Quick Cheat sheet for smbclient](#quick-cheat-sheet).
 
 ## smbclient installation 
 
@@ -47,7 +48,6 @@ Default settings are in `/etc/samba/smb.conf`.
 |`create mask = 0700`|What permissions need to be set for newly created files?|
 
 
-
 [For pentesting notes on ports 137, 138, 139 and 445 with a smb service, see 137-138-139-445-smb](137-138-139-445-smb.md). 
 
 
@@ -62,6 +62,7 @@ smbclient -L //$ip
 Smbclient will attempt to connect to the remote host and check if there is any authentication required. If there is, it will ask you for a user and a password for your local username. If we do not specify a specific username to smbclient when attempting to connect to the remote host, it will just use your local machine's username.If vulnerable and performing a Null Attack, we will hit Enter when prompted for a password.
 
 After authenticating, we may obtain access to some typical shared folders, such as:
+
 ```
 ADMIN$ - Administrative shares are hidden network shares created by the Windows NT family of operating systems that allow system administrators to have remote access to every disk volume on a network-connected system. These shares may not be permanently deleted but may be disabled.
 
@@ -96,7 +97,9 @@ smbclient -L 10.129.228.98 -U Administrator
 
 Also we can use [rpcclient tool](rpcclient.md) for connecting to the shared folders.
 
+
 ## Basic commands in SMBclient
+
 
 
 ```smb-session
@@ -113,4 +116,36 @@ smbstatus
 !cmd
 
 !cat prep-prod.txt
+```
+
+
+## Quick cheat sheet 
+
+```bash
+# List shares on a machine using NULL Session
+smbclient -L <target-IP>
+ 
+# List shares on a machine using a valid username + password
+smbclient -L \<target-IP\> -U username%password
+ 
+# Connect to a valid share with username + password
+smbclient //\<target\>/\<share$\> -U username%password
+  
+# List files on a specific share
+smbclient //\<target\>/\<share$\> -c 'ls' password -U username
+ 
+# List files on a specific share folder inside the share
+smbclient //\<target\>/\<share$\> -c 'cd folder; ls' password -U username
+ 
+# Download a file from a specific share folder
+smbclient //\<target\>/\<share$\> -c 'cd folder;get desired_file_name' password -U username
+  
+# Copy a file to a specific share folder
+smbclient //\<target\>/\<share$\> -c 'put /var/www/my_local_file.txt .\target_folder\target_file.txt' password -U username
+ 
+# Create a folder in a specific share folder
+smbclient //\<target\>/\<share$\> -c 'mkdir .\target_folder\new_folder' password -U username
+ 
+# Rename a file in a specific share folder
+smbclient //\<target\>/\<share$\> -c 'rename current_file.txt new_file.txt' password -U username
 ```

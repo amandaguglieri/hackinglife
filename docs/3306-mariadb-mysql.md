@@ -1,5 +1,5 @@
 ---
-title: "3306 mariadb mysql"
+title: 3306 mariadb mysql
 author: amandaguglieri
 draft: false
 TableOfContents: true

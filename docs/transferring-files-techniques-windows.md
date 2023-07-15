@@ -13,6 +13,9 @@ tags:
 # Transferring files techniques  - Windows
 
 
+[See different techniques to set up a server in the attacking machine, probably a Kali](servers.md)
+
+
 ## PowerShell Base64 Encode & Decode
 
 ### Upload from linux (attacker) to Windows (victim) 

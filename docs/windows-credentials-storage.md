@@ -43,6 +43,16 @@ _Ntdsa.dll_ . The directory service module, which supports the Windows 2000 rep
 
 _Secur32.dll_ . The multiple authentication provider that holds all of the components together.
 
+Upon initial logon, LSASS will:
+
+- Cache credentials locally in memory
+- Create [access tokens](https://docs.microsoft.com/en-us/windows/win32/secauthz/access-tokens)
+- Enforce security policies
+- Write to Windows [security log](https://docs.microsoft.com/en-us/windows/win32/eventlog/event-logging-security)
+
+
+
+
 ### GINA
 
 Each interactive logon session creates a separate instance of the Winlogon service. The Graphical Identification and Authentication (GINA) architecture is loaded into the process area used by Winlogon, receives and processes the credentials, and invokes the authentication interfaces via the LSALogonUser function.
@@ -81,3 +91,13 @@ Each Domain Controller hosts a file called `NTDS.dit` that is kept synchronized 
 - [Hydra](hydra.md).
 - [Metasploit](metasploit.md).
 - [Mimikatz](mimikatz.md).
+- [pypykatz](pypykatz.md).
+- [Lazagne](lazagne.md).
+
+#### findstr
+
+We can also use [findstr](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/findstr) to search from patterns across many types of files.
+
+```cmd-session
+C:\> findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml
+```

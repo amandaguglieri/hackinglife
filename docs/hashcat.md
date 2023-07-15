@@ -111,11 +111,22 @@ hashcat -a 0 -m 9600 --status hash /root/Desktop/wordlists/1000000-password-secl
 
 https://hashcat.net/wiki/doku.php?id=example_hashes
 
-### mode 7300
+### mode 7300: IPMI
 
 For cracking hashes from [IPMI service](623-intelligent-platform-management-interface-ipmi.md):
 In the event of an HP iLO using a factory default password, we can use this Hashcat mask attack command 
 
 ```bash
 hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
+```
+
+
+### Mode 1000
+
+
+### Mode 1800: unshadow file
+
+
+```bash
+hashcat -m 1800 -a 0 /tmp/unshadowed.hashes rockyou.txt -o /tmp/unshadowed.cracked
 ```

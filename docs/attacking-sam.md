@@ -3,6 +3,8 @@
 
 # Attacking SAM
 
+[See Windows credentials storage](windows-credentials-storage.md).
+
 ## Dumping SAM Locally
 
 ### 1. Copying SAM Registry Hives
@@ -66,6 +68,7 @@ Most modern Windows operating systems store the password as an NT hash. Operatin
 
 ### 3. Cracking Hashes with Hashcat
 
+[See hashcat](hashcat.md):
 
 ```bash
 # Adding nthashes to a .txt File
@@ -75,7 +78,6 @@ Most modern Windows operating systems store the password as an NT hash. Operatin
 sudo hashcat -m 1000 hashestocrack.txt /usr/share/wordlists/rockyou.txt
 # -m 1000: select module for NT hashes
 ```
-
 
 
 ## Dumping SAM Remotely
