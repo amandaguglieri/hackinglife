@@ -111,7 +111,6 @@ echo "Oracle File Upload Test" > testing.txt
 ```
 
 
-
 ## How does Oracle TNS work
 
 ### Technical components

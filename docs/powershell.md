@@ -9,7 +9,11 @@ TableOfContents: true
 
 ## Basic commands
 
-```ps
+```powershell
+# List users of Administrator group
+net localgroup Administrators
+
+
 
 # List contents
 dir
@@ -85,6 +89,11 @@ Set-MpPreference -DisableRealtimeMonitoring $true
 
 # Disable firewall
 netsh advfirewall set allprofiles state off
+
+
+# Add a registry
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+
 
 ```
 

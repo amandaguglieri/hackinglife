@@ -5,6 +5,7 @@ draft: false
 TableOfContents: true
 tags:
   - privilege escalation
+  - windows
 ---
 
 # Index for Windows Privilege Escalation
@@ -43,7 +44,9 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	    - [Abusing a service with PowerUp.ps1](powerup.md)
 	- Kernel.
 	- Password Mining:
-		- Cached SAM.
+		- [Cached SAM](attacking-sam.md).
+		- [Cached LSASS](attacking-lsass.md).
+		- [Pass The Hash](pass-the-hash.md).
 		- Configuration files: unattend.xml, SiteList.xml, web.config, vnc.ini.
 		- Logs.
 		- [Credentials in recently accessed files/executed commands](windows-privilege-escalation-history.md)
@@ -59,3 +62,8 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	- Hot Potato.
 	- Startup Applications
 
+## Privilege escalation tools
+
+- [CrackMapexex](crackmapexec.md).
+- [mimikatz](mimikatz.md).
+- 

