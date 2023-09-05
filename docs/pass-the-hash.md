@@ -28,7 +28,7 @@ mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /
 
 ## Pass the Hash with PowerShell Invoke-TheHash (Windows)
 
-[See Powershell Invoke-TheHash](https://github.com/Kevin-Robertson/Invoke-TheHash). This tool is a collection of PowerShell functions for performing Pass the Hash attacks with WMI and SMB. WMI and SMB connections are accessed through the .NET TCPClient. Authentication is performed by passing an NTLM hash into the NTLMv2 authentication protocol. Local administrator privileges are not required client-side, but the user and hash we use to authenticate need to have administrative rights on the target computer.
+[See Powershell Invoke-TheHash](invoke-the-hash.md). This tool is a collection of PowerShell functions for performing Pass the Hash attacks with WMI and SMB. WMI and SMB connections are accessed through the .NET TCPClient. Authentication is performed by passing an NTLM hash into the NTLMv2 authentication protocol. Local administrator privileges are not required client-side, but the user and hash we use to authenticate need to have administrative rights on the target computer.
 
 
 When using Invoke-TheHash, we have two options: SMB or WMI command execution.

