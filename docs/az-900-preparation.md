@@ -90,6 +90,13 @@ Are you the curious type? If so, feel free to take advantage of these additional
 - [Flashcards](https://www.tomteachesit.com/az-900-flashcards/)
 
 
+## Azure accounts
+
+To create and use Azure services, you need an Azure subscription. After you've created an Azure account, you're free to create additional subscriptions. After you've created an Azure subscription, you can start creating Azure resources within each subscription.
+
+![Azure suscription](img/az-900_1.png)
+
+
 ## Basic Cloud Computing concepts
 
 
@@ -196,13 +203,16 @@ Ultimately, when leveraging PaaS offerings, you manage the applications and serv
 Software-as-a-Service allows users to connect to cloud-based apps over the Internet. Microsoft Office 365 is a good example of SaaS in action. Gmail would be another good example. SaaS provides a complete software solution that’s purchased on a pay-as-you-go basis from a cloud service provider. It’s essentially the rental of an app, that users can then connect to over the Internet, via a web browser. The underlying infrastructure, middleware, app software, and app data for a SaaS solution are all hosted in the provider’s data center, which means the service provider is responsible for managing the hardware and software. SaaS allows organizations to get up and running quickly, with minimal upfront cost.
 
 
+
 ## Core Architectural components
 
-### Availability Sets 
+The core architectural components of Azure may be broken down into two main groupings: the physical infrastructure, and the management infrastructure.
 
-They protect resources against rack failures within a datacenter.
+### Physical infrastructure
 
-### Azure Region
+The physical infrastructure for Azure starts with datacenters. Conceptually, the datacenters are the same as large corporate datacenters. They’re facilities with resources arranged in racks, with dedicated power, cooling, and networking infrastructure.  Individual datacenters aren’t directly accessible. Datacenters are grouped into Azure Regions or Azure Availability Zones
+
+#### Azure Region
 
 A region is a geographical area that contains at least one (but potentially multiple) datacenters that are networked together with a low-latency network.
 
@@ -213,61 +223,70 @@ Some services or features are only available in certain regions. Others don't re
 
 ![Azure Regions](img/azure-region.png)
 
-There are some special regions that exist, maybe, for compliance reasons (or others). Examples: 
-- US DoD Central, US Gov Virginia, and US Gov Iowa are some physical and logical network-isolated instances of Azure for US government agencies and partners. 
-- China East, China North: Available through a unique partnership between Microsoft and 21Vianet, whereby Microsoft doesn't directly.
 
-### Availability zones
+#### Availability zones
 
-They are created by using one or more datacenters. There are a minimum of three zones within a single region to recover from a massive outage.
+Availability zones are physically separate datacenters within an Azure region. Each availability zone is made up of one or more datacenters equipped with independent power, cooling, and networking.
 
-Availability zones are physically separate datacenters within an Azure region. Every availability zone 
-includes one or more datacenters that features independent power, cooling, and networking. In 
-essence, an availability zone is designed to be an isolation boundary, meaning if one zone goes down, 
-the other continues working.  
+Availability zones are physically separate datacenters within an Azure region. Every availability zone includes one or more datacenters that features independent power, cooling, and networking. In essence, an availability zone is designed to be an isolation boundary, meaning if one zone goes down, the other continues working.  
 
-Availability zones are designed primarily for VMs, managed disks, load balancers, and SQL databases.  
+Availability zones are designed primarily for VMs, managed disks, load balancers, and SQL databases.   It is important to remember that availability zones are connected through private high-speed fiber-optic networks. The image below shows what availability zones look like within a region: 
 
 ![Azure Regions](img/azure-availability-zone.png)
 
+To ensure resiliency, a minimum of three separate availability zones are present in all availability zone-enabled regions. However, not all Azure Regions currently support availability zones.
 
-It is important to remember that availability zones are connected through private high-speed fiber-optic 
-networks. The image below shows what availability zones look like within a region: 
+Azure services that support availability zones fall into three categories:
 
-### Region pairs
+- Zonal services: You pin the resource to a specific zone (for example, VMs, managed disks, IP addresses).
+- Zone-redundant services: The platform replicates automatically across zones (for example, zone-redundant storage, SQL Database).
+- Non-regional services: Services are always available from Azure geographies and are resilient to zone-wide outages as well as region-wide outages.
+
+
+#### Region pairs
 
 Each Azure region is paired with another region within the same geography at least 300 miles away. This is done to allow for the replication of resources across a geography and reduce the chance of unavailability. West US region is, for instance, paired with East US.
 
-If an outage occurs:  one region is prioritized to make sure that at least one is restored as quickly as possible. It also does so to minimize downtime.  Data resides within the same geography as its pair.
+If an outage occurs:  one region is prioritized to make sure that at least one is restored as quickly as possible. It also does so to minimize downtime.  Data continues to reside within the same geography as its pair (except for Brazil South) for tax -and law- enforcement jurisdiction purposes.
+
+> Most regions are paired in two directions, meaning they are the backup for the region that provides a backup for them (West US and East US back each other up). However, some regions, such as West India and Brazil South, are paired in only one direction. In a one-direction pairing, the Primary region does not provide backup for its secondary region. So, even though West India’s secondary region is South India, South India does not rely on West India. West India's secondary region is South India, but South India's secondary region is Central India. Brazil South is unique because it's paired with a region outside of its geography. Brazil South's secondary region is South Central US. The secondary region of South Central US isn't Brazil South.
 
 
-### Azure Resources and Resource Groups 
+**Sovereign regions**
 
-Before deploying an Azure resource, you need to create at least a resource group to deploy the resource into. The relationship of resources with resource groups is highlighted below: 
+>In addition to regular regions, Azure also has sovereign regions. Sovereign regions are instances of Azure that are isolated from the main instance of Azure. You may need to use a sovereign region for compliance or legal purposes. Azure sovereign regions include:
+>	- US DoD Central, US Gov Virginia, US Gov Iowa and more: These regions are physical and logical network-isolated instances of Azure for U.S. government agencies and partners. These datacenters are operated by screened U.S. personnel and include additional compliance certifications.
+>	- China East, China North, and more: These regions are available through a unique partnership between Microsoft and 21Vianet, whereby Microsoft doesn't directly maintain the datacenters.
 
-• **Resource**: A resource is a manageable item in Azure. Virtual machines, storage accounts, web apps, and virtual networks are examples of resources. 
-• **Resource Group**: A resource group is a container that holds all related resources that you want to manage as a group.  Resources within a resource group are typically managed as a group.  Resource groups can be nested. 
 
-All resources must be in a resource group, and a single resource can only be a member of a single resource group.  What you can do is moving resources from one group to another.
+### Management infrastructure
+#### Azure Resources and Resource Groups 
 
-When deleting a resource group, all resources included in it  will be deleted, so it makes sense to organized your resource groups by similar lifecycle, or by function.
+A resource is the basic building block of Azure. Anything you create, provision, deploy, etc. is a resource. Virtual Machines (VMs), virtual networks, databases, cognitive services, etc. are all considered resources within Azure.
+
+Resource groups are simply groupings of resources. When you create a resource, you’re required to place it into a resource group. While a resource group can contain many resources, a single resource can only be in one resource group at a time. Some resources may be moved between resource groups, but when you move a resource to a new group, it will no longer be associated with the former group. Additionally, resource groups can't be nested, meaning you can’t put resource group B inside of resource group A.
+
+If you grant or deny access to a resource group, you’ve granted or denied access to all the resources within the resource group. When deleting a resource group, all resources included in it  will be deleted, so it makes sense to organized your resource groups by similar lifecycle, or by function.
 
 Resource groups are also a scope for applying RBAC (Role Based Access Control) permissions.
 
+#### Azure Subscription
 
-### Azure Subscription
+An Azure subscription provides authenticated and authorized access to Azure products and services and allows organizations to provision cloud resources. Every Azure subscription links to an Azure account, which is an identity in Azure AD or in a directory that Azure AD trusts.  In Azure, subscriptions are a unit of management, billing, and scale.
 
-An Azure subscription provides authenticated and authorized access to Azure products and services and allows organizations to provision cloud resources. Every Azure subscription links to an Azure account, which is an identity in Azure AD or in a directory that Azure AD trusts. 
+An account can have multiple subscriptions, but it’s only required to have one. In a multi-subscription account, you can use the subscriptions to configure different billing models and apply different access-management policies. You can use Azure subscriptions to define boundaries around Azure products, services, and resources. There are two types of subscription boundaries that you can use:
 
-Azure subscriptions can be used to define boundaries around Azure products, services, and resources:  
+- **Billing boundary**: This subscription type determines how an Azure account is billed for using Azure. You can create multiple subscriptions for different types of billing requirements. Azure generates separate billing reports and invoices for each subscription so that you can organize and manage costs.
+- **Access control boundary**: Azure applies access-management policies at the subscription level, and you can create separate subscriptions to reflect different organizational structures. An example is that within a business, you have different departments to which you apply distinct Azure subscription policies. This billing model allows you to manage and control access to the resources that users provision with specific subscriptions. 
 
-• Billing boundary: Azure subscription determines how an Azure account is billed for using Azure. 
-• Access control boundary: Azure subscription creates separate subscriptions to reflect different organizational structures.  
+An account can have one subscription or multiple subscriptions that have different billing models. You can also use subscription to apply different access-management policies when necessary. For example, you might choose to create additional subscriptions to separate:
 
-An account can have one subscription or multiple subscriptions that have different billing models. You can also use subscription to apply different access-management policies when necessary. 
+- **Environments**: separate environments for development and testing, security, or to isolate data for compliance reasons. This design is particularly useful because resource access control occurs at the subscription level.
+- **Organizational structures**:  you could limit one team to lower-cost resources, while allowing the IT department a full range. This design allows you to manage and control access to the resources that users provision within each subscription.
+- **Billing**: For instance, you might want to create one subscription for your production workloads and another subscription for your development and testing workloads.
 
 
-### Management Groups in Azure 
+#### Management Groups in Azure 
 
 To efficiently manage access, policies (like available regions), and compliance when you manage multiple Azure subscriptions, you can use Management Groups, because management groups provide scope that sits above subscriptions.  
 
@@ -279,9 +298,17 @@ The image below highlights how you can create a hierarchy for governance through
 
 ![Azure management group](img/azure-management-group.png)
 
-Maximum of 10,000 management groups supported in a single directory.
+Some examples of how you could use management groups might be:
 
-A management group tree can support up to six levels of depth (root and subscription level not included)
+- **Create a hierarchy that applies a policy**. 
+- **Provide user access to multiple subscriptions**. 
+
+
+Facts we need to know:
+
+- Maximum of 10,000 management groups supported in a single directory.
+- A management group tree can support up to six levels of depth (root and subscription level not included)
+- Each management group and subscription can support only one parent.
 
 
 
@@ -289,14 +316,14 @@ A management group tree can support up to six levels of depth (root and subscrip
 
 Azure compute is an on-demand computing service that organizations use to run cloud-based applications. It provides compute resources like disks, processors, memory, networking, and even operating systems. Azure supports many types of compute solutions, including Linux, Windows Server, SQL Server, Oracle, IBM, and SAP. Each Azure compute service offers different options depending on your requirements. The most common Azure compute services are:
 
-- Azure Virtual Machines 
+- 1. Azure Virtual Machines 
 - VM Scale Sets 14 
 - Azure Container Instances 
 - Azure App Service 
 - Azure Functions (serverless computing)
 
 
-### Azure Virtual Machines
+### 1. Azure Virtual Machines
 
 Virtual machines are virtual versions of physical computers that feature virtual processors, memory, storage, and networking resources. They host an operating system just like a physical computer, and you can install and run software on them just like a physical computer. 
 
@@ -307,7 +334,21 @@ VM provides IaaS and can be used in two ways:
 
 ### Virtual Machine Scale Sets 
 
-A virtual machine scale set allows you to deploy and manage a set of identical VMs that you can use to deploy solutions with true autoscale. As demand increases, VM instances can be added.
+Azure can also manage the grouping of VMs for you with features such as scale sets and availability sets. A virtual machine scale set allows you to deploy and manage a set of identical VMs that you can use to deploy solutions with true autoscale. As demand increases, VM instances can be added.
+
+### Virtual machine availability sets
+
+Virtual machine availability sets are another tool to  ensure that VMs stagger updates and have varied power and network connectivity, preventing you from losing all your VMs with a single network or power failure.
+
+Availability sets do this by grouping VMs in two ways: update domain and fault domain.
+
+- **Update domain**: The update domain groups VMs that can be rebooted at the same time. 
+- **Fault domain**: The fault domain groups your VMs by common power source and network switch. By default, an availability set will split your VMs across up to three fault domains. This helps protect against a physical power or networking failure by having VMs in different fault domains.
+
+There’s no additional cost for configuring an availability set. You only pay for the VM instances you create.
+
+When to use VMs: During testing and development, When running applications in the cloud, When extending your datacenter to the cloud, During disaster recovery.
+
 
 
 ### Containers and Kubernetes 
@@ -356,12 +397,27 @@ Azure Portal does not offer a way to automate repetitive tasks.
 
 ### Azure CLI
 
-The Azure CLI is a command-line interface.  A cross-platform command-line program (Windows, Linux and macOs) to connect to Azure and execute administrative commands. It can be  run on
+The Azure CLI is a command-line interface.  A cross-platform command-line program (Windows, Linux and macOs) to connect to Azure and execute administrative commands. 
+
 It’s an executable program that you can use to execute commands in Bash. You can use the Azure CLI to perform every possible management task in Azure. Like Azure PowerShell, the CLI allows you to run one-off commands or you can combine them into a script and execute them together.
+
+Launch azure cli:
+
+```powershell
+# Launch Azure CLI interactive mode
+az interactive
+```
+
+```azure cli
+version
+upgrade
+exit
+```
 
 ```ps
 az vm create --resourcegroup MyResourceGroup --name MyVM01 --image UbuntLTS --generate-ssh-keys
 ```
+
 
 
 ### Azure PowerShell
@@ -375,7 +431,31 @@ New-AzVm -ResourceGroupName "MyResourceGroup" -Name "MyVM01" -Image "UbuntLTS"
 
 ### Azure Cloud Shell
 
-Browser-based scripting environment that is accessible from Azure Portal. It requires a storage account. It allows you to choose the shell experience that suits you best.
+Browser-based scripting environment that is accessible from Azure Portal. It requires a storage account. It allows you to choose the shell experience that suits you best. 
+
+During AZ-900 preparation at Microsoft Learn platform, an Azure Cloud Shell is provided. You can practice there the following commands:
+
+```powershell
+# Print current date
+Get-date
+
+# Print Azure version
+az version
+
+# Print Azure suscription
+Get-AzureSuscription
+
+# Launch Bash
+bash
+
+# you can use the letters az to start an Azure command in the BASH mode.
+az upgrade
+
+# Use Azure CLI interactive mode
+az interactive
+
+```
+
 
 ### Azure mobile app
 
