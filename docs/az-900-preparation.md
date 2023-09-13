@@ -418,7 +418,7 @@ App Service handles most of the infrastructure decisions you deal with in hostin
 
 App Service includes full support for hosting web apps by using ASP.NET, ASP.NET Core, Java, Ruby, Node.js, PHP, or Python. You can choose either Windows or Linux as the host operating system.
 
-#### API apps
+#### API apps (Azure Rest API)
 
 Much like hosting a website, you can build REST-based web APIs by using your choice of language and framework. You get full Swagger support and the ability to package and publish your API in Azure Marketplace. The produced apps can be consumed from any HTTP- or HTTPS-based client.
 
@@ -432,6 +432,18 @@ Use the Mobile Apps feature of App Service to quickly build a back end for iOS a
 
 On the mobile app side, there's SDK support for native iOS and Android, Xamarin, and React native apps.
 
+- Access, manage, monitor Azure accounts and resources.
+- Monitor the health and status of Azure resources, check for alerts, diagnose and fix issues.
+- Stop, start, restart a web app or virtual machine.  
+- Run the Azure CLI or Azure PowerShell commands to manage Azure resources. 
+
+#### Azure Advisor
+
+Free services that helps you follow best practices. 
+
+#### ARM templates 
+
+ARM templates allow you to declaratively describe the resources you want to use, using JSON format. The template will then create those resources in parallel. For example, need 25 VMs, all 25 VMs will be created at the same time. 
 
 ### 6. Azure Virtual Networking
 
@@ -572,10 +584,245 @@ You can't use Azure DNS to buy a domain name. For an annual fee, you can buy a d
 
 ## Azure Storage Services
 
+A storage account provides a unique namespace for your Azure Storage data that's accessible from anywhere in the world over HTTP or HTTPS. Data in this account is secure, highly available, durable, and massively scalable.  When you create your storage account, you’ll start by picking the storage account type. The type of account determines the storage services and redundancy options and has an impact on the use cases.
 
 
+|**Type**|**Supported services**|**Redundancy Options**|**Usage**|
+|---|---|---|---|
+|Standard general-purpose v2|Blob Storage (including Data Lake Storage), Queue Storage, Table Storage, and Azure Files|LRS, GRS, RA-GRS, ZRS, GZRS, RA-GZRS|Standard storage account type for blobs, file shares, queues, and tables. Recommended for most scenarios using Azure Storage. If you want support for network file system (NFS) in Azure Files, use the premium file shares account type.|
+|Premium block blobs|Blob Storage (including Data Lake Storage)|LRS, ZRS|Premium storage account type for block blobs and append blobs. Recommended for scenarios with high transaction rates or that use smaller objects or require consistently low storage latency.|
+|Premium file shares|Azure Files|LRS, ZRS|Premium storage account type for file shares only. Recommended for enterprise or high-performance scale applications. Use this account type if you want a storage account that supports both Server Message Block (SMB) and NFS file shares.|
+|Premium page blobs|Page blobs only|LRS|Premium storage account type for page blobs only.|
+
+Some acronyms here:
+
+- Locally redundant storage (LRS)
+- Geo-redundant storage (GRS)
+- Read-access geo-redundant storage (RA-GRS)
+- Zone-redundant storage (ZRS)
+- Geo-zone-redundant storage (GZRS)
+- Read-access geo-zone-redundant storage (RA-GZRS)
+
+**Storage account endpoints**:
+
+The following table shows the endpoint format for Azure Storage services.
+
+|**Storage service**|**Endpoint**|
+|---|---|
+| Blob Storage | https://\<storage-account-name\>.blob.core.windows.net |
+| Data Lake Storage Gen2 | https://\<storage-account-name\>.dfs.core.windows.net |
+| Azure Files | https://\<storage-account-name\>.file.core.windows.net |
+| Queue Storage | https://\<storage-account-name\>.queue.core.windows.net |
+| Table Storage | https://\<storage-account-name\>.table.core.windows.net |
+
+
+### Azure storage redundancy
+
+Data in an Azure Storage account is always replicated three times in the primary region. Azure Storage offers two options for how your data is replicated in the primary region, locally redundant storage (LRS) and zone-redundant storage (ZRS).
+
+
+#### Redundancy in the primary region
+
+**Locally redundant storage (LRS)**
+
+Locally redundant storage (LRS) replicates your data three times within a single data center in the primary region. LRS provides at least 11 nines of durability (99.999999999%) of objects over a given year. LRS is the lowest-cost redundancy option and offers the least durability compared to other options. LRS protects your data against server rack and drive failures. However, if a disaster such as fire or flooding occurs within the data center, all replicas of a storage account using LRS may be lost or unrecoverable. To mitigate this risk, Microsoft recommends using zone-redundant storage (ZRS), geo-redundant storage (GRS), or geo-zone-redundant storage (GZRS).
+
+![LRS](img/az-900_2.png)
+
+
+**Zone-redundant storage (ZRS)**
+
+For Availability Zone-enabled Regions, zone-redundant storage (ZRS) replicates your Azure Storage data synchronously across three Azure availability zones in the primary region. ZRS offers durability for Azure Storage data objects of at least 12 nines (99.9999999999%) over a given year. With ZRS, your data is still accessible for both read and write operations even if a zone becomes unavailable. Microsoft recommends using ZRS in the primary region for scenarios that require high availability. ZRS is also recommended for restricting replication of data within a country or region to meet data governance requirements.
+
+![ZRS](img/az-900_3.png)
+
+#### Redundancy in the secondary region
+
+For applications requiring high durability, you can choose to additionally copy the data in your storage account to a secondary region that is hundreds of miles away from the primary region. If the data in your storage account is copied to a secondary region, then your data is durable even in the event of a catastrophic failure that prevents the data in the primary region from being recovered. When you create a storage account, you select the primary region for the account. The paired secondary region is based on Azure Region Pairs, and can't be changed.
+
+By default, data in the secondary region isn't available for read or write access unless there's a failover to the secondary region. If the primary region becomes unavailable, you can choose to fail over to the secondary region. After the failover has completed, the secondary region becomes the primary region, and you can again read and write data.
+
+Because data is replicated to the secondary region asynchronously, a failure that affects the primary region may result in data loss if the primary region can't be recovered. The interval between the most recent writes to the primary region and the last write to the secondary region is known as the recovery point objective (RPO). The RPO indicates the point in time to which data can be recovered. Azure Storage typically has an RPO of less than 15 minutes, although there's currently no SLA on how long it takes to replicate data to the secondary region.
+
+Azure Storage offers two options for copying your data to a secondary region: geo-redundant storage (GRS) and geo-zone-redundant storage (GZRS). GRS is similar to running LRS in two regions, and GZRS is similar to running ZRS in the primary region and LRS in the secondary region.
+
+**Geo-redundant storage (GRS)**
+
+GRS copies your data synchronously three times within a single physical location in the primary region using LRS. It then copies your data asynchronously to a single physical location in the secondary region (the region pair) using LRS. GRS offers durability for Azure Storage data objects of at least 16 nines (99.99999999999999%) over a given year.
+
+![GRS](img/az-900_4.png)
+
+
+**Geo-zone-redundant storage** (GZRS)
+
+GZRS combines the high availability provided by redundancy across availability zones with protection from regional outages provided by geo-replication. Data in a GZRS storage account is copied across three Azure availability zones in the primary region (similar to ZRS) and is also replicated to a secondary geographic region, using LRS, for protection from regional disasters. Microsoft recommends using GZRS for applications requiring maximum consistency, durability, and availability, excellent performance, and resilience for disaster recovery. GZRS is designed to provide at least 16 nines (99.99999999999999%) of durability of objects over a given year.
+
+![GZRS](img/az-900_5.png)
+
+
+Read access to data in the secondary region (RA-GRS)
+Geo-redundant storage (with GRS or GZRS) replicates your data to another physical location in the secondary region to protect against regional outages. However, that data is available to be read only if the customer or Microsoft initiates a failover from the primary to secondary region. However, if you enable read access to the secondary region, your data is always available, even when the primary region is running optimally. For read access to the secondary region, enable read-access geo-redundant storage (RA-GRS) or read-access geo-zone-redundant storage (RA-GZRS). Remember that the data in your secondary region may not be up-to-date due to RPO.
+
+
+### Azure storage services
+
+- 1. **Azure Blobs**: A massively scalable object store for text and binary data. Also includes support for big data analytics through Data Lake Storage Gen2.
+- 2. **Azure Files**: Managed file shares for cloud or on-premises deployments.
+- 3. **Azure Queues**: A messaging store for reliable messaging between application components.
+- 4. **Azure Disks**: Block-level storage volumes for Azure VMs.
+- 5. **Azure Tables:** NoSQL table option for structured, non-relational data.
+
+
+#### Azure Blobs
+
+To store massive amounts of data, such as text or binary data. Azure Blob storage is unstructured, meaning that there are no restrictions on the kinds of data it can hold. Blob storage is ideal for:
+
+- Serving images or documents directly to a browser.
+- Storing files for distributed access.
+- Streaming video and audio.
+- Storing data for backup and restore, disaster recovery, and archiving.
+- Storing data for analysis by an on-premises or Azure-hosted service.
+
+Objects in blob storage can be accessed from anywhere in the world via HTTP or HTTPS. Users or client applications can access blobs via URLs, the Azure Storage REST API, Azure PowerShell, Azure CLI, or an Azure Storage client library.
+
+Azure Storage offers different access tiers for your blob storage:
+
+- **Hot access tier**: Optimized for storing data that is accessed frequently (for example, images for your website).
+- **Cool access tier**: Optimized for data that is infrequently accessed and stored for at least 30 days (for example, invoices for your customers).
+- **Cold access tier**: Optimized for storing data that is infrequently accessed and stored for at least 90 days.
+- **Archive access tier**: Appropriate for data that is rarely accessed and stored for at least 180 days, with flexible latency requirements (for example, long-term backups).
+
+Some considerations:
+
+- Hot, cool, and cold access tiers can be set at the account level. The archive access tier isn't available at the account level.
+- Hot, cool, cold, and archive tiers can be set at the blob level, during or after upload.
+- Data in the cool and cold access tiers can tolerate slightly lower availability, but still requires high durability, retrieval latency, and throughput characteristics similar to hot data. For cool and cold data, a lower availability service-level agreement (SLA) and higher access costs compared to hot data are acceptable trade-offs for lower storage costs.
+- Archive storage stores data offline and offers the lowest storage costs, but also the highest costs to rehydrate and access data.
+
+#### Azure Files
+
+Azure File storage offers fully managed file shares in the cloud that are accessible via the industry standard Server Message Block (SMB) or Network File System (NFS) protocols. Azure Files file shares can be mounted concurrently by cloud or on-premises deployments. SMB Azure file shares are accessible from Windows, Linux, and macOS clients. NFS Azure Files shares are accessible from Linux or macOS clients. 
+
+PowerShell cmdlets and Azure CLI can be used to create, mount, and manage Azure file shares as part of the administration of Azure applications. You can create and manage Azure file shares using Azure portal and Azure Storage Explorer.
+
+Applications running in Azure can access data in the share via file system I/O APIs.  In addition to System IO APIs, you can use Azure Storage Client Libraries or the Azure Storage REST API.
+
+#### Azure Queues
+
+Azure Queue storage is a service for storing large numbers of messages. Once stored, you can access the messages from anywhere in the world via authenticated calls using HTTP or HTTPS. A queue can contain as many messages as your storage account has room for (potentially millions). Each individual message can be up to 64 KB in size. Queues are commonly used to create a backlog of work to process asynchronously.
+
+Queue storage can be combined with compute functions like Azure Functions to take an action when a message is received. F
+
+#### Azure Disks
+
+Azure Disk storage, or Azure managed disks, are block-level storage volumes managed by Azure for use with Azure VMs. Conceptually, they’re the same as a physical disk, but they’re virtualized – offering greater resiliency and availability than a physical disk. 
+
+#### Azure Tables
+
+Azure Table storage stores large amounts of structured data. Azure tables are a NoSQL datastore that accepts authenticated calls from inside and outside the Azure cloud. 
+
+
+
+### Azure data migration options
+
+Azure Migrate is a service that helps you migrate from an on-premises environment to the cloud:
+- Unified migration platform: A single portal to start, run, and track your migration to Azure.
+- Range of tools: Azure Migrate also integrates with other Azure services and tools, and with independent software vendor (ISV) offerings.
+- Assessment and migration: In the Azure Migrate hub, you can assess and migrate your on-premises infrastructure to Azure.
+
+Tools to help with migration:
+
+#### **Azure Migrate: Discovery and assessment**
+
+Discover and assess on-premises servers running on VMware, Hyper-V, and physical servers in preparation for migration to Azure.
+
+####  **Azure Migrate: Server Migration**
+
+Migrate VMware VMs, Hyper-V VMs, physical servers, other virtualized servers, and public cloud VMs to Azure.
+
+#### Data Migration Assistant
+
+Data Migration Assistant is a stand-alone tool to assess SQL Servers. It helps pinpoint potential problems blocking migration. It identifies unsupported features, new features that can benefit you after migration, and the right path for database migration.
+
+#### Azure Database Migration Service
+
+Migrate on-premises databases to Azure VMs running SQL Server, Azure SQL Database, or SQL Managed Instances.
+
+#### Azure App Service migration assistant
+
+Azure App Service migration assistant is a standalone tool to assess on-premises websites for migration to Azure App Service. Use Migration Assistant to migrate .NET and PHP web apps to Azure.
+
+#### Azure Data Box
+
+Azure Data Box is a physical migration service that helps transfer large amounts of data in a quick, inexpensive, and reliable way. The secure data transfer is accelerated by shipping you a proprietary Data Box storage device that has a maximum usable storage capacity of 80 terabytes. The Data Box is transported to and from your datacenter via a regional carrier. A rugged case protects and secures the Data Box from damage during transit. You can order the Data Box device via the Azure portal to import or export data from Azure. Data Box is ideally suited to transfer data sizes larger than 40 TBs in scenarios with no to limited network connectivity.
+
+**Use cases for importing data**: 
+	- Onetime migration - when a large amount of on-premises data is moved to Azure.
+	- Moving a media library from offline tapes into Azure to create an online media library.
+	- Migrating your VM farm, SQL server, and applications to Azure.
+	- Moving historical data to Azure for in-depth analysis and reporting using HDInsight.
+	- Initial bulk transfer - when an initial bulk transfer is done using Data Box (seed) followed by incremental transfers over the network.
+	- Periodic uploads - when large amount of data is generated periodically and needs to be moved to Azure.
+
+ **Use cases for exporting data:**
+	- Disaster recovery - when a copy of the data from Azure is restored to an on-premises network.
+	- Security requirements - when you need to be able to export data out of Azure due to government or security requirements.
+	- Migrate back to on-premises or to another cloud service provider - when you want to move all the data back to on-premises, or to another cloud service provider, export data via Data Box to migrate the workloads.
+
+#### AzCopy
+
+In addition to large scale migration using services like Azure Migrate and Azure Data Box, Azure also has tools designed to help you move or interact with individual files or small file groups.
+
+AzCopy is a command-line utility that you can use to copy blobs or files to or from your storage account. Synchronizing blobs or files with AzCopy is one-direction synchronization. When you synchronize, you designated the source and destination, and AzCopy will copy files or blobs in that direction. It doesn't synchronize bi-directionally based on timestamps or other metadata.
+
+#### Azure Storage Explorer
+
+In addition to large scale migration using services like Azure Migrate and Azure Data Box, Azure also has tools designed to help you move or interact with individual files or small file groups.
+
+Azure Storage Explorer is a standalone app that provides a graphical interface to manage files and blobs in your Azure Storage Account. It works on Windows, macOS, and Linux operating systems and uses AzCopy on the backend to perform all of the file and blob management tasks.
+#### Azure File Sync
+
+In addition to large scale migration using services like Azure Migrate and Azure Data Box, Azure also has tools designed to help you move or interact with individual files or small file groups.
+
+Azure File Sync is a tool that lets you centralize your file shares in Azure Files and keep the flexibility, performance, and compatibility of a Windows file server. 
+
+With Azure File Sync, you can:
+
+- Use any protocol that's available on Windows Server to access your data locally, including SMB, NFS, and FTPS.
+- Have as many caches as you need across the world.
+- Replace a failed local server by installing Azure File Sync on a new server in the same datacenter.
+- Configure cloud tiering so the most frequently accessed files are replicated locally, while infrequently accessed files are kept in the cloud until requested.
 
 ## Azure identity, access, and security 
+
+
+### Azure directory services
+
+When you secure identities on-premises with Active Directory, Microsoft doesn't monitor sign-in attempts. When you connect Active Directory with Azure AD, Microsoft can help protect you by detecting suspicious sign-in attempts at no extra cost.
+
+Azure AD provides services such as:
+- **Authentication**: This includes verifying identity to access applications and resources. It also includes providing functionality such as self-service password reset, multifactor authentication, a custom list of banned passwords, and smart lockout services.
+- **Single sign-on**: Single sign-on (SSO) enables you to remember only one username and one password to access multiple applications. A single identity is tied to a user, which simplifies the security model. As users change roles or leave an organization, access modifications are tied to that identity, which greatly reduces the effort needed to change or disable accounts.
+- **Application management**: You can manage your cloud and on-premises apps by using Azure AD. Features like Application Proxy, SaaS apps, the My Apps portal, and single sign-on provide a better user experience.
+- **Device management**: Along with accounts for individual people, Azure AD supports the registration of devices. Registration enables devices to be managed through tools like Microsoft Intune. It also allows for device-based Conditional Access policies to restrict access attempts to only those coming from known devices, regardless of the requesting user account.
+
+#### Azure AD Connect
+
+If you had an on-premises environment running Active Directory and a cloud deployment using Azure AD, you would need to maintain two identity sets. However, you can connect Active Directory with Azure AD, enabling a consistent identity experience between cloud and on-premises.
+
+One method of connecting Azure AD with your on-premises AD is using Azure AD Connect. Azure AD Connect synchronizes user identities between on-premises Active Directory and Azure AD. Azure AD Connect synchronizes changes between both identity systems, so you can use features like SSO, multifactor authentication, and self-service password reset under both systems.
+
+
+#### Azure Active Directory Domain Services (Azure AD DS)
+
+Azure Active Directory Domain Services (Azure AD DS) is a service that provides managed domain services such as domain join, group policy, lightweight directory access protocol (LDAP), and Kerberos/NTLM authentication. Just like Azure AD lets you use directory services without having to maintain the infrastructure supporting it, with Azure AD DS, you get the benefit of domain services without the need to deploy, manage, and patch domain controllers (DCs) in the cloud.
+
+Azure AD DS integrates with your existing Azure AD tenant. This integration lets users sign into services and applications connected to the managed domain using their existing credentials.
+
+**How does Azure AD DS work?**  When you create an Azure AD DS managed domain, you define a unique namespace. This namespace is the domain name. Two Windows Server domain controllers are then deployed into your selected Azure region. This deployment of DCs is known as a replica set. You don't need to manage, configure, or update these DCs. The Azure platform handles the DCs as part of the managed domain, including backups and encryption at rest using Azure Disk Encryption.
+
+A managed domain is configured to perform a one-way synchronization from Azure AD to Azure AD DS. You can create resources directly in the managed domain, but they aren't synchronized back to Azure AD.
+
 ## Key Azure Management Tools
 
 There are several tools at your disposal to manage Azure resources and environments. They include the Azure Portal, Azure PowerShell, Azure CLI, the Azure Mobile App, and ARM templates. 
@@ -659,9 +906,7 @@ az vm list-ip-addresses
 # Create a variable with public IP address: Run the following `az vm list-ip-addresses` command to get your VM's IP address and store the result as a Bash variable:
 IPADDRESS="$(az vm list-ip-addresses --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --name my-vm --query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" --output tsv)"
 
-
 # Run the following `az network nsg list` command to list the network security groups that are associated with your VM:
-
 az network nsg list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --query '[].name' --output tsv
 # You see this:
 # my-vmNSG 
@@ -696,31 +941,6 @@ sudo apt-get install -y nginx
 # Set the home page.
 echo "<html><body><h2>Welcome to Azure! My name is $(hostname).</h2></body></html>" | sudo tee -a /var/www/html/index.html
 ```
-
-
-### Azure mobile app
-
-The Azure mobile app is available for iOS and Android devices. It allows you to access Azure resources when you're away from a computer. 
-
-- Access, manage, monitor Azure accounts and resources.
-- Monitor the health and status of Azure resources, check for alerts, diagnose and fix issues.
-- Stop, start, restart a web app or virtual machine.  
-- Run the Azure CLI or Azure PowerShell commands to manage Azure resources. 
-
-
-### Azure REST APIs
-
-Service endpoints that support sets of HTTP operations. CRUD access to services.
-
-
-### Azure Advisor
-
-Free services that helps you follow best practices. 
-
-### ARM templates 
-
-ARM templates allow you to declaratively describe the resources you want to use, using JSON format. The template will then create those resources in parallel. For example, need 25 VMs, all 25 VMs will be created at the same time. 
-
 
 
 
