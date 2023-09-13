@@ -1,6 +1,6 @@
 ---
 title: Walkthrough - Trick - A HackTheBox machine
-auhtor: amandaguglieri
+author: amandaguglieri
 date: 2022-10-29T00:00:00Z
 draft: false
 TableOfContents: true
