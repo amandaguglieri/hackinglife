@@ -584,6 +584,8 @@ You can't use Azure DNS to buy a domain name. For an annual fee, you can buy a d
 
 ## Azure Storage Services
 
+### Intro
+
 A storage account provides a unique namespace for your Azure Storage data that's accessible from anywhere in the world over HTTP or HTTPS. Data in this account is secure, highly available, durable, and massively scalable.  When you create your storage account, you’ll start by picking the storage account type. The type of account determines the storage services and redundancy options and has an impact on the use cases.
 
 
@@ -660,7 +662,8 @@ GZRS combines the high availability provided by redundancy across availability z
 ![GZRS](img/az-900_5.png)
 
 
-Read access to data in the secondary region (RA-GRS)
+**Read access to data in the secondary region (RA-GRS)**
+
 Geo-redundant storage (with GRS or GZRS) replicates your data to another physical location in the secondary region to protect against regional outages. However, that data is available to be read only if the customer or Microsoft initiates a failover from the primary to secondary region. However, if you enable read access to the secondary region, your data is always available, even when the primary region is running optimally. For read access to the secondary region, enable read-access geo-redundant storage (RA-GRS) or read-access geo-zone-redundant storage (RA-GZRS). Remember that the data in your secondary region may not be up-to-date due to RPO.
 
 
@@ -671,8 +674,6 @@ Geo-redundant storage (with GRS or GZRS) replicates your data to another physica
 - 3. **Azure Queues**: A messaging store for reliable messaging between application components.
 - 4. **Azure Disks**: Block-level storage volumes for Azure VMs.
 - 5. **Azure Tables:** NoSQL table option for structured, non-relational data.
-
-
 #### Azure Blobs
 
 To store massive amounts of data, such as text or binary data. Azure Blob storage is unstructured, meaning that there are no restrictions on the kinds of data it can hold. Blob storage is ideal for:
@@ -711,8 +712,7 @@ Applications running in Azure can access data in the share via file system I/O A
 
 Azure Queue storage is a service for storing large numbers of messages. Once stored, you can access the messages from anywhere in the world via authenticated calls using HTTP or HTTPS. A queue can contain as many messages as your storage account has room for (potentially millions). Each individual message can be up to 64 KB in size. Queues are commonly used to create a backlog of work to process asynchronously.
 
-Queue storage can be combined with compute functions like Azure Functions to take an action when a message is received. F
-
+Queue storage can be combined with compute functions like Azure Functions to take an action when a message is received. 
 #### Azure Disks
 
 Azure Disk storage, or Azure managed disks, are block-level storage volumes managed by Azure for use with Azure VMs. Conceptually, they’re the same as a physical disk, but they’re virtualized – offering greater resiliency and availability than a physical disk. 
@@ -720,8 +720,6 @@ Azure Disk storage, or Azure managed disks, are block-level storage volumes mana
 #### Azure Tables
 
 Azure Table storage stores large amounts of structured data. Azure tables are a NoSQL datastore that accepts authenticated calls from inside and outside the Azure cloud. 
-
-
 
 ### Azure data migration options
 
@@ -731,12 +729,11 @@ Azure Migrate is a service that helps you migrate from an on-premises environmen
 - Assessment and migration: In the Azure Migrate hub, you can assess and migrate your on-premises infrastructure to Azure.
 
 Tools to help with migration:
-
-#### **Azure Migrate: Discovery and assessment**
+#### Azure Migrate: Discovery and assessment
 
 Discover and assess on-premises servers running on VMware, Hyper-V, and physical servers in preparation for migration to Azure.
 
-####  **Azure Migrate: Server Migration**
+#### Azure Migrate: Server Migration
 
 Migrate VMware VMs, Hyper-V VMs, physical servers, other virtualized servers, and public cloud VMs to Azure.
 
@@ -795,7 +792,6 @@ With Azure File Sync, you can:
 
 ## Azure identity, access, and security 
 
-
 ### Azure directory services
 
 When you secure identities on-premises with Active Directory, Microsoft doesn't monitor sign-in attempts. When you connect Active Directory with Azure AD, Microsoft can help protect you by detecting suspicious sign-in attempts at no extra cost.
@@ -822,6 +818,168 @@ Azure AD DS integrates with your existing Azure AD tenant. This integration lets
 **How does Azure AD DS work?**  When you create an Azure AD DS managed domain, you define a unique namespace. This namespace is the domain name. Two Windows Server domain controllers are then deployed into your selected Azure region. This deployment of DCs is known as a replica set. You don't need to manage, configure, or update these DCs. The Azure platform handles the DCs as part of the managed domain, including backups and encryption at rest using Azure Disk Encryption.
 
 A managed domain is configured to perform a one-way synchronization from Azure AD to Azure AD DS. You can create resources directly in the managed domain, but they aren't synchronized back to Azure AD.
+
+![Azure AD and Azure AD DS](img/az-900_6.png)
+
+
+
+
+### Azure authentication services
+
+Authentication is the process of establishing the identity of a person, service, or device. Azure supports multiple authentication methods, including standard passwords, single sign-on (SSO), multifactor authentication (MFA), and passwordless.
+
+>**Single sign-on (SSO)** enables a user to sign in one time and use that credential to access multiple resources and applications from different providers. Single sign-on is only as secure as the initial authenticator because the subsequent connections are all based on the security of the initial authenticator.
+>
+>**Multifactor authentication (MFA)** is the process of prompting a user for an extra form (or factor) of identification during the sign-in process. These factors fall into three categories:
+>
+>	- Something the user knows – this might be a challenge question.
+>	- Something the user has – this might be a code that's sent to the user's mobile phone.
+>	- Something the user is – this is typically some sort of biometric property, such as a fingerprint or face scan.
+>	
+>**Passwordless authentication** methods are more convenient because the password is removed and replaced with something you have, plus something you are, or something you know. Passwordless authentication needs to be set up on a device before it can work.
+
+#### Azure AD Multi-Factor Authentication
+
+Azure AD Multi-Factor Authentication is a Microsoft service that provides multifactor authentication capabilities. Azure AD Multi-Factor Authentication enables users to choose an additional form of authentication during sign-in, such as a phone call or mobile app notification.
+
+#### Windows Hello for Business
+
+Each organization has different needs when it comes to authentication. Microsoft global Azure and Azure Government offer this passwordless authentication service that integrate with Azure Active Directory (Azure AD).
+
+Windows Hello for Business is ideal for information workers that have their own designated Windows PC. The biometric and PIN credentials are directly tied to the user's PC, which prevents access from anyone other than the owner. With public key infrastructure (PKI) integration and built-in support for single sign-on (SSO), Windows Hello for Business provides a convenient method for seamlessly accessing corporate resources on-premises and in the cloud.
+
+#### Microsoft Authenticator App
+
+Each organization has different needs when it comes to authentication. Microsoft global Azure and Azure Government offer this passwordless authentication service that integrate with Azure Active Directory (Azure AD).
+
+The Authenticator App turns any iOS or Android phone into a strong, passwordless credential. Users can sign-in to any platform or browser by getting a notification to their phone, matching a number displayed on the screen to the one on their phone, and then using their biometric (touch or face) or PIN to confirm.
+
+#### FIDO2 security keys
+
+Each organization has different needs when it comes to authentication. Microsoft global Azure and Azure Government offer this passwordless authentication service that integrate with Azure Active Directory (Azure AD).
+
+Fast Identity Online (FIDO) is an open standard for passwordless authentication. FIDO allows users and organizations to leverage the standard to sign-in to their resources without a username or password by using an external security key or a platform key built into a device. Users can register and then select a FIDO2 security key at the sign-in interface as their main means of authentication. These FIDO2 security keys are typically USB devices, but could also use Bluetooth or NFC. With a hardware device that handles the authentication, the security of an account is increased as there's no password that could be exposed or guessed.
+
+The FIDO (Fast IDentity Online) Alliance helps to promote open authentication standards and reduce the use of passwords as a form of authentication. FIDO2 is the latest standard that incorporates the web authentication (WebAuthn) standard.
+
+
+### Azure AD external identities
+
+Azure AD External Identities refers to all the ways you can securely interact with users outside of your organization.
+
+- **Business to business (B2B) collaboration** - Collaborate with external users by letting them use their preferred identity to sign-in to your Microsoft applications or other enterprise applications (SaaS apps, custom-developed apps, etc.). B2B collaboration users are represented in your directory, typically as guest users.
+- **B2B direct connect** - Establish a mutual, two-way trust with another Azure AD organization for seamless collaboration. B2B direct connect currently supports Teams shared channels, enabling external users to access your resources from within their home instances of Teams. B2B direct connect users aren't represented in your directory, but they're visible from within the Teams shared channel and can be monitored in Teams admin center reports.
+- **Azure AD business to customer (B2C)** - Publish modern SaaS apps or custom-developed apps (excluding Microsoft apps) to consumers and customers, while using Azure AD B2C for identity and access management.
+
+Depending on how you want to interact with external organizations and the types of resources you need to share, you can use a combination of these capabilities.
+
+### Azure conditional access
+
+Conditional Access is a tool that Azure Active Directory uses to allow (or deny) access to resources based on identity signals. These signals include who the user is, where the user is, and what device the user is requesting access from. During sign-in, Conditional Access collects signals from the user, makes decisions based on those signals, and then enforces that decision by allowing or denying the access request or challenging for a multifactor authentication response.
+
+Conditional Access is useful when you need to:
+
+- Require multifactor authentication (MFA) to access an application depending on the requester’s role, location, or network. For example, you could require MFA for administrators but not regular users or for people connecting from outside your corporate network.
+- Require access to services only through approved client applications. For example, you could limit which email applications are able to connect to your email service.
+- Require users to access your application only from managed devices. A managed device is a device that meets your standards for security and compliance.
+- Block access from untrusted sources, such as access from unknown or unexpected locations.
+
+### Azure Resource Manager for role-based access control (RBAC)
+
+**Azure Resource Manager** is a management service that provides a way to organize and secure your cloud resources.
+
+Azure provides built-in roles that describe common access rules for cloud resources. You can also define your own roles.
+
+![RBACs](img/az-900_7.png)
+
+Scopes include:
+
+- A management group (a collection of multiple subscriptions).
+- A single subscription.
+- A resource group.
+- A single resource.
+
+Azure RBAC is hierarchical, in that when you grant access at a parent scope, those permissions are inherited by all child scopes. For example:
+
+- When you assign the Owner role to a user at the management group scope, that user can manage everything in all subscriptions within the management group.
+- When you assign the Reader role to a group at the subscription scope, the members of that group can view every resource group and resource within the subscription.
+
+Azure RBAC is enforced on any action that's initiated against an Azure resource that passes through **Azure Resource Manager**. Resource Manager is a management service that provides a way to organize and secure your cloud resources.
+
+You typically access Resource Manager from the Azure portal, Azure Cloud Shell, Azure PowerShell, and the Azure CLI. 
+
+Azure RBAC doesn't enforce access permissions at the application or data level. Application security must be handled by your application.
+
+Azure RBAC uses an allow model. When you're assigned a role, Azure RBAC allows you to perform actions within the scope of that role. If one role assignment grants you read permissions to a resource group and a different role assignment grants you write permissions to the same resource group, you have both read and write permissions on that resource group.
+
+### Zero trust model
+
+Traditionally, corporate networks were restricted, protected, and generally assumed safe. Only managed computers could join the network, VPN access was tightly controlled, and personal devices were frequently restricted or blocked.
+
+The Zero Trust model flips that scenario. Instead of assuming that a device is safe because it’s within the corporate network, it requires everyone to authenticate. Then grants access based on authentication rather than location.
+
+### Defense-in-depth
+
+A defense-in-depth strategy uses a series of mechanisms to slow the advance of an attack that aims at acquiring unauthorized access to data.
+
+![Layers of defense-in-depth](img/az-900_8.png)
+
+ This approach removes reliance on any single layer of protection. It slows down an attack and provides alert information that security teams can act upon, either automatically or manually.
+
+Here's a brief overview of the role of each layer:
+
+- The physical security layer is the first line of defense to protect computing hardware in the datacenter. Physically securing access to buildings and controlling access to computing hardware within the datacenter are the first line of defense.
+- The identity and access layer controls access to infrastructure and change control. The identity and access layer is all about ensuring that identities are secure, that access is granted only to what's needed, and that sign-in events and changes are logged.
+- The perimeter layer uses distributed denial of service (DDoS) protection to filter large-scale attacks before they can cause a denial of service for users. The network perimeter protects from network-based attacks against your resources. Identifying these attacks, eliminating their impact, and alerting you when they happen are important ways to keep your network secure.  DDoS protection + Firewalls.
+- The network layer limits communication between resources through segmentation and access controls. - Limit communication between resources. - Deny by default. - Restrict inbound internet access and limit outbound access where appropriate. - Implement secure connectivity to on-premises networks.
+- The compute layer secures access to virtual machines. - Secure access to virtual machines. - Implement endpoint protection on devices and keep systems patched and current.
+- The application layer helps ensure that applications are secure and free of security vulnerabilities. - Store sensitive application secrets in a secure storage medium. - Make security a design requirement for all application development.
+- The data layer controls access to business and customer data that you need to protect.
+
+### Microsoft Defender for Cloud
+
+Defender for Cloud is a monitoring tool for security posture management and threat protection. It monitors your cloud, on-premises, hybrid, and multi-cloud environments to provide guidance and notifications aimed at strengthening your security posture.
+
+When necessary, Defender for Cloud can automatically deploy a Log Analytics agent to gather security-related data. For Azure machines, deployment is handled directly. For hybrid and multi-cloud environments, Microsoft Defender plans are extended to non Azure machines with the help of Azure Arc.  Cloud security posture management (CSPM) features are extended to multi-cloud machines without the need for any agents.
+
+Defender for Cloud helps you detect threats across:
+
+- Azure PaaS services – Detect threats targeting Azure services. You can also perform anomaly detection on your Azure activity logs using the native integration with Microsoft Defender for Cloud Apps (formerly known as Microsoft Cloud App Security).
+- Azure data services – Defender for Cloud includes capabilities that help you automatically classify your data in Azure SQL. 
+- Networks – Defender for Cloud helps you limit exposure to brute force attacks. By reducing access to virtual machine ports, using the just-in-time VM access, you can harden your network by preventing unnecessary access.
+
+Defender for Cloud can also protect resources in other clouds (such as AWS and GCP). For example, if you've connected an Amazon Web Services (AWS) account to an Azure subscription, you can enable any of these protections:
+
+- Defender for Cloud's CSPM features extend to your AWS resources. This agentless plan assesses your AWS resources according to AWS-specific security recommendations, and includes the results in the secure score. The resources will also be assessed for compliance with built-in standards specific to AWS (AWS CIS, AWS PCI DSS, and AWS Foundational Security Best Practices). Defender for Cloud's asset inventory page is a multi-cloud enabled feature helping you manage your AWS resources alongside your Azure resources.
+- Microsoft Defender for Containers extends its container threat detection and advanced defenses to your Amazon EKS Linux clusters.
+- Microsoft Defender for Servers brings threat detection and advanced defenses to your Windows and Linux EC2 instances.
+
+Defender for Cloud  fills three vital needs:
+
+- **Continuously assess – Know your security posture. Identify and track vulnerabilities.** Defender for cloud helps you continuously assess your environment. Defender for Cloud includes vulnerability assessment solutions for your virtual machines, container registries, and SQL servers. Microsoft Defender for servers includes automatic, native integration with Microsoft Defender for Endpoint.
+- **Secure: Harden resources and services with Azure Security Benchmark.**  In Defender for Cloud, you can set your policies to run on management groups, across subscriptions, and even for a whole tenant. Defender for Cloud assesses if new resources are configured according to security best practices. If not, they're flagged and you get a prioritized list of recommendations for what you need to fix. In this way, Defender for Cloud enables you not just to set security policies, but to apply secure configuration standards across your resources. To help you understand how important each recommendation is to your overall security posture, Defender for Cloud groups the recommendations into security controls and adds a secure score value to each control.
+- **Defend – Detect and resolve threats to resources, workloads, and services.** When Defender for Cloud detects a threat in any area of your environment, it generates a security alert. Security alerts describe details of the affected resources, suggest remediation steps, and provide, in some cases, an option to trigger a logic app in response
+
+### Azure Arc
+
+Azure Arc is a bridge that extends the Azure platform to help you build applications and services with the flexibility to run across datacenters, at the edge, and in multicloud environments. Develop cloud-native applications with a consistent development, operations, and security model. Azure Arc runs on both new and existing hardware, virtualization and Kubernetes platforms, IoT devices, and integrated systems.
+
+
+
+
+
+## Cost Management
+
+The OpEx cost can be impacted by many factors:
+
+- Resource type: When you provision an Azure resource, Azure creates metered instances for that resource. The meters track the resources' usage and generate a usage record that is used to calculate your bill.
+- Consumption: Pay-as-you-go payment model where you pay for the resources that you use during a billing cycle. Azure also offers the ability to commit to using a set amount of cloud resources. When you reserve capacity, you’re committing to using and paying for a certain amount of Azure resources during a given period (typically one or three years).
+- Maintenance: For example, every time you provision a VM, additional resources such as storage and networking are also provisioned. If you deprovision the VM, those additional resources may not deprovision at the same time, either intentionally or unintentionally. Maintenance is needed in order adjust cost.
+- Geography: The cost of power, labor, taxes, and fees vary depending on the location. Due to these variations, Azure resources can differ in costs to deploy depending on the region. 
+- Subscription type
+- Azure Marketplace
+
+
 
 ## Key Azure Management Tools
 
