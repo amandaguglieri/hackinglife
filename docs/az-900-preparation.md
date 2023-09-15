@@ -976,9 +976,50 @@ The OpEx cost can be impacted by many factors:
 - Consumption: Pay-as-you-go payment model where you pay for the resources that you use during a billing cycle. Azure also offers the ability to commit to using a set amount of cloud resources. When you reserve capacity, you’re committing to using and paying for a certain amount of Azure resources during a given period (typically one or three years).
 - Maintenance: For example, every time you provision a VM, additional resources such as storage and networking are also provisioned. If you deprovision the VM, those additional resources may not deprovision at the same time, either intentionally or unintentionally. Maintenance is needed in order adjust cost.
 - Geography: The cost of power, labor, taxes, and fees vary depending on the location. Due to these variations, Azure resources can differ in costs to deploy depending on the region. 
-- Subscription type
-- Azure Marketplace
+- Network Traffic: Bandwidth refers to data moving in and out of Azure datacenters. Some inbound data transfers (data going into Azure datacenters) are free. For outbound data transfers (data leaving Azure datacenters), data transfer pricing is based on zones.
+- Subscription type: Some Azure subscription types also include usage allowances, which affect costs.
+- Azure Marketplace: Azure Marketplace lets you purchase Azure-based solutions and services from third-party vendors. 
 
+### Pricing calculator
+
+This service helps you out to choose the best Azure resource for your needs given a budget. With the pricing calculator, you can estimate the cost of any provisioned resources, including compute, storage, and associated network costs. You can even account for different storage options like storage type, access tier, and redundancy.
+
+https://azure.microsoft.com/en-us/pricing/calculator/
+
+### TCO calculator
+
+Total Cost of Ownership Calculator (TCO calculator) helps you compare the costs for running an on-premises infrastructure compared to an Azure Cloud infrastructure. With the TCO calculator, you enter your current infrastructure configuration, including servers, databases, storage, and outbound network traffic. The TCO calculator then compares the anticipated costs for your current environment with an Azure environment supporting the same infrastructure requirements.
+
+https://azure.microsoft.com/en-us/pricing/tco/calculator/
+
+### Microsoft Cost Management tool
+
+If you accidentally provision new resources, you may not be aware of them until it’s time for your invoice. Cost Management is a service that helps avoid those situations. Cost Management provides the ability to quickly check Azure resource costs, create alerts based on resource spend, and create budgets that can be used to automate management of resources.
+
+Cost analysis is a subset of Cost Management that provides a quick visual for your Azure costs. Using cost analysis, you can quickly view the total cost in a variety of different ways, including by billing cycle, region, resource, and so on. A budget is where you set a spending limit for Azure. You can set budgets based on a subscription, resource group, service type, or other criteria. When you set a budget, you will also set a budget alert. 
+
+Cost alerts provide a single location to quickly check on all of the different alert types that may show up in the Cost Management service.  The three types of alerts that may show up are:
+
+- Budget alerts: Budget alerts support both cost-based and usage-based budgets (Budgets are defined by cost or by consumption usage when using the Azure Consumption API).
+- Credit alerts: Credit alerts are generated automatically at 90% and at 100% of your Azure credit balance. Whenever an alert is generated, it's reflected in cost alerts, and in the email sent to the account owners.
+- Department spending quota alerts: Department spending quota alerts notify you when department spending reaches a fixed threshold of the quota.
+
+
+## Tags
+
+One way to organize related resources is to place them in their own subscriptions. You can also use resource groups to manage related resources. Resource tags are another way to organize resources. Tags provide extra information, or metadata, about your resources. A resource tag consists of a name and a value. You can assign one or more tags to each Azure resource. Keep in mind that you don't need to enforce that a specific tag is present on all of your resources. 
+
+|**Name**|**Value**|
+|---|---|
+|AppName|The name of the application that the resource is part of.|
+|CostCenter|The internal cost center code.|
+|Owner|The name of the business owner who's responsible for the resource.|
+|Environment|An environment name, such as "Prod," "Dev," or "Test."|
+|Impact|How important the resource is to business operations, such as "Mission-critical," "High-impact," or "Low-impact."|
+
+**How do I manage resource tags?**
+
+You can add, modify, or delete resource tags through Windows PowerShell, the Azure CLI, Azure Resource Manager templates, the REST API, or the Azure portal. You can also use Azure Policy to enforce tagging rules and conventions. Resources don't inherit tags from subscriptions and resource groups, meaning that you can apply tags at one level and not have those tags automatically show up at a different level, allowing you to create custom tagging schemas that change depending on the level (resource, resource group, subscription, and so on).
 
 
 ## Key Azure Management Tools
