@@ -9,9 +9,12 @@ tags:
 ---
 # AZ-900 Preparation
 
-The REAL AZ-900 exam includes multiple choice questions, true/false questions, and even fill-in-the-blank questions.
 
-These notes come from the course [AZ-900 Bootcamp: Microsoft Azure Fundamentals](https://www.udemy.com/course/az-900-azure-exam-prep-understanding-cloud-concepts/), created by [Thomas Mitchell](https://www.udemy.com/course/az-900-azure-exam-prep-understanding-cloud-concepts/#instructor-1) and [labITout Learning](https://www.udemy.com/course/az-900-azure-exam-prep-understanding-cloud-concepts/#instructor-2)
+!!! abstract "Notes taken from several sources, including:"
+    - The course AZ-900 Bootcamp: Microsoft Azure Fundamentals, created by Thomas Mitchell and labITout Learning
+    - Microsoft e-learn platform.
+    - The book "Microsoft Certified - Azure Fundamentals. Study guide", by Jim Boyce. 
+
 
 ## Labs 
 
@@ -94,6 +97,7 @@ To create and use Azure services, you need an Azure subscription. After you've c
 
 ![Azure suscription](img/az-900_1.png)
 
+You can have up to 2000 role assignments in each subscription.
 
 ## Basic Cloud Computing concepts
 
@@ -200,8 +204,6 @@ Ultimately, when leveraging PaaS offerings, you manage the applications and serv
 
 Software-as-a-Service allows users to connect to cloud-based apps over the Internet. Microsoft Office 365 is a good example of SaaS in action. Gmail would be another good example. SaaS provides a complete software solution that’s purchased on a pay-as-you-go basis from a cloud service provider. It’s essentially the rental of an app, that users can then connect to over the Internet, via a web browser. The underlying infrastructure, middleware, app software, and app data for a SaaS solution are all hosted in the provider’s data center, which means the service provider is responsible for managing the hardware and software. SaaS allows organizations to get up and running quickly, with minimal upfront cost.
 
-
-
 ## Architectural components
 
 The core architectural components of Azure may be broken down into two main groupings: the physical infrastructure, and the management infrastructure.
@@ -266,7 +268,13 @@ Resource groups are simply groupings of resources. When you create a resource, y
 
 If you grant or deny access to a resource group, you’ve granted or denied access to all the resources within the resource group. When deleting a resource group, all resources included in it  will be deleted, so it makes sense to organized your resource groups by similar lifecycle, or by function.
 
-Resource groups are also a scope for applying RBAC (Role Based Access Control) permissions.
+A resource group can be used to scope access control for administrative actions. To manage a resource group, you can assign [Azure Policies](https://learn.microsoft.com/en-us/azure/governance/policy/overview), [Azure roles](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal), or [resource locks](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources).
+
+You can [apply tags](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources) to a resource group. The resources in the resource group don't inherit those tags.
+
+You can deploy up to 800 instances of a resource type in each resource group. Some resource types are [exempt from the 800 instance limit](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resources-without-resource-group-limit). For more information, see [resource group limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#resource-group-limits).
+
+When you create a resource group, you need to provide a location for that resource group. You may be wondering, "Why does a resource group need a location? And, if the resources can have different locations than the resource group, why does the resource group location matter at all?". The resource group stores metadata about the resources. When you specify a location for the resource group, you're specifying where that metadata is stored. For compliance reasons, you may need to ensure that your data is stored in a particular region. If a resource group's region is temporarily unavailable, you can't update resources in the resource group because the metadata is unavailable.
 
 #### Azure Subscription
 
@@ -308,6 +316,36 @@ Facts we need to know:
 - A management group tree can support up to six levels of depth (root and subscription level not included)
 - Each management group and subscription can support only one parent.
 
+#### Tags
+
+One way to organize related resources is to place them in their own subscriptions. You can also use resource groups to manage related resources. Resource tags are another way to organize resources. Tags provide extra information, or metadata, about your resources. A resource tag consists of a name and a value. You can assign one or more tags to each Azure resource. Keep in mind that you don't need to enforce that a specific tag is present on all of your resources. 
+
+|**Name**|**Value**|
+|---|---|
+|AppName|The name of the application that the resource is part of.|
+|CostCenter|The internal cost center code.|
+|Owner|The name of the business owner who's responsible for the resource.|
+|Environment|An environment name, such as "Prod," "Dev," or "Test."|
+|Impact|How important the resource is to business operations, such as "Mission-critical," "High-impact," or "Low-impact."|
+
+**How do I manage resource tags?**
+
+You can add, modify, or delete resource tags through Windows PowerShell, the Azure CLI, Azure Resource Manager templates, the REST API, or the Azure portal. 
+
+You can also use Azure Policy to enforce tagging rules and conventions. 
+
+**Resources don't inherit tags from subscriptions and resource group**s, meaning that you can apply tags at one level and not have those tags automatically show up at a different level, allowing you to create custom tagging schemas that change depending on the level (resource, resource group, subscription, and so on).
+
+**Limitations to tags:**
+
+- Not all resource types support tags.
+- Maximum of 50 tags (for Resource Groups and Resources).
+	-  Tag name length: 512 characters.
+	- Tag value length: 256 characters.
+- Maximum of 15 tags for storage accounts.
+	- Tag name length: 128 characters.
+	- Tag value length: 256 characters.
+VM and VM scale sets: total set of 2048 character
 
 
 ## Azure Compute services and products
@@ -320,12 +358,12 @@ Azure compute is an on-demand computing service that organizations use to run cl
 - 2. Azure Virtual Desktop 
 - 3. Azure Container Instances 
 - 4. Azure Functions (serverless computing)
-- 5. Azure App Service 
-- 6. Azure Virtual Networking
-- 7. Azure Virtual Private Networks
-- 8. Azure ExpressRoute
-- 9. Azure DNS
-
+- 5. Azure Logic Apps  (serverless computing)
+- 6. Azure App Service 
+- 7. Azure Virtual Networking
+- 8. Azure Virtual Private Networks
+- 9. Azure ExpressRoute
+- 10. Azure DNS
 
 ### 1. Azure Virtual Machines
 
@@ -334,6 +372,20 @@ Virtual machines are virtual versions of physical computers that feature virtual
 VM provides IaaS and can be used in two ways:
 
 - When you need total control over an operating system /environment, VMs are ideal when using in-house or customized software.
+
+
+**SLA for Virtual Machines**
+  
+- For all Virtual Machines that have two or more instances deployed across two or more Availability Zones in the same Azure region, we guarantee you will have Virtual Machine Connectivity to at least one instance at least 99.99% of the time.
+    
+- For all Virtual Machines that have two or more instances deployed in the same Availability Set or in the same Dedicated Host Group, we guarantee you will have Virtual Machine Connectivity to at least one instance at least 99.95% of the time.
+    
+- For any Single Instance Virtual Machine using Premium SSD or Ultra Disk for all Operating System Disks and Data Disks, we guarantee you will have Virtual Machine Connectivity of at least 99.9%.
+    
+- For any Single Instance Virtual Machine using Standard SSD Managed Disks for Operating System Disk and Data Disks, we guarantee you will have Virtual Machine Connectivity of at least 99.5%.
+    
+- For any Single Instance Virtual Machine using Standard HDD Managed Disks for Operating System Disks and Data Disks, we guarantee you will have Virtual Machine Connectivity of at least 95%.
+
 
 #### Virtual Machine Scale Sets 
 
@@ -397,11 +449,21 @@ Azure Functions is an event-driven, serverless compute option that doesn’t req
 Benefits:
 - No infraestructure management: as a business you don't have to focus on administrative tasks.
 - Scalability.
-- You only pay for what you use.
+- You only pay for what you use. Price based on consumption: number of executions + runnign time for each.
 
 Functions are commonly used when you need to perform work in response to an event (often via a REST request), timer, or message from another Azure service. Azure Functions runs your code when it's triggered and automatically deallocates resources when the function is finished. In this model, you're only charged for the CPU time used while your function runs. Functions can be either stateless or stateful. When they're stateless (the default), they behave as if they're restarted every time they respond to an event. When they're stateful (called Durable Functions), a context is passed through the function to track prior activity.
 
-### 5. Azure App Service
+Generally, Azure Functions is stateless. BUT you can use an extension called Durable Functions to chain together functions and maintain their state while the functions are executing.
+
+### 5. Azure Logic Apps  (serverless computing)
+
+When you need something more complex than Functions, like a workflow or a process, Azure Logic Apps is a good solution. It enables you to create no-code and low-code solutions hosted in Azure to automate and orchestrate tasks, business processes, and workflows. 
+
+Implementation can be done using a web-based design environment. You build the app by connecting triggers to actions with various connections. 
+
+Price based on consumption: number of executions + type of connections that the app uses.
+
+### 6. Azure App Service
 
 App Service is a compute platform that you can use to quickly build, deploy, and scale enterprise grade web apps, background jobs, mobile back-ends, and RESTful APIs in the programming language of your choice (it supports multiple languages, including .NET, .NET Core, Java, Ruby, Node.js, PHP, or Python) without managing infrastructure (it also supports both Windows and Linux environments).
 
@@ -445,7 +507,7 @@ Free services that helps you follow best practices.
 
 ARM templates allow you to declaratively describe the resources you want to use, using JSON format. The template will then create those resources in parallel. For example, need 25 VMs, all 25 VMs will be created at the same time. 
 
-### 6. Azure Virtual Networking
+### 7. Azure Virtual Networking
 
 Azure virtual networks and virtual subnets enable Azure resources, such as VMs, web apps, and databases, to communicate with each other, with users on the internet, and with your on-premises client computers. 
 
@@ -478,7 +540,7 @@ It provides the following key networking capabilities:
 User-defined routes (UDR) allow you to control the routing tables between subnets within a virtual network or between virtual networks. This allows for greater control over network traffic flow.
 
 
-### 7. Azure Virtual Private Networks
+### 8. Azure Virtual Private Networks
 
 A virtual private network (VPN) uses an encrypted tunnel within another network. VPNs are typically deployed to connect two or more trusted private networks to one another over an untrusted network (typically the public internet). Traffic is encrypted while traveling over the untrusted network to prevent eavesdropping or other attacks. VPNs can enable networks to safely and securely share sensitive information.
 
@@ -512,12 +574,7 @@ There are a few ways to maximize the resiliency of your VPN gateway:
 
 **Zone-redundant gateways**: In regions that support availability zones, VPN gateways and ExpressRoute gateways can be deployed in a zone-redundant configuration. This configuration brings resiliency, scalability, and higher availability to virtual network gateways.  These gateways require different gateway stock keeping units (SKUs) and use Standard public IP addresses instead of Basic public IP addresses.
 
-
-
-
-
-
-### 8.  Azure ExpressRoute
+### 9.  Azure ExpressRoute
 
 Azure ExpressRoute lets you extend your on-premises networks into the Microsoft cloud over a private connection, with the help of a connectivity provider. This connection is called an ExpressRoute Circuit. These connection between Microsoft cloud services (such as Microsoft Azure and Microsoft 365) and the offices, datacenters, or other facilities would require its own ExpressRoute circuit.
 
@@ -555,15 +612,7 @@ ExpressRoute supports four models that you can use to connect your on-premises n
 
 **Directly from ExpressRoute sites**: You can connect directly into the Microsoft's global network at a peering location strategically distributed across the world. ExpressRoute Direct provides dual 100 Gbps or 10-Gbps connectivity, which supports Active/Active connectivity at scale.
 
-
-
-
-
-
-
-
-
-### 9. Azure DNS
+### 10. Azure DNS
 
 Azure DNS is a hosting service for DNS domains that provides name resolution by using Microsoft Azure infrastructure. By hosting your domains in Azure, you can manage your DNS records using the same credentials, APIs, tools, and billing as your other Azure services. Azure DNS can manage DNS records for your Azure services and provide DNS for your external resources as well. Applications that require automated DNS management can integrate with the service by using the REST API and SDKs.
 
@@ -617,6 +666,11 @@ The following table shows the endpoint format for Azure Storage services.
 | Queue Storage | https://\<storage-account-name\>.queue.core.windows.net |
 | Table Storage | https://\<storage-account-name\>.table.core.windows.net |
 
+
+Other data for the exam:
+
+- Maximum capacity for storage accounts: 5 PB.
+- Number of storage accounts per region per suscription: 250.
 
 ### Azure storage redundancy
 
@@ -790,6 +844,52 @@ With Azure File Sync, you can:
 - Replace a failed local server by installing Azure File Sync on a new server in the same datacenter.
 - Configure cloud tiering so the most frequently accessed files are replicated locally, while infrequently accessed files are kept in the cloud until requested.
 
+
+## Azure Data Services
+
+Key databases in Azure: Azure Cosmos DB, Azure SQL Database, and Azure Database Migration Service.
+
+### Cosmos DB  
+
+Azure Cosmos DB is a multimodel database service that enables to scale data out to multiple Azure regions across the world. This enables us to build applications available at a global scale
+
+**Fast, distributed NoSQL and relational database at any scale** (additionally it supports SQL for querying data stored in Cosmos). Ideal for developing high-performance applications of any size or scale with a fully managed and serverless distributed database supporting open-source PostgreSQL, MongoDB, and Apache Cassandra as well as Java, Node.JS, Python, and .NET.
+
+**Use case**: As an example, Cosmos DB provides a highly scalable solution to build and query graph-based data solutions.
+
+###  Azure SQL Database
+
+Azure SQL Database is a PaaS offering in which Microsoft hosts the SQL platform and manages maintenance like upgrades and patching, monitoring, and all activities to assure a 99.99% uptime.
+ 
+Additionally, it's a relational database as a service (DaaS) based on the latest stable version of the Microsoft SQL Server database engine.
+
+**Use case**: Flexible, fast, and elastic SQL database for your new apps. Build apps that scale with a fully managed and intelligent SQL database built for the cloud.
+### Azure Database Migration Service
+
+It's a fully-managed service designed to enable seamless migrations from multiple database sources to Azure data platforms with minimal downtime.
+
+It uses the Microsoft Data Migration Assistant to generate assessment reports previous to a migration.
+
+### Other database services:  PostgreSQL, MariaDB, MySQL, Redis Cache
+
+#### Azure Database for PostgreSQL
+
+Fully managed, intelligent, and scalable PostgreSQL database. 
+
+#### Azure Database for MySQL
+
+Scalable, open-source MySQL database
+
+#### Azure Database for MariaDB
+
+Fully managed, community MariaDB
+
+#### Azure Cache for Redis	
+
+Distributed, in-memory, scalable caching
+
+
+
 ## Azure identity, access, and security 
 
 ### Azure directory services
@@ -832,7 +932,7 @@ Authentication is the process of establishing the identity of a person, service,
 >
 >**Multifactor authentication (MFA)** is the process of prompting a user for an extra form (or factor) of identification during the sign-in process. These factors fall into three categories:
 >
->	- Something the user knows – this might be a challenge question.
+>	- Something the user knows – this might be a challenge #### Question.
 >	- Something the user has – this might be a code that's sent to the user's mobile phone.
 >	- Something the user is – this is typically some sort of biometric property, such as a fingerprint or face scan.
 >	
@@ -912,6 +1012,8 @@ Azure RBAC doesn't enforce access permissions at the application or data level. 
 
 Azure RBAC uses an allow model. When you're assigned a role, Azure RBAC allows you to perform actions within the scope of that role. If one role assignment grants you read permissions to a resource group and a different role assignment grants you write permissions to the same resource group, you have both read and write permissions on that resource group.
 
+You can have up to 2000 role assignments in each subscription.
+
 ### Zero trust model
 
 Traditionally, corporate networks were restricted, protected, and generally assumed safe. Only managed computers could join the network, VPN access was tightly controlled, and personal devices were frequently restricted or blocked.
@@ -960,67 +1062,73 @@ Defender for Cloud  fills three vital needs:
 - **Secure: Harden resources and services with Azure Security Benchmark.**  In Defender for Cloud, you can set your policies to run on management groups, across subscriptions, and even for a whole tenant. Defender for Cloud assesses if new resources are configured according to security best practices. If not, they're flagged and you get a prioritized list of recommendations for what you need to fix. In this way, Defender for Cloud enables you not just to set security policies, but to apply secure configuration standards across your resources. To help you understand how important each recommendation is to your overall security posture, Defender for Cloud groups the recommendations into security controls and adds a secure score value to each control.
 - **Defend – Detect and resolve threats to resources, workloads, and services.** When Defender for Cloud detects a threat in any area of your environment, it generates a security alert. Security alerts describe details of the affected resources, suggest remediation steps, and provide, in some cases, an option to trigger a logic app in response
 
-### Azure Arc
-
-Azure Arc is a bridge that extends the Azure platform to help you build applications and services with the flexibility to run across datacenters, at the edge, and in multicloud environments. Develop cloud-native applications with a consistent development, operations, and security model. Azure Arc runs on both new and existing hardware, virtualization and Kubernetes platforms, IoT devices, and integrated systems.
 
 
 
+## Governance and compliance: features  and tools
+
+### Microsoft Purview
+
+Microsoft Purview is a family of data governance, risk, and compliance solutions that helps you get a single, unified view into your data. Microsoft Purview brings insights about your on-premises, multicloud, and software-as-a-service data together. It provides:
+
+- Automated data discovery
+- Sensitive data classification
+- End-to-end data lineage
+
+**Microsoft Purview risk and compliance solutions**: Microsoft 365 features as a core component of the Microsoft Purview risk and compliance solutions. Microsoft Teams, OneDrive, and Exchange are just some of the Microsoft 365 services that Microsoft Purview uses to help manage and monitor your data.
+
+**Unified data governance**: Microsoft Purview has robust, unified data governance solutions that help manage your on-premises, multicloud, and software as a service data. Microsoft Purview’s robust data governance capabilities enable you to manage your data stored in Azure, SQL and Hive databases, locally, and even in other clouds like Amazon S3.
+
+Microsoft Purview’s unified data governance helps your organization:
+
+- Create an up-to-date map of your entire data estate that includes data classification and end-to-end lineage.
+- Identify where sensitive data is stored in your estate.
+- Create a secure environment for data consumers to find valuable data.
+- Generate insights about how your data is stored and used.
+- Manage access to the data in your estate securely and at scale.
+
+### Azure Policy
+
+Azure Policy is a service in Azure that enables you to create, assign, and manage policies that control or audit your resources.
+
+Azure Policy enables you to define both individual policies and groups of related policies, known as initiatives. Azure Policy evaluates your resources and highlights resources that aren't compliant with the policies you've created. Azure Policy can also prevent noncompliant resources from being created.
+
+Azure Policies can be set at each level, enabling you to set policies on a specific resource, resource group, subscription, and so on. Additionally, Azure Policies are inherited, so if you set a policy at a high level, it will automatically be applied to all of the groupings that fall within the parent.
+
+Azure Policy comes with built-in policy and initiative definitions for Storage, Networking, Compute, Security Center, and Monitoring. In some cases, Azure Policy can automatically remediate noncompliant resources and configurations to ensure the integrity of the state of the resources. This applies, for example, in the tagging of resources. If you have a specific resource that you don’t want Azure Policy to automatically fix, you can flag that resource as an exception.
+### Azure initiative policies
+
+An Azure Policy initiative is a way of grouping related policies together. The initiative definition contains all of the policy definitions to help track your compliance state for a larger goal. For instance, the *Enable Monitoring in Azure Security Center initiative* contains over 100 separate policy definitions. Its goal is to monitor all available security recommendations for all Azure resource types in Azure Security Center.
+
+Under this initiative, the following policy definitions are included:
+
+- **Monitor unencrypted SQL Database in Security Center** This policy monitors for unencrypted SQL databases and servers.
+- **Monitor OS vulnerabilities in Security Center** This policy monitors servers that don't satisfy the configured OS vulnerability baseline.
+- **Monitor missing Endpoint Protection in Security Center** This policy monitors for servers that don't have an installed endpoint protection agent.
+
+### Resource locks
+
+Resource locks prevent resources from being deleted or updated, depending on the type of lock. Resource locks can be applied to individual resources, resource groups, or even an entire subscription. Resource locks are inherited, meaning that if you place a resource lock on a resource group, all of the resources within the resource group will also have the resource lock applied.
+
+There are two types of resource locks, one that prevents users from deleting and one that prevents users from changing or deleting a resource.
+
+- Delete means authorized users can still read and modify a resource, but they can't delete the resource.
+- ReadOnly means authorized users can read a resource, but they can't delete or update the resource. Applying this lock is similar to restricting all authorized users to the permissions granted by the Reader role.
 
 
-## Cost Management
+You can manage resource locks from the Azure portal, PowerShell, the Azure CLI, or from an Azure Resource Manager template. To view, add, or delete locks in the Azure portal, go to the Settings section of any resource's Settings pane in the Azure portal. To modify a locked resource, you must first remove the lock. After you remove the lock, you can apply any action you have permissions to perform. Resource locks apply regardless of RBAC permissions. Even if you're an owner of the resource, you must still remove the lock before you can perform the blocked activity.
 
-The OpEx cost can be impacted by many factors:
+### Service Trust portal
 
-- Resource type: When you provision an Azure resource, Azure creates metered instances for that resource. The meters track the resources' usage and generate a usage record that is used to calculate your bill.
-- Consumption: Pay-as-you-go payment model where you pay for the resources that you use during a billing cycle. Azure also offers the ability to commit to using a set amount of cloud resources. When you reserve capacity, you’re committing to using and paying for a certain amount of Azure resources during a given period (typically one or three years).
-- Maintenance: For example, every time you provision a VM, additional resources such as storage and networking are also provisioned. If you deprovision the VM, those additional resources may not deprovision at the same time, either intentionally or unintentionally. Maintenance is needed in order adjust cost.
-- Geography: The cost of power, labor, taxes, and fees vary depending on the location. Due to these variations, Azure resources can differ in costs to deploy depending on the region. 
-- Network Traffic: Bandwidth refers to data moving in and out of Azure datacenters. Some inbound data transfers (data going into Azure datacenters) are free. For outbound data transfers (data leaving Azure datacenters), data transfer pricing is based on zones.
-- Subscription type: Some Azure subscription types also include usage allowances, which affect costs.
-- Azure Marketplace: Azure Marketplace lets you purchase Azure-based solutions and services from third-party vendors. 
+The Microsoft Service Trust Portal is a portal that provides access to various content, tools, and other resources about Microsoft security, privacy, and compliance practices.
 
-### Pricing calculator
+You can access the Service Trust Portal at [https://servicetrust.microsoft.com/](https://servicetrust.microsoft.com/).
 
-This service helps you out to choose the best Azure resource for your needs given a budget. With the pricing calculator, you can estimate the cost of any provisioned resources, including compute, storage, and associated network costs. You can even account for different storage options like storage type, access tier, and redundancy.
+The Service Trust Portal features and content are accessible from the main menu. The categories on the main menu are:
 
-https://azure.microsoft.com/en-us/pricing/calculator/
-
-### TCO calculator
-
-Total Cost of Ownership Calculator (TCO calculator) helps you compare the costs for running an on-premises infrastructure compared to an Azure Cloud infrastructure. With the TCO calculator, you enter your current infrastructure configuration, including servers, databases, storage, and outbound network traffic. The TCO calculator then compares the anticipated costs for your current environment with an Azure environment supporting the same infrastructure requirements.
-
-https://azure.microsoft.com/en-us/pricing/tco/calculator/
-
-### Microsoft Cost Management tool
-
-If you accidentally provision new resources, you may not be aware of them until it’s time for your invoice. Cost Management is a service that helps avoid those situations. Cost Management provides the ability to quickly check Azure resource costs, create alerts based on resource spend, and create budgets that can be used to automate management of resources.
-
-Cost analysis is a subset of Cost Management that provides a quick visual for your Azure costs. Using cost analysis, you can quickly view the total cost in a variety of different ways, including by billing cycle, region, resource, and so on. A budget is where you set a spending limit for Azure. You can set budgets based on a subscription, resource group, service type, or other criteria. When you set a budget, you will also set a budget alert. 
-
-Cost alerts provide a single location to quickly check on all of the different alert types that may show up in the Cost Management service.  The three types of alerts that may show up are:
-
-- Budget alerts: Budget alerts support both cost-based and usage-based budgets (Budgets are defined by cost or by consumption usage when using the Azure Consumption API).
-- Credit alerts: Credit alerts are generated automatically at 90% and at 100% of your Azure credit balance. Whenever an alert is generated, it's reflected in cost alerts, and in the email sent to the account owners.
-- Department spending quota alerts: Department spending quota alerts notify you when department spending reaches a fixed threshold of the quota.
-
-
-## Tags
-
-One way to organize related resources is to place them in their own subscriptions. You can also use resource groups to manage related resources. Resource tags are another way to organize resources. Tags provide extra information, or metadata, about your resources. A resource tag consists of a name and a value. You can assign one or more tags to each Azure resource. Keep in mind that you don't need to enforce that a specific tag is present on all of your resources. 
-
-|**Name**|**Value**|
-|---|---|
-|AppName|The name of the application that the resource is part of.|
-|CostCenter|The internal cost center code.|
-|Owner|The name of the business owner who's responsible for the resource.|
-|Environment|An environment name, such as "Prod," "Dev," or "Test."|
-|Impact|How important the resource is to business operations, such as "Mission-critical," "High-impact," or "Low-impact."|
-
-**How do I manage resource tags?**
-
-You can add, modify, or delete resource tags through Windows PowerShell, the Azure CLI, Azure Resource Manager templates, the REST API, or the Azure portal. You can also use Azure Policy to enforce tagging rules and conventions. Resources don't inherit tags from subscriptions and resource groups, meaning that you can apply tags at one level and not have those tags automatically show up at a different level, allowing you to create custom tagging schemas that change depending on the level (resource, resource group, subscription, and so on).
-
+- **Service Trust Portal** provides a quick access hyperlink to return to the Service Trust Portal home page.
+- **My Library** lets you save (or pin) documents to quickly access them on your My Library page. You can also set up to receive notifications when documents in your My Library are updated.  
+- **All Documents** is a single landing place for documents on the service trust portal. From **All Documents**, you can pin documents to have them show up in your **My Library**.
 
 ## Key Azure Management Tools
 
@@ -1054,7 +1162,9 @@ exit
 
 ### Azure PowerShell
 
- Azure Powershell needs Windows Powershell run since Azure Powershell builds upon Windows Powershell with added features.
+Azure PowerShell is a shell with which developers, DevOps, and IT professionals can run commands called command-lets (cmdlets). These commands call the Azure REST API to perform management tasks in Azure.
+
+In addition to be available via Azure Cloud Shell, you can install and configure Azure PowerShell on Windows, Linux, and Mac platforms. 
 
 ```ps
 New-AzVm -ResourceGroupName "MyResourceGroup" -Name "MyVM01" -Image "UbuntLTS"
@@ -1125,7 +1235,7 @@ az network nsg rule list --resource-group learn-51b45310-54be-47c3-8d62-8e53e983
 az network nsg rule create --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG --name allow-http --protocol tcp --priority 100 --destination-port-range 80 --access Allow
 ```
 
-
+Script:
 ```
 # The script under https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh
 
@@ -1141,10 +1251,273 @@ sudo apt-get install -y nginx
 echo "<html><body><h2>Welcome to Azure! My name is $(hostname).</h2></body></html>" | sudo tee -a /var/www/html/index.html
 ```
 
+### Azure Resource Manager (ARM) and Azure ARM templates
+
+Azure Resource Manager (ARM) is the service used to provision resources in Azure (via the portal, Azure CLI, Terraform, etc.). A resource can be anything you provision inside an Azure subscription. Resources always belong to a Resource Group. Each type of resource (VM, Web App) is provisioned and managed by a Resource Provider (RP). There are close to two hundred RPs within the Azure platform today (and growing with the release of each new service).
+
+Azure Arc takes the notion of the Resource Provider and extends it to resources *outside* of Azure. Azure Arc introduces a new Resource Provider (RP) called “Hybrid Compute”. The HybridCompute RP is responsible for managing the resources outside of Azure. HybridCompute RP manages the external resources by connecting to the Azure Arc agent, deployed to the external VM. Once we deploy the Azure Arc agent to a VM running, for instance, in Google Cloud, it shows inside Azure Portal within the resource group “az_arc_rg”. Since the Google Cloud hosted VM (gcp-vm-001) is an ARM resource, it is an object inside Azure AD. Furthermore, there can be a managed identity associated with Google VM.
+
+With Azure Resource Manager, you can:
+
+- Manage your infrastructure through declarative templates rather than scripts. A Resource Manager template is a JSON file that defines what you want to deploy to Azure.
+- Deploy, manage, and monitor all the resources for your solution as a group, rather than handling these resources individually.
+- Re-deploy your solution throughout the development life-cycle and have confidence your resources are deployed in a consistent state.
+- Define the dependencies between resources, so they're deployed in the correct order.
+- Apply access control to all services because RBAC is natively integrated into the management platform.
+- Apply tags to resources to logically organize all the resources in your subscription.
+- Clarify your organization's billing by viewing costs for a group of resources that share the same tag.
+
+**Infraestructure as code**: ARM templates and Bicep are two examples of using infrastructure as code with the Azure Resource Manager to maintain your environment.
+#### ARM templates
+
+By using ARM templates, you can describe the resources you want to use in a declarative JSON format. With an ARM template, the deployment code is verified before any code is run. This ensures that the resources will be created and connected correctly. The template then orchestrates the creation of those resources in parallel.  Templates can even execute PowerShell and Bash scripts before or after the resource has been set up.
+
+**Benefits of using ARM templates:**
+
+- **Declarative syntax**: ARM templates allow you to create and deploy an entire Azure infrastructure declaratively.
+- **Repeatable results**: Repeatedly deploy your infrastructure throughout the development lifecycle and have confidence your resources are deployed in a consistent manner.
+- **Orchestration**: You don't have to worry about the complexities of ordering operations and inter dependencies.
+- **Modular files**: You can break your templates into smaller, reusable components and link them together at deployment time.
+- **Extensibility**: With deployment scripts, you can add PowerShell or Bash scripts to your templates.
+
+#### Biceps
+
+Bicep is a language that uses declarative syntax to deploy Azure resources. A Bicep file defines the infrastructure and configuration. Then, ARM deploys that environment based on your Bicep file. While similar to an ARM template, which is written in JSON, Bicep files tend to use a simpler, more concise style.
+
+**Benefits of using Bicep files:**
+
+- **Support for all resource types and API versions**: Bicep immediately supports all preview and GA versions for Azure services.
+- **Simple syntax**: When compared to the equivalent JSON template, Bicep files are more concise and easier to read. Bicep requires no previous knowledge of programming languages.
+- **Repeatable results**: Repeatedly deploy your infrastructure throughout the development lifecycle and have confidence your resources are deployed in a consistent manner.
+- **Orchestration**: You don't have to worry about the complexities of ordering operations.
+- **Modularity**: You can break your Bicep code into manageable parts by using modules.
+### Azure Arc
+
+Azure Arc is a bridge that extends the Azure platform to help you build applications and services with the flexibility to run across datacenters, at the edge, and in multicloud environments. Develop cloud-native applications with a consistent development, operations, and security model. Azure Arc runs on both new and existing hardware, virtualization and Kubernetes platforms, IoT devices, and integrated systems.
+
+Azure Arc is not just a “single-pane” of control for cloud and on-premises. Azure Arc takes Azure’s all-important control plane – namely, the Azure Resource Manager (ARM) – and extends it *outside* of Azure. In order to understand the implication of the last statement, it will help to go over a few ARM terms.
+
+In utilizing Azure Resource Manager (ARM), Arc lets you extend your Azure compliance and monitoring to your hybrid and multi-cloud configurations. Azure Arc simplifies governance and management by delivering a consistent multi-cloud and on-premises management platform.
+
+Azure Arc provides a centralized, unified way to:
+
+- Manage your entire environment together by projecting your existing non-Azure resources into ARM.
+- Manage multi-cloud and hybrid virtual machines, Kubernetes clusters, and databases as if they are running in Azure.
+- Use familiar Azure services and management capabilities, regardless of where they live.
+- Continue using traditional ITOps while introducing DevOps practices to support new cloud and native patterns in your environment.
+- Configure custom locations as an abstraction layer on top of Azure Arc-enabled Kubernetes clusters and cluster extensions.
+
+Currently, Azure Arc allows you to manage the following resource types hosted outside of Azure:
+
+- Servers
+- Kubernetes clusters
+- Azure data services
+- SQL Server
+- Virtual machines (preview)
+
+
+## Azure Monitoring tools
+
+### Azure Advisor
+
+Azure Advisor evaluates your Azure resources and makes recommendations to help improve reliability, security, and performance, achieve operational excellence, and reduce costs. Azure Advisor is designed to help you save time on cloud optimization. The recommendation service includes suggested actions you can take right away, postpone, or dismiss.
+
+The recommendations are divided into five categories:
+
+- **Reliability** is used to ensure and improve the continuity of your business-critical applications.
+- **Security** is used to detect threats and vulnerabilities that might lead to security breaches.
+- **Performance** is used to improve the speed of your applications.
+- **Operational Excellence** is used to help you achieve process and workflow efficiency, resource manageability, and deployment best practices.
+- **Cost** is used to optimize and reduce your overall Azure spending.
+
+Azure Monitor, Service Health, and Azure Advisor all use actions groups to notify you when an alert has been triggered.
+### Azure Service Health
+
+Microsoft Azure provides a global cloud solution to help you manage your infrastructure needs, reach your customers, innovate, and adapt rapidly. Azure Service Health helps you keep track of Azure resource, both your specifically deployed resources and the overall status of Azure. Azure service health does this by combining three different Azure services:
+
+- **Azure Status**  informs you of service outages in Azure on the Azure Status page. The page is a global view of the health of all Azure services across all Azure regions. 
+- **Service Health** provides a narrower view of Azure services and regions. It focuses on the Azure services and regions you're using. This is the best place to look for service impacting communications about outages, planned maintenance activities, and other health advisories because the authenticated Service Health experience knows which services and resources you currently use. You can even set up Service Health alerts to notify you when service issues, planned maintenance, or other changes may affect the Azure services and regions you use.
+- **Resource Health** is a tailored view of your actual Azure resources. It provides information about the health of your individual cloud resources, such as a specific virtual machine instance. It helps to diagnose issues. You can obtain support when an Azure service issue affects your resources.
+
+By using Azure status, Service health, and Resource health, Azure Service Health gives you a complete view of your Azure environment-all the way from the global status of Azure services and regions down to specific resources.
+
+Something you initially thought was a simple anomaly that turned into a trend, can readily be reviewed and investigated thanks to the historical alerts.
+
+Azure Monitor, Service Health, and Azure Advisor all use actions groups to notify you when an alert has been triggered.
+
+### Azure  Monitor
+
+Azure Monitor is a platform for collecting data on your resources, analyzing that data, visualizing the information, and even acting on the results. Azure Monitor can monitor Azure resources, your on-premises resources, and even multi-cloud resources like virtual machines hosted with a different cloud provider.
+
+Azure Monitor, Service Health, and Azure Advisor all use actions groups to notify you when an alert has been triggered.
+
+As soon as you create an Azure suscription and start deploying resources, Azure Monitor begins collecting data.
+
+#### Azure Log Analytics
+
+Azure Log Analytics is the tool in the Azure portal where you’ll write and run log queries on the data gathered by Azure Monitor. Log Analytics is a robust tool that supports both simple, complex queries, and data analysis. You can write a simple query that returns a set of records and then use features of Log Analytics to sort, filter, and analyze the records. You can write an advanced query to perform statistical analysis and visualize the results in a chart to identify a particular trend.
+
+Activity Logs record when resources are created or modified.
+
+#### Azure Monitor Alerts
+
+Azure Monitor Alerts are an automated way to stay informed when Azure Monitor detects a threshold being crossed. You set the alert conditions, the notification actions, and then Azure Monitor Alerts notifies when an alert is triggered. Depending on your configuration, Azure Monitor Alerts can also attempt corrective action.
+
+Alerts can be set up to monitor the logs and trigger on certain log events, or they can be set to monitor metrics and trigger when certain metrics are crossed. Azure Monitor Alerts use action groups to configure who to notify and what action to take. An action group is simply a collection of notification and action preferences that you associate with one or multiple alerts.
+
+
+#### Application Insights
+
+Application Insights, an Azure Monitor feature, monitors your web applications. Application Insights is capable of monitoring applications that are running in Azure, on-premises, or in a different cloud environment.
+
+There are two ways to configure Application Insights to help monitor your application. You can either install an SDK in your application, or you can use the Application Insights agent. The Application Insights agent is supported in C#.NET, VB.NET, Java, JavaScript, Node.js, and Python.
+
+Once Application Insights is up and running, you can use it to monitor a broad array of information, such as:
+
+- Request rates, response times, and failure rates
+- Dependency rates, response times, and failure rates, to show whether external services are slowing down performance
+- Page views and load performance reported by users' browsers
+- AJAX calls from web pages, including rates, response times, and failure rates
+- User and session counts
+- Performance counters from Windows or Linux server machines, such as CPU, memory, and network usage
+
+
+## Azure IoT 
+
+### Azure IoT Hub
+
+Azure IoT Hub is an Azure-hosted service that functions as a message hub for biderectional communications between the deployed IT devices and the Azure services.
+
+### Azure IoT Central
+
+Built on the functios provided by IoT Hub, it provides visualization, control and management features for IoT devices. You can connect devices, view telemetry, view overall device performance, create and manage alerts or even push updates to devices.
+
+IoT has device templates to facilitate management.
+
+### Azure Sphere
+
+Azure Sphere is an integrated IoT solution that consists of three key parts:
+
+- Azure Sphere micro-controller units (MCUs): hardware component build into the IoT devices that processes the OS and signals from attached sensors.
+- Management software: a custom Linux operating system that manages communication with the security service and runs the vendor's device software.
+- Azure Sphere Security Service (AS3): handles certificate-based device authentication to Azure, ensures that the device has not been compromised, and pushes OS and other software updates to the device as needed. 
+
+
+## Azure Artificial Intelligence
+
+AI falls into two broad categories: deep learning and machine learning.
+
+### Azure Machine Learning
+
+Collection of Azure services and tools that enable you to use data to train and validate models. It provides multiple services and features such as: Azure Machine Learning Studio, a web portal through which developers ca create no-code and code-first solutions.
+
+### Azure Cognitive Services
+
+Azure Cognitive Services provides machine learning models to interact with human and execute cognitive functions that humans would normally do: language, speech, vision, decision.
+
+### Azure Bot Service
+
+Azure Bot Service enables you to create and use virtual agents to interact with users.
+
+
+## Azure DevOps
+
+### Azure DevOps Services
+
+This is not a single but rather a group of services:
+
+- Azure Artifects
+- Azure Boards
+- Azure Pipelines
+- Azure Repos
+- Azure Test Plans
+
+### GitHub and GitHub Actions
+
+GitHub and GitHub Actions offer many of the same functions as Azure DevOps Services.  Generally speaking, GitHub is the appropriate choice for collaborating on open source projects and DevOps is the appropriate choice for enterprise/internal projects.
+
+### Azure DevTest Labs
+
+Azure DevTest Labs automates the deployment, configuration, and decommissioning of VMs and other Azure resources.
 
 
 
 
+
+## Azure BLUE
+### Azure Firewall
+
+Azure Firewall allows you to centrally create, enforce, and log application and network connectivity policies across subscriptions and virtual networks
+
+### Azure DDoS Protection
+
+Azure DDoS Protection Standard can provide full layer 3 to layer 7 mitigation capability.
+
+### Azure Sentinel
+
+SIEM + SOAR
+
+
+##  Azure SLA and Lifecycle
+
+### SLA
+
+
+![SLAs](img/az-900_9.jpg)
+
+
+### Service Lifecycle in Azure
+
+*Previews* allows you to test a pre-release version of your service. Previews have their own terms and conditions. Some of them don't even have customer support at all. Even though you may see a service on a preview, that doesn't mean that is ready for a production environment.
+
+- **Private Preview**: Azure feature available to ** certain Azure customers**  for evaluation purposes.
+- **Public Preview**: Azure feature available to **all Azure customers**  for evaluation purposes. Accessible from the Azure Portal. 
+
+Access to preview features at the [Azure Portal Preview](https://preview.portal.azure.com)
+
+*General availability* means that the service, application, or feature is available for all Azure customers.
+
+### Cost Management
+
+Three cloud pricing models:
+
+- **Pay-as-you-go**: Suitable for development, testing, short-terms projects, businesses that prefer OpEx over CapExp.
+- **Reserved instances**: commit to a specific VM type and size for a fixed term (1 or 3 years) in exchange for discounted pricing. Suitable for logn-term projects  with predictable resource requirements, and businesses looking to optimize costs.
+- **Spot pricing**: Take advantage of unused Azure capacity at a significant discount. Azure can terminate spot instances at any time. Cost-effective, but no guarantees. Suitable for batch processing, data analysis, and non-critical dev and testing, which are cost-sensitive, but interruptible tasks.
+
+
+The OpEx cost can be impacted by many factors:
+ of pricing
+- Resource type: When you provision an Azure resource, Azure creates metered instances for that resource. The meters track the resources' usage and generate a usage record that is used to calculate your bill.
+- Consumption: Pay-as-you-go payment model where you pay for the resources that you use during a billing cycle. Azure also offers the ability to commit to using a set amount of cloud resources. When you reserve capacity, you’re committing to using and paying for a certain amount of Azure resources during a given period (typically one or three years).
+- Maintenance: For example, every time you provision a VM, additional resources such as storage and networking are also provisioned. If you deprovision the VM, those additional resources may not deprovision at the same time, either intentionally or unintentionally. Maintenance is needed in order adjust cost.
+- Geography: The cost of power, labor, taxes, and fees vary depending on the location. Due to these variations, Azure resources can differ in costs to deploy depending on the region. 
+- Network Traffic: Bandwidth refers to data moving in and out of Azure datacenters. Some inbound data transfers (data going into Azure datacenters) are free. For outbound data transfers (data leaving Azure datacenters), data transfer pricing is based on zones.
+- Subscription type: Some Azure subscription types also include usage allowances, which affect costs.
+- Azure Marketplace: Azure Marketplace lets you purchase Azure-based solutions and services from third-party vendors. 
+#### Pricing calculator
+
+This service helps you out to choose the best Azure resource for your needs given a budget. With the pricing calculator, you can estimate the cost of any provisioned resources, including compute, storage, and associated network costs. You can even account for different storage options like storage type, access tier, and redundancy.
+
+https://azure.microsoft.com/en-us/pricing/calculator/
+
+#### TCO calculator
+
+Total Cost of Ownership Calculator (TCO calculator) helps you compare the costs for running an on-premises infrastructure compared to an Azure Cloud infrastructure. With the TCO calculator, you enter your current infrastructure configuration, including servers, databases, storage, and outbound network traffic. The TCO calculator then compares the anticipated costs for your current environment with an Azure environment supporting the same infrastructure requirements.
+
+https://azure.microsoft.com/en-us/pricing/tco/calculator/
+
+#### Microsoft Cost Management tool
+
+If you accidentally provision new resources, you may not be aware of them until it’s time for your invoice. Cost Management is a service that helps avoid those situations. Cost Management provides the ability to quickly check Azure resource costs, create alerts based on resource spend, and create budgets that can be used to automate management of resources.
+
+Cost analysis is a subset of Cost Management that provides a quick visual for your Azure costs. Using cost analysis, you can quickly view the total cost in a variety of different ways, including by billing cycle, region, resource, and so on. A budget is where you set a spending limit for Azure. You can set budgets based on a subscription, resource group, service type, or other criteria. When you set a budget, you will also set a budget alert. 
+
+Cost alerts provide a single location to quickly check on all of the different alert types that may show up in the Cost Management service.  The three types of alerts that may show up are:
+
+- Budget alerts: Budget alerts support both cost-based and usage-based budgets (Budgets are defined by cost or by consumption usage when using the Azure Consumption API).
+- Credit alerts: Credit alerts are generated automatically at 90% and at 100% of your Azure credit balance. Whenever an alert is generated, it's reflected in cost alerts, and in the email sent to the account owners.
+- Department spending quota alerts: Department spending quota alerts notify you when department spending reaches a fixed threshold of the quota.
 
 
 
@@ -1507,3 +1880,21 @@ No, each management group and subscription can support only one parent.
 **Is each management group and subscription within a single hierarchy in each directory?**
 
 Yes, all subscriptions and management groups are within a single hierarchy in each directory.
+
+
+|If you want to|Use this|
+|---|---|
+|Provision Linux and Windows virtual machines in seconds with the configurations of your choice|[Virtual Machines](https://azure.microsoft.com/en-us/services/virtual-machines/)|
+|Achieve high availability by autoscaling to create thousands of VMs in minutes|[Virtual Machine Scale Sets](https://azure.microsoft.com/en-us/services/virtual-machine-scale-sets/)|
+|Get deep discounts when you provision unused compute capacity to run your workloads|[Azure Spot Virtual Machines](https://azure.microsoft.com/en-us/services/virtual-machines/spot/)|
+|Deploy and scale containers on managed Kubernetes|[Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/)|
+|Accelerate app development using an event-driven, serverless architecture|[Azure Functions](https://azure.microsoft.com/en-us/services/functions/)|
+|Develop microservices and orchestrate containers on Windows and Linux|[Azure Service Fabric](https://azure.microsoft.com/en-us/services/service-fabric/)|
+|Quickly create cloud apps for web and mobile with fully managed platform|[App Service](https://azure.microsoft.com/en-us/services/app-service/)|
+|Containerize apps and easily run containers with a single command|[Azure Container Instances](https://azure.microsoft.com/en-us/services/container-instances/)|
+|Cloud-scale job scheduling and compute management with the ability to scale to tens, hundreds, or thousands of virtual machines|[Batch](https://azure.microsoft.com/en-us/services/batch/)|
+|Create highly available, scalable cloud applications and APIs that help you focus on apps instead of hardware|[Cloud Services](https://azure.microsoft.com/en-us/services/cloud-services/)|
+|Deploy your Azure virtual machines on a physical server only used by your organization|[Azure Dedicated Host](https://azure.microsoft.com/en-us/services/virtual-machines/dedicated-host/)|
+
+
+
