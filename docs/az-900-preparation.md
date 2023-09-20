@@ -16,88 +16,32 @@ tags:
     - The book "Microsoft Certified - Azure Fundamentals. Study guide", by Jim Boyce. 
 
 
-## Labs 
-
-[Labitpro](https://labitpro.com/microsoft-azure-labs/).
-
-### Deploy a file share in Microsoft Azure
-
-In this Azure simulation, you will be guided through the process of creating an Azure file share, setting a quota on the new file share, create a folder within the file share, and viewing the share connection information.
-
-[Lab Details](https://labitpro.com/deploy-a-file-share-in-azure/)
-
-### Deploy a virtual network in Microsoft Azure
-
-In this step-by-step Azure simulation, you will be guided through the creation of a virtual network called MyNewVnet. You will configure a vNet address space, two subnets, and address ranges for each new subnet.
-
-[Lab Details](https://labitpro.com/deploy-a-virtual-network-in-microsoft-azure/)
-
-### Provision a resource group in Azure
-
-A resource group is a container that holds related resources for an Azure solution. In this Azure simulation, you will be guided through the process of creating a new resource group in Azure, using the Azure Portal. 
-
-[Lab Details](https://labitpro.com/provision-a-resource-group-in-azure/)
-
-### Deploy and configure an Azure Virtual Machine
-
-In this Azure simulation, you will be guided through the process of provisioning a new Windows virtual machine via the Azure Portal. During the creation of the VM, you will also create and attach a data disk.
-
-[Lab Details](https://labitpro.com/deploy-and-configure-an-azure-virtual-machine/)
-
-### Deploy and configure an Azure Storage Account
-
-In this Azure simulation, you will be guided through the process of provisioning a new General Purpose V2 storage account via the Azure Portal. You will configure the storage account to use Locally Redundant Storage.
-
-[Lab Details](https://labitpro.com/deploy-and-configure-an-azure-storage-account/)
-
-### Deploy and configure a network security group
-
-In this Azure simulation, you will be guided through the process of provisioning a new Network Security Group in Microsoft Azure, using the Azure Portal. Rule creation is covered in the NSG Rules lab simulation.
-
-[Lab Details](https://labitpro.com/deploy-and-configure-an-nsg-in-azure/)
-
-### Deploy and configure Azure Bastion
-
-In this guided, step-by-step Azure simulation, you will will create a Bastion subnet in an existing virtual network, deploy the Bastion Host, and then use the bastion host to connect to an existing virtual machine.
-
-[Lab Details](https://labitpro.com/deploy-and-configure-azure-bastion/)
-
-### Configure devices in Azure Active Directory
-
-In this step-by-step, hands-on Azure lab simulation, you will be guided through the process of allowing a specific Azure Active Directory user to join devices to your fictional organization’s Azure
-
-## More labs
-
-Are you the curious type? If so, feel free to take advantage of these additional labIT PRO hands-on labs:
-
--   [Add a Custom Domain to Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/AddCustomDomaintoAzureAD)
- -   [Create Users and Groups in Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateUsersandGroupsinAzureAD)
--   [Configure Self-Service Password Reset in Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/ConfigureSSPRinAzureAD)
--   [Create and Configure an Azure Storage Account](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateStorageAccount)
--   [Manage Azure Storage Account Access Keys](https://www.labitpro.com/wp-content/Udemy/AZ900/ManageAccessKeys)
--   [Create an Azure File Share](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateAnAzureFileShare)
--   [Create and Attach a VM Data Disk](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateAndAttachDataDisk)
--   [Resize an Azure Virtual Machine](https://www.labitpro.com/wp-content/Udemy/AZ900/ResizeAzureVM)
--   [Create a VM Scale Set in Azure](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateVMScaleSetInAzure)
--   [Configure vNet Peering](https://www.labitpro.com/wp-content/Udemy/AZ900/ConfigurevNetPeeringinAzure)
--   [Create and Configure an Azure Recovery Services Vault](https://www.labitpro.com/wp-content/Udemy/AZ900/AzureRecoveryServicesVault)
--   [Managing Users and Groups in Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/ManageUsersAndGroupsinAzureAD)
+??? abstract "Labs and resources"
+	- [All labs](https://labitpro.com/microsoft-azure-labs/).
+	- [Deploy a file share in Microsoft Azure](https://labitpro.com/deploy-a-file-share-in-azure/)
+	- [Deploy a virtual network in Microsoft Azure](https://labitpro.com/deploy-a-virtual-network-in-microsoft-azure/)
+	- [Provision a resource group in Azure](https://labitpro.com/provision-a-resource-group-in-azure/ 
+	- [Deploy and configure an Azure Virtual Machine](https://labitpro.com/deploy-and-configure-an-azure-virtual-machine/)
+	- [Deploy and configure an Azure Storage Account](https://labitpro.com/deploy-and-configure-an-azure-storage-account/)
+	- [Deploy and configure a network security group](https://labitpro.com/deploy-and-configure-an-nsg-in-azure/)
+	- [Deploy and configure Azure Bastion](https://labitpro.com/deploy-and-configure-azure-bastion/
+	- [Add a Custom Domain to Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/AddCustomDomaintoAzureAD)
+	- [Create Users and Groups in Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateUsersandGroupsinAzureAD)
+	- [Configure Self-Service Password Reset in Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/ConfigureSSPRinAzureAD)
+	- [Create and Configure an Azure Storage Account](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateStorageAccount)
+	- [Manage Azure Storage Account Access Keys](https://www.labitpro.com/wp-content/Udemy/AZ900/ManageAccessKeys)
+	- [Create an Azure File Share](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateAnAzureFileShare)
+	- [Create and Attach a VM Data Disk](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateAndAttachDataDisk)
+	- [Resize an Azure Virtual Machine](https://www.labitpro.com/wp-content/Udemy/AZ900/ResizeAzureVM)
+	- [Create a VM Scale Set in Azure](https://www.labitpro.com/wp-content/Udemy/AZ900/CreateVMScaleSetInAzure)
+	- [Configure vNet Peering](https://www.labitpro.com/wp-content/Udemy/AZ900/ConfigurevNetPeeringinAzure)
+	- [Create and Configure an Azure Recovery Services Vault](https://www.labitpro.com/wp-content/Udemy/AZ900/AzureRecoveryServicesVault)
+	- [Managing Users and Groups in Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/ManageUsersAndGroupsinAzureAD)
+	- Practice with a [mock exam](https://www.tomteachesit.com/az-900-mock-exam/).
+	- [AZ-900 crossword puzzle](https://www.tomteachesit.com/az-900-crossword-puzzle-fun/) 
+	- [Flashcards](https://www.tomteachesit.com/az-900-flashcar
 
 
-## Resources
-
-- Practice with a [mock exam](https://www.tomteachesit.com/az-900-mock-exam/).
-- [AZ-900 crossword puzzle](https://www.tomteachesit.com/az-900-crossword-puzzle-fun/)
-- [Flashcards](https://www.tomteachesit.com/az-900-flashcards/)
-
-
-## Azure accounts
-
-To create and use Azure services, you need an Azure subscription. After you've created an Azure account, you're free to create additional subscriptions. After you've created an Azure subscription, you can start creating Azure resources within each subscription.
-
-![Azure suscription](img/az-900_1.png)
-
-You can have up to 2000 role assignments in each subscription.
 
 ## Basic Cloud Computing concepts
 
@@ -115,16 +59,13 @@ Very often, IaaS, PaaS and SaaS are referred as Cloud computing stack because es
 
 In a public cloud deployment, services are offered over the public internet. These services are available to customers who wish to purchase them. The cloud resources, like servers and storage, are owned and operated by the cloud service provider. 
 
-
 #### Private cloud 
 
 In a private cloud, compute resources are accessed exclusively by users from a single business or organization. You can host a private cloud physically in your own on-prem datacenter, or it can be hosted by a third-party cloud service provider. 
 
-
 #### Hybrid cloud 
 
 A hybrid cloud is a complex computing environment. It combines a public cloud and a private cloud by allowing data and applications to be shared between them. This type of cloud deployment is often utilized by large organizations.
-
 
 ### Consumption-Based Model
 
@@ -134,7 +75,6 @@ The consumption-based model refers to the way in which organizations only pay fo
 • No need to purchase or manage infrastructure 
 • Customer pays for resources only when they are needed 
 • Customer can stop paying for resources that are no longer needed
-
 
 ### Benefits of Cloud Computing
 
@@ -147,7 +87,6 @@ Cloud computing offers several key advantages over a physical environment:
 • Geo-distribution: Deploy apps to regional datacenters so that customers always have the best performance in their specific region. 
 • Disaster recovery: Cloud-based backup services, data replication, and geo-distribution allow you to deploy apps and know that their data is safe in the event of disaster. 
 
-
 ### Capital Expenses vs. Operating Expenses 
 
 Organizations have to think about two different types of expenses: 
@@ -155,12 +94,10 @@ Organizations have to think about two different types of expenses:
 • Capital Expenditure (CapEx): The spending of money up-front on physical infrastructure. These expenses are deducted over time. 
 • Operational Expenditure (OpEx): The spending of money on services or products now and being billed for them now. These expenses are deducted in the same year they are incurred. Most cloud services are considered OpEx.
 
-
 ### The Cloud Computing stack
 
 
 ![Shared responsability model](img/cloud-models-02.png)
-
 
 #### Infrastructure-as-a-Service (IaaS)
 
@@ -181,7 +118,6 @@ Migrating to IaaS helps reduce the need for maintenance of on-prem data centers 
 IaaS provides all the infraestructure needed to support web apps: storage, web and application servers, networking resources. Quickly deployable, easily scale infraestructure up and down.
 
 **4.** **High-performance computer**
-
 
 #### Platform-as-a-Service (PaaS)
 
@@ -223,7 +159,6 @@ Some services or features are only available in certain regions. Others don't re
 
 ![Azure Regions](img/azure-region.png)
 
-
 #### Availability zones
 
 Availability zones are physically separate datacenters within an Azure region. Each availability zone is made up of one or more datacenters equipped with independent power, cooling, and networking.
@@ -241,7 +176,6 @@ Azure services that support availability zones fall into three categories:
 - Zonal services: You pin the resource to a specific zone (for example, VMs, managed disks, IP addresses).
 - Zone-redundant services: The platform replicates automatically across zones (for example, zone-redundant storage, SQL Database).
 - Non-regional services: Services are always available from Azure geographies and are resilient to zone-wide outages as well as region-wide outages.
-
 
 #### Region pairs
 
@@ -290,6 +224,18 @@ An account can have one subscription or multiple subscriptions that have differe
 - **Environments**: separate environments for development and testing, security, or to isolate data for compliance reasons. This design is particularly useful because resource access control occurs at the subscription level.
 - **Organizational structures**:  you could limit one team to lower-cost resources, while allowing the IT department a full range. This design allows you to manage and control access to the resources that users provision within each subscription.
 - **Billing**: For instance, you might want to create one subscription for your production workloads and another subscription for your development and testing workloads.
+
+To create and use Azure services, you need an Azure subscription. After you've created an Azure account, you're free to create additional subscriptions. After you've created an Azure 
+suscription, you can start creating Azure resources within each subscription.
+
+![Azure suscription](img/az-900_1.png)
+
+You can have up to 2000 role assignments in each subscription.
+
+
+Each Azure Subscription can not trust multiple Active Directories. An Azure subscription has a trust relationship with Azure Active Directory (Azure AD). A subscription trusts Azure AD to authenticate users, services, and devices. Multiple subscriptions can trust the same Azure AD directory. Each subscription can only trust a single directory.
+
+![Azure suscription](img/az-900_11.png)
 
 
 #### Management Groups in Azure 
@@ -1087,6 +1033,15 @@ Microsoft Purview’s unified data governance helps your organization:
 - Generate insights about how your data is stored and used.
 - Manage access to the data in your estate securely and at scale.
 
+
+Which feature in the Microsoft Purview governance portal should you use to manage access to data sources and datasets?
+
+- Incorrect: Data Catalog –– This enables data discovery. 
+- Incorrect: Data Sharing –– This shares data within and between organizations.
+- Incorrect: Data Estate Insights –– This accesses data estate health.
+-  Correct: Data Policy –– This governs access to data.
+
+
 ### Azure Policy
 
 Azure Policy is a service in Azure that enables you to create, assign, and manage policies that control or audit your resources.
@@ -1351,7 +1306,9 @@ Azure Monitor is a platform for collecting data on your resources, analyzing tha
 
 Azure Monitor, Service Health, and Azure Advisor all use actions groups to notify you when an alert has been triggered.
 
-As soon as you create an Azure suscription and start deploying resources, Azure Monitor begins collecting data.
+As soon as you create an Azure suscription and start deploying resources, Azure Monitor begins collecting data. Azure Monitor is a platform that collects metric and logging data, such as CPU percentages. **The data can be used to trigger autoscaling.**
+
+Which Azure service can generate an alert if virtual machine utilization is over 80% for five minutes? Azure monitor
 
 #### Azure Log Analytics
 
@@ -1386,7 +1343,13 @@ Once Application Insights is up and running, you can use it to monitor a broad a
 
 ### Azure IoT Hub
 
-Azure IoT Hub is an Azure-hosted service that functions as a message hub for biderectional communications between the deployed IT devices and the Azure services.
+Azure IoT Hub is an Azure-hosted service that functions as a message hub for biderectional communications between the deployed IT devices and the Azure services. You can connect millions of devices and their backend solutions reliably and securely. Almost any device can be connected to an IoT hub. 
+
+Several messaging patterns are supported, including device-to-cloud telemetry, uploading files from devices, and request-reply methods to control your devices from the cloud. IoT Hub also supports monitoring to help you track device creation, device connections, and device failures.
+
+IoT Hub can further route messages to **Azure Data Lake Storage.**
+
+![flow](img/az-900_10.png)
 
 ### Azure IoT Central
 
@@ -1459,6 +1422,13 @@ SIEM + SOAR
 
 
 ##  Azure SLA and Lifecycle
+
+
+If you want to raise the limit or quota above the default limit, **_____________________**
+
+- open an online customer support request at no charge.   (Correct)
+
+
 
 ### SLA
 
