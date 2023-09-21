@@ -73,15 +73,15 @@ Exams from the Udemy course [AZ-900: Microsoft Azure Fundamentals Original Pract
 
 - Azure Monitor
 - GitHub
-- [ ] Azure DevOps
-- [ ] Virtual Machines
+- Azure DevOps
+- Virtual Machines
 
 **Explanation**: Azure DevOps contains many services, one of which is Pipelines. Pipelines allows you to build an automation that moves code (and all related dependencies) through various stages from the development environment into deployment.
 
 #### Question 2: True or false: there are no service level guarantees (SLA) when a service is in General Availability (GA)
 
-- [ ] FALSE
-- [ ] TRUE
+- FALSE
+- TRUE
 
 **Explanation**: False, most Azure GA services do have service level agreements. See: [https://azure.microsoft.com/en-ca/support/legal/sla/](https://azure.microsoft.com/en-ca/support/legal/sla/)
 
