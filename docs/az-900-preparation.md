@@ -12,8 +12,8 @@ tags:
 
 !!! abstract "Notes taken from several sources, including:"
     - The course AZ-900 Bootcamp: Microsoft Azure Fundamentals, created by Thomas Mitchell and labITout Learning
-    - Microsoft e-learn platform.
-    - The book "Microsoft Certified - Azure Fundamentals. Study guide", by Jim Boyce. 
+    - [Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/).
+    - The book ["Microsoft Certified - Azure Fundamentals. Study guide", by Jim Boyce](https://www.amazon.com/Microsoft-Certified-Azure-Fundamentals-Study/dp/1119770920). 
 
 
 ??? abstract "Labs and resources"
@@ -40,7 +40,6 @@ tags:
 	- Practice with a [mock exam](https://www.tomteachesit.com/az-900-mock-exam/).
 	- [AZ-900 crossword puzzle](https://www.tomteachesit.com/az-900-crossword-puzzle-fun/) 
 	- [Flashcards](https://www.tomteachesit.com/az-900-flashcar
-
 
 
 ## Basic Cloud Computing concepts
@@ -212,30 +211,33 @@ When you create a resource group, you need to provide a location for that resour
 
 #### Azure Subscription
 
-An Azure subscription provides authenticated and authorized access to Azure products and services and allows organizations to provision cloud resources. Every Azure subscription links to an Azure account, which is an identity in Azure AD or in a directory that Azure AD trusts.  In Azure, subscriptions are a unit of management, billing, and scale.
+An Azure subscription provides authenticated and authorized access to Azure products and services and allows organizations to provision cloud resources. Every Azure subscription links to an Azure account. 
 
-An account can have multiple subscriptions, but it’s only required to have one. In a multi-subscription account, you can use the subscriptions to configure different billing models and apply different access-management policies. You can use Azure subscriptions to define boundaries around Azure products, services, and resources. There are two types of subscription boundaries that you can use:
+In Azure, subscriptions are a unit of management, billing, and scale.
+
+An account can have multiple subscriptions, but it’s only required to have one. In a multi-subscription account, you can use the subscriptions to configure different billing models and apply different access-management policies. 
+
+You can use Azure subscriptions to define boundaries around Azure products, services, and resources. There are two types of subscription boundaries that you can use:
 
 - **Billing boundary**: This subscription type determines how an Azure account is billed for using Azure. You can create multiple subscriptions for different types of billing requirements. Azure generates separate billing reports and invoices for each subscription so that you can organize and manage costs.
 - **Access control boundary**: Azure applies access-management policies at the subscription level, and you can create separate subscriptions to reflect different organizational structures. An example is that within a business, you have different departments to which you apply distinct Azure subscription policies. This billing model allows you to manage and control access to the resources that users provision with specific subscriptions. 
 
-An account can have one subscription or multiple subscriptions that have different billing models. You can also use subscription to apply different access-management policies when necessary. For example, you might choose to create additional subscriptions to separate:
+**Use cases** for creating additional subscriptions:
 
-- **Environments**: separate environments for development and testing, security, or to isolate data for compliance reasons. This design is particularly useful because resource access control occurs at the subscription level.
-- **Organizational structures**:  you could limit one team to lower-cost resources, while allowing the IT department a full range. This design allows you to manage and control access to the resources that users provision within each subscription.
-- **Billing**: For instance, you might want to create one subscription for your production workloads and another subscription for your development and testing workloads.
+- **To separate Environments**: separate environments for development and testing, security, or to isolate data for compliance reasons. This design is particularly useful because resource access control occurs at the subscription level.
+- **To separate Organizational structures**:  you could limit one team to lower-cost resources, while allowing the IT department a full range. This design allows you to manage and control access to the resources that users provision within each subscription.
+- **To separate Billing**: For instance, you might want to create one subscription for your production workloads and another subscription for your development and testing workloads.
 
-To create and use Azure services, you need an Azure subscription. After you've created an Azure account, you're free to create additional subscriptions. After you've created an Azure 
-suscription, you can start creating Azure resources within each subscription.
+After you've created an Azure account, you're free to create additional subscriptions. After you've created an Azure suscription, you can start creating Azure resources within each subscription.
 
 ![Azure suscription](img/az-900_1.png)
 
 You can have up to 2000 role assignments in each subscription.
 
-
 Each Azure Subscription can not trust multiple Active Directories. An Azure subscription has a trust relationship with Azure Active Directory (Azure AD). A subscription trusts Azure AD to authenticate users, services, and devices. Multiple subscriptions can trust the same Azure AD directory. Each subscription can only trust a single directory.
 
 ![Azure suscription](img/az-900_11.png)
+
 
 
 #### Management Groups in Azure 
@@ -447,7 +449,7 @@ On the mobile app side, there's SDK support for native iOS and Android, Xamarin,
 
 #### Azure Advisor
 
-Free services that helps you follow best practices. 
+Free service for tracking Azure consumption and getting offers recommendations not only for cost savings but also for performance, reliability, and security, 
 
 #### ARM templates 
 
@@ -617,7 +619,7 @@ Other data for the exam:
 
 - Maximum capacity for storage accounts: 5 PB.
 - Number of storage accounts per region per suscription: 250.
-
+- Maximum number of virtual network rules and IP network rules allowed per storage account in Azure: 200
 ### Azure storage redundancy
 
 Data in an Azure Storage account is always replicated three times in the primary region. Azure Storage offers two options for how your data is replicated in the primary region, locally redundant storage (LRS) and zone-redundant storage (ZRS).
@@ -815,6 +817,14 @@ Additionally, it's a relational database as a service (DaaS) based on the latest
 It's a fully-managed service designed to enable seamless migrations from multiple database sources to Azure data platforms with minimal downtime.
 
 It uses the Microsoft Data Migration Assistant to generate assessment reports previous to a migration.
+
+
+### SQL Database elastic pools
+
+Just like Azure VM Scale Sets are used with VMs, you can use **Elastic Pools** with Azure SQL Databases!
+
+**SQL Database elastic pools** are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single Azure SQL Database server and share a set number of resources at a set price. Elastic pools in Azure SQL Database enable SaaS developers to optimize the price performance for a group of databases within a prescribed budget while delivering performance elasticity for each database.
+
 
 ### Other database services:  PostgreSQL, MariaDB, MySQL, Redis Cache
 
@@ -1403,10 +1413,6 @@ GitHub and GitHub Actions offer many of the same functions as Azure DevOps Servi
 
 Azure DevTest Labs automates the deployment, configuration, and decommissioning of VMs and other Azure resources.
 
-
-
-
-
 ## Azure BLUE
 ### Azure Firewall
 
@@ -1421,21 +1427,50 @@ Azure DDoS Protection Standard can provide full layer 3 to layer 7 mitigation ca
 SIEM + SOAR
 
 
-##  Azure SLA and Lifecycle
+##  Azure Pricing, Service Level Agreements, and Lifecycle
+
+### Pricing 
+
+There are free and paid subscriptions:
+
+- Free trial: 12 months of select free services. Credit of $200 (September 2023) to use any Azure service for 30 days. Services are disabled when time or credit expire. Convertible to paid subscriptions.
+- Pay-as-you-go: typical consumption cloud model.
+- Member offers: Some products or services provide credits toward Azure Services.
 
 
-If you want to raise the limit or quota above the default limit, **_____________________**
+Subscriptions don't enable you to access Azure service per se. For that matter, you need to purchase service through:
 
-- open an online customer support request at no charge.   (Correct)
+- Enterprise agreement.
+- Web Direct.
+- Cloud Solution Provider (or CSP).
 
+If you want to raise the limit or quota above the default limit, "open an online customer support request at no charge".   (Correct)
 
+**Billing zone**: Geographical grouping of Azure regions for billing Azure resources. 
 
-### SLA
+Tools:  [Azure Advisor](#azure-advisor)
+
+### Service Level Agreements
+
+A Service Level Agreement (SLA) is an agreement between a service provider and a consumer that generally guarantees that the SLA-backed service will be available for a specific period during the month.
+99% SLA  -> 07.20 hours
+99.90% SLA  -> 00 hours 43.20 minutes
+99.95% SLA  -> 00 hours 21.60 minutes
+99.99% SLA  -> 00 hours 04.32 minutes
+99.999% SLA ->00 hours 00.00 minutes 25.9 seconds
+
+A key point: If an Azure service is available but with degraded performance, it still meets the SLA. The service must be completely unavailable to fail the SLA and qualify for a service credit. 
+
+In addition to having different SLA, each Azure resource has also their service credits. Generally, the higher the SLA, the lower the service credit will be.
+
+SIE is the acronym for Service Impacting Event.
+
+Composite SLA is the SLA that results from combining services with potentially different SLAs. To determine the composite SLA, you simply multiply the SLA values for each resource. 
 
 
 ![SLAs](img/az-900_9.jpg)
 
-
+Tip for the exam: Deploying instances of a VM across two or more availability zones raises the SLA for the VM from a 99.9% to 99.99% while launching 2 VM instances with a load balancer gives a composite SLA of 9.81%. 
 ### Service Lifecycle in Azure
 
 *Previews* allows you to test a pre-release version of your service. Previews have their own terms and conditions. Some of them don't even have customer support at all. Even though you may see a service on a preview, that doesn't mean that is ready for a production environment.
@@ -1445,26 +1480,31 @@ If you want to raise the limit or quota above the default limit, **____________
 
 Access to preview features at the [Azure Portal Preview](https://preview.portal.azure.com)
 
-*General availability* means that the service, application, or feature is available for all Azure customers.
+*General availability* means that the service, application, or feature is available for all Azure customers. In modern lifecycle
 
 ### Cost Management
 
 Three cloud pricing models:
 
 - **Pay-as-you-go**: Suitable for development, testing, short-terms projects, businesses that prefer OpEx over CapExp.
-- **Reserved instances**: commit to a specific VM type and size for a fixed term (1 or 3 years) in exchange for discounted pricing. Suitable for logn-term projects  with predictable resource requirements, and businesses looking to optimize costs.
-- **Spot pricing**: Take advantage of unused Azure capacity at a significant discount. Azure can terminate spot instances at any time. Cost-effective, but no guarantees. Suitable for batch processing, data analysis, and non-critical dev and testing, which are cost-sensitive, but interruptible tasks.
+- **Reserved instances**: commit to a specific VM type and size for a fixed term (1 or 3 years) in exchange for discounted pricing. Suitable for logn-term projects  with predictable resource requirements, and businesses looking to optimize costs. Prepaying, cost savings can be significant, up to 70% or more. Reservations do not automatically renew, however and pricing reverts to pay-as-you-go when reservation term expires.
+- **Spot pricing**: Take advantage of unused Azure capacity at a significant discount. Azure can terminate spot instances at any time. Cost-effective, but no guarantees. Suitable for batch processing, data analysis, and non-critical dev and testing, which are cost-sensitive, but interruptible tasks. 
+- **Azure Hybrid Benefit**: For those who have perpetual licenses of a service and want to move their services to Azure, Azure Hybrid Benefit enables them to repurpose these licenses and gain a corresponding costs savings. BUT it's specific to Windows Server and SQL server, not to all Microsoft licenses that your organization owns.
 
 
-The OpEx cost can be impacted by many factors:
- of pricing
-- Resource type: When you provision an Azure resource, Azure creates metered instances for that resource. The meters track the resources' usage and generate a usage record that is used to calculate your bill.
+The OpEx cost can be impacted by many factors: 
+
+- Resource type: When you provision an Azure resource, Azure creates metered instances for that resource. The meters track the resources' usage and generate a usage record that is used to calculate your bill. **Meters**: Azure creates automatically usage meters when you deploy a resource, so you can track service usage. Usage captured by each usage meter results in a certain number of billable units, and those billable units are converted to charges based on resource types. One billable unit for a particular service will be different in value from the value of a billable unit for another service.
+- Uptime.
 - Consumption: Pay-as-you-go payment model where you pay for the resources that you use during a billing cycle. Azure also offers the ability to commit to using a set amount of cloud resources. When you reserve capacity, you’re committing to using and paying for a certain amount of Azure resources during a given period (typically one or three years).
-- Maintenance: For example, every time you provision a VM, additional resources such as storage and networking are also provisioned. If you deprovision the VM, those additional resources may not deprovision at the same time, either intentionally or unintentionally. Maintenance is needed in order adjust cost.
-- Geography: The cost of power, labor, taxes, and fees vary depending on the location. Due to these variations, Azure resources can differ in costs to deploy depending on the region. 
+- Geography or resource allocation: The cost of power, labor, taxes, and fees vary depending on the location. Due to these variations, Azure resources can differ in costs to deploy depending on the region. 
 - Network Traffic: Bandwidth refers to data moving in and out of Azure datacenters. Some inbound data transfers (data going into Azure datacenters) are free. For outbound data transfers (data leaving Azure datacenters), data transfer pricing is based on zones.
 - Subscription type: Some Azure subscription types also include usage allowances, which affect costs.
-- Azure Marketplace: Azure Marketplace lets you purchase Azure-based solutions and services from third-party vendors. 
+- Azure Marketplace: Azure Marketplace lets you purchase Azure-based solutions and services from third-party vendors. Try to avoid recurring costs associated with an offering from a third provider at Azure Marketplace.
+
+Additionally it's necessary paying attention to small details such as, for example, every time you provision a VM, additional resources such as storage and networking are also provisioned. If you deprovision the VM, those additional resources may not deprovision at the same time, either intentionally or unintentionally. Maintenance is needed in order adjust cost.
+
+
 #### Pricing calculator
 
 This service helps you out to choose the best Azure resource for your needs given a budget. With the pricing calculator, you can estimate the cost of any provisioned resources, including compute, storage, and associated network costs. You can even account for different storage options like storage type, access tier, and redundancy.
@@ -1477,18 +1517,22 @@ Total Cost of Ownership Calculator (TCO calculator) helps you compare the costs 
 
 https://azure.microsoft.com/en-us/pricing/tco/calculator/
 
-#### Microsoft Cost Management tool
+#### Microsoft Cost Management tool - or Azure Cost Management + Billing
+
 
 If you accidentally provision new resources, you may not be aware of them until it’s time for your invoice. Cost Management is a service that helps avoid those situations. Cost Management provides the ability to quickly check Azure resource costs, create alerts based on resource spend, and create budgets that can be used to automate management of resources.
 
-Cost analysis is a subset of Cost Management that provides a quick visual for your Azure costs. Using cost analysis, you can quickly view the total cost in a variety of different ways, including by billing cycle, region, resource, and so on. A budget is where you set a spending limit for Azure. You can set budgets based on a subscription, resource group, service type, or other criteria. When you set a budget, you will also set a budget alert. 
+Two key words so far: **alerts** and **budges**.
 
-Cost alerts provide a single location to quickly check on all of the different alert types that may show up in the Cost Management service.  The three types of alerts that may show up are:
+Cost analysis is a subset of Cost Management that provides a quick visual for your Azure costs. Using cost analysis, you can quickly view the total cost in a variety of different ways, including by billing cycle, region, resource, and so on. A budget is where you set a spending limit for Azure. 
 
-- Budget alerts: Budget alerts support both cost-based and usage-based budgets (Budgets are defined by cost or by consumption usage when using the Azure Consumption API).
-- Credit alerts: Credit alerts are generated automatically at 90% and at 100% of your Azure credit balance. Whenever an alert is generated, it's reflected in cost alerts, and in the email sent to the account owners.
-- Department spending quota alerts: Department spending quota alerts notify you when department spending reaches a fixed threshold of the quota.
+**Budgets**:  You can set budgets based on a subscription, resource group, service type, or other criteria. When you set a budget, you will also set a budget alert. 
 
+**Cost alerts** provide a single location to quickly check on all of the different alert types that may show up in the Cost Management service.  The three types of alerts that may show up are:
+
+- *Budget alerts*: Budget alerts support both cost-based and usage-based budgets (Budgets are defined by cost or by consumption usage when using the Azure Consumption API).
+- *Credit alerts*: Credit alerts are generated automatically at 90% and at 100% of your Azure credit balance. Whenever an alert is generated, it's reflected in cost alerts, and in the email sent to the account owners.
+- *Department spending quota alerts*: Department spending quota alerts notify you when department spending reaches a fixed threshold of the quota.
 
 
 ## Flashcard questions
@@ -1865,6 +1909,191 @@ Yes, all subscriptions and management groups are within a single hierarchy in ea
 |Cloud-scale job scheduling and compute management with the ability to scale to tens, hundreds, or thousands of virtual machines|[Batch](https://azure.microsoft.com/en-us/services/batch/)|
 |Create highly available, scalable cloud applications and APIs that help you focus on apps instead of hardware|[Cloud Services](https://azure.microsoft.com/en-us/services/cloud-services/)|
 |Deploy your Azure virtual machines on a physical server only used by your organization|[Azure Dedicated Host](https://azure.microsoft.com/en-us/services/virtual-machines/dedicated-host/)|
+
+
+
+**What is the key difference between vertical scaling and horizontal scaling?**
+
+- Vertical scaling adds more processing power, while horizontal scaling increases storage capacity.  (Incorrect)  
+- Vertical scaling adjusts the number of resources, while horizontal scaling adjusts capabilities. (Correct)
+
+
+**You are an IT manager and want to ensure that you are notified when the Azure spending reaches a certain threshold. Which feature of Azure Cost Management should you use?**
+
+- Budgets  (Correct)
+- Cost alerts  (Incorrect)
+
+
+**Which of the following tools is NOT available within the Azure Security Center for vulnerability management?**
+
+- Azure Defender  (Incorrect)
+- Azure Policy  (Incorrect)
+- Azure Advisor  (Incorrect)   
+- Azure Firewall Manager  (Correct)
+
+**Your company makes use of several SQL databases. However, you want to increase their efficiency because of varying and unpredictable workloads. Which of the following can help you with this?**
+
+- Resource Tags     (Incorrect)
+- Elastic Pools  (Correct)
+- Region Pairs     (Incorrect)    
+- Scale Sets    (Incorrect)
+
+Just like Azure VM Scale Sets are used with VMs, you can use **Elastic Pools** with Azure SQL Databases!
+
+**SQL Database elastic pools** are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single Azure SQL Database server and share a set number of resources at a set price. Elastic pools in Azure SQL Database enable SaaS developers to optimize the price performance for a group of databases within a prescribed budget while delivering performance elasticity for each database.
+
+
+**Which of the following alert types are available in the Cost Management service? (Select all that apply)**
+
+- Resource usage alerts  (Incorrect)
+- Budget alerts  (Correct)
+- Department spending quota alerts   (Correct)  
+- Credit alerts   (Correct)
+
+**Azure Site Recovery can only be used to replicate and recover virtual machines within Azure.**
+
+YES / NO
+
+The answer is No. Azure Site Recovery can be used to replicate and recover virtual machines not only within Azure, but also from on-premises datacenters to Azure, and between different datacenters or regions. Azure Site Recovery is a disaster recovery solution that provides continuous replication of virtual machines and physical servers to a secondary site, allowing for rapid recovery in case of a disaster. It supports a wide range of scenarios, including replication from VMware, Hyper-V, and physical servers to Azure, as well as replication between Azure regions or datacenters.
+
+
+
+**The ability to provision and deprovision cloud resources quickly, with minimal management effort, is known as _______.**
+
+- Sustainability     (Incorrect)
+- Scalability  (Correct)
+- Elasticity    (Incorrect)
+- Resiliency    (Incorrect)
+  
+The correct answer is Scalability. It specifically refers to the ability to provision and deprovision cloud resources quickly and with minimal management effort.
+
+- **Resiliency:** It refers to the ability of a system to recover quickly from failures or disruptions. While resiliency is an important attribute of cloud systems, it is not specifically related to the ability to provision and deprovision resources quickly.
+- **Elasticity:** It is the ability of a system to scale up or down in response to changes in demand. This is a closely related concept to scalability, but specifically refers to the ability to handle changes in workload or traffic.  
+- **Sustainability:** It refers to the ability of a system to operate in an environmentally friendly manner, with minimal impact on the planet. While sustainability is an important consideration for cloud providers, it is not specifically related to the ability to provision and deprovision resources quickly.
+
+
+**It's possible to deploy an Azure VM from a MacOS based system by using which of the following options?**
+
+- Azure Powershell (Correct)
+- Azure Cloudshell (Correct)
+- Azure Portal (Correct)
+- Azure CLI  (Correct)
+
+
+**Which of the following can be included as artifacts in an Azure Blueprint? (Select all that apply)**
+
+- Policy assignments   (Correct)
+- Azure Resource Manager templates  (Correct)
+- Role assignments  (Correct)
+- Resource groups  (Correct)
+
+
+**Azure Service Health allows us to define the critical resources that should never be impacted due to outages and downtimes.**
+
+YES / NO
+
+No. Azure Service Health notifies you about Azure service incidents and planned maintenance. Although you can see when a maintenance is planned and act accordingly to migrate a VM if needed, you can't prevent service failures.
+
+
+**It's possible to deploy a new Azure VM from a Google Chromebook by using PowerAutomate.**
+
+YES / NO 
+
+No. Tricky question! PowerAutomate is not the same as PowerShell.
+
+**Which of the following services can help you:**
+
+- Assign **time-bound** access to resources using start and end dates  (Incorrect)
+- Enforce **multi-factor authentication** to activate any role  (Incorrect)
+- Azure Privileged Identity Management (Correct)
+- Azure DDos Protection  (Incorrect)
+- Azure Security Center (Incorrect)
+- Azure Advanced Threat Protection (ATP)  (Incorrect)
+
+**Azure Active Directory (Azure AD)** Privileged Identity Management (PIM) is a service that enables you to manage, control, and monitor access to important resources in your organization. These resources include resources in Azure AD, Azure, and other Microsoft Online Services like Office 365 or Microsoft Intune.
+
+
+
+**Which of the following actions can help you reduce your Azure costs?**
+
+- Enabling automatic scaling for all virtual machines   (Incorrect)
+- Increasing the number of virtual machines deployed  (Incorrect)
+- Reducing the amount of data transferred between Azure regions (Correct)
+- Keeping all virtual machines running 24/7  (Incorrect)
+
+Reducing the amount of data transferred between Azure regions can help reduce costs by minimizing data egress charges.
+
+
+**In the defense-in-depth model, what is the role of the "network" layer?**
+
+- It secures access to virtual machines. (Incorrect)
+- It ensures the physical security of computing hardware. (Incorrect)
+- It limits communication between resources and enforces access controls. (Correct)
+- It focuses on securing access to applications. (Incorrect)
+
+The "network" layer in the defense-in-depth model is responsible for limiting communication between resources, which helps prevent the spread of attacks. It enforces access controls to ensure that only necessary communication occurs and reduces the risk of an attack affecting other systems.
+
+
+**You want to restrict access to certain Azure resources based on departmental requirements within your organization. Which Azure feature would you use?**
+
+- Resource groups (Incorrect)
+- Subscriptions    (Correct)
+- Azure Active Directory (Incorrect)
+- Management groups (Incorrect)
+
+In this scenario, you would use **subscriptions** to restrict access to certain Azure resources based on departmental requirements. Subscriptions can be used to apply different access-management policies, reflecting different organizational structures. Azure applies access-management policies at the subscription level, which allows you to manage and control access to the resources that users provision within specific subscriptions.
+
+**Which of the following affect costs in Azure? (Choose 2)**
+
+- Availability Zone  (Incorrect)
+- Instance size (Correct)
+- Location (Correct) 
+- Knowledge center usage (Incorrect) 
+
+The instance size and the location (eg -US or Europe etc ) affect the prices. The knowledge center is completely free to use, and you aren't charged for an Availability Zone.
+
+**Which of the following can be used to manage your Azure Resources from an iPhone?**
+
+- Azure Portal (Correct)
+- Windows PowerShell (Incorrect) 
+- Azure Cloud Shell (Correct)
+- Azure CLI  (Incorrect) 
+- Azure Mobile App (Correct)
+
+Azure CLI can be installed on MacOS but it cannot be installed on an iPhone. Windows PowerShell can be installed on MacOS but it cannot be installed on an iPhone.
+
+**It is possible to deploy Azure resources through a Tablet by using Bash in the Azure Cloud Shell.**
+
+No / Yes
+
+yes. Azure Cloud Shell is an interactive, authenticated, **browser-accessible (the key to everything since all you need is a browser and the OS doesn't matter)** shell for managing Azure resources. It provides the flexibility of choosing the shell experience that best suits the way you work, **either Bash or PowerShell.**
+
+
+
+**Which of the following services allows you to send events generated from Azure resources to applications?**
+
+- Azure Event Hub  (Incorrect)
+- Azure Event Grid  (Correct)
+- Azure Cognitive Services  (Incorrect)
+- Azure App Service (Incorrect)
+
+
+**What Azure service provides recommendations to optimize your cloud spending based on your usage patterns?**
+
+- Azure Monitor  (Incorrect)
+- Azure Cost Management and Billing  (Correct)
+- Azure Policy  (Incorrect)
+- Azure Advisor   (Incorrect)
+
+**Azure Cost Management and Billing** is the correct answer & provides recommendations to optimize your cloud spending based on your usage patterns. The service provides insights and cost management tools to help you monitor, allocate, and optimize your cloud costs.
+
+
+**Which of the following services allows you to send events generated from Azure resources to applications?**
+
+- Azure Event Hub
+- Azure Event Grid
+- Azure Cognitive Services
+- Azure App Service
 
 
 

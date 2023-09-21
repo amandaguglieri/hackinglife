@@ -24,7 +24,7 @@ A web shell script is typically a one-liner that is very short and can be memori
 ```
 
 - [Pentesmonkey webshell](pentesmonkey.md).
-- [WhiteWinterWolf webshell](whitewinterwolf-webshell.md)
+- [WhiteWinterWolf webshell](https://github.com/WhiteWinterWolf/wwwolf-php-webshell/blob/master/webshell.php).
 
 ### jsp
 
