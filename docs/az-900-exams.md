@@ -12,8 +12,46 @@ tags:
 ---
 
 # Exams - Practice the AZ-900
+<<<<<<< HEAD
 
 These exams have been gathered from the Microsoft learning platform and the
+
+## Microsoft platform
+
+### Practice assessment 1
+
+#### Question 1 of 50
+
+Why is cloud computing often less expensive than on-premises datacenters? Each correct answer presents a complete solution.
+
+- You are only billed for what you use.
+
+Renting compute and storage services and being billed for only what you use often lowers operating expenses. Depending on the service and the type of network bandwidth, charges can be incurred. Cloud service offerings often provide functionality that can be difficult or cost-prohibitive to deploy on-premises, especially for smaller organizations. Major cloud providers offer services around the world. Making it easy and relatively inexpensive to deploy services close to where your users reside. [Describe cloud computing - Training | Microsoft Learn](https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/)
+
+#### Question 2 of 50
+
+Select the answer that correctly completes the sentence. (------Your Answer Here -------) refers to upfront costs incurred one time, such as hardware purchases.
+
+- Capital expenditures
+=======
+>>>>>>> origin/main
+
+Capital expenditures are one-time expenses that can be deducted over time. Operational expenditures are billed as you use services and a do not have upfront costs.
+
+<<<<<<< HEAD
+[Describe cloud computing - Training | Microsoft Learn](https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/)
+
+#### Question 3 of 50
+
+Which cloud deployment model are you using if you have servers physically located at your organization’s on-site datacenter, and you migrate a few of the servers to the cloud?
+
+- hybrid cloud
+
+A hybrid cloud is a computing environment that combines a public cloud and a private cloud by allowing data and applications to be shared between them.
+
+[Describe cloud computing - Training | Microsoft Learn](https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/)
+
+=======
 
 ## Microsoft platform
 
@@ -47,6 +85,7 @@ A hybrid cloud is a computing environment that combines a public cloud and a pri
 
 [Describe cloud computing - Training | Microsoft Learn](https://learn.microsoft.com/en-us/training/modules/describe-cloud-compute/)
 
+>>>>>>> origin/main
 #### Question 4 of 50
 
 Select the answer that correctly completes the sentence.
