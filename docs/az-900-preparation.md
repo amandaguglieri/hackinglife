@@ -6,16 +6,25 @@ TableOfContents: true
 tags:
   - cloud
   - azure
+  - az-900
+  - course
+  - certification
 ---
-# AZ-900 Azure Fundamentals Certificate Preparation
+# AZ-900: Notes to get through the Azure Fundamentals Certificate
+
+The following notes are derived from the [Microsoft e-learning platform](https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/). They may not be entirely original, as I've included some paragraphs directly from the Microsoft e-learning platform and some other sources. However, what makes this repository particularly valuable is my effort to enrich and curate the content, along with the addition of valuable tips that can assist anyone in passing the exam.
+
+- **Notes taken in**: *September 2023*.
+- **Certification accomplish at**: *23th September 2023*.
+- **Practice tests**: [Practice tests from different sources](az-900-exams.md).
 
 
-!!! abstract "Notes taken from several sources, including:"
+!!! abstract "Sources of this notes:"
     - [The Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/).
     - Book:  ["Microsoft Certified - Azure Fundamentals. Study guide", by Jim Boyce](https://www.amazon.com/Microsoft-Certified-Azure-Fundamentals-Study/dp/1119770920). 
     - Udemy course: [AZ-900 Bootcamp: Microsoft Azure Fundamentals](https://www.udemy.com/course/az-900-azure-exam-prep-understanding-cloud-concepts/).
     - Udemy course: [AZ-900 Microsoft Azure Fundamentals Practice Tests, Sep 2023](https://www.udemy.com/course/microsoft-azure-fundamentals-practice-tests-az900/)
-    - Linkedin course: [Exam tips: Microsoft Azure Fundamentals (AZ-900)]() 
+    - Linkedin course: [Exam tips: Microsoft Azure Fundamentals (AZ-900)](https://www.linkedin.com/learning/exam-tips-microsoft-azure-fundamentals-az-900-19042743/) 
 
 
 ??? abstract "Labs and resources"
@@ -41,7 +50,7 @@ tags:
 	- [Managing Users and Groups in Azure AD](https://www.labitpro.com/wp-content/Udemy/AZ900/ManageUsersAndGroupsinAzureAD)
 	- Practice with a [mock exam](https://www.tomteachesit.com/az-900-mock-exam/).
 	- [AZ-900 crossword puzzle](https://www.tomteachesit.com/az-900-crossword-puzzle-fun/) 
-	- [Flashcards](https://www.tomteachesit.com/az-900-flashcar
+	- [Flashcards](https://www.tomteachesit.com/az-900-flashcards)
 
 
 ## Basic Cloud Computing concepts
@@ -96,6 +105,13 @@ Organizations have to think about two different types of expenses:
 • Operational Expenditure (OpEx): The spending of money on services or products now and being billed for them now. These expenses are deducted in the same year they are incurred. Most cloud services are considered OpEx.
 
 ### The Cloud Computing stack
+
+Before digging deeper, I would like to share this super clarifying chart with Azure services and their belong to the cloud computing stack.
+
+![stack](img/az-900_12.jpg)
+
+
+After this, let's start with the stack!
 
 
 ![Shared responsability model](img/cloud-models-02.png)
