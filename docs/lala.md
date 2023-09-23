@@ -1,12 +1,12 @@
 
 ## Test 5
 
-#### Question 1: True or False: Unlike RBAC, **Azure Policy is a default-allow-and-explicit-deny system**.
+#### Question 1: True or False: Unlike RBAC, Azure Policy is a default-allow-and-explicit-deny system.
 
 - No
 - Yes (Correct)
  
-A few key differences between Azure Policy and RBAC exist. RBAC focuses on user actions at different scopes. You might be added to the contributor role for a resource group, allowing you to make changes to that resource group. Azure Policy focuses on resource properties during deployment and for already-existing resources. Azure Policy controls properties such as the types or locations of resources. Unlike RBAC, **Azure Policy is a default-allow-and-explicit-deny system**.
+A few key differences between Azure Policy and RBAC exist. RBAC focuses on user actions at different scopes. You might be added to the contributor role for a resource group, allowing you to make changes to that resource group. Azure Policy focuses on resource properties during deployment and for already-existing resources. Azure Policy controls properties such as the types or locations of resources. Unlike RBAC, Azure Policy is a default-allow-and-explicit-deny system.
 
 RBAC and Polices in Azure play a vital role in a governance strategy. While different, they both work together to ensure organizational business rules are followed be ensuring proper access and resource creation guidelines are met.
 
@@ -14,16 +14,16 @@ RBAC and Polices in Azure play a vital role in a governance strategy. While diff
 
 ![](https://docs.microsoft.com/en-ca/learn/wwl-azure/enterprise-governance/media/az500-role-based-versus-policies-ee3f9164.png)
 
-#### Question 2: **Which tier of Azure Files allows you to enable Azure File Sync?**
+#### Question 2: Which tier of Azure Files allows you to enable Azure File Sync?
 
 - Both Premium and Standard (Correct)
 - Standard
 - None of the above
 - Premium
 
-Azure File Sync supports **both** Premium and Standard tiers of Azure Files, which means you can enable Azure File Sync on either tier depending on your performance and cost requirements. **Premium tier** offers higher performance with lower latency, but at a higher cost compared to the Standard tier. However, it is not the only tier supported for Azure File Sync. **Standard tier** provides cost-effective storage but with lower performance compared to the Premium tier.
+Azure File Sync supports both Premium and Standard tiers of Azure Files, which means you can enable Azure File Sync on either tier depending on your performance and cost requirements. Premium tier offers higher performance with lower latency, but at a higher cost compared to the Standard tier. However, it is not the only tier supported for Azure File Sync. Standard tier provides cost-effective storage but with lower performance compared to the Premium tier.
 
-#### Question 3: **Your company is looking for a tool that can help with the following:**  1) Upload, download and manage Azure Storage blobs, files, queues and tables, as well as Azure Data Lake Storage entities. 2) Configure storage permissions and access controls, tiers and rules. **Which of the following is the right choice?**
+#### Question 3: Your company is looking for a tool that can help with the following:  1) Upload, download and manage Azure Storage blobs, files, queues and tables, as well as Azure Data Lake Storage entities. 2) Configure storage permissions and access controls, tiers and rules. Which of the following is the right choice?
 
 - Azure AzCopy
 - Azure Blueprint
@@ -33,64 +33,64 @@ Azure File Sync supports **both** Premium and Standard tiers of Azure Files, w
 - Azure Storage Explorer (Correct)
 - ARM Templates 
 
-#### Question 4: **Which of the following are free?**
+#### Question 4: Which of the following are free?
 
 - Data transfer within the same region (Correct)
 - Data transfer from one region to another
 - Data Ingress (Correct)
 - Data transfer within same Availability Zone (Correct)
 
-#### Question 5: **What is the key benefit of Azure Arc-enabled Kubernetes clusters?**
+#### Question 5: What is the key benefit of Azure Arc-enabled Kubernetes clusters?
 
 - They provide additional storage options for Azure VMs, reducing the chances of failures.
 - They limit your deployments to Azure regions only, savings costs.
 - They enable you to manage and configure Kubernetes clusters across multiple environments (Correct)
 - They eliminate the need for container orchestration using Kubernetes.
 
-#### Question 6: **Which of the following Azure Migrate features can be used to discover and assess physical servers?**
+#### Question 6: Which of the following Azure Migrate features can be used to discover and assess physical servers?
 
 - Dependency visualization
 - Agent-less discovery
 - Agent-based discovery (Correct)
 - Hyper-V discovery
 
-The keyword here is 'physical' servers. The correct answer is **'Agent-Based Discovery'.** Agent-based discovery is the correct choice for discovering and assessing **physical** servers. This method requires the installation of agents on the physical servers, which then collect and report data back to Azure Migrate for assessment.
+The keyword here is 'physical' servers. The correct answer is 'Agent-Based Discovery'. Agent-based discovery is the correct choice for discovering and assessing physical servers. This method requires the installation of agents on the physical servers, which then collect and report data back to Azure Migrate for assessment.
 
-**Other Options -**
+Other Options -
 
-- **Dependency visualization** is a feature within Azure Migrate that helps you understand the dependencies between servers, applications, and services. It doesn't directly discover or assess physical servers.
-- **Hyper-V discovery** is used to discover and assess virtual machines running on Hyper-V hosts. It is not designed for discovering and assessing physical servers.
-- **Agentless discovery** is a method used by Azure Migrate to discover and assess virtual machines in virtualized environments, such as VMware or Hyper-V, without the need for installing agents on the source virtual machines. It is not intended for discovering and assessing physical servers.
+- Dependency visualization is a feature within Azure Migrate that helps you understand the dependencies between servers, applications, and services. It doesn't directly discover or assess physical servers.
+- Hyper-V discovery is used to discover and assess virtual machines running on Hyper-V hosts. It is not designed for discovering and assessing physical servers.
+- Agentless discovery is a method used by Azure Migrate to discover and assess virtual machines in virtualized environments, such as VMware or Hyper-V, without the need for installing agents on the source virtual machines. It is not intended for discovering and assessing physical servers.
 
-#### Question 7:  Yes or No: **Availability zones are implemented in all Azure regions.**
+#### Question 7:  Yes or No: Availability zones are implemented in all Azure regions.
 
 - Yes
 - No (Correct)
 
-#### Question 8: **What is a key advantage of using Infrastructure as Code (IaC) in cloud deployments?**
+#### Question 8: What is a key advantage of using Infrastructure as Code (IaC) in cloud deployments?
 
 - It eliminates the need for network monitoring. (Incorrect)
 - It reduces the need for data backups.
 - It enables version control and automated provisioning. (Correct)
 - It increases physical hardware utilization.
 
-**Infrastructure as Code (IaC)** is a key DevOps practice that involves the management of infrastructure, such as networks, compute services, databases, storages, and connection topology, in a descriptive model. IaC allows teams to develop and release changes faster and with greater confidence. Also, Infrastructure as Code (IaC) allows you to store your infrastructure configuration as code in version control systems. This enables tracking changes over time, collaborating with team members, and automating the provisioning and management of resources.
+Infrastructure as Code (IaC) is a key DevOps practice that involves the management of infrastructure, such as networks, compute services, databases, storages, and connection topology, in a descriptive model. IaC allows teams to develop and release changes faster and with greater confidence. Also, Infrastructure as Code (IaC) allows you to store your infrastructure configuration as code in version control systems. This enables tracking changes over time, collaborating with team members, and automating the provisioning and management of resources.
 
-#### Question 9: Yes or No: **Azure Synapse Analytics is an analytics service that brings together data integration, enterprise data warehousing and big data analytics**
+#### Question 9: Yes or No: Azure Synapse Analytics is an analytics service that brings together data integration, enterprise data warehousing and big data analytics
 
 - No
 - Yes (Correct)
 
-**Azure Synapse Analytics was previously called Azure SQL Data Warehouse!** Azure Synapse Analytics is a limitless analytics service that brings together data integration, enterprise data warehousing and big data analytics. It gives you the freedom to query data on your terms, using either serverless or dedicated resources at scale. Azure Synapse brings these worlds together with a unified experience to ingest, explore, prepare, manage and serve data for immediate BI and machine-learning needs.
+Azure Synapse Analytics was previously called Azure SQL Data Warehouse! Azure Synapse Analytics is a limitless analytics service that brings together data integration, enterprise data warehousing and big data analytics. It gives you the freedom to query data on your terms, using either serverless or dedicated resources at scale. Azure Synapse brings these worlds together with a unified experience to ingest, explore, prepare, manage and serve data for immediate BI and machine-learning needs.
 
-#### Question 10: **Which of the following can you use to estimate the cost savings you can get by migrating your workloads to Azure?**
+#### Question 10: Which of the following can you use to estimate the cost savings you can get by migrating your workloads to Azure?
 
 - Azure TCO Calculator (Correct)
 - Azure Cost Management
 - Azure Pricing Calculator
 - Azure Advisor
 
-#### Question 11: **Since your company has shifted to a fully-remote working model, they are looking to provide employees with the best virtualized experience while saving costs by using existing eligible Windows licences. They also want to enable Bring your own device (BYOD) to access their desktop and applications over the Internet.** **Which of the following would you suggest?**
+#### Question 11: Since your company has shifted to a fully-remote working model, they are looking to provide employees with the best virtualized experience while saving costs by using existing eligible Windows licences. They also want to enable Bring your own device (BYOD) to access their desktop and applications over the Internet. Which of the following would you suggest?
 
 - Azure Virtual Desktop (Correct)
 - Azure Kubernetes
@@ -99,7 +99,7 @@ The keyword here is 'physical' servers. The correct answer is **'Agent-Based Di
 - Azure FileSync
 - Azure Virtual Machines
 
-#### Question 12:  **Which of the following is designed for enterprise big data analytics and includes a hierarchical namespace to Blob storage?**
+#### Question 12:  Which of the following is designed for enterprise big data analytics and includes a hierarchical namespace to Blob storage?
 
 - Azure Blob Storage
 - Azure Data Lake Storage Gen2 (Correct)
@@ -109,14 +109,14 @@ The keyword here is 'physical' servers. The correct answer is **'Agent-Based Di
 
 Azure Data Lake Storage Gen2 is a set of capabilities dedicated to big data analytics, built on [Azure Blob Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction). Data Lake Storage Gen2 converges the capabilities of [Azure Data Lake Storage Gen1](https://docs.microsoft.com/en-us/azure/data-lake-store/) with Azure Blob Storage.
 
-#### Question 13: **Which Azure service can Azure Firewall integrate with to provide threat intelligence and advanced security analytics?**
+#### Question 13: Which Azure service can Azure Firewall integrate with to provide threat intelligence and advanced security analytics?
 
 - Azure Monitor
 - Azure Active Directory
 - Azure Security Center
 - Azure Sentinel (Correct)
 
-#### Question 14: **You own a streaming-service website and notice extremely high spikes in traffic whenever a new movie is launched on your platform. However, during the rest of the month you experience moderate traffic.** **Which of the following benefits does having your website hosted on Azure provide you given this scenario?**
+#### Question 14: You own a streaming-service website and notice extremely high spikes in traffic whenever a new movie is launched on your platform. However, during the rest of the month you experience moderate traffic. Which of the following benefits does having your website hosted on Azure provide you given this scenario?
 
 - Elasticity (Correct)
 - High Latency
@@ -125,17 +125,17 @@ Azure Data Lake Storage Gen2 is a set of capabilities dedicated to big data anal
 - Fault Tolerance
 
  
-**Elasticity** in this case is the ability to provide additional compute resource when needed and reduce the compute resource when not needed to reduce costs. 
+Elasticity in this case is the ability to provide additional compute resource when needed and reduce the compute resource when not needed to reduce costs. 
 Autoscaling is an example of elasticity. Here you don't need to provision lot of resources in advance. You will incur costs by allocating more resources only when demand increases!
 
-#### Question 15: **If your workload can tolerate interruptions and its execution time is flexible, which of the following pricing plans would be BEST suited to save costs?**
+#### Question 15: If your workload can tolerate interruptions and its execution time is flexible, which of the following pricing plans would be BEST suited to save costs?
 
 - Spot Pricing (Correct)
 - Reserved Instances
 - Pay-as-you-go
 - Dedicated Hosts
 
-#### Question 16: **What is the primary purpose of Azure Arc?**
+#### Question 16: What is the primary purpose of Azure Arc?
 
 - To enable AI-powered analytics for Azure resources.
 - To manage and monitor on-premises and multi-cloud environments from a single Azure portal. (Correct)
@@ -144,7 +144,7 @@ Autoscaling is an example of elasticity. Here you don't need to provision lot of
 
 Azure Arc allows organizations to manage and monitor not only Azure resources but also on-premises and multi-cloud environments using the Azure portal. It extends Azure management capabilities to a broader range of resources and locations.
 
-#### Question 17: **__________________ provide organizations with the ability to manage the compliance of Azure resources across multiple subscriptions.**
+#### Question 17: __________________ provide organizations with the ability to manage the compliance of Azure resources across multiple subscriptions.
 
 - Azure Management Groups (Incorrect)
 - Azure Resource Groups
@@ -152,7 +152,7 @@ Azure Arc allows organizations to manage and monitor not only Azure resources bu
 - Azure Policy (Correct)
 - Azure Conditional Access and MFA
 
-#### Question 18: **Which tool should you use to perform a lift-and-shift migration of your on-premises virtual machines to Azure?**
+#### Question 18: Which tool should you use to perform a lift-and-shift migration of your on-premises virtual machines to Azure?
 
 - Azure Migrate 
 - Server Migration (Correct)
@@ -160,595 +160,190 @@ Azure Arc allows organizations to manage and monitor not only Azure resources bu
 - Azure Site Recovery
 - Azure Data Factory
 
-The correct answer is **Azure Migrate - Server Migration.**
+The correct answer is Azure Migrate - Server Migration.  Azure Migrate - Server Migration is the right tool for performing a lift-and-shift migration of your on-premises virtual machines to Azure. It supports various virtualization platforms like VMware, Hyper-V, and physical servers. The tool simplifies the migration process, automates tasks, and ensures minimal downtime during migration.
 
-**Azure Migrate - Server Migration** is the right tool for performing a lift-and-shift migration of your on-premises virtual machines to Azure. It supports various virtualization platforms like VMware, Hyper-V, and physical servers. The tool simplifies the migration process, automates tasks, and ensures minimal downtime during migration.
-
- 
-
-**Other Options -**
-
- 
-
-- **Azure Site Recovery** is primarily designed for disaster recovery, enabling you to replicate, failover, and recover workloads from on-premises to Azure or another on-premises location. While it can be used for migration purposes, Azure Migrate: Server Migration is specifically tailored for lift-and-shift migrations.
-
-- **Azure Database Migration Service** is designed for migrating on-premises databases to Azure cloud services, such as Azure SQL Database, Azure SQL Managed Instance, or Azure Cosmos DB. It is not intended for migrating on-premises virtual machines.
-
-- **Azure Data Factory** is a cloud-based data integration service that helps to move and transform data from various sources to Azure data stores. It is not designed for migrating on-premises virtual machines to Azure.
-
-**Reference:** [https://docs.microsoft.com/en-us/azure/migrate/tutorial-migrate-vmware](https://docs.microsoft.com/en-us/azure/migrate/tutorial-migrate-vmware)
-
-#### Question 19: Incorrect
-
-**Which of the following best describes the relationship between Azure AD and RBAC?**
+#### Question 19: Which of the following best describes the relationship between Azure AD and RBAC?
 
 - Azure AD and RBAC are two separate identity and access management solutions.
-
-- Azure AD is a prerequisite for RBAC, and RBAC relies on Azure AD for user authentication.
-
-(Incorrect)
-
+- Azure AD is a prerequisite for RBAC, and RBAC relies on Azure AD for user authentication. (Incorrect)
 - Azure AD and RBAC are both built into the Azure portal and are used interchangeably.
-
-- Azure AD and RBAC provide complementary functionality for managing access to Azure resources.
-
-(Correct)
+- Azure AD and RBAC provide complementary functionality for managing access to Azure resources. (Correct)
 
 The correct option is : Azure AD and RBAC provide complementary functionality for managing access to Azure resources.
 
- 
-
-**Azure AD** and RBAC are both related to identity and access management (IAM) in Azure, but they serve different purposes. Azure AD provides identity management services, including user authentication and authorization for cloud-based applications and services, while RBAC is used to manage access to specific Azure resources.
-
-**RBAC** provides a way to assign permissions to specific roles rather than individual users, which makes it easier to manage access control in large environments. Azure AD provides a central location for managing user identities and their access to various applications and resources, including Azure resources.
-
-Therefore, Azure AD and RBAC are complementary solutions that work together to provide a comprehensive IAM solution for Azure users.
-
- 
-
-Other options -
-
- 
-
-- **Azure AD and RBAC are two separate identity and access management solutions :** This option is incorrect because Azure AD and RBAC are not two separate solutions. Rather, they are two separate components of the larger Azure IAM solution. Azure AD provides identity management services, while RBAC provides a way to manage access control for specific Azure resources.
-
- 
-
-- **Azure AD is a prerequisite for RBAC, and RBAC relies on Azure AD for user authentication :** This option is incorrect because RBAC does not rely on Azure AD for user authentication. Instead, RBAC is used to manage access to specific Azure resources, and it is possible to use RBAC without using Azure AD. While Azure AD can be used to manage RBAC roles, it is not a prerequisite for using RBAC.
-
- 
-
-- **Azure AD and RBAC are both built into the Azure portal and are used interchangeably :** This option is incorrect because Azure AD and RBAC are not interchangeable solutions. Rather, they serve different purposes and provide different functionality. Azure AD is used to manage user identities and their access to various applications and resources, while RBAC is used to manage access control for specific Azure resources.
-
- 
-
-**Reference:** [https://docs.microsoft.com/en-us/azure/role-based-access-control/overview#understanding-azure-rbac-vs-azure-ad-roles](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview#understanding-azure-rbac-vs-azure-ad-roles)
-
-#### Question 20: Correct
-
-**A startup is looking to deploy a tool that monitors incoming and outgoing network traffic and decides whether to allow or block specific traffic based on a defined set of security rules. Which of the following would you recommend?**
+#### Question 20: A startup is looking to deploy a tool that monitors incoming and outgoing network traffic and decides whether to allow or block specific traffic based on a defined set of security rules. Which of the following would you recommend?
 
 - A Resource Group
-
 - A Hub
-
 - A Router
-
-- A Firewall
-
-(Correct)
-
+- A Firewall (Correct)
 - A Gateway
-
 - A Filter
 
- 
+A firewall is a network security device that monitors incoming and outgoing network traffic and decides whether to allow or block specific traffic based on a defined set of security rules. You can create firewall rules that specify ranges of IP addresses. Only clients granted IP addresses from within those ranges are allowed to access the destination server. Firewall rules can also include specific network protocol and port information. What's Azure Firewall? [Azure Firewall](https://azure.microsoft.com/services/azure-firewall) is a managed, cloud-based network security service that helps protect resources in your Azure virtual networks. A virtual network is similar to a traditional network that you'd operate in your own datacenter. It's a fundamental building block for your private network that enables virtual machines and other compute resources to securely communicate with each other, the internet, and on-premises networks.
 
-A **firewall** is a network security device that monitors incoming and outgoing network traffic and decides whether to allow or block specific traffic based on a defined set of security rules. You can create firewall rules that specify ranges of IP addresses. Only clients granted IP addresses from within those ranges are allowed to access the destination server. Firewall rules can also include specific network protocol and port information.
+#### Question 21: An Insurance company is planning to migrate sensitive client records to Azure. They are concerned about the security of their data during the transfer process. They have decided to use Azure Data Box for this migration. Which of the following security features can they rely on to ensure their data remains secure during the transfer process?
 
- 
-
-**What's Azure Firewall?**
-
-[Azure Firewall](https://azure.microsoft.com/services/azure-firewall) is a managed, cloud-based network security service that helps protect resources in your Azure virtual networks. A virtual network is similar to a traditional network that you'd operate in your own datacenter. It's a fundamental building block for your private network that enables virtual machines and other compute resources to securely communicate with each other, the internet, and on-premises networks.
-
-Here's a diagram that shows a basic Azure Firewall implementation:
-
- 
-
-[![](https://docs.microsoft.com/en-ca/learn/azure-fundamentals/secure-network-connectivity-azure/media/3-firewall-overview.png)](https://docs.microsoft.com/en-ca/learn/azure-fundamentals/secure-network-connectivity-azure/media/3-firewall-overview-large.png#lightbox)
-
- 
-
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/secure-network-connectivity-azure/3-protect-network-azure-firewall](https://docs.microsoft.com/en-ca/learn/modules/secure-network-connectivity-azure/3-protect-network-azure-firewall)
-
-#### Question 21: Incorrect
-
-**An Insurance company is planning to migrate sensitive client records to Azure. They are concerned about the security of their data during the transfer process. They have decided to use Azure Data Box for this migration. Which of the following security features can they rely on to ensure their data remains secure during the transfer process?**
-
-- Data-at-rest encryption
-
-(Correct)
-
-- Multi-factor authentication
-
-(Incorrect)
-
-- Tamper-resistant storage
-
-(Correct)
-
+- Data-at-rest encryption (Correct)
+- Multi-factor authentication (Incorrect)
+- Tamper-resistant storage (Correct)
 - Firewall protection
 
-Azure Data Box offers several security features to protect data during the transfer process, including **data-at-rest encryption** and tamper-resistant storage. Data-at-rest encryption ensures that data is encrypted while it is being stored on the Data Box device. **Tamper-resistant storage** is designed to help protect against unauthorized access or tampering during the transit.
+Azure Data Box offers several security features to protect data during the transfer process, including data-at-rest encryption and tamper-resistant storage. Data-at-rest encryption ensures that data is encrypted while it is being stored on the Data Box device. Tamper-resistant storage is designed to help protect against unauthorized access or tampering during the transit.
 
- 
-
-**Other Options:**
-
- 
-
-- **Firewall protection** is not a security feature of Azure Data Box devices during the transfer process. Firewalls are typically used to protect networks from external threats.
-
-- **Multi-factor authentication** is not a security feature of Azure Data Box devices during the transfer process. Multi-factor authentication is typically used to authenticate users to access systems and applications.
-
- 
-
-**Reference:** [https://learn.microsoft.com/en-us/azure/databox/data-box-overview#benefits](https://learn.microsoft.com/en-us/azure/databox/data-box-overview#benefits)
-
-#### Question 22: Incorrect
-
-**Which of the following Azure AD features allows users to use their existing corporate credentials to sign in to cloud-based applications?**
+#### Question 22: Which of the following Azure AD features allows users to use their existing corporate credentials to sign in to cloud-based applications?
 
 - Azure AD Connect
-
-- Azure AD B2C
-
-(Correct)
-
+- Azure AD B2C (Correct)
 - Azure AD Domain Services
+- Azure AD B2B (Incorrect)
 
-- Azure AD B2B
+The correct option is - Azure AD B2C. It allows users to use their existing corporate credentials, social accounts, or local accounts to sign in to cloud-based applications.
+Azure AD B2B, enables collaboration between users in different organizations by allowing external users to access resources in a partner organization's Azure AD.
 
-(Incorrect)
+#### Question 23: Your __________________ is your organization's ability to protect from and respond to security threats.
 
-The correct option is - **Azure AD B2C.** It allows users to use their existing corporate credentials, social accounts, or local accounts to sign in to cloud-based applications.
-
- 
-
-Other options -
-
- 
-
-- Azure AD Connect, is used to synchronize identities between on-premises Active Directory and Azure AD.
-
-- Azure AD B2B, enables collaboration between users in different organizations by allowing external users to access resources in a partner organization's Azure AD.
-
-- Azure AD Domain Services, provides managed domain services such as domain join, group policy, LDAP, and Kerberos/NTLM authentication without the need for domain controllers.
-
-**Reference:** [https://docs.microsoft.com/en-us/azure/active-directory/saas-apps/overview](https://docs.microsoft.com/en-us/azure/active-directory/saas-apps/overview)
-
-#### Question 23: Correct
-
-**Your __________________ is your organization's ability to protect from and respond to security threats.**
-
-- security posture
-
-(Correct)
-
+- security posture (Correct)
 - security standard
-
 - security response
-
 - security blueprint
 
- 
+Your _security posture_ is your organization's ability to protect from and respond to security threats. The common principles used to define a security posture are confidentiality, integrity, and availability, known collectively as CIA.
 
-The objective of **defense in depth** is to protect information and prevent it from being stolen by those who aren't authorized to access it.
-
-**A defense-in-depth** strategy uses a series of mechanisms to slow the advance of an attack that aims at acquiring unauthorized access to data.
-
- 
-
-Your _security posture_ is your organization's ability to protect from and respond to security threats. The common principles used to define a security posture are _c_onfidentiality, integrity, and availability, known collectively as CIA.
-
- 
-
-- **Confidentiality**
-
-The _principle of least privilege_ means restricting access to information only to individuals explicitly granted access, at only the level that they need to perform their work. This information includes protection of user passwords, email content, and access levels to applications and underlying infrastructure.
-
-- **Integrity**
-
-Prevent unauthorized changes to information:
-
-- At rest: when it's stored. - In transit: when it's being transferred from one place to another, including from a local computer to the cloud. 
-
-A common approach used in data transmission is for the sender to create a unique fingerprint of the data by using a one-way hashing algorithm. The hash is sent to the receiver along with the data. The receiver recalculates the data's hash and compares it to the original to ensure that the data wasn't lost or modified in transit.
-
-- **Availability**
-
-Ensure that services are functioning and can be accessed only by authorized users. Denial-of-service _attacks_ are designed to degrade the availability of a system, affecting its users.
-
- 
-
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/secure-network-connectivity-azure/2-what-is-defense-in-depth](https://docs.microsoft.com/en-ca/learn/modules/secure-network-connectivity-azure/2-what-is-defense-in-depth)
-
-#### Question 24: Correct
-
-**What is the primary goal of Infrastructure as Code (IaC) in cloud computing?**
-
-- To automate the creation of virtual machines.
-
-- To manage and provision infrastructure using code.
-
-(Correct)
-
-- To manage cloud billing and cost optimization.
-
-- To eliminate the need for network security measures.
-
-**Infrastructure as Code (IaC)** is a key DevOps practice that involves the management of infrastructure, such as networks, compute services, databases, storages, and connection topology, in a descriptive model. IaC allows teams to develop and release changes faster and with greater confidence. Infrastructure as Code (IaC) allows you to define and manage infrastructure resources such as virtual machines, networks, and storage using code. This approach enhances consistency, repeatability, and scalability in deploying and managing resources.
-
- 
-
-Reference: [https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/infrastructure-as-code](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/infrastructure-as-code)
-
-#### Question 25: Correct
-
-**Which Azure service allows you to provide a self-service sign-up experience for customers accessing your application?**
+#### Question 25: Which Azure service allows you to provide a self-service sign-up experience for customers accessing your application?
 
 - Azure Active Directory Domain Services
-
 - Azure Multi-Factor Authentication
-
 - Azure B2B Collaboration
-
-- Azure Active Directory B2C
-
-(Correct)
+- Azure Active Directory B2C (Correct)
 
 Azure Active Directory B2C (Business-to-Customer) is designed to handle customer identities and provides a self-service sign-up experience. It enables organizations to customize and control how customers sign up, sign in, and manage their profiles when accessing applications.
 
- 
-
-**Reference:** [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
-
-#### Question 26: Correct
-
-**What is the primary benefit of using private endpoints for connecting to Azure services?**
+#### Question 26: What is the primary benefit of using private endpoints for connecting to Azure services?
 
 - Faster network performance compared to public endpoints.
-
-- Improved security by bypassing the public internet.
-
-(Correct)
-
+- Improved security by bypassing the public internet. (Correct)
 - Reduced cost for outbound data transfer.
-
 - Compatibility with legacy protocols.
 
 One of the primary benefits of using private endpoints is improved security. By utilizing private endpoints, you can establish a direct connection to Azure services from within your virtual network, bypassing the public internet. This helps in reducing the exposure of your resources to potential security risks associated with public internet traffic.
 
- 
-
-**Reference:** [https://learn.microsoft.com/en-us/azure/private-link/private-link-overview](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview)
-
-#### Question 27: Correct
-
-**Which of the following are like a physical disk in an on-premises server but, virtualized?**
+#### Question 27: Which of the following are like a physical disk in an on-premises server but, virtualized?
 
 - Azure SQL Databases
-
 - Azure Virtual Machines
-
 - Azure Tapes
-
 - Azure Blobs
+- Azure Managed Disks (Correct)
 
-- Azure Managed Disks
+ Azure managed disks are block-level storage volumes that are managed by Azure and used with Azure Virtual Machines. Managed disks are like a physical disk in an on-premises server but, virtualized. With managed disks, all you have to do is specify the disk size, the disk type, and provision the disk. Once you provision the disk, Azure handles the rest.
 
-(Correct)
-
- 
-
-Azure managed disks are block-level storage volumes that are managed by Azure and used with Azure Virtual Machines. Managed disks are like a physical disk in an on-premises server but, virtualized. With managed disks, all you have to do is specify the disk size, the disk type, and provision the disk. Once you provision the disk, Azure handles the rest.
-
-The available types of disks are ultra disks, premium solid-state drives (SSD), standard SSDs, and standard hard disk drives (HDD). For information about each individual disk type, see [Select a disk type for IaaS VMs](https://docs.microsoft.com/en-us/azure/virtual-machines/disks-types).
-
- 
-
-**Reference:** [https://docs.microsoft.com/en-us/azure/virtual-machines/managed-disks-overview](https://docs.microsoft.com/en-us/azure/virtual-machines/managed-disks-overview)
-
-#### Question 28: Correct
-
-**A large organization plans to migrate all their On-Prem Virtual Machines to an Azure pay-as-you-go subscription. Which of the following expenditure models would this migration follow?**
+#### Question 28: A large organization plans to migrate all their On-Prem Virtual Machines to an Azure pay-as-you-go subscription. Which of the following expenditure models would this migration follow?
 
 - Capital
-
-- Elastic
-
-- Operational
-
-(Correct)
-
+- Elastic 
+- Operational (Correct)
 - Scalable
 
-One of the major changes that you will face when you move from on-premises cloud to the public cloud is the switch from capital expenditure (buying hardware) to operating expenditure (paying for service as you use it).
-
- 
-
-This switch also requires more careful management of your costs. The benefit of the cloud is that you can fundamentally and positively affect the cost of a service you use by merely shutting down or resizing it when it's not needed.
-
- 
-
-**References:** [https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/)
-
-#### Question 29: Correct
-
-If you want to keep tabs on Azure itself, especially the services and regions you depend on, you should to choose __________________.
+#### Question 29: If you want to keep tabs on Azure itself, especially the services and regions you depend on, you should to choose __________________.
 
 - Azure Advisor
-
-- Azure Service Health
-
-(Correct)
-
+- Azure Service Health (Correct)
 - Azure Arc
-
 - Azure Monitor
 
  
+If you want to keep tabs on Azure itself, especially the services and regions you depend on, you want to choose Azure Service Health. You can view the current status of the Azure services you rely on, upcoming planned outages, and services that will be sunset. You can set up alerts that help you stay on top of incidents and upcoming downtime without having to visit the dashboard regularly.
 
-If you want to keep tabs on Azure itself, especially the services and regions you depend on, you want to choose **Azure Service Health**. You can view the current status of the Azure services you rely on, upcoming planned outages, and services that will be sunset. You can set up alerts that help you stay on top of incidents and upcoming downtime without having to visit the dashboard regularly.
-
-However, if you want to keep track of the performance or issues related to your specific VM or container instances, databases, your applications, and so on, you want to visit **Azure Monitor** and create reports and notifications to help you understand how your services are performing or diagnose issues related to your Azure usage.
-
- 
-
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/monitoring-fundamentals/3-analyze-decision-criteria](https://docs.microsoft.com/en-ca/learn/modules/monitoring-fundamentals/3-analyze-decision-criteria)
-
-#### Question 30: Correct
-
-**The Azure Data Box family provides a range of physical devices and a virtual device to help customers with their offline and online data transfer needs, respectively called Data Box, Data Box Disk, Data Box Heavy, and Data Box ________.**
+#### Question 30: The Azure Data Box family provides a range of physical devices and a virtual device to help customers with their offline and online data transfer needs, respectively called Data Box, Data Box Disk, Data Box Heavy, and Data Box ________.
 
 - Corner
-
 - Ultra
-
 - Node
+- Edge (Correct)
 
-- Edge
+The correct answer is "Edge". The full list of Azure Data Box devices is: Data Box, Data Box Disk, Data Box Heavy, Data Box Edge. 
 
-(Correct)
-
-The correct answer is "Edge". The full list of Azure Data Box devices is: Data Box, Data Box Disk, Data Box Heavy, Data Box Edge.
-
- 
-
-**Reference:** [https://azure.microsoft.com/en-ca/blog/expanding-the-azure-data-box-family/](https://azure.microsoft.com/en-ca/blog/expanding-the-azure-data-box-family/)
-
-#### Question 31: Incorrect
-
-**Which of the following can be leveraged for transferring data to the cloud such as cloud archival, disaster recovery, or if there is a need to process your data at cloud scale?**
+#### Question 31: Which of the following can be leveraged for transferring data to the cloud such as cloud archival, disaster recovery, or if there is a need to process your data at cloud scale?
 
 - Azure File Sync
-
-- Azure Data Lake Storage Gen2
-
-(Incorrect)
-
+- Azure Data Lake Storage Gen2 (Incorrect)
 - Azure CosmosDB
-
 - Azure Sentinel
-
-- Azure Data Box Gateway
-
-(Correct)
-
+- Azure Data Box Gateway (Correct)
 - Azure Arc
 
  
+Azure Data Box Gateway is a storage solution that enables you to seamlessly send data to Azure. This article provides you an overview of the Azure Data Box Gateway solution, benefits, key capabilities, and the scenarios where you can deploy this device. Data Box Gateway is a virtual device based on a virtual machine provisioned in your virtualized environment or hypervisor. The virtual device resides in your premises and you write data to it using the NFS and SMB protocols. The device then transfers your data to Azure block blob, page blob, or Azure Files.
 
-**Azure Data Box Gateway** is a storage solution that enables you to seamlessly send data to Azure. This article provides you an overview of the Azure Data Box Gateway solution, benefits, key capabilities, and the scenarios where you can deploy this device.
+Use cases:  Data Box Gateway can be leveraged for transferring data to the cloud such as cloud archival, disaster recovery, or if there is a need to process your data at cloud scale. Here are the various scenarios where Data Box Gateway can be used for data transfer.
 
-Data Box Gateway is a virtual device based on a virtual machine provisioned in your virtualized environment or hypervisor. The virtual device resides in your premises and you write data to it using the NFS and SMB protocols. The device then transfers your data to Azure block blob, page blob, or Azure Files.
+- Cloud archival - Copy hundreds of TBs of data to Azure storage using Data Box Gateway in a secure and efficient manner. The data can be ingested one time or an ongoing basis for archival scenarios.
 
- 
+- Continuous data ingestion - Continuously ingest data into the device to copy to the cloud, regardless of the data size. As the data is written to the gateway device, the device uploads the data to Azure Storage.
 
-**Use cases:**
+- Initial bulk transfer followed by incremental transfer - Use Data Box for the bulk transfer in an offline mode (initial seed) and Data Box Gateway for incremental transfers (ongoing feed) over the network.
 
- 
-
-**Data Box Gateway can be leveraged for transferring data to the cloud such as cloud archival, disaster recovery, or if there is a need to process your data at cloud scale.** Here are the various scenarios where Data Box Gateway can be used for data transfer.
-
- 
-
-- **Cloud archival** - Copy hundreds of TBs of data to Azure storage using Data Box Gateway in a secure and efficient manner. The data can be ingested one time or an ongoing basis for archival scenarios.
-
-- **Continuous data ingestion** - Continuously ingest data into the device to copy to the cloud, regardless of the data size. As the data is written to the gateway device, the device uploads the data to Azure Storage.
-
-- **Initial bulk transfer followed by incremental transfer** - Use Data Box for the bulk transfer in an offline mode (initial seed) and Data Box Gateway for incremental transfers (ongoing feed) over the network.
-
- 
-
-**Reference:** [https://docs.microsoft.com/en-us/azure/databox-gateway/data-box-gateway-overview](https://docs.microsoft.com/en-us/azure/databox-gateway/data-box-gateway-overview)
-
-#### Question 32: Correct
-
-**How does Microsoft Purview contribute to data collaboration within an organization?**
+#### Question 32: How does Microsoft Purview contribute to data collaboration within an organization?
 
 - It offers a cloud-based file sharing and storage solution.
-
-- It provides tools to discover and share trusted data sources across teams.
-
-(Correct)
-
+- It provides tools to discover and share trusted data sources across teams. (Correct)
 - It facilitates secure communication between on-premises servers and Azure services.
-
 - It enables real-time communication between virtual machines.
 
-**Microsoft Purview** provides a unified data governance solution to help manage and govern your on-premises, multicloud, and software as a service (SaaS) data. Microsoft Purview enables data collaboration by providing tools for discovering and sharing trusted data sources across different teams and departments. It helps improve data accessibility and collaboration while maintaining governance and security.
+Microsoft Purview provides a unified data governance solution to help manage and govern your on-premises, multicloud, and software as a service (SaaS) data. Microsoft Purview enables data collaboration by providing tools for discovering and sharing trusted data sources across different teams and departments. It helps improve data accessibility and collaboration while maintaining governance and security.
 
- 
-
-**Reference:** [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
-
-#### Question 33: Correct
-
-**You can link virtual networks together by using virtual network __________________._**
+#### Question 33: You can link virtual networks together by using virtual network __________________._
 
 - cloning
-
 - connectivity
-
 - seeding
+- peering (Correct)
 
-- peering
+#### Question 34: Upon creating a new Virtual Machine in Azure, will you be billed separately for its local disk storage?
 
-(Correct)
-
- 
-
-You can link virtual networks together by using virtual network _peering_. Peering enables resources in each virtual network to communicate with each other. These virtual networks can be in separate regions, which allows you to create a global interconnected network through Azure.
-
-User-defined routes (UDR) are a significant update to Azure’s Virtual Networks that allows for greater control over network traffic flow. This method allows network administrators to control the routing tables between subnets within a VNet, as well as between VNets.
-
- 
-
-![](https://docs.microsoft.com/en-ca/learn/azure-fundamentals/azure-networking-fundamentals/media/local-or-remote-gateway-in-peered-virual-network-21106a38.png)
-
- 
-
- 
-
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/azure-virtual-network-fundamentals](https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/azure-virtual-network-fundamentals)
-
-#### Question 34: Correct
-
-**Upon creating a new Virtual Machine in Azure, will you be billed separately for its local disk storage?**
-
-- No
-
-(Correct)
-
+- No 
 - Yes
-
  
-
 All new virtual machines have an operating system disk and a local disk (or “resource disk”). Azure doesn't charge for local disk storage. The operating system disk is charged at the standard rate for disks. [See all virtual machine configurations](https://docs.microsoft.com/en-gb/azure/cloud-services/cloud-services-sizes-specs).
 
 #### Question 35: Correct
 
-**How does Azure Arc enable governance across hybrid environments?**
+How does Azure Arc enable governance across hybrid environments?
 
-- By enforcing limitations on network connectivity both on-premises and in a multi-cloud environment.
-
-- By extending Azure Policy and Blueprints to on-premises and multi-cloud environments.
-
-(Correct)
-
+- By enforcing limitations on network connectivity both on-premises and in a multi-cloud environment. 
+- By extending Azure Policy and Blueprints to on-premises and multi-cloud environments.(Correct)
 - By providing exclusive access to on-premises resources and extra security through NSGs.
-
 - By restricting all management operations to Azure regions only.
 
-**Azure Arc** extends Azure Policy and Blueprints to on-premises and multi-cloud environments, allowing you to enforce governance policies consistently across the entire hybrid environment.
-
- 
-
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-arc/overview](https://learn.microsoft.com/en-us/azure/azure-arc/overview)
-
-#### Question 36: Correct
-
-**Your organization has decided to migrate a large amount of on-premises data to Azure Blob Storage. Due to bandwidth limitations and a strict migration timeline, you are considering using Azure Data Box to expedite the process. Which of the following factors should you take into account when choosing the appropriate Data Box device for your migration?**
+#### Question 36: Your organization has decided to migrate a large amount of on-premises data to Azure Blob Storage. Due to bandwidth limitations and a strict migration timeline, you are considering using Azure Data Box to expedite the process. Which of the following factors should you take into account when choosing the appropriate Data Box device for your migration?
 
 - The type of data you are transferring
-
 - Your available network bandwidth
-
 - Your organization's budget for the migration
+- The total amount of data you need to transfer(Correct)
 
-- The total amount of data you need to transfer
+The correct answer is : The total amount of data you need to transfer.
 
-(Correct)
+#### Question 37: Yes or No: A company can extend a private cloud by adding its own physical servers to the public cloud.
 
-The correct answer is : **The total amount of data you need to transfer.**
-
-When choosing the appropriate Data Box device for a migration, it is important to consider the total amount of data that needs to be transferred, as different devices have different capacity limits.
-
- 
-
-- **The available network bandwidth** is also an important factor, as it affects the speed of the transfer.
-
-- **The type of data being transferred** may affect the choice of device, as some types of data may require specialized hardware or encryption capabilities.
-
-- **The organization's budget for the migration** is not necessarily a factor in choosing the appropriate Data Box device, as the cost of the devices is fixed and does not vary based on the amount of data being transferred.
-
- 
-
-**Reference:** [https://learn.microsoft.com/en-us/azure/databox/data-box-overview](https://learn.microsoft.com/en-us/azure/databox/data-box-overview)
-
-#### Question 37: Correct
-
-Yes or No:
-
- 
-
-**A company can extend a private cloud by adding its own physical servers to the public cloud.**
-
-- No
-
-(Correct)
-
+- No (Correct)
 - Yes
 
-You **cannot** add physical servers to the public cloud. You can only deploy virtual servers in the public cloud. You can extend a private cloud by deploying virtual servers in a public cloud. This would create a **hybrid** cloud.
+You cannot add physical servers to the public cloud. You can only deploy virtual servers in the public cloud. You can extend a private cloud by deploying virtual servers in a public cloud. This would create a hybrid cloud.
 
- 
-
-**Reference:** [https://azure.microsoft.com/en-gb/overview/what-are-private-public-hybrid-clouds/](https://azure.microsoft.com/en-gb/overview/what-are-private-public-hybrid-clouds/)
-
-#### Question 38: Incorrect
-
-**Which cloud benefit allows you to rapidly deploy applications or systems across multiple regions or locations?**
+#### Question 38: Which cloud benefit allows you to rapidly deploy applications or systems across multiple regions or locations?
 
 - Elasticity
-
-- Geographic distribution
-
-(Correct)
-
+- Geographic distribution (Correct)
 - Scalability
-
-(Incorrect)
-
 - Fault tolerance
 
-One of the major benefits of cloud computing is the ability to quickly and easily deploy applications or systems across **multiple regions or locations.** This is often referred to as **geographic distribution**, and it allows organizations to better serve customers in different regions by providing faster response times and reduced latency.
+One of the major benefits of cloud computing is the ability to quickly and easily deploy applications or systems across multiple regions or locations. This is often referred to as geographic distribution, and it allows organizations to better serve customers in different regions by providing faster response times and reduced latency.
 
-For example, imagine a company that has customers in both North America and Europe. By using a cloud provider's infrastructure, the company can deploy its application in data centers located in both regions, allowing customers to access the application with minimal latency. Additionally, if one data center experiences an outage or other issue, the application can fail over to another data center, ensuring that customers are still able to access the application without interruption. This is an example of the fault tolerance aspect of cloud computing.
+#### Question 39: Yes or No:
 
- 
-
-- Scalability is incorrect because scalability refers to the ability to increase or decrease resources as needed to meet changing demands, but it does not necessarily enable rapid deployment across multiple locations.
-
-- Fault tolerance is incorrect because fault tolerance refers to the ability of a system to continue operating in the event of a hardware or software failure. While fault tolerance is important for ensuring system availability, it does not necessarily enable rapid deployment across multiple locations.
-
-- Elasticity is incorrect because elasticity refers to the ability to automatically adjust resources in response to changing demand. While elasticity is related to scalability, it does not necessarily enable rapid deployment across multiple locations.
-
-Geographic distribution is the correct answer because it refers to the ability to deploy applications or systems across multiple regions or locations, which can help improve performance, reduce latency, and provide redundancy in case of a disaster or outage.
-
- 
-
-**Reference:** [https://azure.microsoft.com/en-us/overview/what-is-cloud-computing/](https://azure.microsoft.com/en-us/overview/what-is-cloud-computing/)
-
-#### Question 39: Correct
-
-**Yes or No:**
-
- 
-
-**When you apply a lock at a parent scope, all resources within that scope inherit the same lock. Even resources you add later inherit the same parent lock. The most unrestrictive lock in the inheritance takes precedence.**
+When you apply a lock at a parent scope, all resources within that scope inherit the same lock. Even resources you add later inherit the same parent lock. The most unrestrictive lock in the inheritance takes precedence.
 
 - No
 
@@ -762,9 +357,9 @@ As an administrator, you can lock an Azure subscription, resource group, or reso
 
  
 
-When you apply a lock at a parent scope, all resources within that scope inherit the same lock. Even resources you add later inherit the same parent lock. The most **restrictive** lock in the inheritance takes precedence.
+When you apply a lock at a parent scope, all resources within that scope inherit the same lock. Even resources you add later inherit the same parent lock. The most restrictive lock in the inheritance takes precedence.
 
-If you have a **Delete** lock on a resource and attempt to delete its resource group, the feature blocks the whole delete operation. Even if the resource group or other resources in the resource group are unlocked, the deletion doesn't happen. You never have a partial deletion.
+If you have a Delete lock on a resource and attempt to delete its resource group, the feature blocks the whole delete operation. Even if the resource group or other resources in the resource group are unlocked, the deletion doesn't happen. You never have a partial deletion.
 
  
 
@@ -780,11 +375,11 @@ When you [cancel an Azure subscription](https://docs.microsoft.com/en-us/azure/
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources?tabs=json](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources?tabs=json)
+Reference: [https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources?tabs=json](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources?tabs=json)
 
 #### Question 40: Incorrect
 
-**True or False: Private endpoints provide secure access to Azure resources over the public internet.**
+True or False: Private endpoints provide secure access to Azure resources over the public internet.
 
 - True
 
@@ -798,11 +393,11 @@ This statement is false. Private endpoints provide secure access to Azure resour
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/private-link/private-link-overview](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview)
+Reference: [https://learn.microsoft.com/en-us/azure/private-link/private-link-overview](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview)
 
 #### Question 41: Correct
 
-**What is the key advantage of using ARM templates for resource deployment?**
+What is the key advantage of using ARM templates for resource deployment?
 
 - They provide direct access to Azure data centers and are hence faster.
 
@@ -818,11 +413,11 @@ ARM templates enable consistent and repeatable deployments by defining the desir
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
 
 #### Question 42: Correct
 
-**You have to run business critical workloads using Azure Virtual Machines, SQL Databases, Data Explorer, and Blob Storage for the next 3 years. Which of the following would provide the MOST cost savings?**
+You have to run business critical workloads using Azure Virtual Machines, SQL Databases, Data Explorer, and Blob Storage for the next 3 years. Which of the following would provide the MOST cost savings?
 
 - By Purchasing Reservations
 
@@ -836,13 +431,13 @@ ARM templates enable consistent and repeatable deployments by defining the desir
 
  
 
-Azure **Reservations** help you save money by committing to one-year or three-year plans for multiple products. Committing allows you to get a discount on the resources you use. Reservations can significantly reduce your resource costs by up to 72% from pay-as-you-go prices. Reservations provide a billing discount and don't affect the runtime state of your resources. After you purchase a reservation, the discount automatically applies to matching resources.
+Azure Reservations help you save money by committing to one-year or three-year plans for multiple products. Committing allows you to get a discount on the resources you use. Reservations can significantly reduce your resource costs by up to 72% from pay-as-you-go prices. Reservations provide a billing discount and don't affect the runtime state of your resources. After you purchase a reservation, the discount automatically applies to matching resources.
 
 You can pay for a reservation up front or monthly. The total cost of up-front and monthly reservations is the same and you don't pay any extra fees when you choose to pay monthly. Monthly payment is available for Azure reservations, not third-party products.
 
  
 
-**Why buy a reservation?**
+Why buy a reservation?
 
  
 
@@ -850,11 +445,11 @@ If you have consistent resource usage that supports reservations, buying a reser
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/save-compute-costs-reservations](https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/save-compute-costs-reservations)
+Reference: [https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/save-compute-costs-reservations](https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/save-compute-costs-reservations)
 
 #### Question 43: Correct
 
-**Which of the following can you use to track resource usage and manage costs across all of your clouds with a single, unified view?**
+Which of the following can you use to track resource usage and manage costs across all of your clouds with a single, unified view?
 
 - Azure Pricing Calculator
 
@@ -876,11 +471,11 @@ The following depicts the single unified view to track resource usage as well as
 
  
 
-**Reference :** [https://azure.microsoft.com/en-gb/services/cost-management/#overview](https://azure.microsoft.com/en-gb/services/cost-management/#overview)
+Reference : [https://azure.microsoft.com/en-gb/services/cost-management/#overview](https://azure.microsoft.com/en-gb/services/cost-management/#overview)
 
 #### Question 44: Correct
 
-**Which of the following does not affect a storage account billing?**
+Which of the following does not affect a storage account billing?
 
 - Redundancy
 
@@ -906,19 +501,19 @@ Azure Storage bills based on your storage account usage. All objects in a storag
 
  
 
-- **Region** refers to the geographical region in which your account is based.
+- Region refers to the geographical region in which your account is based.
 
-- **Account type** refers to the type of storage account you're using.
+- Account type refers to the type of storage account you're using.
 
-- **Access tier** refers to the data usage pattern you’ve specified for your general-purpose v2 or Blob Storage account.
+- Access tier refers to the data usage pattern you’ve specified for your general-purpose v2 or Blob Storage account.
 
-- **Capacity** refers to how much of your storage account allotment you're using to store data.
+- Capacity refers to how much of your storage account allotment you're using to store data.
 
-- **Redundancy** determines how many copies of your data are maintained at one time, and in what locations.
+- Redundancy determines how many copies of your data are maintained at one time, and in what locations.
 
-- **Transactions** refer to all read and write operations to Azure Storage.
+- Transactions refer to all read and write operations to Azure Storage.
 
-- **Data egress** refers to any data transferred out of an Azure region. When the data in your storage account is accessed by an application that isn’t running in the same region, you're charged for data egress. For information about using resource groups to group your data and services in the same region to limit egress charges, see [What is an Azure resource group?](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/govern/resource-consistency/resource-access-management#what-is-an-azure-resource-group).
+- Data egress refers to any data transferred out of an Azure region. When the data in your storage account is accessed by an application that isn’t running in the same region, you're charged for data egress. For information about using resource groups to group your data and services in the same region to limit egress charges, see [What is an Azure resource group?](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/govern/resource-consistency/resource-access-management#what-is-an-azure-resource-group).
 
 The [Azure Storage pricing page](https://azure.microsoft.com/pricing/details/storage) provides detailed pricing information based on account type, storage capacity, replication, and transactions. The [Data Transfers pricing details](https://azure.microsoft.com/pricing/details/data-transfers) provides detailed pricing information for data egress. You can use the [Azure Storage pricing calculator](https://azure.microsoft.com/pricing/calculator/?scenario=data-management) to help estimate your costs.
 
@@ -926,7 +521,7 @@ The [Azure Storage pricing page](https://azure.microsoft.com/pricing/details/st
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview)
 
 #### Question 45: Correct
 
@@ -934,7 +529,7 @@ True or False:
 
  
 
-**The Basic service tier is automatically enabled for free as part of your Azure subscription.**
+The Basic service tier is automatically enabled for free as part of your Azure subscription.
 
 - Yes
 
@@ -946,7 +541,7 @@ This is True, the basic Tier is activated and provided as part of your Azure Sub
 
 #### Question 46: Correct
 
-**Which of the following is the most flexible category of cloud services?**
+Which of the following is the most flexible category of cloud services?
 
 - Platform as a Service (PaaS)
 
@@ -966,11 +561,11 @@ IaaS is the most flexible category of cloud services. It aims to give you comple
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/fundamental-azure-concepts/categories-of-cloud-services](https://docs.microsoft.com/en-ca/learn/modules/fundamental-azure-concepts/categories-of-cloud-services)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/fundamental-azure-concepts/categories-of-cloud-services](https://docs.microsoft.com/en-ca/learn/modules/fundamental-azure-concepts/categories-of-cloud-services)
 
 #### Question 47: Correct
 
-**Your company wants to copy blobs or files to or from a storage account and is looking for a command-line utility to accomplish this. Which of the following is the right choice?**
+Your company wants to copy blobs or files to or from a storage account and is looking for a command-line utility to accomplish this. Which of the following is the right choice?
 
 - Azure FileSync
 
@@ -990,11 +585,11 @@ AzCopy is a command-line utility that you can use to copy blobs or files to or f
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10)
 
 #### Question 48: Correct
 
-**A company wants to deploy a set of Azure Virtual Machines and wants to understand their pricing. Which 2 of the following affect Virtual Machine (VM) costs in Azure?**
+A company wants to deploy a set of Azure Virtual Machines and wants to understand their pricing. Which 2 of the following affect Virtual Machine (VM) costs in Azure?
 
 - The Data Center the VM resides in
 
@@ -1014,7 +609,7 @@ AzCopy is a command-line utility that you can use to copy blobs or files to or f
 
 - The branding of the VM
 
-**From the Azure Pricing Calculator, we can see that:**
+From the Azure Pricing Calculator, we can see that:
 
  
 
@@ -1026,15 +621,15 @@ Region and Instance size affects Virtual Machine costs!
 
  
 
-**Reference:** [https://azure.microsoft.com/en-us/pricing/calculator/](https://azure.microsoft.com/en-us/pricing/calculator/)
+Reference: [https://azure.microsoft.com/en-us/pricing/calculator/](https://azure.microsoft.com/en-us/pricing/calculator/)
 
 #### Question 49: Correct
 
-**A startup has deployed a set of Virtual Machines which are critical for their day-to-day operations. They need to ensure their availability even if a single data center goes down. An intern has suggested that deploying the virtual machines to two or more scale sets will solve the problem.**
+A startup has deployed a set of Virtual Machines which are critical for their day-to-day operations. They need to ensure their availability even if a single data center goes down. An intern has suggested that deploying the virtual machines to two or more scale sets will solve the problem.
 
  
 
-**Is this suggestion correct?**
+Is this suggestion correct?
 
 - No
 
@@ -1056,11 +651,11 @@ Virtual machines in a scale set can be deployed across multiple update domains a
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/availability](https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/availability)
+Reference: [https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/availability](https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/availability)
 
 #### Question 50: Correct
 
-**Your Cloud Security team is looking to block any access from untrusted sources, such as access from unknown or unexpected locations. Which of the following can they use?**
+Your Cloud Security team is looking to block any access from untrusted sources, such as access from unknown or unexpected locations. Which of the following can they use?
 
 - Policies
 
@@ -1076,7 +671,7 @@ Virtual machines in a scale set can be deployed across multiple update domains a
 
  
 
-Conditional Access is a tool that Azure Active Directory uses to allow (or deny) access to resources based on identity **signals**. These signals include who the user is, where the user is, and what device the user is requesting access from.
+Conditional Access is a tool that Azure Active Directory uses to allow (or deny) access to resources based on identity signals. These signals include who the user is, where the user is, and what device the user is requesting access from.
 
  
 
@@ -1102,11 +697,11 @@ A managed device is a device that meets your standards for security and complian
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/secure-access-azure-identity-services/4-what-are-mfa-conditional-access](https://docs.microsoft.com/en-ca/learn/modules/secure-access-azure-identity-services/4-what-are-mfa-conditional-access)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/secure-access-azure-identity-services/4-what-are-mfa-conditional-access](https://docs.microsoft.com/en-ca/learn/modules/secure-access-azure-identity-services/4-what-are-mfa-conditional-access)
 
 #### Question 51: Correct
 
-**Which of the following Azure plans should you choose for Trial and non-production environments?**
+Which of the following Azure plans should you choose for Trial and non-production environments?
 
 - Standard
 
@@ -1118,7 +713,7 @@ A managed device is a device that meets your standards for security and complian
 
 - Premier
 
-**From the official documentation:**
+From the official documentation:
 
  
 
@@ -1126,11 +721,11 @@ A managed device is a device that meets your standards for security and complian
 
  
 
-**Reference:** [https://azure.microsoft.com/en-in/pricing/#product-pricing](https://azure.microsoft.com/en-in/pricing/#product-pricing)
+Reference: [https://azure.microsoft.com/en-in/pricing/#product-pricing](https://azure.microsoft.com/en-in/pricing/#product-pricing)
 
 #### Question 52: Correct
 
-**Data that is stored in the Archive access tier of an Azure Storage account ________________.**
+Data that is stored in the Archive access tier of an Azure Storage account ________________.
 
 - must be recovered before the data can be accessed
 
@@ -1144,7 +739,7 @@ A managed device is a device that meets your standards for security and complian
 
  
 
-Azure storage offers different access tiers: **hot, cool and archive.**
+Azure storage offers different access tiers: hot, cool and archive.
 
  
 
@@ -1152,7 +747,7 @@ The archive access tier has the lowest storage cost. But it has higher data retr
 
  
 
-While a blob is in archive storage, the blob data is offline and can't be read, overwritten, or modified. To read or download a blob in archive, **you must first rehydrate it to an online tier.**
+While a blob is in archive storage, the blob data is offline and can't be read, overwritten, or modified. To read or download a blob in archive, you must first rehydrate it to an online tier.
 
  
 
@@ -1168,11 +763,11 @@ Compliance and archival data that needs to be stored for a long time and is hard
 
  
 
-**References**: [https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers?tabs=azure-portal#archive-access-tier](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers?tabs=azure-portal#archive-access-tier)
+References: [https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers?tabs=azure-portal#archive-access-tier](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers?tabs=azure-portal#archive-access-tier)
 
 #### Question 53: Correct
 
-**When a company thinks of migrating to the public cloud (like Azure), which of the following expense gets reduced?**
+When a company thinks of migrating to the public cloud (like Azure), which of the following expense gets reduced?
 
 - Primary Expense
 
@@ -1188,7 +783,7 @@ Migrating to the public cloud saves a lot of Capex upfront and one of the bigges
 
 #### Question 54: Incorrect
 
-**Which of the following is not a valid way to connect your on-premise data center to Azure?**
+Which of the following is not a valid way to connect your on-premise data center to Azure?
 
 - Site-to-site virtual private networks
 
@@ -1208,29 +803,29 @@ Azure virtual networks enable you to filter traffic between subnets by using the
 
  
 
-- **Network security groups** A network security group is an Azure resource that can contain multiple inbound and outbound security rules. You can define these rules to allow or block traffic, based on factors such as source and destination IP address, port, and protocol.
+- Network security groups A network security group is an Azure resource that can contain multiple inbound and outbound security rules. You can define these rules to allow or block traffic, based on factors such as source and destination IP address, port, and protocol.
 
-- **Network virtual appliances** A network virtual appliance is a specialized VM that can be compared to a hardened network appliance. A network virtual appliance carries out a particular network function, such as running a firewall or performing wide area network (WAN) optimization.
-
- 
-
-Azure virtual networks enable you to **link** resources together in your on-premises environment and within your Azure subscription. In effect, you can create a network that spans both your local and cloud environments. There are three mechanisms for you to achieve this connectivity:
+- Network virtual appliances A network virtual appliance is a specialized VM that can be compared to a hardened network appliance. A network virtual appliance carries out a particular network function, such as running a firewall or performing wide area network (WAN) optimization.
 
  
 
-- **Point-to-site virtual private networks** The typical approach to a virtual private network (VPN) connection is from a computer outside your organization, back into your corporate network. In this case, the client computer initiates an encrypted VPN connection to connect that computer to the Azure virtual network.
-
-- **Site-to-site virtual private networks** A site-to-site VPN links your on-premises VPN device or gateway to the Azure VPN gateway in a virtual network. In effect, the devices in Azure can appear as being on the local network. The connection is encrypted and works over the internet.
-
-- **Azure ExpressRoute** For environments where you need greater bandwidth and even higher levels of security, Azure ExpressRoute is the best approach. ExpressRoute provides a dedicated private connectivity to Azure that doesn't travel over the internet.
+Azure virtual networks enable you to link resources together in your on-premises environment and within your Azure subscription. In effect, you can create a network that spans both your local and cloud environments. There are three mechanisms for you to achieve this connectivity:
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/azure-virtual-network-fundamentals](https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/azure-virtual-network-fundamentals)
+- Point-to-site virtual private networks The typical approach to a virtual private network (VPN) connection is from a computer outside your organization, back into your corporate network. In this case, the client computer initiates an encrypted VPN connection to connect that computer to the Azure virtual network.
+
+- Site-to-site virtual private networks A site-to-site VPN links your on-premises VPN device or gateway to the Azure VPN gateway in a virtual network. In effect, the devices in Azure can appear as being on the local network. The connection is encrypted and works over the internet.
+
+- Azure ExpressRoute For environments where you need greater bandwidth and even higher levels of security, Azure ExpressRoute is the best approach. ExpressRoute provides a dedicated private connectivity to Azure that doesn't travel over the internet.
+
+ 
+
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/azure-virtual-network-fundamentals](https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/azure-virtual-network-fundamentals)
 
 #### Question 55: Correct
 
-**Which cloud benefit ensures that a system or application can continue to operate without disruption in the event of a failure?**
+Which cloud benefit ensures that a system or application can continue to operate without disruption in the event of a failure?
 
 - Elasticity
 
@@ -1246,15 +841,15 @@ The correct answer is Fault tolerance.
 
  
 
-**Fault tolerance** refers to the ability of a system or application to continue operating without disruption in the event of a failure. This is achieved through redundancy and failover mechanisms that ensure that if one component fails, another component takes over seamlessly, without any downtime or interruption of service.
+Fault tolerance refers to the ability of a system or application to continue operating without disruption in the event of a failure. This is achieved through redundancy and failover mechanisms that ensure that if one component fails, another component takes over seamlessly, without any downtime or interruption of service.
 
  
 
-**Scalability** refers to the ability to increase or decrease resources as needed to meet changing demands, while elasticity refers to the ability to dynamically provision and de-provision resources based on demand.
+Scalability refers to the ability to increase or decrease resources as needed to meet changing demands, while elasticity refers to the ability to dynamically provision and de-provision resources based on demand.
 
  
 
-**High availability** refers to the ability of a system or application to remain operational and accessible for a high percentage of time, typically measured as a percentage of uptime over a given period.
+High availability refers to the ability of a system or application to remain operational and accessible for a high percentage of time, typically measured as a percentage of uptime over a given period.
 
  
 
@@ -1262,7 +857,7 @@ Reference: [https://azure.microsoft.com/en-us/overview/what-is-cloud-computing/
 
 #### Question 56: Correct
 
-**You have a workload in Blob Storage that processes large datasets that need to be stored in a cost-effective way, while additional data is being gathered for processing. Which of the following Access Tiers would make the most sense?**
+You have a workload in Blob Storage that processes large datasets that need to be stored in a cost-effective way, while additional data is being gathered for processing. Which of the following Access Tiers would make the most sense?
 
 - Archive
 
@@ -1302,11 +897,11 @@ Usage scenarios for the Cool access tier include:
 
 - Older data sets that aren't used frequently, but are expected to be available for immediate access.
 
-- **Large data sets that need to be stored in a cost-effective way while additional data is being gathered for processing.**
+- Large data sets that need to be stored in a cost-effective way while additional data is being gathered for processing.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview](https://docs.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview](https://docs.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview)
 
 #### Question 57: Correct
 
@@ -1314,7 +909,7 @@ Yes or No:
 
  
 
-**All data that is copied to an Azure storage account is backed up automatically to another Azure data center.**
+All data that is copied to an Azure storage account is backed up automatically to another Azure data center.
 
 - No
 
@@ -1326,17 +921,17 @@ Automatically is the key word in this #### Question that most people miss.
 
  
 
-Data is **not** backed up **automatically** to another Azure Data Center, although it can be backed up depending on the replication option configured for the account. Locally Redundant Storage (**LRS**) is the default which maintains three copies of the data in the data center.
+Data is not backed up automatically to another Azure Data Center, although it can be backed up depending on the replication option configured for the account. Locally Redundant Storage (LRS) is the default which maintains three copies of the data in the data center.
 
-Geo-redundant storage (**GRS**) has cross-regional replication to protect against regional outages. Data is replicated synchronously three times in the primary region, then replicated asynchronously to the secondary region.
+Geo-redundant storage (GRS) has cross-regional replication to protect against regional outages. Data is replicated synchronously three times in the primary region, then replicated asynchronously to the secondary region.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview)
 
 #### Question 58: Correct
 
-**Which of the following can you use to calculate your estimated hourly or monthly costs for using Azure?**
+Which of the following can you use to calculate your estimated hourly or monthly costs for using Azure?
 
 - Azure Pricing Calculator
 
@@ -1356,15 +951,15 @@ Geo-redundant storage (**GRS**) has cross-regional replication to protect agains
 
  
 
-**Disclaimer :** Prices are estimates and are not intended as actual price quotes. Actual prices may vary depending on the date of purchase, currency of payment and type of agreement that you enter into with Microsoft. Contact a Microsoft sales representative for additional information on pricing.
+Disclaimer : Prices are estimates and are not intended as actual price quotes. Actual prices may vary depending on the date of purchase, currency of payment and type of agreement that you enter into with Microsoft. Contact a Microsoft sales representative for additional information on pricing.
 
  
 
-**Reference :** [https://azure.microsoft.com/en-gb/pricing/calculator/](https://azure.microsoft.com/en-gb/pricing/#product-pricing)
+Reference : [https://azure.microsoft.com/en-gb/pricing/calculator/](https://azure.microsoft.com/en-gb/pricing/#product-pricing)
 
 #### Question 59: Correct
 
-**What is the benefit of utilizing Microsoft Purview for regulatory compliance?**
+What is the benefit of utilizing Microsoft Purview for regulatory compliance?
 
 - It automatically generates reports for financial audits.
 
@@ -1380,19 +975,19 @@ Microsoft Purview helps organizations classify and manage data according to regu
 
  
 
-**Reference:** [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
+Reference: [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
 
 #### Question 60: Correct
 
-**Your company plans to migrate all on-premises data to Azure.**
+Your company plans to migrate all on-premises data to Azure.
 
  
 
-**However, before this, the legal department has asked you to fetch all information such as Audit and Compliance Reports to identify whether Azure complies with the company's regional requirements.**
+However, before this, the legal department has asked you to fetch all information such as Audit and Compliance Reports to identify whether Azure complies with the company's regional requirements.
 
  
 
-**Which of the following can help with this?**
+Which of the following can help with this?
 
 - The Knowledge Center
 
@@ -1404,15 +999,15 @@ Microsoft Purview helps organizations classify and manage data according to regu
 
 - The Azure portal
 
-You can use the **Trust Center** to check the Audit and Compliance requirements (compliance manager).
+You can use the Trust Center to check the Audit and Compliance requirements (compliance manager).
 
 ![](https://img-c.udemycdn.com/redactor/raw/test_#### Question_description/2021-04-02_21-22-16-e66a385704cb045b3ac7303d2d2ec46f.png)![](https://img-c.udemycdn.com/redactor/raw/test_#### Question_description/2021-04-02_21-22-16-804efb741cb5f44fc3c7fe50cb2462e7.png)![](https://img-c.udemycdn.com/redactor/raw/test_#### Question_description/2021-04-02_21-22-16-89334a2972258af649786b8c98364def.png)![](https://img-c.udemycdn.com/redactor/raw/test_#### Question_description/2021-04-02_21-22-16-5776ae538ee8518ebd7e26061cf19e08.png)![](https://img-c.udemycdn.com/redactor/raw/test_#### Question_description/2021-04-02_21-22-16-235e4df244eb2314c2f1a1939c8bc1ce.png)
 
-**Reference:** [https://servicetrust.microsoft.com/](https://servicetrust.microsoft.com/)
+Reference: [https://servicetrust.microsoft.com/](https://servicetrust.microsoft.com/)
 
 #### Question 61: Correct
 
-**What does Microsoft Purview offer to assist organizations with data lineage and impact analysis?**
+What does Microsoft Purview offer to assist organizations with data lineage and impact analysis?
 
 - Built-in ETL (Extract, Transform, Load) capabilities for data integration.
 
@@ -1424,15 +1019,15 @@ You can use the **Trust Center** to check the Audit and Compliance requirement
 
 - Real-time data replication between Azure regions.
 
-**Microsoft Purview** provides a unified data governance solution to help manage and govern your on-premises, multicloud, and software as a service (SaaS) data. Microsoft Purview provides tools for visualizing data lineage, allowing organizations to track the flow of data, understand its origins, and analyze its dependencies. This helps in performing impact analysis and ensuring data quality.
+Microsoft Purview provides a unified data governance solution to help manage and govern your on-premises, multicloud, and software as a service (SaaS) data. Microsoft Purview provides tools for visualizing data lineage, allowing organizations to track the flow of data, understand its origins, and analyze its dependencies. This helps in performing impact analysis and ensuring data quality.
 
  
 
-**Reference:** [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
+Reference: [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
 
 #### Question 62: Correct
 
-**What is an ARM template used for?**
+What is an ARM template used for?
 
 - To declare the desired state of Azure resources and their dependencies.
 
@@ -1444,15 +1039,15 @@ You can use the **Trust Center** to check the Audit and Compliance requirement
 
 - To define the schema for Azure Storage.
 
-An **ARM** template is a JSON file that defines the desired state of Azure resources, including their configuration, dependencies, and relationships. It allows you to automate resource provisioning.
+An ARM template is a JSON file that defines the desired state of Azure resources, including their configuration, dependencies, and relationships. It allows you to automate resource provisioning.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
 
 #### Question 63: Correct
 
-**_________________ enables large-scale parallel and high-performance computing (HPC) batch jobs with the ability to scale to tens, hundreds, or thousands of VMs.**
+_________________ enables large-scale parallel and high-performance computing (HPC) batch jobs with the ability to scale to tens, hundreds, or thousands of VMs.
 
 - Azure Batch
 
@@ -1490,11 +1085,11 @@ When you're ready to run a job, Batch does the following:
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-virtual-machines](https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-virtual-machines)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-virtual-machines](https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-virtual-machines)
 
 #### Question 64: Correct
 
-**True or False: Azure Data Box can be used to transfer data from Azure to on-premises data centers or other cloud providers.**
+True or False: Azure Data Box can be used to transfer data from Azure to on-premises data centers or other cloud providers.
 
 - True
 
@@ -1506,11 +1101,11 @@ Yes, Azure Data Box can be used to transfer data from Azure to other cloud provi
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/databox/data-box-overview#use-cases](https://learn.microsoft.com/en-us/azure/databox/data-box-overview#use-cases)
+Reference: [https://learn.microsoft.com/en-us/azure/databox/data-box-overview#use-cases](https://learn.microsoft.com/en-us/azure/databox/data-box-overview#use-cases)
 
 #### Question 65: Correct
 
-**Select the valid options to pay for Azure? ( Choose 3 )**
+Select the valid options to pay for Azure? ( Choose 3 )
 
 - Microsoft Representative
 
@@ -1536,11 +1131,11 @@ Yes, Azure Data Box can be used to transfer data from Azure to other cloud provi
 
  
 
-**Reference :** [https://azure.microsoft.com/en-gb/pricing/#product-pricing](https://azure.microsoft.com/en-gb/pricing/#product-pricing)
+Reference : [https://azure.microsoft.com/en-gb/pricing/#product-pricing](https://azure.microsoft.com/en-gb/pricing/#product-pricing)
 
 #### Question 66: Incorrect
 
-**______________ enables centralizing your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of a Windows file server.**
+______________ enables centralizing your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of a Windows file server.
 
 - Azure Data Box Gateway
 
@@ -1558,7 +1153,7 @@ Yes, Azure Data Box can be used to transfer data from Azure to other cloud provi
 
  
 
-**Azure File Sync** enables centralizing your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of a Windows file server. While some users may opt to keep a full copy of their data locally, Azure File Sync additionally has the ability to transform Windows Server into a quick cache of your Azure file share. You can use any protocol that's available on Windows Server to access your data locally, including SMB, NFS, and FTPS. You can have as many caches as you need across the world.
+Azure File Sync enables centralizing your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of a Windows file server. While some users may opt to keep a full copy of their data locally, Azure File Sync additionally has the ability to transform Windows Server into a quick cache of your Azure file share. You can use any protocol that's available on Windows Server to access your data locally, including SMB, NFS, and FTPS. You can have as many caches as you need across the world.
 
  
 
@@ -1566,19 +1161,19 @@ Azure file shares can be used in two ways: by directly mounting these serverless
 
  
 
-- **Direct mount of an Azure file share**: Since Azure Files provides SMB access, you can mount Azure file shares on-premises or in the cloud using the standard SMB client available in Windows, macOS, and Linux. Because Azure file shares are serverless, deploying for production scenarios does not require managing a file server or NAS device. This means you don't have to apply software patches or swap out physical disks.
+- Direct mount of an Azure file share: Since Azure Files provides SMB access, you can mount Azure file shares on-premises or in the cloud using the standard SMB client available in Windows, macOS, and Linux. Because Azure file shares are serverless, deploying for production scenarios does not require managing a file server or NAS device. This means you don't have to apply software patches or swap out physical disks.
 
-- **Cache Azure file share on-premises with Azure File Sync**: Azure File Sync enables you to centralize your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of an on-premises file server. Azure File Sync transforms an on-premises (or cloud) Windows Server into a quick cache of your Azure file share.
+- Cache Azure file share on-premises with Azure File Sync: Azure File Sync enables you to centralize your organization's file shares in Azure Files, while keeping the flexibility, performance, and compatibility of an on-premises file server. Azure File Sync transforms an on-premises (or cloud) Windows Server into a quick cache of your Azure file share.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/file-sync/file-sync-introduction](https://docs.microsoft.com/en-us/azure/storage/file-sync/file-sync-introduction)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/file-sync/file-sync-introduction](https://docs.microsoft.com/en-us/azure/storage/file-sync/file-sync-introduction)
 
 [https://docs.microsoft.com/en-us/azure/storage/file-sync/file-sync-planning](https://docs.microsoft.com/en-us/azure/storage/file-sync/file-sync-planning)
 
 #### Question 67: Correct
 
-**Which of the following is a private connection from your on-premises infrastructure to your Azure infrastructure wherein the data does not travel through the internet?**
+Which of the following is a private connection from your on-premises infrastructure to your Azure infrastructure wherein the data does not travel through the internet?
 
 - Azure ExpressRoute
 
@@ -1592,15 +1187,15 @@ Azure file shares can be used in two ways: by directly mounting these serverless
 
  
 
-With **ExpressRoute**, your data doesn't travel over the public internet, so it's not exposed to the potential risks associated with internet communications. ExpressRoute is a private connection from your on-premises infrastructure to your Azure infrastructure. However, even if you have an ExpressRoute connection, DNS queries, certificate revocation list checking, and Azure Content Delivery Network requests are still sent over the public internet.
+With ExpressRoute, your data doesn't travel over the public internet, so it's not exposed to the potential risks associated with internet communications. ExpressRoute is a private connection from your on-premises infrastructure to your Azure infrastructure. However, even if you have an ExpressRoute connection, DNS queries, certificate revocation list checking, and Azure Content Delivery Network requests are still sent over the public internet.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/express-route-fundamentals](https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/express-route-fundamentals)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/express-route-fundamentals](https://docs.microsoft.com/en-ca/learn/modules/azure-networking-fundamentals/express-route-fundamentals)
 
 #### Question 68: Incorrect
 
-**__________________ are often used to create solutions by using a microservice architecture. This architecture is where you break solutions into smaller, independent pieces.**
+__________________ are often used to create solutions by using a microservice architecture. This architecture is where you break solutions into smaller, independent pieces.
 
 - Functions
 
@@ -1616,7 +1211,7 @@ With **ExpressRoute**, your data doesn't travel over the public internet, so it
 
  
 
-**Containers** are often used to create solutions by using a _microservice architecture_. This architecture is where you break solutions into smaller, independent pieces. For example, you might split a website into a container hosting your front end, another hosting your back end, and a third for storage. This split allows you to separate portions of your app into logical sections that can be maintained, scaled, or updated independently.
+Containers are often used to create solutions by using a _microservice architecture_. This architecture is where you break solutions into smaller, independent pieces. For example, you might split a website into a container hosting your front end, another hosting your back end, and a third for storage. This split allows you to separate portions of your app into logical sections that can be maintained, scaled, or updated independently.
 
  
 
@@ -1630,11 +1225,11 @@ Imagine your website back-end has reached capacity but the front end and storage
 
 - Replace the storage container without affecting the rest of the application.
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-container-services](https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-container-services)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-container-services](https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-container-services)
 
 #### Question 69: Correct
 
-**You are migrating an application with multiple interconnected servers to Azure. To ensure minimal downtime and a smooth migration, which Azure Migrate features should you utilize?**
+You are migrating an application with multiple interconnected servers to Azure. To ensure minimal downtime and a smooth migration, which Azure Migrate features should you utilize?
 
 - Azure Migrate - Database Assessment and Azure Migrate - Database Migration
 
@@ -1650,29 +1245,29 @@ The correct answer is : Azure Migrate - Server Assessment and Azure Migrate - S
 
  
 
-**Azure Migrate - Server Assessment** helps you to evaluate the migration readiness of your on-premises servers, identify any potential issues, and provide recommendations. **Azure Migrate - Server Migration** is designed to migrate your on-premises virtual machines or physical servers to Azure with minimal downtime. These two features work together to ensure a smooth migration of interconnected servers, as they address both the pre-migration assessment and the actual migration process.
+Azure Migrate - Server Assessment helps you to evaluate the migration readiness of your on-premises servers, identify any potential issues, and provide recommendations. Azure Migrate - Server Migration is designed to migrate your on-premises virtual machines or physical servers to Azure with minimal downtime. These two features work together to ensure a smooth migration of interconnected servers, as they address both the pre-migration assessment and the actual migration process.
 
  
 
-**Other options:**
+Other options:
 
  
 
-- **Azure Migrate - App Service and Azure Migrate Web App Migration**  - These are geared towards migrating web applications to Azure App Service and not for migrating interconnected servers.
+- Azure Migrate - App Service and Azure Migrate Web App Migration  - These are geared towards migrating web applications to Azure App Service and not for migrating interconnected servers.
 
-- **Azure Migrate - Database Assessment and Azure Migrate Database Migration** - These focus on the assessment and migration of on-premises databases to Azure. They are not intended for migrating interconnected servers.
+- Azure Migrate - Database Assessment and Azure Migrate Database Migration - These focus on the assessment and migration of on-premises databases to Azure. They are not intended for migrating interconnected servers.
 
-- **Azure Migrate - Data Box and Azure Migrate Data Factory** - These are used for transferring large amounts of data to Azure and for data integration, respectively. They do not address the migration of interconnected servers.
+- Azure Migrate - Data Box and Azure Migrate Data Factory - These are used for transferring large amounts of data to Azure and for data integration, respectively. They do not address the migration of interconnected servers.
 
 Reference: [https://docs.microsoft.com/en-us/azure/migrate/migrate-overview](https://docs.microsoft.com/en-us/azure/migrate/migrate-overview)
 
 #### Question 70: Correct
 
-**True or False:**
+True or False:
 
  
 
-**There is no programmatic access to the Blob, Queue, Table, and File services in Azure, though you can access VMs using API calls.**
+There is no programmatic access to the Blob, Queue, Table, and File services in Azure, though you can access VMs using API calls.
 
 - True
 
@@ -1688,7 +1283,7 @@ All storage services are accessible via REST APIs. Storage services may be acces
 
  
 
-**Important:**
+Important:
 
  
 
@@ -1696,7 +1291,7 @@ The Azure storage services support both HTTP and HTTPS; however, using HTTPS is 
 
  
 
-**Storage Account**
+Storage Account
 
 All access to storage services takes place through the storage account. The storage account is the highest level of the namespace for accessing each of the fundamental services. It is also the basis for authorization.
 
@@ -1704,11 +1299,11 @@ The REST APIs for storage services expose the storage account as a resource.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/rest/api/storageservices/](https://docs.microsoft.com/en-us/rest/api/storageservices/)
+Reference: [https://docs.microsoft.com/en-us/rest/api/storageservices/](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
 #### Question 71: Correct
 
-**Which of the following scenarios would be best suited for using Azure Active Directory (AAD) rather than Role-Based Access Control (RBAC)?**
+Which of the following scenarios would be best suited for using Azure Active Directory (AAD) rather than Role-Based Access Control (RBAC)?
 
 - Managing user identities for a cloud-based application.
 
@@ -1724,9 +1319,9 @@ The correct answer is : Managing user identities for a cloud-based application.
 
  
 
-**Azure Active Directory (AAD)** is a cloud-based identity and access management service that is used to manage user identities and their access to various cloud-based applications and services, including those hosted in Azure. AAD provides a centralized location for managing user accounts, passwords, and access to applications.
+Azure Active Directory (AAD) is a cloud-based identity and access management service that is used to manage user identities and their access to various cloud-based applications and services, including those hosted in Azure. AAD provides a centralized location for managing user accounts, passwords, and access to applications.
 
-In contrast, **Role-Based Access Control (RBAC)** is used to manage access control for specific Azure resources, including virtual machines, storage accounts, and other Azure services. RBAC provides a way to assign permissions to specific roles rather than individual users, making it easier to manage access control in large environments.
+In contrast, Role-Based Access Control (RBAC) is used to manage access control for specific Azure resources, including virtual machines, storage accounts, and other Azure services. RBAC provides a way to assign permissions to specific roles rather than individual users, making it easier to manage access control in large environments.
 
  
 
@@ -1734,35 +1329,35 @@ Other options -
 
  
 
-- **Managing access to a specific Azure resource for a group of users :** This describes a scenario that would be best suited for using RBAC.
+- Managing access to a specific Azure resource for a group of users : This describes a scenario that would be best suited for using RBAC.
 
  
 
-- **Providing role-based access control to an Azure Virtual Machine :** This also describes a scenario that would be best suited for using RBAC, as RBAC is used to provide role-based access control to Azure Virtual Machines.
+- Providing role-based access control to an Azure Virtual Machine : This also describes a scenario that would be best suited for using RBAC, as RBAC is used to provide role-based access control to Azure Virtual Machines.
 
  
 
-- **Limiting access to specific resource groups within an Azure subscription:** This also describes a scenario that would be best suited for using RBAC, as it involves limiting access to specific resource groups within an Azure subscription.
+- Limiting access to specific resource groups within an Azure subscription: This also describes a scenario that would be best suited for using RBAC, as it involves limiting access to specific resource groups within an Azure subscription.
 
  
 
  
 
-Therefore, the correct answer is Managing user identities for a cloud-based application, as Azure Active Directory is best suited for managing user **identities** for cloud-based applications, whereas RBAC is best suited for managing access control to specific Azure **resources**.
+Therefore, the correct answer is Managing user identities for a cloud-based application, as Azure Active Directory is best suited for managing user identities for cloud-based applications, whereas RBAC is best suited for managing access control to specific Azure resources.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/role-based-access-control/overview#understanding-azure-rbac-vs-azure-ad-roles](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview#understanding-azure-rbac-vs-azure-ad-roles)
+Reference: [https://docs.microsoft.com/en-us/azure/role-based-access-control/overview#understanding-azure-rbac-vs-azure-ad-roles](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview#understanding-azure-rbac-vs-azure-ad-roles)
 
  
 
 #### Question 72: Correct
 
-**You have deployed a new Azure SQL Database in a VNet and want to restrict the ports, as well as allow or deny communication based on the connection state of the flow record.**
+You have deployed a new Azure SQL Database in a VNet and want to restrict the ports, as well as allow or deny communication based on the connection state of the flow record.
 
  
 
-**What should you use?**
+What should you use?
 
 - An Azure DNS Record
 
@@ -1778,7 +1373,7 @@ Therefore, the correct answer is Managing user identities for a cloud-based appl
 
 (Correct)
 
-**Restricting Internet access to your VMs in Azure can be achieved by making use of Azure Network Security Groups.**
+Restricting Internet access to your VMs in Azure can be achieved by making use of Azure Network Security Groups.
 
  
 
@@ -1788,7 +1383,7 @@ We can use an Azure network security group to filter network traffic to and from
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/virtual-network/security-overview](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/virtual-network/security-overview](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview)
 
 #### Question 73: Correct
 
@@ -1796,7 +1391,7 @@ Yes or No:
 
  
 
-**To utilize a hybrid cloud model, you must deploy resources to the public cloud while having some resources on-prem.**
+To utilize a hybrid cloud model, you must deploy resources to the public cloud while having some resources on-prem.
 
 - Yes
 
@@ -1804,15 +1399,15 @@ Yes or No:
 
 - No
 
-A hybrid cloud is a **combination** of a private cloud and public cloud. Therefore, to create a hybrid cloud, you must deploy resources to a public cloud.
+A hybrid cloud is a combination of a private cloud and public cloud. Therefore, to create a hybrid cloud, you must deploy resources to a public cloud.
 
  
 
-**Reference:** [https://azure.microsoft.com/en-gb/overview/what-are-private-public-hybrid-clouds/](https://azure.microsoft.com/en-gb/overview/what-are-private-public-hybrid-clouds/)
+Reference: [https://azure.microsoft.com/en-gb/overview/what-are-private-public-hybrid-clouds/](https://azure.microsoft.com/en-gb/overview/what-are-private-public-hybrid-clouds/)
 
 #### Question 74: Correct
 
-**Which of the following would be ideal to store flexible datasets like user data for web applications, address books, device information, or other types of metadata your service requires?**
+Which of the following would be ideal to store flexible datasets like user data for web applications, address books, device information, or other types of metadata your service requires?
 
 - Azure Queue Storage
 
@@ -1830,13 +1425,13 @@ A hybrid cloud is a **combination** of a private cloud and public cloud. There
 
  
 
-**Azure Table storage** is a service that stores non-relational structured data (also known as structured NoSQL data) in the cloud, providing a key/attribute store with a schemaless design. Because Table storage is schemaless, it's easy to adapt your data as the needs of your application evolve. Access to Table storage data is fast and cost-effective for many types of applications, and is typically lower in cost than traditional SQL for similar volumes of data.
+Azure Table storage is a service that stores non-relational structured data (also known as structured NoSQL data) in the cloud, providing a key/attribute store with a schemaless design. Because Table storage is schemaless, it's easy to adapt your data as the needs of your application evolve. Access to Table storage data is fast and cost-effective for many types of applications, and is typically lower in cost than traditional SQL for similar volumes of data.
 
 You can use Table storage to store flexible datasets like user data for web applications, address books, device information, or other types of metadata your service requires. You can store any number of entities in a table, and a storage account may contain any number of tables, up to the capacity limit of the storage account.
 
  
 
-**Table storage contains the following components:**
+Table storage contains the following components:
 
  
 
@@ -1844,17 +1439,17 @@ You can use Table storage to store flexible datasets like user data for web appl
 
  
 
-**Note:** The Cosmos DB Table API offers higher performance and availability, global distribution, and automatic secondary indexes. It is also available in a consumption-based [**serverless**](https://docs.microsoft.com/en-us/azure/cosmos-db/serverless)mode. There are some [**feature differences**](https://docs.microsoft.com/en-us/azure/cosmos-db/table/introduction) between Table API in Azure Cosmos DB and Azure table storage. For more information, see [**Azure Cosmos DB Table API**](https://docs.microsoft.com/en-us/azure/cosmos-db/table-introduction)
+Note: The Cosmos DB Table API offers higher performance and availability, global distribution, and automatic secondary indexes. It is also available in a consumption-based [serverless](https://docs.microsoft.com/en-us/azure/cosmos-db/serverless)mode. There are some [feature differences](https://docs.microsoft.com/en-us/azure/cosmos-db/table/introduction) between Table API in Azure Cosmos DB and Azure table storage. For more information, see [Azure Cosmos DB Table API](https://docs.microsoft.com/en-us/azure/cosmos-db/table-introduction)
 
  
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview)
 
 #### Question 75: Correct
 
-**You have multiple offices with file servers that need to access and share the same files. Which Azure service would be the most suitable to achieve this while minimizing latency and maintaining a central copy of the data?**
+You have multiple offices with file servers that need to access and share the same files. Which Azure service would be the most suitable to achieve this while minimizing latency and maintaining a central copy of the data?
 
 - Azure Storage Service Encryption
 
@@ -1866,25 +1461,25 @@ You can use Table storage to store flexible datasets like user data for web appl
 
 (Correct)
 
-The correct answer is **Azure File Sync.** It is the most suitable service for this scenario as it allows you to synchronize files between on-premises file servers and Azure Files. This enables multiple offices with file servers to access and share the same files while minimizing latency by using a local cache. Additionally, it maintains a central copy of the data in Azure Files, which can be accessed and managed centrally.
+The correct answer is Azure File Sync. It is the most suitable service for this scenario as it allows you to synchronize files between on-premises file servers and Azure Files. This enables multiple offices with file servers to access and share the same files while minimizing latency by using a local cache. Additionally, it maintains a central copy of the data in Azure Files, which can be accessed and managed centrally.
 
  
 
-**Other options -**
+Other options -
 
  
 
-- **Azure Blob Storage** is primarily designed for storing unstructured data such as images, videos, and documents. It is not optimized for file sharing and synchronization between multiple offices.
+- Azure Blob Storage is primarily designed for storing unstructured data such as images, videos, and documents. It is not optimized for file sharing and synchronization between multiple offices.
 
-- **Azure Storage Service Encryption** is a security feature that provides encryption for data stored in Azure Storage, but it does not address file sharing and synchronization between multiple offices.
+- Azure Storage Service Encryption is a security feature that provides encryption for data stored in Azure Storage, but it does not address file sharing and synchronization between multiple offices.
 
-- **Azure Data Lake Storage** is designed for big data analytics workloads and is not optimized for file sharing and synchronization between multiple offices.
+- Azure Data Lake Storage is designed for big data analytics workloads and is not optimized for file sharing and synchronization between multiple offices.
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/files/storage-sync-files-planning](https://docs.microsoft.com/en-us/azure/storage/files/storage-sync-files-planning)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/files/storage-sync-files-planning](https://docs.microsoft.com/en-us/azure/storage/files/storage-sync-files-planning)
 
 #### Question 76: Correct
 
-**Which of the following is the correct hierarchy for the Azure levels of scope?**
+Which of the following is the correct hierarchy for the Azure levels of scope?
 
 - Subscription --> Resource Group --> Management Group
 
@@ -1900,7 +1495,7 @@ The correct answer is **Azure File Sync.** It is the most suitable service for
 
  
 
-Azure provides **four levels of scope:** management groups, subscriptions, resource groups, and resources. The following image shows an example of these layers. Though not labeled as such, the blue cubes are resources.
+Azure provides four levels of scope: management groups, subscriptions, resource groups, and resources. The following image shows an example of these layers. Though not labeled as such, the blue cubes are resources.
 
  
 
@@ -1914,11 +1509,11 @@ You can deploy templates to management groups, subscriptions, or resource groups
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/enterprise-governance/4-azure-hierarchy](https://docs.microsoft.com/en-ca/learn/modules/enterprise-governance/4-azure-hierarchy)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/enterprise-governance/4-azure-hierarchy](https://docs.microsoft.com/en-ca/learn/modules/enterprise-governance/4-azure-hierarchy)
 
 #### Question 77: Incorrect
 
-**Azure Locks can be set at the ______ level to prevent users from modifying or deleting a resource group or its resources.**
+Azure Locks can be set at the ______ level to prevent users from modifying or deleting a resource group or its resources.
 
 - Management Group
 
@@ -1932,27 +1527,27 @@ You can deploy templates to management groups, subscriptions, or resource groups
 
 (Correct)
 
-**Azure Locks can be set at the subscription level** to prevent users from modifying or deleting a resource group or its resources. When an Azure Lock is applied to a resource or resource group, it prevents all users and roles from making any changes to the resource or deleting it.
+Azure Locks can be set at the subscription level to prevent users from modifying or deleting a resource group or its resources. When an Azure Lock is applied to a resource or resource group, it prevents all users and roles from making any changes to the resource or deleting it.
 
  
 
-**Other Options:**
+Other Options:
 
  
 
-- **Resource** is incorrect because locks can be applied to resources, but it is not the highest level at which a lock can be set. Setting a lock at the resource level would only apply to that specific resource, whereas setting a lock at the subscription level would apply to all resources within the subscription.
+- Resource is incorrect because locks can be applied to resources, but it is not the highest level at which a lock can be set. Setting a lock at the resource level would only apply to that specific resource, whereas setting a lock at the subscription level would apply to all resources within the subscription.
 
-- **Management Group** is incorrect because although locks can be applied at the management group level, this is not the highest level at which a lock can be set. Setting a lock at the management group level would apply to all resources within that management group, but if a resource group is not within that management group, it would not be affected by the lock.
+- Management Group is incorrect because although locks can be applied at the management group level, this is not the highest level at which a lock can be set. Setting a lock at the management group level would apply to all resources within that management group, but if a resource group is not within that management group, it would not be affected by the lock.
 
-- **Tenant** is incorrect because locks cannot be set at the tenant level. The highest level at which locks can be set is the subscription level.
+- Tenant is incorrect because locks cannot be set at the tenant level. The highest level at which locks can be set is the subscription level.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources)
 
 #### Question 78: Correct
 
-**Which of the following is a key benefit of using Role-Based Access Control (RBAC) in Azure?**
+Which of the following is a key benefit of using Role-Based Access Control (RBAC) in Azure?
 
 - RBAC allows you to manage user identities and access to cloud resources.
 
@@ -1972,19 +1567,19 @@ Other options -
 
  
 
-- **RBAC allows you to manage user identities and access to cloud resources:** This is incorrect because while RBAC is used for managing access to cloud resources, it specifically provides granular access control by allowing you to assign permissions to specific roles rather than individual users. Manage user identities are the keywords here.
+- RBAC allows you to manage user identities and access to cloud resources: This is incorrect because while RBAC is used for managing access to cloud resources, it specifically provides granular access control by allowing you to assign permissions to specific roles rather than individual users. Manage user identities are the keywords here.
 
-- **RBAC provides authentication and authorization services for Azure resources** : This is incorrect because RBAC provides authorization services, but not authentication services. Authentication is provided by Azure AD!
+- RBAC provides authentication and authorization services for Azure resources : This is incorrect because RBAC provides authorization services, but not authentication services. Authentication is provided by Azure AD!
 
-- **RBAC provides a centralized directory for managing user accounts and access to resources :** This is incorrect because while RBAC does provide a centralized management interface for managing access to Azure resources, it specifically allows you to assign permissions to roles rather than manage user accounts. Again, managing user accounts is the keyword here.
+- RBAC provides a centralized directory for managing user accounts and access to resources : This is incorrect because while RBAC does provide a centralized management interface for managing access to Azure resources, it specifically allows you to assign permissions to roles rather than manage user accounts. Again, managing user accounts is the keyword here.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/role-based-access-control/overview](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/role-based-access-control/overview](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview)
 
 #### Question 79: Correct
 
-**Your company is building a mission critical application and wants asynchronous message management for communication between application components, whether they are running in the cloud, on the desktop, on-premises, or on mobile devices. They also expect sudden bursts of requests and are looking to prevent servers from being overwhelmed.**
+Your company is building a mission critical application and wants asynchronous message management for communication between application components, whether they are running in the cloud, on the desktop, on-premises, or on mobile devices. They also expect sudden bursts of requests and are looking to prevent servers from being overwhelmed.
 
  
 
@@ -2014,11 +1609,11 @@ You can also use Queue Storage to rightsize your service deployment. Application
 
  
 
-**Reference:** [https://azure.microsoft.com/en-ca/services/storage/queues/#features](https://azure.microsoft.com/en-ca/services/storage/queues/#features)
+Reference: [https://azure.microsoft.com/en-ca/services/storage/queues/#features](https://azure.microsoft.com/en-ca/services/storage/queues/#features)
 
 #### Question 80: Correct
 
-**What is a key security feature of Azure Data Box devices that ensures data is unreadable if intercepted during the shipping process?**
+What is a key security feature of Azure Data Box devices that ensures data is unreadable if intercepted during the shipping process?
 
 - Data-at-rest encryption
 
@@ -2030,27 +1625,27 @@ You can also use Queue Storage to rightsize your service deployment. Application
 
 - Multi-factor authentication
 
-The correct answer is : **Data-at-rest encryption.** This is a key security feature of Azure Data Box devices that ensures data is unreadable if intercepted during the shipping process. Data-at-rest encryption ensures that data is encrypted when it is stored on the device, making it **impossible** for anyone to access the data without the encryption key. This is an important security measure that protects against data theft or loss during the shipping process.
+The correct answer is : Data-at-rest encryption. This is a key security feature of Azure Data Box devices that ensures data is unreadable if intercepted during the shipping process. Data-at-rest encryption ensures that data is encrypted when it is stored on the device, making it impossible for anyone to access the data without the encryption key. This is an important security measure that protects against data theft or loss during the shipping process.
 
  
 
-**Other options:**
+Other options:
 
  
 
-- **Firewall protection:** This is incorrect because it refers to a network security measure that protects against unauthorized access to a network, but it is not directly related to the security of data during the shipping process.
+- Firewall protection: This is incorrect because it refers to a network security measure that protects against unauthorized access to a network, but it is not directly related to the security of data during the shipping process.
 
-- **Multi-factor authentication:** This is also incorrect because it is a security measure that verifies a user's identity using multiple methods, such as a password and a fingerprint or a security token. This is not directly related to the security of data during the shipping process.
+- Multi-factor authentication: This is also incorrect because it is a security measure that verifies a user's identity using multiple methods, such as a password and a fingerprint or a security token. This is not directly related to the security of data during the shipping process.
 
-- **Data transfer over HTTPS:** This is incorrect because it refers to a network protocol that encrypts data during transmission between a web server and a client, but it does not protect data during the shipping process.
+- Data transfer over HTTPS: This is incorrect because it refers to a network protocol that encrypts data during transmission between a web server and a client, but it does not protect data during the shipping process.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/databox/data-box-security](https://docs.microsoft.com/en-us/azure/databox/data-box-security)
+Reference: [https://docs.microsoft.com/en-us/azure/databox/data-box-security](https://docs.microsoft.com/en-us/azure/databox/data-box-security)
 
 #### Question 81: Correct
 
-**True or False: Business-to-Customer (B2C) scenarios in Azure AD are primarily focused on internal employee collaboration.**
+True or False: Business-to-Customer (B2C) scenarios in Azure AD are primarily focused on internal employee collaboration.
 
 - True
 
@@ -2058,7 +1653,7 @@ The correct answer is : **Data-at-rest encryption.** This is a key security fe
 
 (Correct)
 
-This statement is false. Business-to-Customer (B2C) scenarios in Azure AD are focused on managing **customer** identities and providing a tailored sign-up and sign-in experience for external customers using your applications.
+This statement is false. Business-to-Customer (B2C) scenarios in Azure AD are focused on managing customer identities and providing a tailored sign-up and sign-in experience for external customers using your applications.
 
  
 
@@ -2068,11 +1663,11 @@ With Azure AD B2C, customers can sign in with an identity they've already establ
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
+Reference: [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
 
 #### Question 82: Correct
 
-**You can use _________________ to create private connections between Azure datacenters and infrastructure on your premises or in a colocation environment.**
+You can use _________________ to create private connections between Azure datacenters and infrastructure on your premises or in a colocation environment.
 
 - Azure DNS
 
@@ -2096,11 +1691,11 @@ With Azure AD B2C, customers can sign in with an identity they've already establ
 
  
 
-**Reference:** [https://azure.microsoft.com/en-us/services/expressroute/#partners](https://azure.microsoft.com/en-us/services/expressroute/#partners)
+Reference: [https://azure.microsoft.com/en-us/services/expressroute/#partners](https://azure.microsoft.com/en-us/services/expressroute/#partners)
 
 #### Question 83: Incorrect
 
-**What is the key benefit of using Azure AD B2C for managing customer identities?**
+What is the key benefit of using Azure AD B2C for managing customer identities?
 
 - Ability to enforce security policies on internal applications.
 
@@ -2114,15 +1709,15 @@ With Azure AD B2C, customers can sign in with an identity they've already establ
 
 (Incorrect)
 
-Azure AD B2C allows you to provide **custom** user experiences during sign-up and sign-in processes for your applications. This enhances customer engagement and satisfaction by delivering a branded and consistent identity experience.
+Azure AD B2C allows you to provide custom user experiences during sign-up and sign-in processes for your applications. This enhances customer engagement and satisfaction by delivering a branded and consistent identity experience.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
+Reference: [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
 
 #### Question 84: Correct
 
-**By default, only the ________ can delete or modify an Azure Lock.**
+By default, only the ________ can delete or modify an Azure Lock.
 
 - Contributor
 
@@ -2134,23 +1729,23 @@ Azure AD B2C allows you to provide **custom** user experiences during sign-up 
 
 - Reader
 
-By default, only the **owner** of an Azure subscription or resource group can delete or modify an Azure Lock. The owner role is the most privileged built-in role in Azure, allowing full access to all resources and management operations within a subscription or resource group.
+By default, only the owner of an Azure subscription or resource group can delete or modify an Azure Lock. The owner role is the most privileged built-in role in Azure, allowing full access to all resources and management operations within a subscription or resource group.
 
  
 
-**Contributors** can perform actions on resources but are not allowed to modify or delete locks. **Readers** can only view the resources but cannot perform any actions on them. **Users** is not a built-in role in Azure and therefore is not a valid option.
+Contributors can perform actions on resources but are not allowed to modify or delete locks. Readers can only view the resources but cannot perform any actions on them. Users is not a built-in role in Azure and therefore is not a valid option.
 
  
 
-**Imp. Note -** While Azure Locks can prevent accidental or malicious deletion or modification of resources, they do not prevent users with the appropriate permissions from creating new resources or modifying existing ones.
+Imp. Note - While Azure Locks can prevent accidental or malicious deletion or modification of resources, they do not prevent users with the appropriate permissions from creating new resources or modifying existing ones.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources)
 
 #### Question 85: Incorrect
 
-**Which of the following is not a valid authentication method for Azure AD?**
+Which of the following is not a valid authentication method for Azure AD?
 
 - Certificates  - Passwords
 
@@ -2162,7 +1757,7 @@ By default, only the **owner** of an Azure subscription or resource group can 
 
 (Incorrect)
 
-The correct answer is - **None of the above.**
+The correct answer is - None of the above.
 
  
 
@@ -2170,15 +1765,15 @@ Azure AD supports multiple authentication methods for user sign-in, including pa
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-authentication-methods](https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-authentication-methods)
+Reference: [https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-authentication-methods](https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-authentication-methods)
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-arc/overview](https://learn.microsoft.com/en-us/azure/azure-arc/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-arc/overview](https://learn.microsoft.com/en-us/azure/azure-arc/overview)
 
 ## Test 6 
 
 #### Question 1: Correct
 
-**Which type of code/language is commonly used in Infrastructure as Code (IaC) to define and manage resources?**
+Which type of code/language is commonly used in Infrastructure as Code (IaC) to define and manage resources?
 
 - YAML 
 
@@ -2190,19 +1785,19 @@ Azure AD supports multiple authentication methods for user sign-in, including pa
 
 - HTML
 
-**YAML (Yet Another Markup Language)** is a common choice for writing code to define and manage infrastructure in IaC. It provides a human-readable format for specifying configurations and settings for various resources.
+YAML (Yet Another Markup Language) is a common choice for writing code to define and manage infrastructure in IaC. It provides a human-readable format for specifying configurations and settings for various resources.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/dotnet/architecture/cloud-native/infrastructure-as-code](https://learn.microsoft.com/en-us/dotnet/architecture/cloud-native/infrastructure-as-code)
+Reference: [https://learn.microsoft.com/en-us/dotnet/architecture/cloud-native/infrastructure-as-code](https://learn.microsoft.com/en-us/dotnet/architecture/cloud-native/infrastructure-as-code)
 
 #### Question 2: Correct
 
-**A new startup needs to control its cloud environment so that it complies with several industry standards, but it's not sure where to start. They have existing business requirements, and understand how these requirements relate to their on-premises workloads. These requirements also must be met by any workloads they run in the cloud.**
+A new startup needs to control its cloud environment so that it complies with several industry standards, but it's not sure where to start. They have existing business requirements, and understand how these requirements relate to their on-premises workloads. These requirements also must be met by any workloads they run in the cloud.
 
  
 
-**Which of the following can help them in this case?**
+Which of the following can help them in this case?
 
 - The Azure Blueprint for Cloud
 
@@ -2234,11 +1829,11 @@ Cloud Adoption Framework consists of tools, documentation, and proven practices.
 
 5. Govern and manage your cloud environments.
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/9-accelerate-cloud-adoption-framework](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/9-accelerate-cloud-adoption-framework)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/9-accelerate-cloud-adoption-framework](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/9-accelerate-cloud-adoption-framework)
 
 #### Question 3: Incorrect
 
-**Which Azure service allows you to control the DNS settings for private endpoints in your virtual network?**
+Which Azure service allows you to control the DNS settings for private endpoints in your virtual network?
 
 - Azure DNS Zone
 
@@ -2260,7 +1855,7 @@ Yes or No:
 
  
 
-**Each Azure subscription can contain multiple account administrators.**
+Each Azure subscription can contain multiple account administrators.
 
 - Yes
 
@@ -2276,7 +1871,7 @@ account administrator.
 
  
 
-To manage access to Azure resources, you must have the **appropriate administrator role.** Azure has an authorization system called [Azure role-based access control (Azure RBAC)](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview) with several built-in roles you can choose from. You can assign these roles at different scopes, such as management group, subscription, or resource group. **By default, the person who creates a new Azure subscription can assign other users administrative access to a subscription (account Admin).**
+To manage access to Azure resources, you must have the appropriate administrator role. Azure has an authorization system called [Azure role-based access control (Azure RBAC)](https://docs.microsoft.com/en-us/azure/role-based-access-control/overview) with several built-in roles you can choose from. You can assign these roles at different scopes, such as management group, subscription, or resource group. By default, the person who creates a new Azure subscription can assign other users administrative access to a subscription (account Admin).
 
  
 
@@ -2284,13 +1879,13 @@ To manage access to Azure resources, you must have the **appropriate administra
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/add-change-subscription-administrator](https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/add-change-subscription-administrator)
+Reference: [https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/add-change-subscription-administrator](https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/add-change-subscription-administrator)
 
  
 
 #### Question 5: Incorrect
 
-**An Azure service is said to be available to all Azure customers when it is in ______________**`**.**`
+An Azure service is said to be available to all Azure customers when it is in ______________`.`
 
 - general availability
 
@@ -2306,21 +1901,21 @@ To manage access to Azure resources, you must have the **appropriate administra
 
  
 
-**Public preview** means that the service is available to everyone with an Azure subscription but the normal SLAs don't apply. This is different from general availability when the service is available to all Azure customers with SLA backed guarantees!
+Public preview means that the service is available to everyone with an Azure subscription but the normal SLAs don't apply. This is different from general availability when the service is available to all Azure customers with SLA backed guarantees!
 
  
 
-**Example -**
+Example -
 
  
 
 ![](https://img-c.udemycdn.com/redactor/raw/test_#### Question_description/2021-04-04_03-58-59-af7f6d90764acd7a6d81fbf6b3fd689a.png)
 
-**Reference:** [https://azure.microsoft.com/en-ca/support/legal/preview-supplemental-terms/](https://azure.microsoft.com/en-ca/support/legal/preview-supplemental-terms/)
+Reference: [https://azure.microsoft.com/en-ca/support/legal/preview-supplemental-terms/](https://azure.microsoft.com/en-ca/support/legal/preview-supplemental-terms/)
 
 #### Question 6: Correct
 
-**________________ is Microsoft's cloud-based SIEM system. It uses intelligent security analytics and threat analysis.**
+________________ is Microsoft's cloud-based SIEM system. It uses intelligent security analytics and threat analysis.
 
 - Microsoft Defender for Cloud
 
@@ -2346,21 +1941,21 @@ Azure Sentinel enables you to:
 
  
 
-- **Collect cloud data at scale** Collect data across all users, devices, applications, and infrastructure, both on-premises and from multiple clouds.
+- Collect cloud data at scale Collect data across all users, devices, applications, and infrastructure, both on-premises and from multiple clouds.
 
-- **Detect previously undetected threats** Minimize false positives by using Microsoft's comprehensive analytics and threat intelligence.
+- Detect previously undetected threats Minimize false positives by using Microsoft's comprehensive analytics and threat intelligence.
 
-- **Investigate threats with artificial intelligence** Examine suspicious activities at scale, tapping into years of cybersecurity experience from Microsoft.
+- Investigate threats with artificial intelligence Examine suspicious activities at scale, tapping into years of cybersecurity experience from Microsoft.
 
-- **Respond to incidents rapidly** Use built-in orchestration and automation of common tasks.
+- Respond to incidents rapidly Use built-in orchestration and automation of common tasks.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/protect-against-security-threats-azure/3-detect-respond-threats-sentinel](https://docs.microsoft.com/en-ca/learn/modules/protect-against-security-threats-azure/3-detect-respond-threats-sentinel)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/protect-against-security-threats-azure/3-detect-respond-threats-sentinel](https://docs.microsoft.com/en-ca/learn/modules/protect-against-security-threats-azure/3-detect-respond-threats-sentinel)
 
 #### Question 7: Correct
 
-**Which feature of Azure AD External Identities enables customers to sign up, sign in, and manage their own profiles using social accounts?**
+Which feature of Azure AD External Identities enables customers to sign up, sign in, and manage their own profiles using social accounts?
 
 - Azure Multi-Factor Authentication
 
@@ -2376,11 +1971,11 @@ Azure Active Directory B2C is designed to handle customer identities and enables
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
+Reference: [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
 
 #### Question 8: Incorrect
 
-**Which of the following can an application retrieve security tokens from? Choose the Best possible answer.**
+Which of the following can an application retrieve security tokens from? Choose the Best possible answer.
 
 - An Azure SQL Database
 
@@ -2394,17 +1989,17 @@ Azure Active Directory B2C is designed to handle customer identities and enables
 
 - A Certificate Store
 
-Please note that the #### Question asks us **"To retrieve security tokens"**. You might be thinking about Azure Key Vaults here.
+Please note that the #### Question asks us "To retrieve security tokens". You might be thinking about Azure Key Vaults here.
 
  
 
-A service such as Azure Key Vault can **keep** security token, however to **access/retrieve** something from the Key Vault , we need to be authenticated to retrieve them. To authenticate, we can use "managed identity" that gives Azure services an automatically managed identity in Azure AD. So the answer is Azure AD.
+A service such as Azure Key Vault can keep security token, however to access/retrieve something from the Key Vault , we need to be authenticated to retrieve them. To authenticate, we can use "managed identity" that gives Azure services an automatically managed identity in Azure AD. So the answer is Azure AD.
 
 Remember that Azure AD provides access tokens. Azure Key vault is used to securely store passwords, secrets, certificates and tokens.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts)
+Reference: [https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts)
 
 #### Question 9: Correct
 
@@ -2412,7 +2007,7 @@ Yes or No:
 
  
 
-**Azure Pay-As-You-Go pricing is an example of Capex.**
+Azure Pay-As-You-Go pricing is an example of Capex.
 
 - No
 
@@ -2422,15 +2017,15 @@ Yes or No:
 
  
 
-One of the major changes that you will face when you move from on-premises cloud to the public cloud is the switch from **capital** expenditure (buying hardware) to **operational** expenditure (paying for service as you use it).
+One of the major changes that you will face when you move from on-premises cloud to the public cloud is the switch from capital expenditure (buying hardware) to operational expenditure (paying for service as you use it).
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/business-outcomes/fiscal-outcomes](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/business-outcomes/fiscal-outcomes)
+Reference: [https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/business-outcomes/fiscal-outcomes](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/strategy/business-outcomes/fiscal-outcomes)
 
 #### Question 10: Correct
 
-**How does Azure AD B2B Collaboration benefit organizations when collaborating with external partners?**
+How does Azure AD B2B Collaboration benefit organizations when collaborating with external partners?
 
 - It grants full administrator access to external partners.
 
@@ -2446,7 +2041,7 @@ Azure AD B2B Collaboration enables organizations to securely collaborate with ex
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
+Reference: [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
 
 #### Question 11: Correct
 
@@ -2454,9 +2049,9 @@ Which of the following would you recommend for these given requirements?
 
  
 
-**1) Create thousands of identical virtual machines in minutes**
+1) Create thousands of identical virtual machines in minutes
 
-**2) Deploy across availability zones to protect against datacenter failures**
+2) Deploy across availability zones to protect against datacenter failures
 
 - Azure Kubernetes
 
@@ -2472,7 +2067,7 @@ Which of the following would you recommend for these given requirements?
 
 - Azure Virtual Machines
 
-**According to the official website :** 
+According to the official website : 
 
  
 
@@ -2484,11 +2079,11 @@ Azure Virtual Machine Scale Sets is Automated virtual machine scaling that helps
 
  
 
-**Reference :** [https://azure.microsoft.com/en-us/services/virtual-machine-scale-sets/](https://azure.microsoft.com/en-us/services/virtual-machine-scale-sets/)
+Reference : [https://azure.microsoft.com/en-us/services/virtual-machine-scale-sets/](https://azure.microsoft.com/en-us/services/virtual-machine-scale-sets/)
 
 #### Question 12: Correct
 
-**Which of the following scenarios are suitable for using Data Box to import data to Azure?**
+Which of the following scenarios are suitable for using Data Box to import data to Azure?
 
 - Moving a media library from offline tapes to Azure
 
@@ -2502,15 +2097,15 @@ Azure Virtual Machine Scale Sets is Automated virtual machine scaling that helps
 
 - Configuring real-time data synchronization between Azure and on-premises servers
 
-**The correct options are :** 
+The correct options are : 
 
  
 
-**One-time migration of a large amount of on-premises data:** Azure Data Box is an ideal solution for importing large volumes of data to Azure when network connectivity is limited or insufficient. It is suitable for one-time migration scenarios where you need to move a large amount of data from on-premises to Azure.
+One-time migration of a large amount of on-premises data: Azure Data Box is an ideal solution for importing large volumes of data to Azure when network connectivity is limited or insufficient. It is suitable for one-time migration scenarios where you need to move a large amount of data from on-premises to Azure.
 
  
 
-**Moving a media library from offline tapes to Azure:** Data Box can be used to move media libraries from offline tapes to Azure, creating an online media library. It provides a secure and efficient way to transfer large amounts of media files to Azure storage services.
+Moving a media library from offline tapes to Azure: Data Box can be used to move media libraries from offline tapes to Azure, creating an online media library. It provides a secure and efficient way to transfer large amounts of media files to Azure storage services.
 
  
 
@@ -2518,19 +2113,19 @@ Other options -
 
  
 
-**Configuring real-time data synchronization between Azure and on-premises servers**: Data Box is designed for offline data transfers and is not meant for real-time data synchronization between Azure and on-premises servers. For real-time data synchronization, you might consider Azure File Sync or other data synchronization services.
+Configuring real-time data synchronization between Azure and on-premises servers: Data Box is designed for offline data transfers and is not meant for real-time data synchronization between Azure and on-premises servers. For real-time data synchronization, you might consider Azure File Sync or other data synchronization services.
 
  
 
-**Incremental backups of Azure virtual machines:** Data Box is used for transferring data to or from Azure, not specifically for incremental backups of Azure virtual machines. To perform incremental backups of Azure VMs, you can use Azure Backup service, which is designed for that purpose.
+Incremental backups of Azure virtual machines: Data Box is used for transferring data to or from Azure, not specifically for incremental backups of Azure virtual machines. To perform incremental backups of Azure VMs, you can use Azure Backup service, which is designed for that purpose.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/6-identify-azure-data-migration-options](https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/6-identify-azure-data-migration-options)
+Reference: [https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/6-identify-azure-data-migration-options](https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/6-identify-azure-data-migration-options)
 
 #### Question 13: Correct
 
-**In a scenario where you need to manage access, policies, and compliance for multiple subscriptions, which Azure service would you use?**
+In a scenario where you need to manage access, policies, and compliance for multiple subscriptions, which Azure service would you use?
 
 - Azure management groups
 
@@ -2542,7 +2137,7 @@ Other options -
 
 - Azure subscriptions
 
-**Azure management groups** is the correct answer.
+Azure management groups is the correct answer.
 
  
 
@@ -2554,19 +2149,19 @@ Other options -
 
  
 
-- **Azure Active Directory:** While Azure AD is used for identity and access management, it does not directly manage policies and compliance for multiple subscriptions.
+- Azure Active Directory: While Azure AD is used for identity and access management, it does not directly manage policies and compliance for multiple subscriptions.
 
-- **Azure subscriptions:** Subscriptions are a unit of management, billing, and scale in Azure, but they do not provide a higher level of scope for managing multiple subscriptions.
+- Azure subscriptions: Subscriptions are a unit of management, billing, and scale in Azure, but they do not provide a higher level of scope for managing multiple subscriptions.
 
-- **Azure resource groups:** Resource groups are used to organize resources within a subscription, but they do not provide a higher level of scope for managing multiple subscriptions.
+- Azure resource groups: Resource groups are used to organize resources within a subscription, but they do not provide a higher level of scope for managing multiple subscriptions.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
+Reference: [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
 
 #### Question 14: Correct
 
-**_____________ make it easier to identify groups that generate the biggest Azure costs, which can help you adjust your spending accordingly.**
+_____________ make it easier to identify groups that generate the biggest Azure costs, which can help you adjust your spending accordingly.
 
 - Tags
 
@@ -2580,7 +2175,7 @@ Other options -
 
  
 
-**Tags** help you manage costs associated with the different groups of Azure products and resources. You can apply tags to groups of Azure resources to organize billing data.
+Tags help you manage costs associated with the different groups of Azure products and resources. You can apply tags to groups of Azure resources to organize billing data.
 
 For example, if you run several VMs for different teams, you can use tags to categorize costs by department, such as Human Resources, Marketing, or Finance; or by environment, such as Test or Production.
 
@@ -2588,11 +2183,11 @@ Tags make it easier to identify groups that generate the biggest Azure costs, wh
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/6-manage-minimize-total-cost](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/6-manage-minimize-total-cost)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/6-manage-minimize-total-cost](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/6-manage-minimize-total-cost)
 
 #### Question 15: Correct
 
-**An Azure Web App that queries an on-prem Oracle SQL Database is an example of a ____________________** **cloud** **architecture**.
+An Azure Web App that queries an on-prem Oracle SQL Database is an example of a ____________________ cloud architecture.
 
 - multi-vendor
 
@@ -2604,7 +2199,7 @@ Tags make it easier to identify groups that generate the biggest Azure costs, wh
 
 - private
 
-**Since you are using both Azure, as well as on-prem resources ( A combination of both ) -> This is an example of a hybrid cloud!**
+Since you are using both Azure, as well as on-prem resources ( A combination of both ) -> This is an example of a hybrid cloud!
 
  
 
@@ -2612,7 +2207,7 @@ Tags make it easier to identify groups that generate the biggest Azure costs, wh
 
 ![](https://img-c.udemycdn.com/redactor/raw/test_#### Question_description/2021-04-03_20-40-37-bbbeae1d4e6e6fa044a55d13ff640aba.png)
 
-**Reference:** [https://azure.microsoft.com/en-in/overview/what-is-hybrid-cloud-computing/](https://azure.microsoft.com/en-in/overview/what-is-hybrid-cloud-computing/)
+Reference: [https://azure.microsoft.com/en-in/overview/what-is-hybrid-cloud-computing/](https://azure.microsoft.com/en-in/overview/what-is-hybrid-cloud-computing/)
 
 #### Question 16: Correct
 
@@ -2620,7 +2215,7 @@ Yes or No:
 
  
 
-**Purchasing your own infrastructure and deploying it in your own data center is an example of CapEx.**
+Purchasing your own infrastructure and deploying it in your own data center is an example of CapEx.
 
 - No
 
@@ -2632,11 +2227,11 @@ Deploying your own datacenter is definitely an example of CapEx. This is because
 
  
 
-**References:** [https://docs.microsoft.com/en-us/azure/architecture/cloud-adoption/appendix/azure-scaffold](https://docs.microsoft.com/en-us/azure/architecture/cloud-adoption/appendix/azure-scaffold)
+References: [https://docs.microsoft.com/en-us/azure/architecture/cloud-adoption/appendix/azure-scaffold](https://docs.microsoft.com/en-us/azure/architecture/cloud-adoption/appendix/azure-scaffold)
 
 #### Question 17: Correct
 
-**True or False: Data stored in an Azure Storage account is automatically copied twice.**
+True or False: Data stored in an Azure Storage account is automatically copied twice.
 
 - False
 
@@ -2650,13 +2245,13 @@ This is False.
 
 Azure Storage offers multiple redundancy options, including locally redundant storage (LRS), zone-redundant storage (ZRS), geo-redundant storage (GRS), and read-access geo-redundant storage (RA-GRS).
 
-LRS and ZRS provide redundancy within a datacenter or within a **single** zone, respectively, and create **three** copies of the data. GRS and RA-GRS provide additional redundancy across multiple datacenters or regions, respectively, and create **six** copies of the data (three copies in the primary region and three copies in the secondary region).
+LRS and ZRS provide redundancy within a datacenter or within a single zone, respectively, and create three copies of the data. GRS and RA-GRS provide additional redundancy across multiple datacenters or regions, respectively, and create six copies of the data (three copies in the primary region and three copies in the secondary region).
 
 However, none of these redundancy options provide only two copies of the data by default.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy](https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy](https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy)
 
 #### Question 18: Correct
 
@@ -2664,7 +2259,7 @@ Yes or No:
 
  
 
-**Azure Reserved VM Instances are an example of Opex.**
+Azure Reserved VM Instances are an example of Opex.
 
 - Yes
 
@@ -2676,15 +2271,15 @@ A reserved instance is where you pay upfront for the use of a virtual machine fo
 
  
 
-However, as this is an upfront payment, it will be classed as **CapEx**, not OpEx.
+However, as this is an upfront payment, it will be classed as CapEx, not OpEx.
 
  
 
-**Simple way to remember :** Upfront payment = Capex, Pay as you go = Opex!
+Simple way to remember : Upfront payment = Capex, Pay as you go = Opex!
 
 #### Question 19: Correct
 
-**Your organization needs to move all its data back to on-premises due to new government regulations. Which Azure service should you use to export data from Azure for this migration?**
+Your organization needs to move all its data back to on-premises due to new government regulations. Which Azure service should you use to export data from Azure for this migration?
 
 - Azure Data Factory
 
@@ -2700,23 +2295,23 @@ The correct option is Azure Data Box. Azure Data Box is designed for transferrin
 
  
 
-**Wrong options:**
+Wrong options:
 
  
 
-- **Azure Data Factory -** Azure Data Factory is a cloud-based data integration service that allows you to create, schedule, and manage data workflows. While it can be used to move and transform data, it's not the best option for large-scale data export to on-premises, especially with limited network connectivity.
+- Azure Data Factory - Azure Data Factory is a cloud-based data integration service that allows you to create, schedule, and manage data workflows. While it can be used to move and transform data, it's not the best option for large-scale data export to on-premises, especially with limited network connectivity.
 
-- **Azure Site Recovery -** Azure Site Recovery is a disaster recovery service that helps protect and recover on-premises and Azure-based virtual machines. It is not designed for exporting large amounts of data from Azure to on-premises environments.
+- Azure Site Recovery - Azure Site Recovery is a disaster recovery service that helps protect and recover on-premises and Azure-based virtual machines. It is not designed for exporting large amounts of data from Azure to on-premises environments.
 
-- **AzCopy -** AzCopy is a command-line utility for copying data to and from Azure Storage. While it can be used for data transfers, it relies on network connectivity, which may not be suitable for transferring large amounts of data back to on-premises locations.
+- AzCopy - AzCopy is a command-line utility for copying data to and from Azure Storage. While it can be used for data transfers, it relies on network connectivity, which may not be suitable for transferring large amounts of data back to on-premises locations.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/databox/data-box-overview](https://docs.microsoft.com/en-us/azure/databox/data-box-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/databox/data-box-overview](https://docs.microsoft.com/en-us/azure/databox/data-box-overview)
 
 #### Question 20: Correct
 
-**How does Microsoft Purview contribute to data security and compliance?**
+How does Microsoft Purview contribute to data security and compliance?
 
 - It encrypts data at rest and in transit.
 
@@ -2728,15 +2323,15 @@ The correct option is Azure Data Box. Azure Data Box is designed for transferrin
 
 - It provides real-time monitoring of network traffic.
 
-**Microsoft Purview** provides a unified data governance solution to help manage and govern your on-premises, multicloud, and software as a service (SaaS) data. Microsoft Purview helps organizations classify and label data, apply data protection policies, and manage access controls. This ensures that sensitive data is properly protected and that compliance with data regulations is maintained, contributing to data security and compliance efforts.
+Microsoft Purview provides a unified data governance solution to help manage and govern your on-premises, multicloud, and software as a service (SaaS) data. Microsoft Purview helps organizations classify and label data, apply data protection policies, and manage access controls. This ensures that sensitive data is properly protected and that compliance with data regulations is maintained, contributing to data security and compliance efforts.
 
  
 
-**Reference:** [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
+Reference: [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
 
 #### Question 21: Correct
 
-**What are the two types of subscription boundaries that you can use in Azure?**
+What are the two types of subscription boundaries that you can use in Azure?
 
 - Billing boundary
 
@@ -2754,21 +2349,21 @@ In Azure, you can use two types of subscription boundaries:
 
  
 
-1. **Billing boundary:** This subscription type determines how an Azure account is billed for using Azure. You can create multiple subscriptions for different types of billing requirements. Azure generates separate billing reports and invoices for each subscription so that you can organize and manage costs.
+1. Billing boundary: This subscription type determines how an Azure account is billed for using Azure. You can create multiple subscriptions for different types of billing requirements. Azure generates separate billing reports and invoices for each subscription so that you can organize and manage costs.
 
-2. **Access control boundary:** Azure applies access-management policies at the subscription level, and you can create separate subscriptions to reflect different organizational structures. An example is that within a business, you have different departments to which you apply distinct Azure subscription policies. This billing model allows you to manage and control access to the resources that users provision with specific subscriptions.
+2. Access control boundary: Azure applies access-management policies at the subscription level, and you can create separate subscriptions to reflect different organizational structures. An example is that within a business, you have different departments to which you apply distinct Azure subscription policies. This billing model allows you to manage and control access to the resources that users provision with specific subscriptions.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
+Reference: [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
 
 #### Question 22: Correct
 
-**Your legal team is requesting for documentation pertaining to Microsoft's implementation of controls and processes, namely - Audit Reports, Compliance scores, Pen-Test and Security assessments, and Industry compliance.**
+Your legal team is requesting for documentation pertaining to Microsoft's implementation of controls and processes, namely - Audit Reports, Compliance scores, Pen-Test and Security assessments, and Industry compliance.
 
  
 
-**Where can you obtain this information?**
+Where can you obtain this information?
 
 - Microsoft Privacy Statement
 
@@ -2784,7 +2379,7 @@ In Azure, you can use two types of subscription boundaries:
 
  
 
-The Microsoft **Service Trust Portal** contains details about Microsoft's implementation of controls and processes that protect our cloud services.
+The Microsoft Service Trust Portal contains details about Microsoft's implementation of controls and processes that protect our cloud services.
 
  
 
@@ -2796,11 +2391,11 @@ The Microsoft **Service Trust Portal** contains details about Microsoft's impl
 
  
 
-**Reference:** [https://servicetrust.microsoft.com](https://servicetrust.microsoft.com/)
+Reference: [https://servicetrust.microsoft.com](https://servicetrust.microsoft.com/)
 
 #### Question 23: Correct
 
-**Which of the following would you use to deploy and manage containerised applications to provide an integrated continuous integration and continuous delivery (CI/CD) experience and enterprise-grade security and governance.**
+Which of the following would you use to deploy and manage containerised applications to provide an integrated continuous integration and continuous delivery (CI/CD) experience and enterprise-grade security and governance.
 
 - Azure Container Instances
 
@@ -2822,11 +2417,11 @@ You can deploy and manage containerised applications more easily with a fully ma
 
  
 
-**Reference:** [https://azure.microsoft.com/en-in/services/kubernetes-service/#features](https://azure.microsoft.com/en-in/services/kubernetes-service/#features)
+Reference: [https://azure.microsoft.com/en-in/services/kubernetes-service/#features](https://azure.microsoft.com/en-in/services/kubernetes-service/#features)
 
 #### Question 24: Incorrect
 
-**Which of the following is a way that Azure AD Identity Protection helps to protect against identity-based attacks?**
+Which of the following is a way that Azure AD Identity Protection helps to protect against identity-based attacks?
 
 - By requiring all users to use multi-factor authentication
 
@@ -2844,17 +2439,17 @@ Azure AD Identity Protection uses various signals, including device health and s
 
 Note that Azure AD Identity Protection is not a replacement for strong passwords, multi-factor authentication, or other security measures. Instead, it is an additional layer of security that helps to protect against identity-based attacks.
 
-- **By enforcing strong passwords for all users:** This is incorrect because enforcing strong passwords is not a specific feature of Azure AD Identity Protection, but rather a general best practice for secure password management.
+- By enforcing strong passwords for all users: This is incorrect because enforcing strong passwords is not a specific feature of Azure AD Identity Protection, but rather a general best practice for secure password management.
 
-- **By automatically blocking all sign-in attempts from high-risk IP addresses:** This is incorrect because Azure AD Identity Protection does not automatically block sign-in attempts based on IP address, but instead uses a risk-based approach to evaluate sign-in attempts and assess the level of risk.
+- By automatically blocking all sign-in attempts from high-risk IP addresses: This is incorrect because Azure AD Identity Protection does not automatically block sign-in attempts based on IP address, but instead uses a risk-based approach to evaluate sign-in attempts and assess the level of risk.
 
-- **By requiring all users to use multi-factor authentication:** This is incorrect because although Azure AD Identity Protection supports multi-factor authentication, it is not the only method used to protect against identity-based attacks.
+- By requiring all users to use multi-factor authentication: This is incorrect because although Azure AD Identity Protection supports multi-factor authentication, it is not the only method used to protect against identity-based attacks.
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/overview](https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/overview)
+Reference: [https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/overview](https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/overview)
 
 #### Question 25: Correct
 
-**A Senior Security Engineer in your company has enforced MFA for all users. How does MFA enhance security?**
+A Senior Security Engineer in your company has enforced MFA for all users. How does MFA enhance security?
 
 - It requires a Social Insurance Number and a Password
 
@@ -2868,7 +2463,7 @@ Note that Azure AD Identity Protection is not a replacement for strong passwords
 
  
 
-**Multi-factor authentication** is a process where a user is prompted during the sign-in process for an additional form of identification, such as to enter a code on their cellphone or to provide a fingerprint scan.
+Multi-factor authentication is a process where a user is prompted during the sign-in process for an additional form of identification, such as to enter a code on their cellphone or to provide a fingerprint scan.
 
 If you only use a password to authenticate a user, it leaves an insecure vector for attack. If the password is weak or has been exposed elsewhere, is it really the user signing in with the username and password, or is it an attacker? When you require a second form of authentication, security is increased as this additional factor isn't something that's easy for an attacker to obtain or duplicate.
 
@@ -2876,15 +2471,15 @@ If you only use a password to authenticate a user, it leaves an insecure vector 
 
  
 
-Azure AD Multi-Factor Authentication works by requiring **two or more of the following authentication methods:**
+Azure AD Multi-Factor Authentication works by requiring two or more of the following authentication methods:
 
  
 
-1) Something **you know**, typically a password.
+1) Something you know, typically a password.
 
-2) Something **you have**, such as a trusted device that is not easily duplicated, like a phone or hardware key.
+2) Something you have, such as a trusted device that is not easily duplicated, like a phone or hardware key.
 
-3) Something **you are** - biometrics like a fingerprint or face scan.
+3) Something you are - biometrics like a fingerprint or face scan.
 
  
 
@@ -2892,15 +2487,15 @@ Users can register themselves for both self-service password reset and Azure AD 
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks](https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks)
+Reference: [https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks](https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks)
 
 #### Question 26: Correct
 
-**As part of its modernization strategy, your company has decided to move all its operations to the Azure cloud. It is looking for an advanced modernization, and optimization service for Azure with a wide range of tools for assessment.**
+As part of its modernization strategy, your company has decided to move all its operations to the Azure cloud. It is looking for an advanced modernization, and optimization service for Azure with a wide range of tools for assessment.
 
  
 
-**Which of the following would you recommend?**
+Which of the following would you recommend?
 
 - Azure Advisor
 
@@ -2918,17 +2513,17 @@ Azure Migrate provides a simplified migration, modernization, and optimization s
 
  
 
-- **Unified migration platform**: A single portal to start, run, and track your migration to Azure.
+- Unified migration platform: A single portal to start, run, and track your migration to Azure.
 
-- **Range of tools**: A range of tools for assessment and migration. Azure Migrate tools include Azure Migrate: Discovery and assessment and Azure Migrate: Server Migration. Azure Migrate also integrates with other Azure services and tools, and with independent software vendor (ISV) offerings.
+- Range of tools: A range of tools for assessment and migration. Azure Migrate tools include Azure Migrate: Discovery and assessment and Azure Migrate: Server Migration. Azure Migrate also integrates with other Azure services and tools, and with independent software vendor (ISV) offerings.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/migrate/migrate-services-overview](https://docs.microsoft.com/en-us/azure/migrate/migrate-services-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/migrate/migrate-services-overview](https://docs.microsoft.com/en-us/azure/migrate/migrate-services-overview)
 
 #### Question 27: Correct
 
-**Which of the following is a factor that Azure AD Identity Protection uses to assess the risk level of a user's sign-in attempt or activity?**
+Which of the following is a factor that Azure AD Identity Protection uses to assess the risk level of a user's sign-in attempt or activity?
 
 - The user's physical location
 
@@ -2940,7 +2535,7 @@ Azure Migrate provides a simplified migration, modernization, and optimization s
 
 (Correct)
 
-The correct answer is - **The user's device health and security posture** is one of the factors that Azure AD Identity Protection uses to assess the risk level of a user's sign-in attempt or activity. Azure AD Identity Protection uses machine learning algorithms and various risk factors, such as device health and security posture, to identify potential risks and take appropriate action to protect the user's identity and the organization's resources.
+The correct answer is - The user's device health and security posture is one of the factors that Azure AD Identity Protection uses to assess the risk level of a user's sign-in attempt or activity. Azure AD Identity Protection uses machine learning algorithms and various risk factors, such as device health and security posture, to identify potential risks and take appropriate action to protect the user's identity and the organization's resources.
 
  
 
@@ -2948,7 +2543,7 @@ Reference: [https://docs.microsoft.com/en-us/azure/active-directory/identity-pr
 
 #### Question 28: Correct
 
-**You want to set up separate environments for development and testing, and security in Azure. What would you create to achieve this?**
+You want to set up separate environments for development and testing, and security in Azure. What would you create to achieve this?
 
 - Additional resource groups
 
@@ -2960,27 +2555,27 @@ Reference: [https://docs.microsoft.com/en-us/azure/active-directory/identity-pr
 
 (Correct)
 
-**Creating additional subscriptions** is a suitable approach for setting up separate environments for development and testing, and security in Azure. By having separate subscriptions for different environments, you can manage and control access to the resources provisioned within each subscription, and it helps you track costs and apply different access-management policies more effectively.
+Creating additional subscriptions is a suitable approach for setting up separate environments for development and testing, and security in Azure. By having separate subscriptions for different environments, you can manage and control access to the resources provisioned within each subscription, and it helps you track costs and apply different access-management policies more effectively.
 
  
 
-**Other options:**
+Other options:
 
  
 
-**Additional resource groups**: While resource groups help organize resources within a subscription, they don't provide the level of separation needed for different environments with distinct access-management policies and billing tracking. Resource groups are more suitable for organizing resources that have the same lifecycle and need the same access control settings.
+Additional resource groups: While resource groups help organize resources within a subscription, they don't provide the level of separation needed for different environments with distinct access-management policies and billing tracking. Resource groups are more suitable for organizing resources that have the same lifecycle and need the same access control settings.
 
  
 
-**Additional management groups:** Management groups are used to organize subscriptions and apply governance conditions to them. Creating additional management groups would not directly create separate environments for development, testing, and security. They are more suited for organizing multiple subscriptions and applying consistent policies across them.
+Additional management groups: Management groups are used to organize subscriptions and apply governance conditions to them. Creating additional management groups would not directly create separate environments for development, testing, and security. They are more suited for organizing multiple subscriptions and applying consistent policies across them.
 
  
 
-**Additional Azure accounts:** Azure accounts are associated with Azure Active Directory (Azure AD) identities and used for billing purposes. Creating additional Azure accounts doesn't directly create separate environments. It is the subscriptions within the accounts that determine the environments and access controls.
+Additional Azure accounts: Azure accounts are associated with Azure Active Directory (Azure AD) identities and used for billing purposes. Creating additional Azure accounts doesn't directly create separate environments. It is the subscriptions within the accounts that determine the environments and access controls.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
+Reference: [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
 
 #### Question 29: Incorrect
 
@@ -2988,7 +2583,7 @@ True or False:
 
  
 
-**You can create multiple billing reports per subscription. This is handy when you have multiple departments and need to do a chargeback of cloud costs.**
+You can create multiple billing reports per subscription. This is handy when you have multiple departments and need to do a chargeback of cloud costs.
 
 - False
 
@@ -3008,11 +2603,11 @@ Resource tags can also help.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/10-create-subscription-governance-strategy](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/10-create-subscription-governance-strategy)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/10-create-subscription-governance-strategy](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/10-create-subscription-governance-strategy)
 
 #### Question 30: Correct
 
-**Which of the following is NOT an Azure Subscription type?**
+Which of the following is NOT an Azure Subscription type?
 
 - Free Trial
 
@@ -3032,25 +2627,25 @@ Azure offers both free and paid subscription options to fit your needs and requi
 
  
 
-- **Free trial**
+- Free trial
 
 A free trial subscription provides you with 12 months of popular free services, a credit to explore any Azure service for 30 days, and more than 25 services that are always free. Your Azure services are disabled when the trial ends or when your credit expires for paid products, unless you upgrade to a paid subscription.
 
-- **Pay-as-you-go**
+- Pay-as-you-go
 
 A pay-as-you-go subscription lets you pay for what you use by attaching a credit or debit card to your account. Organizations can apply for volume discounts and prepaid invoicing.
 
-- **Member offers**
+- Member offers
 
 Your existing membership to certain Microsoft products and services might provide you with credits for your Azure account, and reduced rates on Azure services. For example, member offers are available to Visual Studio subscribers, Microsoft Partner Network members, Microsoft for Startups members, and Microsoft Imagine members.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/4-purchase-azure-services](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/4-purchase-azure-services)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/4-purchase-azure-services](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/4-purchase-azure-services)
 
 #### Question 31: Correct
 
-**To begin using Azure Storage, you first create an Azure ________________ to store your data objects.**
+To begin using Azure Storage, you first create an Azure ________________ to store your data objects.
 
 - Resource Group
 
@@ -3076,11 +2671,11 @@ To begin using Azure Storage, you first create an Azure Storage account to store
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-storage-accounts](https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-storage-accounts)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-storage-accounts](https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-storage-accounts)
 
 #### Question 32: Correct
 
-**How does Microsoft Purview enhance data governance across multi-cloud environments?**
+How does Microsoft Purview enhance data governance across multi-cloud environments?
 
 - By offering a unified solution to manage and govern data across various cloud and on-premises sources.
 
@@ -3096,11 +2691,11 @@ Microsoft Purview provides a unified solution for managing and governing data ac
 
  
 
-**Reference:** [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
+Reference: [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
 
 #### Question 33: Correct
 
-**What is the primary role of Azure Arc-enabled data services?**
+What is the primary role of Azure Arc-enabled data services?
 
 - To optimize network connectivity between Azure regions.
 
@@ -3116,11 +2711,11 @@ Azure Arc-enabled data services extend Azure data services to on-premises and mu
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-arc/overview](https://learn.microsoft.com/en-us/azure/azure-arc/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-arc/overview](https://learn.microsoft.com/en-us/azure/azure-arc/overview)
 
 #### Question 34: Incorrect
 
-**Which of the following is an event driven, compute-on-demand service , with capabilities to implement code triggered by events occurring in Azure or third party service as well as on-premises systems?**
+Which of the following is an event driven, compute-on-demand service , with capabilities to implement code triggered by events occurring in Azure or third party service as well as on-premises systems?
 
 - Azure Policies
 
@@ -3146,11 +2741,11 @@ You focus on the pieces of code that matter most to you, and Azure Functions han
 
  
 
-**Reference:** [https://azure.microsoft.com/en-in/blog/introducing-azure-functions/](https://azure.microsoft.com/en-in/blog/introducing-azure-functions/)
+Reference: [https://azure.microsoft.com/en-in/blog/introducing-azure-functions/](https://azure.microsoft.com/en-in/blog/introducing-azure-functions/)
 
 #### Question 35: Correct
 
-**Which of the following is an excellent choice if you want to run multiple instances of an application on a single host machine?**
+Which of the following is an excellent choice if you want to run multiple instances of an application on a single host machine?
 
 - Containers
 
@@ -3168,7 +2763,7 @@ While virtual machines are an excellent way to reduce costs versus the investmen
 
  
 
-**What are containers?**
+What are containers?
 
  
 
@@ -3176,15 +2771,15 @@ Containers are a virtualization environment. Much like running multiple virtual 
 
  
 
-**Containers** are managed through a container orchestrator, which can start, stop, and scale out application instances as needed. There are two ways to manage both Docker and Microsoft-based containers in Azure: **Azure Container Instances and Azure Kubernetes Service (AKS).**
+Containers are managed through a container orchestrator, which can start, stop, and scale out application instances as needed. There are two ways to manage both Docker and Microsoft-based containers in Azure: Azure Container Instances and Azure Kubernetes Service (AKS).
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-container-services](https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-container-services)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-container-services](https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-container-services)
 
 #### Question 36: Correct
 
-**What benefit does Infrastructure as Code (IaC) provide for disaster recovery scenarios?**
+What benefit does Infrastructure as Code (IaC) provide for disaster recovery scenarios?
 
 - It enables version control for application code.
 
@@ -3200,7 +2795,7 @@ From the official documentation:
 
  
 
-**Infrastructure as Code (IaC)** is a key DevOps practice that involves the management of infrastructure, such as networks, compute services, databases, storages, and connection topology, in a descriptive model. IaC allows teams to develop and release changes faster and with greater confidence. Benefits of IaC include:
+Infrastructure as Code (IaC) is a key DevOps practice that involves the management of infrastructure, such as networks, compute services, databases, storages, and connection topology, in a descriptive model. IaC allows teams to develop and release changes faster and with greater confidence. Benefits of IaC include:
 
  
 
@@ -3216,11 +2811,11 @@ With IaC, you can create infrastructure configurations as code. This enables con
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/infrastructure-as-code](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/infrastructure-as-code)
+Reference: [https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/infrastructure-as-code](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/considerations/infrastructure-as-code)
 
 #### Question 37: Incorrect
 
-**Which of the following categories does Azure Kubernetes service belong to?**
+Which of the following categories does Azure Kubernetes service belong to?
 
 - Database as a service (DaaS)
 
@@ -3234,7 +2829,7 @@ With IaC, you can create infrastructure configurations as code. This enables con
 
 (Incorrect)
 
-**Remember that Virtual Machines, Containers and Kubernetes are considered Compute Services, and fall under IaaS!**
+Remember that Virtual Machines, Containers and Kubernetes are considered Compute Services, and fall under IaaS!
 
  
 
@@ -3246,53 +2841,22 @@ Azure Kubernetes Service (AKS) offers serverless Kubernetes, an integrated conti
 
  
 
-**Reference:** [https://azure.microsoft.com/en-us/services/kubernetes-service/](https://azure.microsoft.com/en-us/services/kubernetes-service/)
+Reference: [https://azure.microsoft.com/en-us/services/kubernetes-service/](https://azure.microsoft.com/en-us/services/kubernetes-service/)
 
 #### Question 38: Incorrect
 
-**Your boss wants to ensure that your teams virtual machines are automatically patched and updated. Which Azure Virtual Machines feature should you use to achieve this?**
+Your boss wants to ensure that your teams virtual machines are automatically patched and updated. Which Azure Virtual Machines feature should you use to achieve this?
 
 - Azure Virtual Machine Extensions
-
 - Azure Virtual Machine Configuration Management
+- Azure Update Management (Correct)
+- Azure Virtual Machine Scale Sets (Incorrect)
 
-- Azure Update Management
-
-(Correct)
-
-- Azure Virtual Machine Scale Sets
-
-(Incorrect)
-
-A tough #### Question for sure.
-
- 
-
-**Azure Update Management** is the correct answer, and it is a service that provides a solution for automatically patching and updating virtual machines in Azure. It enables you to schedule and track updates across your entire Azure environment, including virtual machines, hybrid machines, and servers. You can also assess the compliance of your virtual machines against security baselines and audits.
-
- 
-
-**Other options:**
-
- 
-
-- **Azure Virtual Machine Scale Sets:** This is a service that allows you to create and manage a group of identical virtual machines in Azure. While this service can help you scale your applications horizontally to meet increased demand, it does not provide a solution for automatically patching and updating virtual machines.
-
- 
-
-- **Azure Virtual Machine Configuration Management:** This is a feature that allows you to configure and manage virtual machine settings and applications using PowerShell DSC (Desired State Configuration). While this feature can help you maintain consistency and enforce configuration standards across your virtual machines, it does not provide a solution for automatically patching and updating virtual machines.
-
- 
-
-- **Azure Virtual Machine Extensions**: This are small applications that provide post-deployment configuration and automation tasks for virtual machines. While some extensions can help you with patching and updating virtual machines, they do not provide a comprehensive solution for this task.
-
- 
-
-**Reference:** [https://learn.microsoft.com/en-us/azure/automation/update-management/overview](https://learn.microsoft.com/en-us/azure/automation/update-management/overview)
+A tough  Question for sure. Azure Update Management is the correct answer, and it is a service that provides a solution for automatically patching and updating virtual machines in Azure. It enables you to schedule and track updates across your entire Azure environment, including virtual machines, hybrid machines, and servers. You can also assess the compliance of your virtual machines against security baselines and audits.
 
 #### Question 39: Correct
 
-**____________________ notifies you about Azure service incidents and planned maintenance so you can take action to mitigate downtime.**
+____________________ notifies you about Azure service incidents and planned maintenance so you can take action to mitigate downtime.
 
 - Azure Service Health
 
@@ -3306,7 +2870,7 @@ A tough #### Question for sure.
 
  
 
-**Azure Service Health** provides personalised alerts and guidance for Azure service issues.
+Azure Service Health provides personalised alerts and guidance for Azure service issues.
 
  
 
@@ -3314,7 +2878,7 @@ Azure Service Health notifies you about Azure service incidents and planned main
 
  
 
-**IMPORTANT!**
+IMPORTANT!
 
 ![](https://img-c.udemycdn.com/redactor/raw/test_#### Question_description/2021-04-03_20-06-54-98569b93c4d534c3dd4be09c47fa0bbf.png)
 
@@ -3324,7 +2888,7 @@ Azure Service Health notifies you about Azure service incidents and planned main
 
  
 
-**Reference:** [https://azure.microsoft.com/en-ca/features/service-health/](https://azure.microsoft.com/en-ca/features/service-health/)
+Reference: [https://azure.microsoft.com/en-ca/features/service-health/](https://azure.microsoft.com/en-ca/features/service-health/)
 
 #### Question 40: Correct
 
@@ -3332,11 +2896,11 @@ Which of the following options would meet these requirements?
 
  
 
-**1) SDKs for popular languages, APIs for SQL, MongoDB, Cassandra and more**
+1) SDKs for popular languages, APIs for SQL, MongoDB, Cassandra and more
 
-**2) Guaranteed speed at any scale** **with instant and limitless elasticity, fast reads, and multi-region writes anywhere in the world**
+2) Guaranteed speed at any scale with instant and limitless elasticity, fast reads, and multi-region writes anywhere in the world
 
-**3) The ability to work with NoSQL data**
+3) The ability to work with NoSQL data
 
 - Azure Files
 
@@ -3348,17 +2912,17 @@ Which of the following options would meet these requirements?
 
 (Correct)
 
-**According to the offical documentation :** 
+According to the offical documentation : 
 
  
 
 ![](https://img-c.udemycdn.com/redactor/raw/2020-05-29_18-52-05-ef189a13fc080ddafb5e0c48556dc24c.png)![](https://img-c.udemycdn.com/redactor/raw/2020-05-29_18-52-41-20bb5275342e3278d12b7fcc13976832.png)
 
-**Reference :** [https://azure.microsoft.com/en-us/services/cosmos-db/#featured](https://azure.microsoft.com/en-us/services/cosmos-db/#featured)
+Reference : [https://azure.microsoft.com/en-us/services/cosmos-db/#featured](https://azure.microsoft.com/en-us/services/cosmos-db/#featured)
 
 #### Question 41: Correct
 
-**What is the recommended minimum data size for using Data Box to transfer data in scenarios with limited network connectivity?**
+What is the recommended minimum data size for using Data Box to transfer data in scenarios with limited network connectivity?
 
 - 40 TB
 
@@ -3370,13 +2934,13 @@ Which of the following options would meet these requirements?
 
 - 20 TB
 
-**Data Box** is an Azure service designed for offline data transfer when dealing with large data sizes and limited or no network connectivity. The recommendation for using Data Box is for data sizes larger than 40 TB. This is because, at such large data sizes, transferring data over the network can be slow, unreliable, or costly due to bandwidth limitations.
+Data Box is an Azure service designed for offline data transfer when dealing with large data sizes and limited or no network connectivity. The recommendation for using Data Box is for data sizes larger than 40 TB. This is because, at such large data sizes, transferring data over the network can be slow, unreliable, or costly due to bandwidth limitations.
 
 In scenarios with limited network connectivity, using Data Box helps avoid the challenges of slow data transfer speeds, potential data corruption, and high costs associated with transferring massive amounts of data over the network. By opting for Data Box, you ensure a secure, efficient, and cost-effective solution for moving large volumes of data to or from Azure.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/6-identify-azure-data-migration-options](https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/6-identify-azure-data-migration-options)
+Reference: [https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/6-identify-azure-data-migration-options](https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/6-identify-azure-data-migration-options)
 
 #### Question 42: Incorrect
 
@@ -3384,7 +2948,7 @@ Yes or No:
 
  
 
-**You can enforce Azure AD Multi-Factor Authentication for all users via the Microsoft Authenticator app, phone call, or SMS code.**
+You can enforce Azure AD Multi-Factor Authentication for all users via the Microsoft Authenticator app, phone call, or SMS code.
 
 - Yes
 
@@ -3400,15 +2964,15 @@ Azure AD Multi-Factor Authentication is a Microsoft service that provides multif
 
  
 
-The Azure Active Directory free edition enables Azure AD Multi-Factor Authentication for administrators with the **global admin** level of access, via the Microsoft Authenticator app, phone call, or SMS code. You can also enforce Azure AD Multi-Factor Authentication for all users **via the Microsoft Authenticator app only,** by enabling security _defaults_ in your Azure AD tenant.
+The Azure Active Directory free edition enables Azure AD Multi-Factor Authentication for administrators with the global admin level of access, via the Microsoft Authenticator app, phone call, or SMS code. You can also enforce Azure AD Multi-Factor Authentication for all users via the Microsoft Authenticator app only, by enabling security _defaults_ in your Azure AD tenant.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/secure-access-azure-identity-services/4-what-are-mfa-conditional-access](https://docs.microsoft.com/en-ca/learn/modules/secure-access-azure-identity-services/4-what-are-mfa-conditional-access)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/secure-access-azure-identity-services/4-what-are-mfa-conditional-access](https://docs.microsoft.com/en-ca/learn/modules/secure-access-azure-identity-services/4-what-are-mfa-conditional-access)
 
 #### Question 43: Correct
 
-**You are a cloud administrator responsible for managing a large Azure environment with multiple subscriptions. You want to enforce a company-wide requirement that requires all virtual machines to be encrypted using Azure Disk Encryption. Which Azure service should you use to enforce this?**
+You are a cloud administrator responsible for managing a large Azure environment with multiple subscriptions. You want to enforce a company-wide requirement that requires all virtual machines to be encrypted using Azure Disk Encryption. Which Azure service should you use to enforce this?
 
 - Azure Security Center
 
@@ -3420,11 +2984,11 @@ The Azure Active Directory free edition enables Azure AD Multi-Factor Authentica
 
 - Azure Active Directory
 
-The correct answer is **Azure Policy.**
+The correct answer is Azure Policy.
 
  
 
-**Azure Policy** can be used to enforce company-wide policies across multiple Azure subscriptions, including policies related to Azure Disk Encryption. By creating a policy definition that requires all virtual machines to have Azure Disk Encryption enabled, you can ensure that this policy is applied consistently across your entire Azure environment.
+Azure Policy can be used to enforce company-wide policies across multiple Azure subscriptions, including policies related to Azure Disk Encryption. By creating a policy definition that requires all virtual machines to have Azure Disk Encryption enabled, you can ensure that this policy is applied consistently across your entire Azure environment.
 
  
 
@@ -3432,25 +2996,25 @@ Other options -
 
  
 
-- **Azure Security Center:** This is a service that helps customers protect their Azure and on-premises resources from threats, but it is not designed specifically for enforcing policies related to Azure Disk Encryption.
+- Azure Security Center: This is a service that helps customers protect their Azure and on-premises resources from threats, but it is not designed specifically for enforcing policies related to Azure Disk Encryption.
 
-- **Azure Active Directory:** This is a cloud-based identity and access management service, and while it can be used to manage access to Azure resources, it is not designed to enforce policies related to Azure Disk Encryption.
+- Azure Active Directory: This is a cloud-based identity and access management service, and while it can be used to manage access to Azure resources, it is not designed to enforce policies related to Azure Disk Encryption.
 
-- **Azure Resource Manager:** This is a service that allows customers to manage resources in their Azure subscription, but it is not designed to enforce policies related to Azure Disk Encryption.
+- Azure Resource Manager: This is a service that allows customers to manage resources in their Azure subscription, but it is not designed to enforce policies related to Azure Disk Encryption.
 
 - multiple subscriptions.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/governance/policy/overview](https://docs.microsoft.com/en-us/azure/governance/policy/overview)
+Reference: [https://docs.microsoft.com/en-us/azure/governance/policy/overview](https://docs.microsoft.com/en-us/azure/governance/policy/overview)
 
 #### Question 44: Correct
 
-**You plan to deploy an SQL database to Azure. One of the major requirements is resource isolation, i.e this database should not be accessible to other your other resources on Azure.**
+You plan to deploy an SQL database to Azure. One of the major requirements is resource isolation, i.e this database should not be accessible to other your other resources on Azure.
 
  
 
-**Which of the following can help with this?**
+Which of the following can help with this?
 
 - Deploy the SQL Database to a different Virtual Network
 
@@ -3462,29 +3026,29 @@ Other options -
 
 - Setup custom rules in Azure Policies
 
-Deploy the SQL Database to a different Virtual Network explains network segmentation. You can deploy the SQL database to a new Virtual Network and **filter** any traffic using a Network Security Group on top of it.
+Deploy the SQL Database to a different Virtual Network explains network segmentation. You can deploy the SQL database to a new Virtual Network and filter any traffic using a Network Security Group on top of it.
 
  
 
  
 
-**Azure Virtual Network (VNet)** is the fundamental building block for your private network in Azure. VNet enables many types of Azure resources, such as Azure Virtual Machines (VM), to securely communicate with each other, the internet, and on-premises networks. VNet is similar to a traditional network that you'd operate in your own data center, but brings with it additional benefits of Azure's infrastructure such as scale, availability, and `isolation.`
+Azure Virtual Network (VNet) is the fundamental building block for your private network in Azure. VNet enables many types of Azure resources, such as Azure Virtual Machines (VM), to securely communicate with each other, the internet, and on-premises networks. VNet is similar to a traditional network that you'd operate in your own data center, but brings with it additional benefits of Azure's infrastructure such as scale, availability, and `isolation.`
 
  
 
-**Communicate between Azure resources**
+Communicate between Azure resources
 
  
 
 You'll want to enable Azure resources to communicate securely with each other. You can do that in one of two ways:
 
-- **Virtual networks** Virtual networks can connect not only VMs but other Azure resources, such as the App Service Environment for Power Apps, Azure Kubernetes Service, and Azure virtual machine scale sets.
+- Virtual networks Virtual networks can connect not only VMs but other Azure resources, such as the App Service Environment for Power Apps, Azure Kubernetes Service, and Azure virtual machine scale sets.
 
-- **Service endpoints** You can use service endpoints to connect to other Azure resource types, such as Azure SQL databases and storage accounts. This approach enables you to link multiple Azure resources to virtual networks to improve security and provide optimal routing between resources.
+- Service endpoints You can use service endpoints to connect to other Azure resource types, such as Azure SQL databases and storage accounts. This approach enables you to link multiple Azure resources to virtual networks to improve security and provide optimal routing between resources.
 
  
 
-**Filter network traffic**
+Filter network traffic
 
  
 
@@ -3492,17 +3056,17 @@ Azure virtual networks enable you to filter traffic between subnets by using the
 
  
 
-- **Network security groups** A network security group is an Azure resource that can contain multiple inbound and outbound security rules. You can define these rules to allow or block traffic, based on factors such as source and destination IP address, port, and protocol.
+- Network security groups A network security group is an Azure resource that can contain multiple inbound and outbound security rules. You can define these rules to allow or block traffic, based on factors such as source and destination IP address, port, and protocol.
 
-- **Network virtual appliances** A network virtual appliance is a specialized VM that can be compared to a hardened network appliance. A network virtual appliance carries out a particular network function, such as running a firewall or performing wide area network (WAN) optimization.
+- Network virtual appliances A network virtual appliance is a specialized VM that can be compared to a hardened network appliance. A network virtual appliance carries out a particular network function, such as running a firewall or performing wide area network (WAN) optimization.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)
 
 #### Question 45: Incorrect
 
-**Which of the following is not a cost saving solution?**
+Which of the following is not a cost saving solution?
 
 - Using Azure Hybrid Benefit to repurpose software licenses on Azure
 
@@ -3526,11 +3090,11 @@ Shutting down Virtual Machines at night is not a cost saving solution.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/6-manage-minimize-total-cost](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/6-manage-minimize-total-cost)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/6-manage-minimize-total-cost](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/6-manage-minimize-total-cost)
 
 #### Question 46: Correct
 
-**In the context of Azure AD B2C, what is a "policy"?**
+In the context of Azure AD B2C, what is a "policy"?
 
 - An encryption key used to secure customer data.
 
@@ -3546,11 +3110,11 @@ In Azure AD B2C, a policy is a collection of predefined rules and behaviors that
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
+Reference: [https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview](https://learn.microsoft.com/en-us/azure/active-directory/external-identities/external-identities-overview)
 
 #### Question 47: Correct
 
-**Which of the following is an example of an Azure Application Platform?**
+Which of the following is an example of an Azure Application Platform?
 
 - Azure App service
 
@@ -3566,7 +3130,7 @@ In Azure AD B2C, a policy is a collection of predefined rules and behaviors that
 
  
 
-**Azure App Service** is an HTTP-based service for hosting web applications, REST APIs, and mobile back ends. You can develop in your favorite language, be it .NET, .NET Core, Java, Ruby, Node.js, PHP, or Python. Applications run and scale with ease on both Windows and Linux-based environments. For Linux-based environments, see [App Service on Linux](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-intro).
+Azure App Service is an HTTP-based service for hosting web applications, REST APIs, and mobile back ends. You can develop in your favorite language, be it .NET, .NET Core, Java, Ruby, Node.js, PHP, or Python. Applications run and scale with ease on both Windows and Linux-based environments. For Linux-based environments, see [App Service on Linux](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-intro).
 
  
 
@@ -3574,7 +3138,7 @@ In Azure AD B2C, a policy is a collection of predefined rules and behaviors that
 
  
 
-**Using Azure App Service, it is also possible to scale apps on an enterprise grade platform:**
+Using Azure App Service, it is also possible to scale apps on an enterprise grade platform:
 
  
 
@@ -3584,11 +3148,11 @@ In Azure AD B2C, a policy is a collection of predefined rules and behaviors that
 
  
 
-**Reference :** [https://docs.microsoft.com/en-us/azure/app-service/overview](https://docs.microsoft.com/en-us/azure/app-service/overview)
+Reference : [https://docs.microsoft.com/en-us/azure/app-service/overview](https://docs.microsoft.com/en-us/azure/app-service/overview)
 
 #### Question 48: Incorrect
 
-**Which of the following statements regarding Azure subscriptions are correct?** 
+Which of the following statements regarding Azure subscriptions are correct? 
 
 - Azure subscription cannot have a trust relationship with an Azure Active Directory (AD) instance
 
@@ -3606,15 +3170,15 @@ In Azure AD B2C, a policy is a collection of predefined rules and behaviors that
 
 (Correct)
 
-**Billing is applied to each subscription separately -** Yes! It is one of the many reasons why people use separate subscriptions.
+Billing is applied to each subscription separately - Yes! It is one of the many reasons why people use separate subscriptions.
 
  
 
-**Trial subscription can be converted to paid** - Of course. When you sign up for an Azure free account, you get $200 credit. In the first 30 days, any services you use beyond their free amounts will be deducted from that $200 credit. When you’ve used up your $200 credit or 30 days have passed (whichever happens first), you’ll need to upgrade by moving to [pay-as-you-go pricing](https://azure.microsoft.com/en-us/offers/ms-azr-0003p/). That way, you can keep getting free amounts of services and purchase services beyond their free amounts as needed. The cost of those services is charged to the payment method you provide.
+Trial subscription can be converted to paid - Of course. When you sign up for an Azure free account, you get $200 credit. In the first 30 days, any services you use beyond their free amounts will be deducted from that $200 credit. When you’ve used up your $200 credit or 30 days have passed (whichever happens first), you’ll need to upgrade by moving to [pay-as-you-go pricing](https://azure.microsoft.com/en-us/offers/ms-azr-0003p/). That way, you can keep getting free amounts of services and purchase services beyond their free amounts as needed. The cost of those services is charged to the payment method you provide.
 
  
 
-**Subscription is dependent on a region -** Yes, when you create a subscription in Azure, you need to specify a certain region for that Subscription. Hence, this choice is valid as well.
+Subscription is dependent on a region - Yes, when you create a subscription in Azure, you need to specify a certain region for that Subscription. Hence, this choice is valid as well.
 
  
 
@@ -3622,7 +3186,7 @@ All other options are invalid and don't stand true.
 
  
 
-**References:**
+References:
 
  
 
@@ -3634,7 +3198,7 @@ All other options are invalid and don't stand true.
 
 #### Question 49: Incorrect
 
-**When you form a cloud center of excellence team or a cloud custodian team, that team can use Azure _______________ to scale their governance practices throughout the organization.**
+When you form a cloud center of excellence team or a cloud custodian team, that team can use Azure _______________ to scale their governance practices throughout the organization.
 
 - Compliance
 
@@ -3668,11 +3232,11 @@ Blueprints are also versioned. Versioning enables you to track and comment on ch
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/8-govern-subscriptions-azure-blueprints](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/8-govern-subscriptions-azure-blueprints)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/8-govern-subscriptions-azure-blueprints](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/8-govern-subscriptions-azure-blueprints)
 
 #### Question 50: Correct
 
-**_____________ helps you estimate the cost savings of operating your solution on Azure over time compared to operating in your on-premises datacenter.**
+_____________ helps you estimate the cost savings of operating your solution on Azure over time compared to operating in your on-premises datacenter.
 
 - Azure Pricing Calculator
 
@@ -3696,7 +3260,7 @@ With the TCO Calculator, you'll enter the details of your on-premises workloads.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/2-compare-costs-tco-calculator](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/2-compare-costs-tco-calculator)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/2-compare-costs-tco-calculator](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/2-compare-costs-tco-calculator)
 
 #### Question 51: Correct
 
@@ -3704,7 +3268,7 @@ Yes or No:
 
  
 
-**All the resources residing in a Resource Group must belong to the same Region.**
+All the resources residing in a Resource Group must belong to the same Region.
 
 - No
 
@@ -3714,7 +3278,7 @@ Yes or No:
 
  
 
-Azure resources deployed to a single resource group can be located in different regions. **The resource group only contains metadata about the resources it contains.**
+Azure resources deployed to a single resource group can be located in different regions. The resource group only contains metadata about the resources it contains.
 
  
 
@@ -3728,11 +3292,11 @@ The resource group stores metadata about the resources. When you specify a locat
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal)
+Reference: [https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal)
 
 #### Question 52: Correct
 
-**What is the minimum number of Virtual Machines and minimum number of Availability Zones respectively that must be used to guarantee an SLA of 99.99%?**
+What is the minimum number of Virtual Machines and minimum number of Availability Zones respectively that must be used to guarantee an SLA of 99.99%?
 
 - 2 Virtual Machines, 1 Availability Zone
 
@@ -3748,13 +3312,13 @@ Azure offers industry best SLAs for VMs. However, to guarantee an SLA of 99.99%
 
  
 
-**According to the official Azure documentation :** 
+According to the official Azure documentation : 
 
  
 
 ![](https://img-c.udemycdn.com/redactor/raw/2020-05-29_19-11-10-92b628cb4c710c19ab0eb3db737fbc4f.png)
 
-**Reference :** [https://azure.microsoft.com/en-us/support/legal/sla/virtual-machines/v1_9/](https://azure.microsoft.com/en-us/support/legal/sla/virtual-machines/v1_9/)
+Reference : [https://azure.microsoft.com/en-us/support/legal/sla/virtual-machines/v1_9/](https://azure.microsoft.com/en-us/support/legal/sla/virtual-machines/v1_9/)
 
 #### Question 53: Correct
 
@@ -3762,7 +3326,7 @@ Yes or No:
 
  
 
-**A unique characteristic of Azure Files from files on a corporate file share is that you cannot access the files from anywhere in the world, it has to be from a specific location.**
+A unique characteristic of Azure Files from files on a corporate file share is that you cannot access the files from anywhere in the world, it has to be from a specific location.
 
 - No
 
@@ -3784,11 +3348,11 @@ Here's an example of a service SAS URI, showing the resource URI and the SAS tok
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-file-storage](https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-file-storage)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-file-storage](https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-file-storage)
 
 #### Question 54: Correct
 
-**You have an on-premises infrastructure and would like to extend its capabilities by making use of Azure services. Which type of cloud deployment is this an example of?**
+You have an on-premises infrastructure and would like to extend its capabilities by making use of Azure services. Which type of cloud deployment is this an example of?
 
 - A private cloud
 
@@ -3802,7 +3366,7 @@ Here's an example of a service SAS URI, showing the resource URI and the SAS tok
 
  
 
-**A hybrid cloud** is a combination of a private cloud and a public cloud.
+A hybrid cloud is a combination of a private cloud and a public cloud.
 
  
 
@@ -3810,7 +3374,7 @@ A hybrid cloud is a computing environment that combines a public cloud and a pri
 
  
 
-**Hybrid cloud**
+Hybrid cloud
 
  
 
@@ -3822,11 +3386,11 @@ A hybrid cloud is a computing environment that combines a public cloud and a pri
 
  
 
-**References:** [https://docs.microsoft.com/en-gb/learn/modules/principles-cloud-computing/4-cloud-deployment-models](https://docs.microsoft.com/en-gb/learn/modules/principles-cloud-computing/4-cloud-deployment-models)
+References: [https://docs.microsoft.com/en-gb/learn/modules/principles-cloud-computing/4-cloud-deployment-models](https://docs.microsoft.com/en-gb/learn/modules/principles-cloud-computing/4-cloud-deployment-models)
 
 #### Question 55: Correct
 
-**Which of the following do Azure Arc-enabled servers allow you to do?**
+Which of the following do Azure Arc-enabled servers allow you to do?
 
 - Manage and govern Azure Active Directory.
 
@@ -3838,15 +3402,15 @@ A hybrid cloud is a computing environment that combines a public cloud and a pri
 
 (Correct)
 
-**Azure Arc-enabled servers** allow you to extend Azure Resource Manager templates to on-premises environments. This enables consistent deployment and management practices across both cloud and on-premises resources.
+Azure Arc-enabled servers allow you to extend Azure Resource Manager templates to on-premises environments. This enables consistent deployment and management practices across both cloud and on-premises resources.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-arc/overview](https://learn.microsoft.com/en-us/azure/azure-arc/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-arc/overview](https://learn.microsoft.com/en-us/azure/azure-arc/overview)
 
 #### Question 56: Correct
 
-**Your team is planning to build a set of REST-based web APIs by using your choice of language and framework. The produced apps should be consumable from any HTTP or HTTPS based client.**
+Your team is planning to build a set of REST-based web APIs by using your choice of language and framework. The produced apps should be consumable from any HTTP or HTTPS based client.
 
  
 
@@ -3870,13 +3434,13 @@ App Service enables you to build and host web apps, background jobs, mobile back
 
  
 
-**API apps**
+API apps
 
 Much like hosting a website, you can build REST-based web APIs by using your choice of language and framework. You get full Swagger support and the ability to package and publish your API in Azure Marketplace. The produced apps can be consumed from any HTTP or HTTPS based client.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-app-services](https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-app-services)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-app-services](https://docs.microsoft.com/en-ca/learn/modules/azure-compute-fundamentals/azure-app-services)
 
 #### Question 57: Correct
 
@@ -3884,7 +3448,7 @@ True or False:
 
  
 
-**The Cool storage tier stores data offline and offers the lowest storage costs, but also the highest costs to rehydrate and access data.**
+The Cool storage tier stores data offline and offers the lowest storage costs, but also the highest costs to rehydrate and access data.
 
 - True
 
@@ -3896,11 +3460,11 @@ True or False:
 
 Azure Storage offers different access tiers for your blob storage, helping you store object data in the most cost-effective manner. The available access tiers include: 
 
-- **Hot access tier**: Optimized for storing data that is accessed frequently (for example, images for your website).
+- Hot access tier: Optimized for storing data that is accessed frequently (for example, images for your website).
 
-- **Cool access tier**: Optimized for data that is infrequently accessed and stored for at least 30 days (for example, invoices for your customers).
+- Cool access tier: Optimized for data that is infrequently accessed and stored for at least 30 days (for example, invoices for your customers).
 
-- **Archive access tier**: Appropriate for data that is rarely accessed and stored for at least 180 days, with flexible latency requirements (for example, long-term backups).
+- Archive access tier: Appropriate for data that is rarely accessed and stored for at least 180 days, with flexible latency requirements (for example, long-term backups).
 
 The following considerations apply to the different access tiers:
 
@@ -3912,13 +3476,13 @@ The following considerations apply to the different access tiers:
 
 - Data in the cool access tier can tolerate slightly lower availability, but still requires high durability, retrieval latency, and throughput characteristics similar to hot data. For cool data, a slightly lower availability service-level agreement (SLA) and higher access costs compared to hot data are acceptable trade-offs for lower storage costs.
 
-- **Archive storage stores data offline and offers the lowest storage costs, but also the highest costs to rehydrate and access data.**
+- Archive storage stores data offline and offers the lowest storage costs, but also the highest costs to rehydrate and access data.
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-storage-tiers](https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-storage-tiers)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-storage-tiers](https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-storage-tiers)
 
 #### Question 58: Correct
 
-**Which storage redundancy option offers the highest level of durability, with a remarkable 16 nines of durability?**
+Which storage redundancy option offers the highest level of durability, with a remarkable 16 nines of durability?
 
 - Geo-redundant storage (GRS)
 
@@ -3930,11 +3494,11 @@ The following considerations apply to the different access tiers:
 
 - Durable-redundant storage (DRS)
 
-**From the official documentation:**
+From the official documentation:
 
  
 
-The storage redundancy option that provides the highest degree of durability, with 16 nines of durability, is **"geo-redundant storage (GRS)."** GRS copies your data synchronously within a single physical location in the primary region using locally redundant storage (LRS). It then copies your data asynchronously to a single physical location in the secondary region (the region pair) also using LRS. This combination of synchronous and asynchronous replication results in an extremely high level of durability, offering at least 16 nines (99.99999999999999%) of durability for Azure Storage data objects over a given year.
+The storage redundancy option that provides the highest degree of durability, with 16 nines of durability, is "geo-redundant storage (GRS)." GRS copies your data synchronously within a single physical location in the primary region using locally redundant storage (LRS). It then copies your data asynchronously to a single physical location in the secondary region (the region pair) also using LRS. This combination of synchronous and asynchronous replication results in an extremely high level of durability, offering at least 16 nines (99.99999999999999%) of durability for Azure Storage data objects over a given year.
 
  
 
@@ -3942,11 +3506,11 @@ Also, there is no option known as DRS.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/3-redundancy](https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/3-redundancy)
+Reference: [https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/3-redundancy](https://learn.microsoft.com/en-us/training/modules/describe-azure-storage-services/3-redundancy)
 
 #### Question 59: Incorrect
 
-**What is the purpose of the Azure AD Identity Protection dashboard?**
+What is the purpose of the Azure AD Identity Protection dashboard?
 
 - To enable administrators to manage and investigate risk events.
 
@@ -3960,7 +3524,7 @@ Also, there is no option known as DRS.
 
 (Incorrect)
 
-The correct answer is - **To enable administrators to manage and investigate risk events.**
+The correct answer is - To enable administrators to manage and investigate risk events.
 
  
 
@@ -3968,17 +3532,17 @@ The purpose of the Azure AD Identity Protection dashboard is to provide administ
 
  
 
-- **To provide an overview of all users' activity logs:** This is incorrect because the Azure AD Identity Protection dashboard focuses on risk events, not activity logs.
+- To provide an overview of all users' activity logs: This is incorrect because the Azure AD Identity Protection dashboard focuses on risk events, not activity logs.
 
-- **To allow administrators to manage users' authentication methods:** This is incorrect because managing users' authentication methods is a separate function that is not part of the Azure AD Identity Protection dashboard.
+- To allow administrators to manage users' authentication methods: This is incorrect because managing users' authentication methods is a separate function that is not part of the Azure AD Identity Protection dashboard.
 
-- **To show a summary of the risk level of all users:** This is incorrect because while the dashboard provides a risk score for each user, its primary purpose is to enable administrators to investigate and manage risk events, not to provide a summary of the risk level of all users.
+- To show a summary of the risk level of all users: This is incorrect because while the dashboard provides a risk score for each user, its primary purpose is to enable administrators to investigate and manage risk events, not to provide a summary of the risk level of all users.
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/](https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/)
+Reference: [https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/](https://docs.microsoft.com/en-us/azure/active-directory/identity-protection/)
 
 #### Question 60: Correct
 
-**Which of the following is a key difference between Azure Active Directory (AAD) and Role-Based Access Control (RBAC)?**
+Which of the following is a key difference between Azure Active Directory (AAD) and Role-Based Access Control (RBAC)?
 
 - AAD provides identity and access management services, while RBAC provides granular access control within Azure resources.
 
@@ -3998,11 +3562,11 @@ Other options:
 
  
 
-- **AAD is used for managing access to Azure resources, while RBAC is used for managing access to on-premises resources :** This is incorrect because AAD can be used for managing access to on-premises resources as well as cloud resources.
+- AAD is used for managing access to Azure resources, while RBAC is used for managing access to on-premises resources : This is incorrect because AAD can be used for managing access to on-premises resources as well as cloud resources.
 
-- **AAD is a cloud-based directory service, while RBAC is a feature within the Azure portal:** This is incorrect because AAD is a cloud-based directory service, but RBAC is not a feature within the Azure portal. Rather, RBAC is a built-in feature of the Azure platform for managing access to Azure resources.
+- AAD is a cloud-based directory service, while RBAC is a feature within the Azure portal: This is incorrect because AAD is a cloud-based directory service, but RBAC is not a feature within the Azure portal. Rather, RBAC is a built-in feature of the Azure platform for managing access to Azure resources.
 
-- **AAD is only used for managing access to Microsoft applications, while RBAC is used for managing access to any Azure resource:** This is incorrect because AAD can be used to manage access to both Microsoft and non-Microsoft applications, while RBAC is used only for managing access to Azure resources.
+- AAD is only used for managing access to Microsoft applications, while RBAC is used for managing access to any Azure resource: This is incorrect because AAD can be used to manage access to both Microsoft and non-Microsoft applications, while RBAC is used only for managing access to Azure resources.
 
  
 
@@ -4010,11 +3574,11 @@ Overall, AAD and RBAC have different but complementary roles in managing access 
 
  
 
-**Reference:** [https://azure.microsoft.com/en-us/products/active-directory/#faq](https://azure.microsoft.com/en-us/products/active-directory/#faq)
+Reference: [https://azure.microsoft.com/en-us/products/active-directory/#faq](https://azure.microsoft.com/en-us/products/active-directory/#faq)
 
 #### Question 61: Correct
 
-**Your company's IT department wants to ensure that its virtual machines (VMs) are highly available and have automatic failover in case of a hardware failure. Which Azure Virtual Machines feature should you use to achieve this?**
+Your company's IT department wants to ensure that its virtual machines (VMs) are highly available and have automatic failover in case of a hardware failure. Which Azure Virtual Machines feature should you use to achieve this?
 
 - Virtual Machine Scale Sets
 
@@ -4030,27 +3594,27 @@ Availability Zones is the correct answer. It is an Azure service that provides h
 
  
 
-**Other Options:**
+Other Options:
 
  
 
  
 
-- **Virtual Machine Scale Sets:** This is an Azure service that allows you to create and manage a group of identical virtual machines in Azure. This service is designed to help you scale your applications horizontally to meet increased demand, but it does not provide a solution for ensuring automatic failover in case of a hardware failure.
+- Virtual Machine Scale Sets: This is an Azure service that allows you to create and manage a group of identical virtual machines in Azure. This service is designed to help you scale your applications horizontally to meet increased demand, but it does not provide a solution for ensuring automatic failover in case of a hardware failure.
 
  
 
-- **Azure Site Recovery:** This is an Azure service that allows you to replicate virtual machines from your on-premises environment to Azure or between Azure regions. While this service can help you achieve high availability and automatic failover, it is primarily designed for disaster recovery scenarios, and not for ensuring high availability in the event of a hardware failure.
+- Azure Site Recovery: This is an Azure service that allows you to replicate virtual machines from your on-premises environment to Azure or between Azure regions. While this service can help you achieve high availability and automatic failover, it is primarily designed for disaster recovery scenarios, and not for ensuring high availability in the event of a hardware failure.
 
  
 
-- **Azure Virtual Machine Resiliency**: This is not a valid Azure service or feature. Therefore, it is not a suitable solution for ensuring highly available virtual machines.
+- Azure Virtual Machine Resiliency: This is not a valid Azure service or feature. Therefore, it is not a suitable solution for ensuring highly available virtual machines.
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/availability-zones/az-overview](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/availability-zones/az-overview](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview)
 
 #### Question 62: Incorrect
 
-**Which of the following is NOT a compute service available in Azure?**
+Which of the following is NOT a compute service available in Azure?
 
 - Azure App Service
 
@@ -4064,13 +3628,13 @@ Availability Zones is the correct answer. It is an Azure service that provides h
 
 (Correct)
 
-CosmosDB is a **Database** and not a compute option in Azure.
+CosmosDB is a Database and not a compute option in Azure.
 
  
 
  
 
-Azure offers a number of ways to host your application code. The term **_compute_** refers to the hosting model for the computing resources that your application runs on. The following flowchart will help you to choose a compute service for your application.
+Azure offers a number of ways to host your application code. The term _compute_ refers to the hosting model for the computing resources that your application runs on. The following flowchart will help you to choose a compute service for your application.
 
 If your application consists of multiple workloads, evaluate each workload separately. A complete solution may incorporate two or more compute services.
 
@@ -4082,11 +3646,11 @@ If your application consists of multiple workloads, evaluate each workload separ
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree](https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree)
+Reference: [https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree](https://docs.microsoft.com/en-us/azure/architecture/guide/technology-choices/compute-decision-tree)
 
 #### Question 63: Incorrect
 
-**Which of the following categories does Azure VPN Gateway belong to?**
+Which of the following categories does Azure VPN Gateway belong to?
 
 - Platform as a Service (PaaS)
 
@@ -4100,7 +3664,7 @@ If your application consists of multiple workloads, evaluate each workload separ
 
 - Software as a Service ( SaaS )
 
-**According to the official documentation :** 
+According to the official documentation : 
 
  
 
@@ -4108,11 +3672,11 @@ If your application consists of multiple workloads, evaluate each workload separ
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways](https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways)
+Reference: [https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways](https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways)
 
 #### Question 64: Correct
 
-**How can you deploy an ARM template to Azure?**
+How can you deploy an ARM template to Azure?
 
 - By running the ARM template on a local machine be it Windows or Mac.
 
@@ -4128,11 +3692,11 @@ ARM templates can be deployed using various tools, including Azure PowerShell, A
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
 
 #### Question 65: Correct
 
-**AzCopy is a command-line utility designed to copy ______________.**
+AzCopy is a command-line utility designed to copy ______________.
 
 - Data between Azure Storage accounts
 
@@ -4144,25 +3708,25 @@ ARM templates can be deployed using various tools, including Azure PowerShell, A
 
 - Data between on-premises file servers
 
-AzCopy is a command-line utility specifically designed to copy data between **Azure Storage accounts** or between an on-premises location and Azure Storage. It supports Blob Storage, Table Storage, and File Storage transfers.
+AzCopy is a command-line utility specifically designed to copy data between Azure Storage accounts or between an on-premises location and Azure Storage. It supports Blob Storage, Table Storage, and File Storage transfers.
 
  
 
-**Other options -**
+Other options -
 
  
 
-- **Virtual machines -** AzCopy is not designed to copy virtual machines; it focuses on data transfers for Azure Storage services.
+- Virtual machines - AzCopy is not designed to copy virtual machines; it focuses on data transfers for Azure Storage services.
 
-- **Data between on-premises file servers -** Although AzCopy can copy data between an on-premises location and Azure Storage, it is not intended for transferring data directly between on-premises file servers without involving Azure Storage.
+- Data between on-premises file servers - Although AzCopy can copy data between an on-premises location and Azure Storage, it is not intended for transferring data directly between on-premises file servers without involving Azure Storage.
 
-- **Database schema -** AzCopy is not designed for copying database schema; it focuses on data transfers for Azure Storage services, such as Blob Storage, Table Storage, and File Storage.
+- Database schema - AzCopy is not designed for copying database schema; it focuses on data transfers for Azure Storage services, such as Blob Storage, Table Storage, and File Storage.
 
 Reference: [https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10)
 
 #### Question 66: Correct
 
-**Your company has a policy that requires all Azure resources to be deployed with a specific set of tags. You want to ensure that this mandate is enforced automatically for all new resources deployed in your Azure environment. Which Azure service should you use to accomplish this?**
+Your company has a policy that requires all Azure resources to be deployed with a specific set of tags. You want to ensure that this mandate is enforced automatically for all new resources deployed in your Azure environment. Which Azure service should you use to accomplish this?
 
 - Azure Advisor
 
@@ -4174,33 +3738,33 @@ Reference: [https://docs.microsoft.com/en-us/azure/storage/common/storage-use-a
 
 (Correct)
 
-The correct answer is **Azure Policy.**
+The correct answer is Azure Policy.
 
  
 
 Azure Policy is the Azure service used to enforce policies for resource consistency and compliance. It allows administrators to create and enforce policies that ensure resources deployed in Azure adhere to specific rules, such as the requirement to have a specific set of tags. Azure Policy can evaluate resources against these policies and, if necessary, take actions to remediate non-compliant resources. In this scenario, Azure Policy can be used to automatically enforce the policy that requires all resources to be deployed with a specific set of tags.
 
-** Other options -**
+ Other options -
 
  
 
-**Azure Security Center:** This is a cloud security management service that provides visibility and control over the security of your Azure resources. While it can help enforce some security policies, it is not designed for enforcing resource tags.
+Azure Security Center: This is a cloud security management service that provides visibility and control over the security of your Azure resources. While it can help enforce some security policies, it is not designed for enforcing resource tags.
 
  
 
-**Azure Advisor:** This is a personalized cloud consultant that provides recommendations for optimizing Azure resources for high availability, security, performance, and cost. While it can provide recommendations for tagging resources, it does not enforce policies.
+Azure Advisor: This is a personalized cloud consultant that provides recommendations for optimizing Azure resources for high availability, security, performance, and cost. While it can provide recommendations for tagging resources, it does not enforce policies.
 
  
 
-**Azure Resource Manager:** This is the deployment and management service for Azure that provides a way to organize and manage resources in a consistent and predictable manner. While it can be used to deploy resources with tags, it does not enforce policies.
+Azure Resource Manager: This is the deployment and management service for Azure that provides a way to organize and manage resources in a consistent and predictable manner. While it can be used to deploy resources with tags, it does not enforce policies.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/governance/policy/](https://docs.microsoft.com/en-us/azure/governance/policy/)
+Reference: [https://docs.microsoft.com/en-us/azure/governance/policy/](https://docs.microsoft.com/en-us/azure/governance/policy/)
 
 #### Question 67: Correct
 
-**Role-based access control is applied to a _________________, which is a resource or set of resources that this access applies to.**
+Role-based access control is applied to a _________________, which is a resource or set of resources that this access applies to.
 
 - Scope
 
@@ -4244,7 +3808,7 @@ Scopes include:
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/2-control-access-azure-rbac](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/2-control-access-azure-rbac)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/2-control-access-azure-rbac](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/2-control-access-azure-rbac)
 
 #### Question 68: Correct
 
@@ -4252,7 +3816,7 @@ True or False:
 
  
 
-**An unlimited number of resources can be added to a Subscription.**
+An unlimited number of resources can be added to a Subscription.
 
 - True
 
@@ -4268,17 +3832,17 @@ Teams often start their Azure governance strategy at the subscription level.
 
  
 
-**Subscriptions** also have some resource limitations. For example, the maximum number of network Azure ExpressRoute circuits per subscription is 10. Those limits should be considered during your design phase. If you'll need to exceed those limits, you might need to add more subscriptions. If you hit a hard limit maximum, there's no flexibility to increase it.
+Subscriptions also have some resource limitations. For example, the maximum number of network Azure ExpressRoute circuits per subscription is 10. Those limits should be considered during your design phase. If you'll need to exceed those limits, you might need to add more subscriptions. If you hit a hard limit maximum, there's no flexibility to increase it.
 
 Management groups are also available to assist with managing subscriptions. A management group manages access, policies, and compliance across multiple Azure subscriptions. You'll learn more about management groups later in this module.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/10-create-subscription-governance-strategy](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/10-create-subscription-governance-strategy)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/10-create-subscription-governance-strategy](https://docs.microsoft.com/en-ca/learn/modules/build-cloud-governance-strategy-azure/10-create-subscription-governance-strategy)
 
 #### Question 69: Correct
 
-**____________ provides disks for Azure virtual machines. Applications and other services can access and use them as needed, similar to how they would in on-premises scenarios.**
+____________ provides disks for Azure virtual machines. Applications and other services can access and use them as needed, similar to how they would in on-premises scenarios.
 
 - Disk Storage
 
@@ -4296,7 +3860,7 @@ Disk Storage provides disks for Azure virtual machines. Applications and other s
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-disk-storage](https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-disk-storage)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-disk-storage](https://docs.microsoft.com/en-ca/learn/modules/azure-storage-fundamentals/azure-disk-storage)
 
 #### Question 70: Correct
 
@@ -4304,7 +3868,7 @@ Yes or No:
 
  
 
-**A Social Insurance Number and a Fingerprint scan are valid MFA options for Azure.**
+A Social Insurance Number and a Fingerprint scan are valid MFA options for Azure.
 
 - Yes
 
@@ -4314,7 +3878,7 @@ Yes or No:
 
  
 
-**The following forms of verification can be used with Azure Multi-Factor Authentication:**
+The following forms of verification can be used with Azure Multi-Factor Authentication:
 
  
 
@@ -4324,25 +3888,25 @@ Multi-factor authentication provides additional security for your identities by 
 
 These elements fall into three categories:
 
-- **Something the user knows**
+- Something the user knows
 
 This might be an email address and password.
 
-- **Something the user has**
+- Something the user has
 
 This might be a code that's sent to the user's mobile phone.
 
-- **Something the user is**
+- Something the user is
 
 This is typically some sort of biometric property, such as a fingerprint or face scan that's used on many mobile devices.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks](https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks)
+Reference: [https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks](https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks)
 
 #### Question 71: Incorrect
 
-**You have deployed Azure File Sync for your organization. One of the interns accidentally deleted some important files on the local file server. How can you recover the deleted files?**
+You have deployed Azure File Sync for your organization. One of the interns accidentally deleted some important files on the local file server. How can you recover the deleted files?
 
 - Recover from the Azure File share using Azure Backup
 
@@ -4356,27 +3920,27 @@ This is typically some sort of biometric property, such as a fingerprint or face
 
 (Incorrect)
 
-The correct answer is **Recover from the Azure File share using Azure Backup.** When you deploy Azure File Sync, the data is synchronized with Azure Files, and you can create a backup of the file share using Azure Backup. In case of accidental deletion, you can restore the deleted files from the Azure File share backup.
+The correct answer is Recover from the Azure File share using Azure Backup. When you deploy Azure File Sync, the data is synchronized with Azure Files, and you can create a backup of the file share using Azure Backup. In case of accidental deletion, you can restore the deleted files from the Azure File share backup.
 
  
 
-**Other options -**
+Other options -
 
  
 
-- **Recovering from the local file server's backup** may be a valid option, but it is not the best solution in the context of Azure File Sync. Azure File Sync keeps a centralized copy of the data in Azure Files, which can be backed up and restored using Azure Backup.
+- Recovering from the local file server's backup may be a valid option, but it is not the best solution in the context of Azure File Sync. Azure File Sync keeps a centralized copy of the data in Azure Files, which can be backed up and restored using Azure Backup.
 
-- **Azure Site Recovery** is a disaster recovery solution and is not intended for file recovery. It is designed to protect virtual machines and physical servers by replicating them to a secondary location, but it is not suitable for restoring individual files.
+- Azure Site Recovery is a disaster recovery solution and is not intended for file recovery. It is designed to protect virtual machines and physical servers by replicating them to a secondary location, but it is not suitable for restoring individual files.
 
-- **Restoring the files from Azure Blob Storage** is not relevant because Azure File Sync synchronizes data with Azure Files, not Azure Blob Storage.
+- Restoring the files from Azure Blob Storage is not relevant because Azure File Sync synchronizes data with Azure Files, not Azure Blob Storage.
 
  
 
-**Reference:**  [https://docs.microsoft.com/en-us/azure/backup/backup-afs](https://docs.microsoft.com/en-us/azure/backup/backup-afs)
+Reference:  [https://docs.microsoft.com/en-us/azure/backup/backup-afs](https://docs.microsoft.com/en-us/azure/backup/backup-afs)
 
 #### Question 72: Correct
 
-**________________ help to enforce organizational standards, to assess compliance at-scale and implementing governance for resource consistency, regulatory compliance, security and management.**
+________________ help to enforce organizational standards, to assess compliance at-scale and implementing governance for resource consistency, regulatory compliance, security and management.
 
  
 
@@ -4400,11 +3964,11 @@ Common use cases for Azure Policy include implementing governance for resource c
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/governance/policy/overview](https://docs.microsoft.com/en-us/azure/governance/policy/overview)
+Reference: [https://docs.microsoft.com/en-us/azure/governance/policy/overview](https://docs.microsoft.com/en-us/azure/governance/policy/overview)
 
 #### Question 73: Correct
 
-**In Azure, subscriptions serve as a unit of:**
+In Azure, subscriptions serve as a unit of:
 
 - All of the above
 
@@ -4416,7 +3980,7 @@ Common use cases for Azure Policy include implementing governance for resource c
 
 - Billing
 
-The correct answer is **All of the Above.**
+The correct answer is All of the Above.
 
  
 
@@ -4424,15 +3988,15 @@ In Azure, subscriptions serve as a unit of management, billing, and scale. They 
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
+Reference: [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
 
 #### Question 74: Correct
 
-**A startup has deployed a set of Virtual Machines which are critical for their day-to-day operations. They need to ensure their availability even if a single data center goes down. An intern suggests deploying the Virtual Machines to at least two regions.**
+A startup has deployed a set of Virtual Machines which are critical for their day-to-day operations. They need to ensure their availability even if a single data center goes down. An intern suggests deploying the Virtual Machines to at least two regions.
 
  
 
-**Would this suggestion meet the goal?**
+Would this suggestion meet the goal?
 
 - No
 
@@ -4454,11 +4018,11 @@ Within each region, multiple datacenters exist to provide for redundancy and ava
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/virtual-machines/windows/regions](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/regions)
+Reference: [https://docs.microsoft.com/en-us/azure/virtual-machines/windows/regions](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/regions)
 
 #### Question 75: Incorrect
 
-**When creating a private endpoint, which of the following components needs to be configured to enable private connectivity?**
+When creating a private endpoint, which of the following components needs to be configured to enable private connectivity?
 
 - Public IP address 
 
@@ -4476,11 +4040,11 @@ To enable private connectivity via a private endpoint, you need to configure a P
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-endpoints](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-endpoints)
+Reference: [https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-endpoints](https://learn.microsoft.com/en-us/azure/storage/files/storage-files-networking-endpoints)
 
 #### Question 76: Correct
 
-**A __________________ contains security rules that allow or deny inbound network traffic to, or outbound network traffic from, several types of Azure resources.**
+A __________________ contains security rules that allow or deny inbound network traffic to, or outbound network traffic from, several types of Azure resources.
 
 - Network security group (NSG)
 
@@ -4494,19 +4058,19 @@ To enable private connectivity via a private endpoint, you need to configure a P
 
  
 
-You can use an **Azure network security group** to filter network traffic to and from Azure resources in an Azure virtual network. A network security group contains [security rules](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#security-rules) that allow or deny inbound network traffic to, or outbound network traffic from, several types of Azure resources. For each rule, you can specify source and destination, port, and protocol.
+You can use an Azure network security group to filter network traffic to and from Azure resources in an Azure virtual network. A network security group contains [security rules](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview#security-rules) that allow or deny inbound network traffic to, or outbound network traffic from, several types of Azure resources. For each rule, you can specify source and destination, port, and protocol.
 
  
 
-**Network security group security rules are evaluated by priority using the 5-tuple information (source, source port, destination, destination port, and protocol) to allow or deny the traffic.** A flow record is created for existing connections. Communication is allowed or denied based on the connection state of the flow record. The flow record allows a network security group to be stateful. If you specify an outbound security rule to any address over port 80, for example, it's not necessary to specify an inbound security rule for the response to the outbound traffic. You only need to specify an inbound security rule if communication is initiated externally. The opposite is also true. If inbound traffic is allowed over a port, it's not necessary to specify an outbound security rule to respond to traffic over the port.
+Network security group security rules are evaluated by priority using the 5-tuple information (source, source port, destination, destination port, and protocol) to allow or deny the traffic. A flow record is created for existing connections. Communication is allowed or denied based on the connection state of the flow record. The flow record allows a network security group to be stateful. If you specify an outbound security rule to any address over port 80, for example, it's not necessary to specify an inbound security rule for the response to the outbound traffic. You only need to specify an inbound security rule if communication is initiated externally. The opposite is also true. If inbound traffic is allowed over a port, it's not necessary to specify an outbound security rule to respond to traffic over the port.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/virtual-network/security-overview](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/virtual-network/security-overview](https://docs.microsoft.com/en-us/azure/virtual-network/security-overview)
 
 #### Question 77: Incorrect
 
-**A startup is planning to replace or supplement traditional on-premises network-attached storage (NAS) devices. More importantly, they are looking for a solution that supports multiple Operating Systems, and containerization.**
+A startup is planning to replace or supplement traditional on-premises network-attached storage (NAS) devices. More importantly, they are looking for a solution that supports multiple Operating Systems, and containerization.
 
  
 
@@ -4530,21 +4094,21 @@ Which of the following would you recommend?
 
  
 
-Azure Files offers fully managed file shares in the cloud that are accessible via the industry standard [Server Message Block (SMB) protocol](https://docs.microsoft.com/en-us/windows/win32/fileio/microsoft-smb-protocol-and-cifs-protocol-overview), [Network File System (NFS) protocol](https://en.wikipedia.org/wiki/Network_File_System), and [Azure Files REST API](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api). Azure file shares can be mounted concurrently by cloud or on-premises deployments. SMB Azure file shares are accessible from **Windows, Linux, and macOS clients**. NFS Azure file shares are accessible from Linux or macOS clients. Additionally, SMB Azure file shares can be cached on Windows servers with [Azure File Sync](https://docs.microsoft.com/en-us/azure/storage/file-sync/file-sync-introduction) for fast access near where the data is being used.
+Azure Files offers fully managed file shares in the cloud that are accessible via the industry standard [Server Message Block (SMB) protocol](https://docs.microsoft.com/en-us/windows/win32/fileio/microsoft-smb-protocol-and-cifs-protocol-overview), [Network File System (NFS) protocol](https://en.wikipedia.org/wiki/Network_File_System), and [Azure Files REST API](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api). Azure file shares can be mounted concurrently by cloud or on-premises deployments. SMB Azure file shares are accessible from Windows, Linux, and macOS clients. NFS Azure file shares are accessible from Linux or macOS clients. Additionally, SMB Azure file shares can be cached on Windows servers with [Azure File Sync](https://docs.microsoft.com/en-us/azure/storage/file-sync/file-sync-introduction) for fast access near where the data is being used.
 
  
 
-**Containerization**:
+Containerization:
 
  Azure file shares can be used as persistent volumes for stateful containers. Containers deliver "build once, run anywhere" capabilities that enable developers to accelerate innovation. For the containers that access raw data at every start, a shared file system is required to allow these containers to access the file system no matter which instance they run on.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction)
+Reference: [https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction)
 
 #### Question 78: Correct
 
-**Which of the following is NOT a valid way to purchase Azure Services?**
+Which of the following is NOT a valid way to purchase Azure Services?
 
 - Through an Enterprise Agreement
 
@@ -4562,25 +4126,25 @@ There are three main ways to purchase services on Azure. They are:
 
  
 
-- **Through an Enterprise Agreement**
+- Through an Enterprise Agreement
 
 Larger customers, known as enterprise customers, can sign an Enterprise Agreement with Microsoft. This agreement commits them to spending a predetermined amount on Azure services over a period of three years. The service fee is typically paid annually. As an Enterprise Agreement customer, you'll receive the best customized pricing based on the kinds and amounts of services you plan on using.
 
-- **Directly from the web**
+- Directly from the web
 
 Here, you can purchase Azure services directly from the Azure portal website and pay standard prices. You're billed monthly, either as a credit card payment or through an invoice. This purchasing method is known as Web Direct.
 
-- **Through a Cloud Solution Provider**
+- Through a Cloud Solution Provider
 
 A Cloud Solution Provider (CSP) is a Microsoft Partner that helps you build solutions on top of Azure. Your CSP bills you for your Azure usage at a price they determine. They also answer your support #### Questions and escalate them to Microsoft, as needed.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/4-purchase-azure-services](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/4-purchase-azure-services)
+Reference: [https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/4-purchase-azure-services](https://docs.microsoft.com/en-ca/learn/modules/plan-manage-azure-costs/4-purchase-azure-services)
 
 #### Question 79: Correct
 
-**Which aspect of data management does Microsoft Purview primarily address?**
+Which aspect of data management does Microsoft Purview primarily address?
 
 - Data migration between Azure regions.
 
@@ -4596,11 +4160,11 @@ Microsoft Purview focuses on data discovery, classification, and governance. It 
 
  
 
-**Reference:** [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
+Reference: [https://azure.microsoft.com/en-ca/products/purview](https://azure.microsoft.com/en-ca/products/purview)
 
 #### Question 80: Correct
 
-**What are the basic building block of Azure?**
+What are the basic building block of Azure?
 
 - Resources
 
@@ -4612,25 +4176,25 @@ Microsoft Purview focuses on data discovery, classification, and governance. It 
 
 - Resource groups
 
-**Resources** are the basic building blocks of Azure. Anything you create, provision, deploy, etc. is a resource. Virtual Machines (VMs), virtual networks, databases, cognitive services, etc. are all considered resources within Azure.
+Resources are the basic building blocks of Azure. Anything you create, provision, deploy, etc. is a resource. Virtual Machines (VMs), virtual networks, databases, cognitive services, etc. are all considered resources within Azure.
 
  
 
-**Other options -**
+Other options -
 
  
 
-- **Resource groups** are logical containers for resources deployed within an Azure subscription. They do not represent the individual components created in Azure.
+- Resource groups are logical containers for resources deployed within an Azure subscription. They do not represent the individual components created in Azure.
 
-- **Subscriptions** are a unit of management, billing, and scale in Azure. They are used to organize resource groups and facilitate billing but are not the basic building blocks themselves.
+- Subscriptions are a unit of management, billing, and scale in Azure. They are used to organize resource groups and facilitate billing but are not the basic building blocks themselves.
 
-- **Management groups** are a higher-level organizational structure used to manage access, policies, and compliance for multiple subscriptions. They are not the basic building blocks of Azure.
+- Management groups are a higher-level organizational structure used to manage access, policies, and compliance for multiple subscriptions. They are not the basic building blocks of Azure.
 
 Reference: [https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/6-describe-azure-management-infrastructure)
 
 #### Question 81: Incorrect
 
-**Your IT teams need to quickly locate resources associated with specific workloads, environments, ownership groups, or other important information.  Which of the following can you recommend?**
+Your IT teams need to quickly locate resources associated with specific workloads, environments, ownership groups, or other important information.  Which of the following can you recommend?
 
 - Tags
 
@@ -4652,19 +4216,19 @@ Organizing cloud-based resources is a crucial task for IT, unless you only have 
 
  
 
-- **Resource management:** Your IT teams need to quickly locate resources associated with specific workloads, environments, ownership groups, or other important information. Organizing resources is critical to assigning organizational roles and access permissions for resource management.
+- Resource management: Your IT teams need to quickly locate resources associated with specific workloads, environments, ownership groups, or other important information. Organizing resources is critical to assigning organizational roles and access permissions for resource management.
 
-- **Operations management:** Visibility for the operations management team about business commitments and SLAs is an important aspect of ongoing operations. For operations to be managed well, tagging for [mission criticality](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/manage/considerations/criticality) is required.
+- Operations management: Visibility for the operations management team about business commitments and SLAs is an important aspect of ongoing operations. For operations to be managed well, tagging for [mission criticality](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/manage/considerations/criticality) is required.
 
-- **Security:** Classification of data and security impact is a vital data point for the team, when breaches or other security issues arise. To operate securely, tagging for [data classification](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/govern/policy-compliance/data-classification) is required.
+- Security: Classification of data and security impact is a vital data point for the team, when breaches or other security issues arise. To operate securely, tagging for [data classification](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/govern/policy-compliance/data-classification) is required.
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/decision-guides/resource-tagging/?toc=%2Fazure%2Fazure-resource-manager%2Fmanagement%2Ftoc.json](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/decision-guides/resource-tagging/?toc=%2Fazure%2Fazure-resource-manager%2Fmanagement%2Ftoc.json)
+Reference: [https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/decision-guides/resource-tagging/?toc=%2Fazure%2Fazure-resource-manager%2Fmanagement%2Ftoc.json](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/decision-guides/resource-tagging/?toc=%2Fazure%2Fazure-resource-manager%2Fmanagement%2Ftoc.json)
 
 #### Question 82: Correct
 
-**Which of the following best describes the relationship between an ARM template and Azure resources?**
+Which of the following best describes the relationship between an ARM template and Azure resources?
 
 - An ARM template is a virtual machine template.
 
@@ -4680,11 +4244,11 @@ An ARM template is used to declare the desired configuration of Azure resources.
 
  
 
-**Reference:** [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
 
 #### Question 83: Incorrect
 
-**Which of the following solutions is the BEST to store web app user data, device information and  other metadata?**
+Which of the following solutions is the BEST to store web app user data, device information and  other metadata?
 
 - Azure Cache for Redis
 
@@ -4698,15 +4262,15 @@ An ARM template is used to declare the desired configuration of Azure resources.
 
 (Correct)
 
-**According to the official  Azure documentation :** 
+According to the official  Azure documentation : 
 
 ![](https://img-c.udemycdn.com/redactor/raw/2020-05-29_19-01-05-4b933927820cdc634f4dd1d1fd5975e6.png)
 
-**Reference** : [https://azure.microsoft.com/en-us/services/storage/tables/#overview](https://azure.microsoft.com/en-us/services/storage/tables/#overview)
+Reference : [https://azure.microsoft.com/en-us/services/storage/tables/#overview](https://azure.microsoft.com/en-us/services/storage/tables/#overview)
 
 #### Question 84: Correct
 
-**A startup is planning to use multiple Azure SQL Databases. Which of the following will help them to reduce costs if the databases have unpredicatable usage demands?**
+A startup is planning to use multiple Azure SQL Databases. Which of the following will help them to reduce costs if the databases have unpredicatable usage demands?
 
 - Elastic Pools
 
@@ -4718,7 +4282,7 @@ An ARM template is used to declare the desired configuration of Azure resources.
 
 - Scale Sets
 
-**Just like Azure VM Scale Sets are best friends with Azure VMs, for Azure SQL Databases, we have Azure SQL Database elastic pools** . These are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single server and share a set number of resources at a set price.
+Just like Azure VM Scale Sets are best friends with Azure VMs, for Azure SQL Databases, we have Azure SQL Database elastic pools . These are a simple, cost-effective solution for managing and scaling multiple databases that have varying and unpredictable usage demands. The databases in an elastic pool are on a single server and share a set number of resources at a set price.
 
  
 
@@ -4726,11 +4290,11 @@ Elastic pools in Azure SQL Database enable SaaS developers to optimize the price
 
  
 
-**Reference:** [https://docs.microsoft.com/en-us/azure/azure-sql/database/elastic-pool-overview](https://docs.microsoft.com/en-us/azure/azure-sql/database/elastic-pool-overview)
+Reference: [https://docs.microsoft.com/en-us/azure/azure-sql/database/elastic-pool-overview](https://docs.microsoft.com/en-us/azure/azure-sql/database/elastic-pool-overview)
 
 #### Question 85: Correct
 
-**Which of the following is an accurate definition of an Azure Policy Initiative?**
+Which of the following is an accurate definition of an Azure Policy Initiative?
 
 - A type of virtual machine used for hosting policies in the Azure cloud.
 
@@ -4742,7 +4306,7 @@ Elastic pools in Azure SQL Database enable SaaS developers to optimize the price
 
 (Correct)
 
-The correct answer is : A way to package and deploy a collection of policy definitions as a single entity. An **initiative definition** is a group of policy definitions that are designed to achieve a specific objective. The purpose of initiative definitions is to streamline the management and assignment of policy definitions by grouping them together as a **single** entity. An example of an initiative could be "Enable Monitoring in Microsoft Defender for Cloud," which aims to monitor all the available security recommendations in a Microsoft Defender for Cloud instance.
+The correct answer is : A way to package and deploy a collection of policy definitions as a single entity. An initiative definition is a group of policy definitions that are designed to achieve a specific objective. The purpose of initiative definitions is to streamline the management and assignment of policy definitions by grouping them together as a single entity. An example of an initiative could be "Enable Monitoring in Microsoft Defender for Cloud," which aims to monitor all the available security recommendations in a Microsoft Defender for Cloud instance.
 
  
 
@@ -4750,12 +4314,12 @@ Other options -
 
  
 
-- **A set of policy definitions that are applied individually for easy management and assignment:** This option describes the individual policy **definitions**, which are the building blocks of an Azure Policy initiative. However, it does not accurately describe an Azure Policy **initiative** as a whole.
+- A set of policy definitions that are applied individually for easy management and assignment: This option describes the individual policy definitions, which are the building blocks of an Azure Policy initiative. However, it does not accurately describe an Azure Policy initiative as a whole.
 
-- **A type of virtual machine used for hosting policies in the Azure cloud:** This option describes a virtual machine, which is not related to an Azure Policy initiative. An Azure Policy initiative is a way to package and deploy a collection of policy definitions, and is not a virtual machine.
+- A type of virtual machine used for hosting policies in the Azure cloud: This option describes a virtual machine, which is not related to an Azure Policy initiative. An Azure Policy initiative is a way to package and deploy a collection of policy definitions, and is not a virtual machine.
 
-- **An Azure service that provides real-time monitoring of policy enforcement:** This option describes a service for monitoring policy enforcement, which is not the same as an Azure Policy initiative. While an Azure Policy initiative can enforce policies, it is not a monitoring service.
+- An Azure service that provides real-time monitoring of policy enforcement: This option describes a service for monitoring policy enforcement, which is not the same as an Azure Policy initiative. While an Azure Policy initiative can enforce policies, it is not a monitoring service.
 
  
 
-**Reference**: [https://learn.microsoft.com/en-us/azure/governance/policy/overview](https://learn.microsoft.com/en-us/azure/governance/policy/overview)
+Reference: [https://learn.microsoft.com/en-us/azure/governance/policy/overview](https://learn.microsoft.com/en-us/azure/governance/policy/overview)

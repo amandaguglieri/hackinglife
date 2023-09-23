@@ -7,13 +7,15 @@ tags:
   - cloud
   - azure
 ---
-# AZ-900 Preparation
+# AZ-900 Azure Fundamentals Certificate Preparation
 
 
 !!! abstract "Notes taken from several sources, including:"
-    - The course AZ-900 Bootcamp: Microsoft Azure Fundamentals, created by Thomas Mitchell and labITout Learning
-    - [Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/).
-    - The book ["Microsoft Certified - Azure Fundamentals. Study guide", by Jim Boyce](https://www.amazon.com/Microsoft-Certified-Azure-Fundamentals-Study/dp/1119770920). 
+    - [The Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/).
+    - Book:  ["Microsoft Certified - Azure Fundamentals. Study guide", by Jim Boyce](https://www.amazon.com/Microsoft-Certified-Azure-Fundamentals-Study/dp/1119770920). 
+    - Udemy course: [AZ-900 Bootcamp: Microsoft Azure Fundamentals](https://www.udemy.com/course/az-900-azure-exam-prep-understanding-cloud-concepts/).
+    - Udemy course: [AZ-900 Microsoft Azure Fundamentals Practice Tests, Sep 2023](https://www.udemy.com/course/microsoft-azure-fundamentals-practice-tests-az900/)
+    - Linkedin course: [Exam tips: Microsoft Azure Fundamentals (AZ-900)]() 
 
 
 ??? abstract "Labs and resources"
@@ -1413,7 +1415,7 @@ GitHub and GitHub Actions offer many of the same functions as Azure DevOps Servi
 
 Azure DevTest Labs automates the deployment, configuration, and decommissioning of VMs and other Azure resources.
 
-## Azure BLUE
+## Azure for defense
 ### Azure Firewall
 
 Azure Firewall allows you to centrally create, enforce, and log application and network connectivity policies across subscriptions and virtual networks
@@ -2068,15 +2070,12 @@ No / Yes
 
 yes. Azure Cloud Shell is an interactive, authenticated, **browser-accessible (the key to everything since all you need is a browser and the OS doesn't matter)** shell for managing Azure resources. It provides the flexibility of choosing the shell experience that best suits the way you work, **either Bash or PowerShell.**
 
-
-
 **Which of the following services allows you to send events generated from Azure resources to applications?**
 
 - Azure Event Hub  (Incorrect)
 - Azure Event Grid  (Correct)
 - Azure Cognitive Services  (Incorrect)
 - Azure App Service (Incorrect)
-
 
 **What Azure service provides recommendations to optimize your cloud spending based on your usage patterns?**
 
