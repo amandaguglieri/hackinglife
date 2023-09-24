@@ -81,28 +81,28 @@ A hybrid cloud is a complex computing environment. It combines a public cloud an
 
 The consumption-based model refers to the way in which organizations only pay for the resources they use. The consumption-based model offers the following benefits: 
 
-• No upfront costs 
-• No need to purchase or manage infrastructure 
-• Customer pays for resources only when they are needed 
-• Customer can stop paying for resources that are no longer needed
+- No upfront costs 
+- No need to purchase or manage infrastructure 
+- Customer pays for resources only when they are needed 
+- Customer can stop paying for resources that are no longer needed
 
 ### Benefits of Cloud Computing
 
 Cloud computing offers several key advantages over a physical environment: 
 
-• High availability: Cloud-based apps can provide a continuous user experience with virtually no downtime. 
-• Scalability: Apps in the cloud can scale vertically and horizontally. When scaling vertically, compute capacity is added by adding RAM or CPUs to a virtual machine. When scaling horizontally, compute capacity is increased by adding instances of resources, such as adding VMs to a configuration. 
-• Elasticity: Allows you to configure apps to autoscale so they always have the resources they need. 
-• Agility: Deploy and configure cloud-based resources quickly as requirements change. 
-• Geo-distribution: Deploy apps to regional datacenters so that customers always have the best performance in their specific region. 
-• Disaster recovery: Cloud-based backup services, data replication, and geo-distribution allow you to deploy apps and know that their data is safe in the event of disaster. 
+- High availability: Cloud-based apps can provide a continuous user experience with virtually no downtime. 
+- Scalability: Apps in the cloud can scale vertically and horizontally. When scaling vertically, compute capacity is added by adding RAM or CPUs to a virtual machine. When scaling horizontally, compute capacity is increased by adding instances of resources, such as adding VMs to a configuration. 
+- Elasticity: Allows you to configure apps to autoscale so they always have the resources they need. 
+- Agility: Deploy and configure cloud-based resources quickly as requirements change. 
+- Geo-distribution: Deploy apps to regional datacenters so that customers always have the best performance in their specific region. 
+- Disaster recovery: Cloud-based backup services, data replication, and geo-distribution allow you to deploy apps and know that their data is safe in the event of disaster. 
 
 ### Capital Expenses vs. Operating Expenses 
 
 Organizations have to think about two different types of expenses: 
 
-• Capital Expenditure (CapEx): The spending of money up-front on physical infrastructure. These expenses are deducted over time. 
-• Operational Expenditure (OpEx): The spending of money on services or products now and being billed for them now. These expenses are deducted in the same year they are incurred. Most cloud services are considered OpEx.
+- **Capital Expenditure (CapEx)**: The spending of money up-front on physical infrastructure. These expenses are deducted over time. 
+- **Operational Expenditure (OpEx)**: The spending of money on services or products now and being billed for them now. These expenses are deducted in the same year they are incurred. Most cloud services are considered OpEx.
 
 ### The Cloud Computing stack
 
@@ -121,18 +121,20 @@ After this, let's start with the stack!
 Migrating to IaaS helps reduce the need for maintenance of on-prem data centers and allows organizations to save money on hardware costs. IaaS solutions allow organizations to scale their IT resources up and down with demand, while also allowing them to quickly provision new applications and increase the reliability of their underlying infrastructure.
 
 **1.** One common business scenario and use case for IaaS is **Lift-and-Shift Migration**:
-- migrate app and workloads to the cloud
-- Increase scale and perfomance
-- Enhance security
-- Reduce the cost without refactoring the application
+
+	- migrate app and workloads to the cloud
+	- Increase scale and perfomance
+	- Enhance security
+	- Reduce the cost without refactoring the application
 
 **2.** Another common use case is **Storage, backup, and recovery**:
-- Avoid capital outlay for storage and complexity of storage management
-- IaaS is useful for handling unpredictable demand and steadily growing storage needs
-- Simplify planning/management of backup/recovery
+
+	- Avoid capital outlay for storage and complexity of storage management
+	- IaaS is useful for handling unpredictable demand and steadily growing storage needs
+	- Simplify planning/management of backup/recovery
 
 **3.** **Web apps**
-IaaS provides all the infraestructure needed to support web apps: storage, web and application servers, networking resources. Quickly deployable, easily scale infraestructure up and down.
+IaaS provides all the infrastructure needed to support web apps: storage, web and application servers, networking resources. Quickly deployable, easily scale infrastructure up and down.
 
 **4.** **High-performance computer**
 
@@ -318,18 +320,28 @@ VM and VM scale sets: total set of 2048 character
 
 Azure compute is an on-demand computing service that organizations use to run cloud-based applications. It provides compute resources like disks, processors, memory, networking, and even operating systems. Azure supports many types of compute solutions, including Linux, Windows Server, SQL Server, Oracle, IBM, and SAP. Each Azure compute service offers different options depending on your requirements. The most common Azure compute services are:
 
-- 1. Azure Virtual Machines 
+1. Azure Virtual Machines 
+
 	- VM Scale Sets 
 	- VM Availability Sets
-- 2. Azure Virtual Desktop 
-- 3. Azure Container Instances 
-- 4. Azure Functions (serverless computing)
-- 5. Azure Logic Apps  (serverless computing)
-- 6. Azure App Service 
-- 7. Azure Virtual Networking
-- 8. Azure Virtual Private Networks
-- 9. Azure ExpressRoute
-- 10. Azure DNS
+
+2. Azure Virtual Desktop 
+
+3. Azure Container Instances 
+
+4. Azure Functions (serverless computing)
+
+5. Azure Logic Apps  (serverless computing)
+
+6. Azure App Service 
+
+7. Azure Virtual Networking
+
+8. Azure Virtual Private Networks
+
+9. Azure ExpressRoute
+
+10. Azure DNS
 
 ### 1. Azure Virtual Machines
 
