@@ -106,7 +106,7 @@ Organizations have to think about two different types of expenses:
 
 ### The Cloud Computing stack
 
-Before digging deeper, I would like to share this super clarifying chart with Azure services and their belong to the cloud computing stack.
+Before delving deeper, I would like to share this highly informative chart depicting Azure services and their position within the cloud computing stack.
 
 ![stack](img/az-900_12.jpg)
 
