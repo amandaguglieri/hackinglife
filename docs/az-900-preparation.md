@@ -1,5 +1,5 @@
 ---
-title: AZ-900 Preparation
+title: AZ-900 Notes to get through the Azure Fundamentals Certificate
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -10,6 +10,7 @@ tags:
   - course
   - certification
 ---
+
 # AZ-900: Notes to get through the Azure Fundamentals Certificate
 
 The following notes are derived from the [Microsoft e-learning platform](https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/). They may not be entirely original, as I've included some paragraphs directly from the Microsoft e-learning platform and some other sources. However, what makes this repository particularly valuable is my effort to enrich and curate the content, along with the addition of valuable tips that can assist anyone in passing the exam.
@@ -1161,90 +1162,18 @@ Azure PowerShell is a shell with which developers, DevOps, and IT professionals 
 
 In addition to be available via Azure Cloud Shell, you can install and configure Azure PowerShell on Windows, Linux, and Mac platforms. 
 
-```ps
-New-AzVm -ResourceGroupName "MyResourceGroup" -Name "MyVM01" -Image "UbuntLTS"
-```
+[See cheat sheet for Azure Powershell](azure-powershell.md). 
 
 
 ### Azure Cloud Shell
 
 Browser-based scripting environment that is accessible from Azure Portal. It requires a storage account. It allows you to choose the shell experience that suits you best. 
 
-During AZ-900 preparation at Microsoft Learn platform, an Azure Cloud Shell is provided. You can practice there the following commands:
 
+During AZ-900 preparation at Microsoft Learn platform, an Azure Cloud Shell is provided. 
 
-```powershell
-# Print current date
-Get-date
+[See cheat sheet for Azure CLI](azure-cli.md).
 
-# Print Azure version
-az version
-
-# Print Azure suscription
-Get-AzureSuscription
-
-# Launch Bash
-bash
-
-# you can use the letters az to start an Azure command in the BASH mode.
-az upgrade
-
-# Launch Azure CLI interactive mode
-az interactive
-
-# Create a VM with UbuntuLTS
-az vm create --resourcegroup MyResourceGroup --name MyVM01 --image UbuntLTS --generate-ssh-keys
-
-# Create a VM
-az vm create --resource-group learn-857e3399-575d-4759-8de9-0c5a22e035e9 --name my-vm  --public-ip-sku Standard --image Ubuntu2204 --admin-username azureuser  --generate-ssh-keys
-
-# Configure Nginx on your VM
-az vm extension set  --resource-group learn-857e3399-575d-4759-8de9-0c5a22e035e9  --vm-name my-vm  --name customScript  --publisher Microsoft.Azure.Extensions  --version 2.1  --settings '{"fileUris":["https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh"]}'  --protected-settings '{"commandToExecute": "./configure-nginx.sh"}'
-
-# Check running VMs
-az vm list
-
-# List IP addresses 
-az vm list-ip-addresses
-
-# Create a variable with public IP address: Run the following `az vm list-ip-addresses` command to get your VM's IP address and store the result as a Bash variable:
-IPADDRESS="$(az vm list-ip-addresses --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --name my-vm --query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" --output tsv)"
-
-# Run the following `az network nsg list` command to list the network security groups that are associated with your VM:
-az network nsg list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --query '[].name' --output tsv
-# You see this:
-# my-vmNSG 
-# Every VM on Azure is associated with at least one network security group. In this case, Azure created an NSG for you called _my-vmNSG_.
-# Run the following `az network nsg rule list` command to list the rules associated with the NSG named _my-vmNSG_:
-az network nsg rule list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG
-
-# Run the `az network nsg rule list` command a second time. This time, use the `--query` argument to retrieve only the name, priority, affected ports, and access (**Allow** or **Deny**) for each rule. The `--output` argument formats the output as a table so that it's easy to read.
-az network nsg rule list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' --output table
-# You see this:
-# Name              Priority    Port    Access
-# -----------------  ----------  ------  --------
-# default-allow-ssh  1000        22      Allow
-
-# By default, a Linux VM's NSG allows network access only on port 22. This enables administrators to access the system. You need to also allow inbound connections on port 80, which allows access over HTTP.
-# Run the following `az network nsg rule create` command to create a rule called _allow-http_ that allows inbound access on port 80:
-az network nsg rule create --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG --name allow-http --protocol tcp --priority 100 --destination-port-range 80 --access Allow
-```
-
-Script:
-```
-# The script under https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh
-
-#!/bin/bash
-
-# Update apt cache.
-sudo apt-get update
-
-# Install Nginx.
-sudo apt-get install -y nginx
-
-# Set the home page.
-echo "<html><body><h2>Welcome to Azure! My name is $(hostname).</h2></body></html>" | sudo tee -a /var/www/html/index.html
-```
 
 ### Azure Resource Manager (ARM) and Azure ARM templates
 
