@@ -1136,25 +1136,29 @@ The Azure portal is a web-based user interface that you can use to access almost
 
 Azure Portal does not offer a way to automate repetitive tasks.
 
+### Azure Cloud Shell
+
+Browser-based scripting environment that is accessible from Azure Portal. It requires a storage account. It allows you to choose the shell experience that suits you best. 
+
+During AZ-900 preparation at Microsoft Learn platform, an Azure Cloud Shell is provided. 
 
 ### Azure CLI
 
-The Azure CLI is a command-line interface.  A cross-platform command-line program (Windows, Linux and macOs) to connect to Azure and execute administrative commands. 
+Azure CLI is a command-line program to connect to Azure and execute administrative commands on Azure resources. It runs on Linux, macOS, and Windows, and allows administrators and developers to execute their commands through a terminal, command-line prompt, or script instead of a web browser.
 
-It’s an executable program that you can use to execute commands in Bash. You can use the Azure CLI to perform every possible management task in Azure. Like Azure PowerShell, the CLI allows you to run one-off commands or you can combine them into a script and execute them together.
-
+It’s an executable program that you can use to execute commands in Bash. You can use the Azure CLI to perform every possible management task in Azure. 
 Launch azure cli:
 
 ```powershell
-# Launch Azure CLI interactive mode
+# Launch Azure CLI interactive mode from Azure Cloud Shell
 az interactive
-```
 
-```azure cli
 version
 upgrade
 exit
 ```
+
+[See cheat sheet for Azure CLI](azure-cli.md). 
 
 ### Azure PowerShell
 
@@ -1163,17 +1167,6 @@ Azure PowerShell is a shell with which developers, DevOps, and IT professionals 
 In addition to be available via Azure Cloud Shell, you can install and configure Azure PowerShell on Windows, Linux, and Mac platforms. 
 
 [See cheat sheet for Azure Powershell](azure-powershell.md). 
-
-
-### Azure Cloud Shell
-
-Browser-based scripting environment that is accessible from Azure Portal. It requires a storage account. It allows you to choose the shell experience that suits you best. 
-
-
-During AZ-900 preparation at Microsoft Learn platform, an Azure Cloud Shell is provided. 
-
-[See cheat sheet for Azure CLI](azure-cli.md).
-
 
 ### Azure Resource Manager (ARM) and Azure ARM templates
 
