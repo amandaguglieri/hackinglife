@@ -19,4 +19,6 @@ curl -i -L $host
 curl -T file.txt
 # -T, --upload-file <file>; This transfers the specified local file to the remote URL. -T uses PUT http method
 
+curl -o target/path/filename URL
+# -o: to specify a location/filename
 ```

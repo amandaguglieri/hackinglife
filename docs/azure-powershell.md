@@ -62,6 +62,11 @@ New-AzResourceGroup -Name $rgName -Location $location
 
 # A way to assign a variable to location if you want to replicate an existing location from another resource group 
 $location = (Get-AzResourceGroup -Name $rgName).Location
+
+
+# Delete resource groups
+Remove-AzResourceGroup -Name "ContosoRG01"
+
 ```
 
 ### VMs
