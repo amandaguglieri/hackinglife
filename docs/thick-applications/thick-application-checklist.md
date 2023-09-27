@@ -13,7 +13,6 @@ tags:
 
 [Source](https://github.com/Hari-prasaanth/Thick-Client-Pentest-Checklist)
 
-  
 ## Information gathering
     
     **Information Gathering**
