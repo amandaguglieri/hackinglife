@@ -273,3 +273,11 @@ cd C:\Windows\Microsoft.NET\Framework\v4.0.30319\
 .\ilasm.exe C:\User\lala\Desktop\RE\DVTA.il
 ```
 
+## Anti piracy measures implemented by some apps
+
+Mechanism to track or prevent illegitimate copying or usage of the software:
+
+- Does the app use serial keys, or License Keys to ensure that only allowed number of users can load and operate the software?
+- Does the application stop operating after the expiration of license or serial key?
+- 
+- • Tracking back the legitimate and illegitimate usage of the application

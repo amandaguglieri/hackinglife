@@ -16,8 +16,7 @@ Download from: https://sourceforge.net/projects/regshot/
 
 ## Usage
 
-In the course  [Pentesting thick clients applications](thick-applications/tca-introduction.md).
-
+From the course  [Pentesting thick clients applications](thick-applications/tca-introduction.md).
 
 
 **1.**  Run  regshot version according to your thick-app (84 or 64 v).

@@ -26,7 +26,7 @@ nmap <scan types> <options> $ip
 nmap -sT -Pn --unprivileged --script banner $ip
 
 # enumerate ciphers supported by the application server
-nmap -sT -p 443 -Pn -unprivilegeds --script ssl-enum-ciphers $ip
+nmap -sT -p 443 -Pn -unprivileged --script ssl-enum-ciphers $ip
 
 # sync-scan the top 10,000 most well-known ports
 nmap -sS $ip --top-ports 10000
@@ -382,6 +382,16 @@ Following the example, a possible exploitation for this weak configuration would
 ```shell-session
 nc -nv -p 53 $ip 50000
 ```
+
+
+### UDP scans not working on VPN connections
+
+Explanation from https://www.reddit.com/r/nmap/comments/u08lud/havin_a_rough_go_of_trying_to_scan_a_subnet_with/:
+
+>As others have pointed out, scanning over a VPN link means you are limited to [internet-layer](https://en.wikipedia.org/wiki/Internet_protocol_suite#Key_architectural_principles) interactions and operations. The "V" in VPN stands for Virtual, and means that you are not actually on the same link as the other hosts in your subnet, so you can't get information about their link-layer connections any more than they can know whether you've connected to the VPN via Starbucks WiFi, an Ethernet cable, or a dial-up modem.
+>
+>You are further limited by the fact that Windows does not offer a general-purpose raw socket interface, so Nmap can't craft special packets at the network/internet layer. Usually we work around this by crafting Ethernet (link-layer) frames and injecting those with [Npcap](https://npcap.com/), but VPN links do not use Ethernet frames, so that method doesn't work. We hope to be able to add this functionality in the future, but for now, VPNs are tricky to use with Npcap, and we haven't implemented PPTP or other VPN framing in Nmap to make it work. You can still do TCP Connect scanning (`-sT`), run most NSE scripts (`-sC` or `--script`), and do service version detection (`-sV`), but things like TCP SYN scan (`-sS`), UDP scanning (`-sU`), OS detection (`-O`), and traceroute (`--traceroute`) will not work.
+
 
 
 ## How nmap works

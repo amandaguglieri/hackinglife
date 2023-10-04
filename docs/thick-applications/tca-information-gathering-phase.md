@@ -98,3 +98,18 @@ Also, check these other tools and resources:
 - [WinSpy](../winspy.md).
 - [Window Detective](https://windowdetective.sourceforge.net/index.html)
 - [netspi.com](https://www.netspi.com/blog/technical/thick-application-penetration-testing/introduction-to-hacking-thick-clients-part-2-the-network/?_gl=1*2wn9s0*_ga*MTQ0NjMzNTMxNi4xNjc1Mjc0ODU3*_ga_BVEZXBBWG7*MTY3NTI3NzMyMS4yLjAuMTY3NTI3NzMzOS40Mi4wLjA).
+
+
+## Enumerate libraries and resources employed in building the app
+
+When pentesting a thick-client application, I came across this nice way to enumerate libraries, dependencies, sources...  By using  [Sigcheck from sysInternalsSuite](../sys-internals-suite.md), you can view metadata from the images with executables. Additionally, you can save the results to a CSV for reporting purposes.
+
+```powershell
+.\sigcheck.exe -nobanner -s -e <folder/binaryFile>
+# -s: Search recursively, useful for thick client apps with lot of folders and subfolders
+# -e: Scan executable images only (regardless of their extension)
+# -nobanner:	Do not display the startup banner and copyright message.
+```
+
+
+One cool flag is the recursive one ("-s"), which helps you avoid navigating through the folder structure. 

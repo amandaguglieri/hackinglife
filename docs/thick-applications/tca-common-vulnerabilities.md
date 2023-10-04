@@ -44,7 +44,7 @@ Install it by double-clicking on it.
 Now from command line:
 
 ```
-.\binscope.exe /verbose /html /longfile c:/path/to/output.report C:/path/to/application/toAudit/DVTA.exe
+.\binscope.exe /verbose /html /logfile c:/path/to/outputreport.html C:/path/to/application/toAudit/DVTA.exe
 ```
 
 After executing the command you will obtain a report of some basic checks that binscope run on the application.
