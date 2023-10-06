@@ -18,12 +18,48 @@ It’s an executable program that you can use to execute commands in Bash. You c
 
 Azure CLI is a command-line program to connect to Azure and execute administrative commands on Azure resources. It runs on Linux, macOS, and Windows, and allows administrators and developers to execute their commands through a terminal, command-line prompt, or script instead of a web browser.
 
+## Installation
+
+- Linux: apt-get on Ubuntu, yum on Red Hat, and zypper on OpenSUSE
+- Mac: Homebrew.
+
+1. Modify your sources list so that the Microsoft repository is registered and the package manager can locate the Azure CLI package:
+
+```bash
+AZ_REPO=$(lsb_release -cs)
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
+sudo tee /etc/apt/sources.list.d/azure-cli.list
+```
+
+2. Import the encryption key for the Microsoft Ubuntu repository. This allows the package manager to verify that the Azure CLI package you install comes from Microsoft.
+
+```bash
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+```
+
+3. Install the Azure CLI:
+
+```bash
+sudo apt-get install apt-transport-https
+sudo apt-get update && sudo apt-get install azure-cli
+```
 
 ## Basic usage
 
+
 ```
-# Launch Bash from Azure Cloud Shell
+# Running Azure-CLI from Cloud Shell
 bash
+
+# Running Azure-CLI from Linux
+az
+```
+
+
+
+```
+# See installed version
+az --version
 
 # you can use the letters az to start an Azure command 
 az upgrade
