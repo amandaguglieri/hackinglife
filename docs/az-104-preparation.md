@@ -129,6 +129,16 @@ An **Azure Resource Manager template** precisely defines all the Resource Mana
 - **Templates are linkable**. You can link Resource Manager templates together to make the templates themselves modular. You can write small templates that each define a piece of a solution, and then combine them to create a complete system.
 - **Templates simplify orchestration**. You only need to deploy the template to deploy all of your resources. Normally this would take multiple operations.
 
+The template uses a _declarative syntax_. The declarative syntax is a way of building the structure and elements that outline what resources will look like without describing the control flow. Declarative syntax is different than imperative syntax, which uses commands for the computer to perform. Imperative scripting focuses on specifying each step in deploying the resources.
+
+ARM templates are idempotent, which means you can deploy the same template many times and get the same resource types in the same state.
+
+Resource Manager orchestrates deploying the resources so they're created in the correct order. When possible, resources will also be created in parallel, so ARM template deployments finish faster than scripted deployments.
+
+Resource Manager also has built-in validation. It checks the template before starting the deployment to make sure the deployment will succeed.
+
+You can also integrate your ARM templates into continuous integration and continuous deployment (CI/CD) tools like Azure Pipelines.
+
 
 **The schema**:
 
@@ -203,6 +213,46 @@ You're limited to 256 parameters in a template. You can reduce the number of par
 - The azuredeploy.parameters.json file provides the values the template needs.
 
 It caught my eye: [https://github.com/azure/azure-quickstart-templates/tree/master/application-workloads/blockchain/blockchain](https://github.com/azure/azure-quickstart-templates/tree/master/application-workloads/blockchain/blockchain)
+
+
+You can deploy an ARM template to Azure in one of the following ways:
+- Deploy a local template
+- Deploy a linked template
+- Deploy in a continuous deployment pipeline
+
+Example: To add a resource to your template, you'll need to know the resource provider and its types of resources. The syntax for this combination is in the form of {resource-provider}/{resource-type}. 
+
+See the code:
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.1",
+  "apiProfile": "",
+  "parameters": {},
+  "variables": {},
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "name": "learntemplatestorage123",
+      "location": "westus",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "supportsHttpsTrafficOnly": true
+      }
+    }
+  ],
+  "outputs": {}
+}
+```
+
+**To create a ARM template use Visual Studio Code with the extension "Azure Resource Manager (ARM) Tools for Visual Studio Code". **
+
 ### Biceps templates
 
 Bicep is a domain-specific language (DSL) that uses declarative syntax to deploy Azure resources. In a Bicep file, you define the infrastructure you want to deploy to Azure, and then use that file throughout the development lifecycle to repeatedly deploy your infrastructure. Your resources are deployed in a consistent manner. Bicep provides concise syntax, reliable type safety, and support for code reuse. Bicep offers a first-class authoring experience for your [infrastructure-as-code](https://learn.microsoft.com/en-us/devops/deliver/what-is-infrastructure-as-code) solutions in Azure.

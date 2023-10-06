@@ -46,6 +46,7 @@ sudo apt-get update && sudo apt-get install azure-cli
 
 ## Basic usage
 
+Run Azure-CLI
 
 ```
 # Running Azure-CLI from Cloud Shell
@@ -55,7 +56,7 @@ bash
 az
 ```
 
-
+Basic commands to warm up:
 
 ```
 # See installed version
@@ -66,11 +67,7 @@ az upgrade
 
 # Launch Azure CLI interactive mode
 az interactive
-```
 
-### Help
-
-```
 # Getting help. If you want to find commands that might help you manage a storage blob, you can use the find command:
 az find blob
 
@@ -79,7 +76,17 @@ az storage blob --help
 ```
 
 
-### Output
+Commands in the CLI are structured in _groups_ and _subgroups_. Each group represents a service provided by Azure, and the subgroups divide commands for these services into logical groupings. For example, the `storage` group contains subgroups including **account**, **blob**, and **queue**.
+
+Because you're working with a local install of the Azure CLI, you'll need to authenticate before you can execute Azure commands by using the Azure CLI **login** command.
+
+```bash
+az login
+```
+
+The Azure CLI will typically launch your default browser to open the Azure sign-in page. After successfully signing in, you'll be connected to your Azure subscription.
+
+### Output formatting
 
 ```
 # Results in a json format by default
@@ -100,17 +107,24 @@ az group list --out table
 az group list
 # remember you can format output
 
+# List all your resource groups in a table:
+az group list --output table
+
+# Return in json all my resources in my resource group:
+az group list --query "[?name == '$RESOURCE_GROUP']"
+
+
 # Retrieve properties from an existing and known resource group
 az group show --name myresourcegroup
 
 # From a specific resource group (provided, for instance, its name), query a value. Querying location:
-az group show --name rg-test2 --query location --out table
+az group show --name <name> --query location --out table
 
 # Querying id
-az group show --name rg-test2 --query id --out table
+az group show --name <name> --query id --out table
 
 # Create a Resource group
-az group create --name mynewresource --location westeurope
+az group create --name <name> --location <location>
 ```
 
 
@@ -206,3 +220,116 @@ sudo apt-get install -y nginx
 # Set the home page.
 echo "<html><body><h2>Welcome to Azure! My name is $(hostname).</h2></body></html>" | sudo tee -a /var/www/html/index.html
 ```
+
+### App Service plan
+
+Create variables:
+
+```bash
+export RESOURCE_GROUP=learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778 
+export AZURE_REGION=eastus 
+export AZURE_APP_PLAN=popupappplan-$RANDOM 
+export AZURE_WEB_APP=popupwebapp-$RANDOM
+```
+
+
+Create an App Service plan to run your app. 
+
+```bash
+az appservice plan create --name $AZURE_APP_PLAN --resource-group $RESOURCE_GROUP --location $AZURE_REGION --sku FREE
+```
+
+Verify that the service plan was created successfully by listing all your plans in a table:
+
+```bash
+az appservice plan list --output table
+```
+
+
+### Web app
+
+Create variables:
+
+```bash
+export RESOURCE_GROUP=learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778 
+export AZURE_REGION=eastus 
+export AZURE_APP_PLAN=popupappplan-$RANDOM 
+export AZURE_WEB_APP=popupwebapp-$RANDOM
+```
+
+Create a Web App
+
+```bash
+# Create web app
+az webapp create --name $AZURE_WEB_APP --resource-group $RESOURCE_GROUP --plan $AZURE_APP_PLAN
+```
+
+List existing ones:
+
+```bash
+az webapp list --output table
+```
+
+Return HTTP address of my web app:
+
+```bash
+site="http://$AZURE_WEB_APP.azurewebsites.net"
+echo $site
+```
+
+Getting the default html for the sample web app:
+
+```bash
+curl $AZURE_WEB_APP.azurewebsites.net
+```
+
+
+### Deploy code from Github
+
+Create variables:
+
+```bash
+export RESOURCE_GROUP=learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778 
+export AZURE_REGION=eastus 
+export AZURE_APP_PLAN=popupappplan-$RANDOM 
+export AZURE_WEB_APP=popupwebapp-$RANDOM
+```
+
+The goal is to deploy code from a GitHub repository to the web app.
+
+```bash
+az webapp deployment source config --name $AZURE_WEB_APP --resource-group $RESOURCE_GROUP --repo-url "https://github.com/Azure-Samples/php-docs-hello-world" --branch master --manual-integration
+```
+
+Once it's deployed, hit your site again with a browser or CURL:
+
+```bash
+curl $AZURE_WEB_APP.azurewebsites.net
+```
+
+
+### Deploy an ARM template
+
+Prerequisites:
+
+```bash
+# First, sign in to Azure by using the Azure CLI 
+az login
+
+# define your resource group. 
+	# 1. You can obtain available location values from: 
+az account list-locations
+	# 2. You can configure the default location using 
+az configure --defaults location=<location>
+	# 3. If non existentm create it
+	az group create --name {name of your resource group} --location "{location}"
+```
+
+Now, you are set. Deploy your ARM template:
+
+```bash
+templateFile="{provide-the-path-to-the-template-file}"
+az deployment group create --name blanktemplate --resource-group myResourceGroup --template-file $templateFile
+```
+
+Use linked templates to deploy complex solutions. You can break a template into many templates and deploy these templates through a main template. When you deploy the main template, it triggers the linked template's deployment. You can store and secure the linked template by using a SAS token.
