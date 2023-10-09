@@ -9,6 +9,13 @@ tags:
 
 # Repo for legacy Operating system
 
-This repo is just awesome when it comes to Windows: https://osvault.weebly.com/windows-beta-repository.html
 
-You can find  isos from Windows 1.0 DR 5 to nowadays isos.
+## Old version of Windows 
+
+From Windows 1.0 DR 5 to nowadays ISOs: [https://osvault.weebly.com/windows-beta-repository.html](https://osvault.weebly.com/windows-beta-repository.html)
+
+
+## Windows servers
+
+- Windows Server 2019: [https://www.microsoft.com/es-es/evalcenter/download-windows-server-2019](https://www.microsoft.com/es-es/evalcenter/download-windows-server-2019).
+- 
