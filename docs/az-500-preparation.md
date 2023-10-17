@@ -82,6 +82,8 @@ The following table outlines some of the features you may need for your organiza
 |Lightweight Directory Access Protocol (LDAP) write|✓ (within the managed domain)|✓|
 |Geographical-distributed (Geo-distributed) deployments|✓|✓|
 
+Azure Active Directory Domain Services (Azure AD DS) provides managed domain services such as domain join, group policy, lightweight directory access protocol (LDAP), and Kerberos/New Technology LAN Manager (NTLM) authentication. You use these domain services without the need to deploy, manage, and patch domain controllers (DCs) in the cloud.
+
 
 ### Signing devices to Azure Active Directory
 
@@ -137,7 +139,7 @@ The following table is offered as an aid to understanding these role categories.
 |Service-specific roles|Azure DevOps Administrator  <br>Azure Information Protection Administrator  <br>Billing Administrator  <br>Customer relationship management (CRM) Service Administrator  <br>Customer Lockbox Access Approver  <br>Desktop Analytics Administrator  <br>Exchange Service Administrator  <br>Insights Administrator  <br>Insights Business Leader  <br>Intune Service Administrator  <br>Kaizala Administrator  <br>Lync Service Administrator  <br>Message Center Privacy Reader  <br>Message Center Reader  <br>Modern Commerce User  <br>Network Administrator  <br>Office Apps Administrator  <br>Power BI Service Administrator  <br>Power Platform Administrator  <br>Printer Administrator  <br>Printer Technician  <br>Search Administrator  <br>Search Editor  <br>SharePoint Service Administrator  <br>Teams Communications Administrator  <br>Teams Communications Support Engineer  <br>Teams Communications Support Specialist  <br>Teams Devices Administrator  <br>Teams Administrator|
 
 
-Additionally you have Azure AD built-in roles. These are all of them:
+These are all of the Azure AD built-in roles:
 
 |**Role**|**Description**|
 |---|---|
@@ -250,13 +252,19 @@ Azure AD DS replicates identity information from Azure AD, so it works with Azur
 
 
 
+**Concepts:**
 
-5. **Azure Active Directory (Azure AD) - Cloud-based** identity and mobile device management that provides user account and authentication services for resources such as Microsoft 365, the Azure portal, or SaaS applications.
-    - Azure AD can be synchronized with an on-premises AD DS environment to provide a single identity to users that works natively in the cloud.
-6. **Active Directory Domain Services (AD DS)** - **Enterprise-ready lightweight directory access protocol (LDAP) server** that provides key features such as identity and authentication, computer object management, group policy, and trusts.
-    - AD DS is a central component in many organizations with an on-premises IT environment and provides core user account authentication and computer management features.
-7. **Azure Active Directory Domain Services (Azure AD DS)** - **Provides managed domain services** with a subset of fully compatible traditional AD DS features such as domain join, group policy, LDAP, and Kerberos / New Technology LAN Manager (NTLM) authentication.
-    - Azure AD DS integrates with Azure AD, which can synchronize with an on-premises AD DS environment. This ability extends central identity use cases to traditional web applications that run in Azure as part of a lift-and-shift strategy.
+> **Azure Active Directory (Azure AD) - Cloud-based** identity and mobile device management that provides user account and authentication services for resources such as Microsoft 365, the Azure portal, or SaaS applications.
+>
+>Azure AD can be synchronized with an on-premises AD DS environment to provide a single identity to users that works natively in the cloud.
+>
+>**Active Directory Domain Services (AD DS)** - **Enterprise-ready lightweight directory access protocol (LDAP) server** that provides key features such as identity and authentication, computer object management, group policy, and trusts.
+  >
+  >AD DS is a central component in many organizations with an on-premises IT environment and provides core user account authentication and computer management features.
+>
+>**Azure Active Directory Domain Services (Azure AD DS)** - **Provides managed domain services** with a subset of fully compatible traditional AD DS features such as domain join, group policy, LDAP, and Kerberos / New Technology LAN Manager (NTLM) authentication.
+>
+> Azure AD DS integrates with Azure AD, which can synchronize with an on-premises AD DS environment. This ability extends central identity use cases to traditional web applications that run in Azure as part of a lift-and-shift strategy.
 
 
 ### Create and manage Azure AD users
@@ -294,9 +302,11 @@ You can create a dynamic group for either devices or users but not for both. You
 
 ### Configure Azure AD administrative units
 
- An administrative unit can contain only users and groups. Administrative units restrict permissions in a role to any portion of your organization that you define. You could, for example, use administrative units to delegate the Helpdesk Administrator role to regional support specialists
+ An administrative unit can contain only users and groups. Administrative units restrict permissions in a role to any portion of your organization that you define. You could, for example, use administrative units to delegate the Helpdesk Administrator role to regional support specialists.
 
-## Available roles
+> To use administrative units, you need an Azure Active Directory Premium license for each administrative unit admin, and Azure Active Directory Free licenses for administrative unit members.
+
+**Available roles for Azure AD administrative units**
 
 |**Role**|**Description**|
 |---|---|
@@ -307,8 +317,6 @@ You can create a dynamic group for either devices or users but not for both. You
 |Password Administrator|Can reset passwords for non-administrators and Password Administrators within the assigned administrative unit only.|
 |User Administrator|Can manage all aspects of users and groups, including resetting passwords for limited admins within the assigned administrative unit only.|
 
-
-
 ### Pawordless authentication
 
  Microsoft global Azure and Azure Government offer the following **three** passwordless authentication options that integrate with Azure Active Directory (Azure AD):
@@ -316,6 +324,331 @@ You can create a dynamic group for either devices or users but not for both. You
 1. Windows Hello for Business: Windows Hello for Business is ideal for information workers that have their own designated Windows PC. The biometric and PIN credentials are directly tied to the user's PC, which prevents access from anyone other than the owner. With public key infrastructure (PKI) integration and built-in support for single sign-on (SSO), Windows Hello for Business provides a convenient method for seamlessly accessing corporate resources on-premises and in the cloud.
 2. Microsoft Authenticator: You can also allow your employee's phone to become a passwordless authentication method. You may already be using the Authenticator app as a convenient multi-factor authentication option in addition to a password. You can also use the Authenticator App as a passwordless option.
 3. Fast Identity Online2 (**FIDO2**) security keys: The FIDO (Fast IDentity Online) Alliance helps to promote open authentication standards and reduce the use of passwords as a form of authentication. FIDO2 is the latest standard that incorporates the web authentication (WebAuthn) standard. Users can register and then select a FIDO2 security key at the sign-in interface as their main means of authentication. These FIDO2 security keys are typically USB devices but could also use Bluetooth or Near-Field Communication (NFC).
+
+
+PIM Priviledge Identity Management
+
+
+
+
+## Implement Hybrid Identity
+
+Hybrid Identity is the process of connecting your on-premises Active Directory with your Azure Active Directory. 
+
+### Deploy Azure AD connect
+
+Azure AD Connect will integrate your on-premises directories with Azure Active Directory.
+
+Azure AD Connect provides the following features:
+
+- **Password hash synchronization**. A sign-in method that synchronizes a hash of a users on-premises AD password with Azure AD.
+- **Pass-through authentication**. A sign-in method that allows users to use the same password on-premises and in the cloud, but doesn't require the additional infrastructure of a federated environment.
+- **Federation integration**. Federation is an optional part of Azure AD Connect and can be used to configure a hybrid environment using an on-premises AD FS infrastructure. It also provides AD FS management capabilities such as certificate renewal and additional AD FS server deployments.
+- **Synchronization**. Responsible for creating users, groups, and other objects. As well as, making sure identity information for your on-premises users and groups is matching the cloud. This synchronization also includes password hashes.
+- **Health Monitoring**. Azure AD Connect Health can provide robust monitoring and provide a central location in the Azure portal to view this activity.
+
+**Azure Active Directory (Azure AD) Connect Health** provides robust monitoring of your on-premises identity infrastructure. It enables you to maintain a reliable connection to Microsoft 365 and Microsoft Online Services. With Azure AD Connect the key data you need is easily accessible. You can view and act on alerts, setup email notifications for critical alerts, and view performance data. *Using AD Connect Health works by installing an agent on each of your on-premises sync servers.*
+
+
+### Introduction to Authentication
+
+Identity is the new control plane of IT security. When the Azure AD hybrid identity solution is your new control plane, authentication is the foundation of cloud access. All the other advanced security and user experience features in Azure AD depends on your authentication method.
+
+Azure AD supports the following authentication methods for hybrid identity solutions:
+
+#### Cloud authentication
+
+Azure AD handles users' sign-in process.  Coupled with seamless single sign-on (SSO), users can sign in to cloud apps without having to reenter their credentials.
+
+**Option 1: Azure AD password hash synchronization.** The simplest way to enable authentication for on-premises directory objects in Azure AD.
+
+**Option 2:** **Azure AD Pass-through Authentication.** Provides a simple password validation for Azure AD authentication services by using a software agent that runs on one or more on-premises servers. The servers validate the users directly with your on-premises Active Directory, which ensures that the password validation doesn't happen in the cloud. Companies with a security requirement to immediately enforce on-premises user account states, password policies, and sign-in hours might use this authentication method.
+
+####  Federal authentication
+
+Azure AD hands off the authentication process to a separate trusted authentication system, such as on-premises Active Directory Federation Services (AD FS), to validate the user’s password. The authentication system can provide additional advanced authentication requirements. Examples are smartcard-based authentication or third-party multifactor authentication.
+
+So, which one is more appropiate for your organization? See this decision tree:
+
+![Decision tree](img/az-500_4.png)
+
+
+### Azure AD Password Hash Synchronization (PHS)
+
+**Password hash synchronization** (PHS) is a feature used to synchronize user passwords from an on-premises Active Directory instance to a cloud-based Azure AD instance. Use this feature to sign in to Azure AD services like Microsoft 365, Microsoft Intune, CRM Online, and Azure Active Directory Domain Services (Azure AD DS). You sign in to the service by using the same password you use to sign in to your on-premises Active Directory instance. 
+
+*How does syncronization work?* In the background, the password synchronization component takes the user’s password hash from on-premises Active Directory, encrypts it, and passes it as a string to Azure. Azure decrypts the encrypted hash and stores the password hash as a user attribute in Azure AD. When the user signs in to an Azure service, the sign-in challenge dialog box generates a hash of the user’s password and passes that hash back to Azure. Azure then compares the hash with the one in that user’s account. If the two hashes match, then the two passwords must also match and the user receives access to the resource. The dialog box provides the facility to save the credentials so that the next time the user accesses the Azure resource, the user will not be prompted.
+
+>It is important to understand that this is **same sign-in**, not single sign-on. The user still authenticates against two separate directory services, albeit with the same user name and password. This solution provides a simple alternative to an AD FS implementation.
+
+![Azure AD PHS](img/az-500_2.png)
+
+### Azure AD Pass-through Authentication (PTA)
+
+**Azure AD Pass-through Authentication** (PTA) allows users to sign in to both on-premises and cloud-based applications using the same user account and passwords. When users sign-in using Azure AD, Pass-through authentication validates the users’ passwords directly against an organization's on-premise Active Directory. Benefits:
+
+- Supports user sign-in into all web browser-based applications and into Microsoft Office client applications that use modern authentication.
+- Sign-in usernames can be either the on-premises default username (userPrincipalName) or another attribute configured in Azure AD Connect (known as Alternate ID).
+- Works seamlessly with conditional access features such as Azure Active Directory Multi-Factor Authentication to help secure your users.
+- Integrated with cloud-based self-service password management, including password writeback to on-premises Active Directory and password protection by banning commonly used passwords.
+- Multi-forest environments are supported if there are forest trusts between your AD forests and if name suffix routing is correctly configured.
+- PTA is a free feature, and you don't need any paid editions of Azure AD to use it.
+- PTA can be enabled via Azure AD Connect.
+- PTA uses a lightweight on-premises agent that listens for and responds to password validation requests.
+- Installing multiple agents provides high availability of sign-in requests.
+- PTA protects your on-premises accounts against brute force password attacks in the cloud.
+
+![Azure AD PTA](img/az-500_3.png)
+
+
+### Azure AD Federation
+
+Federation is a collection of domains that have established trust. The level of trust may vary, but typically includes authentication and almost always includes authorization. A typical federation might include a number of organizations that have established trust for shared access to a set of resources. You can federate your on-premises environment with Azure AD and use this federation for authentication and authorization. This sign-in method ensures that all user authentication occurs on-premises. This method allows administrators to implement more rigorous levels of access control.
+
+>If you decide to use Federation with Active Directory Federation Services (AD FS), you can optionally set up password hash synchronization as a backup in case your AD FS infrastructure fails.
+
+
+### Configure password writeback
+
+**Password writeback** is a feature enabled with Azure AD Connect that allows password changes in the cloud to be written back to an existing on-premises directory in real time.
+
+>To use **self-service password reset (SSPR)** you must have already configured Azure AD Connect in your environment.
+
+Password writeback provides:
+
+- **Enforcement of on-premises Active Directory Domain Services password policies**. When a user resets their password, it is checked to ensure it meets your on-premises Active Directory Domain Services policy before committing it to that directory. This review includes checking the history, complexity, age, password filters, and any other password restrictions that you have defined in local Active Directory Domain Services.
+- **Zero-delay feedback**. Password writeback is a synchronous operation. Your users are notified immediately if their password did not meet the policy or could not be reset or changed for any reason.
+- **Supports password changes from the access panel and Microsoft 365**. When federated or password hash synchronized users come to change their expired or non-expired passwords, those passwords are written back to your local Active Directory Domain Services environment.
+- **Supports password writeback when an admin resets them from the Azure portal**. Whenever an admin resets a user’s password in the Azure portal, if that user is federated or password hash synchronized, the password is written back to on-premises. This functionality is currently not supported in the Office admin portal.
+- **Doesn’t require any inbound firewall rules**. Password writeback uses an Azure Service Bus relay as an underlying communication channel. All communication is outbound over port 443.
+
+![Password writeback](img/az-500_5.png)
+
+
+
+## Azure AD identity protection
+
+Risk detections in Azure AD Identity Protection include any identified suspicious actions related to user accounts in the directory. The signals generated that are fed to Identity Protection, can be further fed into tools like Conditional Access to make access decisions, or fed back to a security information and event management (SIEM) tool for further investigation based on your organization's enforced policies.
+
+For your organization to be protected you can have:
+
+- **Azure AD Identity Protection policies** can automatically block a sign-in attempt or require additional action, such as requiring a password change or prompt for Azure AD Multi-Factor Authentication. 
+- These policies work with existing **Azure AD Conditional Access policies** as an extra layer of protection for your organization.
+
+Some of the following actions may trigger Azure AD Identity Protection risk detection:
+
+- Users with leaked credentials.
+- Sign-ins from anonymous IP addresses.
+- Impossible travel to atypical locations.
+- Sign-ins from infected devices.
+- Sign-ins from IP addresses with suspicious activity.
+
+Azure Active Directory Identity Protection includes three default policies that administrators can choose to enable: 
+
+
+The insight you get for a detected risk detection is tied to your Azure AD subscription.  
+
+- **MFA registration policy** -  Identity Protection can help organizations roll out Azure Multi-Factor Authentication using a Conditional Access policy requiring registration at sign-in.  Makes sure users are registered for Azure AD Multi-Factor Authentication. If a sign-in risk policy prompts for MFA, the user must already be registered for Azure AD Multi-Factor Authentication.
+- **Sign-in risk policy** - Identity Protection analyzes signals from each sign-in, both real-time and offline, and calculates a risk score based on the probability that the sign-in wasn't performed by the user. Administrators can decide based on this risk score signal to enforce organizational requirements. Administrators can choose to block access, allow access, or allow access but require multi-factor authentication. Administrators can also choose to create a custom Conditional Access policy, including sign-in risk as an assignment condition.
+- **User risk policy** - Identifies and responds to user accounts that may have compromised credentials. Can prompt the user to create a new password.
+
+![Azure AD identity protection: default policies](img/az-500_6.png)
+
+
+When you enable a policy user or sign-in risk policy, you can also choose the threshold for risk level - _**low and above**_, _medium and above_, or _**high**_. This flexibility lets you decide how aggressive you want to be in enforcing any controls for suspicious sign-in events.
+
+#### Implement user risk policy
+
+Identity Protection can calculate what it believes is normal for a user's behavior and use that to base decisions for their risk. User risk is a calculation of probability that an identity has been compromised. Administrators can decide based on this risk score signal to enforce organizational requirements. Administrators can choose to block access, allow access, or allow access but require a password change using Azure AD self-service password reset.
+
+The risky users report includes these data: 
+
+- Which users are at risk, have had risk remediated, or have had risk dismissed?
+- Details about detections
+- History of all risky sign-ins
+- Risk history
+
+Administrators can then choose to act on these events. Administrators can choose to:
+
+- Reset the user password
+- Confirm user compromise
+- Dismiss user risk
+- Block user from signing in
+- Investigate further using Azure ATP
+
+#### Implement sign-in risk policy
+
+Sign-in risk represents the probability that a given authentication request isn't authorized by the identity owner. For users of Azure Identity Protection, sign-in risk can be evaluated as part of a Conditional Access policy. Sign-in Risk Policy supports the following conditions:
+
+- **Location**: When configuring location as a condition, organizations can choose to include or exclude locations.  These named locations may include the public IPv4 network information, country or region, or even unknown areas that don't map to specific countries or regions.
+- **Client apps**: Conditional Access policies by default apply to browser-based applications and applications that utilize modern authentication protocols. In addition to these applications, administrators can choose to include Exchange ActiveSync clients and other clients that utilize legacy protocols.
+- **Risky sign-ins**: The risky sign-ins report contains filterable data for up to the past 30 days (1 month). With the information provided by the risky sign-ins report, administrators can find:
+	- Which sign-ins are classified as at risk, confirmed compromised, confirmed safe, dismissed, or remediated. 
+	- Real-time and aggregate risk levels associated with sign-in attempts.
+	- Detection types triggered.
+	- Conditional Access policies applied
+	- MFA details
+	- Device information
+	- Application information
+	- Location information
+
+Administrators can then choose to take action on these events. Administrators can choose to:
+
+- Confirm sign-in compromise
+- Confirm sign-in safe
+
+#### Deploy multifactor authentication in Azure
+
+For organizations that need to be compliant with industry standards, such as the Payment Card Industry (PCI) Data Security Standard (DSS) version 3.2, MFA is a must have capability to authenticate users. Beyond being compliant with industry standards, enforcing MFA to authenticate users can also help organizations to mitigate credential theft attacks.
+
+**Methods**
+
+*Call to phone*: Places an automated voice call. The user answers the call and presses # in the phone keypad to authenticate. The phone number is not synchronized to on-premises Active Directory. A voice call to phone is important because it persists through a phone handset upgrade, allowing the user to register the mobile app on the new device.
+
+*Text message to phone*: Sends a text message that contains a verification code. The user is prompted to enter the verification code into the sign-in interface. This process is called one-way SMS. Two-way SMS means that the user must text back a particular code. Two-way SMS is deprecated and not supported after November 14, 2018. Users who are configured for two-way SMS are automatically switched to call to phone verification at that time.
+
+*Notification through mobile app*: Sends a push notification to your phone or registered device. The user views the notification and selects Approve to complete verification. The Microsoft Authenticator app is available for Windows Phone, Android, and iOS. Push notifications through the mobile app provide the best user experience.
+
+*Verification code from mobile app*: The Microsoft Authenticator app generates a new OATH verification code every 30 seconds. The user enters the verification code into the sign-in interface. The Microsoft Authenticator app is available for Windows Phone, Android, and iOS. Verification code from mobile app can be used when the phone has no data connection or cellular signal.
+
+
+**Settings**
+
+- *Account lockout*: The account lockout settings let you specify how many failed attempts to allow before the account becomes locked out for a period of time.  The account lockout settings are only applied when a pin code is entered for the MFA prompt. The following settings are available: Number of MFA denials to trigger account lockout, Minutes until account lockout counter is reset, Minutes until account is automatically unblocked. 
+- *Block and unblock users*: If a user's device has been lost or stolen, you can block authentication attempts for the associated account.
+- *Fraud alerts*: Configure the fraud alert feature so that your users can report fraudulent attempts to access their resources. Code to report fraud during initial greeting: When users receive a phone call to perform two-step verification, they normally press # to confirm their sign-in. To report fraud, the user enters a code before pressing #. This code is 0 by default, but you can customize it.
+- *Notification*: Email notifications can be configured when users report fraud alerts.
+- *OATH tokens*: Azure AD supports the use of OATH-TOTP SHA-1 tokens that refresh codes every 30 or 60 seconds. Customers can purchase these tokens from the vendor of their choice.
+- *Trusted IPs*:  Trusted IPs is a feature to allow federated users or IP address ranges to bypass two-step authentication. Notice there are two selections in this screenshot.
+	- **Managed tenants**. For managed tenants, you can specify IP ranges that can skip MFA. 
+	- **Federated tenants**. For federated tenants, you can specify IP ranges and you can also exempt AD FS claims users.
+
+
+**How to deploy MFA**
+
+To enable MFA, go to the User Properties in Azure Active Directory, and then the Multi-Factor Authentication option. From there, you can select the users that you want to modify and enable for MFA. You can also bulk enable groups of users with PowerShell. User's states can be **Enabled**, **Enforced**, or **Disabled**.
+
+
+Azure AD Multi-Factor Authentication is included free of charge for global administrator security. Enabling MFA for global administrators provides an added level of security when managing and creating Azure resources like virtual machines, managing storage, or using other Azure services. Secondary authentication includes phone call, text message, and the authenticator app. Remember, you can only enable MFA for organizational accounts stored in Azure Active Directory. These are also called work or school accounts.
+
+
+## Azure AD Conditional Access
+
+Conditional Access is the tool used by Azure Active Directory to bring signals together, to make decisions, and enforce organizational policies. Conditional Access policies at their simplest are if-then statements, if a user wants to access a resource, then they must complete an action. Conditional Access policies are enforced after the first-factor authentication has been completed. Conditional Access is not intended as an organization's first line of defense for scenarios like denial-of-service (DoS) attacks but can use signals from these events to determine access.
+
+> Conditional Access is at the heart of the new **identity driven control plane**. Identity as a Service—the new control plane
+
+Conditional access comes with six conditions: user/group, cloud application, device state, location (IP range), client application, and sign-in risk.
+
+![Azure AD Conditional access](img/az-500_7.png)
+
+With access controls, you can either Block Access altogether or Grant Access with more requirements: 
+
+- Require MFA from Azure AD or an on-premises MFA (combined with AD FS).
+- Grant access to only trusted devices.
+- Require a domain-joined device.
+- Require mobile devices to use Intune app protection policies.
+
+
+##  Azure AD Identity Governance
+
+
+### Azure Active Directory (Azure AD) access reviews 
+
+Navigate to **Azure Active Directory (or Microsoft Entra ID) > Identity Governance**. Select Access reviews.
+
+Azure Active Directory (Azure AD) access reviews enable organizations to efficiently manage group memberships, access to enterprise applications, and role assignments.
+
+Use access reviews in the following cases:
+
+- **Too many users in privileged roles**: It's a good idea to check how many users have administrative access, how many of them are Global Administrators, and if there are any invited guests or partners that have not been removed after being assigned to do an administrative task. You can recertify the role assignment users in Azure AD roles such as Global Administrators, or Azure resources roles such as User Access Administrator in the Azure AD Privileged Identity Management (PIM) experience.
+- **When automation is infeasible**: You can create rules for dynamic membership on security groups or Microsoft 365 Groups, but what if the HR data is not in Azure AD or if users still need access after leaving the group to train their replacement? You can then create a review on that group to ensure those who still need access should have continued access.
+- **When a group is used for a new purpose**: If you have a group that is going to be synced to Azure AD, or if you plan to enable a sales management application for everyone in the Sales team group, it would be useful to ask the group owner to review the group membership prior to the group being used in a different risk content.
+- **Business critical data access**: for certain resources, it might be required to ask people outside of IT to regularly sign out and give a justification on why they need access for auditing purposes.
+- **To maintain a policy's exception list**: In an ideal world, all users would follow the access policies to secure access to your organization's resources. However, sometimes there are business cases that require you to make exceptions. As the IT admin, you can manage this task, avoid oversight of policy exceptions, and provide auditors with proof that these exceptions are reviewed regularly.
+- **Ask group owners to confirm they still need guests in their groups**: Employee access might be automated with some on premises IAM, but not invited guests. If a group gives guests access to business sensitive content, then it's the group owner's responsibility to confirm the guests still have a legitimate business need for access.
+- **Have reviews recur periodically**: You can set up recurring access reviews of users at set frequencies such as weekly, monthly, quarterly or annually, and the reviewers will be notified at the start of each review. Reviewers can approve or deny access with a friendly interface and with the help of smart recommendations.
+
+
+###  Azure AD Privileged Identity Management (PIM)
+
+Using this feature requires Azure AD Premium P2 licenses. Azure AD Privileged Identity Management (PIM) allows you to manage, control, and monitor access to the most important resources in your organization. You can give just-in-time access and just-enough-access to users to allow them to do their tasks.
+Privileged Identity Management provides time-based and approval-based role activation to mitigate the risks of excessive, unnecessary, or misused access permissions on resources you care about. Here are some of the key features of Privileged Identity Management:
+
+- Provide just-in-time privileged access to Azure AD and Azure resources
+- Assign time-bound access to resources using start and end dates
+- Require approval to activate privileged roles
+- Enforce multi-factor authentication to activate any role
+- Use justification to understand why users activate
+- Get notifications when privileged roles are activated
+- Conduct access reviews to ensure users still need roles
+- Download audit history for internal or external audit
+- Prevents removal of the last active Global Administrator and Privileged Role Administrator role assignments
+
+
+**Zero Trust model principles**: 
+
+- **Verify explicitly** - Always authenticate and authorize based on all available data points.
+- **Use least privilege access** - Limit user access with Just-In-Time and Just-Enough-Access (JIT/JEA), risk-based adaptive policies, and data protection.
+- **Assume breach** - Minimize blast radius and segment access. Verify end-to-end encryption and use analytics to get visibility, drive threat detection, and improve defenses.
+
+**Zero Trust model Architecture**: 
+
+The primary components of this process are Intune for device management and device security policy configuration, Azure AD conditional access for device health validation, and Azure AD for user and device inventory. The system works with Intune, pushing device configuration requirements to the managed devices. The device then generates a statement of health, which is stored in Azure AD. When the device user requests access to a resource, the device health state is verified as part of the authentication exchange with Azure AD.
+
+
+**How does Privileged Identity Management work?**
+
+Once you set up Privileged Identity Management, you'll see Tasks, Manage, and Activity options in the left navigation menu. As an administrator, you'll choose between options such as managing Azure AD roles, managing Azure resource roles, or PIM for Groups. When you choose what you want to manage, you see the appropriate set of options for that option.
+
+Azure AD roles:
+
+- Can manage Azure AD: Privileged Role Administrator, and Global Administrator roles.
+- Can read  Azure AD roles:  Global Administrators, Security Administrators, Global Readers, and Security Readers roles
+
+Azure AD resources:
+- can be managed by:  Subscription Administrator, Resource Owner, and Resource User Access Administrator roles. 
+- **can not** even be read by: Privileged Role Administrators, Security Administrators, or Security Readers roles 
+
+> Make sure there are always at least two users in a Privileged Role Administrator role, in case one user is locked out or their account is deleted.
+
+When creating an assignment, something that I didn't know in the setting up:
+- Type of the assignment
+    - Eligible assignments require the member of the role to perform an action to use the role. Actions might include activation or requesting approval from designated approvers.
+    - Active assignments don't require the member to perform any action to use the role. Members assigned as active have the privileges assigned to the role.
+
+How activates a role?  If users have been made eligible for a role, then they must activate the role assignment before using the role. To activate the role, users select a specific activation duration within the maximum (configured by administrators) and the reason for the activation request. If the role requires approval to activate, a notification will appear in the upper right corner of the user's browser, informing them the request is pending approval. If approval isn't required, the member can start using the role. Delegated approvers receive email notifications when a role request is pending their approval. Approvers can view, approve or deny these pending requests in PIM. After the request has been approved, the member can start using the role. For example, if a user or a group was assigned with Contribution role to a resource group, they'll be able to manage that particular resource group.
+
+To extend or  renew assignments, it's required approval from a Global Administrator or Privileged Role Administrator. Notifications can be sent to Admins, Requestors, and Approvers.
+
+**Privileged Role Administrator permissions**
+
+- Enable approval for specific roles
+- Specify approver users or groups to approve requests
+- View request and approval history for all privileged roles
+
+**Approver permissions**
+
+- View pending approvals (requests)
+- Approve or reject requests for role elevation (single and bulk)
+- Provide justification for my approval or rejection
+
+**Eligible role user permissions**
+
+- Request activation of a role that requires approval
+- View the status of your request to activate
+- Complete your task in Azure AD if activation was approved
+
+
+**Assignment settings**: 
+
+- **Allow permanent eligible assignment**. Global admins and Privileged role admins can assign permanent eligible assignment. They can also require that all eligible assignments have a specified start and end date.
+- **Allow permanent active assignment**. Global admins and Privileged role admins can assign active eligible assignment. They can also require that all active assignments have a specified start and end date.
+
+
+**Implement a privileged identity management workflow**
+
+By configuring Azure AD PIM to manage our elevated access roles in Azure AD, we now have JIT access for more than 28 configurable privileged roles. We can also monitor access, audit account elevations, and receive additional alerts through a management dashboard in the Azure portal.
 
 ### Azure storage security
 
