@@ -650,6 +650,176 @@ To extend or  renew assignments, it's required approval from a Global Administra
 
 By configuring Azure AD PIM to manage our elevated access roles in Azure AD, we now have JIT access for more than 28 configurable privileged roles. We can also monitor access, audit account elevations, and receive additional alerts through a management dashboard in the Azure portal.
 
+
+### Design an Enterprise Governance strategy
+
+Regardless of the deployment type, **you always retain responsibility for the following:**
+
+- Data
+- Endpoints
+- Accounts
+- Access management
+
+#### Azure Resource Manager
+
+**Azure Resource Manager** is the deployment and management service for Azure. It provides a consistent management layer that allows you to create, update, and delete resources in your Azure subscription. You can use its access control, auditing, and tagging features to help secure and organize your resources after deployment.
+
+#### **Resource Groups** 
+
+**Resource Groups** -  There are some important factors to consider when defining your resource group:
+
+- All the resources in your group should share the same lifecycle. You deploy, update, and delete them together. If one resource, such as a database server, needs to exist on a different deployment cycle it should be in another resource group.
+- Each resource can only exist in one resource group.
+- You can add or remove a resource to a resource group at any time.
+- You can move a resource from one resource group to another group.
+- A resource group can contain resources that are located in different regions.
+- A resource group can be used to scope access control for administrative actions.
+- A resource can interact with resources in other resource groups. This interaction is common when the two resources are related but don't share the same lifecycle (for example, web apps connecting to a database).
+- If the resource group's region is temporarily unavailable, you can't update resources in the resource group because the metadata is unavailable. The resources in other regions will still function as expected, but you can't update them.
+
+#### **Management Groups**
+
+- Provide user access to multiple subscriptions
+- Allows for new organizational models and logically grouping of resources.
+- Allows for single assignment of controls that applies to all subscriptions.
+- Provides aggregated views above the subscription level.
+
+Mirror your organization's structure
+- Create a flexible hierarchy that can be updated quickly.
+- The hierarchy does not need to model the organization's billing hierarchy.
+- The structure can easily scale up or down depending on your needs.
+
+Apply policies or access controls to any service
+- Create one RBAC assignment on the management group, which will inherit that access to all the subscriptions.
+- Use Azure Resource Manager integrations that allow integrations with other Azure services: Azure Cost Management, Privileged Identity Management, and Microsoft Defender for Cloud.
+
+#### Azure policies 
+
+**Configure Azure policies** - Azure Policy is a service you use to create, assign, and manage policies. These policies enforce different rules and effects over your resources so that those resources stay compliant with your corporate standards and service level agreements.
+
+![Azure policies](img/az-500_8.png)
+
+The **first pillar** is around **real-time enforcement and compliance assessment**.
+
+The **second pillar** of policy is **applying policies at scale** by leveraging Management Groups. There also is the concept called **policy initiative** that allows you to group policies together so that you can view the aggregated compliance result. At the initiative level there's also a concept called exclusion where one can exclude either the child management group, subscription, resource group, or resources from the policy assignment.
+
+The **third pillar** of your policy is **remediation by leveraging a remediation policy** that will automatically remediate the non-compliant resource so that your environment always stays compliant. For existing resources, they will be flagged as non-compliant but they won't automatically be changed because there can be impact to the environment.
+
+Some built-in roles in Azure Policy resources:
+
+- Resource Policy Owner
+- Resource Policy Contributor
+- Resource Policy Reader
+
+There are two resource providers for Azure Policy operations (or permissions):
+
+- Microsoft.Authorization
+- Microsoft.PolicyInsights
+
+If a custom policy is needed these are the steps:
+
+- Identify your business requirements
+- Map each requirement to an Azure resource property
+- Map the property to an alias
+- Determine which effect to use
+- Compose the policy definition
+
+Let's do it:
+
+- **Policy definition** - Every policy definition has conditions under which it's enforced. And, it has a defined effect that takes place if the conditions are met.
+- **Policy assignment** - A policy definition that has been assigned to take place within a specific scope. This scope could range from a management group to an individual resource. The term scope refers to all the resources, resource groups, subscriptions, or management groups that the policy definition is assigned to.
+- **Policy parameters** - They help simplify your policy management by reducing the number of policy definitions you must create. You can define parameters when creating a policy definition to make it more generic.
+
+In order to easily track compliance for multiple resources, create and assign an **Initiative definition**.
+
+All Policy objects, including definitions, initiatives, and assignments, will be readable to all roles over its scope. For example, a Policy assignment scoped to an Azure subscription will be readable by all role holders at the subscription scope and below.
+
+A **contributor** may trigger resource remediation but can't create or update definitions and assignments. **User Access Administrator** is necessary to grant the managed identity on **deployIfNotExists** or **modify** the assignment's necessary permissions.
+
+#### Enable Role-Based Access Control (RBAC)
+
+RBAC is an authorization system built on Azure Resource Manager that provides fine-grained access management of Azure resources. **Each Azure subscription is associated with one Azure AD directory**. Users, groups, and applications in that directory can manage resources in the Azure subscription. Grant access by assigning the appropriate RBAC role to users, groups, and applications at a certain scope. The scope of a role assignment can be a subscription, a resource group, or a single resource.
+
+Note that a subscription is associated with only one Azure AD tenant. Also note that a resource group can have multiple resources but is associated with only one subscription. Lastly, a resource can be bound to only one resource group.
+
+The four general built-in roles are:
+
+|**Built-in Role**|**Description**|
+|---|---|
+|**Contributor**|Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries.|
+|**Owner**|Grants full access to manage all resources, including the ability to assign roles in Azure RBAC.|
+|**Reader**|View all resources, but does not allow you to make any changes.|
+|**User Access Administrator**|Lets you manage user access to Azure resources.|
+
+If the built-in roles for Azure resources don't meet the specific needs of your organization, you can create your own custom roles. Just like built-in roles, you can assign custom roles to users, groups, and service principals at management group, subscription, and resource group scopes.
+
+Limits for custom roles.
+
+- Each directory can have up to **5000** custom roles.
+- Azure Germany and Azure China 21Vianet can have up to 2000 custom roles for each directory.
+- You cannot set AssignableScopes to the root scope ("/").
+- You can only define one management group in AssignableScopes of a custom role. Adding a management group to AssignableScopes is currently in preview.
+- Custom roles with DataActions cannot be assigned at the management group scope.
+- Azure Resource Manager doesn't validate the management group's existence in the role definition's assignable scope.
+
+#### Enable resource locks
+
+You can set the lock level to **CanNotDelete or ReadOnly**. In the portal, the locks are called **Delete and Read-only** respectively.
+
+- **CanNotDelete** means authorized users can still read and modify a resource, but they can't delete the resource.
+- **ReadOnly** means authorized users can read a resource, but they can't delete or update the resource. Applying this lock is similar to restricting all authorized users to the permissions granted by the Reader role.
+
+To create or delete management locks, you must have access to **`Microsoft.Authorization/*`**or `Microsoft.Authorization/locks/*` actions. Of the built-in roles, only **Owner** and **User Access Administrator** are granted those actions.
+
+#### Deploy Azure blueprints
+
+Blueprints are a declarative way to orchestrate the deployment of various resource templates and other artifacts, such as:
+
+- Role Assignments
+- Policy Assignments
+- Azure Resource Manager templates
+- Resource Groups
+
+The Azure Blueprints service is supported by the globally distributed Azure Cosmos Data Base. Blueprint objects are replicated in multiple Azure regions. This replication provides **low latency**, **high availability**, and **consistent access** to your blueprint objects, regardless of which region Blueprints deploys your resources to.
+
+The Azure Resource Manager template gets used for deployments of one or more Azure resources, but once those resources deploy, there's no active connection or relationship to the template. Blueprints save the relationship between the blueprint definition and the blueprint assignment. This connection supports improved tracking and auditing of deployments. Each blueprint can consist of zero or more Resource Manager template artifacts. This support means that previous efforts to develop and maintain a library of Resource Manager templates are reusable in Blueprints.
+
+
+**Blueprint definition** - A blueprint is composed of _**artifacts**_. Azure Blueprints currently supports the following resources as artifacts:
+
+|**Resource**|**Hierarchy options**|**Description**|
+|---|---|---|
+|Resource Groups|Subscription|Create a new resource group for use by other artifacts within the blueprint. These placeholder resource groups enable you to organize resources exactly how you want them structured and provide a scope limiter for included policy and role assignment artifacts and ARM templates.|
+|ARM template|Subscription, Resource Group|Templates, including nested and linked templates, are used to compose complex environments. Example environments: a SharePoint farm, Azure Automation State Configuration, or a Log Analytics workspace.|
+|Policy Assignment|Subscription, Resource Group|Allows assignment of a policy or initiative to the subscription the blueprint is assigned to. The policy or initiative must be within the scope of the blueprint definition location. If the policy or initiative has parameters, these parameters are assigned at the creation of the blueprint or during blueprint assignment.|
+|Role Assignment|Subscription, Resource Group|Add an existing user or group to a built-in role to make sure the right people always have the right access to your resources. Role assignments can be defined for the entire subscription or nested to a specific resource group included in the blueprint.|
+
+
+**Blueprint definition locations** - When creating a blueprint definition, you'll define where the blueprint is saved. Blueprints can be saved to a **management group** or **subscription** that you have **Contributor access** to. If the location is a management group, the blueprint is available to assign to any child subscription of that management group.
+
+**Blueprint parameters** - Blueprints can pass parameters to either a **policy/initiative** or an **ARM template**. When adding either _**artifact**_ to a blueprint, the author decides to provide a defined value for each blueprint assignment or to allow each blueprint assignment to provide a value at assignment time.
+
+>Assigning a blueprint definition to a management group means the assignment object exists in the management group. The deployment of artifacts still targets a subscription. To perform a management group assignment, the **Create** Or **Update REST API** must be used, and the request body must include a value for **properties.scope** to define the target subscription.
+
+
+#### Design an Azure subscription management plan
+
+ Capturing subscription requirements and designing target subscriptions include several factors which are based on:
+
+- environment type
+- ownership and governance model
+- organizational structure
+- application portfolios
+
+
+**Subscriptions serve as boundaries for Azure Policy assignments.** - 
+
+
+
+
+
+
+
 ### Azure storage security
 
 **Azure Storage Service Encryption**
