@@ -38,7 +38,7 @@ The [Exam AZ-500: Microsoft Azure Security Technologies](https://learn.microsoft
 Regarding the [Exam SC-900: Microsoft Security, Compliance, and Identity Fundamentals](https://learn.microsoft.com/en-us/certifications/exams/sc-900/ "learn.microsoft.com") is targeted to those looking to familiarize themselves with the fundamentals of security, compliance, and identity (SCI) across cloud-based and related Microsoft services. This is a broad audience that may include business stakeholders, new or existing IT professionals, or students who have an interest in Microsoft security, compliance, and identity solutions.
 
 
-## Azure Active Directory 
+## Azure Active Directory: Manage Identity and Access
 
 **Azure Active Directory** (Azure AD) is a cloud-based identity and access management service.
 
@@ -331,7 +331,7 @@ PIM Priviledge Identity Management
 
 
 
-## Implement Hybrid Identity
+### Implement Hybrid Identity
 
 Hybrid Identity is the process of connecting your on-premises Active Directory with your Azure Active Directory. 
 
@@ -426,7 +426,7 @@ Password writeback provides:
 
 
 
-## Azure AD identity protection
+### Azure AD identity protection
 
 Risk detections in Azure AD Identity Protection include any identified suspicious actions related to user accounts in the directory. The signals generated that are fed to Identity Protection, can be further fed into tools like Conditional Access to make access decisions, or fed back to a security information and event management (SIEM) tool for further investigation based on your organization's enforced policies.
 
@@ -532,7 +532,7 @@ To enable MFA, go to the User Properties in Azure Active Directory, and then the
 Azure AD Multi-Factor Authentication is included free of charge for global administrator security. Enabling MFA for global administrators provides an added level of security when managing and creating Azure resources like virtual machines, managing storage, or using other Azure services. Secondary authentication includes phone call, text message, and the authenticator app. Remember, you can only enable MFA for organizational accounts stored in Azure Active Directory. These are also called work or school accounts.
 
 
-## Azure AD Conditional Access
+### Azure AD Conditional Access
 
 Conditional Access is the tool used by Azure Active Directory to bring signals together, to make decisions, and enforce organizational policies. Conditional Access policies at their simplest are if-then statements, if a user wants to access a resource, then they must complete an action. Conditional Access policies are enforced after the first-factor authentication has been completed. Conditional Access is not intended as an organization's first line of defense for scenarios like denial-of-service (DoS) attacks but can use signals from these events to determine access.
 
@@ -550,10 +550,10 @@ With access controls, you can either Block Access altogether or Grant Access wit
 - Require mobile devices to use Intune app protection policies.
 
 
-##  Azure AD Identity Governance
+###  Azure AD Identity Governance
 
 
-### Azure Active Directory (Azure AD) access reviews 
+#### Azure Active Directory (Azure AD) access reviews 
 
 Navigate to **Azure Active Directory (or Microsoft Entra ID) > Identity Governance**. Select Access reviews.
 
@@ -570,7 +570,7 @@ Use access reviews in the following cases:
 - **Have reviews recur periodically**: You can set up recurring access reviews of users at set frequencies such as weekly, monthly, quarterly or annually, and the reviewers will be notified at the start of each review. Reviewers can approve or deny access with a friendly interface and with the help of smart recommendations.
 
 
-###  Azure AD Privileged Identity Management (PIM)
+####  Azure AD Privileged Identity Management (PIM)
 
 Using this feature requires Azure AD Premium P2 licenses. Azure AD Privileged Identity Management (PIM) allows you to manage, control, and monitor access to the most important resources in your organization. You can give just-in-time access and just-enough-access to users to allow them to do their tasks.
 Privileged Identity Management provides time-based and approval-based role activation to mitigate the risks of excessive, unnecessary, or misused access permissions on resources you care about. Here are some of the key features of Privileged Identity Management:
@@ -651,7 +651,7 @@ To extend or  renew assignments, it's required approval from a Global Administra
 By configuring Azure AD PIM to manage our elevated access roles in Azure AD, we now have JIT access for more than 28 configurable privileged roles. We can also monitor access, audit account elevations, and receive additional alerts through a management dashboard in the Azure portal.
 
 
-### Design an Enterprise Governance strategy
+#### Design an Enterprise Governance strategy
 
 Regardless of the deployment type, **you always retain responsibility for the following:**
 
@@ -660,6 +660,175 @@ Regardless of the deployment type, **you always retain responsibility for the f
 - Accounts
 - Access management
 
+
+
+
+
+
+
+
+## Implement platform protection
+
+This entire sections is about implementing security with a defense in depth approach in mind.
+
+![defense in depth](img/az-500_9.png)
+
+- **Azure Network Security Groups** can be used for basic layer 3 & 4 access controls between Azure Virtual Networks, their subnets, and the Internet.
+- **Application Security Groups** enable you to define fine-grained network security policies based on workloads, centralized on applications, instead of explicit IP addresses.
+- **Azure Web Application Firewall** and the **Azure Firewall** can be used for more advanced network access controls that require application layer support.
+- **Local Admin Password Solution (LAPS)** or a third-party Privileged Access Management can set strong local admin passwords and just in time access to them.
+### Perimeter security
+
+#### Azure networking components
+
+Azure Virtual Networks are a key component of Azure security services. The Azure network infrastructure enables you to securely connect Azure resources to each other with virtual networks (VNets). A VNet is a representation of your own network in the cloud. A VNet is a logical isolation of the Azure cloud network dedicated to your subscription. You can connect VNets to your on-premises networks.
+
+Azure supports **dedicated WAN link connectivity** to your on-premises network and an Azure Virtual Network with ExpressRoute. The link between Azure and your site uses a dedicated connection that does not go over the public Internet.
+
+**Virtual networks**
+
+Virtual networks in Azure are network overlays that you can use to configure and control the connectivity among Azure resources, such as VMs and load balancers. A virtual network is scoped to a single Azure region. Virtual networks are made up of subnets. A subnet is a range of IP addresses within your virtual network. Subnets, like virtual networks, are scoped to a single Azure region.  You can implement multiple virtual networks within each Azure subscription and Azure region. Each virtual network is isolated from other virtual networks. For each virtual network you can:
+- Specify a custom private IP address space using public and private addresses. Azure assigns resources in a virtual network a private IP address from the address space that you assign.
+- Segment the virtual network into one or more subnets and allocate a portion of the virtual network's address space to each subnet.
+- Use Azure-provided name resolution, or specify your own DNS server, for use by resources in a virtual network.
+
+**IP addresses**
+
+VMs, Azure load balancers, and application gateways in a single virtual network require unique Internet Protocol (IP) addresses the same way that clients in an on-premises subnet do. This enables these resources to communicate with each other:
+- **Private** - A private IP address is dynamically or statically allocated to a VM from the defined scope of IP addresses in the virtual network. VMs use these addresses to communicate with other VMs in the same or connected virtual networks through a gateway / Azure ExpressRoute connection. These private IP addresses, or non-routable IP addresses, conform to RFC 1918.
+- **Public** - Public IP addresses, which allow Azure resources to communicate with external clients, are assigned directly at the virtual network adapter of the VM or to the load balancer. Public IP address can also be added to Azure-only virtual networks. All IP blocks in the virtual network will be routable only within the customer's network, and they won't be reachable from outside. Virtual network packets travel through the high-speed Azure backplane.
+
+You can control the dynamic IP addresses assigned to VMs and cloud services within an Azure virtual network by specifying an IP addressing scheme.
+
+**Subnets**
+
+Each subnet contains a range of IP addresses that fall within the virtual network address space. Subnetting hides the details of internal network organization from external routers. Subnetting also segments the host within the network, making it easier to apply network security at the interconnections between subnets.
+
+**Network adapters**
+
+VMs communicate with other VMs and other resources on the network by using virtual network adapters. Virtual network adapters configure VMs with private and, optionally, public IP address. A VM can have more than one network adapter for different network configurations.
+
+
+#### Azure Distributed Denial of Service (DDoS) Protection
+
+Best practices for building DDoS-resilient services in Azure:
+
+**1.** Ensure that security is a priority throughout the entire lifecycle of an application, from design and implementation to deployment and operations. Applications might have bugs that allow a relatively low volume of requests to use a lot of resources, resulting in a service outage.
+
+For this, take into account these pillars:
+- **Scalability** - The ability of a system to handle increased load.
+- **Availability** - The proportion of time that a system is functional and working.
+- **Resiliency** - The ability of a system to recover from failures and continue to function.
+- **Management** - Operations processes that keep a system running in production.
+- **Security** - Protecting applications and data from threats
+
+**2.** Design your applications to scale horizontally to meet the demands of an amplified load—specifically, in the event of a DDoS. If your application depends on a single instance of a service, it creates a single point of failure. Provisioning multiple instances makes your system more resilient and more scalable.
+
+For this, these are valid ways to address it:
+- For Azure App Service, select an App Service plan that offers multiple instances.  
+- For Azure Cloud Services, configure each of your roles to use multiple instances.  
+- For Azure Virtual Machines, ensure that your VM architecture includes more than one VM and that each VM is included in an availability set. We recommend using virtual machine scale sets for autoscaling capabilities.
+
+**3.** Layer security defenses in an application to reduce the chance of a successful attack. Implement security-enhanced designs for your applications by using the built-in capabilities of the Azure platform.
+
+This would be an approach to address it: Be aware that the risk of attack increases with the size, or surface area, of the application. You can reduce the surface area by using IP allowlists to close down the exposed IP address space and listening ports that aren’t needed on the load balancers (for Azure Load Balancer and Azure Application Gateway). ‎You can also use NSGs to reduce the attack surface. You can use service tags and application security groups as a natural extension of an application’s structure to minimize complexity for creating security rules and configuring network security.
+
+##### Configure a distributed denial of service protection implementation
+
+Azure Distributed Denial of Service (DDoS) protection, combined with application design best practices, provide defense against DDoS attacks. Azure DDoS protection provides the following service tiers:
+
+- **Basic**: Automatically enabled as part of the Azure platform. Always-on traffic monitoring, and real-time mitigation of common network-level attacks, provide the same defenses utilized by Microsoft's online services. The entire scale of Azure's global network can be used to distribute and mitigate attack traffic across regions. Protection is provided for IPv4 and IPv6 Azure public IP addresses.
+- **Standard**: Provides additional mitigation capabilities over the Basic service tier that are tuned specifically to Azure Virtual Network resources. DDoS Protection Standard is simple to enable, and requires no application changes. Protection policies are tuned through dedicated traffic monitoring and machine learning algorithms. Policies are applied to public IP addresses associated to resources deployed in virtual networks, such as Azure Load Balancer, Azure Application Gateway, and Azure Service Fabric instances, but this protection does not apply to App Service Environments. Real-time telemetry is available through Azure Monitor views during an attack, and for history. Rich attack mitigation analytics are available via diagnostic settings. Application layer protection can be added through the Azure Application Gateway Web Application Firewall or by installing a 3rd party firewall from Azure Marketplace. Protection is provided for IPv4 and IPv6 Azure public IP addresses.
+
+
+![ddos protection](img/az-500_10.png)
+
+
+DDoS Protection Standard monitors actual traffic utilization and constantly compares it against the thresholds defined in the DDoS policy. When the traffic threshold is exceeded, DDoS mitigation is automatically initiated. When traffic returns to a level below the threshold, the mitigation is removed. During mitigation, DDoS Protection redirects traffic sent to the protected resource and performs several checks, including:
+- Helping ensure that packets conform to internet specifications and aren’t malformed.
+- Interacting with the client to determine if the traffic might be a spoofed packet (for example, using `SYN Auth` or `SYN Cookie` or dropping a packet for the source to retransmit it).
+- Using rate-limit packets if it can’t perform any other enforcement meth
+
+DDoS Protection blocks attack traffic and forwards the remaining traffic to its intended destination. Within a few minutes of attack detection, you’ll be notified with Azure Monitor metrics. By configuring logging on DDoS Protection Standard telemetry, you can write the logs to available options for future analysis. Azure Monitor retains metric data for DDoS Protection Standard for 30 days.
+
+DDoS Protection Standard can mitigate the following types of attacks:
+
+- **Volumetric attacks**: The attack's goal is to flood the network layer with a substantial amount of seemingly legitimate traffic. It includes UDP floods, amplification floods, and other spoofed-packet floods. DDoS Protection Standard mitigates these potential multi-gigabyte attacks by absorbing and scrubbing them, with Azure's global network scale, automatically.
+- **Protocol attacks**: These attacks render a target inaccessible, by exploiting a weakness in the layer 3 and layer 4 protocol stack. It includes, SYN flood attacks, reflection attacks, and other protocol attacks. DDoS Protection Standard mitigates these attacks, differentiating between malicious and legitimate traffic, by interacting with the client, and blocking malicious traffic.
+- **Resource (application) layer attacks**: These attacks target web application packets, to disrupt the transmission of data between hosts. The attacks include HTTP protocol violations, SQL injection, cross-site scripting, and other layer 7 attacks. Use a Web Application Firewall, such as the Azure Application Gateway web application firewall, as well as DDoS Protection Standard to provide defense against these attacks. There are also third-party web application firewall offerings available in the Azure Marketplace.
+
+>DDoS Protection Standard protects resources in a virtual network including public IP addresses associated with virtual machines, load balancers, and application gateways. When coupled with the Application Gateway web application firewall, or a third-party web application firewall deployed in a virtual network with a public IP, DDoS Protection Standard can provide full layer 3 to layer 7 mitigation capability.
+
+#### Azure Firewall
+
+**Azure Firewall** is a managed, cloud-based network security service that protects your Azure Virtual Network resources. It’s a fully stateful firewall-as-a-service with built-in high availability and unrestricted cloud scalability. By default, Azure Firewall blocks traffic.
+
+- **Built-in high availability** - Because high availability is built in, no additional load balancers are required and there’s nothing you need to configure.
+- **Unrestricted cloud scalability** - Azure Firewall can scale up as much as you need, to accommodate changing network traffic flows so you don't need to budget for your peak traffic.
+- **Application Fully Qualified Domain Name (FQDN) filtering rules** - You can limit outbound HTTP/S traffic to a specified list of FQDNs, including wild cards. This feature does not require SSL termination.
+- **Network traffic filtering rules** - You can centrally create allow or deny network filtering rules by source and destination IP address, port, and protocol. Azure Firewall is fully stateful, so it can distinguish legitimate packets for different types of connections. Rules are enforced and logged across multiple subscriptions and virtual networks.
+- **Qualified domain tags** - Fully Qualified Domain Names (FQDN) tags make it easier for you to allow well known Azure service network traffic through your firewall. For example, say you want to allow Windows Update network traffic through your firewall. You create an application rule and include the Windows Update tag. Now network traffic from Windows Update can flow through your firewall.
+- **Outbound Source Network Address Translation (OSNAT) support** - All outbound virtual network traffic IP addresses are translated to the Azure Firewall public IP. You can identify and allow traffic originating from your virtual network to remote internet destinations.
+- **Inbound Destination Network Address Translation (DNAT) support** - Inbound network traffic to your firewall public IP address is translated and filtered to the private IP addresses on your virtual networks.
+- **Azure Monitor logging** - All events are integrated with Azure Monitor, allowing you to archive logs to a storage account, stream events to your Event Hub, or send them to Azure Monitor logs.
+
+*Flow of rules for inbound traffic*: Grouping the features above into logical groups reveals that Azure Firewall has three rule types: **NAT rules**, **network rules**, and **application rules**. Network rules are applied first, then application rules. Rules are terminating, which means if a match is found in network rules, then application rules are not processed. If there’s no network rule match, and if the packet protocol is HTTP/HTTPS, the packet is then evaluated by the application rules. If no match continues to be found, then the packet is evaluated against the infrastructure rule collection. If there’s still no match, then the packet is denied by default.
+
+**NAT rules** -  **Inbound Destination Network Address Translation (DNAT)**. Filter inbound traffic with Azure Firewall DNAT using the Azure portal. DNAT rules are applied first. If a match is found, an implicit corresponding network rule to allow the translated traffic is added. You can override this behavior by explicitly adding a network rule collection with deny rules that match the translated traffic. No application rules are applied for these connections.
+
+**Network rules - Grant access from a virtual network**. You can configure storage accounts to allow access only from specific VNets. You enable a service endpoint for Azure Storage within the VNet. This endpoint gives traffic an optimal route to the Azure Storage service. The identities of the virtual network and the subnet are also transmitted with each request. Administrators can then configure network rules for the storage account that allow requests to be received from specific subnets in the VNet. Each storage account supports up to 100 virtual network rules, which could be combined with IP network rules.
+
+**Application rules** - **Firewall rules to secure Azure Storage**   When network rules are configured, only applications requesting data from over the specified set of networks can access a storage account. An application that accesses a storage account when network rules are in effect requires proper authorization on the request. Authorization is supported with Azure AD credentials for blobs and queues, a valid account access key, or a SAS token. By default, storage accounts accept connections from clients on any network. To limit access to selected networks, you must first change the default action. Making changes to network rules can impact your applications' ability to connect to Azure Storage. Setting the default network rule to Deny blocks all access to the data unless specific network rules that grant access are also applied. Be sure to grant access to any allowed networks using network rules before you change the default rule to deny access.
+
+Controlling outbound and inbound network access is an important part of an overall network security plan. Network traffic is subjected to the configured firewall rules when you route your network traffic to the firewall as the default gateway.
+
+One way you can control outbound network access from an Azure subnet is with Azure Firewall. With Azure Firewall, you can configure:
+
+- Application rules that define fully qualified domain names (FQDNs) that can be accessed from a subnet.
+- Network rules that define source address, protocol, destination port, and destination address.
+
+**Fully Qualified Domain Name (FQDN) tag**: An FQDN tag represents a group of fully qualified domain names (FQDNs) associated with well known Microsoft services. You can use an FQDN tag in application rules to allow the required outbound network traffic through your firewall.
+
+**Infrastructure qualified domain names**: Azure Firewall includes a built-in rule collection for infrastructure FQDNs that are allowed by default. These FQDNs are specific for the platform and can't be used for other purposes. The following services are included in the built-in rule collection:
+
+- Compute access to storage Platform Image Repository (PIR)
+- Managed disks status storage access
+- Azure Diagnostics and Logging (MDS)
+
+You can monitor Azure Firewall using firewall logs. You can also use activity logs to audit operations on Azure Firewall resources. You can access some of these logs through the portal. Logs can be sent to Azure Monitor logs, Storage, and Event Hubs and analyzed in Azure Monitor logs or by different tools such as Excel and Power BI. Metrics are lightweight and can support near real-time scenarios making them useful for alerting and fast issue detection.
+
+*Threat intelligence-based filtering* can be enabled for your firewall to alert and deny traffic from/to known malicious IP addresses and domains.  The IP addresses and domains are sourced from the Microsoft Threat Intelligence feed. Intelligent Security Graph powers Microsoft threat intelligence and is used by multiple services including Microsoft Defender for Cloud. If you've enabled threat intelligence-based filtering, the associated rules are processed before any of the NAT rules, network rules, or application rules. You can choose to just log an alert when a rule is triggered, or you can choose alert and deny mode. By default, threat intelligence-based filtering is enabled in alert mode.
+
+*Rule processing logic*: You can configure NAT rules, network rules, and applications rules on Azure Firewall. Rule collections are processed according to the rule type in priority order, lower numbers to higher numbers from 100 to 65,000. A rule collection name can have only letters, numbers, underscores, periods, or hyphens. It must begin with a letter or number, and end with a letter, number or underscore. The maximum name length is 80 characters.
+
+*Service tags* represent a group of IP address prefixes to help minimize complexity for security rule creation. Microsoft manages the address prefixes encompassed by the service tag, and automatically updates the service tag as addresses change. Azure Firewall service tags can be used in the network rules destination field. You can use them in place of specific IP addresses.
+
+**Remote work support** -  Employees aren't protected by the layered security policies associated with on-premises services while working from home. Virtual Desktop Infrastructure (VDI) deployments on Azure can help organizations rapidly respond to this changing environment. However, you need a way to protect inbound/outbound Internet access to and from these VDI deployments. You can use Azure Firewall DNAT rules along with its threat intelligence-based filtering capabilities to protect your VDI deployments. Azure Virtual Desktop is a comprehensive desktop and app virtualization service running in Azure. It’s the only virtual desktop infrastructure (VDI) that delivers simplified management, multi-session Windows 10, optimizations for Microsoft 365 ProPlus, and support for Remote Desktop Services (RDS) environments. 
+
+#### Configure VPN forced tunneling
+
+
+
+
+
+
+
+
+
+
+### Network security
+
+
+### Host security
+
+
+### Containers security
+
+
+
+
+
+## Later
 #### Azure Resource Manager
 
 **Azure Resource Manager** is the deployment and management service for Azure. It provides a consistent management layer that allows you to create, update, and delete resources in your Azure subscription. You can use its access control, auditing, and tagging features to help secure and organize your resources after deployment.
@@ -811,9 +980,95 @@ The Azure Resource Manager template gets used for deployments of one or more Azu
 - organizational structure
 - application portfolios
 
+**Organization and governance design considerations**
 
-**Subscriptions serve as boundaries for Azure Policy assignments.** - 
+- Subscriptions serve as boundaries for Azure Policy assignments. - For example, in the Payment Card Industry.
+- Subscriptions serve as a scale unit so component workloads can scale within platform subscription limits. 
+- Subscriptions provide a management boundary for governance and isolation that clearly separates concerns.
+- Create separate platform subscriptions for management (monitoring), connectivity, and identity when they're required.
+- Use manual processes to limit Azure AD tenants to only Enterprise Agreement enrollment subscriptions.
+- See the Azure subscription and reservation transfer hub for subscription transfers between Azure billing offers.
 
+**Quota and capacity design considerations**
+
+Azure regions might have a finite number of resources. As a result, available capacity and Stock-keeping units (SKUs) should be tracked for Azure adoptions involving a large number of resources.
+
+
+- Consider limits and quotas within the Azure platform for each service your workloads require.
+- Consider the availability of required SKUs within your chosen Azure regions. 
+- Consider that subscription quotas aren't capacity guarantees and are applied on a per-region basis.
+- Consider reusing unused or decommissioned subscriptions.
+
+**Tenant transfer restriction design considerations**
+
+- Each Azure subscription is linked to a single Azure AD tenant, which acts as an identity provider (IdP) for your Azure subscription. The Azure AD tenant is used to authenticate users, services, and devices.
+- The Azure AD tenant linked to your Azure subscription can be changed by any user with the required permissions.
+
+>Transferring to another Azure AD tenant is not supported for Azure Cloud Solution Provider (CSP) subscriptions.
+
+- With Azure landing zones, you can set requirements to prevent users from transferring subscriptions to your organization's Azure AD tenant. **Review the process in Manage Azure subscription policies**. Configure your subscription policy by providing a list of exempted users. Exempted users are permitted to bypass restrictions set in the policy. An exempted users list is not an Azure Policy. You can only specify individual user accounts as exempted users, not Azure AD groups.
+- Consider whether users with Visual Studio/MSDN Azure subscriptions should be allowed to transfer their subscription to or from your Azure AD tenant.
+- Tenant transfer settings are only configurable by users with the Azure AD Global Administrator role assigned. 
+
+- All users with access to Azure can view the policy defined for your Azure AD tenant.
+    
+    - Users can't view your exempted users list.
+    - Users can view the global administrators within your Azure AD tenant.
+
+- Azure subscriptions transferred into an Azure AD tenant are placed into the default management group for that tenant.
+- If approved by your organization, your application team can define a process to allow Azure subscriptions to be transferred to or from an Azure AD tenant.
+
+
+**Establish cost management design considerations**
+
+- Cost transparency is a critical management challenge every large enterprise organization faces. T
+- Chargeback models, like Azure App Service Environment and Azure Kubernetes Service, might need to be shared to achieve higher density. Shared **platform as a service (PaaS)** resources can be affected by Chargeback models.
+- Use a shutdown schedule for nonproduction workloads to optimize costs.
+- Use Azure Advisor to check recommendations for optimizing costs.
+- Establish a charge back model for better distribution of cost across your organization.
+- Implement policy to prevent the deployment of resources not authorized to be deployed in your organization's environment.
+- Establish a regular schedule and cadence to review cost and right size resources for workloads.
+
+
+**Organization and governance recommendations**
+
+- Treat subscriptions as a unit of management aligned with your business needs and priorities.
+- Make subscription owners aware of their roles and responsibilities.
+    - Do a quarterly or yearly access review for Azure AD Privileged Identity Management to ensure that privileges don't proliferate as users move within your organization.
+    - Take full ownership of budget spending and resources.
+    - Ensure policy compliance and remediate when necessary.
+- Reference the following principles as you identify requirements for new subscriptions:
+    - **Scale limits**: Subscriptions serve as a scale unit for component workloads to scale within platform subscription limits. Large specialized workloads like **high-performance computing**, **Internet of Things (IoT)**, and **System Analysis Program Development (SAP)** should use separate subscriptions to avoid running up against these limits.
+    - **Management boundary**: Subscriptions provide a management boundary for governance and isolation, allowing a clear separation of concerns. Different environments, such as development, test, and production, are often removed from a management perspective.
+    - **Policy boundary**: Subscriptions serve as a boundary for the Azure Policy assignments. For example, secure workloads like PCI typically require other policies in order to achieve compliance. The other overhead doesn't get considered if you use a separate subscription. Development environments have more relaxed policy requirements than production environments.
+    - **Target network topology**: You can't share virtual networks across subscriptions, but you can connect them with different technologies like **virtual network peerin**g or **Azure ExpressRoute**. When deciding if you need a new subscription, consider which workloads need to communicate with each other.
+- Group subscriptions together under management groups, which are aligned with your management group structure and policy requirements. Grouping subscriptions ensures that subscriptions with the same set of policies and Azure role assignments all come from a management group.
+- Establish a dedicated management subscription in your **Platform** management group to support global management capabilities like Azure Monitor Log Analytics workspaces and Azure Automation runbooks.
+- Establish a dedicated identity subscription in your **Platform** management group to host Windows Server Active Directory domain controllers when necessary.
+- Establish a dedicated connectivity subscription in your **Platform** management group to host an **Azure Virtual WAN hub**, **private Domain Name System (DNS)**, **ExpressRoute circuit**, and other networking resources. A dedicated subscription ensures that all your foundation network resources are billed together and isolated from other workloads.
+- Avoid a rigid subscription model. Instead, use a set of flexible criteria to group subscriptions across your organization. 
+
+
+**Quota and capacity recommendations**
+
+- Use subscriptions as scale units, and scale out resources and subscriptions as required. Your workload can then use the required resources for scaling out without hitting subscription limits in the Azure platform.
+- Use reserved instances to manage capacity in some regions. Your workload can then have the required capacity for high demand resources in a specific region.
+- Establish a dashboard with custom views to monitor used capacity levels, and set up alerts if capacity is approaching critical levels (90 percent CPU usage).
+- Raise support requests for quota increases under subscription provisioning, such as for total available VM cores within a subscription. Ensure that your quota limits are set before your workloads exceed the default limits.
+- Ensure that any required services and features are available within your chosen deployment regions.
+
+**Automation recommendations**
+
+- Build a Subscription vending process to automate the creation of Subscriptions for application teams via a request workflow as described in **Subscription vending**.
+
+**Tenant transfer restriction recommendations**
+
+- Configure the following settings to prevent users from transferring Azure subscriptions to or from your Azure AD tenant:
+    - Set Subscription leaving Azure AD directory to Permit no one.
+    - Set Subscription entering Azure AD directory to Permit no one.
+- Configure a limited list of exempted users.
+    - Include members from an Azure PlatformOps (platform operations) team.
+    - Include break-glass accounts in the list of exempted users.
 
 
 
