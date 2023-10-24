@@ -90,3 +90,8 @@ X-XSS-Protection: 1; mode=block
 X-XSS-Protection: 1; report=<reporting-uri>
 ```
 
+
+## Content-type
+
+
+[List of all content-type headers](https://raw.githubusercontent.com/amandaguglieri/dictionaries/main/content-type)

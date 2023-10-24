@@ -1818,20 +1818,799 @@ A ClusterRoleBinding works in the same way to bind roles to users, but can be ap
 
 ### 3.1.  Azure Key Vault
 
+Azure Key Vault helps safeguard cryptographic keys and secrets that cloud applications and services use. Key Vault streamlines the key management process and enables you to maintain control of keys that access and encrypt your data.  Developers can create keys for development and testing in minutes, and then migrate them to production keys. Security administrators can grant (and revoke) permission to keys, as needed. You can use Key Vault to create multiple secure containers, called vaults. Vaults help reduce the chances of accidental loss of security information by centralizing application secrets storage. Key vaults also control and log the access to anything stored in them.
 
+Azure Key Vault helps address the following issues:
+
+- **Secrets management**. You can use Azure Key Vault to securely store and tightly control access to tokens, passwords, certificates, API keys, and other secrets.
+- **Key management**. You use Azure Key Vault as a key management solution, making it easier to create and control the encryption keys used to encrypt your data.
+- **Certificate management**. Azure Key Vault is also a service that lets you easily provision, manage, and deploy public and private SSL/TLS certificates for use with Azure and your internal connected resources.
+- **Store secrets backed by hardware security modules (HSMs)**. The secrets and keys can be protected either by software, or FIPS 140-2 Level 2 validates HSMs.
+
+Key Vault is not intended as storage for user passwords.
+
+Access to a key vault is controlled through two separate interfaces: management plane, and data plane. The management plane and data plane access controls work independently. Use RBAC to control what users have access to. For example, if you want to grant an application access to use keys in a key vault, you only need to grant data plane access permissions by using key vault access policies, and no management plane access is needed for this application. Conversely, if you want a user to be able to read vault properties and tags but not have any access to keys, secrets, or certificates, you can grant this user read access by using RBAC, and no access to the data plane is required. 
+
+>If a user has contributor permissions (RBAC) to a key vault management plane, they can grant themselves access to the data plane by setting a key vault access policy. We recommend that you tightly control who has contributor access to your key vaults, to ensure that only authorized persons can access and manage your key vaults, keys, secrets, and certificates.
+
+Azure Resource Manager can securely deploy certificates stored in Azure Key Vault to Azure VMs when the VMs are deployed. By setting appropriate access policies for the key vault, you also control who gets access to your certificate. Another benefit is that you manage all your certificates in one place in Azure Key Vault.
+
+Deletion of key vaults or key vault objects can be either inadvertent or malicious. Enable the soft delete and purge protection features of Key Vault, particularly for keys that are used to encrypt data at rest. Deletion of these keys is equivalent to data loss, so you can recover deleted vaults and vault objects if needed. Practice Key Vault recovery operations on a regular basis.
+
+Azure Key Vault is offered in two service tiers—standard and premium. The main difference between Standard and Premium is that Premium supports HSM-protected keys.
+
+
+#### Configure Key Vault access
+
+Access to a key vault is controlled through two interfaces: the management plane, and the data plane. The management plane is where you manage Key Vault itself. Operations in this plane include creating and deleting key vaults, retrieving Key Vault properties, and updating access policies. The data plane is where you work with the data stored in a key vault. You can add, delete, and modify keys, secrets, and certificates from here.
+
+![key vault access](img/az-500_26.png)
+
+To access a key vault in either plane, all callers (users or applications) must have proper authentication and authorization. Authentication establishes the identity of the caller. Authorization determines which operations the caller can execute.
+
+Both planes use Microsoft Entra ID for authentication. For authorization, the management plane uses RBAC, and the data plane can use either **newly added RBAC** or a Key Vault access policy.
+
+When you create a key vault in an Azure subscription, its automatically associated with the Microsoft Entra tenant of the subscription. Applications can access Key Vault in two ways:
+
+- **User plus application access**. The application accesses Key Vault on behalf of a signed-in user. Examples of this type of access include Azure PowerShell and the Azure portal. User access is granted in two ways. They can either access Key Vault from any application, or they must use a specific application (referred to as compound identity).
+- **Application-only access**. The application runs as a daemon service or background job. The application identity is granted access to the key vault.
+
+For both types of access, the application authenticates with Microsoft Entra ID. The model of a single mechanism for authentication to both planes has several benefits:
+
+- Organizations can centrally control access to all key vaults in their organization.
+- If a user leaves, they instantly lose access to all key vaults in the organization.
+- Organizations can customize authentication by using the options in Microsoft Entra ID, such as to enable multifactor authentication for added security.
+
+
+|**Role**|**Management plane permissions**|**Data plane permissions**|
+|---|---|---|
+|Security team|Key Vault Contributor|Keys: backup, create, delete, get, import, list, restore. Secrets: all operations|
+|Developers and operators|Key Vault deploy permission **Note**: This permission allows deployed VMs to fetch secrets from a key vault.|None|
+|Auditors|None|Keys: list Secrets: list. **Note**: This permission enables auditors to inspect attributes (tags, activation dates, expiration dates) for keys and secrets not emitted in the logs.|
+|Application|None|Keys: sign Secrets: get|
+
+>The three team roles need access to other resources along with Key Vault permissions. To deploy VMs (or the Web Apps feature of Azure App Service), developers and operators need Contributor access to those resource types. Auditors need read access to the Storage account where the Key Vault logs are stored.
+
+#### Deploy and manage Key Vault certificates
+
+Key Vault certificates support provides for management of your x509 certificates and enables:
+
+- A certificate owner to create a certificate through a Key Vault creation process or through the import of an existing certificate. Includes both self-signed and CA-generated certificates.
+- A Key Vault certificate owner to implement secure storage and management of X509 certificates without interaction with private key material.
+- A certificate owner to create a policy that directs Key Vault to manage the life-cycle of a certificate.
+- Certificate owners to provide contact information for notification about lifecycle events of expiration and renewal of certificate.
+- Automatic renewal with selected issuers - Key Vault partner X509 certificate providers and CAs.
+
+When a Key Vault certificate is created, an addressable key and secret are also created with the same name. The Key Vault key allows key operations and the Key Vault secret allows retrieval of the certificate value as a secret. A Key Vault certificate also contains public x509 certificate metadata.
+
+When a Key Vault certificate is created, it can be retrieved from the addressable secret with the private key in either PFX or PEM format. However, the policy used to create the certificate must indicate that the key is exportable. If the policy indicates non-exportable, then the private key isn't a part of the value when retrieved as a secret.
+
+The addressable key becomes more relevant with non-exportable Key Vault certificates. The addressable Key Vault key’s operations are mapped from the `keyusage` field of the Key Vault certificate policy used to create the Key Vault certificate. If a Key Vault certificate expires, it’s addressable key and secret become inoperable.
+
+Two types of key are supported – RSA or RSA HSM with certificates. Exportable is only allowed with RSA, and is not supported by RSA HSM.
+
+
+**Certificate policy**
+
+A certificate policy contains information on how to create and manage the Key Vault certificate lifecycle. When a certificate with private key is imported into the Key Vault, a default policy is created by reading the x509 certificate. When a Key Vault certificate is created from scratch, a policy needs to be supplied. This policy specifies how to create the Key Vault certificate version, or the next Key Vault certificate version. At a high level, a certificate policy contains the following information:
+
+- X509 certificate properties. Contains subject name, subject alternate names, and other properties used to create an x509 certificate request.
+- Key Properties. Contains key type, key length, exportable, and reuse key fields. These fields instruct key vault on how to generate a key.
+- Secret properties. Contains secret properties such as content type of addressable secret to generate the secret value, for retrieving certificate as a secret.
+- Lifetime Actions. Contains lifetime actions for the Key Vault certificate. Each lifetime action contains:
+    - Trigger, which specifies via days before expiry or lifetime span percentage.
+    - Action, which specifies the action type: emailContacts, or autoRenew.
+- Issuer: Contains the parameters about the certificate issuer to use to issue x509 certificates.
+- Policy attributes: Contains attributes associated with the policy.
+
+
+**Certificate Issuer**
+
+Before you can create a certificate issuer in a Key Vault, the following two prerequisite steps must be completed successfully:
+
+1. Onboard to CA providers: An organization administrator must onboard their company with at least one CA provider.
+2. Admin creates requester credentials for Key Vault to enroll (and renew) SSL certificates: Provides the configuration to be used to create an issuer object of the provider in the key vault.
+
+
+**Certificate contacts**
+
+Certificate contacts contain contact information to send notifications triggered by certificate lifetime events. The contacts information is shared by all the certificates in the key vault. If a certificate's policy is set to auto renewal, then a notification is sent for the following events:
+
+- Before certificate renewal
+- After certificate renewal, and stating if the certificate was successfully renewed, or if there was an error, requiring manual renewal of the certificate
+- When it’s time to renew a certificate for a certificate policy that is set to manually renew (email only)
+
+
+**Certificate access control**
+
+The Key Vault that contains certificates manages access control for those same certificates. he access control policy for certificates is distinct from the access control policies for keys and secrets in the same Key Vault. Users might create one or more vaults to hold certificates, to maintain scenario appropriate segmentation and management of certificates.
+
+- Permissions for certificate management operations:
+    - get: Get the current certificate version, or any version of a certificate.
+    - list: List the current certificates, or versions of a certificate.
+    - update: Update a certificate.
+    - create: Create a Key Vault certificate.
+    - import: Import certificate material into a Key Vault certificate.
+    - delete: Delete a certificate, its policy, and all of its versions.
+    - recover: Recover a deleted certificate.
+    - backup: Back up a certificate in a key vault.
+    - restore: Restore a backed-up certificate to a key vault.
+    - `managecontacts`: Manage Key Vault certificate contacts.
+    - `manageissuers`: Manage Key Vault certificate authorities/issuers.
+    - `getissuers`: Get a certificate's authorities/issuers.
+    - `listissuers`: List a certificate's authorities/issuers.
+    - `setissuers`: Create or update a Key Vault certificate's authorities/issuers.
+    - `deleteissuers`: Delete a Key Vault certificate's authorities/issuers.
+- Permissions for privileged operations:
+    - purge: Purge (permanently delete) a deleted certificate.
+
+
+#### Create Key Vault keys
+
+Cryptographic keys in Key Vault are represented as **JSON Web Key (JWK)** objects. There are two types of keys, depending on how they were created.
+
+- **Soft keys**: A key processed in software by Key Vault, but is encrypted at rest using a system key that is in a **Hardware Security Module (HSM)**. Clients may import an existing RSA or EC (Elliptic Curve) key, or request that Key Vault generates one.
+- **Hard keys**: A key processed in an HSM (Hardware Security Module). These keys are protected in one of the Key Vault HSM Security Worlds (there's one Security World per geography to maintain isolation). Clients may import an RSA or EC key, in soft form or by exporting from a compatible HSM device. Clients may also request Key Vault to generate a key.
+
+**Key operations. -** Key Vault supports many operations on key objects. Here are a few:
+
+- **Create**: Allows a client to create a key in Key Vault. The value of the key is generated by Key Vault and stored, and isn't released to the client. Asymmetric keys may be created in Key Vault.
+- **Import**: Allows a client to import an existing key to Key Vault. Asymmetric keys may be imported to Key Vault using many different packaging methods within a JWK construct.
+- **Update**: Allows a client with sufficient permissions to modify the metadata (key attributes) associated with a key previously stored within Key Vault.
+- **Delete**: Allows a client with sufficient permissions to delete a key from Key Vault
+
+**Cryptographic operations. -** Once a key has been created in Key Vault, the following cryptographic operations may be performed using the key. For best application performance, verify that operations are performed locally.
+
+- **Sign and Verify**: Strictly, this operation is "sign hash" or "verify hash", as Key Vault doesn't support hashing of content as part of signature creation. Applications should hash the data to be signed locally, then request that Key Vault signs the hash. Verification of signed hashes is supported as a convenience operation for applications that may not have access to [public] key material.
+- **Key Encryption / Wrapping**: A key stored in Key Vault may be used to protect another key, typically a symmetric **content encryption key (CEK)**. When the key in Key Vault is asymmetric, key encryption is used. When the key in Key Vault is symmetric, key wrapping is used.
+- **Encrypt and Decrypt**: A key stored in Key Vault may be used to encrypt or decrypt a single block of data. The size of the block is determined using the key type and selected encryption algorithm. The Encrypt operation is provided for convenience, for applications that may not have access to [public] key material.
+
+Apps hosted in App Service and Azure Functions can now define a reference to a secret managed in Key Vault as part of their application settings.
+
+**Configure a hardware security module key-generation solution. -** 
+
+For added assurance, when you use Azure Key Vault, you can import or generate keys in hardware security modules (HSMs) that never leave the HSM boundary. This scenario is often referred to as Bring Your Own Key (BYOK). The HSMs are FIPS 140-2 Level 2 validated. Azure Key Vault uses Thales nShield family of HSMs to protect your keys. (This functionality isn't available for Azure China.) **Generating and transferring an HSM-protected key over the Internet**:
+
+- You generate the key from an offline workstation, which reduces the attack surface.
+- The key is encrypted with a **Key Exchange Key (KEK)**, which stays encrypted until transferred to the Azure Key Vault HSMs. Only the encrypted version of your key leaves the original workstation.
+- The toolset sets properties on your tenant key that binds your key to the Azure Key Vault security world. After the Azure Key Vault HSMs receive and decrypt your key, only these HSMs can use it. Your key can't be exported. This binding is enforced using the Thales HSMs.
+- The KEK that encrypts your key is generated inside the Azure Key Vault HSMs, and isn't exportable. The HSMs enforce that there can be no clear version of the KEK outside the HSMs. In addition, the toolset includes attestation from Thales that the KEK isn't exportable and was generated inside a genuine HSM manufactured by Thales.
+- The toolset includes attestation from Thales that the Azure Key Vault security world was also generated on a genuine HSM manufactured by Thales.
+- Microsoft uses separate KEKs and separate security worlds in each geographical region. This separation ensures that your key can be used only in data centers in the region in which you encrypted it. For example, a key from a European customer can't be used in data centers in North American or Asia.
+
+#### Manage customer managed keys
+
+Once, you have created your Key Vault and have populated it with keys and secrets. The next step is to set up a rotation strategy for the values you store as Key Vault secrets. Secrets can be rotated in several ways:
+
+- As part of a manual process
+- Programmatically by using REST API calls
+- Through an Azure Automation script
+
+**Example of storage service encryption with customer-managed Keys. -** This service uses Azure Key Vault that provides highly available and scalable secure storage for RSA cryptographic keys backed by FIPS 140-2 Level 2 validated HSMs (Hardware Security Modules). Key Vault streamlines the key management process and enables customers to maintain control of keys that are used to encrypt data, manage, and audit their key usage, in order to protect sensitive data as part of their regulatory or compliance needs, HIPAA and BAA compliant.
+
+![az service encryption](img/az-500_27.png)
+
+Customers can generate/import their RSA key to Azure Key Vault and enable Storage Service Encryption. Azure Storage handles the encryption and decryption in a fully transparent fashion using envelope encryption in which data is encrypted using an AES-based key, which in turn is protected using the Customer-Managed Key stored in Azure Key Vault.
+
+Customers can rotate their key in Azure Key Vault as per their compliance policies. When they rotate their key, Azure Storage detects the new key version and re-encrypts the Account Encryption Key for that storage account. Key rotation doesn't result in re-encryption of all data and there's no other action required from user.
+
+Customers can also revoke access to the storage account by revoking access on their key in Azure Key Vault. There are several ways to revoke access to your keys. Revoking access effectively blocks access to all blobs in the storage account as the Account Encryption Key is inaccessible by Azure Storage.
+
+Customers can enable this feature on all available redundancy types of Azure Blob storage including premium storage and can toggle from using Microsoft managed to using customer-managed keys. There's no extra charge for enabling this feature.
+
+You can enable this feature on any Azure Resource Manager storage account using the Azure portal, Azure PowerShell, Azure CLI, or the Microsoft Azure Storage Resource Provider API.
+
+#### Key vault secrets
+
+Key Vault provides secure storage of secrets, such as passwords and database connection strings. From a developer's perspective, Key Vault APIs accept and return secret values as strings. Internally, Key Vault stores and manages secrets as sequences of octets (8-bit bytes), with a maximum size of 25k bytes each. The Key Vault service doesn't provide semantics for secrets. It merely accepts the data, encrypts it, stores it, and returns a secret identifier ("ID"). The identifier can be used to retrieve the secret at a later time.
+
+Key Vault also supports a contentType field for secrets. Clients may specify the content type of a secret to assist in interpreting the secret data when it's retrieved. The maximum length of this field is 255 characters. There are no pre-defined values. The suggested usage is as a hint for interpreting the secret data. For instance, an implementation may store both passwords and certificates as secrets, then use this field to differentiate.
+
+![az service encryption](img/az-500_28.png)
+
+As shown above, the values for Key Vault Secrets are:
+
+- Name-value pair - **Name must be unique in the Vault**
+- Value can be any **Unicode Transformation Format (UTF-8)** string - max of 25 KB in size
+- Manual or certificate creation
+- Activation date
+- Expiration date
+
+**Encryption. -** All secrets in your Key Vault are stored encrypted. Key Vault encrypts secrets at rest with a hierarchy of encryption keys, with all keys in that hierarchy are protected by modules that are Federal Information Processing Standards (FIPS) 140-2 compliant. This encryption is transparent, and requires no action from the user. The Azure Key Vault service encrypts your secrets when you add them, and decrypts them automatically when you read them. The encryption leaf key of the key hierarchy is unique to each key vault. The encryption root key of the key hierarchy is unique to the security world, and its protection level varies between regions:
+
+- China: root key is protected by a module that is validated for FIPS 140-2 Level 1.
+- Other regions: root key is protected by a module that is validated for FIPS 140-2 Level 2 or higher.
+
+**Secret attributes. -** In addition to the secret data, the following attributes may be specified:
+
+- _**exp**_: IntDate, optional, **default is forever**. The **_exp_ (expiration time)** attribute identifies the expiration time on or after which the secret data **SHOULD NOT** be retrieved, except in particular situations. This field is for informational purposes only as it informs users of key vault service that a particular secret may not be used. Its value MUST be a number containing an IntDate value.
+- _**nbf**_: IntDate, optional, **default is now**. The **_nbf_ (not before)** attribute identifies the time before which the secret data **SHOULD NOT** be retrieved, except in particular situations. This field is for informational purposes only. Its value **MUST** be a number containing an IntDate value.
+- _**enabled**_: boolean, optional, **default is true**. This attribute specifies whether the secret data can be retrieved. The enabled attribute is used with _nbf_ and _exp_ when an operation occurs between _nbf_ and _exp_, it will only be permitted if enabled is set to true. Operations outside the _nbf_ and _exp_ window are automatically disallowed, except in particular situations.
+
+There are more read-only attributes that are included in any response that includes secret attributes:
+
+- _**created**_: IntDate, optional. The created attribute indicates when this version of the secret was created. This value is null for secrets created prior to the addition of this attribute. Its value must be a number containing an IntDate value.
+- _**updated**_: IntDate, optional. The updated attribute indicates when this version of the secret was updated. This value is null for secrets that were last updated prior to the addition of this attribute. Its value must be a number containing an IntDate value.
+
+**Secret access control. -**  Access Control for secrets managed in Key Vault, is provided at the level of the Key Vault that contains those secrets. The following permissions can be used, on a per-principal basis, in the secrets access control entry on a vault, and closely mirror the operations allowed on a secret object:
+
+- Permissions for secret management operations
+    
+    - _**get**_: Read a secret
+    - _**list**_: List the secrets or versions of a secret stored in a Key Vault
+    - _**set**_: Create a secret
+    - _**delete**_: Delete a secret
+    - _**recover**_: Recover a deleted secret
+    - _**backup**_: Back up a secret in a key vault
+    - _**restore**_: Restore a backed up secret to a key vault
+- Permissions for privileged operations
+    
+    - _**purge**_: Purge (**permanently delete**) a deleted secret
+
+You can specify more application-specific metadata in the form of tags. Key Vault supports up to 15 tags, each of which can have a 256 character name and a 256 character value.
+
+#### Configure key rotation
+
+Once you have keys and secrets stored in the key vault it's important to think about a rotation strategy. There are several ways to rotate the values:
+
+- As part of a manual process
+- Programmatically by using API calls
+- Through an Azure Automation script
+
+This diagram shows how Event Grid and Function Apps can be used to automate the process.
+
+![key rotation](img/az-500_29.png)
+
+1. Thirty days before the expiration date of a secret, Key Vault publishes the "near expiry" event to Event Grid.
+2. Event Grid checks the event subscriptions and uses HTTP POST to call the function app endpoint subscribed to the event.
+3. The function app receives the secret information, generates a new random password, and creates a new version for the secret with the new password in Key Vault.
+4. The function app updates SQL Server with the new password.
+
+
+#### Manage Key Vault safety and recovery features
+
+Key Vault's soft-delete feature allows recovery of the deleted vaults and deleted key vault objects (for example, keys, secrets, certificates), known as soft-delete. This safeguard offer the following protections:
+
+- Once a secret, key, certificate, or key vault is deleted, it remains recoverable for a configurable period of 7 to 90 calendar days. If no configuration is specified, the default recovery period is set to 90 days. Users are provided with sufficient time to notice an accidental secret deletion and respond.
+- When creating a new key vault, soft-delete is on by default. Once soft-delete is enabled on a key vault, it can't be disabled.  Once set, the retention policy interval can't be changed.
+- The soft-delete feature is available through the REST API, the Azure CLI, PowerShell, .NET/C# interfaces, and ARM templates.
+- The purge protection retention policy uses the same interval (7-90 days).  Once set, the retention policy interval can't be changed.
+- You can't reuse the name of a key vault that has been soft-deleted until the retention period has passed.
+- Permanently deleting, purging, a key vault is possible via a POST operation on the proxy resource and requires special privileges. Generally, only the subscription owner is able to purge a key vault. The POST operation triggers the immediate and irrecoverable deletion of that vault. Exceptions are:
+	
+	- When the Azure subscription has been marked as _undeletable_. In this case, only the service may then perform the actual deletion, and does so as a scheduled process.
+	- When the--enable-purge-protection argument is enabled on the vault itself. In this case, Key Vault waits for 90 days from when the original secret object was marked for deletion to permanently delete the object.
+	
+- To purge a secret in the soft-deleted state, a service principal must be granted another "purge" access policy permission. The purge access policy permission isn't granted by default to any service principal including key vault and subscription owners and must be deliberately set. By requiring an elevated access policy permission to purge a soft-deleted secret, it reduces the probability of accidentally deleting a secret.
+
+**Key vault recovery. -** Upon deleting a key vault object, the service will place the object in a deleted state, making it inaccessible to any retrieval operations. During the soft-delete retention interval, the following apply:
+
+- You may list all of the key vaults and key vault objects in the soft-delete state for your subscription as well as access deletion and recovery information about them. Only users with special permissions can list deleted vaults. We recommend that our users create a custom role with these special permissions for handling deleted vaults.
+- A key vault with the same name can't be created in the same location; correspondingly, a key vault object can't be created in a given vault if that key vault contains an object with the same name and which is in a deleted state.
+- Only a privileged user may restore a key vault or key vault object by issuing a recover command on the corresponding proxy resource. The user, member of the custom role, who has the privilege to create a key vault under the resource group can restore the vault.
+- Only a privileged user may forcibly delete a key vault or key vault object by issuing a delete command on the corresponding proxy resource.
+
+Unless a key vault or key vault object is recovered, at the end of the retention interval the service performs a purge of the soft-deleted key vault or key vault object and its content. Resource deletion may not be rescheduled.
+
+**Billing. -** In general, when an object (a key vault or a key or a secret) is in deleted state, there are only two operations possible: 'purge' and 'recover'. All the other operations fail. Therefore, even though the object exists, no operations can be performed and hence no usage will occur, so no bill. However there are following exceptions:
+
+- 'purge' and 'recover' actions count towards normal key vault operations and billed.
+- If the object is an HSM-key, the 'HSM Protected key' charge per key version per month charge applies if a key version has been used in last 30 days. After that, since the object is in deleted state no operations can be performed against it, so no charge will apply.
+
+**Soft-deleted protection by default from February 2025. -**  If a secret is deleted and the key vault doesn't have soft-deleted protection, it's deleted permanently. Although users can currently opt out of soft-delete during key vault creation, this ability is deprecated. In February 2025, Microsoft enables soft-delete protection on all key vaults, and users are no longer be able to opt out of or turn off soft-delete. This, protect secrets from accidental or malicious deletion by a user.
+
+![Deleting a key](img/az-500_30.png)
+
+
+**Key vault backup. -** Back up secrets only if you have a critical business justification. Backing up secrets in your key vault may introduce operational challenges such as maintaining multiple sets of logs, permissions, and backups when secrets expire or rotate. Key Vault maintains availability in disaster scenarios and will automatically fail over requests to a paired region without any intervention from a user. If you want protection against accidental or malicious deletion of your secrets, configure soft-delete and purge protection features on your key vault.
+
+>Key Vault does not support the ability to backup more than 500 past versions of a key, secret, or certificate object. Attempting to backup a key, secret, or certificate object may result in an error. It is not possible to delete previous versions of a key, secret, or certificate.
+
+Key Vault doesn't currently provide a way to back up an entire key vault in a single operation. Any attempt to use the commands listed in this document to do an automated backup of a key vault may result in errors and not supported by Microsoft or the Azure Key Vault team.
+
+When you back up a key vault object, such as a secret, key, or certificate, the backup operation downloads the object as an encrypted blob. This blob can't be decrypted outside of Azure. **To get usable data from this blob, you must restore the blob into a key vault within the same Azure subscription and Azure geography**. To back up a key vault object, you must have:
+
+- Contributor-level or higher permissions on an Azure subscription.
+- A primary key vault that contains the secrets you want to back up.
+- A secondary key vault where secrets are restored.
+
+Azure Dedicated HSM is most suitable for “lift-and-shift” scenarios that require direct and sole access to HSM devices. Examples include:
+
+- Migrating applications from on-premises to Azure Virtual Machines
+- Migrating applications from Amazon AWS EC2 to virtual machines that use the AWS Cloud HSM Classic service
+- Running shrink-wrapped software such as Apache/Ngnix SSL Offload, Oracle TDE, and ADCS in Azure Virtual Machines
+
+>Azure Dedicated HSM is not a good fit for the following type of scenario: Microsoft cloud services that support encryption with customer-managed keys (such as Azure Information Protection, Azure Disk Encryption, Azure Data Lake Store, Azure Storage, Azure SQL Database, and Customer Key for Office 365) that are not integrated with Azure Dedicated HSM.
 
 
 ### 3.2. Application Security features
 
+#### Microsoft Identity Platform 
 
+![Microsoft Identity platforms](img/az-500_31.png)
+
+Some acronyms:
+
+- Azure AD Authentication Library (ADAL)
+- Microsoft Authentication Library (MSAL)
+- Microsoft Secure Development Lifecycle (SDL)
+
+Microsoft identity platform is an evolution of the Azure Active Directory (Azure AD) developer platform. The Microsoft identity platform supports industry-standard protocols such as OAuth 2.0 and OpenID Connect. With this unified Microsoft identity platform (v2.0), you can write code once and authenticate any Microsoft identity into your application.
+
+The fully supported open-source Microsoft Authentication Library (MSAL) is recommended for use against the identity platform endpoints. MSAL...
+ - is simple to use
+ - provides great single sign-on (SSO) experiences for your users
+ - helps you achieve high reliability and performance, 
+ - and is developed using Microsoft Secure Development Lifecycle (SDL).
+
+
+With the Microsoft identity platform, one can expand their reach to these kinds of users:
+
+- Work and school accounts (Microsoft Entra ID provisioned accounts)
+- Personal accounts (such as Outlook.com or Hotmail.com)
+- Your customers who bring their own email or social identity (such as LinkedIn, Facebook, and Google) via MSAL and Azure AD Business-to-Consumer (B2C)
+
+The Microsoft identity platform has two endpoints (v1.0 and v2.0); however, when developing a new application, consider it's highly recommended that you use the v2.0 (default) endpoint to benefit from the latest features and capabilities:
+
+
+The Microsoft Authentication Library or MSAL can be used in many application scenarios, including the following:
+
+- Single-page applications (JavaScript)
+- Web app signing in users
+- Web application signing in a user and calling a web API on behalf of the user
+- Protecting a web API so only authenticated users can access it
+- Web API calling another downstream Web API on behalf of the signed-in user
+- Desktop application calling a web API on behalf of the signed-in user
+- Mobile application calling a web API on behalf of the user who's signed in interactively.
+- Desktop/service daemon application calling web API on behalf of itself
+
+**Languages and frameworks**
+
+|**Library**|**Supported platforms and frameworks**|
+|---|---|
+|MSAL for Android|Android|
+|MSAL Angular|Single-page apps with Angular and Angular.js frameworks|
+|MSAL for iOS and macOS|iOS and macOS|
+|MSAL Go (Preview)|Windows, macOS, Linux|
+|MSAL Java|Windows, macOS, Linux|
+|MSAL.js|JavaScript/TypeScript frameworks such as Vue.js, Ember.js, or Durandal.js|
+|MSAL.NET|.NET Framework, .NET Core, Xamarin Android, Xamarin iOS, Universal Windows Platform|
+|MSAL Node|Web apps with Express, desktop apps with Electron, Cross-platform console apps|
+|MSAL Python|Windows, macOS, Linux|
+|MSAL React|Single-page apps with React and React-based libraries (Next.js, Gatsby.js)|
+
+
+**Migrate apps that use ADAL to MSAL. -** Active Directory Authentication Library (ADAL) integrates with the Azure AD for developers (v1.0) endpoint, where MSAL integrates with the Microsoft identity platform. The v1.0 endpoint supports work accounts but not personal accounts. The v2.0 endpoint is unifying Microsoft personal accounts and works accounts into a single authentication system. Additionally, with MSAL, you can also get authentications for Azure AD B2C.
+
+#### The Application Model
+
+For an identity provider to know that a user has access to a particular app, both the user and the application must be registered with the identity provider. When you register your application with **Microsoft Entra ID**, you're providing an identity configuration for your application that allows it to integrate with the Microsoft identity platform. Registering the app also allows you to:
+
+- Customize the branding of your application in the sign-in dialog box.
+- Decide if you want to allow users to sign in only if they belong to your organization. This architecture is known as a single-tenant application. Or, you can allow users to sign in by using any work or school account, which is known as a multi-tenant application. 
+- Request scope permissions. For example, you can request the "**user.read**" scope, which grants permission to read the profile of the signed-in user.
+- Define scopes that define access to your web **application programming interface (API)**. 
+- Share a secret with the Microsoft identity platform that proves the app's identity.
+
+After the app is registered, it's given a unique identifier that it shares with the Microsoft identity platform when it requests tokens. If the app is a confidential client application, it will also share the secret or the public key depending on whether certificates or secrets were used. The Microsoft identity platform represents applications by using a model that fulfills two main functions:
+
+- Identify the app by the authentication protocols it supports.
+- Provide all the identifiers, **Uniform Resource Locators (URLs)**, secrets, and related information that are needed to authenticate.
+
+The Microsoft identity platform:
+
+- Holds all the data required to support authentication at runtime.
+- Holds all the data for deciding what resources an app might need to access, and under what circumstances a given request should be fulfilled.
+- Provides infrastructure for implementing app provisioning within the app developer's tenant, and to any other Microsoft Entra tenant.
+- Handles user consent during token request time and facilitates the dynamic provisioning of apps across tenants.
+
+
+**Flow in multi-tenant apps**
+
+![identity](img/az-500_32.jpg)
+
+In this provisioning flow:
+
+1. A user from tenant B attempts to sign in with the app. The authorization endpoint requests a token for the application.
+2. The user credentials are acquired and verified for authentication.
+3. The user is prompted to provide consent for the app to gain access to tenant B.
+4. The Microsoft identity platform uses the application object in tenant A as a blueprint for creating a service principal in tenant B.
+5. The user receives the requested token.
+
+You can repeat this process for more tenants. Tenant A retains the blueprint for the **app (application object)**. Users and admins of all the other tenants where the app is given consent keep control over what the application is allowed to do via the corresponding service principal object in each tenant.
+
+#### Register an application with App Registration
+
+Before your app can get a token from the Microsoft identity platform, it must be registered in the Azure portal. Registration integrates your app with the Microsoft identity platform and establishes the information that it uses to get tokens, including:
+
+- **Application ID**: A unique identifier assigned by the Microsoft identity platform.
+- **Redirect URI/URL**: One or more endpoints at which your app will receive responses from the Microsoft identity platform. (For native and mobile apps, this is a URI assigned by the Microsoft identity platform.)
+- **Application Secret**: A password or a public/private key pair that your app uses to authenticate with the Microsoft identity platform. (Not needed for native or mobile apps.)
+
+Like most developers, you will probably use authentication libraries to manage your token interactions with the Microsoft identity platform. Authentication libraries abstract many protocol details, like validation, cookie handling, token caching, and maintaining secure connections, away from the developer and let you focus your development on your app. Microsoft publishes open-source client libraries and server middleware.
+
+#### Configure Microsoft Graph permissions
+
+Microsoft Graph exposes granular permissions that control the access that apps have to resources, like users, groups, and mail.
+
+Microsoft Graph has two types of permissions:
+
+- **Delegated permissions** are used by apps that have a signed-in user present. For these apps, either the user or an administrator consents to the permissions that the app requests, and the app can act as the signed-in user when making calls to Microsoft Graph. Some delegated permissions can be consented by non-administrative users, but some higher-privileged permissions require administrator consent.
+- **Application permissions** are used by apps that run without a signed-in user present; for example, apps that run as background services or daemons. Application permissions can only be consented by an administrator.
+
+Effective permissions are the permissions that your app will have when making requests to Microsoft Graph. It is important to understand the difference between the delegated and application permissions that your app is granted and its effective permissions when making calls to Microsoft Graph.
+
+For example, assume your app has been granted the User.ReadWrite.All delegated permission. This permission nominally grants your app permission to read and update the profile of every user in an organization. If the signed-in user is a global administrator, your app will be able to update the profile of every user in the organization. However, if the signed-in user is not in an administrator role, your app will be able to update only the profile of the signed-in user
+
+**Microsoft Graph API. -**  The Microsoft Graph Security API is an intermediary service (or broker) that provides a single programmatic interface to connect multiple Microsoft Graph Security providers (also called security providers or providers). The Microsoft Graph Security API federates requests to all providers in the Microsoft Graph Security ecosystem.
+
+![flow of microsoft Graph Api](img/az-500_33.png)
+
+The following is a description of the flow:
+
+1. The application user signs in to the provider application to view the consent form from the provider. This consent form experience or UI is owned by the provider and applies to non-Microsoft providers only to get explicit consent from their customers to send requests to Microsoft Graph Security API.
+2. The client consent is stored on the provider side.
+3. The provider consent service calls the Microsoft Graph Security API to inform consent approval for the respective customer.
+4. The application sends a request to the Microsoft Graph Security API.
+5. The Microsoft Graph Security API checks for the consent information for this customer mapped to various providers.
+6. The Microsoft Graph Security API calls all those providers the customer has given explicit consent to via the provider consent experience.
+7. The response is returned from all the consented providers for that client.
+8. The result set response is returned to the application.
+9. If the customer has not consented to any provider, no results from those providers are included in the response.
+
+
+**Why use the Microsoft Graph Security API?**
+
+- Write code – Find code samples in C#, Java, NodeJS, and more.
+- Connect using scripts – Find PowerShell samples.
+- Drag and drop into workflows and playbooks – Use Microsoft Graph Security connectors for Azure Logic Apps, Microsoft Flow, and PowerApps.
+- Get data into reports and dashboards – Use the Microsoft Graph Security connector for Power BI.
+- Connect using Jupyter notebooks – Find Jupyter notebook samples.
+- *Unify and standardize alert tracking*:  Connect once to integrate alerts from any Microsoft Graph-integrated security solution and keep alert status and assignments in sync across all solutions. You can also stream alerts to security information and event management (SIEM) solutions, such as Splunk using Microsoft Graph Security API connectors.
+- *Correlate security alerts to improve threat protection and response*: Correlate alerts across security solutions more easily with a unified alert schema.
+- *Update alert tags, status, and assignments*: Tag alerts with additional context or threat intelligence to inform response and remediation. Ensure that comments and feedback on alerts are captured for visibility to all workflows. Keep alert status and assignments in sync so that all integrated solutions reflect the current state. Use webhook subscriptions to get notified of changes.
+- *Unlock security context to drive investigation*: Dive deep into related security-relevant inventory (like users, hosts, and apps), then add organizational context from other Microsoft Graph providers (Microsoft Entra ID, Microsoft Intune, Microsoft 365) to bring business and security contexts together and improve threat response.
+
+#### Enable managed identities
+
+**Managed Identities** for Azure resources is the new name for the service formerly known as Managed Service Identity (MSI) for Azure resources feature in Microsoft Entra provides Azure services with an automatically managed identity in Microsoft Entra ID. You can use the identity to authenticate to any service that supports Microsoft Entra authentication, including Key Vault, without any credentials in your code. The managed identities for Azure resources feature is free with Microsoft Entra ID for Azure subscriptions. There's no additional cost.
+
+**Terminology. -** The following terms are used throughout the managed identities for Azure resources documentation set:
+
+- **Client ID** - a unique identifier generated by Microsoft Entra ID that is tied to an application and service principal during its initial provisioning.
+- **Principal ID** - the object ID of the service principal object for your managed identity that is used to grant role-based access to an Azure resource.
+- **Azure Instance Metadata Service (IMDS)** - a REST endpoint accessible to all IaaS VMs created via the Azure Resource Manager. The endpoint is available at a well-known non-routable IP address (169.254.169.254) that can be accessed only from within the VM.
+
+
+**How managed identities for Azure resources works. -** There are two types of managed identities:
+
+- **A system-assigned managed identity** is enabled directly on an Azure service instance. When the identity is enabled, Azure creates an identity for the instance in the Microsoft Entra tenant that's trusted by the subscription of the instance. After the identity is created, the credentials are provisioned onto the instance. The lifecycle of a system-assigned identity is directly tied to the Azure service instance that it's enabled on. If the instance is deleted, Azure automatically cleans up the credentials and the identity in Microsoft Entra ID.
+- **A user-assigned managed identity** is created as a standalone Azure resource. Through a create process, Azure creates an identity in the Microsoft Entra tenant that's trusted by the subscription in use. After the identity is created, the identity can be assigned to one or more Azure service instances. The lifecycle of a user-assigned identity is managed separately from the lifecycle of the Azure service instances to which it's assigned.
+
+When a User-Assigned or System-Assigned Identity is created, the Managed Identity Resource Provider (MSRP) issues a certificate internally to that identity.
+
+Internally, managed identities are service principals of a special type, which are locked to only be used with Azure resources. When the managed identity is deleted, the corresponding service principal is automatically removed.
+
+**Credential rotation. -** Credential rotation is controlled by the resource provider that hosts the Azure resource. The default rotation of the credential occurs every 46 days. It's up to the resource provider to call for new credentials, so the resource provider could wait longer than 46 days. The following diagram shows how managed service identities work with Azure virtual machines (VMs):
+
+![credential rotation](img/az-500_34.png)
+
+1. Azure Resource Manager receives a request to enable the system-assigned managed identity on a VM.
+2. Azure Resource Manager creates a service principal in Microsoft Entra ID for the identity of the VM. The service principal is created in the Microsoft Entra tenant that's trusted by the subscription.
+3. Azure Resource Manager configures the identity on the VM by updating the Azure Instance Metadata Service identity endpoint with the service principal client ID and certificate.
+4. After the VM has an identity, use the service principal information to grant the VM access to Azure resources. To call Azure Resource Manager, use role-based access control (RBAC) in Microsoft Entra ID to assign the appropriate role to the VM service principal. To call Key Vault, grant your code access to the specific secret or key in Key Vault.
+5. Your code that's running on the VM can request a token from the Azure Instance Metadata service endpoint, accessible only from within the VM: [http://169.254.169.254/metadata/identity/oauth2/token](http://169.254.169.254/metadata/identity/oauth2/token)
+    - The resource parameter specifies the service to which the token is sent. To authenticate to Azure Resource Manager, use resource=https://management.azure.com/.
+    - API version parameter specifies the IMDS version, use api-version=2018-02-01 or greater.
+6. A call is made to Microsoft Entra ID to request an access token (as specified in step 5) by using the client ID and certificate configured in step 3. Microsoft Entra ID returns a JSON Web Token (JWT) access token.
+7. Your code sends the access token on a call to a service that supports Microsoft Entra authentication
+
+
+#### Azure App Services
+
+_**Azure App Service**_ is an HTTP-based service for **hosting web applications**, **REST APIs**, and **mobile backends**. You can develop in your favorite language, be it .NET, .NET Core, Java, Ruby, Node.js, PHP, or Python. Applications run and scale with ease on both Windows and Linux-based environments. Azure App Service is a fully managed platform as a service (PaaS) offering for developers. Here are some key features of App Service:
+
+- Multiple languages and frameworks - App Service has first-class support for ASP.NET, ASP.NET Core, Java, Ruby, Node.js, PHP, or Python. You can also run PowerShell and other scripts or executables as background services.
+- Managed production environment - App Service automatically patches and maintains the OS and language frameworks for you. 
+- Containerization and Docker - Dockerize your app and host a custom Windows or Linux container in App Service. Run multi-container apps with Docker Compose. 
+- DevOps optimization - Set up continuous integration and deployment with Azure DevOps, GitHub, BitBucket, Docker Hub, or Azure Container Registry. 
+- Global scale with high availability - Scale up or out manually or automatically.
+- Connections to SaaS platforms and on-premises data - Choose from more than 50 connectors for enterprise systems (such as SAP), SaaS services (such as Salesforce), and internet services (such as Facebook). Access on-premises data using Hybrid Connections and Azure Virtual Networks.
+- Security and compliance - The App Service is ISO, SOC, and PCI compliant. Authenticate users with Microsoft Entra ID, Google, Facebook, Twitter, or Microsoft account. Create IP address restrictions and manage service identities. Prevent subdomain takeovers.
+- Application templates - Choose from an extensive list of application templates in the Azure Marketplace, such as WordPress, Joomla, and Drupal.
+- Visual Studio and Visual Studio Code integration - Dedicated tools in Visual Studio and Visual Studio Code streamline the work of creating, deploying, and debugging.
+- API and mobile features - App Service provides turn-key CORS support for RESTful API scenarios and simplifies mobile app scenarios by enabling authentication, offline data sync, push notifications, and more.
+- Serverless code - Run a code snippet or script on-demand without having to explicitly provision or manage infrastructure and pay only for the compute time your code actually uses.
+
+#### App Service Environment
+
+An **App Service Environment** is an Azure App Service feature that provides a fully isolated and dedicated environment for running App Service apps securely at high scale. An App Service Environment can host:
+
+- Windows web apps
+- Linux web apps
+- Docker containers (**Windows** and **Linux**)
+- Functions
+- Logic apps (Standard)
+
+App Service Environments have many use cases, including:
+
+- Internal line-of-business applications.
+- Applications that need more than 30 App Service plan instances.
+- Single-tenant systems to satisfy internal compliance or security requirements.
+- Network-isolated application hosting.
+- Multi-tier applications.
+
+There are many networking features that enable apps in a multi-tenant App Service to reach network-isolated resources or become network-isolated themselves. These features are enabled at the application level. With an App Service Environment, no added configuration is required for the apps to be on a virtual network. The apps are deployed into a network-isolated environment that's already on a virtual network. If you really need a complete isolation story, you can also deploy your App Service Environment onto dedicated hardware.
+
+**Dedicated environment. -** An App Service Environment is a single-tenant deployment of Azure App Service that runs on your virtual network:
+
+- Applications are hosted in App Service plans (which are a provisioning profile for an application host.)
+- App Service plans  are created in an App Service Environment. 
+
+**Scaling out an App Service plan**: you create more application hosts with all the apps in that App Service plan on each host. 
+
+
+- A single App Service Environment v3 can have up to 200 total App Service plan instances across all the App Service plans combined.
+- A single App Service Isolated v2 (Iv2) plan can have up to 100 instances by itself.
+- When you're deploying onto dedicated hardware (hosts), you're limited in scaling across all App Service plans to the number of cores in this type of environment. An App Service Environment that's deployed on dedicated hosts has 132 vCores available. I1v2 uses two vCores, I2v2 uses four vCores, and I3v2 uses eight vCores per instance.
+
+#### Azure App Service plan
+
+An app service always runs in an _**App Service**_ plan. In addition, Azure Functions also has the option of running in an App Service plan. An App Service plan defines a set of compute resources for a web app to run. These compute resources are analogous to the server farm in conventional web hosting. One or more apps can be configured to run on the same computing resources (or in the same App Service plan).
+
+ Each App Service plan defines:
+
+- Operating System (Windows, Linux)
+- Region (West US, East US, etc.)
+- Number of VM instances
+- Size of VM instances (Small, Medium, Large)
+- Pricing tier (Free, Shared, Basic, Standard, Premium, PremiumV2, PremiumV3, Isolated, IsolatedV2). This determines what App Service features you get and how much you pay for the plan. 
+
+When you create an App Service plan in a certain region (for example, West Europe), a set of compute resources is created for that plan in that region. Whatever apps you put into this App Service plan run on these compute resources as defined by your App Service plan.
+
+The pricing tiers available to your App Service plan depend on the operating system selected at creation time. There are a few categories of pricing tiers:
+
+- **Shared compute**: Free and Shared, the two base tiers, runs an app on the same Azure VM as other App Service apps, including apps of other customers. These tiers allocate CPU quotas to each app that runs on the shared resources, and the resources cannot scale out.
+- **Dedicated compute**: The Basic, Standard, Premium, PremiumV2, and PremiumV3 tiers run apps on dedicated Azure VMs. Only apps in the same App Service plan share the same compute resources. The higher the tier, the more VM instances are available to you for scale-out.
+- **Isolated**: This Isolated and IsolatedV2 tiers run dedicated Azure VMs on dedicated Azure Virtual Networks. It provides network isolation on top of compute isolation to your apps. It provides the maximum scale-out capabilities.
+
+#### App Service Environment networking
+
+App Service Environment is a single-tenant deployment of Azure App Service that hosts Windows and Linux containers, web apps, API apps, logic apps, and function apps. When you install an App Service Environment, you pick the Azure virtual network that you want it to be deployed in. All of the inbound and outbound application traffic is inside the virtual network you specify. You deploy into a single subnet in your virtual network, and nothing else can be deployed into that subnet.
+
+**Subnet requirements. -** You must delegate the subnet to Microsoft.Web/hostingEnvironments, and the subnet must be empty. The size of the subnet can affect the scaling limits of the App Service plan instances within the App Service Environment. It's a good idea to use a /24 address space (256 addresses) for your subnet to ensure enough addresses to support production scale.
+
+>Windows Containers uses an additional IP address per app for each App Service plan instance, and you need to size the subnet accordingly. If your App Service Environment has, for example, 2 Windows Container App Service plans, each with 25 instances and each with 5 apps running, you will need 300 IP addresses and additional addresses to support horizontal (up/down) scale.
+
+The minimal size of your subnet is a /27 address space (32 addresses). Any particular subnet has five addresses reserved for management purposes. In addition to the management addresses, App Service Environment dynamically scales the supporting infrastructure and uses between 4 and 27 addresses, depending on the configuration and load. You can use the remaining addresses for instances in the App Service plan.
+
+If you run out of addresses within your subnet, you can be restricted from scaling out your App Service plans in the App Service Environment. Another possibility is that you can experience increased latency during intensive traffic load if Microsoft can't scale the supporting infrastructure.
+
+App Service Environment has the following network information at creation:
+
+|**Address type**|**Description**|
+|---|---|
+|App Service Environment virtual network|The virtual network deployed into.|
+|App Service Environment subnet|The subnet deployed into.|
+|Domain suffix|The domain suffix that is used by the apps made.|
+|Virtual IP (VIP)|The VIP type is used. The two possible values are internal and external.|
+|Inbound address|The inbound address is the address at which your apps are reached. If you have an internal VIP, it's an address in your App Service Environment subnet. If the address is external, it's a public-facing address.|
+|Default outbound addresses|The apps use this address, by default, when making outbound calls to the internet.|
+
+![Screenshot showing App Service Environment IP address page.](img/az-500_35.png)
+
+As you scale your App Service plans in your App Service Environment, you'll use more addresses from your subnet. Apps in the App Service Environment don't have dedicated addresses in the subnet. The specific addresses an app uses in the subnet will change over time.
+
+#### Availability Zone Support for App Service Environments
+
+Azure App Service Environment can be deployed across **availability zones (AZ)** to help you achieve resiliency and reliability for your business-critical workloads. This architecture is also known as zone redundancy.
+
+When you configure it to be zone redundant, the platform automatically spreads the instances of the Azure App Service plan across three zones in the selected region. This means that the minimum App Service Plan instance count will always be three. If you specify a capacity larger than three, and the number of instances is divisible by three, the instances are spread evenly. Otherwise, **instance counts beyond 3*N** are spread across the remaining one or two zones.
+
+- You configure availability zones when you create your App Service Environment.
+- You can only specify availability zones when creating a new App Service Environment, not later.
+- Availability zones are **only supported in a subset of regions**.
+
+Since you can't convert pre-existing App Service Environments to use availability zones, migration will consist of a side-by-side deployment where you'll create a new App Service Environment with availability zones enabled. For more information on App Service Environment migration options, see App Service Environment migration.
+
+
+#### App Service Environment Certificates
+
+**Azure App Service** provides a highly scalable, self-patching web hosting service. Once the certificate is added to your App Service app or function app, you can secure a **custom Domain Name System (DNS)** name with it or use it in your application code.
+
+>A certificate uploaded into an app is stored in a deployment unit that is bound to the app service plan's resource group and region combination (**internally called a webspace**). This makes the certificate accessible to other apps in the same resource group and region combination.
+
+The following lists are options for adding certificates in App Service:
+
+- **Create a free App Service managed certificate**: A private certificate that's free of charge and easy to use if you just need to secure your custom domain in App Service.
+- **Purchase an App Service certificate**: A private certificate that's managed by Azure. It combines the simplicity of automated certificate management and the flexibility of renewal and export options.
+- **Import a certificate from Key Vault**: Useful if you use Azure Key Vault to manage your **Public-Key Cryptography Standards #12 (PKCS12)** certificates.
+- **Upload a private certificate**: If you already have a private certificate from a third-party provider, you can upload it.
+- **Upload a public certificate**: Public certificates are not used to secure custom domains, but you can load them into your code if you need them to access remote resources.
+
+**Prerequisites: **
+
+- Create an App Service app.
+- For a private certificate, make sure that it satisfies all requirements from App Service.
+- Free certificate only:
+    - Map the domain you want a certificate for to App Service.
+    - For a root domain (**like contoso.com**), make sure your app doesn't have any IP restrictions configured. Both certificate creation and its periodic renewal for a root domain depends on your app being reachable from the internet.
 
 
 ### 3.3. Storage Security
+
+#### Data sovereignty
+
+Data sovereignty is the concept that information, which has been converted and stored in binary digital form, is subject to the laws of the country or region in which it is located. We recommend that you configure business continuity and disaster recovery (BCDR) across regional pairs to benefit from Azure’s isolation and VM policies.
+
+#### Configure Azure storage access
+
+Options for authorizing requests to Azure Storage include:
+
+- **Microsoft Entra ID** - Azure Storage provides integration with Microsoft Entra ID for identity-based authorization of requests to the Blob and Queue services.  When you use Microsoft Entra ID to authorize requests make from your applications, you avoid having to store your account access key with your code, as you do with Shared Key authorization. While you can continue to use Shared Key authorization with your blob and queue applications, Microsoft recommends moving to Microsoft Entra ID where possible.
+- **Microsoft Entra Domain Services authorization** for Azure Files. Azure Files supports identity-based authorization over Server Message Block (SMB) through Microsoft Entra Domain Services. You can use RBAC for fine-grained control over a client's access to Azure Files resources in a storage account
+- **Shared Key** - Shared Key authorization relies on your account access keys and other parameters to produce an encrypted signature string that is passed on via the request in the Authorization header.
+- **Shared Access Signatures** - A shared access signature (SAS) is a URI that grants restricted access rights to Azure Storage resources. You can provide a shared access signature to clients who should not be trusted with your storage account key but to whom you wish to delegate access to certain storage account resources. By distributing a shared access signature URI to these clients, you can grant them access to a resource for a specified period of time, with a specified set of permissions. The URI query parameters comprising the SAS token incorporate all of the information necessary to grant controlled access to a storage resource. A client who is in possession of the SAS can make a request against Azure Storage with just the SAS URI, and the information contained in the SAS token is used to authorize the request.
+- **Anonymous access to containers and blobs** - You can enable anonymous, public read access to a container and its blobs in Azure Blob storage. By doing so, you can grant read-only access to these resources without sharing your account key, and without requiring a shared access signature (SAS). 
+
+
+#### Deploy shared access signatures
+
+As a best practice, you shouldn't share storage account keys with external third-party applications. For untrusted clients, use a **shared access signature** (SAS). 
+
+>A shared access signature is a string that contains a security token that can be attached to a URI. Use a shared access signature to delegate access to storage objects and specify constraints, such as the permissions and the time range of access.
+
+- **Service-level** shared access signature allows access to specific resources in a storage account. You'd use this type of shared access signature, for example, to allow an app to retrieve a list of files in a file system or to download a file. It  is used to delegate access to a resource in either Blob storage, Queue storage, Table storage, or Azure Files.
+- **Account-level** shared access signature allows access to anything that a service-level shared access signature can allow, plus additional resources and abilities. For example, you can use an account-level shared access signature to allow the ability to create file systems.
+- **User delegation SAS**, introduced with version 2018-11-09, is secured with Microsoft Entra credentials. This type of SAS is supported for the Blob service only and can be used to grant access to containers and blobs.
+
+One would typically use a shared access signature for a service where users read and write their data to your storage account. Accounts that store user data have two typical designs:
+
+- Clients upload and download data through a front-end proxy service, which performs authentication. This front-end proxy service has the advantage of allowing validation of business rules. But if the service must handle large amounts of data or high-volume transactions, you might find it complicated or expensive to scale this service to match demand.
+    
+    ![Screenshot of clients upload and download data through a front-end proxy service, which performs authentication.](https://learn.microsoft.com/en-us/training/wwl-azure/storage-security/media/az500-shared-access-signature-1-0af67054.png)
+    
+- A lightweight service authenticates the client as needed. Then it generates a shared access signature. After receiving the shared access signature, the client can access storage account resources directly. The shared access signature defines the client's permissions and access interval. The shared access signature reduces the need to route all data through the front-end proxy service.
+    
+    ![Screenshot of a lightweight service authenticates the client as needed. Then it generates a shared access signature.](https://learn.microsoft.com/en-us/training/wwl-azure/storage-security/media/az500-shared-access-signature-2-3672ac29.png)
+
+
+#### Manage Microsoft Entra storage authentication
+
+Azure Storage provides integration with Microsoft Entra ID for identity-based authorization of requests to the Blob and Queue services. With Microsoft Entra ID, you can use Azure role-based access control (Azure RBAC) to grant permissions to a security principal, which may be a user, group, or application service principal. The security principal is authenticated by Microsoft Entra ID to return an OAuth 2.0 token. The token can then be used to authorize a request against the Blob service.
+
+Authorization with Microsoft Entra ID is available for all general-purpose and Blob storage accounts in all public regions and national clouds. Only storage accounts created with the Azure Resource Manager deployment model support Microsoft Entra authorization. Blob storage additionally supports creating shared access signatures (SAS) that is signed with Microsoft Entra credentials.
+
+When a security principal (a user, group, or application) attempts to access a queue resource, the request must be authorized. With Microsoft Entra ID, access to a resource is a two-step process. First, the security principal's identity is authenticated, and an OAuth 2.0 token is returned. Next, the token is passed as part of a request to the Queue service and used by the service to authorize access to the specified resource. The authentication step requires that an application request an OAuth 2.0 access token at runtime. If an application is running from within an Azure entity, such as an Azure VM, a Virtual Machine Scale Set, or an Azure Functions app, it can use a managed identity to access queues.
+
+The authorization step requires one or more Azure roles to be assigned to the security principal. Native and web applications that request the Azure Queue service can also authorize access with Microsoft Entra ID.
+
+
+#### Implement storage service encryption
+
+- All data (including metadata) written to Azure Storage is automatically encrypted using Storage Service Encryption (SSE).
+- Microsoft Entra ID and Role-Based Access Control (RBAC) are supported for Azure Storage for both resource management operations and data operations, as follows:
+    - You can assign RBAC roles scoped to the storage account to security principals and use Microsoft Entra ID to authorize resource management operations such as key management.
+    - Microsoft Entra integration is supported for blob and queue data operations. You can assign RBAC roles scoped to a subscription, resource group, storage account, or an individual container or queue to a security principal or a managed identity for Azure resources.
+- Data can be secured in transit between an application and Azure by using Client-Side Encryption, HTTPS, or SMB 3.0.
+- OS and data disks used by Azure virtual machines can be encrypted using Azure Disk Encryption.
+- Delegated access to the data objects in Azure Storage can be granted using a shared access signature.
+
+**Azure Storage Service Encryption (SSE) for data at rest. -** 
+
+- When a new storage account is provisioned, Azure Storage Encryption is automatically enabled for it and it cannot be disabled. Storage accounts are encrypted regardless of their performance tier (standard or premium) or deployment model (Azure Resource Manager or classic). All Azure Storage redundancy options support encryption, and all copies of a storage account are encrypted. All Azure Storage resources are encrypted, including blobs, disks, files, queues, and tables. All object metadata is also encrypted.
+- Data in Azure Storage is encrypted and decrypted transparently using 256-bit AES encryption, one of the strongest block ciphers available, and is FIPS 140-2 compliant. 
+- Azure Storage encryption is similar to BitLocker encryption on Windows.
+- Encryption does not affect Azure Storage performance. There is no additional cost for Azure Storage encryption.
+
+**Encryption key management**
+
+You can rely on Microsoft-managed keys for the encryption of your storage account, or you can manage encryption with your own keys. If you choose to manage encryption with your own keys, you have two options:
+
+- You can specify a _customer-managed_ key to use for encrypting and decrypting all data in the storage account. A customer-managed key is used to encrypt all data in all services in your storage account.
+- You can specify a _customer-provided_ key on Blob storage operations. A client making a read or write request against Blob storage can include an encryption key on the request for granular control over how blob data is encrypted and decrypted.
+
+The following table compares key management options for Azure Storage encryption.
+
+|  | **Microsoft-managed keys** | **Customer-managed keys** | **Customer-provided keys** |
+|---|---|---|---|
+| Encryption/decryption operations|Azure|Azure|Azure|
+| Azure Storage services supported|All|Blob storage, Azure Files|Blob storage|
+| Key storage|Microsoft key store|Azure Key Vault|Azure Key Vault or any other key store|
+| Key rotation responsibility|Microsoft|Customer|Customer|
+| Key usage|Microsoft|Azure portal, Storage Resource Provider REST API, Azure Storage management libraries, PowerShell, CLI|Azure Storage REST API (Blob storage), Azure Storage client libraries|
+| Key access|Microsoft only|Microsoft, Customer|Customer only|
+
+
+#### Configure blob data retention policies
+
+**Immutable storage in Azure blob storage:*
+
+Immutable storage for Azure Blob storage enables users to store business-critical data objects in a WORM (Write Once, Read Many) state. Immutable storage is available for general-purpose v2 and Blob storage accounts in all Azure regions.
+
+*Time-based retention policy support*: Users can set policies to store data for a specified interval. When a time-based retention policy is set, blobs can be created and read, but not modified or deleted. After the retention period has expired, blobs can be deleted but not overwritten. When a time-based retention policy is applied on a container, all blobs in the container will stay in the immutable state for the duration of the effective retention period. The effective retention period for blobs is equal to the difference between the blob's creation time and the user-specified retention interval. Because users can extend the retention interval, immutable storage uses the most recent value of the user-specified retention interval to calculate the effective retention period.
+
+*Legal hold policy support*: If the retention interval is not known, users can set legal holds to store immutable data until the legal hold is cleared. When a legal hold policy is set, blobs can be created and read, but not modified or deleted. Each legal hold is associated with a user-defined alphanumeric tag (such as a case ID, event name, etc.) that is used as an identifier string. Legal holds are temporary holds that can be used for legal investigation purposes or general protection policies. Each legal hold policy needs to be associated with one or more tags. Tags are used as a named identifier, such as a case ID or event, to categorize and describe the purpose of the hold.
+
+*Support for all blob tiers*: WORM policies are independent of the Azure Blob storage tier and apply to all the tiers: hot, cool, and archive. Users can transition data to the most cost-optimized tier for their workloads while maintaining data immutability.
+
+*Container-level configuration*: Users can configure time-based retention policies and legal hold tags at the container level. By using simple container-level settings, users can create and lock time-based retention policies, extend retention intervals, set and clear legal holds, and more. These policies apply to all the blobs in the container, both existing and new.
+
+*Audit logging support*: Each container includes a policy audit log. It shows up to seven time-based retention commands for locked time-based retention policies and contains the user ID, command type, time stamps, and retention interval. For legal holds, the log contains the user ID, command type, time stamps, and legal hold tags. This log is retained for the lifetime of the policy, in accordance with the SEC 17a-4(f) regulatory guidelines. The Azure Activity Log shows a more comprehensive log of all the control plane activities; while enabling Azure Resource Logs retains and shows data plane operations. It is the user's responsibility to store those logs persistently, as might be required for regulatory or other purposes.
+
+>A container can have both a legal hold and a time-based retention policy at the same time. All blobs in that container stay in the immutable state until all legal holds are cleared, even if their effective retention period has expired. Conversely, a blob stays in an immutable state until the effective retention period expires, even though all legal holds have been cleared.
+
+#### Storage Account Keys
+Generated by Azure when creating the storage account. Azure generates 2 keys of 512-BITS. You use these keys to authorize access to data that resides in your storage account via Shared Key authorization. Azure KeyVault simplefies this process and allows your to perform the rotation of keys without  interrupting the applications.
+
+#### Configure Azure files authentication
+
+Azure Files supports identity-based authentication over Server Message Block (SMB) through on-premises Active Directory Domain Services (AD DS) and Microsoft Entra Domain Services (Microsoft Entra Domain Services).  With RBAC, the credentials you use for file access should be available or synced to Microsoft Entra ID.
+
+Azure Files enforces authorization on user access to both the share and the directory/file levels.
+
+At the directory/file level, Azure Files supports preserving, inheriting, and enforcing Windows DACLs just like any Windows file servers. You can choose to keep Windows DACLs when copying data over SMB between your existing file share and your Azure file shares. Whether you plan to enforce authorization or not, you can use Azure file shares to back up ACLs along with your data.
+
+**Benefits of Identity-based authentication over using Shared Key authentication:**
+
+- Extend the traditional identity-based file share access experience to the cloud with on-premises AD DS and Microsoft Entra Domain Services.
+- Enforce granular access control on Azure file shares.
+- Back up Windows ACLs (also known as NTFS) along with your data. You can copy ACLs on a directory or file to Azure file shares using either Azure File Sync or common file movement toolsets. For example, you can use robocopy with the /copy:s flag to copy data as well as ACLs to an Azure file share. ACLs are preserved by default, you are not required to enable identity-based authentication on your storage account to preserve ACLs.
+
+**How it works:**
+
+![Diagram of how identity-based authentication works or Azure files.](https://learn.microsoft.com/en-us/training/wwl-azure/storage-security/media/az500-azure-files-authentication-6d7a7c7d.png)
+
+
+#### Enable the secure transfer required property
+
+You can configure your storage account to accept requests from secure connections only by setting the Secure transfer required property for the storage account. When you require secure transfer, any requests originating from an insecure connection are rejected. Microsoft recommends that you always require secure transfer for all of your storage accounts.
+
+Connecting to an Azure File share over SMB without encryption fails when secure transfer is required for the storage account. Examples of insecure connections include those made over SMB 2.1, SMB 3.0 without encryption, or some versions of the Linux SMB client. Azure Files connections require encryption (SMB)
+
+**By default, the Secure transfer required property is enabled when you create a storage account**. Azure Storage doesn't support HTTPS for **custom domain names**, this option is not applied when you're using a custom domain name.
 
 
 
 ### 3.4. SQL database security
 
+#### SQL database authentication
+
+A user is authenticated using one of the following two authentication methods:
+
+- **SQL authentication** - With this authentication method, the user submits a user account name and associated password to establish a connection. This password is stored in the master database for user accounts linked to a login or stored in the database containing the user accounts not linked to a login.
+- **Microsoft Entra authentication** - With this authentication method, the user submits a user account name and requests that the service use the credential information stored in Microsoft Entra ID.
+
+You can create user accounts in the master database, and grant permissions in all databases on the server, or you can create them in the database itself (called contained database users). By using contained databases, you obtain enhance portability and scalability.
+
+**Logins and users**: In Azure SQL, a user account in a database can be associated with a login that is stored in the master database or can be a user name that is stored in an individual database.
+
+- A **login** is an individual account in the master database, to which a user account in one or more databases can be linked. With a login, the credential information for the user account is stored with the login.
+- A **user account** is an individual account in any database that may be but does not have to be linked to a login. With a user account that is not linked to a login, the credential information is stored with the user account.
+
+**Authorization** to access data and perform various actions are managed using database roles and explicit permissions.  Authorization is controlled by your user account's database role memberships and object-level permissions.
+
+
+
+
+
+
+Azure SQL Firewall Rules: 
+- *Server-level IP firewall rules* allow clients to access the entire Azure SQL server, which includes all databases hosted in it. The master database holds these rules. You can configure a mazimum of 128 server-level IP firewall rules for an Azure SQL server.
+- Database-level IP firewall rules are used to allow access to specific databases on a SQL Database server. You can create them for each database, included the master database. Also, there is a maximum of 128 rules.
+- 
+
+**Azure SQL Always Encrypted**
+Protect sensitive data in an Azure SQL Database or even in a traditional SQL Server database.
+Azure SQL Transparent Data Encryption. Clients can encrypt sensibive data inside the client applications without revealing the encryption keys to the SQL Server.
+The Always Encrypted-enabled driver automatically encrypts and decrypts sensitive data in the client application before sending the data off to the SQL server. 
+Available is all editions of Azure SQL Database starting weith SQL Server 2016.
+
+**Azure SQL TRansparent Data Encryption (TDE)**
+is used to protect Azure SQL databases, Azure SQL Managed Instances, and Azure Synapse from malicious offline activities. It encrypts the data at rest. TDE perform real-time encryption and decryption of the database, associated backups , and the transaction log files at rest. It cannot be used to encrypt the logical master database because this db contains objects that TDE needs to perform the encrypt/decrypt operations. In new databases this is automatically done. In old ones, you need to enable it manually
+
+Azure SQL Database Auditing
+You can enable server blob auditing and database blob auditing
 
 
 
@@ -1840,6 +2619,18 @@ A ClusterRoleBinding works in the same way to bind roles to users, but can be ap
 
 
 
+
+
+
+## 4. Manage security operation
+
+### 4.1. Configure and manage Azure Monitor
+
+
+### 4.2. Enable and manage Microsoft Defender for Cloud
+
+
+### 4.3. Configure and monitor Microsoft Sentinel
 
 
 ## Exercises 
@@ -1860,49 +2651,31 @@ Install-WindowsFeature -name Web-Server -IncludeManagementTools
 
 ## Later
 
+In addition to completing the course work in the AZ-500 learning path, you should also be sure to read the following reference articles from Microsoft:
 
-
-### Azure storage security
-
-**Azure Storage Service Encryption**
-When a new storage account is provisioned, Azure Storage Encryption is automatically enabled for it and it cannot be disabled. With 256-BIT AES ENCRYPTION. All storage accounts are encrypted with no distinction or cost.
-
-**Shared access signatures**
-Three types: 
-- User delegation SAS: applies to blog storage only. It's secured with Azure AD credentials and by the permissions specified for the SAS.
-- Service SAS is secured with the storage account key and is used to delegate access to a resource in either Blob storage, Queue storage, Table storage, or Azure Files.
-- Account SAS is secured with the storage account key. It delegates access to resources in one o more of the storage services
-Recomended: Azure AD credentials
-
-**Storage Account Keys**
-Generated by Azure when creating the storage account. Azure generates 2 keys of 512-BITS. You use these keys to authorize access to data that resides in your storage account via Shared Key authorization. Azure KeyVault simplefies this process and allows your to perform the rotation of keys without  interrupting the applications
-
-**Storage Analytics**
-
-
-### Azure Database Security
-
-Azure SQL Firewall Rules: 
-- *Server-level IP firewall rules* allow clients to access the entire Azure SQL server, which includes all databases hosted in it. The master database holds these rules. You can configure a mazimum of 128 server-level IP firewall rules for an Azure SQL server.
-- Database-level IP firewall rules are used to allow access to specific databases on a SQL Database server. You can create them for each database, included the master database. Also, there is a maximum of 128 rules.
-- 
-
-**Azure SQL Always Encrypted**
-Protect sensitive data in an Azure SQL Database or even in a traditional SQL Server database.
-Azure SQL Transparent Data Encryption. Clients can encrypt sensibive data inside the client applications without revealing the encryption keys to the SQL Server.
-The Always Encrypted-enabled driver automatically encrypts and decrypts sensitive data in the client application before sending the data off to the SQL server. 
-Available is all editions of Azure SQL Database starting weith SQL Server 2016.
-
-**Azure SQL TRansparent Data Encryption (TDE)**
-is used to protect Azure SQL databases, Azure SQL Managed Instances, and Azure Synapse from malicious offline activities. It encrypts the data at rest. TDE perform real-time encryption and decryption of the database, associated backups , and the transaction log files at rest. It cannot be used to encrypt the logical master database because this db contains objects that TDE needs to perform the encrypt/decrypt operations. In new databases this is automatically done. In old ones, you need to enable it manually
-
-Azure SQL Database Auditing
-You can enable server blob auditing and database blob auditing
-
-
-Dynamic Data Masking Policy
-
-Azure Active Directory Domain Services (Azure ADDS)
-
-
-
+- [Manage Azure Active Directory groups and group membership](https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/how-to-manage-groups)
+- [Configure Microsoft Entra Verified ID verifier](https://learn.microsoft.com/en-us/azure/active-directory/verifiable-credentials/verifiable-credentials-configure-verifier)
+- [Block legacy authentication with Azure AD with Conditional Access](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/block-legacy-authentication)
+- [Microsoft Entra Permissions Management](https://learn.microsoft.com/en-us/azure/active-directory/cloud-infrastructure-entitlement-management/permissions-management-trial-user-guide)
+- [What are access reviews?](https://learn.microsoft.com/en-us/azure/active-directory/governance/access-reviews-overview)
+- [Register an app with Azure Active Directory](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/walkthrough-register-app-azure-active-directory)
+- [Application and service principal objects in Azure Active Directory](https://learn.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals)
+- [Virtual network traffic routing](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview)
+- [Azure SQL Database and Azure Synapse IP firewall rules](https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql)
+- [Networking considerations for App Service Environment](https://learn.microsoft.com/en-us/azure/app-service/environment/network-info)
+- [Create a virtual network for Azure SQL Managed Instance](https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/virtual-network-subnet-create-arm-template?view=azuresql)
+- [Add and manage TLS/SSL certificates in Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-certificate?tabs=apex%2Cportal)
+- [Observability in Azure Container Apps](https://learn.microsoft.com/en-us/azure/container-apps/observability)
+- [Choose how to authorize access to blob data in the Azure portal](https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal)
+- [Authorize access to tables using Azure Active Directory](https://learn.microsoft.com/en-us/azure/storage/tables/authorize-access-azure-active-directory)
+- [Choose how to authorize access to queue data in the Azure portal](https://learn.microsoft.com/en-us/azure/storage/queues/authorize-data-operations-portal)
+- [Configure immutability policies for blob versions](https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-policy-configure-version-scope?tabs=azure-portal)
+- [Bring your own key details for Azure Information Protection](https://learn.microsoft.com/en-us/azure/information-protection/byok-price-restrictions)
+- [Enable infrastructure encryption for double encryption of data](https://learn.microsoft.com/en-us/azure/storage/common/infrastructure-encryption-enable?tabs=portal)
+- [Define and assign a blueprint in the portal](https://learn.microsoft.com/en-us/azure/governance/blueprints/create-blueprint-portal)
+- [What is an Azure landing zone?](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
+- [Dedicated HSM FAQ](https://learn.microsoft.com/en-us/azure/dedicated-hsm/faq)
+- [Improve your regulatory compliance](https://learn.microsoft.com/en-us/azure/defender-for-cloud/regulatory-compliance-dashboard)
+- [Customize the set of standards in your regulatory compliance dashboard](https://learn.microsoft.com/en-us/azure/defender-for-cloud/update-regulatory-compliance-packages)
+- [Create custom Azure security initiatives and policies](https://learn.microsoft.com/en-us/azure/defender-for-cloud/custom-security-policies?pivots=azure-portal)
+- [Plan your Defender for Servers deployment](https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers)
