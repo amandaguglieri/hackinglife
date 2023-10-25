@@ -2590,30 +2590,236 @@ You can create user accounts in the master database, and grant permissions in al
 
 **Authorization** to access data and perform various actions are managed using database roles and explicit permissions.  Authorization is controlled by your user account's database role memberships and object-level permissions.
 
+Best practices:
+- you should grant users the least privileges necessary.
+- your application should use a dedicated account to authenticate.
+- Recommendation: to create a contained database user, which allows your app to authenticate directly to the database.
+
+>Use Microsoft Entra authentication to centrally manage identities of database users and as an alternative to SQL Server authentication.
+
+![swl authentication](img/az-500_36.png)
 
 
+#### Configure SQL database firewalls
+
+Azure SQL Database and Azure Synapse Analytics, previously SQL Data Warehouse, (both referred to as SQL Database in this lesson) provide a relational database service for Azure and other internet-based applications. 
+
+Initially, all access to your Azure SQL Database is blocked by the SQL Database firewall.
+
+The firewall grants access to databases based 
+- on the originating IP address of each request.
+- on  virtual network rules based on virtual network service endpoints. Virtual network rules might be preferable to IP rules in some cases.
+
+Azure SQL Firewall  IP Rules: 
+- *Server-level IP firewall rules* allow clients to access the entire Azure SQL server, which includes all databases hosted in it. The master database holds these rules. You can configure a maximum of 128 server-level IP firewall rules for an Azure SQL server. You can configure server-level IP firewall rules using the Azure portal, PowerShell, or by using Transact-SQL statements. To create server-level IP firewall rules using the Azure portal or PowerShell, you must be the subscription owner or a subscription contributor. To create a server-level IP firewall rule using Transact-SQL, you must connect to the SQL Database instance as the server-level principal login or the Microsoft Entra administrator (which means that a server-level IP firewall rule must have first been created by a user with Azure-level permissions).
+- Database-level IP firewall rules are used to allow access to specific databases on a SQL Database server. You can create them for each database, included the master database. Also, there is a maximum of 128 rules. ou can only create and manage database-level IP firewall rules for master databases and user databases by using Transact-SQL statements, and only after you have configured the first server-level firewall.
 
 
+>Azure Synapse Analytics only supports server-level IP firewall rules, and not database-level IP firewall rules.
 
-Azure SQL Firewall Rules: 
-- *Server-level IP firewall rules* allow clients to access the entire Azure SQL server, which includes all databases hosted in it. The master database holds these rules. You can configure a mazimum of 128 server-level IP firewall rules for an Azure SQL server.
-- Database-level IP firewall rules are used to allow access to specific databases on a SQL Database server. You can create them for each database, included the master database. Also, there is a maximum of 128 rules.
-- 
+Data-level Firewall rules get evaluated first:
 
-**Azure SQL Always Encrypted**
-Protect sensitive data in an Azure SQL Database or even in a traditional SQL Server database.
-Azure SQL Transparent Data Encryption. Clients can encrypt sensibive data inside the client applications without revealing the encryption keys to the SQL Server.
-The Always Encrypted-enabled driver automatically encrypts and decrypts sensitive data in the client application before sending the data off to the SQL server. 
-Available is all editions of Azure SQL Database starting weith SQL Server 2016.
-
-**Azure SQL TRansparent Data Encryption (TDE)**
-is used to protect Azure SQL databases, Azure SQL Managed Instances, and Azure Synapse from malicious offline activities. It encrypts the data at rest. TDE perform real-time encryption and decryption of the database, associated backups , and the transaction log files at rest. It cannot be used to encrypt the logical master database because this db contains objects that TDE needs to perform the encrypt/decrypt operations. In new databases this is automatically done. In old ones, you need to enable it manually
-
-Azure SQL Database Auditing
-You can enable server blob auditing and database blob auditing
+![firewall rules for SQL databases](img/az-500_37.png)
 
 
+To allow applications from Azure to connect to your Azure SQL Database, Azure connections must be enabled. When an application from Azure attempts to connect to your database server, the firewall verifies that Azure connections are allowed. A firewall setting with starting and ending addresses equal to 0.0.0.0 indicates Azure connections are allowed. This option configures the firewall to allow all connections from Azure including connections from the subscriptions of other customers. When selecting this option, make sure your sign-in and user permissions limit access to authorized users only.
 
+>Whenever possible, as a best practice, use database-level IP firewall rules to enhance security and to make your database more portable. Use server-level IP firewall rules for administrators and when you have several databases with the same access requirements, and you don't want to spend time configuring each database individually.
+
+
+#### Enable and monitor database auditing
+
+Auditing for Azure SQL Database and Azure Synapse Analytics tracks database events and writes them to an audit log in your Azure storage account, Log Analytics workspace or Event Hubs.
+
+Auditing also:
+
+- Helps you maintain regulatory compliance, understand database activity, and gain insight into discrepancies and anomalies that could indicate business concerns or suspected security violations.
+- Enables and facilitates adherence to compliance standards, although it **doesn't guarantee compliance**.
+
+You can use SQL database auditing to:
+
+- **Retain** an audit trail of selected events. You can define categories of database actions to be audited.
+- **Report** on database activity. You can use pre-configured reports and a dashboard to get started quickly with activity and event reporting.
+- **Analyze** reports. You can find suspicious events, unusual activity, and trends.
+
+**In auditing, server-level auditing policies take precedence over database-label auditing policies**. This means that:  
+
+- A server policy applies to all existing and newly created databases on the server.
+- If server auditing is enabled, it always applies to the database. The database will be audited, regardless of the database auditing settings.
+- Enabling auditing on the database or data warehouse, in addition to enabling it on the server, does not override or change any of the settings of the server auditing. Both audits will exist side by side. In other words, the database is audited twice in parallel; once by the server policy and once by the database policy.
+
+#### Implement data discovery and classification
+
+Data discovery and classification provides advanced capabilities built into Azure SQL Database for discovering, classifying, labeling and protecting sensitive data (such as business, personal data, and financial information) in your databases. Discovering and classifying this data can play a pivotal role in your organizational information protection stature. It can serve as infrastructure for:
+
+- Helping meet data privacy standards and regulatory compliance requirements.
+- Addressing various security scenarios such as monitoring, auditing, and alerting on anomalous access to sensitive data.
+- Controlling access to and hardening the security of databases containing highly sensitive data.
+
+Data exists in one of three basic states: at **rest**, in **process**, and in **transit**. All three states require unique technical solutions for data classification, but the applied principles of data classification should be the same for each. Data that is classified as confidential needs to stay confidential when at rest, in process, or in transit.
+
+Data can also be either **structured** or **unstructured**. Typical classification processes for structured data found in databases and spreadsheets are less complex and time-consuming to manage than those for unstructured data such as documents, source code, and email. Generally, organizations will have more unstructured data than structured data.
+
+**Protect data at rest**
+
+|**Best practice**|**Solution**|
+|---|---|
+|Apply disk encryption to help safeguard your data.|Use Microsoft Azure Disk Encryption, which enables IT administrators to encrypt both Windows infrastructure as a service (IaaS) and Linux IaaS virtual machine (VM) disks. Disk encryption combines the industry-standard BitLocker feature and the Linux DM-Crypt feature to provide volume encryption for the operating system (OS) and the data disks. ‎Azure Storage and Azure SQL Database encrypt data at rest by default, and many services offer encryption as an option. You can use Azure Key Vault to maintain control of keys that access and encrypt your data.|
+|Use encryption to help mitigate risks related to unauthorized data access.|Encrypt your drives before you write sensitive data to them.|
+
+**Protect data in transit**
+
+We generally recommend that you always use SSL/TLS protocols to exchange data across different locations. . In some circumstances, you might want to isolate the entire communication channel between your on-premises and cloud infrastructures by using a VPN. For data moving between your on-premises infrastructure and Azure, consider appropriate safeguards such as HTTPS or VPN. When sending encrypted traffic between an Azure virtual network and an on-premises location over the public internet, use Azure VPN Gateway.
+
+|**Best practice**|**Solution**|
+|---|---|
+|Secure access from multiple workstations located on-premises to an Azure virtual network|Use site-to-site VPN.|
+|Secure access from an individual workstation located on-premises to an Azure virtual network|Use point-to-site VPN.|
+|Move larger data sets over a dedicated high-speed wide area network (WAN) link|Use Azure ExpressRoute. If you choose to use ExpressRoute, you can also encrypt the data at the application level by using SSL/TLS or other protocols for added protection.|
+|Interact with Azure Storage through the Azure portal|All transactions occur via HTTPS. You can also use Storage REST API over HTTPS to interact with Azure Storage and Azure SQL Database.|
+
+
+Data discovery and classification is part of the **Advanced Data Security offering**, which is a unified package for advanced Microsoft SQL Server security capabilities. You access and manage data discovery and classification via the central **SQL Advanced Data Security portal**.
+
+- **Discovery and recommendations** - The classification engine scans your database and identifies columns containing potentially sensitive data. It then provides you with an easier way to review and apply the appropriate classification recommendations via the Azure portal.
+- **Labeling** - Sensitivity classification labels can be persistently tagged on columns using new classification metadata attributes introduced into the SQL Server Engine. This metadata can then be utilized for advanced sensitivity-based auditing and protection scenarios.
+- **Information Types** - These provide additional granularity into the type of data stored in the column.
+- **Query result set sensitivity** - The sensitivity of the query result set is calculated in real time for auditing purposes.
+- **Visibility** - You can view the database classification state in a detailed dashboard in the Azure portal. Additionally, you can download a report (in Microsoft Excel format) that you can use for compliance and auditing purposes, in addition to other needs.
+
+SQL data discovery and classification comes with a built-in set of sensitivity labels and information types, and discovery logic. You can now customize this taxonomy and define a set and ranking of classification constructs specifically for your environment. Definition and customization of your classification taxonomy takes place in one central location for your entire Azure Tenant. That location is in Microsoft Defender for Cloud, as part of your Security Policy. Only a user with administrative rights on the Tenant root management group can perform this task.
+
+#### Microsoft Defender for SQL
+
+Applies to: **Azure SQL Database** | **Azure SQL Managed Instance** | **Azure Synapse Analytics**
+
+Microsoft Defender for SQL includes functionality for surfacing and mitigating potential database vulnerabilities and detecting anomalous activities that could indicate a threat to your database. It provides a single go-to location for enabling and managing these capabilities.
+
+Microsoft Defender for SQL provides: 
+
+- *Vulnerability Assessment* is an easy-to-configure service that can discover, track, and help you remediate potential database vulnerabilities. It provides visibility into your security state, and it includes actionable steps to resolve security issues and enhance your database fortifications.
+- *Advanced Threat Protection* detects anomalous activities indicating unusual and potentially harmful attempts to access or exploit your database. It continuously monitors your database for suspicious activities, and it provides immediate security alerts on potential vulnerabilities, Azure SQL injection attacks, and anomalous database access patterns. Advanced Threat Protection alerts provide details of suspicious activity and recommend action on how to investigate and mitigate the threat.
+
+Enabling or managing Microsoft Defender for SQL settings requires belonging to the SQL security manager role or one of the database or server admin roles.
+
+#### Vulnerability assessment for SQL Server
+
+Applies to: Azure SQL Database | Azure SQL Managed Instance | Azure Synapse Analytics
+
+- Vulnerability assessment is a scanning service built into Azure SQL Database.
+- The service employs a knowledge base of rules that flag security vulnerabilities.
+- These rules cover database-level issues and server-level security issues, like server firewall settings and server-level permissions. - Permission configurations. - Feature configurations. - Database settings
+- The results of the scan include actionable steps to resolve each issue and provide customized remediation scripts where applicable.
+- Vulnerability assessment is part of Microsoft Defender for Azure SQL, which is a unified package for advanced SQL security capabilities. Vulnerability assessment can be accessed and managed from each SQL database resource in the Azure portal.
+
+**SQL vulnerability assessment express and classic configurations. -** You can configure vulnerability assessment for your SQL databases with either:
+
+- Express configuration (preview) – The default procedure that lets you configure vulnerability assessment without dependency on external storage to store baseline and scan result data.
+- Classic configuration – The legacy procedure that requires you to manage an Azure storage account to store baseline and scan result data.
+
+![sql vulnerability assessment express and classic configurations comparison](img/az-500_38.png)
+
+#### SQL Advanced Threat Protection
+
+Applies to: Azure SQL Database | Azure SQL Managed Instance | Azure Synapse Analytics | SQL Server on Azure Virtual Machines | Azure Arc-enabled SQL Server
+
+- SQL Advanced Threat Protection detects anomalous activities indicating unusual and potentially harmful attempts to access or exploit databases.
+- Users receive an alert upon suspicious database activities, potential vulnerabilities, and SQL injection attacks, as well as anomalous database access and queries patterns.
+- Advanced Threat Protection integrates alerts with Microsoft Defender for Cloud.
+- For a full investigation experience, it is recommended to enable auditing, which writes database events to an audit log in your Azure storage account.
+- **Click** the **Advanced Threat Protection alert** to launch the Microsoft Defender for Cloud alerts page and get an overview of active SQL threats detected on the database.
+- Advanced Threat Protection is part of the Microsoft Defender for SQL offering, which is a unified package for advanced SQL security capabilities. Advanced Threat Protection can be accessed and managed via the central Microsoft Defender for SQL portal.
+
+#### SQL Database Dynamic Data Masking (DDM) 
+
+Dynamic data masking helps prevent unauthorized access to sensitive data by enabling customers to designate how much of the sensitive data to reveal with minimal impact on the application layer. You set up a dynamic data masking policy in the Azure portal by selecting the dynamic data masking operation in your SQL Database configuration blade or settings blade. This feature cannot be set by using portal for Azure Synapse
+
+**Configuring DDM policy. -**
+
+- **SQL users excluded from masking** - A set of SQL users or Microsoft Entra identities that get unmasked data in the SQL query results. Users with administrator privileges are always excluded from masking, and view the original data without any mask.
+- **Masking rules** - A set of rules that define the designated fields to be masked and the masking function that is used. The designated fields can be defined using a database schema name, table name, and column name.
+- **Masking functions** - A set of methods that control the exposure of data for different scenarios.
+
+The DDM recommendations engine, flags certain fields from your database as potentially sensitive fields, which may be good candidates for masking. In the Dynamic Data Masking blade in the portal, you can review the recommended columns for your database. All you need to do is click **Add Mask** for one or more columns and then **Save** to apply a mask for these fields.
+
+#### Implement Transparent Data Encryption (TDE)
+
+- Applies to Azure SQL Database | Azure SQL Managed Instance |  Synapse SQL in Azure Synapse Analytics.
+- To configure TDE through the Azure portal, you must be connected as the Azure Owner, Contributor, or SQL Security Manager.
+- Encrypts data at rest. 
+- It performs real-time encryption and decryption of the database, associated backups, and transaction log files at rest without requiring changes to the application.
+- **By default, TDE is enabled for all newly deployed Azure SQL databases** and needs to be manually enabled for older databases of Azure SQL Database, Azure SQL Managed Instance, or Azure Synapse.
+- It cannot be used to encrypt the logical master database because this db contains objects that TDE needs to perform the encrypt/decrypt operations. 
+-  TDE encrypts the storage of an entire database by using a symmetric key called the Database Encryption Key (DEK).
+- DEK is protected by the TDE protector. Where is this TDE protector set?:
+	- *At the logical SQL server level*: For Azure SQL Database and Azure Synapse, the TDE protector is set at the logical SQL server level and is inherited by all databases associated with that server. 
+	- *At the instance level*: For Azure SQL Managed Instance (BYOK feature in preview), the TDE protector is set at the instance level and it is inherited by all encrypted databases on that instance.
+
+
+TDE protector is either a service-managed certificate (service-managed transparent data encryption) or an asymmetric key stored in Azure Key Vault (customer-managed transparent data encryption)
+
+-  The default setting for TDE is that the DEK is protected by a built-in server certificate. 
+	- If two databases are connected to the same server, they also share the same built-in certificate.
+	- The built-in server certificate is unique for each server and the encryption algorithm used is AES 256.
+	- Microsoft automatically rotates these certificates. Additionally, Microsoft seamlessly moves and manages the keys as needed for geo-replication and restores.
+	- the root key is protected by a Microsoft internal secret store. 
+- With Customer-managed TDE or Bring Your Own Key (BYOK),  the TDE Protector that encrypts the DEK is a customer-managed asymmetric key, which is stored in a customer-owned and managed Azure Key Vault (Azure's cloud-based external key management system) and never leaves the key vault.
+	-  The TDE Protector can be generated by the key vault or transferred to the key vault from an on premises hardware security module (HSM) device. 
+	- SQL Database needs to be granted permissions to the customer-owned key vault to decrypt and encrypt the DEK. 
+	- With TDE with Azure Key Vault integration, users can control key management tasks including key rotations, key vault permissions, key backups, and enable auditing/reporting on all TDE protectors using Azure Key Vault functionality.
+
+Turn on and off TDE from Azure portal.
+
+Except for Azure SQL Managed Instance, there you need to use T-SQL to turn TDE on and off on a database.
+
+>Transact-SQL (T-SQL) is an extension of the standard SQL (Structured Query Language) used for querying and managing relational databases, particularly in the context of Microsoft SQL Server and Azure SQL Database. It is needed and used for the following reasons:
+>1. **Procedural Capabilities**: T-SQL includes procedural programming constructs such as variables, loops, and conditional statements, which are not part of standard SQL.
+>2. **SQL Server Specific Functions**: T-SQL includes functions and features that are specific to SQL Server and may not be supported by other database management systems.
+>3. **System Management**: T-SQL provides commands and procedures for managing SQL Server instances, databases, and security, which are not part of the standard SQL language.
+>4. **Error Handling**: T-SQL has error handling mechanisms like TRY...CATCH blocks, which are not part of the standard SQL syntax.
+
+
+#### Azure SQL Always Encrypted
+
+Always Encrypted helps protect sensitive data at rest on the server, during movement between client and server, and while the data is in use. Always Encrypted ensures that sensitive data never appears as plaintext inside the database system. After you configure data encryption, only client applications or app servers that have access to the keys can access plaintext data. Always Encrypted uses the AEAD_AES_256_CBC_HMAC_SHA_256 algorithm to encrypt data in the database.
+
+Always Encrypted allows clients to encrypt sensitive data inside client applications and never reveal the encryption keys to the Database Engine (SQL Database or SQL Server).
+
+> **An example:** *Client On-Premises with Data in Azure* __ A customer has an on-premises client application at their business location. The application operates on sensitive data stored in a database hosted in Azure (SQL Database or SQL Server running in a virtual machine on Microsoft Azure). The customer uses Always Encrypted and stores Always Encrypted keys in a trusted key store hosted on-premises, to ensure Microsoft cloud administrators have no access to sensitive data.
+> *Client and Data in Azure* __ A customer has a client application, hosted in Microsoft Azure (for example, in a worker role or a web role), which operates on sensitive data stored in a database hosted in Azure (SQL Database or SQL Server running in a virtual machine on Microsoft Azure). Although Always Encrypted does not provide complete isolation of data from cloud administrators, as both the data and keys are exposed to cloud administrators of the platform hosting the client tier, the customer still benefits from reducing the security attack surface area (the data is always encrypted in the database).
+
+The Always Encrypted-enabled driver automatically encrypts and decrypts sensitive data in the client application before sending the data off to the SQL server. Always Encrypted supports two types of encryption: randomized encryption and deterministic encryption.
+
+- **Deterministic encryption** always generates the same encrypted value for any given plain text value. Using deterministic encryption allows point lookups, equality joins, grouping and indexing on encrypted columns. However, it may also allow unauthorized users to guess information about encrypted values by examining patterns in the encrypted column, especially if there is a small set of possible encrypted values, such as True/False, or North/South/East/West region. Deterministic encryption must use a column collation with a binary2 sort order for character columns.
+- **Randomized encryption** uses a method that encrypts data in a less predictable manner. Randomized encryption is more secure, but prevents searching, grouping, indexing, and joining on encrypted columns.
+
+Available is all editions of Azure SQL Database starting with SQL Server 2016.
+
+**Deploy an always encrypted implementation. -** 
+
+The initial setup of Always Encrypted in a database involves generating Always Encrypted keys, creating key metadata, configuring encryption properties of selected database columns, and/or encrypting data that may already exist in columns that need to be encrypted.
+
+Some of these tasks aren't supported in Transact-SQL. You can use SQL Server Management Studio (SSMS) or PowerShell to accomplish such tasks.
+
+
+|**Task**|**SSMS**|**PowerShell**|**SQL**|
+|---|---|---|---|
+|Provisioning column master keys, column encryption keys and encrypted column encryption keys with their corresponding column master keys|Yes|Yes|No|
+|Creating key metadata in the database|Yes|Yes|Yes|
+|Creating new tables with encrypted columns|Yes|Yes|Yes|
+|Encrypting existing data in selected database columns|Yes|Yes|No|
+
+When setting up encryption for a column, you specify the information about the encryption algorithm and cryptographic keys used to protect the data in the column. Always Encrypted uses two types of keys: column encryption keys and column master keys. A column encryption key is used to encrypt data in an encrypted column. A column master key is a key-protecting key that encrypts one or more column encryption keys.
+
+The Database Engine stores encryption configuration for each column in database metadata. Note, however, the Database Engine never stores or uses the keys of either type in plaintext. It only stores encrypted values of column encryption keys and the information about the location of column master keys, which are stored in external trusted key stores, such as Azure Key Vault, Windows Certificate Store on a client machine, or a hardware security module.
+
+To access data stored in an encrypted column in plaintext, an application must use an Always Encrypted enabled client driver. When an application issues a parameterized query, the driver transparently collaborates with the Database Engine to determine which parameters target encrypted columns and, thus, should be encrypted. For each parameter that needs to be encrypted, the driver obtains the information about the encryption algorithm and the encrypted value of the column encryption key for the column, the parameter targets, as well as the location of its corresponding column master key.
+
+Next, the driver contacts the key store, containing the column master key, in order to decrypt the encrypted column encryption key value and then, it uses the plaintext column encryption key to encrypt the parameter. The resultant plaintext column encryption key is cached to reduce the number of round trips to the key store on subsequent uses of the same column encryption key. The driver substitutes the plaintext values of the parameters targeting encrypted columns with their encrypted values, and it sends the query to the server for processing.
+
+The server computes the result set, and for any encrypted columns included in the result set, the driver attaches the encryption metadata for the column, including the information about the encryption algorithm and the corresponding keys. The driver first tries to find the plaintext column encryption key in the local cache, and only makes a round to the column master key if it can't find the key in the cache. Next, the driver decrypts the results and returns plaintext values to the application.
+
+A client driver interacts with a key store, containing a column master key, using a column master key store provider, which is a client-side software component that encapsulates a key store containing the column master key. Providers for common types of key stores are available in client-side driver libraries from Microsoft or as standalone downloads. You can also implement your own provider. Always Encrypted capabilities, including built-in column master key store providers vary by a driver library and its version.
 
 
 
@@ -2626,9 +2832,524 @@ You can enable server blob auditing and database blob auditing
 
 ### 4.1. Configure and manage Azure Monitor
 
+#### Exploring Azure Monitor
+
+![azure monitor metrics and logs](az-500_39.png)
+
+**Exporting data to a SIEM**
+
+Azure Monitor offers a consolidated pipeline for routing any of your monitoring data into a SIEM tool. This is done by streaming that data to an event hub, where it can then be pulled into a partner tool. This pipe uses the Azure Monitor single pipeline for getting access to the monitoring data from your Azure environment. Currently, the exposed security data from Microsoft Defender for Cloud to a SIEM consists of security alerts.
+
+**Microsoft Defender for Cloud security alerts**
+Microsoft Defender for Cloud automatically collects, analyzes, and integrates log data from your Azure resources; the network; and connected partner solutions.
+
+**Azure Event Hubs**
+Azure Event Hubs is a streaming platform and event ingestion service that can transform and store data by using any real-time analytics provider or batching/storage adapters. Use Event Hubs to stream log data from Azure Monitor to a Microsoft Sentinel or a partner SIEM and monitoring tools. What data can be sent into an event hub? Within your Azure environment, there are several 'tiers' of monitoring data, and the method of accessing data from each tier varies slightly.
+
+- **Application monitoring data** - Data about the performance and functionality of the code you have written and are running on Azure. Examples of application monitoring data include performance traces, application logs, and user telemetry. Application monitoring data is usually collected in one of the following ways:
+    - By instrumenting your code with an SDK such as the **Application Insights SDK**.
+    - By running a monitoring agent that listens for new application logs on the machine running your application, such as the **Windows Azure Diagnostic Agent** or **Linux Azure Diagnostic Agent**.
+- **Guest OS monitoring data** - Data about the operating system on which your application is running. Examples of guest OS monitoring data would be Linux syslog or Windows system events. To collect this type of data, you need to install an agent such as the **Windows Azure Diagnostic Agent** or **Linux Azure Diagnostic Agent**.
+- **Azure resource monitoring data** - Data about the operation of an Azure resource. For some Azure resource types, such as virtual machines, there is a guest OS and application(s) to monitor inside of that Azure service. For other Azure resources, such as Network Security Groups, the resource monitoring data is the highest tier of data available (since there is no guest OS or application running in those resources). This data can be collected using resource diagnostic settings.
+- **Azure subscription monitoring data** - Data about the operation and management of an Azure subscription, as well as data about the health and operation of Azure itself. The activity log contains most subscription monitoring data, such as service health incidents and Azure Resource Manager audits. You can collect this data using a Log Profile.
+- **Azure tenant monitoring data** - Data about the operation of tenant-level Azure services, such as Microsoft Entra ID. The Microsoft Entra audits and sign-ins are examples of tenant monitoring data. This data can be collected using a tenant diagnostic setting.
+
+Some of the features of Microsoft Sentinel are:
+
+- **More than 100 built-in alert rules**
+    - Sentinel's alert rule wizard to create your own.
+    - Alerts can be triggered by a single event or based on a threshold, or by correlating different datasets or by using built-in machine learning algorithms.
+- **Jupyter Notebooks** that use a growing collection of hunting queries, exploratory queries, and python libraries.
+- **Investigation graph** for visualizing and traversing the connections between entities like users, assets, applications, or URLs and related activities like logins, data transfers, or application usage to rapidly understand the scope and impact of an incident.
+
+To on-board Microsoft Sentinel:
+- Enable it
+- Connect your data sources with connectors that include Microsoft Threat Protection solutions, Microsoft 365 sources, Microsoft Entra ID, Azure ATP, and Microsoft Cloud App Security. In addition, there are built-in connectors to the broader security ecosystem for non-Microsoft solutions. You can also use common event format, Syslog or REST-API to connect your data sources with Azure Sentinel.
+- After you connect your data sources, choose from a gallery of expertly created dashboards that surface insights based on your data.
+
+#### Configure and monitor metrics and logs
+
+All data that Azure Monitor collects fits into one of two fundamental types: **metrics or logs**.
+
+**Azure Monitor Metrics. -** Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. There are multiple types of metrics supported by Azure Monitor Metrics:
+
+![azure monitor metrics](az-500_40.png)
+
+- **Native metrics** use tools in Azure Monitor for analysis and alerting.
+    - Platform metrics are collected from Azure resources. They require no configuration and have no cost.
+    - Custom metrics are collected from different sources that you configure, including applications and agents running on virtual machines.
+- **Prometheus metrics** (preview) are collected from Kubernetes clusters, including Azure Kubernetes Service (AKS), and use industry-standard tools for analyzing and alerting, such as PromQL and Grafana.
+
+
+**What is Prometheus?** Prometheus is an **open-source toolkit** that **collects data** for **monitoring** and **alerting**.
+
+**Prometheus Features:**
+
+- A multi-dimensional data model with time series data identified by metric name and key/value pairs
+- PromQL (**PromQL component called Prom Kubernetes - an extension to support Prometheus**) provides a flexible query language to use this dimensionality.
+- Time series collection happens via a pull model over Hypertext Transfer Protocol (**HTTP**)
+- Pushing time series is supported via an intermediary gateway
+- Targets are discovered via service discovery or static configuration
+
+**What is Azure Managed Grafana?**
+
+Azure Managed Grafana is a data visualization platform built on top of the Grafana software by Grafana Labs. It's built as a fully managed Azure service operated and supported by Microsoft. Grafana helps you combine metrics, logs, and traces into a single user interface. With its extensive support for data sources and graphing capabilities, you can view and analyze your application and infrastructure telemetry data in real-time.
+
+**Azure Managed Grafana** is optimized for the Azure environment. It works seamlessly with many Azure services. Specifically, for the current preview, it provides with the following integration features:
+
+- Built-in support for Azure Monitor and Azure Data Explorer
+- User authentication and access control using Microsoft Entra identities
+- Direct import of existing charts from the Azure portal
+
+**Why use Azure Managed Grafana?**
+
+**Managed Grafana** lets you bring together all your telemetry data into one place. It can access various data sources supported, including your data stores in Azure and elsewhere.
+
+As a fully managed service, Azure Managed Grafana lets you deploy Grafana without having to deal with setup. The service provides high availability, service level agreement (SLA) guarantees, and automatic software updates.
+
+You can share Grafana dashboards with people inside and outside your organization and allow others to join in for monitoring or troubleshooting. Managed Grafana uses **Microsoft Entra ID’s centralized identity management**, which allows you to control which users can use a Grafana instance, and you can use managed identities to access Azure data stores, such as Azure Monitor.
+
+You can create dashboards instantaneously by importing existing charts directly from the Azure portal or by using prebuilt dashboards.
+
+Summarizing:
+
+|**Category**|**Native platform metrics**|**Native custom metrics**|**Prometheus metrics** (preview)|
+|---|---|---|---|
+|Sources|Azure resources|Azure Monitor agent  <br>Application Insights  <br>Representational State Transfer (REST) Application Programming Interface (API)|Azure Kubernetes Service (AKS) cluster  <br>Any Kubernetes cluster through remote-write|
+|Configuration|None|Varies by source|Enable Azure Monitor managed service for Prometheus|
+|Stored|Subscription|Subscription|Azure Monitor workspace|
+|Cost|No|Yes|Yes (free during preview)|
+|Aggregation|pre-aggregated|pre-aggregated|raw data|
+|Analyze|Metrics Explorer|Metrics Explorer|Prometheus Querying (PromQL) LanguageGrafana dashboards|
+|Alert|metrics alert rule|metrics alert rule|Prometheus alert rule|
+|Visualize|WorkbooksAzure dashboardGrafana|WorkbooksAzure dashboardGrafana|Grafana|
+|Retrieve|Azure Command-Line Interface (CLI) Azure PowerShell cmdletsRepresentational State Transfer (REST) Application Programming Interface (API) or client library.NETGoJavaJavaScriptPython|Azure Command-Line Interface (CLI) Azure PowerShell cmdletsRepresentational State Transfer (REST) Application Programming Interface (API) or client library.NETGoJavaJavaScriptPython|Grafana|
+
+
+Azure Monitor collects metrics from the following sources. After these metrics are collected in the Azure Monitor metric database, they can be evaluated together regardless of their source:
+
+- **Azure resources:** Platform metrics are created by Azure resources and give you visibility into their health and performance. Each type of resource creates a distinct set of metrics without any configuration required. Platform metrics are collected from Azure resources at a one-minute frequency unless specified otherwise in the metric's definition.
+- **Applications:** Application Insights creates metrics for your monitored applications to help you detect performance issues and track trends in how your application is used. Values include Server response time and Browser exceptions.
+- **Virtual machine agents:** Metrics are collected from the guest operating system of a virtual machine. You can enable guest operating system (OS) metrics for Windows virtual machines using the Windows diagnostic extension and Linux virtual machines by using the InfluxData Telegraf agent.
+- **Custom metrics:** You can define metrics in addition to the standard metrics that are automatically available. You can define custom metrics in your application that are monitored by Application Insights. You can also create custom metrics for an Azure service by using the custom metrics Application Programming Interface (API).
+- **Kubernetes clusters:** Kubernetes clusters typically send metric data to a local Prometheus server that you must maintain. Azure Monitor managed service for Prometheus provides a managed service that collects metrics from Kubernetes clusters and stores them in Azure Monitor Metrics.
+
+A common type of log entry is an event, which is collected sporadically.
+
+Applications can create custom logs by using the structure that they need.
+
+Metric data can even be stored in Logs to combine them with other monitoring data for trending and other data analysis.
+
+**KQL (Kusto query language). -** Data in Azure Monitor Logs is retrieved using a log query written with the Kusto query language, which allows you to quickly retrieve, consolidate, and analyze collected data.  Use Log Analytics to write and test log queries in the Azure portal. It allows you to work with results interactively or pin them to a dashboard to view them with other visualizations.
+
+Security tools use of Monitor logs:
+
+- **Microsoft Defender for Cloud** stores data that it collects in a Log Analytics workspace where it can be analyzed with other log data.
+- **Azure Sentinel** stores data from data sources into a Log Analytics workspace.
+
+#### Enable Log Analytics
+
+Log Analytics is the primary tool in the Azure portal for writing log queries and interactively analyzing their results. Even if a log query is used elsewhere in Azure Monitor, you'll typically write and test the query first using Log Analytics.
+
+You can start Log Analytics from several places in the Azure portal. The scope of the data available to Log Analytics is determined by how you start it.
+
+- Select Logs from the Azure Monitor menu or Log Analytics workspaces menu.
+- Select Analytics from the Overview page of an Application Insights application.
+- Select Logs from the menu of an Azure resource.
+
+In addition to interactively working with log queries and their results in Log Analytics, areas in Azure Monitor where you will use queries include the following:
+
+- **Alert rules**. Alert rules proactively identify issues from data in your workspace. Each alert rule is based on a log search that is automatically run at regular intervals. The results are inspected to determine if an alert should be created.
+- **Dashboards**. You can pin the results of any query into an Azure dashboard which allow you to visualize log and metric data together and optionally share with other Azure users.
+- **Views**. You can create visualizations of data to be included in user dashboards with View Designer. Log queries provide the data used by tiles and visualization parts in each view.
+- **Export**. When you import log data from Azure Monitor into Excel or Power BI, you create a log query to define the data to export.
+- **PowerShell**. Use the results of a log query in a PowerShell script from a command line or an Azure Automation runbook that uses `Invoke-AzOperationalInsightsQuery`.
+- **Azure Monitor Logs API**. The Azure Monitor Logs API allows any REST API client to retrieve log data from the workspace. The API request includes a query that is run against Azure Monitor to determine the data to retrieve.
+
+**At the center of Log Analytics is the Log Analytics workspace, which is hosted in Azure. -**
+- Log Analytics collects data in the workspace from connected sources by configuring data sources and adding solutions to your subscription. 
+- Data sources and solutions each create different record types, each with its own set of properties.
+- You can still analyze sources and solutions together in queries to the workspace.
+- A Log Analytics workspace is a unique environment for Azure Monitor log data.
+-  Each workspace has its own data repository and configuration, and data sources and solutions are configured to store their data in a particular workspace.
+-  You require a Log Analytics workspace if you intend on collecting data from the following sources:
+	- Azure resources in your subscription
+	- On-premises computers monitored by System Center Operations Manager
+	- Device collections from Configuration Manager
+	- Diagnostics or log data from Azure storage
+
+
+#### Manage connected sources for log analytics
+
+- The Azure Log Analytics agent was developed for comprehensive management across virtual machines in any cloud, on-premises machines, and those monitored by System Center Operations Manager.
+- The Windows and Linux agents send collected data from different sources to your Log Analytics workspace in Azure Monitor, as well as any unique logs or metrics as defined in a monitoring solution.
+- The Log Analytics agent also supports insights and other services in Azure Monitor such as Azure Monitor for VMs, Microsoft Defender for Cloud, and Azure Automation.
+
+There is something else called Azure diagnostics extension, that basically collects monitoring data from the guest operating system of Azure virtual machines.  Differences:
+
+| Azure Diagnostics Extension | Log Analytics agent |
+| --- | ----- |
+| Used only with Azure virtual machines. | Used with virtual machines in Azure, other clouds, and on-premises. | 
+| Sends data to Azure Storage, Azure Monitor Metrics (Windows only) and Event Hubs. | Sends  data to Azure Monitor Logs (to an Log Analytics Workspace). |
+| Not required specifically | Required for: Azure Monitor for VMs, and other services such as Microsoft Defender for Cloud. |
+
+The Windows agent can be multihomed to send data to multiple workspaces and System Center Operations Manager management groups. The Linux agent can send to only a single destination. The agent for Linux and Windows isn't only for connecting to Azure Monitor, it also supports Azure Automation to host the Hybrid Runbook worker role and other services such as Change Tracking, Update Management, and Microsoft Defender for Cloud.
+
+#### Enable Azure monitor Alerts
+
+Azure monitor has metrics, logging, and analytics features. Another feature is Monitor Alerts.
+
+Alerts in Azure Monitor proactively notify you of critical conditions and potentially attempt to take corrective action. Alert rules based on metrics provide near real time alerting based on numeric values, while rules based on logs allow for complex logic across data from multiple sources.
+
+The unified alert experience in Azure Monitor includes alerts that were previously managed by Log Analytics and Application Insights. In the past, Azure Monitor, Application Insights, Log Analytics, and Service Health had separate alerting capabilities. Over time, Azure improved and combined both the user interface and different methods of alerting. The consolidation is still in process.
+
+![Azure monitor alerts](img/az-500_41.png)
+
+
+- The **alert rule** captures the target and criteria for alerting.  The alert rule can be in an enabled or a disabled state. Alerts only fire when enabled.
+- **Target Resource**: Defines the scope and signals available for alerting. A target can be any Azure resource. Example targets: a virtual machine, a storage account, a virtual machine scale set, a Log Analytics workspace, or an Application Insights resource. For certain resources (like virtual machines), you can specify multiple resources as the target of the alert rule.
+- **Signal**: Emitted by the target resource. Signals can be of the following types: metric, activity log, Application Insights, and log.
+- **Criteria**: A combination of signal and logic applied on a target resource. Examples:
+    - Percentage CPU > 70%
+    - Server Response Time > 4 ms
+    - Result count of a log query > 100
+- **Alert Name**: A specific name for the alert rule configured by the user.
+- **Alert Description**: A description for the alert rule configured by the user.
+- **Severity**: The severity of the alert after the criteria specified in the alert rule is met. Severity can range from 0 to 4.
+    - Sev 0 = Critical
+    - Sev 1 = Error
+    - Sev 2 = Warning
+    - Sev 3 = Informational
+    - Sev 4 = Verbose
+- **Action**: A specific action taken when the alert is fired.
+
+You can alert on metrics and logs. These include but are not limited to:
+
+- Metric values
+- Log search queries
+- Activity log events
+- Health of the underlying Azure platform
+- Tests for website availability
+
+
+With the consolidation of alerting services still in process, there are some alerting capabilities that are not yet in the new alerts system.
+
+|**Monitor source**|**Signal type**|**Description**|
+|---|---|---|
+|Service health|Activity log|Not supported. View Create activity log alerts on service notifications.|
+|Application Insights|Web availability tests|Not supported. View Web test alerts. Available to any website that's instrumented to send data to Application Insights. Receive a notification when availability or responsiveness of a website is below expectations.|
+
+
+#### Create diagnostic settings in Azure portal
+
+Azure Monitor diagnostic logs are logs produced by an Azure service that provide rich, frequently collected data about the operation of that service. Azure Monitor makes two types of diagnostic logs available:
+
+- **Tenant logs**. These logs come from tenant-level services that exist outside an Azure subscription, such as Microsoft Entra ID.
+- **Resource logs**. These logs come from Azure services that deploy resources within an Azure subscription, such as Network Security Groups (NSGs) or storage accounts.
+
+
+![Azure monitor alerts](img/az-500_42.png)
+
+
+These logs differ from the **activity log**. The activity log provides insight into the operations, such as creating a VM or deleting a logic app, that Azure Resource Manager performed on resources in your subscription using. The activity log is a subscription-level log. Resource-level diagnostic logs provide insight into operations that were performed within that resource itself, such as getting a secret from a key vault.
+
+These logs also differ from **guest operating system (OS)–level diagnostic logs**. Guest OS diagnostic logs are those collected by an agent running inside a VM or other supported resource type. Resource-level diagnostic logs require no agent and capture resource-specific data from the Azure platform itself, whereas guest OS–level diagnostic logs capture data from the OS and applications running on a VM.
+
+You can configure diagnostic settings in the Azure portal either from the Azure Monitor menu or from the menu for the resource.
+
+Here are some of the things you can do with diagnostic logs:
+
+
+![Azure monitor alerts](img/az-500_43.png)
+
+- Save them to a storage account for auditing or manual inspection. You can specify the retention time (in days) by using resource diagnostic settings.
+- Stream them to event hubs for ingestion by a third-party service or custom analytics solution, such as Power BI.
+- Analyze them with Azure Monitor, such that the data is immediately written to Azure Monitor with no need to first write the data to storage.
+-  An event hub is created in the namespace for each log category you enable. A diagnostic log category is a type of log that a resource may collect.
+
+Kusto Query Language. All data is retrieved from a Log Analytics workspace using a log query written using Kusto Query Language (KQL). You can write your own queries or use solutions and insights that include log queries for an application or service.
+
 
 ### 4.2. Enable and manage Microsoft Defender for Cloud
 
+Microsoft Defender for Cloud is your central location for setting and monitoring your organization's security posture.
+
+#### The MITRE Attack matrix
+
+The MITRE ATT&CK matrix is a **publicly accessible knowledge base** for understanding the various **tactics** and **techniques** used by attackers during a cyberattack.
+
+The knowledge base is organized into several categories: **pre-attack**, **initial access**, **execution**, **persistence**, **privilege escalation**, **defense evasion**, **credential access**, **discovery**, **lateral movement**, **collection**, **exfiltration**, and **command and control**.
+
+**Tactics (T)** represent the "why" of an ATT&CK technique or sub-technique. It is the adversary's tactical goal: the reason for performing an action. **For example**, an adversary may want to achieve credential access.
+
+**Techniques (T)** represent "how'" an adversary achieves a tactical goal by performing an action. **For example**, an adversary may dump credentials to achieve credential access.
+
+**Common Knowledge (CK)** in ATT&CK stands for common knowledge, essentially the documented modus operandi of tactics and techniques executed by adversaries.
+
+**Defender for Cloud** uses the MITRE Attack matrix to associate alerts with their perceived intent, helping formalize security domain knowledge.
+
+
+#### Implement Microsoft Defender for Cloud
+
+Microsoft Defender for Cloud is a solution for **cloud security posture management (CSPM)** and **cloud workload protection (CWP)** that finds weak spots across your cloud configuration, helps strengthen the overall security posture of your environment, and can protect workloads across multicloud and hybrid environments from evolving threats.
+
+When necessary, Defender for Cloud can automatically deploy a Log Analytics agent to gather security-related data. For Azure machines, deployment is handled directly. For hybrid and multicloud environments, **Microsoft Defender plans are extended to non-Azure machines** with the help of **Azure Arc**. **Cloud Security Posture Management (CSPM) features** are extended to multicloud machines without the need for any agents.
+
+In addition to defending your Azure environment, you can **add Defender for Cloud capabilities to your hybrid cloud environment to protect your non-Azure servers**. To **extend protection** to on-premises machines, **deploy Azure Arc** and **enable Defender for Cloud's enhanced security features**.
+
+
+For example, if you've connected an Amazon Web Services (AWS) account to an Azure subscription, you can enable any of these protections:
+
+- **Defender for Cloud's CSPM features** extend to your AWS resources. This agentless plan assesses your AWS resources according to AWS-specific security recommendations, and these are included in your secure score. The resources will also be assessed for compliance with built-in standards specific to **AWS (AWS Center for Internet Security (CIS)**, **AWS Payment Card Industry (PCI) Data Security Standards (DSS)**, and **AWS Foundational Security Best Practices)**. Defender for Cloud's asset inventory page is a multicloud enabled feature helping you manage your AWS resources alongside your Azure resources.
+- **Microsoft Defender for Kubernetes extends** its container threat detection and advanced defenses to your Amazon Elastic Kubernetes Service (EKS) Linux clusters.
+- **Microsoft Defender for Servers** brings threat detection and advanced defenses to your Windows and Linux Elastic Compute Cloud 2 (EC2) instances. This plan includes the integrated license for Microsoft Defender for Endpoint, security baselines, and OS level assessments, vulnerability assessment scanning, adaptive application controls (AAC), file integrity monitoring (FIM), and more.
+
+
+Defender for Cloud includes vulnerability assessment solutions for **virtual machines, container registries**, and **SQL servers** as part of the enhanced security features. Some of the scanners are powered by Qualys. But you don't need a Qualys license or even a Qualys account - everything's handled seamlessly inside Defender for Cloud.
+
+Microsoft Defender for Servers includes automatic, native integration with Microsoft Defender for Endpoint. With this integration enabled, you'll have access to the vulnerability findings from Microsoft Defender Vulnerability Management.
+
+The list of recommendations is enabled and supported by the Microsoft cloud security benchmark. This Microsoft-authored benchmark, based on common compliance frameworks, began with Azure and now provides a set of guidelines for security and compliance best practices for multiple cloud environments. In this way, Defender for Cloud enables you not just to set security policies but to _**apply secure configuration standards across your resources**_.
+
+>Microsoft Defender for the **Internet of Things (IoT)** is a separate product.
+
+The **Defender plans** of Microsoft Defender for Cloud offer comprehensive defenses for the **compute**, **data**, and **service layers** of your environment:
+
+- Microsoft Defender for Servers
+- Microsoft Defender for Storage
+- Microsoft Defender for Structured Query Language (SQL)
+- Microsoft Defender for Containers
+- Microsoft Defender for App Service
+- Microsoft Defender for Key Vault
+- Microsoft Defender for Resource Manager
+- Microsoft Defender for Domain Name System (DNS)
+- Microsoft Defender for open-source relational databases
+- Microsoft Defender for Azure Cosmos Database (DB)
+- Defender Cloud Security Posture Management (CSPM)
+    - Security governance and regulatory compliance
+    - Cloud security explorer
+    - Attack path analysis
+    - Agentless scanning for machines
+- Defender for DevOps
+- **Security alerts** - When Defender for Cloud **detects a threat** in any area of your environment, it **generates a security alert**. These alerts describe details of the **affected resources**, **suggested remediation steps**, and in some cases, an **option to trigger a logic app in response**. Whether an alert is generated by Defender for Cloud or received by Defender for Cloud from an integrated security product, you can export it. To export your alerts to Microsoft Sentinel, any third-party Security information and event management (SIEM), or any other external tool, follow the instructions in Stream alerts to a SIEM, Security orchestration, automation and response (SOAR), or IT Service Management solution. Defender for Cloud's threat protection includes **fusion kill-chain analysis**, which automatically correlates alerts in your environment based on cyber kill-chain analysis, to help you better understand the full story of an attack campaign, where it started, and what kind of impact it had on your resources. **Defender for Cloud's supported kill chain intents are based on version 9 of the MITRE ATT&CK matrix**.
+
+#### Cloud Security Posture Management (CSPM) - Remediate security issues and watch your security posture improve - Security posture tab + Regulatory compliance tab
+
+Defender for Cloud continually assesses your resources, subscriptions, and organization for security issues and shows your security posture in the secure score, an aggregated score of the security findings that tells you, at a glance, your current security situation: the higher the score, the lower the identified risk level.
+
+- **Generates a secure score** for your subscriptions based on an assessment of your connected resources compared with the guidance in the **Microsoft cloud security benchmark**.
+- **Provides hardening recommendations** based on any **identified security misconfigurations** and **weaknesses**. 
+- **Analyzes and secure's your attack paths** through the cloud security graph, which is a graph-based context engine that exists within Defender for Cloud. The cloud security graph collects data from your multicloud environment and other data sources. 
+- Attack path analysis is a **graph-based algorithm that scans the cloud security graph**. The **scans expose exploitable paths attackers may use to breach your environment to reach your high-impact assets**.
+
+
+#### Workload protections tab
+
+Defender for Cloud offers security alerts that are powered by Microsoft Threat Intelligence. It also includes a range of advanced, intelligent protections for your workloads. The workload protections are provided through Microsoft Defender plans specific to the types of resources in your subscriptions.
+
+**The Cloud workload dashboard includes the following sections:**
+
+1. **Microsoft Defender for Cloud coverage** - Here you can see the resources types in your subscription that are eligible for protection by Defender for Cloud. Wherever relevant, you can upgrade here as well. If you want to upgrade all possible eligible resources, select **Upgrade all**.
+2. **Security alerts** - When Defender for Cloud detects a threat in any area of your environment, it generates an alert. These alerts describe details of the affected resources, suggested remediation steps, and in some cases an option to **trigger a logic app** in response. Selecting anywhere in this graph opens the Security alerts page.
+3. **Advanced protection** - Defender for Cloud includes many advanced threat protection capabilities for virtual machines, **Structured Query Language (SQL)** databases, containers, web applications, your network, and more. In this advanced protection section, you can see the status of the resources in your selected subscriptions for each of these protections. Select any of them to go directly to the configuration area for that protection type.
+4. **Insights** - This rolling pane of news, suggested reading, and high priority alerts gives Defender for Cloud's insights into pressing security matters that are relevant to you and your subscription. Whether it's a list of high severity **Common Vulnerabilities and Exposures (CVEs)** discovered on your VMs by a vulnerability analysis tool, or a new blog post by a member of the Defender for Cloud team, you'll find it here in the Insights panel.
+
+
+#### Deploy Microsoft Defender for Cloud
+
+Defender for Cloud provides foundational **cloud security and posture management (CSPM)** features by default. 
+
+Defender for cloud **offers foundational multicloud CSPM capabilities for free**. The foundational CSPM includes a **secure score**, **security policy and basic recommendations**, and **network security assessment** to help you **protect your Azure resources**.
+
+The optional Defender CSPM plan provides advanced posture management capabilities such as **Attack path analysis**, **Cloud security explorer**, **advanced threat hunting**, **security governance capabilities**, and also tools to assess your security compliance with a wide range of benchmarks, regulatory standards, and any custom security policies required in your organization, industry, or region.
+
+![Defender plan](img/az-500_44.png)
+
+When you enabled Defender plans on an entire Azure subscription, the protections are inherited by all resources in the subscription. When you enable the enhanced security features (paid), Defender for Cloud can provide unified security management and threat protection across your hybrid cloud workloads, including:
+
+- **Microsoft Defender for Endpoint** - Microsoft Defender for Servers includes Microsoft Defender for Endpoint for comprehensive endpoint detection and response (EDR).
+    
+- **Vulnerability assessment for virtual machines, container registries, and SQL resources** 
+    
+- **Multicloud security** - Connect your accounts from Amazon Web Services (AWS) and Google Cloud Platform (GCP) to protect resources and workloads on those platforms with a range of Microsoft Defender for Cloud security features.
+    
+- **Hybrid security** – Get a unified view of security across all of your on-premises and cloud workloads. 
+    
+- **Threat protection alerts** - Advanced behavioral analytics and the Microsoft Intelligent Security Graph provide an edge over evolving cyber-attacks. Built-in behavioral analytics and machine learning can identify attacks and zero-day exploits. Monitor networks, machines, data stores (SQL servers hosted inside and outside Azure, Azure SQL databases, Azure SQL Managed Instance, and Azure Storage), and cloud services for incoming attacks and post-breach activity. Streamline investigation with interactive tools and contextual threat intelligence.
+    
+- **Track compliance with a range of standards** - Defender for Cloud continuously assesses your hybrid cloud environment to analyze the risk factors according to the controls and best practices in the Microsoft cloud security benchmark. When you enable enhanced security features, you can apply a range of other industry standards, regulatory standards, and benchmarks according to your organization's needs. Add standards and track your compliance with them from the regulatory compliance dashboard.
+    
+- **Access and application controls** - Block malware and other unwanted applications by applying machine learning-powered recommendations adapted to your specific workloads to create allowlists and blocklists. Reduce the network attack surface with just-in-time, controlled access to management ports on Azure VMs. Access and application control drastically reduce exposure to brute force and other network attacks.
+    
+- **Container security features** - Benefit from vulnerability management and real-time threat protection in your containerized environments. Charges are based on the number of unique container images pushed to your connected registry. After an image has been scanned once, you won't be charged for it again unless it's modified and pushed once more.
+    
+- **Breadth threat protection for resources connected to Azure** - Cloud-native threat protection for the Azure services common to all of your resources: Azure Resource Manager, Azure Domain Name System (DNS), Azure network layer, and Azure Key Vault. Defender for Cloud has unique visibility into the Azure management layer and the Azure DNS layer and can therefore protect cloud resources that are connected to those layers.
+
+
+**Manage your Cloud Security Posture Management (CSPM)** - CSPM offers you the ability to remediate security issues and review your security posture through the tools provided. These tools include:
+
+- **Security governance and regulatory compliance**
+	- What is Security governance and regulatory compliance? Security governance and regulatory compliance refer to the policies and processes which organizations have in place to ensure that they comply with laws, rules, and regulations put in place by external bodies (government) that control activity in a given jurisdiction. Defender for Cloud allows you to view your regulatory compliance through the regulatory compliance dashboard. Defender for Cloud continuously assesses your hybrid cloud environment to analyze the risk factors according to the controls and best practices in the standards you've applied to your subscriptions. The dashboard reflects the status of your compliance with these standards.
+- **Cloud security graph**
+	- What is a cloud security graph? The cloud security graph is a **graph-based context engine** that exists within Defender for Cloud. The cloud security graph collects data from your multicloud environment and other data sources. **For example**, the cloud assets inventory, connections and lateral movement possibilities between resources, exposure to the internet, permissions, network connections, vulnerabilities, and more. The data collected is then used to build a graph representing your multicloud environment. Defender for Cloud then uses the generated graph to perform an attack path analysis and find the issues with the highest risk that exist within your environment. You can also query the graph using the cloud security explorer.
+- **Attack path analysis**
+	- What is Attack path analysis? Attack path analysis helps you to **address the security issues that pose immediate threats with the greatest potential of being exploited in your environment**. Defender for Cloud analyzes which security issues are part of potential attack paths that attackers could use to breach your environment. It also highlights the security recommendations that need to be resolved in order to mitigate the issue.
+- **Agentless scanning for machines**
+	- What is agentless scanning for machines? Microsoft Defender for Cloud maximizes coverage on OS posture issues and extends beyond the reach of agent-based assessments. With agentless scanning for VMs, you can get frictionless, wide, and instant visibility on actionable posture issues without installed agents, network connectivity requirements, or machine performance impact. **Agentless scanning for VMs provides vulnerability assessment and software inventory** powered by Defender vulnerability management in Azure and Amazon AWS environments. Agentless scanning is available in Defender Cloud Security Posture Management (CSPM) and Defender for Servers.
+
+
+#### Azure Arc
+
+Azure Arc provides a centralized, unified way to:
+
+- Manage your entire environment together by projecting your existing non-Azure and/or on-premises resources into Azure Resource Manager.
+- Manage virtual machines, Kubernetes clusters, and databases as if they are running in Azure.
+- Use familiar Azure services and management capabilities, regardless of where they live.
+- Continue using traditional IT operations (ITOps) while introducing DevOps practices to support new cloud-native patterns in your environment.
+- Configure custom locations as an abstraction layer on top of Azure Arc-enabled Kubernetes clusters and cluster extensions.
+
+Currently, Azure Arc allows you to manage the following resource types hosted outside of Azure:
+
+- **Servers**: Manage Windows and Linux physical servers and virtual machines hosted outside of Azure.
+- **Kubernetes clusters**: Attach and configure Kubernetes clusters running anywhere with multiple supported distributions.
+- **Azure data services**: Run Azure data services on-premises, at the edge, and in public clouds using Kubernetes and the infrastructure of your choice. SQL Managed Instance and PostgreSQL server (preview) services are currently available.
+- **SQL Server**: Extend Azure services to SQL Server instances hosted outside of Azure.
+- **Virtual machines (preview)**: Provision, resize, delete, and manage virtual machines based on VMware vSphere or Azure Stack **hyper-converged infrastructure (HCI)** and enable VM self-service through role-based access.
+
+![arc](img/az-500_45.png)
+
+
+Some of the key scenarios that Azure Arc supports are:
+
+- Implement consistent inventory, management, governance, and security for servers across your environment.
+- Configure Azure VM extensions to use Azure management services to monitor, secure, and update your servers.
+- Manage and govern Kubernetes clusters at scale.
+- Use GitOps to deploy configuration across one or more clusters from Git repositories.
+- Zero-touch compliance and configuration for Kubernetes clusters using Azure Policy.
+- Run Azure data services on any Kubernetes environment as if it runs in Azure (specifically Azure SQL Managed Instance and Azure Database for PostgreSQL server, with benefits such as upgrades, updates, security, and monitoring). Use elastic scale and apply updates without any application downtime, even without continuous connection to Azure.
+- Create custom locations on top of your Azure Arc-enabled Kubernetes clusters, using them as target locations for deploying Azure services instances. Deploy your Azure service cluster extensions for Azure Arc-enabled data services, App services on Azure Arc (including web, function, and logic apps), and Event Grid on Kubernetes.
+- Perform virtual machine lifecycle and management operations for VMware vSphere and Azure Stack **hyper-converged infrastructure (HCI)** environments.
+- A unified experience viewing your Azure Arc-enabled resources, whether you are using the Azure portal, the Azure CLI, Azure PowerShell, or Azure REST API.
+
+#### Microsoft cloud security benchmark
+
+Located at  Defender > Regulatory compliance
+
+The **Microsoft cloud security benchmark (MCSB)** provides **prescriptive best practices** and **recommendations** to help improve the security of workloads, data, and services on Azure and your multi-cloud environment, focusing on cloud-centric control areas with input from a set of holistic Microsoft and industry security guidance that includes:
+
+- **Cloud Adoption Framework**: Guidance on **security**, including **strategy**, **roles** and **responsibilities**, **Azure Top 10 Security Best Practices**, and **reference implementation**.
+- **Azure Well-Architected Framework**: Guidance on securing your workloads on Azure.
+- **The Chief Information Security Officer (CISO) Workshop**: Program guidance and reference strategies to accelerate security modernization using Zero Trust principles.
+- **Other industry and cloud service provider's security best practice standards and framework**: Examples include the Amazon Web Services (**AWS**) Well-Architected Framework, Center for Internet Security (**CIS**) Controls, National Institute of Standards and Technology (**NIST**), and Payment Card Industry Data Security Standard (**PCI-DSS**).
+
+
+|**Control Domains**|**Description**|
+|---|---|
+|Network security (NS)|**Network Security** covers controls to secure and protect networks, including securing virtual networks, establishing private connections, preventing and mitigating external attacks, and securing Domain Name System (DNS).|
+|Identity Management (IM)|**Identity Management** covers controls to establish a secure identity and access controls using identity and access management systems, including the use of single sign-on, strong authentications, managed identities (and service principals) for applications, conditional access, and account anomalies monitoring.|
+|Privileged Access (PA)|**Privileged Access** covers controls to protect privileged access to your tenant and resources, including a range of controls to protect your administrative model, administrative accounts, and privileged access workstations against deliberate and inadvertent risk.|
+|Data Protection (DP)|**Data Protection** covers control of data protection at rest, in transit, and via authorized access mechanisms, including discover, classify, protect, and monitoring sensitive data assets using access control, encryption, key management, and certificate management.|
+|Asset Management (AM)|**Asset Management** covers controls to ensure security visibility and governance over your resources, including recommendations on permissions for security personnel, security access to asset inventory and managing approvals for services and resources (**inventory**, **track**, and **correct**).|
+|Logging and Threat Detection (LT)|**Logging and Threat Detection** covers controls for detecting threats on the cloud and enabling, collecting, and storing audit logs for cloud services, including enabling detection, investigation, and remediation processes with controls to generate high-quality alerts with native threat detection in cloud services; it also includes collecting logs with a cloud monitoring service, centralizing security analysis with a **security event management (SEM)**, time synchronization, and log retention.|
+|Incident Response (IR)|**Incident Response** covers controls in the incident response life cycle - preparation, detection and analysis, containment, and post-incident activities, including using Azure services (**such as Microsoft Defender for Cloud and Sentinel**) and/or other cloud services to automate the incident response process.|
+|Posture and Vulnerability Management (PV)|**Posture and Vulnerability Management** focuses on controls for assessing and improving the cloud security posture, including vulnerability scanning, penetration testing, and remediation, as well as security configuration tracking, reporting, and correction in cloud resources.|
+|Endpoint Security (ES)|**Endpoint Security** covers controls in endpoint detection and response, including the use of endpoint detection and response (EDR) and anti-malware service for endpoints in cloud environments.|
+|Backup and Recovery (BR)|**Backup and Recovery** covers controls to ensure that data and configuration backups at the different service tiers are performed, validated, and protected.|
+|DevOps Security (DS)|**DevOps Security** covers the controls related to the security engineering and operations in the DevOps processes, including deployment of critical security checks (such as static application security testing and vulnerability management) prior to the deployment phase to ensure the security throughout the DevOps process; it also includes common topics such as threat modeling and software supply security.|
+|Governance and Strategy (GS)|**Governance and Strategy** provides guidance for ensuring a coherent security strategy and documented governance approach to guide and sustain security assurance, including establishing roles and responsibilities for the different cloud security functions, unified technical strategy, and supporting policies and standards.|
+
+
+#### Security policies and Defender for Cloud initiatives
+
+Like security policies, Defender for Cloud initiatives are also created in Azure Policy. You can use **Azure Policy** to manage your policies, build initiatives, and assign initiatives to multiple subscriptions or entire management groups.
+
+The default initiative automatically assigned to every subscription in Microsoft Defender for Cloud is the Microsoft cloud security benchmark.
+
+#### View and edit security policies
+
+![policies](img/az-500_46.png)
+
+There are two specific roles for Defender for Cloud:
+
+1. **Security Administrator**: Has the same view rights as security reader. Can also update the security policy and dismiss alerts.
+2. **Security reader**: Has rights to view Defender for Cloud items such as recommendations, alerts, policy, and health. Can't make changes.
+
+You can edit security policies through the **Azure Policy portal** via **Representational State Transfer Application Programming Interface (REST API)** or using **Windows PowerShell**.
+
+The Security Policy screen reflects the action taken by the policies assigned to the subscription or management group you selected.
+
+- Use the links at the top to open a policy assignment that applies to the subscription or management group. These links let you access the assignment and edit or disable the policy. **For example**, if you see that a particular policy assignment is effectively denying endpoint protection, use the link to edit or disable the policy.
+- In the list of policies, you can see the effective application of the policy on your subscription or management group. The settings of each policy that apply to the scope are taken into consideration, and the cumulative outcome of actions taken by the policy is shown. **For example**, if one assignment of the policy is disabled, but in another, it's set to **AuditIfNotExist**, then the cumulative effect applies **AuditIfNotExist**. The more active effect always takes precedence.
+- The policies' effect can be: **Append**, **Audit**, **AuditIfNotExists**, **Deny**, **DeployIfNotExists**, or **Disabled**.
+
+#### Microsoft Defender for Cloud recommendations
+
+n practice, it works like this:
+
+1. Microsoft Cloud security benchmark is an _**initiative**_ that contains requirements.
+    
+    For example, Azure Storage accounts must restrict network access to reduce their attack surface.
+    
+2. The initiative includes multiple _**policies**_, each requiring a specific resource type. These policies enforce the requirements in the initiative.
+    
+    To continue the example, the storage requirement is enforced with the policy "**Storage accounts should restrict network access using virtual network rules**."
+    
+3. Microsoft Defender for Cloud continually assesses your connected subscriptions. If it finds a resource that doesn't satisfy a policy, it displays a _**recommendation**_ to fix that situation and harden the security of resources that aren't meeting your security requirements.
+    
+    For example, if an Azure Storage account on your protected subscriptions isn't protected with virtual network rules, you see the recommendation to harden those resources.
+    
+
+So, (1) **an initiative includes** (2) **policies that generate** (3) **environment-specific recommendations**.
+
+Defender for Cloud continually assesses your cross-cloud resources for security issues. It then **aggregates all the findings into a single score** so that you can tell, at a glance, your current security situation: the **higher the score**, the **lower the identified risk level**.
+
+In the Azure mobile app, the secure score is shown as a percentage value, and you can tap the secure score to see the details that explain the score:
+
+To increase your security, review Defender for Cloud's **recommendations page** and remediate the recommendation by implementing the remediation instructions for each issue. **Recommendations are grouped into security controls**. Each control is a **logical group of related security recommendations** and **reflects your vulnerable attack surfaces**. Your score only improves when you _**remediate all**_ of the recommendations for a _**single resource within a control**_.
+
+- Insights - Gives you extra details for each recommendation, such as:
+    
+    -  ![Screenshot of preview icon.](https://learn.microsoft.com/en-us/training/wwl-azure/azure-security-center/media/preview-icon-d9b46adc.png)**Preview recommendation** - This recommendation won't affect your secure score until **general availability (GA)**.
+    -  ![Screenshot of fix icon.](https://learn.microsoft.com/en-us/training/wwl-azure/azure-security-center/media/fix-icon-c7b18e7c.png)**Fix** - From within the recommendation details page, you can use '**Fix**' to resolve this issue.
+    -  ![Screenshot of enforce icon.](https://learn.microsoft.com/en-us/training/wwl-azure/azure-security-center/media/enforce-icon-cd64da95.png)**Enforce** - From within the recommendation details page, you can automatically deploy a policy to fix this issue whenever someone creates a non-compliant resource.
+    -  ![Screenshot of deny icon.](https://learn.microsoft.com/en-us/training/wwl-azure/azure-security-center/media/deny-icon-4444b813.png)**Deny** - From within the recommendation details page, you can prevent new resources from being created with this issue.
+
+Which recommendations are included in the secure score calculations?
+
+- Only built-in recommendations have an impact on the secure score.
+- Recommendations flagged as Preview aren't included in the calculations of your secure score. They should still be remediated wherever possible so that when the preview period ends, they'll contribute towards your score.
+- Preview recommendations are marked with: ![Screenshot of preview icon.](https://learn.microsoft.com/en-us/training/wwl-azure/azure-security-center/media/preview-icon-d9b46adc.png)
+
+#### Brute force attacks
+
+To counteract brute-force attacks, you can take multiple measures such as:
+
+- Disable the public IP address and use one of these connection methods:
+    
+    - Use a point-to-site virtual private network (VPN)
+    - Create a site-to-site VPN
+    - Use Azure ExpressRoute to create secure links from your on-premises network to Azure.
+- Require two-factor authentication
+    
+- Increase password length and complexity
+    
+- Limit login attempts
+    
+- Implement Captcha
+    
+    - **About CAPTCHAs** - Any time you let people register on your site or even enter a name and URL (like for a blog comment), you might get a flood of fake names. These are often left by automated programs (bots) that try to leave URLs on every website they can find. (A common motivation is to post the URLs of products for sale.) You can help make sure that a user is a real person and not a computer program by using a _CAPTCHA_ to validate users when they register or otherwise enter their name and site.
+    - CAPTCHA stands for **Completely Automated Public Turing test to tell Computers and Humans Apart**. A CAPTCHA is a _**challenge-response**_ test in which the user is asked to do something that is easy for a person to do but hard for an automated program to do. The most common type of CAPTCHA is one where you see distorted letters and are asked to type them. (**The distortion is supposed to make it hard for bots to decipher the letters.**)
+- Limit the amount of time that the ports are open.
+
+#### Just-in-time VM access
+
+Threat actors actively hunt accessible machines with open management ports, like **remote desktop protocol (RDP)** or **secure shell protocol (SSH)**. All of your virtual machines are potential targets for an attack. When a VM is successfully compromised, it's used as the entry point to attack further resources within your environment.
+
+![jit vm](img/az-500_47.png)
+
+The diagram shows the logic Defender for Cloud applies when deciding how to categorize your supported VM. When Defender for Cloud finds a machine that can benefit from JIT, it adds that machine to the recommendation's Unhealthy resources tab.
+
+Just-in-time (JIT) virtual machine (VM) access is used to lock down inbound traffic to your Azure VMs, reducing exposure to attacks while providing easy access to connect to VMs when needed. When you enable JIT VM Access for your VMs, you next create a policy that determines the ports to help protect, how long ports should remain open, and the approved IP addresses that can access these ports. The policy helps you stay in control of what users can do when they request access. Requests are logged in the Azure activity log, so you can easily monitor and audit access. The policy will also help you quickly identify the existing VMs that have JIT VM Access enabled and the VMs where JIT VM Access is recommended.
 
 ### 4.3. Configure and monitor Microsoft Sentinel
 
