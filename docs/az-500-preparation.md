@@ -1684,6 +1684,10 @@ By using Log Analytics, you can:
 
 **Admin account.-**  Each container registry includes an admin user account, which is disabled by default. You can enable the admin user and manage its credentials in the Azure portal, or by using the Azure CLI or other Azure tools. The admin account is provided with two passwords, both of which can be regenerated. Two passwords allow you to maintain connection to the registry by using one password while you regenerate the other. If the admin account is enabled, you can pass the username and either password to the docker login command when prompted for basic authentication to the registry.
 
+
+![aks roles](img/az-500_51.png)
+
+
 #### Azure Kubernetes Service (AKS)
 
 As application development moves towards a container-based approach, the need to orchestrate and manage resources is important. Kubernetes is the leading platform that provides the ability to provide reliable scheduling of fault-tolerant application workloads. Azure Kubernetes Service (AKS) is a managed Kubernetes offering that further simplifies container-based application deployment and management.
@@ -1697,7 +1701,7 @@ Azure Kubernetes Service (AKS) provides a managed Kubernetes service that reduce
 
 ![aks architecture](img/az-500_25.png)
 
-**Features of Azure Kubernetes Service: **
+**Features of Azure Kubernetes Service:**
 
 - Fully managed
 - Public IP and FQDN (Private IP option)
@@ -1839,7 +1843,6 @@ Deletion of key vaults or key vault objects can be either inadvertent or malicio
 
 Azure Key Vault is offered in two service tiers—standard and premium. The main difference between Standard and Premium is that Premium supports HSM-protected keys.
 
-
 #### Configure Key Vault access
 
 Access to a key vault is controlled through two interfaces: the management plane, and the data plane. The management plane is where you manage Key Vault itself. Operations in this plane include creating and deleting key vaults, retrieving Key Vault properties, and updating access policies. The data plane is where you work with the data stored in a key vault. You can add, delete, and modify keys, secrets, and certificates from here.
@@ -1870,6 +1873,23 @@ For both types of access, the application authenticates with Microsoft Entra ID.
 |Application|None|Keys: sign Secrets: get|
 
 >The three team roles need access to other resources along with Key Vault permissions. To deploy VMs (or the Web Apps feature of Azure App Service), developers and operators need Contributor access to those resource types. Auditors need read access to the Storage account where the Key Vault logs are stored.
+
+
+Some built-in RBAC in Azure:
+
+|Built-in role|Description|ID|
+|---|---|---|
+|Key Vault Administrator|Perform all data plane operations on a key vault and all objects in it, including certificates, keys, and secrets. Cannot manage key vault resources or manage role assignments. Only works for key vaults that use the 'Azure role-based access control' permission model.|00482a5a-887f-4fb3-b363-3b7fe8e74483|
+|Key Vault Certificates Officer|Perform any action on the certificates of a key vault, except manage permissions. Only works for key vaults that use the 'Azure role-based access control' permission model.|a4417e6f-fecd-4de8-b567-7b0420556985|
+|Key Vault Crypto Officer|Perform any action on the keys of a key vault, except manage permissions. Only works for key vaults that use the 'Azure role-based access control' permission model.|14b46e9e-c2b7-41b4-b07b-48a6ebf60603|
+|Key Vault Crypto Service Encryption User|Read metadata of keys and perform wrap/unwrap operations. Only works for key vaults that use the 'Azure role-based access control' permission model.|e147488a-f6f5-4113-8e2d-b22465e65bf6|
+|Key Vault Crypto User|Perform cryptographic operations using keys. Only works for key vaults that use the 'Azure role-based access control' permission model.|12338af0-0e69-4776-bea7-57ae8d297424|
+|Key Vault Reader|Read metadata of key vaults and its certificates, keys, and secrets. Cannot read sensitive values such as secret contents or key material. Only works for key vaults that use the 'Azure role-based access control' permission model.|21090545-7ca7-4776-b22c-e363652d74d2|
+|Key Vault Secrets Officer|Perform any action on the secrets of a key vault, except manage permissions. Only works for key vaults that use the 'Azure role-based access control' permission model.|b86a8fe4-44ce-4948-aee5-eccb2c155cd7|
+|Key Vault Secrets User|Read secret contents including secret portion of a certificate with private key. Only works for key vaults that use the 'Azure role-based access control' permission model.|4633458b-17de-408a-b874-0445c86b69e6|
+
+ 
+
 
 #### Deploy and manage Key Vault certificates
 
@@ -2287,9 +2307,17 @@ The following is a description of the flow:
 - **A system-assigned managed identity** is enabled directly on an Azure service instance. When the identity is enabled, Azure creates an identity for the instance in the Microsoft Entra tenant that's trusted by the subscription of the instance. After the identity is created, the credentials are provisioned onto the instance. The lifecycle of a system-assigned identity is directly tied to the Azure service instance that it's enabled on. If the instance is deleted, Azure automatically cleans up the credentials and the identity in Microsoft Entra ID.
 - **A user-assigned managed identity** is created as a standalone Azure resource. Through a create process, Azure creates an identity in the Microsoft Entra tenant that's trusted by the subscription in use. After the identity is created, the identity can be assigned to one or more Azure service instances. The lifecycle of a user-assigned identity is managed separately from the lifecycle of the Azure service instances to which it's assigned.
 
-When a User-Assigned or System-Assigned Identity is created, the Managed Identity Resource Provider (MSRP) issues a certificate internally to that identity.
 
-Internally, managed identities are service principals of a special type, which are locked to only be used with Azure resources. When the managed identity is deleted, the corresponding service principal is automatically removed.
+The following table shows the differences between the two types of managed identities:
+
+|Property|System-assigned managed identity|User-assigned managed identity|
+|---|---|---|
+|Creation|Created as part of an Azure resource (for example, Azure Virtual Machines or Azure App Service).|Created as a stand-alone Azure resource.|
+|Life cycle|Shared life cycle with the Azure resource that the managed identity is created with.   <br>When the parent resource is deleted, the managed identity is deleted as well.|Independent life cycle.  <br>Must be explicitly deleted.|
+|Sharing across Azure resources|Can’t be shared.  <br>It can only be associated with a single Azure resource.|Can be shared.  <br>The same user-assigned managed identity can be associated with more than one Azure resource.|
+|Common use cases|Workloads contained within a single Azure resource.  <br>Workloads needing independent identities.  <br>For example, an application that runs on a single virtual machine.|Workloads that run on multiple resources and can share a single identity.  <br>Workloads needing pre-authorization to a secure resource, as part of a provisioning flow.  <br>Workloads where resources are recycled frequently, but permissions should stay consistent.  <br>For example, a workload where multiple virtual machines need to access the same resource.|
+
+
 
 **Credential rotation. -** Credential rotation is controlled by the resource provider that hosts the Azure resource. The default rotation of the credential occurs every 46 days. It's up to the resource provider to call for new credentials, so the resource provider could wait longer than 46 days. The following diagram shows how managed service identities work with Azure virtual machines (VMs):
 
@@ -2834,7 +2862,7 @@ A client driver interacts with a key store, containing a column master key, usin
 
 #### Exploring Azure Monitor
 
-![azure monitor metrics and logs](az-500_39.png)
+![azure monitor metrics and logs](img/az-500_39.png)
 
 **Exporting data to a SIEM**
 
@@ -2873,7 +2901,7 @@ All data that Azure Monitor collects fits into one of two fundamental types: **
 
 **Azure Monitor Metrics. -** Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. There are multiple types of metrics supported by Azure Monitor Metrics:
 
-![azure monitor metrics](az-500_40.png)
+![azure monitor metrics](img/az-500_40.png)
 
 - **Native metrics** use tools in Azure Monitor for analysis and alerting.
     - Platform metrics are collected from Azure resources. They require no configuration and have no cost.
@@ -3352,6 +3380,144 @@ The diagram shows the logic Defender for Cloud applies when deciding how to cate
 Just-in-time (JIT) virtual machine (VM) access is used to lock down inbound traffic to your Azure VMs, reducing exposure to attacks while providing easy access to connect to VMs when needed. When you enable JIT VM Access for your VMs, you next create a policy that determines the ports to help protect, how long ports should remain open, and the approved IP addresses that can access these ports. The policy helps you stay in control of what users can do when they request access. Requests are logged in the Azure activity log, so you can easily monitor and audit access. The policy will also help you quickly identify the existing VMs that have JIT VM Access enabled and the VMs where JIT VM Access is recommended.
 
 ### 4.3. Configure and monitor Microsoft Sentinel
+
+#### What is Microsoft Sentinel
+
+Microsoft Sentinel is a scalable, cloud-native, security information event management (**SIEM**) and security orchestration automated response (**SOAR**) solution. Microsoft Sentinel delivers intelligent security analytics and threat intelligence across the enterprise, providing a single solution for alert detection, threat visibility, proactive hunting, and threat response.
+
+Think of Microsoft Sentinel as the first **SIEM-as-a-service** that brings the power of the cloud and artificial intelligence to help security operations teams efficiently identify and stop cyber-attacks before they cause harm.
+
+Microsoft Sentinel integrates with Microsoft 365 solution and correlates millions of signals from different products such as:
+- Azure Identity Protection, 
+- Microsoft Cloud App Security, 
+- and soon Azure Advanced Threat Protection, Windows Advanced Threat Protection, M365 Advanced Threat Protection, Intune, and Azure Information Protection.
+
+It enables the following services:
+
+It enables the following services:
+
+- **Collect data at cloud scale** across all users, devices, applications, and infrastructure, both on-premises and in multiple clouds.
+- **Detect previously undetected threats**, and minimize false positives using Microsoft's analytics and unparalleled threat intelligence.
+- **Investigate threats with artificial intelligence**, and hunt for suspicious activities at scale, tapping into years of cyber security work at Microsoft.
+- **Respond to incidents rapidly** with built-in orchestration and automation of common tasks.
+
+![sentinel](img/az-500_48.png)
+
+
+#### Configure data connections to Sentinel
+
+To onboard Microsoft Sentinel, these are the global prerequisites:
+
+- Active Azure Subscription
+- Log Analytics workspace.
+- To enable Microsoft Sentinel, you need contributor permissions to the subscription in which the Microsoft Sentinel workspace resides.
+- To use Microsoft Sentinel, you need either contributor or reader permissions on the resource group that the workspace belongs to.
+- Additional permissions may be needed to connect specific data sources.
+- Microsoft Sentinel is a paid service.
+
+Having those,  to onboard Microsoft Sentinel, you first need to **connect to your security sources.**
+
+Microsoft Sentinel comes with a number of connectors for Microsoft solutions, and additionally  there are built-in connectors to the broader security ecosystem for non-Microsoft solutions.  You can also use common event format, Syslog or REST-API to connect your data sources with Microsoft Sentinel as well.
+
+The following data connection methods are supported by Microsoft Sentinel:
+
+- **Service to service integration**: Some services are connected natively, such as AWS and Microsoft services, these services leverage the Azure foundation for out-of-the-box integration, the following solutions can be connected in a few clicks:
+- Amazon Web Services - CloudTrail
+- Azure Activity
+- Microsoft Entra audit logs and sign-ins
+- Microsoft Entra ID Protection
+- Azure Advanced Threat Protection
+- Azure Information Protection
+- Microsoft Defender for Cloud
+- Cloud App Security
+- Domain name server
+- Microsoft 365
+- Microsoft Defender ATP
+- Microsoft web application firewall
+- Windows firewall
+- Windows security events
+
+**External solutions**
+
+- API: Some data sources are connected using APIs that are provided by the connected data source. Typically, most security technologies provide a set of APIs through which event logs can be retrieved. The APIs connect to Microsoft Sentinel and gather specific data types and send them to Azure Log Analytics
+- Agent: The Microsoft Sentinel agent, which is based on the Log Analytics agent, converts CEF formatted logs into a format that can be ingested by Log Analytics. Depending on the appliance type, the agent is installed either directly on the appliance, or on a dedicated Linux server. To connect your external appliance to Microsoft Sentinel, the agent must be deployed on a dedicated machine (VM or on-premises) to support the communication between the appliance and Microsoft Sentinel. You can deploy the agent automatically or manually. Automatic deployment is only available if your dedicated machine is a new VM you are creating in Azure. Alternatively, you can deploy the agent manually on an existing Azure VM, on a VM in another cloud, or on an on-premises machine.
+
+![agent for Sentinel](img/az-500_49.png)
+
+
+#### Create workbooks to monitor Sentinel data
+
+After onboarding to Microsoft Sentinel, monitor your data using the Azure Monitor workbooks integration.
+
+After you connect your data sources to Microsoft Sentinel, you can monitor the data using the Microsoft Sentinel integration with Azure Monitor Workbooks, which provides versatility in creating custom workbooks. While Workbooks are displayed differently in Microsoft Sentinel, it may be helpful for you to determine how to create interactive reports with Azure Monitor Workbooks. Microsoft Sentinel allows you to create custom workbooks across your data and comes with built-in workbook templates to quickly gain insights across your data as soon as you connect a data source.
+
+Workbooks are intended for **Security operations center (SOC)** engineers and analysts of all tiers to visualize data. Workbooks are best used for high-level views of Microsoft Sentinel data and don't require coding knowledge. 
+
+**You can't integrate workbooks with external data.**
+
+#### Enable rules to create incidents
+
+To help you reduce noise and minimize the number of alerts you have to review and investigate, Microsoft Sentinel uses analytics to correlate alerts into incidents.
+
+Incidents are groups of related alerts that indicate an actionable possible threat you can investigate and resolve.
+
+You can use the built-in correlation rules as-is or as a starting point to build your own.
+
+Microsoft Sentinel also provides machine learning rules to map your network behavior and then look for anomalies across your resources.
+
+#### Configure playbooks
+
+Automate your common tasks and simplify security orchestration with playbooks that integrate with Azure services and your existing tools.
+
+ To build playbooks with Azure Logic Apps, you can choose from a growing gallery of built-in playbooks. These include 200 or more connectors for services such as Azure functions. The connectors allow you to apply any custom logic in code like:  
+
+- ServiceNow  
+- Jira
+- Zendesk
+- HTTP requests
+- Microsoft Teams
+- Slack
+- Microsoft Entra ID
+- Microsoft Defender for Endpoint
+- Microsoft Defender for Cloud Apps
+
+**For example**, if you use the ServiceNow ticketing system, use Azure Logic Apps to automate your workflows and open a ticket in ServiceNow each time a particular alert or incident is generated.
+
+![playbook example](img/az-500_50.png)
+
+Playbooks are intended for **Security operations center (SOC)** engineers and analysts of all tiers to **automate** and **simplify tasks**, **including data ingestion**, **enrichment**, **investigation**, and **remediation**. Playbooks work best with single, repeatable tasks and don't require coding knowledge. Playbooks aren't suitable for ad-hoc or complex task chains or for documenting and sharing evidence.
+
+
+#### Hunt and investigate potential breaches
+
+Microsoft Sentinel deep investigation tools help you to understand the scope and find the root cause of a potential security threat.
+
+**Interactive graph. -** You can choose an entity on the interactive graph to ask interesting questions for a specific entity and drill down into that entity and its connections to get to the root cause of the threat.
+
+**Built-in queries. -**  Use Microsoft Sentinel's powerful hunting search-and-query tools, based on the MITRE framework, which enable you to proactively hunt for security threats across your organization’s data sources before an alert is triggered. While hunting, create bookmarks to return to interesting events later. Use a bookmark to share an event with others or group events with other correlating events to create a compelling incident for investigation.
+
+Microsoft Sentinel supports **Jupyter notebooks** in Azure Machine Learning workspaces, including full machine learning, visualization, and data analysis libraries:
+
+- Perform analytics that isn't built into Microsoft Sentinel, such as some Python machine learning features.  
+- Create data visualizations that aren't built into Microsoft Sentinel, such as custom timelines and process trees.
+- Integrate data sources outside of Microsoft Sentinel, such as an on-premises data set.
+
+Notebooks are intended for threat hunters or Tier 2-3 analysts, incident investigators, data scientists, and security researchers. They require a higher learning curve and coding knowledge. They have limited automation support.
+
+Notebooks in Microsoft Sentinel provide:
+
+- Queries to both Microsoft Sentinel and external data
+- Features for data enrichment, investigation, visualization, hunting, machine learning, and big data analytics
+
+Notebooks are best for:
+
+- More complex chains of repeatable tasks
+- Ad-hoc procedural controls
+- Machine learning and custom analysis
+
+Notebooks support rich Python libraries for manipulating and visualizing data. They're useful for documenting and sharing analysis evidence.
+
+
 
 
 ## Exercises 
