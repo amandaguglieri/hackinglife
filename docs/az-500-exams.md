@@ -155,10 +155,10 @@ Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-pow
 
 **You have an Azure virtual machine named VM1 the runs Windows Server 2022. A programmer is writing code to run on VM1. The code will use the system-assigned managed identity assigned to VM1 to access Azure resources. Which endpoint should the programmer use to request the authentication token required to access the Azure resources?**
 
-- [ ] Azure AD v1.0- *This answer is incorrect.*
-- [ ] Azure AD v2.0- *This answer is incorrect.*
-- [ ] Azure Resources Manager - *This answer is incorrect.*
-- [ ] Azure Instance Metadata Service.- *This answer is correct.*
+- [ ] Azure AD v1.0.
+- [ ] Azure AD v2.0.
+- [ ] Azure Resources Manager.
+- [ ] Azure Instance Metadata Service.
 
 ??? tip "See response"
 	Azure Instance Metadata Service is a REST endpoint accessible to all IaaS virtual machines created via Azure Resource Manager (ARM). The endpoint is available at a well-known non-routable IP address (169.254.169.254) that can be accessed only from the virtual machines. The endpoint is used to request the authentication token required to gain access to the Azure resources. Azure AD v1.0 and Azure AD v2.0 endpoints are used to authenticate work and school accounts, not managed identities. The ARM endpoint is where the authentication token is sent by the code once it is obtained from the Azure Instance Metadata Service.
@@ -963,7 +963,6 @@ Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-pow
 - [ ] an action group alert
 - [ ] Application Insights
 - [ ] Azure Event Grid
-- [ ] **This answer is correct.**
 - [ ] Microsoft Defender for Key Vault
 
 ??? tip "See response"
@@ -1184,7 +1183,7 @@ If no rules other than the default NSG rules are in place, are VMs on SubnetA an
 - [ ] Azure SQL database
 - [ ] Azure Event Hubs
 - [ ] Azure Storage accounts
-- Azure SQL data warehouse
+- [ ] Azure SQL data warehouse
 
 ??? tip "See response"
 	Azure Log Analytics, Azure Event Hubs and  Azure Storage accounts
