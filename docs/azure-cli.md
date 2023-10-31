@@ -14,6 +14,8 @@ tags:
 
 The Azure CLI is a command-line interface.  A cross-platform command-line program (Windows, Linux and macOs) to connect to Azure and execute administrative commands. 
 
+All commands: [https://learn.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest](https://learn.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest).
+
 It’s an executable program that you can use to execute commands in Bash. You can use the Azure CLI to perform every possible management task in Azure. Like Azure PowerShell, the CLI allows you to run one-off commands or you can combine them into a script and execute them together.
 
 Azure CLI is a command-line program to connect to Azure and execute administrative commands on Azure resources. It runs on Linux, macOS, and Windows, and allows administrators and developers to execute their commands through a terminal, command-line prompt, or script instead of a web browser.
@@ -333,3 +335,38 @@ az deployment group create --name blanktemplate --resource-group myResourceGroup
 ```
 
 Use linked templates to deploy complex solutions. You can break a template into many templates and deploy these templates through a main template. When you deploy the main template, it triggers the linked template's deployment. You can store and secure the linked template by using a SAS token.
+
+
+#### AKS
+
+
+Azure Container Registry
+```bash
+# Authenticate to an Azure Container Registry
+az acr login --name <acrName>
+# This will log me to the acr with the token that was generated when authenticating my session firstly.
+
+```
+
+```bash
+# Get the resource ID of your AKS cluster
+AKS_CLUSTER=$(az aks show --resource-group myResourceGroup --name myAKSCluster --query id -o tsv)
+
+# Get the account credentials for the logged in user
+ACCOUNT_UPN=$(az account show --query user.name -o tsv)
+ACCOUNT_ID=$(az ad user show --id $ACCOUNT_UPN --query objectId -o tsv)
+
+# Assign the 'Cluster Admin' role to the user
+az role assignment create --assignee $ACCOUNT_ID --scope $AKS_CLUSTER --role "Azure Kubernetes Service Cluster Admin Role"
+
+```
+
+```bash
+# You create an application named App1 in an Azure tenant. You need to host the application as a multitenant application for any users in Azure, while restricting non-Azure accounts. You need to allow administrators in other Azure tenants to add the application to their gallery.
+az ad app create –display-name app1--sign-in-audience AzureADMultipleOrgs
+
+```
+
+
+
+

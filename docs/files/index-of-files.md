@@ -13,9 +13,9 @@ These are some of the tools that I use when conducting penetration testing. Most
 
 - Binscope: [BinScope_x64.msi](../files/BinScope_x64.msi)
 - Echo Mirage: [EchoMirage.zip](../files/EchoMirage.zip) | [Echo Mirage at HackingLife](../echo-mirage.md)
-- Processhacker 2.39 bin: [processhacker-2.39-bin.zip](../files/processhacker-2.39-bin.zip) | [Process Hacker Monitor at HackingLife](process-hacker-tool.md).
+- Processhacker 2.39 bin: [processhacker-2.39-bin.zip](../files/processhacker-2.39-bin.zip) | [Process Hacker Monitor at HackingLife](../process-hacker-tool.md).
 - RegistryChangesView: 
 	- RegistryChangesView (x64): [registrychangesview-x64.zip](../files/registrychangesview-x64.zip)
 	- RegistryChangesView (x86): [registrychangesview-x86.zip](../files/registrychangesview-x86.zip)
-- Regshot 1.9.0: [Regshot-1.9.0.zip](files/Regshot-1.9.0.zip) | [Regshot at HackingLife](../files/regshot.md)
+- Regshot 1.9.0: [Regshot-1.9.0.zip](../files/Regshot-1.9.0.zip) | [Regshot at HackingLife](../regshot.md)
 - Visual Studio Code - Community downloader: [vs_community__bb594837aa124b4d8487a41015a6017a.exe](../files/vs_community__bb594837aa124b4d8487a41015a6017a.exe) 

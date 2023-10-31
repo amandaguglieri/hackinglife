@@ -1,7 +1,7 @@
 ---
 title: Exams - Practice the AZ-900
 TableOfContents: 
-date: 2022-10-29T00:00:00Z
+date: 2023-09-29T00:00:00Z
 author: amandaguglieri
 tags:
   - certification
@@ -17,7 +17,7 @@ tags:
 The [AZ-900: Notes to get through the Azure Fundamentals Certificate](az-900-preparation.md)  and these Practice exams are derived from different sources. 
 
 - **Notes taken in**: *September 2023*.
-- **Certification accomplish at**: *23th September 2023*.
+- **Certification accomplish at**: *September 23th, 2023*.
 - **Practice tests**: [Practice tests from different sources](az-900-exams.md).
 
 ## Microsoft platform

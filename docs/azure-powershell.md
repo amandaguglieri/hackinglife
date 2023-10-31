@@ -15,7 +15,7 @@ See all available releases for powershell: [https://github.com/PowerShell/PowerS
 
 Azure powershell documentation: [https://learn.microsoft.com/en-us/powershell/azure/?view=azps-10.3.0](https://learn.microsoft.com/en-us/powershell/azure/?view=azps-10.3.0)
 
-**Az** is the formal name for the Azure PowerShell module containing cmdlets to work with Azure features. It contains hundreds of cmdlets that let you control nearly every aspect of every Azure resource. You can work with the following features, and more: Resource groups, Storage, VMs, Azure AD, Containers, Machine learning.
+**Az** is the formal name risfor the Azure PowerShell module containing cmdlets to work with Azure features. It contains hundreds of cmdlets that let you control nearly every aspect of every Azure resource. You can work with the following features, and more: Resource groups, Storage, VMs, Azure AD, Containers, Machine learning.
 
 ## Installation
 
