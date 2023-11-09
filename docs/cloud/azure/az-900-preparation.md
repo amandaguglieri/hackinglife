@@ -60,7 +60,7 @@ The following notes are derived from the [Microsoft e-learning platform](https:/
 ### Shared responsability model 
 
 
-![Shared responsability model](img/cloud-models.png)
+![Shared responsability model](../../img/cloud-models.png)
 
 Very often, IaaS, PaaS and SaaS are referred as Cloud computing stack because esencially they are built on top one from another. 
 
@@ -109,13 +109,13 @@ Organizations have to think about two different types of expenses:
 
 Before delving deeper, I would like to share this highly informative chart depicting Azure services and their position within the cloud computing stack.
 
-![stack](img/az-900_12.jpg)
+![stack](../../img/az-900_12.jpg)
 
 
 After this, let's start with the stack!
 
 
-![Shared responsability model](img/cloud-models-02.png)
+![Shared responsability model](../../img/cloud-models-02.png)
 
 #### Infrastructure-as-a-Service (IaaS)
 
@@ -177,7 +177,7 @@ Every Azure region is paired with another region within the same geography (ie. 
 Some services or features are only available in certain regions. Others don't require to select an specific region. For instance: Azure Active Directory, Azure Traffic Manager, or Azure DNS.
 
 
-![Azure Regions](img/azure-region.png)
+![Azure Regions](../../img/azure-region.png)
 
 #### Availability zones
 
@@ -187,7 +187,7 @@ Availability zones are physically separate datacenters within an Azure region. E
 
 Availability zones are designed primarily for VMs, managed disks, load balancers, and SQL databases.   It is important to remember that availability zones are connected through private high-speed fiber-optic networks. The image below shows what availability zones look like within a region: 
 
-![Azure Regions](img/azure-availability-zone.png)
+![Azure Regions](../../img/azure-availability-zone.png)
 
 To ensure resiliency, a minimum of three separate availability zones are present in all availability zone-enabled regions. However, not all Azure Regions currently support availability zones.
 
@@ -251,13 +251,13 @@ You can use Azure subscriptions to define boundaries around Azure products, serv
 
 After you've created an Azure account, you're free to create additional subscriptions. After you've created an Azure suscription, you can start creating Azure resources within each subscription.
 
-![Azure suscription](img/az-900_1.png)
+![Azure suscription](../../img/az-900_1.png)
 
 You can have up to 2000 role assignments in each subscription.
 
 Each Azure Subscription can not trust multiple Active Directories. An Azure subscription has a trust relationship with Azure Active Directory (Azure AD). A subscription trusts Azure AD to authenticate users, services, and devices. Multiple subscriptions can trust the same Azure AD directory. Each subscription can only trust a single directory.
 
-![Azure suscription](img/az-900_11.png)
+![Azure suscription](../../img/az-900_11.png)
 
 
 
@@ -271,7 +271,7 @@ All subscriptions within a single management group must trust the same Azure AD 
 
 The image below highlights how you can create a hierarchy for governance through the use of management groups: 
 
-![Azure management group](img/azure-management-group.png)
+![Azure management group](../../img/azure-management-group.png)
 
 Some examples of how you could use management groups might be:
 
@@ -662,14 +662,14 @@ Data in an Azure Storage account is always replicated three times in the primary
 
 Locally redundant storage (LRS) replicates your data three times within a single data center in the primary region. LRS provides at least 11 nines of durability (99.999999999%) of objects over a given year. LRS is the lowest-cost redundancy option and offers the least durability compared to other options. LRS protects your data against server rack and drive failures. However, if a disaster such as fire or flooding occurs within the data center, all replicas of a storage account using LRS may be lost or unrecoverable. To mitigate this risk, Microsoft recommends using zone-redundant storage (ZRS), geo-redundant storage (GRS), or geo-zone-redundant storage (GZRS).
 
-![LRS](img/az-900_2.png)
+![LRS](../../img/az-900_2.png)
 
 
 **Zone-redundant storage (ZRS)**
 
 For Availability Zone-enabled Regions, zone-redundant storage (ZRS) replicates your Azure Storage data synchronously across three Azure availability zones in the primary region. ZRS offers durability for Azure Storage data objects of at least 12 nines (99.9999999999%) over a given year. With ZRS, your data is still accessible for both read and write operations even if a zone becomes unavailable. Microsoft recommends using ZRS in the primary region for scenarios that require high availability. ZRS is also recommended for restricting replication of data within a country or region to meet data governance requirements.
 
-![ZRS](img/az-900_3.png)
+![ZRS](../../img/az-900_3.png)
 
 #### Redundancy in the secondary region
 
@@ -685,14 +685,14 @@ Azure Storage offers two options for copying your data to a secondary region: ge
 
 GRS copies your data synchronously three times within a single physical location in the primary region using LRS. It then copies your data asynchronously to a single physical location in the secondary region (the region pair) using LRS. GRS offers durability for Azure Storage data objects of at least 16 nines (99.99999999999999%) over a given year.
 
-![GRS](img/az-900_4.png)
+![GRS](../../img/az-900_4.png)
 
 
 **Geo-zone-redundant storage** (GZRS)
 
 GZRS combines the high availability provided by redundancy across availability zones with protection from regional outages provided by geo-replication. Data in a GZRS storage account is copied across three Azure availability zones in the primary region (similar to ZRS) and is also replicated to a secondary geographic region, using LRS, for protection from regional disasters. Microsoft recommends using GZRS for applications requiring maximum consistency, durability, and availability, excellent performance, and resilience for disaster recovery. GZRS is designed to provide at least 16 nines (99.99999999999999%) of durability of objects over a given year.
 
-![GZRS](img/az-900_5.png)
+![GZRS](../../img/az-900_5.png)
 
 
 **Read access to data in the secondary region (RA-GRS)**
@@ -906,7 +906,7 @@ Azure AD DS integrates with your existing Azure AD tenant. This integration lets
 
 A managed domain is configured to perform a one-way synchronization from Azure AD to Azure AD DS. You can create resources directly in the managed domain, but they aren't synchronized back to Azure AD.
 
-![Azure AD and Azure AD DS](img/az-900_6.png)
+![Azure AD and Azure AD DS](../../img/az-900_6.png)
 
 
 
@@ -977,7 +977,7 @@ Conditional Access is useful when you need to:
 
 Azure provides built-in roles that describe common access rules for cloud resources. You can also define your own roles.
 
-![RBACs](img/az-900_7.png)
+![RBACs](../../img/az-900_7.png)
 
 Scopes include:
 
@@ -1011,7 +1011,7 @@ The Zero Trust model flips that scenario. Instead of assuming that a device is s
 
 A defense-in-depth strategy uses a series of mechanisms to slow the advance of an attack that aims at acquiring unauthorized access to data.
 
-![Layers of defense-in-depth](img/az-900_8.png)
+![Layers of defense-in-depth](../../img/az-900_8.png)
 
  This approach removes reliance on any single layer of protection. It slows down an attack and provides alert information that security teams can act upon, either automatically or manually.
 
@@ -1158,7 +1158,7 @@ upgrade
 exit
 ```
 
-[See cheat sheet for Azure CLI](azure-cli.md). 
+[See cheat sheet for Azure CLI](../../azure-cli.md). 
 
 ### Azure PowerShell
 
@@ -1166,7 +1166,7 @@ Azure PowerShell is a shell with which developers, DevOps, and IT professionals 
 
 In addition to be available via Azure Cloud Shell, you can install and configure Azure PowerShell on Windows, Linux, and Mac platforms. 
 
-[See cheat sheet for Azure Powershell](azure-powershell.md). 
+[See cheat sheet for Azure Powershell](../../azure-powershell.md). 
 
 ### Azure Resource Manager (ARM) and Azure ARM templates
 
@@ -1311,7 +1311,7 @@ Several messaging patterns are supported, including device-to-cloud telemetry, u
 
 IoT Hub can further route messages to **Azure Data Lake Storage.**
 
-![flow](img/az-900_10.png)
+![flow](../../img/az-900_10.png)
 
 ### Azure IoT Central
 
@@ -1420,7 +1420,7 @@ SIE is the acronym for Service Impacting Event.
 Composite SLA is the SLA that results from combining services with potentially different SLAs. To determine the composite SLA, you simply multiply the SLA values for each resource. 
 
 
-![SLAs](img/az-900_9.jpg)
+![SLAs](../../img/az-900_9.jpg)
 
 Tip for the exam: Deploying instances of a VM across two or more availability zones raises the SLA for the VM from a 99.9% to 99.99% while launching 2 VM instances with a load balancer gives a composite SLA of 9.81%. 
 ### Service Lifecycle in Azure

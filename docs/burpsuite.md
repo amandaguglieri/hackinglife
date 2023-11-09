@@ -33,7 +33,6 @@ Download from:  https://www.jruby.org/download
 
 ## Extensions that make your life better
 
-
 ### Autorize 
 
 Autorize is an extension aimed at helping the penetration tester to detect authorization vulnerabilities, one of the more time-consuming tasks in a web application penetration test.

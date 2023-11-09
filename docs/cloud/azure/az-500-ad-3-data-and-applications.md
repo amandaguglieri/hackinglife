@@ -13,7 +13,7 @@ tags:
 
 # III. Data and applications
 
-??? abstract "Sources of this notes:"
+??? abstract "Sources of this notes"
     - [The Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/exams/az-500/).
     - Book:  ["Microsoft Certified - MCA Microsoft Certified Associate Azure Security Engineer Study Guide: Exam AZ-500](https://www.amazon.es/Microsoft-Certified-Associate-Security-ngineer/dp/1119870372/). 
     - Udemy course:  [AZ-500 Microsoft Azure Security Technologies Exam Prep](https://www.udemy.com/course/az500-azure/).
@@ -28,9 +28,9 @@ tags:
 	- [AZ-500 and more: keep learning](az-500-keep-learning.md)
 
 
-Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-powershell.md)**  
+Cheatsheets: **[Azure-CLI](../../azure-cli.md)**  **|** **[Azure PowerShell](../../azure-powershell.md)**  
 
-[100 questions you should pass for the AZ-500 certificate](az-500-exams.md)
+[100 questions you should pass for the AZ-500 certificate](az-500-exams.md) 
 
 --- 
 
@@ -61,7 +61,7 @@ Azure Key Vault is offered in two service tiers—standard and premium. The main
 
 Access to a key vault is controlled through two interfaces: the management plane, and the data plane. The management plane is where you manage Key Vault itself. Operations in this plane include creating and deleting key vaults, retrieving Key Vault properties, and updating access policies. The data plane is where you work with the data stored in a key vault. You can add, delete, and modify keys, secrets, and certificates from here.
 
-![key vault access](img/az-500_26.png)
+![key vault access](../../img/az-500_26.png)
 
 To access a key vault in either plane, all callers (users or applications) must have proper authentication and authorization. Authentication establishes the identity of the caller. Authorization determines which operations the caller can execute.
 
@@ -220,7 +220,7 @@ Once, you have created your Key Vault and have populated it with keys and secret
 
 **Example of storage service encryption with customer-managed Keys. -** This service uses Azure Key Vault that provides highly available and scalable secure storage for RSA cryptographic keys backed by FIPS 140-2 Level 2 validated HSMs (Hardware Security Modules). Key Vault streamlines the key management process and enables customers to maintain control of keys that are used to encrypt data, manage, and audit their key usage, in order to protect sensitive data as part of their regulatory or compliance needs, HIPAA and BAA compliant.
 
-![az service encryption](img/az-500_27.png)
+![az service encryption](../../img/az-500_27.png)
 
 Customers can generate/import their RSA key to Azure Key Vault and enable Storage Service Encryption. Azure Storage handles the encryption and decryption in a fully transparent fashion using envelope encryption in which data is encrypted using an AES-based key, which in turn is protected using the Customer-Managed Key stored in Azure Key Vault.
 
@@ -238,7 +238,7 @@ Key Vault provides secure storage of secrets, such as passwords and database con
 
 Key Vault also supports a contentType field for secrets. Clients may specify the content type of a secret to assist in interpreting the secret data when it's retrieved. The maximum length of this field is 255 characters. There are no pre-defined values. The suggested usage is as a hint for interpreting the secret data. For instance, an implementation may store both passwords and certificates as secrets, then use this field to differentiate.
 
-![az service encryption](img/az-500_28.png)
+![az service encryption](../../img/az-500_28.png)
 
 As shown above, the values for Key Vault Secrets are:
 
@@ -291,7 +291,7 @@ Once you have keys and secrets stored in the key vault it's important to think a
 
 This diagram shows how Event Grid and Function Apps can be used to automate the process.
 
-![key rotation](img/az-500_29.png)
+![key rotation](../../img/az-500_29.png)
 
 1. Thirty days before the expiration date of a secret, Key Vault publishes the "near expiry" event to Event Grid.
 2. Event Grid checks the event subscriptions and uses HTTP POST to call the function app endpoint subscribed to the event.
@@ -331,7 +331,7 @@ Unless a key vault or key vault object is recovered, at the end of the retention
 
 **Soft-deleted protection by default from February 2025. -**  If a secret is deleted and the key vault doesn't have soft-deleted protection, it's deleted permanently. Although users can currently opt out of soft-delete during key vault creation, this ability is deprecated. In February 2025, Microsoft enables soft-delete protection on all key vaults, and users are no longer be able to opt out of or turn off soft-delete. This, protect secrets from accidental or malicious deletion by a user.
 
-![Deleting a key](img/az-500_30.png)
+![Deleting a key](../../img/az-500_30.png)
 
 
 **Key vault backup. -** Back up secrets only if you have a critical business justification. Backing up secrets in your key vault may introduce operational challenges such as maintaining multiple sets of logs, permissions, and backups when secrets expire or rotate. Key Vault maintains availability in disaster scenarios and will automatically fail over requests to a paired region without any intervention from a user. If you want protection against accidental or malicious deletion of your secrets, configure soft-delete and purge protection features on your key vault.
@@ -359,7 +359,7 @@ Azure Dedicated HSM is most suitable for “lift-and-shift” scenarios that req
 
 ### 2.1. Microsoft Identity Platform 
 
-![Microsoft Identity platforms](img/az-500_31.png)
+![Microsoft Identity platforms](../../img/az-500_31.png)
 
 Some acronyms:
 
@@ -439,7 +439,7 @@ The Microsoft identity platform:
 
 **Flow in multi-tenant apps**
 
-![identity](img/az-500_32.jpg)
+![identity](../../img/az-500_32.jpg)
 
 In this provisioning flow:
 
@@ -476,7 +476,7 @@ For example, assume your app has been granted the User.ReadWrite.All delegated p
 
 **Microsoft Graph API. -**  The Microsoft Graph Security API is an intermediary service (or broker) that provides a single programmatic interface to connect multiple Microsoft Graph Security providers (also called security providers or providers). The Microsoft Graph Security API federates requests to all providers in the Microsoft Graph Security ecosystem.
 
-![flow of microsoft Graph Api](img/az-500_33.png)
+![flow of microsoft Graph Api](../../img/az-500_33.png)
 
 The following is a description of the flow:
 
@@ -533,7 +533,7 @@ The following table shows the differences between the two types of managed ident
 
 **Credential rotation. -** Credential rotation is controlled by the resource provider that hosts the Azure resource. The default rotation of the credential occurs every 46 days. It's up to the resource provider to call for new credentials, so the resource provider could wait longer than 46 days. The following diagram shows how managed service identities work with Azure virtual machines (VMs):
 
-![credential rotation](img/az-500_34.png)
+![credential rotation](../../img/az-500_34.png)
 
 1. Azure Resource Manager receives a request to enable the system-assigned managed identity on a VM.
 2. Azure Resource Manager creates a service principal in Microsoft Entra ID for the identity of the VM. The service principal is created in the Microsoft Entra tenant that's trusted by the subscription.
@@ -637,7 +637,7 @@ App Service Environment has the following network information at creation:
 |Inbound address|The inbound address is the address at which your apps are reached. If you have an internal VIP, it's an address in your App Service Environment subnet. If the address is external, it's a public-facing address.|
 |Default outbound addresses|The apps use this address, by default, when making outbound calls to the internet.|
 
-![Screenshot showing App Service Environment IP address page.](img/az-500_35.png)
+![Screenshot showing App Service Environment IP address page.](../../img/az-500_35.png)
 
 As you scale your App Service plans in your App Service Environment, you'll use more addresses from your subnet. Apps in the App Service Environment don't have dedicated addresses in the subnet. The specific addresses an app uses in the subnet will change over time.
 
@@ -837,7 +837,7 @@ Best practices:
 
 >Use Microsoft Entra authentication to centrally manage identities of database users and as an alternative to SQL Server authentication.
 
-![swl authentication](img/az-500_36.png)
+![swl authentication](../../img/az-500_36.png)
 
 
 ### 4.2. Configure SQL database firewalls
@@ -859,7 +859,7 @@ Azure SQL Firewall  IP Rules:
 
 Data-level Firewall rules get evaluated first:
 
-![firewall rules for SQL databases](img/az-500_37.png)
+![firewall rules for SQL databases](../../img/az-500_37.png)
 
 
 To allow applications from Azure to connect to your Azure SQL Database, Azure connections must be enabled. When an application from Azure attempts to connect to your database server, the firewall verifies that Azure connections are allowed. A firewall setting with starting and ending addresses equal to 0.0.0.0 indicates Azure connections are allowed. This option configures the firewall to allow all connections from Azure including connections from the subscriptions of other customers. When selecting this option, make sure your sign-in and user permissions limit access to authorized users only.
@@ -957,7 +957,7 @@ Applies to: Azure SQL Database | Azure SQL Managed Instance | Azure Synapse 
 - Express configuration (preview) – The default procedure that lets you configure vulnerability assessment without dependency on external storage to store baseline and scan result data.
 - Classic configuration – The legacy procedure that requires you to manage an Azure storage account to store baseline and scan result data.
 
-![sql vulnerability assessment express and classic configurations comparison](img/az-500_38.png)
+![sql vulnerability assessment express and classic configurations comparison](../../img/az-500_38.png)
 
 ### 4.6. SQL Advanced Threat Protection
 

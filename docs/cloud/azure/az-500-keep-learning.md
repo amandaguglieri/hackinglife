@@ -13,7 +13,7 @@ tags:
 
 ## AZ-500 Microsoft Azure Security Technologies Certificate: keep learning
 
-??? abstract "Sources of this notes:"
+??? abstract "Sources of this notes"
     - [The Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/exams/az-500/).
     - Book:  ["Microsoft Certified - MCA Microsoft Certified Associate Azure Security Engineer Study Guide: Exam AZ-500](https://www.amazon.es/Microsoft-Certified-Associate-Security-ngineer/dp/1119870372/). 
     - Udemy course:  [AZ-500 Microsoft Azure Security Technologies Exam Prep](https://www.udemy.com/course/az500-azure/).
@@ -27,11 +27,13 @@ tags:
 	- [IV. Security operations](az-500-ad-4-security-operations.md)
 	- [AZ-500 and more: keep learning](az-500-keep-learning.md)
 
-Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-powershell.md)**  
 
-[100 questions you should pass for the AZ-500 certificate](az-500-exams.md)
+Cheatsheets: **[Azure-CLI](../../azure-cli.md)**  **|** **[Azure PowerShell](../../azure-powershell.md)**  
+
+[100 questions you should pass for the AZ-500 certificate](az-500-exams.md) 
 
 --- 
+
 
 In addition to completing the course work in the AZ-500 learning path, you should also be sure to read the following reference articles from Microsoft:
 

@@ -23,15 +23,15 @@ These questions form the hard core of my question bank. They originate from vari
     - Udemy course: [Azure Security: AZ-500 (updated July 2023)](https://www.udemy.com/course/azure-security-associate-az-500/)
 
 ??? note "Summary: AZ-500 Microsoft Azure Security Engineer Certification"
-	- [About the certificate](cloud/azure/az-500-preparation.md)
-	- [I. Manage Identity and Access](cloud/azure/az-500-ad-1-identity-and-access.md)
-	- [II. Platform protection](cloud/azure/az-500-ad-2-platform-protection.md)
-	- [III. Data and applications](cloud/azure/az-500-ad-3-data-and-applications.md)
-	- [IV. Security operations](cloud/azure/az-500-ad-4-security-operations.md)
-	- [AZ-500 and more: keep learning](cloud/azure/az-500-keep-learning.md)
+	- [About the certificate](az-500-preparation.md)
+	- [I. Manage Identity and Access](az-500-ad-1-identity-and-access.md)
+	- [II. Platform protection](az-500-ad-2-platform-protection.md)
+	- [III. Data and applications](az-500-ad-3-data-and-applications.md)
+	- [IV. Security operations](az-500-ad-4-security-operations.md)
+	- [AZ-500 and more: keep learning](az-500-keep-learning.md)
 
 
-Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-powershell.md)**  
+Cheatsheets: **[Azure-CLI](../../azure-cli.md)**  **|** **[Azure PowerShell](../../azure-powershell.md)**  
 
 ---
 #####  Question  1

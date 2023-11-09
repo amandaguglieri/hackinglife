@@ -13,7 +13,7 @@ tags:
 
 # II. Platform protection
 
-??? abstract "Sources of this notes:"
+??? abstract "Sources of this notes"
     - [The Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/exams/az-500/).
     - Book:  ["Microsoft Certified - MCA Microsoft Certified Associate Azure Security Engineer Study Guide: Exam AZ-500](https://www.amazon.es/Microsoft-Certified-Associate-Security-ngineer/dp/1119870372/). 
     - Udemy course:  [AZ-500 Microsoft Azure Security Technologies Exam Prep](https://www.udemy.com/course/az500-azure/).
@@ -27,15 +27,16 @@ tags:
 	- [IV. Security operations](az-500-ad-4-security-operations.md)
 	- [AZ-500 and more: keep learning](az-500-keep-learning.md)
 
-Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-powershell.md)**  
 
-[100 questions you should pass for the AZ-500 certificate](az-500-exams.md)
+Cheatsheets: **[Azure-CLI](../../azure-cli.md)**  **|** **[Azure PowerShell](../../azure-powershell.md)**  
+
+[100 questions you should pass for the AZ-500 certificate](az-500-exams.md) 
 
 --- 
 
 This entire sections is about implementing security with a defense in depth approach in mind.
 
-![defense in depth](img/az-500_9.png)
+![defense in depth](../../img/az-500_9.png)
 
 - **Azure Network Security Groups** can be used for basic layer 3 & 4 access controls between Azure Virtual Networks, their subnets, and the Internet.
 - **Application Security Groups** enable you to define fine-grained network security policies based on workloads, centralized on applications, instead of explicit IP addresses.
@@ -105,7 +106,7 @@ Azure Distributed Denial of Service (DDoS) protection, combined with application
 - **Standard**: Provides additional mitigation capabilities over the Basic service tier that are tuned specifically to Azure Virtual Network resources. DDoS Protection Standard is simple to enable, and requires no application changes. Protection policies are tuned through dedicated traffic monitoring and machine learning algorithms. Policies are applied to public IP addresses associated to resources deployed in virtual networks, such as Azure Load Balancer, Azure Application Gateway, and Azure Service Fabric instances, but this protection does not apply to App Service Environments. Real-time telemetry is available through Azure Monitor views during an attack, and for history. Rich attack mitigation analytics are available via diagnostic settings. Application layer protection can be added through the Azure Application Gateway Web Application Firewall or by installing a 3rd party firewall from Azure Marketplace. Protection is provided for IPv4 and IPv6 Azure public IP addresses.
 
 
-![ddos protection](img/az-500_10.png)
+![ddos protection](../../img/az-500_10.png)
 
 
 DDoS Protection Standard monitors actual traffic utilization and constantly compares it against the thresholds defined in the DDoS policy. When the traffic threshold is exceeded, DDoS mitigation is automatically initiated. When traffic returns to a level below the threshold, the mitigation is removed. During mitigation, DDoS Protection redirects traffic sent to the protected resource and performs several checks, including:
@@ -177,7 +178,7 @@ You can monitor Azure Firewall using firewall logs. You can also use activity lo
 
 A User Defined Routes (UDR) is a custom route in Azure that overrides Azure's default system routes or adds routes to a subnet's route table. In Azure, you create a route table and then associate that route table with zero or more virtual network subnets.
 
-![vpn forced tunneling](img/az-500_11.png)
+![vpn forced tunneling](../../img/az-500_11.png)
 
 
 
@@ -275,7 +276,7 @@ Today, Azure service traffic from a virtual network uses public IP addresses as 
 
 Azure Private Link works on an approval call flow model wherein the Private Link service consumer can request a connection to the service provider for consuming the service. The service provider can then decide whether to allow the consumer to connect or not. Azure Private Link enables the service providers to manage the private endpoint connection on their resources
 
-![Approval flow model](img/az-500_12.png)
+![Approval flow model](../../img/az-500_12.png)
 
 There are two connection approval methods that a Private Link service consumer can choose from:
 
@@ -356,14 +357,14 @@ As mentioned above, routing to the Azure Front Door environments leverages Anyca
 
 You can configure a Site-to-Site VPN as a secure failover path for ExpressRoute, or use Site-to-Site VPNs to connect to sites that are not part of your network, but that are connected through ExpressRoute. Notice that this configuration requires two virtual network gateways for the same virtual network, one using the gateway type 'Vpn', and the other using the gateway type 'ExpressRoute'.
 
-![express route](img/az-500_13.png)
+![express route](../../img/az-500_13.png)
 
 
 **IPsec over ExpressRoute for Virtual WAN**
 
 Azure Virtual WAN uses an Internet Protocol Security (IPsec) Internet Key Exchange (IKE) VPN connection from your on-premises network to Azure over the private peering of an Azure ExpressRoute circuit. This technique can provide an encrypted transit between the on-premises networks and Azure virtual networks over ExpressRoute, without going over the public internet or using public IP addresses. The following diagram shows an example of VPN connectivity over ExpressRoute private peering.
 
-![express route](img/az-500_14.png)
+![express route](../../img/az-500_14.png)
 
 An important aspect of this configuration is routing between the on-premises networks and Azure over both the ExpressRoute and VPN paths. An important aspect of this configuration is routing between the on-premises networks and Azure over both the ExpressRoute and VPN paths.
 
@@ -464,7 +465,7 @@ To have a secured workstation you need to make sure the following security techn
 
 This chart shows the level of device security controls based on how the device will be used.
 
-![devices](img/az-500_15.png)
+![devices](../../img/az-500_15.png)
 
 
 A secure workstation requires it be part of an end-to-end approach including device security, account security, and security policies applied to the device at all times. Here are some common security measures you should consider implementing based on the users' needs.
@@ -513,9 +514,9 @@ Here are some additional terms to know when using Resource Manager:
 
 Here two different deployment schemas with same result:
 
-![3 tier app with 1 deployment](img/az-500_16.png)
+![3 tier app with 1 deployment](../../img/az-500_16.png)
 
-![3 tier app with 3 deployments](img/az-500_17.png)
+![3 tier app with 3 deployments](../../img/az-500_17.png)
 
 
 ### 3.5. Remote Access Management: RDP, ssh, and Azure Bastion
@@ -524,7 +525,7 @@ This topic explains how to connect to and sign into the virtual machines (VMs) y
 
 **Connect to a Windows VM** - With rdp, with ssh or with Azure Bastion Service. The Azure Bastion service is a fully platform-managed PaaS service that you provision inside your virtual network. It provides secure and seamless RDP/SSH connectivity to your virtual machines directly in the Azure portal over TLS. The Azure Bastion service is a fully platform-managed PaaS service that you provision inside your virtual network. It provides secure and seamless RDP/SSH connectivity to your virtual machines directly in the Azure portal over TLS. Bastion provides secure RDP and SSH connectivity to all the VMs in the virtual network in which it is provisioned. Using Azure Bastion protects your virtual machines from exposing RDP/SSH ports to the outside world, while still providing secure access using RDP/SSH. With Azure Bastion, you connect to the virtual machine directly from the Azure portal.
 
-![Bastion Architecture](img/az-500_18.png)
+![Bastion Architecture](../../img/az-500_18.png)
 
 
 **Benefits of Bastion**
@@ -614,7 +615,7 @@ Azure Disk Storage Server-Side Encryption (also referred to as encryption-at-res
 Encryption at the host ensures that data stored on the VM host hosting your VM is encrypted at rest and flows encrypted to the Storage clusters.
 Confidential disk encryption binds disk encryption keys to the virtual machine's TPM (Trusted Platform Module) and makes the protected disk content accessible only to the VM. The TPM and VM guest state is always encrypted in attested code using keys released by a secure protocol that bypasses the hypervisor and host operating system. Currently only available for the OS disk. Encryption at the host may be used for other disks on a Confidential VM in addition to Confidential Disk Encryption.
 
-![Disk encryption options](img/az-500_20.png)
+![Disk encryption options](../../img/az-500_20.png)
 
 >_For **Encryption at the host** and **Confidential disk encryption**, Microsoft Defender for Cloud does not detect the encryption state. We are in the process of updating Microsoft Defender._
 
@@ -628,7 +629,7 @@ Windows 10, Windows Server 2019, and Windows Server 2016 include key security fe
 
 **Microsoft Defender for Endpoint - Supported Operating Systems**
 
-![Microsoft Defender for Endpoint - Supported Operating Systems](img/az-500_21.png)
+![Microsoft Defender for Endpoint - Supported Operating Systems](../../img/az-500_21.png)
 
 
 ### 3.10. Microsoft cloud security benchmark in Defender for Cloud
@@ -695,7 +696,7 @@ You need [Docker](https://www.docker.com/) in order to work with Windows Conta
 
 **How it works**.-  A container builds on top of the kernel, but the kernel doesn't provide all of the APIs and services an app needs to run–most of these are provided by system files (libraries) that run above the kernel in user mode. Because a container is isolated from the host's user mode environment, the container needs its own copy of these user mode system files, which are packaged into something known as a base image. The base image serves as the foundational layer upon which your container is built, providing it with operating system services not provided by the kernel.
 
-![docker architecture](img/az-500_22.png)
+![docker architecture](../../img/az-500_22.png)
 
 Because containers require far fewer resources (for example, they don't need a full OS), they're easy to deploy and they start fast. This allows you to have higher density, meaning that it allows you to run more services on the same hardware unit, thereby reducing costs. As a side effect of running on the same kernel, you get less isolation than VMs.
 
@@ -777,7 +778,7 @@ A container registry is a service that stores and distributes container images. 
 
 In addition to Docker container images, Azure Container Registry supports related content artifacts including Open Container Initiative (OCI) image formats.
 
-![azure container registry](img/az-500_23.png)
+![azure container registry](../../img/az-500_23.png)
 
 You log in to a registry using the Azure CLI or the standard docker login command. Azure Container Registry transfers container images over HTTPS, and supports TLS to secure client connections. Azure Container Registry requires all secure connections from servers and applications to use TLS 1.2. Enable TLS 1.2 by using any recent docker client (version 18.03.0 or later). You control access to a container registry using an Azure identity, a Microsoft Entra ID-backed service principal, or a provided admin account. Use role-based access control (RBAC) to assign users or systems fine-grained permissions to a registry.
 
@@ -801,7 +802,7 @@ By using Log Analytics, you can:
 
 ### 4.4. Azure Container Registry authentication
 
-![authentication options](img/az-500_24.png)
+![authentication options](../../img/az-500_24.png)
 
 **Individual login with Microsoft Entra ID**.- When working with your registry directly, such as pulling images to and pushing images from a development workstation, authenticate by using the az acr login command in the Azure CLI. When you log in with az acr login, the CLI uses the token created when you executed az login to seamlessly authenticate your session with your registry. To complete the authentication flow, Docker must be installed and running in your environment. az acr login uses the Docker client to set a Microsoft Entra token in the docker.config file. Once you've logged in this way, your credentials are cached, and subsequent docker commands in your session do not require a username or password.
 
@@ -814,7 +815,7 @@ By using Log Analytics, you can:
 **Admin account.-**  Each container registry includes an admin user account, which is disabled by default. You can enable the admin user and manage its credentials in the Azure portal, or by using the Azure CLI or other Azure tools. The admin account is provided with two passwords, both of which can be regenerated. Two passwords allow you to maintain connection to the registry by using one password while you regenerate the other. If the admin account is enabled, you can pass the username and either password to the docker login command when prompted for basic authentication to the registry.
 
 
-![aks roles](img/az-500_51.png)
+![aks roles](../../img/az-500_51.png)
 
 
 ### 4.5. Azure Kubernetes Service (AKS)
@@ -828,7 +829,7 @@ Azure Kubernetes Service (AKS) provides a managed Kubernetes service that reduce
 - _Control plane_ nodes provide the core Kubernetes services and orchestration of application workloads.
 - _Nodes_ run your application workloads.
 
-![aks architecture](img/az-500_25.png)
+![aks architecture](../../img/az-500_25.png)
 
 **Features of Azure Kubernetes Service:**
 

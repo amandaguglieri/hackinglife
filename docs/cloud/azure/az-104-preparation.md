@@ -13,7 +13,7 @@ tags:
 
 # AZ-104 Microsoft Azure Administrator certificate
 
-!!! abstract "Sources of this notes:"
+!!! abstract "Sources of this notes"
     - [The Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/exams/az-104/).
     - Udemy course:  [Prove your AZ-104 Microsoft Azure Administrator skills to the world. Updated.](https://eylearning.udemy.com/course/70533-azure/).
 
@@ -44,18 +44,18 @@ There's approximate parity between the portal, the Azure CLI, and Azure PowerShe
 
 Azure PowerShell is a module that you add to Windows PowerShell or PowerShell Core to enable you to connect to your Azure subscription and manage resources. Azure PowerShell requires PowerShell to function. PowerShell provides services such as the shell window and command parsing. Azure PowerShell adds the Azure-specific commands.
 
-[See cheat sheet for Azure Powershell](azure-powershell.md). 
+[See cheat sheet for Azure Powershell](../../azure-powershell.md). 
 
 
 ### Azure CLI 
 
 Azure CLI is a command-line program to connect to Azure and execute administrative commands on Azure resources. The Azure CLI is available two ways: inside a browser via the Azure Cloud Shell, or with a local installation on Linux, Mac, or Windows. It allows administrators and developers to execute their commands through a terminal, command-line prompt, or script instead of a web browser.
 
-[See cheat sheet for Azure CLI](azure-cli.md). 
+[See cheat sheet for Azure CLI](../../azure-cli.md). 
 
 ### Azure Resource Manager (ARM)
 
-![Azure Resource Manager](img/az-104_1.png)
+![Azure Resource Manager](../../img/az-104_1.png)
 
 
 Azure Resource Manager provides several benefits:
@@ -97,7 +97,7 @@ To move resources, select the resource group containing those resources, and the
 
 **Deleting resources**:
 
-See how to remove a resource group using [Azure powershell](azure-powershell.md).
+See how to remove a resource group using [Azure powershell](../../azure-powershell.md).
 
 **Determine resource limits**: 
 

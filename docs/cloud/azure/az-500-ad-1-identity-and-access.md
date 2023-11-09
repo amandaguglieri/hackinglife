@@ -13,7 +13,7 @@ tags:
 
 # I. Manage Identity and Access
 
-??? abstract "Sources of this notes:"
+??? abstract "Sources of this notes"
     - [The Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/exams/az-500/).
     - Book:  ["Microsoft Certified - MCA Microsoft Certified Associate Azure Security Engineer Study Guide: Exam AZ-500](https://www.amazon.es/Microsoft-Certified-Associate-Security-ngineer/dp/1119870372/). 
     - Udemy course:  [AZ-500 Microsoft Azure Security Technologies Exam Prep](https://www.udemy.com/course/az500-azure/).
@@ -27,11 +27,13 @@ tags:
 	- [IV. Security operations](az-500-ad-4-security-operations.md)
 	- [AZ-500 and more: keep learning](az-500-keep-learning.md)
 
-Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-powershell.md)**  
 
-[100 questions you should pass for the AZ-500 certificate](az-500-exams.md)
+Cheatsheets: **[Azure-CLI](../../azure-cli.md)**  **|** **[Azure PowerShell](../../azure-powershell.md)**  
+
+[100 questions you should pass for the AZ-500 certificate](az-500-exams.md) 
 
 --- 
+
 
 **Azure Active Directory** (Azure AD) is a cloud-based identity and access management service.
 ## 1. Microsoft Entra ID 
@@ -240,7 +242,7 @@ When you create an Azure AD DS managed domain, you define a unique namespace. Th
 
 Azure AD DS replicates identity information from Azure AD, so it works with Azure AD tenants that are cloud-only or synchronized with an on-premises AD DS environment. Azure AD DS performs a one-way synchronization from Azure AD to provide access to a central set of users, groups, and credentials. You can create resources directly in the managed domain (Azure ADDS), but they aren't synchronized back to Azure AD.
 
-![Azure ADDS](img/az-500_1.png)
+![Azure ADDS](../../img/az-500_1.png)
 
 
 
@@ -358,7 +360,7 @@ Azure AD hands off the authentication process to a separate trusted authenticati
 
 So, which one is more appropiate for your organization? See this decision tree:
 
-![Decision tree](img/az-500_4.png)
+![Decision tree](../../img/az-500_4.png)
 
 
 ### 2.4. Azure AD Password Hash Synchronization (PHS)
@@ -369,7 +371,7 @@ So, which one is more appropiate for your organization? See this decision tree:
 
 >It is important to understand that this is **same sign-in**, not single sign-on. The user still authenticates against two separate directory services, albeit with the same user name and password. This solution provides a simple alternative to an AD FS implementation.
 
-![Azure AD PHS](img/az-500_2.png)
+![Azure AD PHS](../../img/az-500_2.png)
 
 ### 2.5. Azure AD Pass-through Authentication (PTA)
 
@@ -386,7 +388,7 @@ So, which one is more appropiate for your organization? See this decision tree:
 - Installing multiple agents provides high availability of sign-in requests.
 - PTA protects your on-premises accounts against brute force password attacks in the cloud.
 
-![Azure AD PTA](img/az-500_3.png)
+![Azure AD PTA](../../img/az-500_3.png)
 
 
 ### 2.6. Azure AD Federation
@@ -410,7 +412,7 @@ Password writeback provides:
 - **Supports password writeback when an admin resets them from the Azure portal**. Whenever an admin resets a user’s password in the Azure portal, if that user is federated or password hash synchronized, the password is written back to on-premises. This functionality is currently not supported in the Office admin portal.
 - **Doesn’t require any inbound firewall rules**. Password writeback uses an Azure Service Bus relay as an underlying communication channel. All communication is outbound over port 443.
 
-![Password writeback](img/az-500_5.png)
+![Password writeback](../../img/az-500_5.png)
 
 
 
@@ -440,7 +442,7 @@ The insight you get for a detected risk detection is tied to your Azure AD subsc
 - **Sign-in risk policy** - Identity Protection analyzes signals from each sign-in, both real-time and offline, and calculates a risk score based on the probability that the sign-in wasn't performed by the user. Administrators can decide based on this risk score signal to enforce organizational requirements. Administrators can choose to block access, allow access, or allow access but require multi-factor authentication. Administrators can also choose to create a custom Conditional Access policy, including sign-in risk as an assignment condition.
 - **User risk policy** - Identifies and responds to user accounts that may have compromised credentials. Can prompt the user to create a new password.
 
-![Azure AD identity protection: default policies](img/az-500_6.png)
+![Azure AD identity protection: default policies](../../img/az-500_6.png)
 
 
 When you enable a policy user or sign-in risk policy, you can also choose the threshold for risk level - _**low and above**_, _medium and above_, or _**high**_. This flexibility lets you decide how aggressive you want to be in enforcing any controls for suspicious sign-in events.
@@ -528,7 +530,7 @@ Conditional Access is the tool used by Azure Active Directory to bring signals t
 
 Conditional access comes with six conditions: user/group, cloud application, device state, location (IP range), client application, and sign-in risk.
 
-![Azure AD Conditional access](img/az-500_7.png)
+![Azure AD Conditional access](../../img/az-500_7.png)
 
 With access controls, you can either Block Access altogether or Grant Access with more requirements: 
 
@@ -681,7 +683,7 @@ Apply policies or access controls to any service
 
 **Configure Azure policies** - Azure Policy is a service you use to create, assign, and manage policies. These policies enforce different rules and effects over your resources so that those resources stay compliant with your corporate standards and service level agreements.
 
-![Azure policies](img/az-500_8.png)
+![Azure policies](../../img/az-500_8.png)
 
 The **first pillar** is around **real-time enforcement and compliance assessment**.
 

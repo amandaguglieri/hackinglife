@@ -13,7 +13,7 @@ tags:
 
 # IV. Security operation
 
-??? abstract "Sources of this notes:"
+??? abstract "Sources of this notes"
     - [The Microsoft e-learn platform](https://learn.microsoft.com/en-us/credentials/certifications/exams/az-500/).
     - Book:  ["Microsoft Certified - MCA Microsoft Certified Associate Azure Security Engineer Study Guide: Exam AZ-500](https://www.amazon.es/Microsoft-Certified-Associate-Security-ngineer/dp/1119870372/). 
     - Udemy course:  [AZ-500 Microsoft Azure Security Technologies Exam Prep](https://www.udemy.com/course/az500-azure/).
@@ -27,9 +27,10 @@ tags:
 	- [IV. Security operations](az-500-ad-4-security-operations.md)
 	- [AZ-500 and more: keep learning](az-500-keep-learning.md)
 
-Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-powershell.md)**  
 
-[100 questions you should pass for the AZ-500 certificate](az-500-exams.md)
+Cheatsheets: **[Azure-CLI](../../azure-cli.md)**  **|** **[Azure PowerShell](../../azure-powershell.md)**  
+
+[100 questions you should pass for the AZ-500 certificate](az-500-exams.md) 
 
 --- 
 
@@ -37,7 +38,7 @@ Cheatsheets: **[Azure-CLI](azure-cli.md)**  **|** **[Azure PowerShell](azure-pow
 
 ### 1.1. Exploring Azure Monitor
 
-![azure monitor metrics and logs](img/az-500_39.png)
+![azure monitor metrics and logs](../../img/az-500_39.png)
 
 **Exporting data to a SIEM**
 
@@ -76,7 +77,7 @@ All data that Azure Monitor collects fits into one of two fundamental types: **
 
 **Azure Monitor Metrics. -** Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. There are multiple types of metrics supported by Azure Monitor Metrics:
 
-![azure monitor metrics](img/az-500_40.png)
+![azure monitor metrics](../../img/az-500_40.png)
 
 - **Native metrics** use tools in Azure Monitor for analysis and alerting.
     - Platform metrics are collected from Azure resources. They require no configuration and have no cost.
@@ -206,7 +207,7 @@ Alerts in Azure Monitor proactively notify you of critical conditions and potent
 
 The unified alert experience in Azure Monitor includes alerts that were previously managed by Log Analytics and Application Insights. In the past, Azure Monitor, Application Insights, Log Analytics, and Service Health had separate alerting capabilities. Over time, Azure improved and combined both the user interface and different methods of alerting. The consolidation is still in process.
 
-![Azure monitor alerts](img/az-500_41.png)
+![Azure monitor alerts](../../img/az-500_41.png)
 
 
 - The **alert rule** captures the target and criteria for alerting.  The alert rule can be in an enabled or a disabled state. Alerts only fire when enabled.
@@ -251,7 +252,7 @@ Azure Monitor diagnostic logs are logs produced by an Azure service that provide
 - **Resource logs**. These logs come from Azure services that deploy resources within an Azure subscription, such as Network Security Groups (NSGs) or storage accounts.
 
 
-![Azure monitor alerts](img/az-500_42.png)
+![Azure monitor alerts](../../img/az-500_42.png)
 
 
 These logs differ from the **activity log**. The activity log provides insight into the operations, such as creating a VM or deleting a logic app, that Azure Resource Manager performed on resources in your subscription using. The activity log is a subscription-level log. Resource-level diagnostic logs provide insight into operations that were performed within that resource itself, such as getting a secret from a key vault.
@@ -263,7 +264,7 @@ You can configure diagnostic settings in the Azure portal either from the Azure 
 Here are some of the things you can do with diagnostic logs:
 
 
-![Azure monitor alerts](img/az-500_43.png)
+![Azure monitor alerts](../../img/az-500_43.png)
 
 - Save them to a storage account for auditing or manual inspection. You can specify the retention time (in days) by using resource diagnostic settings.
 - Stream them to event hubs for ingestion by a third-party service or custom analytics solution, such as Power BI.
@@ -366,7 +367,7 @@ Defender for cloud **offers foundational multicloud CSPM capabilities for free*
 
 The optional Defender CSPM plan provides advanced posture management capabilities such as **Attack path analysis**, **Cloud security explorer**, **advanced threat hunting**, **security governance capabilities**, and also tools to assess your security compliance with a wide range of benchmarks, regulatory standards, and any custom security policies required in your organization, industry, or region.
 
-![Defender plan](img/az-500_44.png)
+![Defender plan](../../img/az-500_44.png)
 
 When you enabled Defender plans on an entire Azure subscription, the protections are inherited by all resources in the subscription. When you enable the enhanced security features (paid), Defender for Cloud can provide unified security management and threat protection across your hybrid cloud workloads, including:
 
@@ -419,7 +420,7 @@ Currently, Azure Arc allows you to manage the following resource types hosted ou
 - **SQL Server**: Extend Azure services to SQL Server instances hosted outside of Azure.
 - **Virtual machines (preview)**: Provision, resize, delete, and manage virtual machines based on VMware vSphere or Azure Stack **hyper-converged infrastructure (HCI)** and enable VM self-service through role-based access.
 
-![arc](img/az-500_45.png)
+![arc](../../img/az-500_45.png)
 
 
 Some of the key scenarios that Azure Arc supports are:
@@ -470,7 +471,7 @@ The default initiative automatically assigned to every subscription in Microsoft
 
 ### 2.9. View and edit security policies
 
-![policies](img/az-500_46.png)
+![policies](../../img/az-500_46.png)
 
 There are two specific roles for Defender for Cloud:
 
@@ -548,7 +549,7 @@ To counteract brute-force attacks, you can take multiple measures such as:
 
 Threat actors actively hunt accessible machines with open management ports, like **remote desktop protocol (RDP)** or **secure shell protocol (SSH)**. All of your virtual machines are potential targets for an attack. When a VM is successfully compromised, it's used as the entry point to attack further resources within your environment.
 
-![jit vm](img/az-500_47.png)
+![jit vm](../../img/az-500_47.png)
 
 The diagram shows the logic Defender for Cloud applies when deciding how to categorize your supported VM. When Defender for Cloud finds a machine that can benefit from JIT, it adds that machine to the recommendation's Unhealthy resources tab.
 
@@ -576,7 +577,7 @@ It enables the following services:
 - **Investigate threats with artificial intelligence**, and hunt for suspicious activities at scale, tapping into years of cyber security work at Microsoft.
 - **Respond to incidents rapidly** with built-in orchestration and automation of common tasks.
 
-![sentinel](img/az-500_48.png)
+![sentinel](../../img/az-500_48.png)
 
 
 #### Configure data connections to Sentinel
@@ -617,7 +618,7 @@ The following data connection methods are supported by Microsoft Sentinel:
 - API: Some data sources are connected using APIs that are provided by the connected data source. Typically, most security technologies provide a set of APIs through which event logs can be retrieved. The APIs connect to Microsoft Sentinel and gather specific data types and send them to Azure Log Analytics
 - Agent: The Microsoft Sentinel agent, which is based on the Log Analytics agent, converts CEF formatted logs into a format that can be ingested by Log Analytics. Depending on the appliance type, the agent is installed either directly on the appliance, or on a dedicated Linux server. To connect your external appliance to Microsoft Sentinel, the agent must be deployed on a dedicated machine (VM or on-premises) to support the communication between the appliance and Microsoft Sentinel. You can deploy the agent automatically or manually. Automatic deployment is only available if your dedicated machine is a new VM you are creating in Azure. Alternatively, you can deploy the agent manually on an existing Azure VM, on a VM in another cloud, or on an on-premises machine.
 
-![agent for Sentinel](img/az-500_49.png)
+![agent for Sentinel](../../img/az-500_49.png)
 
 
 ### 3.2. Create workbooks to monitor Sentinel data
@@ -658,7 +659,7 @@ Automate your common tasks and simplify security orchestration with playbooks th
 
 **For example**, if you use the ServiceNow ticketing system, use Azure Logic Apps to automate your workflows and open a ticket in ServiceNow each time a particular alert or incident is generated.
 
-![playbook example](img/az-500_50.png)
+![playbook example](../../img/az-500_50.png)
 
 Playbooks are intended for **Security operations center (SOC)** engineers and analysts of all tiers to **automate** and **simplify tasks**, **including data ingestion**, **enrichment**, **investigation**, and **remediation**. Playbooks work best with single, repeatable tasks and don't require coding knowledge. Playbooks aren't suitable for ad-hoc or complex task chains or for documenting and sharing evidence.
 
