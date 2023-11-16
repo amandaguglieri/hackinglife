@@ -1,3 +1,14 @@
+---
+title: Amazon Web Services (AWS) Essentials
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - cloud
+  - aws
+  - amazon web services 
+  - public cloud
+---
 
 
 # Amazon Web Services (AWS) Essentials

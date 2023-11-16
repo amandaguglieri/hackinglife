@@ -4,8 +4,7 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - cloud pentesting
-  - enumeration
+  - cloud
   - amazon s3
   - aws
 ---

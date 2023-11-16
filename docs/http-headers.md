@@ -95,3 +95,50 @@ X-XSS-Protection: 1; report=<reporting-uri>
 
 
 [List of all content-type headers](https://raw.githubusercontent.com/amandaguglieri/dictionaries/main/content-type)
+
+
+## Strict-Transport-Security
+
+The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS.
+
+### Directives
+
+```
+# The time, in seconds, that the browser should remember that a site is only to be accessed using HTTPS.
+max-age=<expire-time>
+
+# If this optional parameter is specified, this rule applies to all of the site's subdomains as well.
+includeSubDomains 
+```
+
+Example:
+
+```
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+```
+
+
+Additionally, Google maintains an **HSTS preload service** (used also by Firefox and Safari). By following the guidelines and successfully submitting your domain, you can ensure that browsers will connect to your domain only via secure connections. While the service is hosted by Google, all browsers are using this preload list. However, it is not part of the HSTS specification and should not be treated as official. Directive for the preload service is:
+
+```
+# When using preload, the max-age directive must be at least 31536000 (1 year), and the includeSubDomains directive must be present.
+preload
+```
+
+Sending the `preload` directive from your site can have **PERMANENT CONSEQUENCES** and prevent users from accessing your site and any of its subdomains if you find you need to switch back to HTTP.
+
+[What OWASP says about HSTS response header](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html).
+
+### Exploitation
+
+Site owners can use HSTS to identify users without cookies. This can lead to a significant privacy leak. Take a look [here](http://www.leviathansecurity.com/blog/the-double-edged-sword-of-hsts-persistence-and-privacy) for more details.
+
+Cookies can be manipulated from sub-domains, so omitting the `includeSubDomains` option permits a broad range of cookie-related attacks that HSTS would otherwise prevent by requiring a valid certificate for a subdomain. Ensuring the `secure` flag is set on all cookies will also prevent, some, but not all, of the same attacks.
+
+So... basically HSTS addresses the following threats:
+
+- User bookmarks or manually types `http://example.com` and is subject to a man-in-the-middle attacker: HSTS automatically redirects HTTP requests to HTTPS for the target domain.
+- Web application that is intended to be purely HTTPS inadvertently contains HTTP links or serves content over HTTP: HSTS automatically redirects HTTP requests to HTTPS for the target domain
+- A man-in-the-middle attacker attempts to intercept traffic from a victim user using an invalid certificate and hopes the user will accept the bad certificate: HSTS does not allow a user to override the invalid certificate message
+
+
