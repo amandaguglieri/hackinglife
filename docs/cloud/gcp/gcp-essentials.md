@@ -13,8 +13,12 @@ tags:
 # Google Cloud Platform (GCP) Essentials
 
 
+??? abstract "Sources of this notes"
+    - Udemy course: [Google Cloud Platform (GCP) Fundamentals for Beginners](https://www.udemy.com/course/google-cloud-platform-gcp-fundamentals-for-beginners/)
 
-Cheatsheets: **[gcloud CLI](../../gclod-cli.md)**    
+
+
+Cheatsheets: **[gcloud CLI](../../gcloud-cli.md)**    
 ## Basic numbers
 
 - 20 regions

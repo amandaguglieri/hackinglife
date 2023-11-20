@@ -27,7 +27,7 @@ Update version:
 sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
 ```
 
-## Setup
+To access you will need access key. You generate access keys in AWS Dashboard.
 
 ```bash
 aws configure  
@@ -42,6 +42,24 @@ Default output format [None]: text
 # - _AWS Access Key ID_ & _AWS Secret Access Key can be any random strings at least one character long,_
 # - _Default region name_ can be any region from [AWS’s region list](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/),
 # - _Default output format_ can be `json`, `yaml`, `yaml-stream`, `table` or `text`. As we are not expecting enormous amount of data, `text` should do just fine.
+```
+
+
+## Basic commands
+
+```
+# Check version
+aws --version
+
+# List IAM users (if you have permissions)
+aws iam list-users --region <region>
+# --region is optional
+
+# Launch an EC2
+
+# LAnch
+
+
 ```
 
 
