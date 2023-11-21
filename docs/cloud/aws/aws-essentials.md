@@ -190,3 +190,304 @@ Edge Computing is when you process data while it's being created at an edge loca
 ### AWS OpsHub
 
 OpsHub which is a software that you install on your computer or laptop, so, it's not something you use on the cloud, it's something that you download on your computer. And then once it's connected, it's going to give you a graphical interface to connect to your Snow devices, and configure them and use them.
+
+
+## AWS Databases
+
+AWS has an offer of managed databases. As benefits, AWS performs quick provisioning, high availability, vertical and horizontal scaling, automated backup, and restore, operations, upgrades, patchings, monitoring, alerting...
+
+You can always have an EC" instance and install a database server, but by using AWS managed database you won't need to configure and mantain all the features from previous paragraph. 
+### Relational Database Service (Amazon RDS)
+
+It's a relational datababase which uses SQL as a query language. 
+
+- Postgres
+- MySQL
+- MAriaDB
+- Oracle
+- Microsoft SQL Server
+- Aurora (AWS Proprietary Database).
+
+>Note: You can NOT ssh into your instance.
+
+#### RDS Deployments: Read Replicas, Multi-AZ
+
+**RDS Read Replica**
+
+- A Replica is a copy of your database. Creating one is a way to scale the read workload. Say you have an application that performs read operations on your database. If you need to scale the workload, you create Read Replica, which are copies of your RDS Database. This will allows your applications to read also from your Replicas. Therefore  you're distributing the reads to many different RDS databases.
+- You can create up to  Read  Replicas. 
+- Data is only written to the one only central RDS tatabase.
+
+**Multi-AZ**
+
+- Used for failover in case of AZ outage. In case your RDS crashes, AWS will trigger the replication in a different Availability Zone. 
+
+**Multi-Region**
+
+Same as Multi-AZ but for different regions. This is usually part of a disater recovery strategy or a plan to have less latency.
+
+#### Amazon Aurora
+
+- Aurora is a proprietary technology from AWS, not open source.
+- Aurora DB supports Postgres and MySQL.
+- Aurora is "AWS Cloud optimized" and claims 5x performance improvement over MySQL on RDS, over 3x the performance of Postgres on RDS.
+- Aurora storage aumatically grows in increments of 10 GB, up to 128TB.
+- Aurora costs more than RDS (20%more) but it's more efficient.
+- Not in the free tier
+
+RDS and Aurora are going to be the two ways for you to create relational databases on AWS. They're both managed and Aurora is going to be more cloud-native, whereas RDS is going to be running the technologies you know, directly as a managed service.
+
+#### Amazon Aurora Serverless
+
+Amazon Aurora Serverless is a Serverless option for Amazon Aurora where the database instantiation is going to be automated.
+
+- Auto-scaling is provided based on actual usage of the database.
+- Postgres and MySQL are supported as engines of Aurora Serverless database.
+- No capacity planning needed.
+- No management needed.
+- Pay per second, most cost-effective. 
+
+#### Amazon ElastiCache
+
+- Elasticache is to get managed Redis or Memcached.
+- Caches are in-memory databases with high performance, and low latency.
+
+### DynamoDB
+
+- Fully managed highly available with replication across 3 AZ
+- NoSQL database.
+- Scales to massive workloads, distributed serverless database.
+- Millions of requests per seconds: low latency.
+- Integrated with IAM for security, authorization and administration.
+- Low cost and auto-scaling capabilities.
+- Standard and Infrequent Access Table Class.
+
+#### DynamoDB Accelerator (DAX)
+
+- Fully managed in-memory cache for DynamoDB (for the frequently read objects).
+- 10x performance improvement.
+- DAX is only used for and is integrated with DynamoDB, while ElastiCache can be used for other databases.
+
+
+#### DynamoDB Global Tables
+
+It makes a DynamoDB table accesible with low latency in multiple-regions. It's a feature of DynamoDB.
+
+### Redshift 
+
+- It's a database on PostgresSQL, but it's not used for Online Transaction Processing (OLTP).
+- Redshift is Online Analytical Processing (OLAP), used for analytics and data warehousing.
+- Load data onve every hour.
+- Columnar storage of data (instead of row based).
+- Has a SQL interface for performing queries. 
+- Massiverly Parallel Query Execution (MPP).
+- Bi tools such as AWS Quicksigh or Tableau integrated in it.
+
+It has a feature for Serverless: Redshift Serverless.
+
+### Amazon Elastic MapReduce (EMR)
+
+- EMR helps creating Hadoop cluster (Big Data) to analyze and process vast amount of data.
+- Also supports Apache Spark, HBase, Presto, Flink.
+
+### Amazon Athena
+
+- Amazon Athena is a serverless query service to perform analytics againts S3 objects.
+- It uses SQL language. 
+- Supports CVS, JSON, ORC, Avro, and Parquet. 
+- Use columnar data.
+
+### Amazon QuickSight
+
+Amazon QuickSight is a serverless machine learning-powered business intelligence service to create interactive dashboards.
+
+### DocumentDB 
+
+- If Aurora is an AWS implementation of Postgres/MySQL, DocumentDB is the same for MongoDB (which is a NoSQL database).
+- MongoDB is used to store, query and index JSON.
+- Fully managed database, with replication across AZ. 
+- Automatically scaling.
+
+### Amazon Neptune
+
+Fully managed graph database.
+A popular graph dataset would be a social network.
+Highly available acroos 3 AZ, with up to 15 read replicas.
+Can store up to billios orelations and query the graph with milliseconds of latency.
+
+### Amazon Quantum Ledger Database (QLDB)
+
+- A ledger is a book recording financial transactions. QLDB is going to be just to have a ledger of financial transactions.
+- It's a fully managed database, it's serverless, highly available, and has replication of data across three AZ.
+- Used to review history of all the changes made to your application data over time.
+- Inmutable system: no entry can be removed or modified, cryptographically verifiable.
+- Difference with Amazon Managed Blockchain: no decentralization component.  QLDB has a central authority component and it's a ledger, whereas managed blockchain is going to have a de-centralization component as well.
+
+### Amazon Managed Blockchain
+
+Managed Blockchain by Amazon is a service to join a public Blockchain networks or create your own scalable private Blockchain network within AWS. And it's compatible with two Blockchain so far, the framework Hyperledger Fabric, and the framework Ethereum.
+
+### Amazon Glue
+
+Glue is a managed extract, transform, and load service, or ETL. Fully serverless service.
+
+ETL is very helpful when you have some datasets but they're not exactly in the right form, to do your analytics on them. ETL service prepares and transforms that data.
+
+#### Glue Data Catalog
+
+is a catalog of your datasets in your Alias infrastructure, and so this Glue Data Catalog will have a alert reference of everything, the column names, the field names, the field types, et cetera, et cetera.
+
+### Database Migration Service (DMS)
+
+DMS provides  quick and secure database migration into AWS that's going to be resilient and self healing.
+
+Supports: Homogeneous migrations and heterogeneous migration.
+
+
+## Amazon Compute Services
+
+### Elastic Container Service (ECS)
+
+It's the way to launch containers in AWS. You must provision and maintain the ingrastructure (EC2 instances). It has integrations with the Application Load Balancer.
+
+### Fargate
+
+It's also used to launch containers in AWS, but you don't need to provision the ingrastructure (no EC2 instances to manage).
+### Elastic Container Registry (ECR)
+
+It's a private docker registry on AWS.  The is where you store your docker images.
+
+### Lambda
+
+- It's a serverless compute service that allows you to run functions in the cloud.  We have virtual functions, limited by time and they will run on-demand. You pay per request and compute time. 
+- Lambda is event-driven: functions get invoked by AWS when needed. 
+- It supports many languages.  
+- Lambda can be run as a Lambda Container Image.
+
+Api Gateway feature can expose Lambda functions as HTTP API.
+
+### Amazon Batch
+
+Run batch jobs on AWS across EC2 managed instances.
+
+## Amazon: Deployments and managing infrastructure
+
+### AWS CloudFormation
+
+- Infrastuture as a Service. 
+- It creates the architecture and give you the diagram.
+- In CloudFormation you rceate an Stack, select template (that generates a yaml), some other configurations, IAM permissions, costs. 
+
+### Amazon Cloud Development Kit (CDK) 
+
+It allows you to define your cloud infrastructure using a familiar language. Code is compiled into a CloudFormation template.
+
+### Amazon Elastic Beanstalk
+
+Elastic Beanstalk is a developer centric view of deploying an application on AWS. 
+
+It's PaaS. 
+
+It has a full monitoring suite. Health agent pushes metrics to CloudWatch. Check for app health, publishes health events.
+
+### CodeDeploy
+
+CodeDeploy deploys your application automatically.
+
+Hybrid service because it works with ECT and On-premise severs. 
+
+### AWS CodeCommit
+
+It's AWS version control code repository. 
+
+### AWS CodeBuild
+
+It's a Code building service in the cloud. It compiles source code, run test, and produces packages that are ready to be deployed.
+
+### AWS CodePipeline
+
+CodePipeline orchestrate the different steps to have the code automatically pushed to production. Basis for CICD (Continuous Integration and Continuous Delivery).
+
+### AWS CodeArtefact
+
+It's a service used to store and retrieve all software packages dependencies to be built. It works with common dependency management tools such as maven, gradle, npm, twine, pip, nuGet.
+It's an artefact management system.
+
+### AWS CodeStar
+
+Unified UI to easily manage software development activities in one place. It can edit the code in the cloud directly using AWS Cloud9.
+
+### AWS Cloud9
+
+AWS Cloud9 is a cloud IDE for writing, running and debugging code directly in the cloud.
+
+Code collaboration in real time.
+
+
+## Amazon Global Applications
+
+### Amazon Route 53
+
+Managed DNS by AWS. It has A, AAA, or CNAME record.
+
+- Simple routing policy (no health checks).
+- Weighted routing policy (with percentages). 
+- Latency routing policies (based on lacency between users and servers).
+- Failover routing policy (for disaster recovery).
+
+### Amazon CloudFront
+
+It's the Content Delivery Network. So far it has 216 points of presence. It has DDoS protection. Improve read performance, since content is cached at the edge.
+
+Origins: S3 (protected with OAC Origin Access Control, that replaces OAI Origin Access Identity), Custom Origin HTTP.
+
+Files are cached for a TTL.
+
+### S3 Transfer Acceleration
+
+Increase transfer speed among S3 across regions by using the AWS global network.
+
+### AWS Global Accelerator
+
+Improve global application availability and performance using the AWS global network.
+
+### AWS Outpost
+
+AWS Outposts are "server racks that offer the same AWS infrastructure, service, APIs & tools to build your own applications on-premises just as in the cloud. This allows you to extent your on-premises services to AWS. 
+
+### AWS WaveLength 
+
+AWS WaveLength Zones are infrastructure deployments embedded within the telecommunications providers's datacenters at the edge of 5G networks. It brings AZS services to the edge of the 5G networks. Traffic never leaves the Communication Service Provider (CSP) networks.
+
+
+## Amazon Cloud integrations
+
+### Amazon SQS
+
+It's a simple Queue Service. Two types:
+
+- Standard Queue is the oldest AWS offering. It's fully managed service. 
+- FIFO queues. 
+
+It allows us to decouple 
+
+### Amazon Kinesis
+
+It's a real time big data streaming.
+
+### Amazon SNS
+
+Amazon SNS stands for Simple Notification Service. It creates a set of notifications about certain events. Event publishers only sends one message to one SNS topic. Each subscriber to the topic will get all the messages.  It's a pub/sub service.
+
+### Amazon MQ
+
+Amazon MQ is  a managed message broker service for two technologies, for RabbitMQ and for ActiveMQ. 
+
+SQS and SNS are cloud-native services because they are proprietary protocols from AWS. They use their own sets of APIs.
+
+If you are running traditional application on-premises, you may use open protocols such as MQTT, AMQP, STOMP, Openwire, WSS. And when you're migrating your application to the cloud, you may not want to re-engineer your application to use the SQS and the SNS protocols or APIs. So instead, you wanna use the traditional protocols you used to, such as MQTT, AMQP, and so on. And  for this, we can use Amazon MQ.
+
+
+## Amazon Cloud Monitoring
+
+

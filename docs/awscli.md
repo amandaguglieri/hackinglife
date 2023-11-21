@@ -55,10 +55,6 @@ aws --version
 aws iam list-users --region <region>
 # --region is optional
 
-# Launch an EC2
-
-# LAnch
-
 
 ```
 
