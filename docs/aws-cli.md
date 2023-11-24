@@ -1,16 +1,17 @@
 ---
-title: awscli
+title: AWS cli
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
   - cloud
-  - amazon s3
+  - amazon
+  - s3
   - aws
 ---
 
 
-# awscli
+# AWS cli
 
 Tool to list S3 objects. S3 is an object storage service in the AWS cloud service. With S3, you can store objects in buckets. Files stored in an Amazon S3 bucket are called S3 objects.
 
