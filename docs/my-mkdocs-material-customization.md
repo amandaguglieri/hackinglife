@@ -120,3 +120,82 @@ This is how it is seen:
 | `GET`       | Fetch resource  |
 | `PUT`       | Update resource |
 | `DELETE`    | Delete resource |
+
+
+## PDF button in every page
+
+Most of the existing plugins offer a print-all-in-one-file solution, which is not my intended development.
+
+
+#### mkdocs-pdf-export-plugin
+
+[https://github.com/zhaoterryy/mkdocs-pdf-export-plugin](https://github.com/zhaoterryy/mkdocs-pdf-export-plugin)
+
+Install and add to gh-deploy workflow:
+
+```bash
+pip install mkdocs-pdf-export-plugin
+```
+
+
+mkdocs.yml
+
+```yaml
+plugins:
+    - search
+    - pdf-export:
+        verbose: true
+        combined: false
+        media_type: print
+        enabled_if_env: ENABLE_PDF_EXPORT
+```
+
+
+/docs/css/extra.css
+
+```css
+@page {
+    size: a4 portrait;
+    margin: 25mm 10mm 25mm 10mm;
+    counter-increment: page;
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    white-space: pre;
+    color: grey;
+    @top-left {
+        content: '© 2018 My Company';
+    }
+    @top-center {
+        content: string(chapter);
+    }
+    @top-right {
+        content: 'Page ' counter(page);
+    }
+}
+```
+
+
+
+## Resolving relative link issues when rendering
+
+[https://octoprint.github.io/mkdocs-site-urls/](https://octoprint.github.io/mkdocs-site-urls/)
+
+
+## Revision date
+
+
+Install and add to gh-deploy workflow:
+
+```bash
+# Installs git revision date plugin globally
+pip install mkdocs-git-revision-date-plugin
+```
+
+
+mkdocs.yml
+
+```yaml
+# Adding the git revision date plugin
+plugins:
+- search
+- git-revision-date
+```

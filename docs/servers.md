@@ -10,6 +10,17 @@ tags:
 
 # Setting up a server (in the attacking machine)
 
+| **Protocol / app** |
+| --- |
+| [smb server](#smb-server) |
+| [Apache server](#apache-server) |
+| [ngix](#ngix) |
+| [symple python server](#simple-python-server) |
+| [php web server](#php-web-server) |
+| [Ruby web server](#ruby-web-server) |
+| Burp Suite Collaborator |
+| [Interactsh](interactsh.md) | 
+
 ## smb server
 
 [Launch smbserver in our attacker machine](smbserver.md):

