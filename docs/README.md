@@ -15,7 +15,7 @@ HackingLife is born from the urge to document the knowledge acquired in the cybe
 
 But there is something else: I strongly believe there is not much difference between fixing a broken faucet (or opening a lock, or studying the engine of your car, or walking in the countryside, or…) and assessing an environment and describing its vulnerabilities. As a matter of fact, I spend my time doing all these things: fixing, repairing, and creating narratives (yes, writing too) in which magically all parts work together harmonically (or provoke the end of the world harmonically too). Tadam! 
 
-## A do-it-yourself notes
+## Second brain
 
 It's quite intriguing how brains work because it doesn't matter how much information and resources you have available on the Internet, still, this is **something you need to do for and by yourself** if you want to understand in a deep sense what you are doing, keep track of it and so on.
 
@@ -25,4 +25,4 @@ So to be more than clear again: the main reason for this repository to exist is 
 
 Nevertheless (and to be fair) this idea is deeply inspired by [Lyz-code](https://github.com/lyz-code) and their [Blue book](https://lyz-code.github.io/blue-book/). Thanks to this inspiring, polished, and... overwhelming repository I've found a way to start making sense of all my notes. Kudos!
 
-Finally, I would like to mention that a lot of this content is not original, meaning that I've copied so many paragraphs from different sources. 
+>Finally, I would like to highlight that this content may not be entirely original, as I've included some paragraphs directly from different sources. Most of the time, I've included a section at the top of the page to quote sources. 

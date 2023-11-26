@@ -1,10 +1,3 @@
----
-title: Readme
-author: amandaguglieri
-draft: false
-TableOfContents: true
----
-
 ## About this repo
 
 HackingLife is born from the urge to document the knowledge acquired in the cybersecurity field and the need of being able to retrieve it.

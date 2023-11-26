@@ -26,7 +26,7 @@ before: / after:
 
 ## Example: shodan for enumerationç
 
-[Content from Pentesting notes](pentesting-notes.md):
+[Content from Pentesting notes](penetration-testing-process.md):
 
 **[crt.sh](https://crt.sh/)**: it enables the verification of issued digital certificates for encrypted Internet connections. This is intended to enable the detection of false or maliciously issued certificates for a domain.
 
@@ -47,4 +47,4 @@ for i in $(cat subdomainlist);do host $i | grep "has address" | grep example.com
 for i in $(cat ip-addresses.txt);do shodan host $i;done
 ```
 
-[Go to Pentesting notes to pursuit DNS enumeration](pentesting-notes.md).
+[Go to Pentesting notes to pursuit DNS enumeration](penetration-testing-process.md).
