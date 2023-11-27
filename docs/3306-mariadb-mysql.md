@@ -36,6 +36,8 @@ mariadb -h <host/IP> -u root
 
 ## Connect to database: mysql 
 
+### From Linux
+
 ```bash
 # -h host/ip   
 # -u user As default mysql has a root user with no authentication
@@ -46,6 +48,12 @@ mysql -u root -h <host/IP>
 
 ```
 
+### From windows
+
+
+```cmd-session
+mysql.exe -u username -pPassword123 -h $IP
+```
 ## mariadb commands
 
 ```bash

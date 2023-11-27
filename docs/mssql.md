@@ -86,3 +86,42 @@ Misconfigurations to look at:
 - The use of self-signed certificates when encryption is being used. It is possible to spoof self-signed certificates   
 - The use of [named pipes](https://docs.microsoft.com/en-us/sql/tools/configuration-manager/named-pipes-properties?view=sql-server-ver15)
 - Weak & default `sa` credentials. Admins may forget to disable this account
+
+
+## Interact with MSSQL
+
+### From Linux
+
+[sqsh](sqsh.md)
+
+
+```shell-session
+ sqsh -S $IP -U username -P Password123
+```
+
+### From Windows
+
+[sqlcmd](https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility) 
+
+The `sqlcmd` utility lets you enter Transact-SQL statements, system procedures, and script files through a variety of available modes:
+
+- At the command prompt.
+- In Query Editor in SQLCMD mode.
+- In a Windows script file.
+- In an operating system (Cmd.exe) job step of a SQL Server Agent job.
+
+```cmd-session
+sqlcmd -S $IP -U username -P Password123
+```
+
+### GUI Application
+
+ [mssql-cli](https://github.com/dbcli/mssql-cli), [mssqlclient.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/mssqlclient.py), [dbeaver](https://github.com/dbeaver/dbeaver) 
+
+####  SQL Server Management Studio or SSMS 
+
+Only in windows. Download, install, and connect to database.
+
+#### dbeaver
+
+dbeaver is a multi-platform database tool for Linux, macOS, and Windows that supports connecting to multiple database engines such as MSSQL, MySQL, PostgreSQL, among others, making it easy for us, as an attacker, to interact with common database servers.

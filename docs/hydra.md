@@ -55,6 +55,9 @@ hydra -U http-post-form
 # 	 <url>:<form parameters>:<condition string>[:<optional>[:<optional>]
 # 	 Example: “/login.php:userin=^USER^&passin=^PASS^:incorrect”
 #	 it perform the attack in the login.php page. It uses the input label name userin (or any other, we need to retrieve this from the html code of the form) to insert the dictionary for users. It uses the input label name passin  (or any other, we need to retrieve this from the html code of the form) to insert the dictionary for passwords. It uses the word incorrect to check out the result of the login process (we need to observe the web behaviour to pick a word).
+
+# Example for ftp in a non default port
+hydra -L users.txt -P pass.txt ftp://$ip:2121
 ```
 
 

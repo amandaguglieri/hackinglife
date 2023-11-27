@@ -568,3 +568,12 @@ To have a clear view of the SYN scan on port 21,  disable the ICMP echo requests
 ```shell-session
 sudo nmap <IP> -p 21 --packet-trace -Pn -n --disable-arp-ping
 ```
+
+### Performing a FTP bounce attack
+
+An FTP bounce attack is a network attack that uses FTP servers to deliver outbound traffic to another device on the network. For instance, consider we are targetting an FTP Server `FTP_DMZ` exposed to the internet. Another device within the same network, `Internal_DMZ`, is not exposed to the internet. We can use the connection to the `FTP_DMZ` server to scan `Internal_DMZ` using the FTP Bounce attack and obtain information about the server's open ports.
+
+```shell-session
+nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz
+# -b The `Nmap` -b flag can be used to perform an FTP bounce attack: 
+```
