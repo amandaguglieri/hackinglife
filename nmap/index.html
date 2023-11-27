@@ -599,6 +599,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -2190,6 +2194,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../medusa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    medusa
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../metasploit/" class="md-nav__link">
         
   
@@ -2879,6 +2904,15 @@
   <a href="#port-scanning-having-a-clear-view-of-a-syn-scan-on-a-port" class="md-nav__link">
     <span class="md-ellipsis">
       Port scanning: having a clear view of a SYN scan on a port
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performing-a-ftp-bounce-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performing a FTP bounce attack
     </span>
   </a>
   
@@ -3729,6 +3763,27 @@
   
   <span class="md-ellipsis">
     sqlplus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sqsh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sqsh
   </span>
   
 
@@ -11880,6 +11935,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#performing-a-ftp-bounce-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performing a FTP bounce attack
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -12367,10 +12431,15 @@ When the port is shown as closed, the TCP protocol indicates that the packet we 
 <p>To have a clear view of the SYN scan on port 21,  disable the ICMP echo requests (<code>-Pn</code>), DNS resolution (<code>-n</code>), and ARP ping scan (<code>--disable-arp-ping</code>).</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="go">sudo nmap &lt;IP&gt; -p 21 --packet-trace -Pn -n --disable-arp-ping</span>
 </span></code></pre></div>
+<h3 id="performing-a-ftp-bounce-attack">Performing a FTP bounce attack</h3>
+<p>An FTP bounce attack is a network attack that uses FTP servers to deliver outbound traffic to another device on the network. For instance, consider we are targetting an FTP Server <code>FTP_DMZ</code> exposed to the internet. Another device within the same network, <code>Internal_DMZ</code>, is not exposed to the internet. We can use the connection to the <code>FTP_DMZ</code> server to scan <code>Internal_DMZ</code> using the FTP Bounce attack and obtain information about the server's open ports.</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="go">nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="gp"># </span>-b<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>Nmap<span class="sb">`</span><span class="w"> </span>-b<span class="w"> </span>flag<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>an<span class="w"> </span>FTP<span class="w"> </span>bounce<span class="w"> </span>attack:<span class="w"> </span>
+</span></code></pre></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-27T14:56:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-27</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-27T18:22:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-27</span></small></br>
 
 
     <small>Created: January 1, 2023 21:59:36</small>
