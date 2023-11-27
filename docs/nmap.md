@@ -260,7 +260,7 @@ nmap --script smb-os-discovery.nse -p445 $ip
 ```
 
 
-##  Performance
+## Performance
 
 ### Introducing delays or Timeouts
 
@@ -533,3 +533,38 @@ With the XML output, we can easily create HTML reports. To convert the stored re
 xsltproc target.xml -o target.html
 ```
 
+
+## Quick techniques
+
+
+### Host Enumeration: Determining if host is alive with ARP ping
+
+It can be done with `-packet-trace` or  with  `--reason`. 
+
+```shell-session
+sudo nmap <IP> -sn -oA host -PE --packet-trace
+# -sn 	Disables port scanning.
+# -oA host 	Stores the results in all formats starting with the name 'host'.
+# -PE 	Performs the ping scan by using 'ICMP Echo requests' against the target.
+# --packet-trace 	Shows all packets sent and received
+```
+
+```shell-session
+sudo nmap <IP> -sn -oA host -PE --reason
+# -sn 	Disables port scanning.
+# -oA host 	Stores the results in all formats starting with the name 'host'.
+# -PE 	Performs the ping scan by using 'ICMP Echo requests' against the target.
+# --reason 	Displays the reason for specific result.
+```
+
+To disable ARP requests and scan our target with the desired `ICMP echo requests`, we can disable ARP pings by setting the "`--disable-arp-ping`" option.
+
+
+### Port scanning: having a clear view of a SYN scan on a port 
+
+
+To have a clear view of the SYN scan on port 21,  disable the ICMP echo requests (`-Pn`), DNS resolution (`-n`), and ARP ping scan (`--disable-arp-ping`).
+
+```shell-session
+sudo nmap <IP> -p 21 --packet-trace -Pn -n --disable-arp-ping
+```

@@ -171,6 +171,7 @@ plugins:
         content: 'Page ' counter(page);
     }
 }
+
 ```
 
 
@@ -182,6 +183,8 @@ plugins:
 
 ## Revision date
 
+[https://timvink.github.io/mkdocs-git-revision-date-localized-plugin/](https://timvink.github.io/mkdocs-git-revision-date-localized-plugin/)
+]
 
 Install and add to gh-deploy workflow:
 
@@ -198,6 +201,68 @@ mkdocs.yml
 plugins:
 - search
 - git-revision-date
+	type: timeago 
+	timezone: Europe/Amsterdam 
+	fallback_to_build_date: false 
+	enable_creation_date: true 
+	exclude: 
+	- index.md 
+	enabled: true 
+	strict: true
 ```
 
 
+This plugin needs access to the last commit that touched a specific file to be able to retrieve the date. By default many build environments only retrieve the last commit, which means you might need to:
+
+- github actions: set `fetch-depth` to `0` ([docs](https://github.com/actions/checkout))
+
+**Types**
+
+```
+November 28, 2019           # type: date (default)
+November 28, 2019 13:57:28  # type: datetime
+2019-11-28                  # type: iso_date
+2019-11-28 13:57:26         # type: iso_datetime
+20 hours ago                # type: timeago
+28. November 2019           # type: custom
+```
+
+
+To add a revision date to the default `mkdocs` theme, add a `overrides/partials` folder to your `docs` folder and update your `mkdocs.yml` file. Then you can extend the base `mkdocs` theme by adding a new file `docs/overrides/content.html`:
+
+=== ":octicons-file-code-16: mkdocs.yml"
+
+````
+```yaml
+theme:
+    name: mkdocs
+    custom_dir: docs/overrides
+```
+````
+
+=== ":octicons-file-code-16: docs/hackinglifetheme/partials/content.html"
+
+````
+```html
+<!-- Overwrites content.html base mkdocs theme, taken from 
+https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -->
+
+{% if page.meta.source %}
+    <div class="source-links">
+    {% for filename in page.meta.source %}
+        <span class="label label-primary">{{ filename }}</span>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{{ page.content }}
+
+<!-- This section adds support for localized revision dates -->
+{% if page.meta.git_revision_date_localized %}
+    <small>Last update: {{ page.meta.git_revision_date_localized }}</small>
+{% endif %}
+{% if page.meta.git_created_date_localized %}
+    <small>Created: {{ page.meta.git_created_date_localized_raw_datetime }}</small>
+{% endif %}
+```
+````

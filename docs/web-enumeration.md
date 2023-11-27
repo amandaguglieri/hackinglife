@@ -17,37 +17,8 @@ Along with all these tools and techniques it is always recommendable to review:
  - Some typical files such as robots.txt
 
 
-## Web scanner
-
-More about [whatweb](whatweb.md).
-
-```bash
-# version of web servers, supporting frameworks, and applications
-whatweb $ip
-whatweb <hostname>
-
-# Automate web application enumeration across a network.
-whatweb --no-errors $ip/24
-```
-
-
-## Banner Grabbing / Web Server Headers
-
-[Curl](curl.md):
-
-```bash
-curl -IL https://<TARGET>
-# -I: --head (HTTP  FTP  FILE) Fetch the headers only!
-# -L, --location: (HTTP) If the server reports that the requested page has moved to a different location (indicated with a Location: header and a 3XX response  code),  this  option  will make  curl  redo the request on the new place. If used together with -i, --include or -I, --head, headers from all requested pages will be shown. 
-```
-
-[nmap](nmap.md):
-
-```shell-session
-sudo nmap -v $ip --script banner.nse
-```
-
-## Hostname discovery
+## Infrastructure checks
+### Hostname discovery
 
 ```shell-session
 nmap --script smb-os-discovery $ip
@@ -55,7 +26,7 @@ nmap --script smb-os-discovery $ip
 
 
 
-## DNS enumeration
+### DNS enumeration
 
 More about [DNS enumeration](53-dns.md).
 
@@ -124,7 +95,7 @@ dnscan.py (-d \<domain\> | -l \<list\>) [OPTIONS]
 
 
 
-## Subdomain enumeration
+### Subdomain enumeration
 
 [Gobuster](gobuster.md):
 
@@ -158,7 +129,17 @@ for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-11000
 ```
 
 
-## Passive web server enumeration
+### Passive web server enumeration
+
+
+```shell-session
+ whois $TARGET
+```
+
+
+```cmd-session
+whois.exe <TARGET>
+```
 
 [Netcraft](https://www.netcraft.com) can offer us information about the servers without even interacting with them, and this is something valuable from a passive information gathering point of view. We can use the service by visiting `https://sitereport.netcraft.com` and entering the target domain. We need to pay special attention to the latest IPs used. Sometimes we can spot the actual IP address from the webserver before it was placed behind a load balancer, web application firewall, or IDS, allowing us to connect directly to it if the configuration.
 
@@ -179,7 +160,7 @@ cat waybackurls.txt
 ```
 
 
-## Active web server enumeration
+### Active web server enumeration
 
 If we discover the webserver behind the target application, it can give us a good idea of what operating system is running on the back-end server.
 
@@ -228,7 +209,7 @@ cat example_of_list.txt | aquatone -out ./aquatone -screenshot-timeout 1000
 ```
 
 
-## VHOST enumeration
+### VHOST enumeration
 
 A virtual host (`vHost`) is a feature that allows several websites to be hosted on a single server. 
 
@@ -261,7 +242,7 @@ ffuf -w ./vhosts -u http://$ip -H "HOST: FUZZ.example.com" -fs 612
 ```
 
 
-## Certificate enumeration
+### Certificate enumeration
 
 SSL/TLS certificates are another potentially valuable source of information if HTTPS is in use (for instance, in gathering information to prepare a phising attack).
 
@@ -338,7 +319,8 @@ for i in $(cat ip-addresses.txt);do shodan host $i;done
 With this we'll get an IP list, that we can use to search for [DNS records](53-dns.md).
 
 
-## Directory/File enumeration
+## Web enumeration
+### Directory/File enumeration
 
 [Cheat sheet with dirb](dirb.md).
 
@@ -366,14 +348,45 @@ ffuf -recursion -recursion-depth 1 -u http://$ip/FUZZ -w /usr/share/wordlists/se
 ffuf -w ./folders.txt:FOLDERS,./wordlist.txt:WORDLIST,./extensions.txt:EXTENSIONS -u http://$ip/FOLDERS/WORDLISTEXTENSIONS
 ```
 
-## Crawling
+### Crawling
 
 [OWASP Zap](owasp-zap.md).
 
 
 
+### Web scanner
 
-## Tools
+More about [whatweb](whatweb.md).
+
+```bash
+# version of web servers, supporting frameworks, and applications
+whatweb $ip
+whatweb <hostname>
+
+# Automate web application enumeration across a network.
+whatweb --no-errors $ip/24
+```
+
+
+### Banner Grabbing / Web Server Headers
+
+[Curl](curl.md):
+
+```bash
+curl -IL https://<TARGET>
+# -I: --head (HTTP  FTP  FILE) Fetch the headers only!
+# -L, --location: (HTTP) If the server reports that the requested page has moved to a different location (indicated with a Location: header and a 3XX response  code),  this  option  will make  curl  redo the request on the new place. If used together with -i, --include or -I, --head, headers from all requested pages will be shown. 
+```
+
+[nmap](nmap.md):
+
+```shell-session
+sudo nmap -v $ip --script banner.nse
+```
+
+
+
+### Tools
 
 - Enumeration of directories, as3 buckets, dns... : [Gobuster](gobuster.md)
 - Fuzzing: [ffuf](ffuf.md), [Burpsuite](burpsuite.md), [Wfuzz](wfuzz.md), [feroxbuster](feroxbuster.md)
