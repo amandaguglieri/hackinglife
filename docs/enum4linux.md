@@ -10,12 +10,11 @@ tags:
 
 # enum4linux
 
-enum4linux is used to exploit [null session attacks](windows-null-session-attack.md) by using this PERL script. Esentially it does something similar to  [winfo](winfo.md) and [enum](enum.md).
+enum4linux is used to exploit [null session attacks](windows-null-session-attack.md) by using this PERL script. The [original tool](https://github.com/CiscoCXSecurity/enum4linux) was written in Perl and [rewritten by Mark Lowe in Python](https://github.com/cddmp/enum4linux-ng). Essentially it does something similar to  [winfo](winfo.md) and [enum](enum.md).
 
 ## Installation
 
-Preinstalled in kali.
-
+Preinstalled in kali. 
 ## Basic commands
 
 ```bash

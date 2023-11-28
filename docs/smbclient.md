@@ -56,7 +56,9 @@ Default settings are in `/etc/samba/smb.conf`.
 See 
 ```bash
 # [-L|--list=HOST] : Selecting the targeted host for the connection request.
-smbclient -L //$ip
+smbclient -L -N //$ip
+# -N: Suppresses the password prompt.
+# -L: retrieve a list of available shares on the remote host
 ```
 
 Smbclient will attempt to connect to the remote host and check if there is any authentication required. If there is, it will ask you for a user and a password for your local username. If we do not specify a specific username to smbclient when attempting to connect to the remote host, it will just use your local machine's username.If vulnerable and performing a Null Attack, we will hit Enter when prompted for a password.
@@ -124,7 +126,7 @@ smbstatus
 ```bash
 # List shares on a machine using NULL Session
 smbclient -L <target-IP>
- 
+
 # List shares on a machine using a valid username + password
 smbclient -L \<target-IP\> -U username%password
  

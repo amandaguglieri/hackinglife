@@ -13,6 +13,13 @@ tags:
 
 ## Enumeration
 
+Basic enumeration:
+
+```bash
+nmap -Pn -sV -sC -p1433 $ip
+```
+
+
 If you don't know anything about the service:
 
 ```bash

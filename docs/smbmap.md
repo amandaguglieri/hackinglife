@@ -23,3 +23,23 @@ Installation from [https://github.com/ShawnDEvans/smbmap](https://github.com/Sha
 sudo pip3 install smbmap
 smbmap
 ```
+
+
+## Basic usage
+
+
+```bash
+# Enumerate network shares and access associated permissions.
+smbmap -H $ip
+
+# # Enumerate network shares and access associated permissions with recursivity
+smbmap -H $ip -r
+
+# Download a file from a specific share folder
+smbmap -H $ip --download "folder\file.txt"
+
+# Upload a file to a specific share folder
+smbmap -H $ip --upload originfile.txt "targetfolder\file.txt"
+
+
+```

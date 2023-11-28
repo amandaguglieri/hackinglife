@@ -11,8 +11,7 @@ PESecurity is a powershell script that checks if a Windows binary (EXE/DLL) has 
 
 ## Installation
 
-Download from:  [https://github.com/NetSPI/PESecurity]( https://github.com/NetSPI/PESecurity
-).
+Download from:  [https://github.com/NetSPI/PESecurity]( https://github.com/NetSPI/PESecurity).
 
 ## Usage 
 

@@ -12,6 +12,7 @@ tags:
 
 Microsoft SQL Server is a relational database management system developed by Microsoft. As a database server, it is a software product with the primary function of storing and retrieving data as requested by other software applications—which may run either on the same computer or on another computer across a network. [Wikipedia](https://en.wikipedia.org/wiki/Microsoft_SQL_Server).
 
+[By default, MSSQL uses ports `TCP/1433` and `UDP/1434`](1433-mssql.md).  However, when MSSQL operates in a "hidden" mode, it uses the `TCP/2433` port.
 ## MSSQL Databases
 
 MSSQL has default system databases that can help us understand the structure of all the databases that may be hosted on a target server.
@@ -25,7 +26,6 @@ MSSQL has default system databases that can help us understand the structure of 
 |`resource`|Read-only database containing system objects included with SQL server|
 
 Table source: [System Databases Microsoft Doc](https://docs.microsoft.com/en-us/sql/relational-databases/databases/system-databases?view=sql-server-ver15) and HTB Academy
-
 
 
 ## Basic commands

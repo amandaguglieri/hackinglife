@@ -1,4 +1,4 @@
-configuration ---
+---
 title: SysInternals Suite
 author: amandaguglieri
 draft: false
@@ -44,3 +44,8 @@ Sigcheck is a command-line utility that shows file version number, timestamp inf
 # -e: Scan executable images only (regardless of their extension)
 # -nobanner:	Do not display the startup banner and copyright message.
 ```
+
+
+## PsExec
+
+[PsExec](https://docs.microsoft.com/en-us/sysinternals/downloads/psexec) is a tool that lets us execute processes on other systems, complete with full interactivity for console applications, without having to install client software manually. It works because it has a Windows service image inside of its executable. It takes this service and deploys it to the admin$ share (by default) on the remote machine. It then uses the DCE/RPC interface over SMB to access the Windows Service Control Manager API. Next, it starts the PSExec service on the remote machine. The PSExec service then creates a [named pipe](https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes) that can send commands to the system.

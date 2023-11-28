@@ -10,6 +10,7 @@ tags:
   - windows
   - active directory
   - ldap
+  - server
 ---
 
 # Responder.py - A SMB server to listen to NTLM hashes 
@@ -41,8 +42,11 @@ sudo pip install -r requirements.txt
 ./Responder.py -I tun0 -w -d
 ```
 
-## Practical examplee 
+All saved Hashes are located in Responder's logs directory (`/usr/share/responder/logs/`). We can copy the hash to a file and attempt to crack it using the [hashcat](hashcat.md) module 5600.
 
+>**Note:** If you notice multiples hashes for one account this is because NTLMv2 utilizes both a client-side and server-side challenge that is randomized for each interaction. This makes it so the resulting hashes that are sent are salted with a randomized string of numbers. This is why the hashes don't match but still represent the same password.
+
+## Practical example 
 
 [HackTheBox machine: Responder](htb-responder.md).
 

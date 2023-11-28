@@ -121,8 +121,13 @@ hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
 ```
 
 
-### Mode 1000
+### Module 5600
 
+All saved Hashes are located in [Responder](responder.md)'s logs directory (/usr/share/responder/logs/). We can copy the hash to a file and attempt to crack it using the hashcat module 5600.
+
+```shell-session
+hashcat -m 5600 hash.txt /usr/share/wordlists/rockyou.txt
+```
 
 ### Mode 1800: unshadow file
 
