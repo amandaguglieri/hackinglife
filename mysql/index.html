@@ -2500,6 +2500,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#authentication-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Mechanisms
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#footprinting-mysql" class="md-nav__link">
     <span class="md-ellipsis">
       Footprinting mysql
@@ -2602,6 +2611,39 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#well-know-vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Well-know vulnerabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Well-know vulnerabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#misconfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Misconfigurations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vulnerabilities
+    </span>
+  </a>
   
 </li>
         
@@ -11526,6 +11568,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#authentication-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Mechanisms
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#footprinting-mysql" class="md-nav__link">
     <span class="md-ellipsis">
       Footprinting mysql
@@ -11636,6 +11687,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#well-know-vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Well-know vulnerabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Well-know vulnerabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#misconfigurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Misconfigurations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vulnerabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vulnerabilities
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -11656,6 +11740,15 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h1 id="mysql">MySQL</h1>
 <p><strong>MySQL</strong>: MySQL is an open-source relational database management system(RDBMS) based on Structured Query Language (SQL). It is developed and managed by oracle corporation and initially released on 23 may, 1995. It is widely being used in many small and large scale industrial applications and capable of handling a large volume of data. After the acquisition of MySQL by Oracle, some issues happened with the usage of the database and hence MariaDB was developed.</p>
 <p>By default, MySQL uses <code>TCP/3306</code>.</p>
+<h2 id="authentication-mechanisms">Authentication Mechanisms</h2>
+<p>MySQL  supports different authentication methods, such as username and password, as well as Windows authentication (a plugin is required).</p>
+<p><code>MySQL</code> default system schemas/databases:</p>
+<ul>
+<li><code>mysql</code> - is the system database that contains tables that store information required by the MySQL server</li>
+<li><code>information_schema</code> - provides access to database metadata</li>
+<li><code>performance_schema</code> - is a feature for monitoring MySQL Server execution at a low level</li>
+<li><code>sys</code> - a set of objects that helps DBAs and developers interpret data collected by the Performance Schema</li>
+</ul>
 <h2 id="footprinting-mysql">Footprinting mysql</h2>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">sudo nmap $ip -sV -sC -p3306 --script mysql*</span>
 </span></code></pre></div>
@@ -11738,10 +11831,15 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a># run dbeaver in a second plane
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a> dbeaver &amp;
 </span></code></pre></div>
+<h2 id="well-know-vulnerabilities">Well-know vulnerabilities</h2>
+<h3 id="misconfigurations">Misconfigurations</h3>
+<p>Anonymous access enabled.</p>
+<h3 id="vulnerabilities">Vulnerabilities</h3>
+<p><code>MySQL 5.6.x</code> servers:  <a href="https://www.trendmicro.com/vinfo/us/threat-encyclopedia/vulnerability/2383/mysql-database-authentication-bypass">CVE-2012-2122</a> , among others. It allowed us to bypass authentication by repeatedly using the same incorrect password for the given account because the <code>timing attack</code> vulnerability existed in the way MySQL handled authentication attempts. In this timing attack, MySQL repeatedly attempts to authenticate to a server and measures the time it takes for the server to respond to each attempt. By measuring the time it takes the server to respond, we can determine when the correct password has been found, even if the server does not indicate success or failure.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-28T21:35:42+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-28</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-04T21:50:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-04</span></small></br>
 
 
     <small>Created: January 3, 2023 12:54:46</small>

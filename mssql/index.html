@@ -2488,9 +2488,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-commands" class="md-nav__link">
+  <a href="#authentication-mechanisms" class="md-nav__link">
     <span class="md-ellipsis">
-      Basic commands
+      Authentication Mechanisms
     </span>
   </a>
   
@@ -2570,6 +2570,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#mssqlclientpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      mssqlclient.py
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2577,6 +2586,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic commands
+    </span>
+  </a>
   
 </li>
       
@@ -11526,9 +11544,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-commands" class="md-nav__link">
+  <a href="#authentication-mechanisms" class="md-nav__link">
     <span class="md-ellipsis">
-      Basic commands
+      Authentication Mechanisms
     </span>
   </a>
   
@@ -11608,6 +11626,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#mssqlclientpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      mssqlclient.py
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -11615,6 +11642,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic commands
+    </span>
+  </a>
   
 </li>
       
@@ -11671,30 +11707,20 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tbody>
 </table>
 <p>Table source: <a href="https://docs.microsoft.com/en-us/sql/relational-databases/databases/system-databases?view=sql-server-ver15">System Databases Microsoft Doc</a> and HTB Academy</p>
-<h2 id="basic-commands">Basic commands</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># Get Microsoft SQL server version
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>select @@version;
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a># Get usernames
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>select user_name();
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a># Get databases
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>SELECT name FROM master.dbo.sysdatabases;
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a># Get current database
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>SELECT DB_NAME();
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a># Get a list of users in the domain
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>SELECT name FROM master..syslogins
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a># Get a list of users that are sysadmins
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>SELECT name FROM master..syslogins WHERE sysadmin = 1;
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a># And to make sure: 
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>SELECT is_srvrolemember(‘sysadmin’); 
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a># If your user is admin, it will return 1.
-</span></code></pre></div>
-<p>Also, you might be interested in executing a cmd shell using <a href="../1433-mssql/">xp_cmdshell by reconfiguring sp_configure</a>.</p>
+<h2 id="authentication-mechanisms">Authentication Mechanisms</h2>
+<p>MSSQL supports two authentication modes, which means that users can be created in Windows or the SQL Server:</p>
+<ul>
+<li>Windows authentication mode: This is the default, often referred to as integrated security because the SQL Server security model is tightly integrated with Windows/Active Directory. Specific Windows user and group accounts are trusted to log in to SQL Server. Windows users who have already been authenticated do not have to present additional credentials.</li>
+<li>Mixed mode: Mixed mode supports authentication by Windows/Active Directory accounts and SQL Server. Username and password pairs are maintained within SQL Server.</li>
+</ul>
+<p><code>MSSQL</code> default system schemas/databases:</p>
+<ul>
+<li><code>master</code> - keeps the information for an instance of SQL Server.</li>
+<li><code>msdb</code> - used by SQL Server Agent.</li>
+<li><code>model</code> - a template database copied for each new database.</li>
+<li><code>resource</code> - a read-only database that keeps system objects visible in every database on the server in sys schema.</li>
+<li><code>tempdb</code> - keeps temporary objects for SQL queries.</li>
+</ul>
 <h2 id="mssql-clients">MSSQL Clients</h2>
 <ul>
 <li><a href="https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15">SQL Server Management Studio</a> (<code>SSMS</code>) comes as a feature that can be installed with the MSSQL install package or can be downloaded &amp; installed separately</li>
@@ -11704,7 +11730,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li><a href="https://www.macsqlclient.com">SQLPro</a></li>
 <li><a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/mssqlclient.py">Impacket's mssqlclient.py</a> To locate it:</li>
 </ul>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">locate mssqlclient</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">locate mssqlclient</span>
 </span></code></pre></div>
 <p>Of the MSSQL clients listed above, pentesters may find Impacket's mssqlclient.py to be the most useful due to SecureAuthCorp's Impacket project being present on many pentesting distributions at install.</p>
 <h2 id="database-configuration">Database configuration</h2>
@@ -11720,7 +11746,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="interact-with-mssql">Interact with MSSQL</h2>
 <h3 id="from-linux">From Linux</h3>
 <p><a href="../sqsh/">sqsh</a></p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go"> sqsh -S $IP -U username -P Password123</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go"> sqsh -S $IP -U username -P Password123 -h</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="gp"> # </span>-h:<span class="w"> </span>disable<span class="w"> </span>headers<span class="w"> </span>and<span class="w"> </span>footers<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>cleaner<span class="w"> </span>look.
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="gp"># </span>When<span class="w"> </span>using<span class="w"> </span>Windows<span class="w"> </span>Authentication,<span class="w"> </span>we<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>specify<span class="w"> </span>the<span class="w"> </span>domain<span class="w"> </span>name<span class="w"> </span>or<span class="w"> </span>the<span class="w"> </span>hostname<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>target<span class="w"> </span>machine.<span class="w"> </span>If<span class="w"> </span>we<span class="w"> </span>don<span class="err">&#39;</span>t<span class="w"> </span>specify<span class="w"> </span>a<span class="w"> </span>domain<span class="w"> </span>or<span class="w"> </span>hostname,<span class="w"> </span>it<span class="w"> </span>will<span class="w"> </span>assume<span class="w"> </span>SQL<span class="w"> </span>Authentication.
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="go">sqsh -S $ip -U .\\&lt;username&gt; -P &#39;MyPassword!&#39; -h</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="gp"># </span>For<span class="w"> </span>windows<span class="w"> </span>authentication<span class="w"> </span>we<span class="w"> </span>can<span class="w"> </span>use<span class="w">  </span>SERVERNAME<span class="se">\\</span>accountname<span class="w"> </span>or<span class="w"> </span>.<span class="se">\\</span>accountname
 </span></code></pre></div>
 <h3 id="from-windows">From Windows</h3>
 <p><a href="https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility">sqlcmd</a> </p>
@@ -11731,7 +11762,24 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>In a Windows script file.</li>
 <li>In an operating system (Cmd.exe) job step of a SQL Server Agent job.</li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sqlcmd -S $IP -U username -P Password123
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sqlcmd -S $IP -U username -P Password123
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a># If we use sqlcmd, we will need to use GO after our query to execute the SQL syntax.
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>SELECT name FROM master.dbo.sysdatabases
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>GO
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a># Use a database
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>USE dbName
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>GO
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a># Show tables
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>SELECT table_name FROM dbName.INFORMATION_SCHEMA.TABLES
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>GO
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a># Select all Data from Table &quot;users&quot;
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>SELECT * FROM users
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>GO
 </span></code></pre></div>
 <h3 id="gui-application">GUI Application</h3>
 <p><a href="https://github.com/dbcli/mssql-cli">mssql-cli</a>, <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/mssqlclient.py">mssqlclient.py</a>, <a href="https://github.com/dbeaver/dbeaver">dbeaver</a> </p>
@@ -11739,10 +11787,41 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Only in windows. Download, install, and connect to database.</p>
 <h4 id="dbeaver">dbeaver</h4>
 <p>dbeaver is a multi-platform database tool for Linux, macOS, and Windows that supports connecting to multiple database engines such as MSSQL, MySQL, PostgreSQL, among others, making it easy for us, as an attacker, to interact with common database servers.</p>
+<h4 id="mssqlclientpy">mssqlclient.py</h4>
+<p>Alternatively, we can use the tool from Impacket with the name <code>mssqlclient.py</code>.</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">mssqlclient.py -p 1433 &lt;username&gt;@$ip </span>
+</span></code></pre></div>
+<h2 id="basic-commands">Basic commands</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># Get Microsoft SQL server version
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>select @@version;
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a># Get usernames
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>select user_name();
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a># Get databases
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>SELECT name FROM master.dbo.sysdatabases;
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a># Get current database
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>SELECT DB_NAME();
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a># Get a list of users in the domain
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>SELECT name FROM master..syslogins
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a># Get a list of users that are sysadmins
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>SELECT name FROM master..syslogins WHERE sysadmin = 1;
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a># And to make sure: 
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>SELECT is_srvrolemember(‘sysadmin’); 
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a># If your user is admin, it will return 1.
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a># Read Local Files in MSSQL
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>SELECT * FROM OPENROWSET(BULK N&#39;C:/Windows/System32/drivers/etc/hosts&#39;, SINGLE_CLOB) AS Contents
+</span></code></pre></div>
+<p>Also, you might be interested in executing a cmd shell using <a href="../1433-mssql/">xp_cmdshell by reconfiguring sp_configure</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-28T21:35:42+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-28</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-04T21:50:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-04</span></small></br>
 
 
     <small>Created: January 6, 2023 21:39:12</small>

