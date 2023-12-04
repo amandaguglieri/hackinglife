@@ -11,8 +11,15 @@ tags:
 
 ## Cache-control
 
-Cache-control is a header used to specify caching policies for browsers and other caching services. 
+Cache-control is a header used to specify caching policies for browsers and other caching services.  Specifically, the **`Cache-Control`** HTTP header field holds _directives_ (instructions) — in both requests and responses — that control caching in browsers and shared caches (e.g. Proxies, CDNs).
 
+Why this configuration is considered safe? Cache-control: no-store, no-cache, max-age=0.
+
+The max-age=N response directive indicates that the response remains fresh until N seconds after the response is generated.
+
+The no-cache response directive indicates that the response can be stored in caches, but the response must be validated with the origin server before each reuse, even when the cache is disconnected from the origin server.
+
+The no-store response directive indicates that any caches of any kind (private or shared) should not store this response.
 ## Set-Cookie
 
 From [geeksforgeeks](https://www.geeksforgeeks.org/http-headers-set-cookie/): "The **HTTP header Set-Cookie** is a response header and used to send cookies from the server to the user agent. So the user agent can send them back to the server later so the server can detect the user."

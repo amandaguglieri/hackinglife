@@ -1,5 +1,5 @@
 ---
-title: HTB Cheatsheet - Password attacks module 
+title: Password attacks
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -7,7 +7,7 @@ tags:
   - OSCP
 ---
 
-# HTB Cheatsheet - Password attacks module
+# Password attacks 
 
 ## Connecting to Target
 
