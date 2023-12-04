@@ -15,6 +15,17 @@ tags:
 
 By default, MySQL uses `TCP/3306`.
 
+## Authentication Mechanisms
+
+MySQL  supports different authentication methods, such as username and password, as well as Windows authentication (a plugin is required).
+
+`MySQL` default system schemas/databases:
+
+- `mysql` - is the system database that contains tables that store information required by the MySQL server
+- `information_schema` - provides access to database metadata
+- `performance_schema` - is a feature for monitoring MySQL Server execution at a low level
+- `sys` - a set of objects that helps DBAs and developers interpret data collected by the Performance Schema
+
 ## Footprinting mysql
 
 ```shell-session
@@ -129,3 +140,15 @@ sudo dpkg -i dbeaver-<version>.deb
 # run dbeaver in a second plane
  dbeaver &
 ```
+
+
+## Well-know vulnerabilities
+
+
+### Misconfigurations
+
+Anonymous access enabled.
+
+### Vulnerabilities
+
+`MySQL 5.6.x` servers:  [CVE-2012-2122](https://www.trendmicro.com/vinfo/us/threat-encyclopedia/vulnerability/2383/mysql-database-authentication-bypass) , among others. It allowed us to bypass authentication by repeatedly using the same incorrect password for the given account because the `timing attack` vulnerability existed in the way MySQL handled authentication attempts. In this timing attack, MySQL repeatedly attempts to authenticate to a server and measures the time it takes for the server to respond to each attempt. By measuring the time it takes the server to respond, we can determine when the correct password has been found, even if the server does not indicate success or failure.

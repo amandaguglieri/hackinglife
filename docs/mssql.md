@@ -27,34 +27,22 @@ MSSQL has default system databases that can help us understand the structure of 
 
 Table source: [System Databases Microsoft Doc](https://docs.microsoft.com/en-us/sql/relational-databases/databases/system-databases?view=sql-server-ver15) and HTB Academy
 
+## Authentication Mechanisms
 
-## Basic commands
+MSSQL supports two authentication modes, which means that users can be created in Windows or the SQL Server:
 
-```
-# Get Microsoft SQL server version
-select @@version;
+- Windows authentication mode: This is the default, often referred to as integrated security because the SQL Server security model is tightly integrated with Windows/Active Directory. Specific Windows user and group accounts are trusted to log in to SQL Server. Windows users who have already been authenticated do not have to present additional credentials.
+- Mixed mode: Mixed mode supports authentication by Windows/Active Directory accounts and SQL Server. Username and password pairs are maintained within SQL Server.
 
-# Get usernames
-select user_name();
 
-# Get databases
-SELECT name FROM master.dbo.sysdatabases;
+`MSSQL` default system schemas/databases:
 
-# Get current database
-SELECT DB_NAME();
+- `master` - keeps the information for an instance of SQL Server.
+- `msdb` - used by SQL Server Agent.
+- `model` - a template database copied for each new database.
+- `resource` - a read-only database that keeps system objects visible in every database on the server in sys schema.
+- `tempdb` - keeps temporary objects for SQL queries.
 
-# Get a list of users in the domain
-SELECT name FROM master..syslogins
-
-# Get a list of users that are sysadmins
-SELECT name FROM master..syslogins WHERE sysadmin = 1;
-
-# And to make sure: 
-SELECT is_srvrolemember(‘sysadmin’); 
-# If your user is admin, it will return 1.
-```
-
-Also, you might be interested in executing a cmd shell using [xp_cmdshell by reconfiguring sp_configure](1433-mssql.md).
 
 
 ##  MSSQL Clients
@@ -96,7 +84,12 @@ Misconfigurations to look at:
 
 
 ```shell-session
- sqsh -S $IP -U username -P Password123
+ sqsh -S $IP -U username -P Password123 -h
+ # -h: disable headers and footers for a cleaner look.
+
+# When using Windows Authentication, we need to specify the domain name or the hostname of the target machine. If we don't specify a domain or hostname, it will assume SQL Authentication.
+sqsh -S $ip -U .\\<username> -P 'MyPassword!' -h
+# For windows authentication we can use  SERVERNAME\\accountname or .\\accountname
 ```
 
 ### From Windows
@@ -112,7 +105,26 @@ The `sqlcmd` utility lets you enter Transact-SQL statements, system procedures
 
 ```cmd-session
 sqlcmd -S $IP -U username -P Password123
+
+
+# If we use sqlcmd, we will need to use GO after our query to execute the SQL syntax.
+SELECT name FROM master.dbo.sysdatabases
+GO
+
+# Use a database
+USE dbName
+GO
+
+# Show tables
+SELECT table_name FROM dbName.INFORMATION_SCHEMA.TABLES
+GO
+
+# Select all Data from Table "users"
+SELECT * FROM users
+GO
+
 ```
+
 
 ### GUI Application
 
@@ -125,3 +137,46 @@ Only in windows. Download, install, and connect to database.
 #### dbeaver
 
 dbeaver is a multi-platform database tool for Linux, macOS, and Windows that supports connecting to multiple database engines such as MSSQL, MySQL, PostgreSQL, among others, making it easy for us, as an attacker, to interact with common database servers.
+
+#### mssqlclient.py
+
+Alternatively, we can use the tool from Impacket with the name `mssqlclient.py`.
+
+```shell-session
+mssqlclient.py -p 1433 <username>@$ip 
+```
+
+
+## Basic commands
+
+```
+# Get Microsoft SQL server version
+select @@version;
+
+# Get usernames
+select user_name();
+
+# Get databases
+SELECT name FROM master.dbo.sysdatabases;
+
+# Get current database
+SELECT DB_NAME();
+
+# Get a list of users in the domain
+SELECT name FROM master..syslogins
+
+# Get a list of users that are sysadmins
+SELECT name FROM master..syslogins WHERE sysadmin = 1;
+
+# And to make sure: 
+SELECT is_srvrolemember(‘sysadmin’); 
+# If your user is admin, it will return 1.
+
+# Read Local Files in MSSQL
+SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents
+```
+
+Also, you might be interested in executing a cmd shell using [xp_cmdshell by reconfiguring sp_configure](1433-mssql.md).
+
+
+
