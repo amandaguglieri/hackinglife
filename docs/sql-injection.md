@@ -114,7 +114,7 @@ Oracle syntax requires the use of FROM, but some queries don't requires any tabl
 
 ## Tools and payloads 
 
-- See updated chart: [Attacks and tools for web pentesting](web-exploitation.md).
+- See updated chart: [Attacks and tools for web pentesting](web-security-testing-guide.md).
 - Detailed **Cheat sheet** with manual union and blind attacks can be found in the [SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
 
 

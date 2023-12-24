@@ -27,6 +27,8 @@ tags:
 
 ### Google Dorks
 
+[More about google dorks](google-dorks.md).
+
 | Google Dorking Query | Expected results |
 |------------------------------- | ---------------------- |
 | intitle:"api" site: "example.com" |  Finds all publicly available API related content in a given hostname. Another cool example for API versions:  inurl:"/api/v1" site: "example.com" |
@@ -39,6 +41,8 @@ tags:
 
 
 ### Github
+
+[More Githun Dorking](github-dorks.md).
 
 Also Github can be a good platform to search for overshared information relating to APIs.
 

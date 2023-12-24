@@ -202,7 +202,7 @@ wafw00f -v https://www.example.com
 # -p proxy the requests 
 ```
 
-**5. [Aquatone](aquatone.md)
+**5.**  [Aquatone](aquatone.md)
 
 ```bash
 cat example_of_list.txt | aquatone -out ./aquatone -screenshot-timeout 1000

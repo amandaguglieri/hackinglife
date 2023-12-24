@@ -7,6 +7,7 @@ tags:
   - reconnaissance
   - scanning
   - osint 
+  - dorking
 ---
 
 # Google Dorks

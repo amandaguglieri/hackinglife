@@ -24,7 +24,7 @@ before: / after:
 ```
 
 
-## Example: shodan for enumerationç
+## Example: shodan for enumeration
 
 [Content from Pentesting notes](penetration-testing-process.md):
 

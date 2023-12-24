@@ -26,5 +26,5 @@ Server-side request forgery (also known as SSRF) is a web security vulnerability
 
 ## Tools and payloads 
 
-- See updated chart: [Attacks and tools for web pentesting](web-exploitation.md).
+- See updated chart: [Attacks and tools for web pentesting](web-security-testing-guide.md).
 

@@ -21,5 +21,5 @@ The term CRLF refers to Carriage Return (ASCII 13, \r) Line Feed (ASCII 10, \n).
 
 ## Tools and payloads 
 
-- See updated chart: [Attacks and tools for web pentesting](web-exploitation.md).
+- See updated chart: [Attacks and tools for web pentesting](web-security-testing-guide.md).
 

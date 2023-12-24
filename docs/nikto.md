@@ -3,6 +3,10 @@ title: nikto
 author: amandaguglieri
 draft: false
 TableOfContents: true
+tags:
+  - web pentesting
+  - reconnaissance
+  - WSTG-INFO-02
 ---
 
 # nikto
