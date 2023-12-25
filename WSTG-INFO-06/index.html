@@ -26,7 +26,7 @@
     
     
       
-        <title>WSTG-INFO-06 Identify Application Entry Points - Hacking Life</title>
+        <title>Identify Application Entry Points - OWASP Web Security Testing Guide - Hacking Life</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              WSTG-INFO-06 Identify Application Entry Points
+              Identify Application Entry Points - OWASP Web Security Testing Guide
             
           </span>
         </div>
@@ -8230,6 +8230,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#kiterunner" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kiterunner
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -11787,6 +11796,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#kiterunner" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kiterunner
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -11831,10 +11849,35 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>nc<span class="w"> </span>victim.target<span class="w"> </span><span class="m">80</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>OPTIONS<span class="w"> </span>/<span class="w"> </span>HTTP/1.0
 </span></code></pre></div></p>
+<h3 id="kiterunner">Kiterunner</h3>
+<p><a href="../kiterunner.md">kiterunner Cheat sheet</a>.</p>
+<p>Kiterunner is an excellent tool that was developed and released by Assetnote. Kiterunner is currently the best tool available for discovering API endpoints and resources. While directory brute force tools like Gobuster/Dirbuster/ work to discover URL paths, it typically relies on standard HTTP GET requests. Kiterunner will not only use all HTTP request methods common with APIs (GET, POST, PUT, and DELETE) but also mimic common API path structures. In other words, instead of requesting GET /api/v1/user/create, Kiterunner will try POST /api/v1/user/create, mimicking a more realistic request.</p>
+<p><strong>1.</strong> First, download the dictionaries from the <a href="https://github.com/assetnote/kiterunner">project</a>. In my case I downloaded it to /usr/share/wordlists/kiterunner/:</p>
+<ul>
+<li>https://wordlists-cdn.assetnote.io/rawdata/kiterunner/routes-large.json.tar.gz</li>
+<li>https://wordlists-cdn.assetnote.io/rawdata/kiterunner/routes-small.json.tar.gz</li>
+<li>https://wordlists-cdn.assetnote.io/data/kiterunner/routes-large.kite.tar.gz</li>
+<li>https://wordlists-cdn.assetnote.io/data/kiterunner/routes-small.kite.tar.gz</li>
+</ul>
+<p><strong>2.</strong> Run a quick scan of your target’s URL or IP address like this:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kr<span class="w"> </span>scan<span class="w"> </span>HTTP://127.0.0.1<span class="w"> </span>-w<span class="w"> </span>~/api/wordlists/data/kiterunner/routes-large.kite<span class="w">  </span>
+</span></code></pre></div>
+<p>But. Note that we conducted this scan without any authorization headers, which the target API likely requires.</p>
+<p>To use a dictionary (and not a kite file): </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kr<span class="w"> </span>brute<span class="w"> </span>&lt;target&gt;<span class="w"> </span>-w<span class="w"> </span>~/api/wordlists/data/automated/nameofwordlist.txt
+</span></code></pre></div>
+<p>If you have many targets, you can save a list of line-separated targets as a text file and use that file as the target.</p>
+<p>One of the coolest Kiterunner features is the ability to replay requests. Thus, not only will you have an interesting result to investigate, you will also be able to dissect exactly why that request is interesting. In order to replay a request, copy the entire line of content into Kiterunner, paste it using the kb replay option, and include the wordlist you used:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kr<span class="w"> </span>kb<span class="w"> </span>replay<span class="w"> </span><span class="s2">&quot;GET     414 [    183,    7,   8]://192.168.50.35:8888/api/privatisations/count 0cf6841b1e7ac8badc6e237ab300a90ca873d571&quot;</span><span class="w"> </span>-w<span class="w"> </span>~/api/wordlists/data/kiterunner/routes-large.kite
+</span></code></pre></div>
+<p>Running this will replay the request and provide you with the HTTP response.</p>
+<p>To run Kiterunner providing an authorization token as it could be "x-access-token", we can take the full authorization token and add it to your Kiterunner scan with the -H option:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kr<span class="w"> </span>scan<span class="w"> </span>http://IP<span class="w"> </span>-w<span class="w"> </span>/path/to/dict.txt<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;x-access-token: eyJhGcwisdfdsfdfsdfsdfsdfdsfdsfddfdf.eyfakefakefakefaketokenfakeken._wcoooooo_kkkkkk_kkkk&#39;</span>
+</span></code></pre></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-24T11:19:43+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-24</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-25T16:47:10+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-25</span></small></br>
 
 
     <small>Created: December 24, 2023 11:19:43</small>
