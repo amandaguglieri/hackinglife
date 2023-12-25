@@ -1,4 +1,3 @@
-
 ---
 title: Review Webpage content for Information Leakage - OWASP Web Security Testing Guide
 author: amandaguglieri

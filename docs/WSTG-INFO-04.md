@@ -1,4 +1,3 @@
-
 ---
 title: Enumerate Applications on Webserver - OWASP Web Security Testing Guide
 author: amandaguglieri
