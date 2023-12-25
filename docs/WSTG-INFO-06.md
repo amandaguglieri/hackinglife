@@ -12,14 +12,42 @@ tags:
 
 # Identify Application Entry Points
 
+!!! quote ""
+	[OWASP Web Security Testing Guide 4.2](web-security-testing-guide.md) > 1. Information Gathering > 1.6. Identify Application Entry Points
 
-|ID|Link to Hackinglife|Link to OWASP|Objectives|Tools|
-|:---|:---|:---|:---|:---|
-|1.6|WSTG-INFO-06|[Identify Application Entry Points](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points)|- Identify possible entry and injection points through request and response analysis which covers hidden fields, parameters, methods HTTP header analysis|OWASP ASD, Burpsuite/ZAP|
+|ID|Link to Hackinglife|Link to OWASP|Objectives|
+|:---|:---|:---|:---|
+|1.6|[WSTG-INFO-06](WSTG-INFO-06.md)|[Identify Application Entry Points](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/06-Identify_Application_Entry_Points)|- Identify possible entry and injection points through request and response analysis which covers hidden fields, parameters, methods HTTP header analysis|
+
+
+## Workflow
+
+### Requests
+
+- Identify GET and POST requests.
+- Identify parameters (hidden and not hidden, encoded and not, encrypted and not) in GET and POST requests.
+- Identify other methods. 
+- Note additional or custom type headers
+
+### Responses
+
+- Identify when the "Set-cookie" is used, modified, added.
+- Identify patterns in responses: when you have 200, 302, 400, 403, or 500.
+- Pay attention to the response header "Server." 
+
+## Using the Attack Surface Detector plugin
+
+Download the Attack Surface Detector plugin in BurpSuite from: [https://github.com/secdec/attack-surface-detector-cli/releases](https://github.com/secdec/attack-surface-detector-cli/releases). 
+
+Run this command from the Attack Surface Detector plugin:
+
+```bash
+java -jar attack-surface-detector-cli-1.3.5.jar <source-code-path> [flags]
+```
 
 
 
-### Some enumeration techniques for HTTP verbs
+## Enumeration techniques for HTTP verbs
 
 With [netcat](netcat.md)
 ```bash
@@ -31,9 +59,9 @@ OPTIONS / HTTP/1.0
 
 
 
-### Kiterunner
+## Using Kiterunner
 
-[kiterunner Cheat sheet](../kiterunner.md).
+[kiterunner Cheat sheet](kiterunner.md).
 
 Kiterunner is an excellent tool that was developed and released by Assetnote. Kiterunner is currently the best tool available for discovering API endpoints and resources. While directory brute force tools like Gobuster/Dirbuster/ work to discover URL paths, it typically relies on standard HTTP GET requests. Kiterunner will not only use all HTTP request methods common with APIs (GET, POST, PUT, and DELETE) but also mimic common API path structures. In other words, instead of requesting GET /api/v1/user/create, Kiterunner will try POST /api/v1/user/create, mimicking a more realistic request.
 

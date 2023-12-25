@@ -12,9 +12,13 @@ tags:
 
 # Fingerprint Web Server
 
-|ID|Link to Hackinglife|Link to OWASP|Objectives|Tools|
-|:---|:---|:---|:---|:---|
-|1.2|[WSTG-INFO-02](WSTG-INFO-02.md)|[Fingerprint Web Server](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/02-Fingerprint_Web_Server)|- Determine the version and type of a running web server to enable further discovery of any known vulnerabilities.|Wappalyzer  <br>Nikto|
+
+!!! quote ""
+	[OWASP Web Security Testing Guide 4.2](web-security-testing-guide.md) > 1. Information Gathering > 1.2. Fingerprint Web Server
+
+|ID|Link to Hackinglife|Link to OWASP|Objectives|
+|:---|:---|:---|:---|
+|1.2|[WSTG-INFO-02](WSTG-INFO-02.md)|[Fingerprint Web Server](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/02-Fingerprint_Web_Server)|- Determine the version and type of a running web server to enable further discovery of any known vulnerabilities.|
 
 
 ## Whois

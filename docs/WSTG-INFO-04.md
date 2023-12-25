@@ -12,9 +12,12 @@ tags:
 
 # Enumerate Applications on Webserver
 
-|ID|Link to Hackinglife|Link to OWASP|Objectives|Tools|
-|:---|:---|:---|:---|:---|
-|1.4|WSTG-INFO-04|[Enumerate Applications on Webserver](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/04-Enumerate_Applications_on_Webserver)|- Enumerate the applications within the scope that exist on a web server.  <br>- Find applications hosted in the webserver (Virtual hosts/Subdomain), non-standard ports, DNS zone transfers|dnsrecon  <br>Nmap|
+!!! quote ""
+	[OWASP Web Security Testing Guide 4.2](web-security-testing-guide.md) > 1. Information Gathering > 1.4. Enumerate Applications on Webserver
+
+|ID|Link to Hackinglife|Link to OWASP|Objectives|
+|:---|:---|:---|:---|
+|1.4|[WSTG-INFO-04](WSTG-INFO-04.md)|[Enumerate Applications on Webserver](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/04-Enumerate_Applications_on_Webserver)|- Enumerate the applications within the scope that exist on a web server.  - Find applications hosted in the webserver (Virtual hosts/Subdomain), non-standard ports, DNS zone transfers|
 
 Web application discovery is a process aimed at identifying web applications on a given infrastructure:
 
@@ -66,6 +69,14 @@ nmap -Pn -sT -p0-65535 $ip
 
 https://example.com/  and https://webmail.example.com/
 
+A virtual host (`vHost`) is a feature that allows several websites to be hosted on a single server. 
+
+There are two ways to configure virtual hosts:
+
+- `IP`-based virtual hosting
+- `Name`-based virtual hosting: The distinction for which domain the service was requested is made at the application level. For example, several domain names, such as `admin.inlanefreight.htb` and `backup.inlanefreight.htb`, can refer to the same IP. Internally on the server, these are separated and distinguished using different folders. 
+
+
 ### Identify name server
 
 ```bash
@@ -78,32 +89,6 @@ Request a zone transfer for example.com from one of its nameservers:
 host -l example.com ns1.example.com
 ```
 
-
-
-### Virtual host enumeration
-
-**gobuster** (More complete cheat sheet: [gobuster](gobuster.md))
-
-
-```bash
-gobuster vhost -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u <exact target url>
-# vhost : Uses VHOST for brute-forcing
-# -w : Path to the wordlist
-# -u : Specify the URL
-```
-
-**Wfuzz** (More complete cheat sheet: [Wfuzz](wfuzz.md):
-
-```shell-session
-wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H "Host: FUZZ.nunchucks.htb" --hl 546
-# -c: Color in output
-# –hc 404: Hide 404 code responses
-# -t 200: Concurrent Threads
-# -u http://nunchucks.htb/: Target URL
-# -w /usr/share/dirb/wordlists/common.txt: Wordlist 
-# -H “Host: FUZZ.nunchucks.htb”: Header. Also with "FUZZ" we indicate the injection point for payloads
-# –hl 546: Filter out responses with a specific number of lines. In this case, 546
-```
 
 
 ### DNS enumeration
@@ -181,3 +166,53 @@ dnscan.py (-d \<domain\> | -l \<list\>) [OPTIONS]
 #    -l  --list                                Newline separated file of domains to scan
 ```
 
+
+### VHOST enumeration
+
+
+**vHost Fuzzing**
+
+```bash
+# use a vhost dictionary file
+cp /usr/share/wordlists/secLists/Discovery/DNS/namelist.txt ./vhosts
+
+cat ./vhosts | while read vhost;do echo "\n********\nFUZZING: ${vhost}\n********";curl -s -I http://$ip -H "HOST: ${vhost}.example.com" | grep "Content-Length: ";done
+```
+
+**vHost Fuzzing with [ffuf](ffuf.md):**
+
+```bash
+# Virtual Host enumeration
+# use a vhost dictionary file
+cp /usr/share/wordlists/secLists/Discovery/DNS/namelist.txt ./vhosts
+
+ffuf -w ./vhosts -u http://$ip -H "HOST: FUZZ.example.com" -fs 612
+# `-w`: Path to our wordlist
+# `-u`: URL we want to fuzz
+# `-H "HOST: FUZZ.randomtarget.com"`: This is the `HOST` Header, and the word `FUZZ` will be used as the fuzzing point.
+# `-fs 612`: Filter responses with a size of 612, default response size in this case.
+```
+
+
+**gobuster** (More complete cheat sheet: [gobuster](gobuster.md))
+
+
+```bash
+gobuster vhost -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u <exact target url>
+# vhost : Uses VHOST for brute-forcing
+# -w : Path to the wordlist
+# -u : Specify the URL
+```
+
+**Wfuzz** (More complete cheat sheet: [Wfuzz](wfuzz.md):
+
+```shell-session
+wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H "Host: FUZZ.nunchucks.htb" --hl 546
+# -c: Color in output
+# –hc 404: Hide 404 code responses
+# -t 200: Concurrent Threads
+# -u http://nunchucks.htb/: Target URL
+# -w /usr/share/dirb/wordlists/common.txt: Wordlist 
+# -H “Host: FUZZ.nunchucks.htb”: Header. Also with "FUZZ" we indicate the injection point for payloads
+# –hl 546: Filter out responses with a specific number of lines. In this case, 546
+```
