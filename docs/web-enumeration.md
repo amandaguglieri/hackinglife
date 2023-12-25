@@ -25,7 +25,6 @@ nmap --script smb-os-discovery $ip
 ```
 
 
-
 ### DNS enumeration
 
 More about [DNS enumeration](53-dns.md).

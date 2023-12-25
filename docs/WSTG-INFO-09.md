@@ -1,4 +1,14 @@
-
+---
+title: Fingerprint Web Applications - OWASP Web Security Testing Guide
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - web
+  - pentesting
+  - reconnaissance
+  - WSTG-INFO-09
+---
 
 # Fingerprint Web Applications
 

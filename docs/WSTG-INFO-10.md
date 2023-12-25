@@ -1,4 +1,14 @@
-
+---
+title: Map Application architecture - OWASP Web Security Testing Guide
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - web
+  - pentesting
+  - reconnaissance
+  - WSTG-INFO-10
+---
 
 # Map Application architecture
 

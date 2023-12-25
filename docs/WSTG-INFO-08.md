@@ -1,3 +1,14 @@
+---
+title: Fingerprint Web Application Framework - OWASP Web Security Testing Guide
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - web
+  - pentesting
+  - reconnaissance
+  - WSTG-INFO-08
+---
 
 # Fingerprint Web Application Framework
 

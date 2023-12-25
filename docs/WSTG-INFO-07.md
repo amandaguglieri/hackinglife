@@ -1,3 +1,14 @@
+---
+title: Map Execution Paths through applications - OWASP Web Security Testing Guide
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - web
+  - pentesting
+  - reconnaissance
+  - WSTG-INFO-07
+---
 
 # Map Execution Paths through applications
 

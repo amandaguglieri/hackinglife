@@ -27,7 +27,7 @@ tags:
 
 ### Google Dorks
 
-[More about google dorks](google-dorks.md).
+[More about google dorks](../google-dorks.md).
 
 | Google Dorking Query | Expected results |
 |------------------------------- | ---------------------- |
@@ -42,7 +42,7 @@ tags:
 
 ### Github
 
-[More Githun Dorking](github-dorks.md).
+[More Githun Dorking](../github-dorks.md).
 
 Also Github can be a good platform to search for overshared information relating to APIs.
 
