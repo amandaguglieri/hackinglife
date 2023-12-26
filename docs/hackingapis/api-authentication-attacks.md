@@ -41,7 +41,7 @@ Infinite ways to do it. You can use:
 + [ZAP proxy tool](../owasp-zap.md).
 + [wfuzz](../wfuzz.md).
 + [ffuf](../ffuf.md). 
-+ [others](web-security-testing-guide.md).
++ [others](../OWASP/index.md).
 
 Let's see [wfuzz](../wfuzz.md):
 

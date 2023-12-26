@@ -47,7 +47,7 @@ Yes, when fuzzing we need **a strategy**.
 
 ## SQL injections
 
-[More aboyut SQL injectios](../sql-injection.md). | [How to perform a manual attack in SQL](../sqli-manual-attack.md) |  [Simple payloads](https://raw.githubusercontent.com/amandaguglieri/dictionaries/main/SQL-injection.md) |  [Tools: SQLmap](../sqlmap.md)
+[More aboyut SQL injectios](../webexploitation/sql-injection.md). | [How to perform a manual attack in SQL](../sqli-manual-attack.md) |  [Simple payloads](https://raw.githubusercontent.com/amandaguglieri/dictionaries/main/SQL-injection.md) |  [Tools: SQLmap](../sqlmap.md)
 
 
 ## NOSQL injections
@@ -86,7 +86,7 @@ Techniques:
 
 ## XSS  Cross-Site Scripting
 
-[More about Cross-Site Scripting](../cross-site-scripting-xss.md) | [Simple payloads](https://raw.githubusercontent.com/amandaguglieri/dictionaries/main/cross-site-scripting-xss.md) 
+[More about Cross-Site Scripting](../webexploitation/cross-site-scripting-xss.md) | [Simple payloads](https://raw.githubusercontent.com/amandaguglieri/dictionaries/main/cross-site-scripting-xss.md) 
 
 
 

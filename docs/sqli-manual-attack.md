@@ -9,7 +9,7 @@ tags:
 
 # SQLi Cheat sheet for manual injection
 
-See a more detailed [explanation about SQL injection](sql-injection.md).
+See a more detailed [explanation about SQL injection](webexploitation/sql-injection).
 
 
 ### Manual UNION attack

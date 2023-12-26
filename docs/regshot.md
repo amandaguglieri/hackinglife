@@ -16,7 +16,7 @@ Download from: https://sourceforge.net/projects/regshot/
 
 ## Usage
 
-From the course  [Pentesting thick clients applications](thick-applications/tca-introduction.md).
+From the course  [Pentesting thick clients applications](thick-applications/index.md).
 
 
 **1.**  Run  regshot version according to your thick-app (84 or 64 v).
@@ -36,7 +36,7 @@ From the course  [Pentesting thick clients applications](thick-applications/tca-
 
 ![graphic](img/tca-43.png)
 
-An HTM file will be generated and you will see the registry entries:
+An HTML file will be generated and you will see the registry entries:
 
 ![graphic](img/tca-44.png)
 

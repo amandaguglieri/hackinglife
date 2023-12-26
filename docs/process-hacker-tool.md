@@ -11,7 +11,7 @@ tags:
 
 ## Usage
 
-In the course [Pentesting thick clients applications](thick-applications/tca-introduction.md).
+In the course [Pentesting thick clients applications](thick-applications/index.md).
 
 We will be using the portable version.
 

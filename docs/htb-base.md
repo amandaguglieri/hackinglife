@@ -72,8 +72,7 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
 
 Quoting from the article [PHP Type Juggling Vulnerabilities](https://medium.com/swlh/php-type-juggling-vulnerabilities-3e28c4ed5c09): "When comparing values, always try to use the type-safe comparison operator “===” instead of the loose comparison operator “==”. This will ensure that PHP does not type juggle and the operation will only return True if the types of the two variables also match. This means that (7 === “7”) will return False."
 
-My notes about [php type jugling](php-type-juggling-vulnerabilities.md). 
-
+My notes about [php type jugling](webexploitation/php-type-juggling-vulnerabilities). 
 
 
 In the HackTheBox machine Base, login form was bypasseable by entering an empty array into the username and password parameters:

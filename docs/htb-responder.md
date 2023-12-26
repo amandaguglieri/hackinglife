@@ -30,7 +30,7 @@ sudo echo "10.129.95.234	unika.htb" >> /etc/hosts
 
 After that, we can browse the web and wander around.
 
-There is a [LFI - Local File Inclusion vulnerability](local-file-inclusion-lfi.md) at endpoint http://unika.htb/index.php?page=french.html. This is request in Burpsuite:
+There is a [LFI - Local File Inclusion vulnerability](webexploitation/local-file-inclusion-lfi.md) at endpoint http://unika.htb/index.php?page=french.html. This is request in Burpsuite:
 
 ```
 GET /index.php?page=../../../../../../../../windows/win.ini HTTP/1.1

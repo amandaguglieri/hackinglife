@@ -77,7 +77,7 @@ So there is a WAF. Before attacking, create several extra accounts (or tokens yo
 
 Null bytes and other combinations of symbols are often interpreted as string terminators. When not filtered out they could terminate the API security control filters.
 
-Here an example of a NULL byte included in a [XSS](../cross-site-scripting-xss.md)  combined with a [SQL injection](../sql-injection.md) attack.
+Here an example of a NULL byte included in a [XSS](../webexploitation/cross-site-scripting-xss.md)  combined with a [SQL injection](../webexploitation/sql-injection.md) attack.
 
 ```
 POST /api/v1/user/profile/update

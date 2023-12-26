@@ -14,8 +14,8 @@ tags:
 # Information gathering phase - Thick client Applications 
 
 !!! abstract "General index of the course"
+    - [Introduction](../thick-applications/index.md).
     - [Tools for pentesting thick client applications](tools-for-thick-apps.md).
-    - [Introduction](tca-introduction.md).
     - [Basic lab setup](tca-basic-lab-setup.md).
     - [First challenge: enabling a button](tca-first-challenge.md).
     - [Information gathering phase](tca-information-gathering-phase.md).
@@ -23,6 +23,7 @@ tags:
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
     - [Common vulnerabilities](tca-common-vulnerabilities.md).
+
 
 
 ## What we will be doing
