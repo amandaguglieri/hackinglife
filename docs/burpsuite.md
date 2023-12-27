@@ -49,3 +49,7 @@ The reported enforcement statuses are the following:
 2.  Enforced! - Green color
 3.  Is enforced??? (please configure enforcement detector) - Yellow color
 
+### Param Miner
+
+In Burp Suite, you can use the Param Miner extension's "Guess headers" function to automatically probe for supported headers using its extensive built-in wordlist.
+
