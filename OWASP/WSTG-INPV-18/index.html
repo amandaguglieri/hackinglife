@@ -9923,6 +9923,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    7.18. Testing for Server-side Template Injection
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -9932,6 +9943,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#detect-injection-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detect injection points
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identify-the-templating-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identify the templating engine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related lab
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -14493,6 +14568,59 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#detect-injection-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detect injection points
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identify-the-templating-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identify the templating engine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related lab
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -14530,10 +14658,41 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tr>
 </tbody>
 </table>
+<p><a href="../../webexploitation/server-side-template-injection-ssti/">Server-side Template Injection in HackingLife</a></p>
+<p>Web applications commonly use server-side templating technologies (Jinja2, Twig, FreeMaker, etc.) to generate dynamic HTML responses. Server-side Template Injection vulnerabilities (SSTI) occur when user input is embedded in a template in an unsafe manner and results in remote code execution on the server. Any features that support advanced user-supplied markup may be vulnerable to SSTI.</p>
+<h2 id="detect-injection-points">Detect injection points</h2>
+<p>Have an extensive template expression payloads. Common examples:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>a{{7*7}}
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>a{{bar}}b
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ curl -g &#39;http://www.target.com/page?name={{7*7}}&#39;
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Hello 49!
+</span></code></pre></div>
+<h2 id="identify-the-templating-engine">Identify the templating engine</h2>
+<p>After detecting template injection, the next step is to identify the template engine in use.</p>
+<div class="admonition quote">
+<p class="admonition-title">Burpsuite article</p>
+<p><a href="https://portswigger.net/research/server-side-template-injection#Identify">https://portswigger.net/research/server-side-template-injection#Identify</a></p>
+</div>
+<p>Green and red arrows represent 'success' and 'failure' responses respectively. In some cases, a single payload can have multiple distinct success responses - for example, the probe {{7*'7'}} would result in 49 in Twig, 7777777 in Jinja2, and neither if no template language is in use.</p>
+<p><img alt="SSTI" src="../../img/ssti_01.png" /></p>
+<h2 id="exploitation">Exploitation</h2>
+<div class="admonition quote">
+<p class="admonition-title">Burpsuite article</p>
+<p><a href="https://portswigger.net/research/server-side-template-injection#exploit">https://portswigger.net/research/server-side-template-injection#exploit</a></p>
+</div>
+<h2 id="tools">Tools</h2>
+<ul>
+<li><a href="https://github.com/epinna/tplmap">Tplmap</a></li>
+<li><a href="https://github.com/PortSwigger/backslash-powered-scanner">Backslash Powered Scanner Burp Suite extension</a></li>
+<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection">Template expression test strings/payloads list</a></li>
+</ul>
+<h2 id="related-lab">Related lab</h2>
+<p><a href="../../htb-nunchucks/">HackTheBox: Nunchunks</a>: Express server with a nunjucks template engine.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-26T19:00:18+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-26</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-27T12:23:03+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-27</span></small></br>
 
 
     <small>Created: December 26, 2023 19:00:18</small>
