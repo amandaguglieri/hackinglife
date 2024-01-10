@@ -86,6 +86,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB mongod](htb-mongod.md)
 -   [HTB nibbles](htb-nibbles.md)
 -   [HTB nunchucks](htb-nunchucks.md)
+-   [HTB omni](htb-omni.md)
 -   [HTB oopsie](htb-oopsie.md)
 -   [HTB pennyworth](htb-pennyworth.md)
 -   [HTB photobomb](htb-photobomb.md)
@@ -96,6 +97,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB support](htb-support.md)
 -   [HTB tactics](htb-tactics.md)
 -   [HTB trick](htb-trick.md)
+-   [HTB undetected](htb-undetected.md)
 -   [HTB unified](htb-unified.md)
 -   [HTB vaccine](htb-vaccine.md)
 
