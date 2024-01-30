@@ -19,6 +19,11 @@ In some cases, the default service that runs on TCP port 5432 is PostgreSQL, whi
 psql
 ```
 
+
+## Installation
+
+### Linux
+
 If the tool is not installed, then run:
 
 ```bash
@@ -53,7 +58,18 @@ psql -U christine -h localhost -p 1234
 # -p 1234 as we are targeting the tunnel we created earlier with SSH, we need to specify which is the port the tunnel is listening on.
 ```
 
-### Basics commands in postgresql
+
+### Powershell
+
+```
+Install-Module PostgreSQLCmdlets
+
+```
+
+
+
+
+## Basics commands in postgresql
 
 ```bash
 # List databases

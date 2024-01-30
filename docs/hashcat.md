@@ -17,6 +17,7 @@ tags:
 
 Download from: [https://hashcat.net/hashcat/](https://hashcat.net/hashcat/).
 
+
 ## Basic commands
 
 ```bash
@@ -29,6 +30,24 @@ hashcat -m 0 -a 0 -D2 example0.hash example.dict
 # -a: type of attack. Then -a 0 is a dictionary attack
 # Results are stored in file hashcat.potfile
 ```
+
+
+
+## Modules
+
+One of the most difficult parts is setting the mode. See [https://hashcat.net/wiki/doku.php?id=example_hashes](https://hashcat.net/wiki/doku.php?id=example_hashes).
+
+One common error is:
+
+```
+Approaching final keyspace - workload adjusted.           
+Session..........: hashcat                                
+Status...........: Exhausted
+
+```
+
+
+To fix this, you can use the flag '-w', which is used to set the workload profile. The -w 3 flag specifically sets the workload profile to "Insane."
 
 
 ## Rules
