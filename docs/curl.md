@@ -12,13 +12,32 @@ tags:
 ## Basic usage
 
 ```bash
-curl -i -L $host
+curl -i -L $host -v
 # -L: Follow redirections
 # -i: Include headers in the response 
+# -v: verbose
 
 curl -T file.txt
 # -T, --upload-file <file>; This transfers the specified local file to the remote URL. -T uses PUT http method
 
 curl -o target/path/filename URL
 # -o: to specify a location/filename
+
+curl -X GET $ip
+# Sends a GET request
+
+curl -l  $ip
+# Sends a HEAD request
+
+curl -X OPTIONS  $ip
+# Sends a OPTIONS request
+
+curl -X POST  $ip -d "name=username&password=password" -v
+# Sends a POST request with parameters name and password in the body data
+
+curl $ip/uploads/ --upload-file hello.txt
+# Upload a file with a PUT method
+
+curl -XDELETE $ip/uploads/hello.txt
+# Delete a file
 ```
