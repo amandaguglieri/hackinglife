@@ -176,7 +176,7 @@ Set-Cookie: <cookie-name>=<cookie-value>; Domain=<domain-value>; Secure; HttpOnl
 ```
 
 
-#### CORS - Cross-Origin Resource Sharing 
+### CORS - Cross-Origin Resource Sharing 
 
 Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources.
 
@@ -251,3 +251,16 @@ So... basically HSTS addresses the following threats:
 - A man-in-the-middle attacker attempts to intercept traffic from a victim user using an invalid certificate and hopes the user will accept the bad certificate: HSTS does not allow a user to override the invalid certificate message
 
 
+## HTTPS
+
+HTTPS (Hypertext Transfer Protocol Secure) is a secure version of the HTTP protocol, which is used to transmit data between a user's web browser and a website or web application. 
+
+HTTPS provides an added layer of security by encrypting the data transmitted over the internet, making it more secure and protecting it from unauthorized access and interception.
+
+HTTPS is also commonly referred to as HTTP Secure. HTTPS is the preferred way to use and configure HTTP and involves running HTTP over SSL/TLS. 
+
+SSL (Secure Sockets Layer) and TLS (Transport Layer Security) are cryptographic protocols used to provide secure communication over a computer network, most commonly the internet. They are essential for establishing a secure and encrypted connection between a user's web browser or application and a web server.
+
+HTTPS does not protect against web application flaws! Various web application attacks will still work regardless of the use of SSL/TLS.(Attacks like XSS and SQLi will still work)
+
+The added encryption layer only protects data exchanged between the client and the server and does stop attacks against the web application itself.

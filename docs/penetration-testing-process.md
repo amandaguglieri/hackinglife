@@ -6,15 +6,40 @@ TableOfContents: true
 tags:
   - pentesting
   - CPTS
+  - eWPT
 ---
 
-# Penetration Testing Process: A General Approach to the Profession
+# Penetration Testing Process: A General *Approach* to the Profession
+
+
+??? abstract "Sources for these notes"
+    - [Hack The Box: Penetration Testing Learning Path](https://academy.hackthebox.com/path/preview/penetration-tester)
+    - [INE eWPT2 Preparation course](https://my.ine.com/CyberSecurity/courses/87d3a24a/introduction-to-web-application-security-testing)
+
 
 
 
 ## Phases
 
 ### Pre-engagement
+
+The pre-engagement phase of a penetration testing is a crucial step that lays the foundation for a successful and well-planned security assessment.
+It involves preliminary preparations, understanding project requirements, and obtaining necessary authorizations before initiating the actual testing.
+During the pre-engagement phase, the penetration tester and the client must discuss and agree upon a number of legal and technical details pertinent to the execution and outcomes of the security assessment.
+
+This can be one or more documents with the objective to define the following:
+
+- Objectives:: Clearly define the objectives and goals of the penetration test. Understand what the stakeholders aim to achieve through the testing process. 
+- Scope of the engagement: Identify the scope of the penetration test, including the specific web applications, URLs, and functionalities to be tested. Define the scope boundaries and limitations, such as which systems or networks are out-of-scope for testing.
+- Timeline & milestones
+- Liabilities & responsibility: Obtain proper authorization from the organization's management or application owners to conduct the penetration test. Ensure that the testing activities comply with any legal or regulatory requirements, and that all relevant permissions are secured.
+- Rules of Engagement (RoE): Establish a set of Rules of Engagement that outline the specific rules, constraints, and guidelines for the testing process. Include details about the testing schedule, testing hours, communication channels, and escalation procedures.
+- Communication and Coordination: Establish clear communication channels with key stakeholders, including IT personnel, development teams, and management. Coordinate with relevant personnel to ensure minimal disruption to the production environment during testing.
+- Expectations and deliverables
+- Statement of work
+- The Scoping Meeting: Conduct a scoping meeting with key stakeholders to discuss the testing objectives, scope, and any specific concerns or constraints. Use this meeting to clarify expectations and ensure everyone is aligned with the testing approach.
+- List of documents so far:
+
 
 | **Document** | **Timing for Creation** |
 | ----------- | ---------------------- |
@@ -25,6 +50,9 @@ tags:
 | Rules of Engagement (RoE) |  Before the Kick-Off Meeting | 
 | Contractors Agreement (Physical Assessments) | Before the Kick-Off Meeting |
 |  Reports | During and after the conducted Penetration Test | 
+
+- Risk Assessment and Acceptance: Perform a risk assessment to understand the potential impact of the penetration test on the web application and the organization. Obtain management's acceptance of any risks associated with the testing process.
+-  Engagement Kick-off: Officially kick-off the penetration test, confirming the start date and timeline with the organization's stakeholders. Share the RoE and any other relevant details with the testing team.
 
 
 ### Information gathering
@@ -179,11 +207,36 @@ A `PoC` can have many different representations. For example, `documentation` of
 
 ### Post-Engagement
 
+#### Cleanup
+
 **Cleanup**: Once testing is complete, we should perform any necessary cleanup, such as deleting tools/scripts uploaded to target systems, reverting any (minor) configuration changes we may have made, etc. We should have detailed notes of all of our activities, making any cleanup activities easy and efficient. 
+
+#### Reporting
 
 **Documentation and Reporting**: Before completing the assessment and disconnecting from the client's internal network or sending "stop" notification emails to signal the end of testing, we must make sure to have adequate documentation for all findings that we plan to include in our report. This includes command output, screenshots, a listing of affected hosts, and anything else specific to the client environment or finding.
 
+Typical parts of a report:
+
+- **Executive Summary**: The report typically begins with an executive summary, which is a high-level overview of the key findings and the overall security posture of the web application. It highlights the most critical vulnerabilities, potential risks, and the impact they may have on the business. This section is designed for management and non-technical stakeholders to provide a quick understanding of the test results.
+- **Scope and Methodology**: This section provides a clear description of the scope of the penetration test, including the target application, its components, and the specific testing activities performed. It also outlines the methodologies and techniques used during the assessment to ensure transparency and understanding of the testing process.
+- **Findings and Vulnerabilities**: The core of the penetration test report is the detailed findings section. Each identified vulnerability is listed, along with a comprehensive description of the issue, the steps to reproduce it, and its potential impact on the application and organization. The vulnerabilities are categorized based on their severity level (e.g., critical, high, medium, low) to prioritize remediation efforts. 
+- **Proof of Concept (PoC)**: For each identified vulnerability, the penetration tester includes a proof of concept (PoC) to demonstrate its exploitability. The PoC provides concrete evidence to support the validity of the findings and helps developers understand the exact steps required to reproduce the vulnerability.
+- **Risk Rating and Recommendations**: In this section, the vulnerabilities are further analyzed to determine their risk rating and potential impact on the organization. The risk rating takes into account factors such as likelihood of exploitation, ease of exploit, potential data exposure, and business impact. Additionally, specific recommendations and best practices are provided to address and mitigate each vulnerability. 
+- **Remediation Plan**: The report should include a detailed remediation plan outlining the steps and actions required to fix the identified vulnerabilities. This plan helps guide the development and IT teams in prioritizing and addressing the security issues in a systematic manner.
+- **Additional Recommendations**: In some cases, the report may include broader recommendations for improving the overall security posture of the web application beyond the identified vulnerabilities. These may include implementing security best practices, enhancing security controls, and conducting regular security awareness training.
+- **Appendices and Technical Details**: Supporting technical details, such as HTTP requests and responses, server configurations, and logs, may be included in appendices to  provide additional context and evidence for the identified vulnerabilities.
+
+Resources:
+
+- [https://pentestreports.com/](https://pentestreports.com/)
+
+
+####  Report Review Meeting
+
 **Report Review Meeting**: Once the draft report is delivered, and the client has had a chance to distribute it internally and review it in-depth, it is customary to hold a report review meeting to walk through the assessment results.
+
+
+#### Deliverable Acceptance
 
 **Deliverable Acceptance**: Once the client has submitted feedback (i.e., management responses, requests for clarification/changes, additional evidence, etc.) either by email or (ideally) during a report review meeting, we can issue them a new version of the report marked `FINAL`
 

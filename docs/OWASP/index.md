@@ -12,8 +12,30 @@ tags:
 
 # OWASP Web Security Testing Guide
 
+|   |   |   |
+|---|---|---|
+|Phase|Name of phase|Objectives|
+|1|Pre–Engagement|Define the scope and objectives of the penetration test, including the target web application, URLs, and functionalities to be tested.  <br>Obtain proper authorization and permission from the application owner to conduct the test.  <br>Gather relevant information about the application, such as technologies used, user roles, and business-critical functionalities.|
+|2|Information Gathering & Reconnaissance|Perform passive reconnaissance to gather publicly available information about the application and its infrastructure.  <br>Enumerate subdomains, directories, and files to discover hidden or sensitive content.  <br>Use tools like "Nmap" to identify open ports and services running on the web server.  <br>Utilize "Google Dorks" to find indexed information, files, and directories on the target website.|
+|3|Threat Modeling|Analyze the application's architecture and data flow to identify potential threats and attack vectors.  <br>Build an attack surface model to understand how attackers can interact with the application.  <br>Identify potential high-risk areas and prioritize testing efforts accordingly.|
+|4|Vulnerability Scanning|Use automated web vulnerability scanners like "Burp Suite" or "OWASP ZAP" to identify common security flaws.  <br>Verify and validate the scan results manually to eliminate false positives and false negatives.|
+|5|Manual Testing & Exploitation|Perform manual testing to validate and exploit identified vulnerabilities in the application.  <br>Test for input validation issues, authentication bypass, authorization flaws, and business logic vulnerabilities.  <br>Attempt to exploit security flaws to demonstrate their impact and potential risk to the application.|
+|6|Authentication & Authorization Testing|Test the application's authentication mechanisms to identify weaknesses in password policies, session management, and account lockout procedures.  <br>Evaluate the application's access controls to ensure that unauthorized users cannot access sensitive functionalities or data.|
+|7|Session Management Testing|Evaluate the application's session management mechanisms to prevent session fixation, session hijacking, and session-related attacks.  <br>Check for session timeout settings and proper session token handling.|
+|8|Information Disclosure|Review how the application handles sensitive information such as passwords, user data, and confidential files.  <br>Test for information disclosure through error messages, server responses, or improper access controls.|
+|9|Business Logic Testing|Analyze the application's business logic to identify flaws that could lead to unauthorized access or data manipulation.  <br>Test for order-related vulnerabilities, privilege escalation, and other business logic flaws.|
+|10|Client-Side Testing|Evaluate the client-side code (HTML, JavaScript) for potential security vulnerabilities, such as DOM-based XSS.  <br>Test for insecure client-side storage and sensitive data exposure.|
+|11|Reporting & Remediation|Document and prioritize the identified security vulnerabilities and risks.  <br>Provide a detailed report to developers and stakeholders, including recommendations for remediation.  <br>Assist developers in fixing the identified security issues and retesting the application to ensure that the fixes were successful.|
+|12|Post-Engagement|Conduct a post-engagement meeting to discuss the test results with stakeholders.  <br>Provide security awareness training to the development team to promote secure coding practices.|
+
+Other methodologies: 
+[http://www.pentest-standard.org/index.php/PTES_Technical_Guidelines](http://www.pentest-standard.org/index.php/PTES_Technical_Guidelines)
+PTES is a complete penetration testing methodology that covers all aspects of security assessments, including web application testing.
+It provides a structured approach from pre-engagement through reporting and follow-up, making it suitable for comprehensive assessments
+
 
 ## 1. Information Gathering
+
 
 ???+ tip "1. Information Gathering"
 	|ID|Link to Hackinglife|Link to OWASP|Description|
@@ -31,6 +53,7 @@ tags:
 
 
 ## 2. Configuration and Deploy Management Testing
+
 
 ??? tip "2. Configuration and Deploy Management Testing"
 	|ID|Link to Hackinglife|Link to OWASP|Description|
