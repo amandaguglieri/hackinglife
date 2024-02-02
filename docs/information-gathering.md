@@ -1,15 +1,38 @@
 ---
-title: Web enumeration
+title: Information gathering
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
   - pentesting
-  - web pentesting
-  - enumeration
+  - web
+  - pentesting
+  - enumeraInformation
+  - Gathering
+  - "-"
+  - Web
+  - Editiontion
 ---
 
-# Web enumeration
+# Information gathering
+
+Information gathering is typically broken down into two types: 
+
+- **Passive information gathering** - Involves gathering as much information as possible without actively engaging with the target. 
+- **Active information gathering/Enumeration** - Involves gathering as much information as possible by actively engaging with the target system. (You will require authorization in order to perform active information gathering).
+
+**What Information Are We Looking For?** Website & domain ownership. IP addresses, domains and subdomains. Hidden files & directories. Hosting infrastructure (web server, CMS,  database etc). Presence of defensive solutions like a web application firewall (WAF).
+
+| Passive Information Gathering | Active Information Gathering/Enumeration |
+|---|---|
+|Identifying domain names and domain ownership information.|Identify website content structure.|
+|Discovering hidden/disallowed files and directories.|Downloading & analyzing website/web app source code.|
+|Identifying web server IP addresses & DNS records.|Port scanning & service discovery.|
+|Identifying web technologies being used on target sites.|Web server fingerprinting.|
+|WAF detection.|Web application scanning.|
+|Identifying subdomains.|DNS Zone Transfers.|
+|Identify website content structure.|Subdomain enumeration via Brute-Force.|
+
 
 Along with all these tools and techniques it is always recommendable to review:
 
@@ -18,6 +41,8 @@ Along with all these tools and techniques it is always recommendable to review:
 
 
 ## Infrastructure checks
+
+
 ### Hostname discovery
 
 ```shell-session
@@ -130,6 +155,19 @@ for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-11000
 
 ### Passive web server enumeration
 
+#### host command
+
+DNS lookup utility. 
+
+```
+host domain.com
+```
+
+#### whois command
+
+WHOIS is a query and response protocol that is used to query databases that store the registered users or organizations of an internet resource like a domain name or an IP address block.
+
+WHOIS lookups can be performed through the command line interface via the whois client or through some third party web-based tools to lookup the domain ownership details from different databases.
 
 ```shell-session
  whois $TARGET

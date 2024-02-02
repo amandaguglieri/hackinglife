@@ -24,3 +24,8 @@ tags:
 	- [OWASP](OWASP/index.md)
 	- [http://www.pentest-standard.org/index.php/PTES_Technical_Guidelines](http://www.pentest-standard.org/index.php/PTES_Technical_Guidelines
 - [Phases of a web application security testing](penetration-testing-process.md)
+
+
+## Web Enumeration & Information Gathering
+
+- [Information gathering](information-gathering.md)
