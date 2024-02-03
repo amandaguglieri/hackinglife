@@ -12,6 +12,7 @@ tags:
 
 # dnsenum - A tool to enumerate DNS
 
+multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks.
 
 ## Installation
 

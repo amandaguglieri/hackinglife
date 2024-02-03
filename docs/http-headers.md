@@ -264,3 +264,11 @@ SSL (Secure Sockets Layer) and TLS (Transport Layer Security) are cryptographic 
 HTTPS does not protect against web application flaws! Various web application attacks will still work regardless of the use of SSL/TLS.(Attacks like XSS and SQLi will still work)
 
 The added encryption layer only protects data exchanged between the client and the server and does stop attacks against the web application itself.
+
+
+## Tools
+
+### Security Headers
+
+- [https://securityheaders.com/](https://securityheaders.com/)
+

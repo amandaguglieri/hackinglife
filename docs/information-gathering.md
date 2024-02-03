@@ -16,6 +16,15 @@ tags:
 
 # Information gathering
 
+
+??? abstract "Sources for these notes"
+    - [Hack The Box: Penetration Testing Learning Path](https://academy.hackthebox.com/path/preview/penetration-tester)
+    - [INE eWPT2 Preparation course](https://my.ine.com/CyberSecurity/courses/79af5ed1/web-application-penetration-testing-web-fingerprinting-and-enumeration)
+    - My own notes coming from experience pentesting.
+
+
+
+
 Information gathering is typically broken down into two types: 
 
 - **Passive information gathering** - Involves gathering as much information as possible without actively engaging with the target. 
@@ -40,122 +49,9 @@ Along with all these tools and techniques it is always recommendable to review:
  - Some typical files such as robots.txt
 
 
-## Infrastructure checks
+## Passive server enumeration
 
-
-### Hostname discovery
-
-```shell-session
-nmap --script smb-os-discovery $ip
-```
-
-
-### DNS enumeration
-
-More about [DNS enumeration](53-dns.md).
-
-**gobuster** (More complete cheat sheet: [gobuster](gobuster.md))
-
-```shell-session
-gobuster dns -d <DOMAIN (without http)> -w /usr/share/SecLists/Discovery/DNS/namelist.txt
-```
-
-**dig** (More complete cheat sheet: [dig](dig.md))
-
-```bash
-# Get email of administrator of the domain
-dig soa www.example.com
-# The email will contain a (.) dot notation instead of @
-
-# ENUMERATION
-# List nameservers known for that domain
-dig ns example.com @$ip
-# -ns: other name servers are known in NS record
-#  `@` character specifies the DNS server we want to query.
-
-# View all available records
-dig any example.com @$ip
-
-# Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
-dig CH TXT version.bind $ip
-```
-
-
-**nslookup** (More complete cheat sheet: [nslookup](nslookup.md))
-
-```bash
-# Query `A` records by submitting a domain name: default behaviour
-nslookup $TARGET
-
-# We can use the `-query` parameter to search specific resource records
-# Querying: A Records for a Subdomain
-nslookup -query=A $TARGET
-
-# Querying: PTR Records for an IP Address
-nslookup -query=PTR 31.13.92.36
-
-# Querying: ANY Existing Records
-nslookup -query=ANY $TARGET
-
-# Querying: TXT Records
-nslookup -query=TXT $TARGET
-
-# Querying: MX Records
-nslookup -query=MX $TARGET
-
-#  Specify a nameserver if needed by adding `@<nameserver/IP>` to the command
-```
-
-
-
-**DNScan** (More complete cheat sheet: [DNScan](dnscan.md)): Python w/ordlist-based DNS subdomain scanner. The script will first try to perform a zone transfer using each of the target domain's nameservers.
-
-```bash
-dnscan.py (-d \<domain\> | -l \<list\>) [OPTIONS]
-# Mandatory Arguments
-#    -d  --domain                              Target domain; OR
-#    -l  --list                                Newline separated file of domains to scan
-```
-
-
-
-### Subdomain enumeration
-
-[Gobuster](gobuster.md):
-
-```bash
-gobuster vhost -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u <exact target url>
-# vhost : Uses VHOST for brute-forcing
-# -w : Path to the wordlist
-# -u : Specify the URL
-```
-
-
-[Wfuzz](wfuzz.md):
-
-```shell-session
-wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H "Host: FUZZ.nunchucks.htb" --hl 546
-# -c: Color in output
-# –hc 404: Hide 404 code responses
-# -t 200: Concurrent Threads
-# -u http://nunchucks.htb/: Target URL
-# -w /usr/share/dirb/wordlists/common.txt: Wordlist 
-# -H “Host: FUZZ.nunchucks.htb”: Header. Also with "FUZZ" we indicate the injection point for payloads
-# –hl 546: Filter out responses with a specific number of lines. In this case, 546
-```
-
-Using [dnsenum](dnsenum.md).
-
-Bash script, using Sec wordlist:
-
-```shell-session
-for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
-```
-
-
-### Passive web server enumeration
-
-#### host command
+### host command
 
 DNS lookup utility. 
 
@@ -163,7 +59,7 @@ DNS lookup utility.
 host domain.com
 ```
 
-#### whois command
+### whois command
 
 WHOIS is a query and response protocol that is used to query databases that store the registered users or organizations of an internet resource like a domain name or an IP address block.
 
@@ -178,7 +74,22 @@ WHOIS lookups can be performed through the command line interface via the whois 
 whois.exe <TARGET>
 ```
 
+### netcraft
+
 [Netcraft](https://www.netcraft.com) can offer us information about the servers without even interacting with them, and this is something valuable from a passive information gathering point of view. We can use the service by visiting `https://sitereport.netcraft.com` and entering the target domain. We need to pay special attention to the latest IPs used. Sometimes we can spot the actual IP address from the webserver before it was placed behind a load balancer, web application firewall, or IDS, allowing us to connect directly to it if the configuration.
+
+More issues fired up by netcraft: cms, server programming,...
+
+### censys
+
+[https://search.censys.io/](https://search.censys.io/)
+
+### Shodan
+
+- [https://www.shodan.io/](https://www.shodan.io/)
+
+
+### Wayback machine
 
 We can access several versions of these websites using the [Wayback Machine](http://web.archive.org) to find old versions that may have interesting comments in the source code or files that should not be there.
 
@@ -196,6 +107,48 @@ waybackurls -dates https://example.com > waybackurls.txt
 cat waybackurls.txt
 ```
 
+
+## Passive DNS enumeration
+
+A valuable resource for this information is the Domain Name System (DNS). We can query DNS to identify the DNS records associated with a particular domain or IP address.
+
+
+!!! tip "DNS"
+    - [Complete DNS enumeration guide: definition and techniques](53-dns.md).
+
+
+> Some if these tools can also be used in Active DNS enumerations.
+
+
+| Tool + Cheat sheet | What it does |
+| ---- | ---- |
+| [Google dorks](../google-dorks) | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using. |
+| [Sublist3r](../sublist3r) | Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS. |
+| [crt.sh](../ctr) | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality. |
+| [dnscan](../dnscan) | Python wordlist-based DNS subdomain scanner. |
+| [amass](../amass) | In depth DNS Enumeration and network mapping. |
+| [DNSRecon](dnsrecon.md) | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target. |
+| [dnsenum](dnsenum.md) | multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks. |
+|  [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process. |
+
+
+## Reviewing server metafiles
+
+!!! tip "server metafiles"
+    - [Complete server metafiles enumeration guide](OWASP/WSTG-INFO-03.md).
+
+Some of these files:
+
+- robots.txt
+- sitemap.xml
+- security.txt (proposed standard which allows websites to define security policies and contact details.)
+- human.txt (initiative for knowing the people behind a website.)
+
+## Search Engine Discovery
+
+!!! tip "Dorking"
+    - [Complete google dork guide](google-dorks.md).
+    - [Complete github dork guide](github-dorks.md).
 
 ### Active web server enumeration
 
@@ -429,3 +382,116 @@ sudo nmap -v $ip --script banner.nse
 - Fuzzing: [ffuf](ffuf.md), [Burpsuite](burpsuite.md), [Wfuzz](wfuzz.md), [feroxbuster](feroxbuster.md)
 - Web scanner of web servers, supporting frameworks, and applications using the command-line: [whatweb].
 - Taking screenshots and identify default credentials if known: [EyeWitness](eyewitness.md)
+
+
+
+
+### Hostname discovery
+
+```shell-session
+nmap --script smb-os-discovery $ip
+```
+
+
+### DNS enumeration
+
+More about [DNS enumeration](53-dns.md).
+
+**gobuster** (More complete cheat sheet: [gobuster](gobuster.md))
+
+```shell-session
+gobuster dns -d <DOMAIN (without http)> -w /usr/share/SecLists/Discovery/DNS/namelist.txt
+```
+
+**dig** (More complete cheat sheet: [dig](dig.md))
+
+```bash
+# Get email of administrator of the domain
+dig soa www.example.com
+# The email will contain a (.) dot notation instead of @
+
+# ENUMERATION
+# List nameservers known for that domain
+dig ns example.com @$ip
+# -ns: other name servers are known in NS record
+#  `@` character specifies the DNS server we want to query.
+
+# View all available records
+dig any example.com @$ip
+
+# Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
+dig CH TXT version.bind $ip
+```
+
+
+**nslookup** (More complete cheat sheet: [nslookup](nslookup.md))
+
+```bash
+# Query `A` records by submitting a domain name: default behaviour
+nslookup $TARGET
+
+# We can use the `-query` parameter to search specific resource records
+# Querying: A Records for a Subdomain
+nslookup -query=A $TARGET
+
+# Querying: PTR Records for an IP Address
+nslookup -query=PTR 31.13.92.36
+
+# Querying: ANY Existing Records
+nslookup -query=ANY $TARGET
+
+# Querying: TXT Records
+nslookup -query=TXT $TARGET
+
+# Querying: MX Records
+nslookup -query=MX $TARGET
+
+#  Specify a nameserver if needed by adding `@<nameserver/IP>` to the command
+```
+
+
+
+**DNScan** (More complete cheat sheet: [DNScan](dnscan.md)): Python w/ordlist-based DNS subdomain scanner. The script will first try to perform a zone transfer using each of the target domain's nameservers.
+
+```bash
+dnscan.py (-d \<domain\> | -l \<list\>) [OPTIONS]
+# Mandatory Arguments
+#    -d  --domain                              Target domain; OR
+#    -l  --list                                Newline separated file of domains to scan
+```
+
+
+
+### Subdomain enumeration
+
+[Gobuster](gobuster.md):
+
+```bash
+gobuster vhost -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u <exact target url>
+# vhost : Uses VHOST for brute-forcing
+# -w : Path to the wordlist
+# -u : Specify the URL
+```
+
+
+[Wfuzz](wfuzz.md):
+
+```shell-session
+wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H "Host: FUZZ.nunchucks.htb" --hl 546
+# -c: Color in output
+# –hc 404: Hide 404 code responses
+# -t 200: Concurrent Threads
+# -u http://nunchucks.htb/: Target URL
+# -w /usr/share/dirb/wordlists/common.txt: Wordlist 
+# -H “Host: FUZZ.nunchucks.htb”: Header. Also with "FUZZ" we indicate the injection point for payloads
+# –hl 546: Filter out responses with a specific number of lines. In this case, 546
+```
+
+Using [dnsenum](dnsenum.md).
+
+Bash script, using Sec wordlist:
+
+```shell-session
+for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
+```
+

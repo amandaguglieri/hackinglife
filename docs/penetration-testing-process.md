@@ -16,7 +16,9 @@ tags:
     - [Hack The Box: Penetration Testing Learning Path](https://academy.hackthebox.com/path/preview/penetration-tester)
     - [INE eWPT2 Preparation course](https://my.ine.com/CyberSecurity/courses/87d3a24a/introduction-to-web-application-security-testing)
 
+Resources:
 
+- [https://pentestreports.com/](https://pentestreports.com/)
 
 
 ## Phases

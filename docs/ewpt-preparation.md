@@ -29,3 +29,5 @@ tags:
 ## Web Enumeration & Information Gathering
 
 - [Information gathering](information-gathering.md)
+- Related tools: whois, host, [netcraft](netcraft.md), [dnsrecon](dnsrecon.md), [dnsenum](dnsenum.md), [dnsdumpster](https://dnsdumpster.com/).
+- Related techniques: [DNS enumeration](53-dns.md), [metafiles enumeration](OWASP/WSTG-INFO-03.md), 
