@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.6">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.7">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.f2e4d321.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -7241,6 +7241,24 @@
   <a href="#subdomain-brute-enumeration" class="md-nav__link">
     <span class="md-ellipsis">
       Subdomain brute enumeration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-passive-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for passive enumeration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-active-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for active enumeration
     </span>
   </a>
   
@@ -14786,6 +14804,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#tools-for-passive-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for passive enumeration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-active-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for active enumeration
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -14871,6 +14907,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li><code>PTR</code> record: The PTR (Pointer) record works the other way around (reverse lookup). It converts IP addresses into valid domain names. For the IP address to be resolved from the <code>Fully Qualified Domain Name</code> (<code>FQDN</code>), the DNS server must have a reverse lookup file. In this file, the computer name (FQDN) is assigned to the last octet of an IP address, which corresponds to the respective host, using a <code>PTR</code> record. The PTR records are responsible for the reverse translation of IP addresses into names.</li>
 <li><code>SOA</code> records: (<code>Start Of Authority</code> (<code>SOA</code>)). It should be first in a zone file because it indicates the start of a zone. Each zone can only have one <code>SOA</code> record, and additionally, it contains the zone's values, such as a serial number and multiple expiration timeouts. Provides information about the corresponding DNS zone and email address of the administrative contact. The <code>SOA</code> record is located in a domain's zone file and specifies who is responsible for the operation of the domain and how DNS information for the domain is managed.</li>
 </ul>
+<p>Summarizing:</p>
+<p><img alt="DNS records" src="../img/dns.png" /></p>
 <h2 id="security">Security</h2>
 <p>DNS is mainly unencrypted. Devices on the local WLAN and Internet providers can therefore hack in and spy on DNS queries. Since this poses a privacy risk, there are now some solutions for DNS encryption. By default, IT security professionals apply DNS over TLS (DoT) or DNS over HTTPS (DoH) here. In addition, the network protocol NSCrypt also encrypts the traffic between the computer and the name server.</p>
 <h2 id="ips-to-add-to-etcresolvconf">IPs to add to etc/resolv.conf</h2>
@@ -14983,11 +15021,54 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Using Sec wordlist:</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v &#39;;\|SOA&#39; | sed -r &#39;/^\s*$/d&#39; | grep $sub | tee -a subdomains.txt;done</span>
 </span></code></pre></div>
-<p>Also there are some tools, such as <a href="../dnsenum/">dnsenum</a>.</p>
+<h2 id="tools-for-passive-enumeration">Tools for passive enumeration</h2>
+<table>
+<thead>
+<tr>
+<th>Tool + Cheat sheet</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../google-dorks">Google dorks</a></td>
+<td>Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using.</td>
+</tr>
+<tr>
+<td><a href="../sublist3r">Sublist3r</a></td>
+<td>Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS.</td>
+</tr>
+<tr>
+<td><a href="../ctr">crt.sh</a></td>
+<td>It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality.</td>
+</tr>
+<tr>
+<td><a href="../dnscan">dnscan</a></td>
+<td>Python wordlist-based DNS subdomain scanner.</td>
+</tr>
+<tr>
+<td><a href="../amass">amass</a></td>
+<td>In depth DNS Enumeration and network mapping.</td>
+</tr>
+<tr>
+<td><a href="../dnsrecon/">DNSRecon</a></td>
+<td>Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.</td>
+</tr>
+<tr>
+<td><a href="../dnsenum/">dnsenum</a></td>
+<td>multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks.</td>
+</tr>
+<tr>
+<td><a href="https://dnsdumpster.com/">dnsdumpster.com</a></td>
+<td>DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tools-for-active-enumeration">Tools for active enumeration</h2>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago">&lt;span class=&#34;timeago&#34; datetime=&#34;2024-02-02T19:42:23+00:00&#34; locale=&#34;en&#34;&gt;&lt;/span&gt;</span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-02</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-03T11:59:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-03</span></small></br>
 
 
     <small>Created: May 22, 2023 16:32:18</small>
@@ -15062,7 +15143,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.e1c3ead8.min.js"></script>
+      <script src="../assets/javascripts/bundle.caa56a14.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
