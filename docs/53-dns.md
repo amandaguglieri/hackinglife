@@ -179,6 +179,25 @@ dig axfr example.htb @$ip
 
 If the administrator used a subnet for the `allow-transfer` option for testing purposes or as a workaround solution or set it to `any`, everyone would query the entire zone file at the DNS server.
 
+Another tools for transferring zones:
+
+[Fierce](fierce.md):
+
+```
+# Perform a dns transfer using a wordlist againts domain.com
+fierce -dns domain.com 
+```
+
+[dnsenum](dnsenum.md):
+
+```
+dnsenum domain.com
+# additionally it performs DNS brute force with /usr/share/dnsenum/dns.txt.
+```
+
+
+
+
 ## Subdomain brute enumeration
 
 Using Sec wordlist:
@@ -196,10 +215,19 @@ for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-11000
 | [Sublist3r](../sublist3r) | Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS. |
 | [crt.sh](../ctr) | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality. |
 | [dnscan](../dnscan) | Python wordlist-based DNS subdomain scanner. |
-| [amass](../amass) | In depth DNS Enumeration and network mapping. |
 | [DNSRecon](dnsrecon.md) | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target. |
-| [dnsenum](dnsenum.md) | multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks. |
 | [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process. |
 
 
 ## Tools for active enumeration
+
+| Tool + Cheat sheet | What it does |
+| ---- | ---- |
+| [dnsenum](dnsenum.md) | multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks. |
+| [dig](dig.md) |  discover non-contiguous ip blocks. |
+| [fierce](fierce.md) |  DNS scanner that helps locate non-contiguous IP space and hostnames. |
+| [dnscan](dnscan.md) | Python wordlist-based DNS subdomain scanner. |
+| [gobuster](gobuster.md) | For brute force enumerations. |
+| [nslookup](nslookup.md) | . |
+| [amass](amass.md) | In depth DNS Enumeration and network mapping. |
+ 

@@ -11,7 +11,7 @@ tags:
 
 # Amass
 
-In depth DNS Enumeration and network mapping.
+In depth DNS Enumeration and network mapping. Amass combines active and passive fingerprinting so being concious about this is really important. It's a assessment tool with reporting features. 
 
 ## Install
 
@@ -20,7 +20,6 @@ apt install snapd
 service snapd start
 snap install amass
 ```
-
 
  
 Before diving into using Amass, we should make the most of it by adding API keys to it. 
@@ -65,13 +64,25 @@ sudo nano ~/.config/amass/config.ini
 
 
 ```bash
-amass enum -active -d crapi.apisec.ai  
+amass enum -active -d crapi.apisec.ai  -ip -brute -dir path/to/save/results/
+# enum: Perform ACTIVE  enumerations and network mapping
+# -ip: Show ip addresses of cached subdomais.
+# -brute: Perform a brute force dns attack.
+
+amass enum -passive -d crapi.apisec.ai -src  -dir path/to/save/results/
+# enum: Perform PASSIVE enumerations and network mapping.
+# src: display sources of the host domain.
+# -dir: Specify a folder to save results.
+
+amass intel -d crapi.apisec.ai
+# intel: Discover targets for enumerations. Passive fingerprinting.
 ```
 
 Some flags:
 
 ```
 -active: Attempt zone transfer and certificate name grabs.
+-pasive: Passive fingerprinting.
 -bl: Blacklist of subdomain names that will not be investigated
 -d: to specify a domain
 -ip: Show ip addresses of cached subdomais.
@@ -79,6 +90,7 @@ Some flags:
 -o file.txt: To output the result into a file
 -w: path to a different wordlist file
 ```
+
 
 
 

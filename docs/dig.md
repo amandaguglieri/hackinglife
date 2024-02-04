@@ -3,9 +3,17 @@ title: dig axfr
 author: amandaguglieri
 TableOfContents: true
 draft: false
+tags:
+  - pentesting
+  - dns
+  - enumeration
+  - tools
 ---
 
 # dig 
+
+
+References:  dig (https://linux.die.net/man/1/dig)
 
 
 ## Footprinting DNS with dig
@@ -35,6 +43,8 @@ dig CH TXT version.bind $ip
 
 # Querying: PTR Records for an IP Address
 dig -x $ip @1.1.1.1
+# You can also facilitate a range:
+dig -x 192.168 @1.1.1.1
 
 # Querying: TXT Records
 dig txt example.com @$ip
@@ -49,6 +59,16 @@ dig mx example.com @1.1.1.1
 dig is a DNS lookup utility but combined with "axfr" is used to do DNS zone transfer. This procedure is abbreviated `Asynchronous Full Transfer Zone` (`AXFR`), which is the protocol used during a DNS zone transfer. 
 
 Basically, in a DNS query a client provide a human-readable hostname and the DNS server responses with an IP address. 
+
+Quick syntax for zone transfers:
+
+```
+dig axfr actualtarget @nameserver 
+
+# You can also solicitate the transfer of reverse DNS query_
+ dig axfr -x 192.168  @ip
+```
+
 
 ### What is a DNS zone? 
 
@@ -74,6 +94,9 @@ dig axfr example.htb @$ip
 ```
 
 If the administrator used a subnet for the `allow-transfer` option for testing purposes or as a workaround solution or set it to `any`, everyone would query the entire zone file at the DNS server.
+
+> If misconfigured and left unsecured, this functionality can be abused by attackers to copy the zone file from the primary DNS server to another DNS server. A DNS Zone transfer can provide penetration testers with a holistic view of an organization's network layout. Furthermore, in certain cases, internal network addresses may be found on an organization's DNS servers.
+> 
 
 ## HTB machines
 

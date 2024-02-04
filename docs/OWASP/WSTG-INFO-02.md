@@ -21,7 +21,9 @@ tags:
 |1.2|[WSTG-INFO-02](WSTG-INFO-02.md)|[Fingerprint Web Server](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/02-Fingerprint_Web_Server)|- Determine the version and type of a running web server to enable further discovery of any known vulnerabilities.|
 
 
-## Whois
+## Passive fingerprinting
+
+### Whois
 
 ```shell-session
  whois $TARGET
@@ -58,9 +60,23 @@ HEAD / HTTP/1.0
 
 
 
-## Automatic scanning tools
+### Automatic scanning tools
 
 [netcraft](../netcraft.md), [nikto](../nikto.md).
 
 
 [Netcraft](https://www.netcraft.com) can offer us information about the servers without even interacting with them, and this is something valuable from a passive information gathering point of view. We can use the service by visiting `https://sitereport.netcraft.com` and entering the target domain. We need to pay special attention to the latest IPs used. Sometimes we can spot the actual IP address from the webserver before it was placed behind a load balancer, web application firewall, or IDS, allowing us to connect directly to it if the configuration.
+
+
+## Active fingerprinting
+
+### HTTP headers and HTML Source code
+
+- Note the response header  `Server`, `X-Powered-By`, or `X-Generator` as well.
+- Identify framework specific cookies. For instance, the cookie `CAKEPHP` for php.
+- Review the source code and identify `<meta>` or attributes with typical patterns from some servers (and/or frameworks).
+
+
+```
+nmap -sV -F target
+```

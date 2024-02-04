@@ -6,6 +6,7 @@ TableOfContents: true
 tags:
   - footprinting
   - CPTS
+  - eWPT
 ---
 
 # 01. Information Gathering   /  Footprinting

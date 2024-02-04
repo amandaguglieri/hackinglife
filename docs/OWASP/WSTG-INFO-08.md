@@ -23,16 +23,19 @@ tags:
 ## HTTP headers
 
 - Note the response header `X-Powered-By`, or `X-Generator` as well.
-- Indentify framework specific cookies. For instance, the cookie `CAKEPHP` for php.
+- Identify framework specific cookies. For instance, the cookie `CAKEPHP` for php.
 
 
 ## HTML source code
 
 - Framework is often include in the `META` tag.
-- Revise header and footer sections carefully: general markerds and specific markers.
+- Revise header and footer sections carefully: general markers and specific markers.
 - See typical file and folders structure. An example would be wp-includes folder for a wordpress installation, or a CHANGELOG file for a Drupal one.
 - Check out file extensions, as sometimes they reveals the underlying framework.
 - Revise error messages. They commonly reveals framework.
+
+See [WSTG-INFO-07](WSTG-INFO-07.md) for a reference to [HTTRack](../httrack.md) for mirrowing the code and [EyeWitness](../eyewitness.md). These utilities replicated the source code of the target domain.
+
 
 ## Tools
 
@@ -69,3 +72,25 @@ wafw00f -v https://www.example.com
 ```bash
 cat example_of_list.txt | aquatone -out ./aquatone -screenshot-timeout 1000
 ```
+
+
+**6**. Addons for browsers: 
+
+- [BuiltWith](https://addons.mozilla.org/es/firefox/addon/builtwith/): BuiltWith® covers 93,551+ internet technologies which include analytics, advertising, hosting, CMS and many more.
+
+
+**7.** [Curl](../curl.md):
+
+```bash
+curl -IL https://<TARGET>
+# -I: --head (HTTP  FTP  FILE) Fetch the headers only!
+# -L, --location: (HTTP) If the server reports that the requested page has moved to a different location (indicated with a Location: header and a 3XX response  code),  this  option  will make  curl  redo the request on the new place. If used together with -i, --include or -I, --head, headers from all requested pages will be shown. 
+```
+
+**8**. [nmap](../nmap.md):
+
+```shell-session
+sudo nmap -v $ip --script banner.nse
+```
+
+

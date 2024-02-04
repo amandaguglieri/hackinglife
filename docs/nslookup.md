@@ -1,4 +1,14 @@
-
+---
+title: nslookup
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentesting
+  - dns
+  - enumeration
+  - tools
+---
 
 
 # nslookup
@@ -27,3 +37,7 @@ nslookup -query=MX $TARGET
 
 #  Specify a nameserver if needed by adding `@<nameserver/IP>` to the command
 ```
+
+
+References:  
+- nslookup (https://linux.die.net/man/1/nslookup)  

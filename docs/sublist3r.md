@@ -31,7 +31,10 @@ From sublist3r directory:
 python3 sublist3r.py -d example.com -o file.txt
 # -d: Specify the domain.
 # -o file.txt: It prints the results to a file
-# -b: Enable the subbrute  bruteforce module. This built-in module relies on the names.txt wordlist. To find it, use: locate names.txt (you can edit it).
+# -b: Enable the bruteforce module. This built-in module relies on the names.txt wordlist. To find it, use: locate names.txt (you can edit it).
+
+# Select an engine for enumeration, for instance, google.
+python3 sublist3r.py -d example.com -e google
 ```
 
 

@@ -20,5 +20,11 @@ You will get some results related to headers such as, for example:
 Run:
 
 ```bash
-nikto -h http://localhost:8888
+nikto -h domain.com -o nikto.html -Format html
+
+
+nikto -h http://domain.com/index.php?page=target-page.php -Tuning 5 -Display V
+# -Display V : turn verbose mode on
+# -Tuning 5 : Level 5 is considered aggressive, covering a wide range of tests but may also increase the likelihood of false positives. 
 ```
+
