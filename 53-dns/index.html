@@ -617,6 +617,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -1284,6 +1290,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../dnsrecon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    dnsrecon
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../docker/" class="md-nav__link">
         
   
@@ -1578,6 +1605,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../fierce/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    fierce
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../figlet/" class="md-nav__link">
         
   
@@ -1814,6 +1862,27 @@
   
   <span class="md-ellipsis">
     httprint
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../httrack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTTRack
   </span>
   
 
@@ -15017,9 +15086,18 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="go">dig axfr example.htb @$ip</span>
 </span></code></pre></div>
 <p>If the administrator used a subnet for the <code>allow-transfer</code> option for testing purposes or as a workaround solution or set it to <code>any</code>, everyone would query the entire zone file at the DNS server.</p>
+<p>Another tools for transferring zones:</p>
+<p><a href="../fierce/">Fierce</a>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a># Perform a dns transfer using a wordlist againts domain.com
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>fierce -dns domain.com 
+</span></code></pre></div>
+<p><a href="../dnsenum/">dnsenum</a>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>dnsenum domain.com
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a># additionally it performs DNS brute force with /usr/share/dnsenum/dns.txt.
+</span></code></pre></div>
 <h2 id="subdomain-brute-enumeration">Subdomain brute enumeration</h2>
 <p>Using Sec wordlist:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v &#39;;\|SOA&#39; | sed -r &#39;/^\s*$/d&#39; | grep $sub | tee -a subdomains.txt;done</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v &#39;;\|SOA&#39; | sed -r &#39;/^\s*$/d&#39; | grep $sub | tee -a subdomains.txt;done</span>
 </span></code></pre></div>
 <h2 id="tools-for-passive-enumeration">Tools for passive enumeration</h2>
 <table>
@@ -15047,16 +15125,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <td>Python wordlist-based DNS subdomain scanner.</td>
 </tr>
 <tr>
-<td><a href="../amass">amass</a></td>
-<td>In depth DNS Enumeration and network mapping.</td>
-</tr>
-<tr>
 <td><a href="../dnsrecon/">DNSRecon</a></td>
 <td>Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.</td>
-</tr>
-<tr>
-<td><a href="../dnsenum/">dnsenum</a></td>
-<td>multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks.</td>
 </tr>
 <tr>
 <td><a href="https://dnsdumpster.com/">dnsdumpster.com</a></td>
@@ -15065,10 +15135,48 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tbody>
 </table>
 <h2 id="tools-for-active-enumeration">Tools for active enumeration</h2>
+<table>
+<thead>
+<tr>
+<th>Tool + Cheat sheet</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../dnsenum/">dnsenum</a></td>
+<td>multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks.</td>
+</tr>
+<tr>
+<td><a href="../dig/">dig</a></td>
+<td>discover non-contiguous ip blocks.</td>
+</tr>
+<tr>
+<td><a href="../fierce/">fierce</a></td>
+<td>DNS scanner that helps locate non-contiguous IP space and hostnames.</td>
+</tr>
+<tr>
+<td><a href="../dnscan/">dnscan</a></td>
+<td>Python wordlist-based DNS subdomain scanner.</td>
+</tr>
+<tr>
+<td><a href="../gobuster/">gobuster</a></td>
+<td>For brute force enumerations.</td>
+</tr>
+<tr>
+<td><a href="../nslookup/">nslookup</a></td>
+<td>.</td>
+</tr>
+<tr>
+<td><a href="../amass/">amass</a></td>
+<td>In depth DNS Enumeration and network mapping.</td>
+</tr>
+</tbody>
+</table>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-03T11:59:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-03</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-04T18:54:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-04</span></small></br>
 
 
     <small>Created: May 22, 2023 16:32:18</small>
