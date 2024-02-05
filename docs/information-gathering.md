@@ -4,14 +4,9 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - pentesting
+  - pentest
+  - information gathering
   - web
-  - pentesting
-  - enumeraInformation
-  - Gathering
-  - "-"
-  - Web
-  - Editiontion
 ---
 
 # Information gathering

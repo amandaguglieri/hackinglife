@@ -18,6 +18,22 @@ Related issues:
 
 [Setting up Postman with BurpSuite](proxies.md)
 
+Burp Suite has two editions:
+
+- **Community Edition** - Provides you with everything you need to get started and is designed for students or professionals looking to learn more about AppSec. Features include:
+		■ HTTP(s) Proxy.
+		■ Modules - Repeater, Decoder, Sequencer & Comparer.
+		■ Lite version of the Intruder module (Performance Throttling).
+- **Professional Edition** - Faster, more reliable offering designed for penetration testers and security professionals. Features include everything in the community edition plus:
+		■ Project files.
+		■ No performance throttling.
+		■ Intruder - Fully featured module.
+		■ Custom PortSwigger payloads.
+		■ Automatic scanner and crawler.
+
+
+Accessing older releases: [https://portswigger.net/burp/releases/archive](https://portswigger.net/burp/releases/archive).
+
 
 
 ## Runtime environments
@@ -52,4 +68,22 @@ The reported enforcement statuses are the following:
 ### Param Miner
 
 In Burp Suite, you can use the Param Miner extension's "Guess headers" function to automatically probe for supported headers using its extensive built-in wordlist.
+
+
+### Turbo intruder
+
+
+### CMS Scanner
+
+### WAF Detect
+
+### Bypass WAF
+
+### Waf Cookie Fetcher
+
+### PDF Viewer
+
+### Wayback machine
+
+### Software Vulnerability Scanner
 
