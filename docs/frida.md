@@ -127,9 +127,11 @@ chmod 644 /system/etc/security/cacerts/9a5ba575.0
 In Burp now we need a Proxy Listener. We will indicate the Host-Only IP that we have in our kali. For instance: 192.168.156.107. Port: 8080.
 
 And in the wifi settings of the virtual device running on GenyMotion (for instance a Galaxy6), we need to indicate this same IP on Host-Only mode from our kali.
+```
+
 
 ## Basic commands
- 
+
 ```
 # Display active processes, and installed
 frida-ps -Ua
