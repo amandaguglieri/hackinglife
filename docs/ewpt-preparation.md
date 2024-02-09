@@ -17,7 +17,7 @@ eWPTv2
 | ---- | ---- | ---- |
 | 01 | Introduction to Web application testing | -[HTTP and HTTPs](http-headers.md)<br>- [Phases of a web application security testing](penetration-testing-process.md) |
 | 02 | Web Enumeration & Information Gathering | [Information gathering](information-gathering.md) |
-| 03 | WAPT: Web proxies and Web Information Gathering | [BurpSuite] |
+| 03 | WAPT: Web proxies and Web Information Gathering | [BurpSuite](burpsuite.md)<br>[OWASP Zap](owasp-zap.md) |
 | 04 | XSS Attacks |  |
 | 05 | SQL Injection Attacks |  |
 | 06 | Testing for common attacks |  |

@@ -30,3 +30,20 @@ After that, OWASP Zap allows you to narrow the results to your target. How? In t
 
 With the results, start your analysis and remove false-negative vulnerabilities.
  
+
+### Interesting addons
+
+Update all your addons when opening ZAP for the first time.
+
+
+- Treetools
+- Reflect
+- Revisit
+- Directory List v.2.3
+- Wappalyzer
+- Python Scripting
+- Passive scanner rules
+- FileUpload
+- Regular Expression tester.
+
+

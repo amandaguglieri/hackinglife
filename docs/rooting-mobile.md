@@ -115,6 +115,9 @@ When the screen turns into black, remove the pressing only from the Volume Down 
 
 >Troubleshooting: Aparently, I did not do it correctly and got stuck in the situation in which, my phone was is download mode displaying RMM/KG State: Prenormal. So my phone had no OEM unlocking enable option and could not be rooted. The solution:  https://www.youtube.com/watch?v=TBUY05mnCP8
 
+
+After that I did not know if I had to go back to the flash step or Iif I should try to get to the download mode and then try to get into the recovery mode. I went through a loop of turning on and off, with several reinstallations and frozen screens with Samsung logo in it. I saw the "erasing" mesage several times and... 
+
 Odin3 v3.14.4 : [https://dl2018.sammobile.com/Odin.zipDriver](https://dl2018.sammobile.com/Odin.zipDriver) 
 
 de Samsung : [https://developer.samsung.com/android-usb-driver](https://developer.samsung.com/android-usb-driver) 
