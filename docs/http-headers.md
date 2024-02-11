@@ -132,7 +132,7 @@ The status code can be resume in the following chart:
 
 From [geeksforgeeks](https://www.geeksforgeeks.org/http-headers-set-cookie/): "The **HTTP header Set-Cookie** is a response header and used to send cookies from the server to the user agent. So the user agent can send them back to the server later so the server can detect the user."
 
-**Directives**
+
 
 ```
 # The cookie name have to avoid this character ( ) @, ; : \ ” / [ ] ? = { } plus control characters, spaces, and tabs. It can be any US-ASCII characters.

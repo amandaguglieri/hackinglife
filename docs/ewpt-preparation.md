@@ -17,8 +17,8 @@ eWPTv2
 | ---- | ---- | ---- |
 | 01 | Introduction to Web application testing | -[HTTP and HTTPs](http-headers.md)<br>- [Phases of a web application security testing](penetration-testing-process.md) |
 | 02 | Web Enumeration & Information Gathering | [Information gathering](information-gathering.md) |
-| 03 | WAPT: Web proxies and Web Information Gathering | [BurpSuite](burpsuite.md)<br>[OWASP Zap](owasp-zap.md) |
-| 04 | XSS Attacks |  |
+| 03 | WAPT: Web proxies and Web Information Gathering | - [BurpSuite](burpsuite.md)<br>- [OWASP Zap](owasp-zap.md) |
+| 04 | XSS Attacks | - [Cross Site Script vulnerabilities](webexploitation/cross-site-scripting-xss.md).<br>- [XSSer](xsser.md) |
 | 05 | SQL Injection Attacks |  |
 | 06 | Testing for common attacks |  |
 | 07 | File and Resource attacks |  |
@@ -33,7 +33,7 @@ eWPTX
 | ---- | ---- | ---- |
 | 01 | Encoding and filtering |  |
 | 02 | Evasion Basics |  |
-| 03 | Cross-Site Scripting |  |
+| 03 | Cross-Site Scripting | - [Cross Site Script vulnerabilities](webexploitation/cross-site-scripting-xss.md). |
 | 04 | Filter evasion and WAF Bypasssing |  |
 | 05 | Cross-Site Request Forgery |  |
 | 06 | HTML 5 |  |

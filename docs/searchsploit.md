@@ -28,3 +28,8 @@ sudo apt install exploitdb -y
 searchsploit <WhatYouAreLookingFor>
 ```
 
+Example:
+
+![searchsploit results for ApPHP](img/searchsploit.png)
+
+If you want to have a look at those POCs, append the path provided to the root location for the searchsploit database (`/usr/share/exploitdb/exploits`).

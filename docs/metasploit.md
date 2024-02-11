@@ -494,3 +494,13 @@ show options
 
 run
 ```
+
+
+### The http_javascript_keylogger
+
+This modules runs a web server that demonstrates keystroke logging through JavaScript. The DEMO option can be set to enable a page that demonstrates this technique. To use this module with an existing web page, simply add a script source tag pointing to the URL of this service ending in the .js extension. For example, if URIPATH is set to "test", the following URL will load this script into the calling site: http://server:port/test/anything.js
+
+
+```msf
+use auxiliary/server/capture/http_javascript_keylogger
+```
