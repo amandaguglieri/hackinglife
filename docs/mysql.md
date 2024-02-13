@@ -38,6 +38,10 @@ sudo nmap $ip -sV -sC -p3306 --script mysql*
 
 ![SQL](img/sql_01.png)
 
+Additionally there are two strings that you can use to comment a line in SQL:
+
+- `#` The hash symbol.
+- `--`The two dashes followed by a space-
 
 ```mysql
 # Show datases
@@ -58,8 +62,9 @@ USE nameofdatabase;
 # Show tablesç
 SHOW tables;
 
-# Dump content from nameOftable
-SELECT * FROM NameOfTable
+# Dump columns from nameOftable
+SELECT * FROM NameOfTable;
+# SELECT name, description FROM products WHERE id=9;
 
 # Create a table with some columns in the previously selected database
 CREATE TABLE person(nombre VARCHAR(255), edad INT, id INT);
@@ -77,7 +82,7 @@ INSERT INTO persona VALUES("alvaro", 54, 1);
 ## Basic queries 
 
 ```mysql
-# Show all rows from table
+# Show all columns from table
 SELECT * FROM persona
 
 # Select a row from a table filtering by the value of a given column
@@ -88,6 +93,15 @@ SELECT * FROM oficina JOIN persona ON persona.id=oficina.user_id;
 
 # UNION query. This means, for an attack, that the number of columns has to be the same
 SELECT * FROM oficina UNION SELECT * from persona;
+```
+
+
+```MySQL
+# UNION Statement syntax
+#<SELECT statement> UNION <other SELECT statement>;
+# Example:
+SELECT name, description FROM products WHERE id=9 UNION SELECT price FROM products WHERE id=9;
+
 ```
 
 
