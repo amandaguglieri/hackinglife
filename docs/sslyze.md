@@ -27,3 +27,4 @@ sslyze --certinfo <DOMAIN>
 ```
 
 In order not to have false positive regarding hostname validation, use the domain (not IP).
+

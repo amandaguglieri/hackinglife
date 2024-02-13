@@ -34,6 +34,11 @@ sudo nmap $ip -sV -sC -p3306 --script mysql*
 
 ## Basic commands
 
+![SQL](img/sql_00.png)
+
+![SQL](img/sql_01.png)
+
+
 ```mysql
 # Show datases
 SHOW databases;
