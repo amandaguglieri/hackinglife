@@ -28,6 +28,11 @@ sudo apt install software-properties-common
 
 ```bash
 sudo add-apt-repository ppa:deadsnakes/ppa
+
+# If you get this error:
+AttributeError: NoneType object has no attribute people
+# Try Installing  python3-launchpadlib 
+sudo apt-get install  python3-launchpadlib 
 ```
 
 Check python versions you want. Syntax:
@@ -68,6 +73,26 @@ sudo update-alternatives --config python
 
 
 ## Other methods
+
+No very orthodox but:
+
+```bash
+# Check current Python pointer
+ls -l /usr/bin/python
+
+# Check available Python versions**
+ls -l /usr/bin/python*
+
+# Unlink current python version**
+cd /usr/bin
+sudo unlink python
+
+# Select required python version and lin to python command**
+sudo ln -s /usr/bin/python2.7 python
+
+# Confirm change in pointer**
+ls -l /usr/bin/python
+```
 
 
 

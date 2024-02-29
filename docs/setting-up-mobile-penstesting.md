@@ -25,3 +25,11 @@ tags:
 
 
 [ADB (Android Debug Bridge) cheat sheet](android-debug-bridge.md).
+
+
+## Resources
+
+[https://medium.com/@lightbulbr/how-to-root-an-android-emulator-with-tiramisu-android-13-f070a756c499](https://medium.com/@lightbulbr/how-to-root-an-android-emulator-with-tiramisu-android-13-f070a756c499)
+
+
+Install Java JDK: [https://wiki.centos.org/HowTos(2f)JavaDevelopmentKit.html](https://wiki.centos.org/HowTos(2f)JavaDevelopmentKit.html)

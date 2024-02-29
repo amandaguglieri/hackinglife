@@ -198,7 +198,5 @@ activity.normalshoot.implementation = function(x,y){
 	// in the original code:
 	// this.score += 2;
 }
-
-
-
+```
 
