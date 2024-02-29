@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.9">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.f2e4d321.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -14796,67 +14796,76 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>And<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>wifi<span class="w"> </span>settings<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>virtual<span class="w"> </span>device<span class="w"> </span>running<span class="w"> </span>on<span class="w"> </span>GenyMotion<span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>instance<span class="w"> </span>a<span class="w"> </span>Galaxy6<span class="o">)</span>,<span class="w"> </span>we<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>indicate<span class="w"> </span>this<span class="w"> </span>same<span class="w"> </span>IP<span class="w"> </span>on<span class="w"> </span>Host-Only<span class="w"> </span>mode<span class="w"> </span>from<span class="w"> </span>our<span class="w"> </span>kali.
 </span></code></pre></div>
 <h2 id="basic-commands">Basic commands</h2>
-<p>```</p>
-<h1 id="display-active-processes-and-installed">Display active processes, and installed</h1>
-<p>frida-ps -Ua</p>
-<h1 id="restaurate-class-loaders">Restaurate class loaders</h1>
-<p>Java.perform(function() {
-    var application = Java.use("android.com.application");
-    var classloader;
-    application.attach.overload('android.content.Context').implementation = function(context) {
-        var result = this.attach(context);
-        classloader = context.getClassLoader();
-        Java.classFactory.loader = classloader;
-    return result;
-    }
-})</p>
-<h1 id="enumerate-classes-loaded-in-memory">Enumerate classes loaded in memory</h1>
-<p>Java.perform(function() {
-    Java.enumerateLoadedClasses
-    ({
-        "onMatch": function(className) {
-            console.log(className)
-            },
-        "onComplete": function(){]
-    })
-})</p>
-<h1 id="enumerate-classes-loaded-in-memory-linked-to-a-specific">Enumerate classes loaded in memory linked to a specific <package></h1>
-<p>Java.enumerateLoadedClasses
-({
-    "onMatch": function(className) {
-        if(className.includes("<package>")) {
-            console.log(className);
-        }
-    },
-    "onComplete": function(){]
-});</p>
-<h1 id="android-version-installed-on-device">Android version installed on device</h1>
-<p>Java.androidVersion</p>
-<h1 id="execute-a-method-of-an-activity">Execute a method of an Activity</h1>
-<p>Java.choose("<Name and path of the activity>"), {
-    onMatch: function(instance) {
-    // This function will be called for every instance found by frida console.log (Found instance: "+ instance).
-        instace.<Method name>/<function()>;
-    },
-    onComplete: function(){}
-});</p>
-<h1 id="save-an-activity-in-a-variable">Save an Activity in a variable</h1>
-<p>var NameofVariable = Java.use(com.android.application.<nameOfActivity>); </p>
-<h1 id="execute-a-script-js-from-frida">Execute a script js from Frida</h1>
-<p>frida -U com.android.applicationName -l instance.js</p>
-<h1 id="modify-the-implementation-of-a-function">Modify the implementation of a function</h1>
-<p>var activity = Java.use(com.droidhem.basketball.adapters.Game);
-activity.normalshoot.implementation = function(x,y){
-    //print the original arguments
-    console.log("Dentro de normalshoot");
-    this.score.value += 10000;
-    // in the original code:
-    // this.score += 2;
-}</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a># Display active processes, and installed
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>frida-ps -Ua
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a># Restaurate class loaders
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>Java.perform(function() {
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    var application = Java.use(&quot;android.com.application&quot;);
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    var classloader;
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    application.attach.overload(&#39;android.content.Context&#39;).implementation = function(context) {
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>        var result = this.attach(context);
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        classloader = context.getClassLoader();
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>        Java.classFactory.loader = classloader;
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>    return result;
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>    }
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>})
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a># Enumerate classes loaded in memory
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>Java.perform(function() {
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    Java.enumerateLoadedClasses
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>    ({
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>        &quot;onMatch&quot;: function(className) {
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>            console.log(className)
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>            },
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>        &quot;onComplete&quot;: function(){]
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>    })
+</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a>})
+</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a>
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a># Enumerate classes loaded in memory linked to a specific &lt;package&gt;
+</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a>Java.enumerateLoadedClasses
+</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a>({
+</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a>    &quot;onMatch&quot;: function(className) {
+</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a>        if(className.includes(&quot;&lt;package&gt;&quot;)) {
+</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a>            console.log(className);
+</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a>        }
+</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a>    },
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a>    &quot;onComplete&quot;: function(){]
+</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a>});
+</span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38" href="#__codelineno-16-38"></a>
+</span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39" href="#__codelineno-16-39"></a># Android version installed on device
+</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40" href="#__codelineno-16-40"></a>Java.androidVersion
+</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41" href="#__codelineno-16-41"></a>
+</span><span id="__span-16-42"><a id="__codelineno-16-42" name="__codelineno-16-42" href="#__codelineno-16-42"></a># Execute a method of an Activity
+</span><span id="__span-16-43"><a id="__codelineno-16-43" name="__codelineno-16-43" href="#__codelineno-16-43"></a>Java.choose(&quot;&lt;Name and path of the activity&gt;&quot;), {
+</span><span id="__span-16-44"><a id="__codelineno-16-44" name="__codelineno-16-44" href="#__codelineno-16-44"></a>    onMatch: function(instance) {
+</span><span id="__span-16-45"><a id="__codelineno-16-45" name="__codelineno-16-45" href="#__codelineno-16-45"></a>    // This function will be called for every instance found by frida console.log (Found instance: &quot;+ instance).
+</span><span id="__span-16-46"><a id="__codelineno-16-46" name="__codelineno-16-46" href="#__codelineno-16-46"></a>        instace.&lt;Method name&gt;/&lt;function()&gt;;
+</span><span id="__span-16-47"><a id="__codelineno-16-47" name="__codelineno-16-47" href="#__codelineno-16-47"></a>    },
+</span><span id="__span-16-48"><a id="__codelineno-16-48" name="__codelineno-16-48" href="#__codelineno-16-48"></a>    onComplete: function(){}
+</span><span id="__span-16-49"><a id="__codelineno-16-49" name="__codelineno-16-49" href="#__codelineno-16-49"></a>});
+</span><span id="__span-16-50"><a id="__codelineno-16-50" name="__codelineno-16-50" href="#__codelineno-16-50"></a>
+</span><span id="__span-16-51"><a id="__codelineno-16-51" name="__codelineno-16-51" href="#__codelineno-16-51"></a># Save an Activity in a variable
+</span><span id="__span-16-52"><a id="__codelineno-16-52" name="__codelineno-16-52" href="#__codelineno-16-52"></a>var NameofVariable = Java.use(com.android.application.&lt;nameOfActivity&gt;); 
+</span><span id="__span-16-53"><a id="__codelineno-16-53" name="__codelineno-16-53" href="#__codelineno-16-53"></a>
+</span><span id="__span-16-54"><a id="__codelineno-16-54" name="__codelineno-16-54" href="#__codelineno-16-54"></a># Execute a script js from Frida
+</span><span id="__span-16-55"><a id="__codelineno-16-55" name="__codelineno-16-55" href="#__codelineno-16-55"></a>frida -U com.android.applicationName -l instance.js
+</span><span id="__span-16-56"><a id="__codelineno-16-56" name="__codelineno-16-56" href="#__codelineno-16-56"></a>
+</span><span id="__span-16-57"><a id="__codelineno-16-57" name="__codelineno-16-57" href="#__codelineno-16-57"></a># Modify the implementation of a function
+</span><span id="__span-16-58"><a id="__codelineno-16-58" name="__codelineno-16-58" href="#__codelineno-16-58"></a>var activity = Java.use(com.droidhem.basketball.adapters.Game);
+</span><span id="__span-16-59"><a id="__codelineno-16-59" name="__codelineno-16-59" href="#__codelineno-16-59"></a>activity.normalshoot.implementation = function(x,y){
+</span><span id="__span-16-60"><a id="__codelineno-16-60" name="__codelineno-16-60" href="#__codelineno-16-60"></a>    //print the original arguments
+</span><span id="__span-16-61"><a id="__codelineno-16-61" name="__codelineno-16-61" href="#__codelineno-16-61"></a>    console.log(&quot;Dentro de normalshoot&quot;);
+</span><span id="__span-16-62"><a id="__codelineno-16-62" name="__codelineno-16-62" href="#__codelineno-16-62"></a>    this.score.value += 10000;
+</span><span id="__span-16-63"><a id="__codelineno-16-63" name="__codelineno-16-63" href="#__codelineno-16-63"></a>    // in the original code:
+</span><span id="__span-16-64"><a id="__codelineno-16-64" name="__codelineno-16-64" href="#__codelineno-16-64"></a>    // this.score += 2;
+</span><span id="__span-16-65"><a id="__codelineno-16-65" name="__codelineno-16-65" href="#__codelineno-16-65"></a>}
+</span></code></pre></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-06T22:42:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-06</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-29T15:15:09+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-29</span></small></br>
 
 
     <small>Created: January 4, 2023 00:07:39</small>
@@ -14931,7 +14940,7 @@ activity.normalshoot.implementation = function(x,y){
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
