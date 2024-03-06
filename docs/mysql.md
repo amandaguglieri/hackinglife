@@ -93,6 +93,19 @@ SELECT * FROM oficina JOIN persona ON persona.id=oficina.user_id;
 
 # UNION query. This means, for an attack, that the number of columns has to be the same
 SELECT * FROM oficina UNION SELECT * from persona;
+
+# Sorting data on the bases on edad column
+SELECT * FROM persona ORDER BY edad;
+
+# Retrieving first record from the table.
+SELECT * from persona order by edad limit 1;
+
+# Count the number of people stored in persona
+SELECT count(*) from persona;
+
+# Context: a wordpress database
+# Identify how many distinct authors have published a post in the blog
+SELECT DISTINCT(post_author) from wpdatabase.wp_posts;
 ```
 
 

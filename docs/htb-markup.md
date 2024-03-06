@@ -76,7 +76,7 @@ Cookie: PHPSESSID=1gjqt353d2lm5222nl3ufqru10
 </item><address>1</address></order>
 ```
 
-The response will be id_rsa private key. [More about XEE attacks](webexploitation/xml-external-entity-xee.mdç).
+The response will be id_rsa private key. [More about XEE attacks](webexploitation/xml-external-entity-xee.md).
 
 Now, as port 22 was open:
 

