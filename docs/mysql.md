@@ -152,6 +152,7 @@ mysql.exe -u username -pPassword123 -h $IP
 ```
 
 
+
 ### GUI Application
 
 ###  Server Management Studio or SSMS

