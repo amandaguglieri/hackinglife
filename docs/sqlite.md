@@ -51,7 +51,7 @@ a' or '1'='1' union select flag,2,value,4,5 from secret_flag --
 
 Source: [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/SQLite%20Injection.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/SQLite%20Injection.md)
 
- ```sql
+```sql
 # SQLite comments
 --
 /**/
