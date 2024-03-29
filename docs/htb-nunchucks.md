@@ -75,7 +75,7 @@ Browsing https://store.nunchucks.htb is a simple landing page to collect emails.
 
 ![Example](img/nunchucks_1.png)
 
-Some code can get executed in that field. This vulnerability is known as [Server-side Template Injection (SSTI)](server-side-template-injection-ssti)
+Some code can get executed in that field. This vulnerability is known as [Server-side Template Injection (SSTI)](webexploitation/server-side-template-injection-ssti.md)
 
 Once we have an injection endpoint, it's important to identify the application server and template engine running on it, since payloads and exploitation pretty much depends on it.
 

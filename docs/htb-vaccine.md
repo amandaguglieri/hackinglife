@@ -158,7 +158,7 @@ User postgres may run the following commands on vaccine:
     (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf
 ```
 
-We can abuse [suid binaries technique](suid-binaries) to gain access to root user:
+We can abuse [suid binaries technique](suid-binaries.md) to gain access to root user:
 
 ```bash
  sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf

@@ -4,6 +4,41 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
+# mkdocs
+
+MkDocs is a static site generator for building project documentation. Documentation source files are written in [Markdown](markdown.md), and configured with a single YAML configuration file.
+
+I chose mkdocs to build the site because of its simplicity.  
+
+[Link to site](https://www.mkdocs.org/).
+
+Some other options: [hugo](https://gohugo.io/commands/hugo_server/).
+
+## My install
+
+1. Install a virtual environment such as [mkvirtualenv](python/python-virtual-environments.md). 
+
+2. Create your virtual environment and activate it:
+
+```
+mkvirtualenv hackinglife
+
+workon hackinglife
+```
+
+3. Install mkdocs. In my cas
+
+
+
+```
+pip install mkdocs==1.5.3
+
+pip install mkdocs-material
+pip install mkdocs-glightbox
+pip3 install mkdocs-git-revision-date-localized-plugin
+pip install mkdocs-pdf-export-plugin
+```
+
 
 # mkdocs Material theme
 

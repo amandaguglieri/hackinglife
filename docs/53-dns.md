@@ -209,25 +209,24 @@ for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-11000
 
 ## Tools for passive enumeration
 
-| Tool + Cheat sheet | What it does |
-| ---- | ---- |
-| [Google dorks](../google-dorks) | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using. |
-| [Sublist3r](../sublist3r) | Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS. |
-| [crt.sh](../ctr) | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality. |
-| [dnscan](../dnscan) | Python wordlist-based DNS subdomain scanner. |
-| [DNSRecon](dnsrecon.md) | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target. |
-| [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process. |
+| Tool + Cheat sheet                          | What it does                                                                                                                                                                                                    |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Google dorks](google-dorks.md)             | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using.   |
+| [Sublist3r](sublist3r.md)                   | Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS. |
+| [crt.sh](ctr.md)                            | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality.                                |
+| [dnscan](dnscan.md)                         | Python wordlist-based DNS subdomain scanner.                                                                                                                                                                    |
+| [DNSRecon](dnsrecon.md)                     | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.                                                                                |
+| [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process.       |
 
 
 ## Tools for active enumeration
 
-| Tool + Cheat sheet | What it does |
-| ---- | ---- |
-| [dnsenum](dnsenum.md) | multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks. |
-| [dig](dig.md) |  discover non-contiguous ip blocks. |
-| [fierce](fierce.md) |  DNS scanner that helps locate non-contiguous IP space and hostnames. |
-| [dnscan](dnscan.md) | Python wordlist-based DNS subdomain scanner. |
-| [gobuster](gobuster.md) | For brute force enumerations. |
-| [nslookup](nslookup.md) | . |
-| [amass](amass.md) | In depth DNS Enumeration and network mapping. |
- 
+| Tool + Cheat sheet      | What it does                                                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [dnsenum](dnsenum.md)   | multithreaded perl script to enumerate DNS information of a domain and to discover non-contiguous ip blocks. |
+| [dig](dig.md)           | discover non-contiguous ip blocks.                                                                           |
+| [fierce](fierce.md)     | DNS scanner that helps locate non-contiguous IP space and hostnames.                                         |
+| [dnscan](dnscan.md)     | Python wordlist-based DNS subdomain scanner.                                                                 |
+| [gobuster](gobuster.md) | For brute force enumerations.                                                                                |
+| [nslookup](nslookup.md) | .                                                                                                            |
+| [amass](amass.md)       | In depth DNS Enumeration and network mapping.                                                                |

@@ -95,6 +95,49 @@ ls -l /usr/bin/python
 ```
 
 
+## Installing python in Kali
+
+
+If you are on Ubuntu 19.10 (or any other version unsupported by the deadsnakes PPA, like it's the case of Kali), you will not be able to install using the deadsnakes PPA.
+
+
+First, install development packages required to build Python.
+
+```
+sudo apt update
+sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev curl
+```
+
+Then download the tarball and extract it:
+
+```
+wget https://www.python.org/ftp/python/3.9.19/Python-3.9.19.tar.xz
+tar -xf Python-3.9.19.tar.xz
+```
+
+Once the Python tarball has been extracted, navigate to the configure script and execute it in your Linux terminal with:
+
+```
+cd Python-3.9.19
+./configure
+```
+
+The configuration may take some time. Wait until it is successfully finishes before proceeding.
+
+ If you want to create an alternative install for python, start the build process: 
+
+```
+sudo make altinstall
+```
+
+If you want to replace your current version of Python with this new version, you should uninstall your current Python package using your package manager (such as apt or dnf) and then install:
+
+```
+sudo make install
+```
+
+
+
 
 ## Installing pip
 
@@ -102,24 +145,13 @@ ls -l /usr/bin/python
 python3 -m pip install pip
 ```
 
- If you get error: externally-managed-environment, then the solution is create an environment. As the message explains, _**this is actually not an issue with Python itself**_, but rather your Linux distribution (Kali, Debian, etc.) implementing a deliberate policy to ensure you don't break your operating system and system packages by using `pip` (or Poetry, Hatch, PDM or another non-OS package manager) outside the protection of a virtual environment.
+ If you get error: externally-managed-environment, then the solution is create an environment. As the message explains, _**this is actually not an issue with Python 
+ itself**_, but rather your Linux distribution (Kali, Debian, etc.) implementing a deliberate policy to ensure you don't break your operating system and system packages by using `pip` (or Poetry, Hatch, PDM or another non-OS package manager) outside the protection of a virtual environment.
 
-## Creating a virtual environment with venv
+## Creating a virtual environment 
 
-```
-python3 -m venv <DIR>
-source <DIR>/bin/activate
-```
+See [virtual Environments](python-virtual-environments.md).
 
-Now you can activate or deactivate the virtual environment with:
+## Switch python versions
 
-```
-<DIR>\Scripts\activate
-```
-
-
-## Creating a virtual environment with mkvirtualenv
-
-```bash
-mkvirtualenv nameOfEnv
-```
+See [pyenv](pyenv.md).

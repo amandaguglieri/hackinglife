@@ -112,7 +112,7 @@ jwt_tool <JWT Token> -C -d /wordlist.txt
 # -d specifies the dictionary or wordlist
 ```
 
-You can generate this wordlist for the secret signature of the json web token by using [crunch](crunch-md).
+You can generate this wordlist for the secret signature of the json web token by using [crunch](crunch.md).
 
 Once you crack the secret of the signature, we can create our own trusted tokens. 
 1. Grab another user email (in the crapi app, from the data exposure vulnerability when getting the forum (GET {{baseUrl}}/community/api/v2/community/posts/recent).

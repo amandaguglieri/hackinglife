@@ -29,7 +29,7 @@ From course: [Python For Offensive PenTest: A Complete Practical Course](https:/
 		- [Coding a reverse shell that searches files](coding-a-reverse-shell-that-searches-files.md). 
 	- Techniques for bypassing filters: 
 		- [Coding a reverse shell that scans ports](coding-a-reverse-shell-that-scans-ports.md). 
-		- [Hickjack the Internet Explorer process to bypass an host-based firewall](hickjack-internet-explorer-process-to-bypass-an-host-based-firewall).
+		- [Hickjack the Internet Explorer process to bypass an host-based firewall](hickjack-internet-explorer-process-to-bypass-an-host-based-firewall.md).
 		- [Bypassing Next Generation Firewalls](bypassing-next-generation-firewalls.md).
 		- [Bypassing IPS with handmade XOR Encryption](bypassing-ips-with-handmade-xor-encryption.md).
 	- Malware and crytography:
@@ -44,7 +44,6 @@ From course: [Python For Offensive PenTest: A Complete Practical Course](https:/
 		- [DNS Poisoning](dns-poisoning.md).
 	- Privilege escalation:
 		- [Weak service file permission](privilege-escalation.md).
-
 
 
 

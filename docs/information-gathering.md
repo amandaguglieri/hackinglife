@@ -27,15 +27,15 @@ Information gathering is typically broken down into two types:
 - **Active information gathering/Enumeration** - Involves gathering as much information as possible by actively engaging with the target system. (You will require authorization in order to perform active information gathering).
 
 
-| Passive Information Gathering | Active Information Gathering/Enumeration |
-|---|---|
-|Identifying domain names and domain ownership information.|Identify website content structure.|
-|Discovering hidden/disallowed files and directories.|Downloading & analyzing website/web app source code.|
-|Identifying web server IP addresses & DNS records.|Port scanning & service discovery.|
-|Identifying web technologies being used on target sites.|Web server fingerprinting.|
-|WAF detection.|Web application scanning.|
-|Identifying subdomains.|DNS Zone Transfers.|
-|Identify website content structure.|Subdomain enumeration via Brute-Force.|
+| Passive Information Gathering                              | Active Information Gathering/Enumeration             |
+| ---------------------------------------------------------- | ---------------------------------------------------- |
+| Identifying domain names and domain ownership information. | Identify website content structure.                  |
+| Discovering hidden/disallowed files and directories.       | Downloading & analyzing website/web app source code. |
+| Identifying web server IP addresses & DNS records.         | Port scanning & service discovery.                   |
+| Identifying web technologies being used on target sites.   | Web server fingerprinting.                           |
+| WAF detection.                                             | Web application scanning.                            |
+| Identifying subdomains.                                    | DNS Zone Transfers.                                  |
+| Identify website content structure.                        | Subdomain enumeration via Brute-Force.               |
 
 
 
@@ -49,9 +49,9 @@ Or Passive server enumeration.
 !!! quote ""
 	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.2. Fingerprint Web Server
 
-|ID|Link to Hackinglife|Link to OWASP|Objectives|
-|:---|:---|:---|:---|
-|1.2|[WSTG-INFO-02](OWASP/WSTG-INFO-02.md) |[Fingerprint Web Server](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/02-Fingerprint_Web_Server)|- Determine the version and type of a running web server to enable further discovery of any known vulnerabilities.|
+| ID  | Link to Hackinglife                   | Link to OWASP                                                                                                                                                                   | Objectives                                                                                                         |
+| :-- | :------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------- |
+| 1.2 | [WSTG-INFO-02](OWASP/WSTG-INFO-02.md) | [Fingerprint Web Server](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/02-Fingerprint_Web_Server) | - Determine the version and type of a running web server to enable further discovery of any known vulnerabilities. |
 
 #### host command
 
@@ -123,13 +123,13 @@ A valuable resource for this information is the Domain Name System (DNS). We can
 
 Worth trying: [DNSRecon](dnsrecon.md).
 
-| Tool + Cheat sheet | What it does |
-| ---- | ---- |
-| [Google dorks](../google-dorks) | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using. |
-| [crt.sh](../ctr) | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality. |
-| [dnscan](../dnscan) | Python wordlist-based DNS subdomain scanner. |
-| [DNSRecon](dnsrecon.md) | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target. |
-| [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process. |
+| Tool + Cheat sheet                          | What it does                                                                                                                                                                                                  |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Google dorks](google-dorks.md)             | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using. |
+| [crt.sh](ctr.md)                            | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality.                              |
+| [dnscan](dnscan.md)                         | Python wordlist-based DNS subdomain scanner.                                                                                                                                                                  |
+| [DNSRecon](dnsrecon.md)                     | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.                                                                              |
+| [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process.     |
 
 
 ### 1.3. Reviewing server metafiles

@@ -9,7 +9,7 @@ tags:
 
 # SQLi Cheat sheet for manual injection
 
-- See a more detailed [explanation about SQL injection](webexploitation/sql-injection).
+- See a more detailed [explanation about SQL injection](webexploitation/sql-injection.md).
 - [Payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
 
 
@@ -97,7 +97,7 @@ to your MySQL server version for the right syntax to use near [query
 snippet]
 ```
 
-[Typical error based payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based
+[Typical error based payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based)
 
 
 ### Manual UNION attack
