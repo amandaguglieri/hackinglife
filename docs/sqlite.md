@@ -9,6 +9,7 @@ tags:
   - database
   - SQL
 ---
+
 # SQLite injections
 
 

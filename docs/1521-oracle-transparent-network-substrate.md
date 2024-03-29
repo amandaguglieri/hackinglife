@@ -211,3 +211,14 @@ Oracle databases can be protected by using so-called PL/SQL Exclusion List (`Pls
 |`TRACE_FILE_NAME`|The name of the trace file.|
 |`LOG_FILE`|The file where the log information is stored.|
 
+
+## Extra Bonus: DUAL
+
+The DUAL is a special one row, one column table present by default in all Oracle databases. The owner of DUAL is SYS, but DUAL can be accessed by every user. This is a possible payload for SQLi:
+
+```
+'+UNION+SELECT+NULL+FROM+dual--
+```
+
+Oracle syntax requires the use of FROM, but some queries don't requires any table. For these case we use DUAL. Also Oracle doesn't allow the queries that employ information_schema.tables.
+
