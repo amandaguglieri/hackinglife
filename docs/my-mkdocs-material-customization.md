@@ -16,9 +16,10 @@ Some other options: [hugo](https://gohugo.io/commands/hugo_server/).
 
 ## My install
 
-1. Install a virtual environment such as [mkvirtualenv](python/python-virtual-environments.md). 
+Install a virtual environment such as [virtualenvwrapper](python/python-virtual-environments.md). 
 
-2. Create your virtual environment and activate it:
+
+Create your virtual environment and activate it:
 
 ```
 mkvirtualenv hackinglife
@@ -26,42 +27,78 @@ mkvirtualenv hackinglife
 workon hackinglife
 ```
 
-3. Install mkdocs. In my cas
-
-
+Install [mkdocs](https://www.mkdocs.org/). It's version 1.5.3. in my case:
 
 ```
 pip install mkdocs==1.5.3
+```
 
+Install [material theme for mkdocs](https://squidfunk.github.io/mkdocs-material/): 
+
+```
 pip install mkdocs-material
+```
+
+Install plugins such as glightbox:
+ 
+```
 pip install mkdocs-glightbox
+```
+
+Install plugins such as "git-revision-date-localized"
+
+```
 pip3 install mkdocs-git-revision-date-localized-plugin
+```
+
+Install plugins such as "mkdocs-pdf-export"
+
+```
 pip install mkdocs-pdf-export-plugin
 ```
 
 
-# mkdocs Material theme
+## Customizing Material theme: pluggins and extensions
 
+Some plugins like "mkdocs-glightbox", "mkdocs-git-revision-date-localized-plugin", or "mkdocs-pdf-export-plugin", need to be added when the web app is deployed, so for that reason they are added at .github/workflow/doc.yml. 
 
-## Adminition extension
+But some other pluggings just need to be added in the mkdocs configuration file (mkdocs.yml) like this:
 
-The following code will be reflected  in the document as the chart below
+```
+markdown_extensions:
+    - extensionName
+```
+
+### Admonition extension
+
+Source: [https://squidfunk.github.io/mkdocs-material/reference/admonitions/](https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
+
+In mkdocs.yml: 
+
+```
+markdown_extensions:
+    - admonition
+    - pymdownx.details 
+    - pymdownx.superfences
+```
+
+#### Basic syntax
+
+Code in the document:
 
 ```
 !!! note "title"
 
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod 
     nulla. 
-
 ```
 
+How it is seen:
 
 !!! note "title"
 
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et  euismod nulla.
-    
 
-### Basic syntax
 
 Admonitions follow a simple syntax: a block starts with `!!!`, followed by a single keyword used as a [type qualifier](https://squidfunk.github.io/mkdocs-material/reference/admonitions/#supported-types). The content of the block follows on the next line, indented by four spaces
 
@@ -85,8 +122,7 @@ These are the type qualifier:  [`note`](https://squidfunk.github.io/mkdocs-mater
 [`quote`](https://squidfunk.github.io/mkdocs-material/reference/admonitions/#type:quote)
 
 
-
-## Content tabs
+### Content tabs
 
 Source: [https://squidfunk.github.io/mkdocs-material/reference/content-tabs/](https://squidfunk.github.io/mkdocs-material/reference/content-tabs/)
 
@@ -125,7 +161,7 @@ How it is seen:
 === "Right"
 	Content
 
-## Data tables
+### Data tables
 
 Source: [https://squidfunk.github.io/mkdocs-material/reference/data-tables/#customization](https://squidfunk.github.io/mkdocs-material/reference/data-tables/#customization)
 
@@ -157,7 +193,7 @@ This is how it is seen:
 | `DELETE`    | Delete resource |
 
 
-## PDF button in every page
+### PDF button in every page
 
 Most of the existing plugins offer a print-all-in-one-file solution, which is not my intended development.
 
@@ -210,13 +246,12 @@ plugins:
 ```
 
 
-
-## Resolving relative link issues when rendering
+### Resolving relative link issues when rendering
 
 [https://octoprint.github.io/mkdocs-site-urls/](https://octoprint.github.io/mkdocs-site-urls/)
 
 
-## Revision date
+### Revision date
 
 [https://timvink.github.io/mkdocs-git-revision-date-localized-plugin/](https://timvink.github.io/mkdocs-git-revision-date-localized-plugin/)
 ]

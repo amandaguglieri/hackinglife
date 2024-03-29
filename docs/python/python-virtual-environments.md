@@ -13,23 +13,7 @@ tags:
 # Virtual environments
 
 
-
-## venv
-
-```
-python3 -m venv <DIR>
-source <DIR>/bin/activate
-```
-
-Now you can activate or deactivate the virtual environment with:
-
-```
-<DIR>\Scripts\activate
-```
-
-
-
-## mkvirtualenv
+## virtualenvwrapper 
 
 ### Installation
 
@@ -79,4 +63,19 @@ Backing up virtual environment before removing it:
 ```
 pip freeze > requirements.txt
 ```
+
+
+## venv
+
+```
+python3 -m venv <DIR>
+source <DIR>/bin/activate
+```
+
+Now you can activate or deactivate the virtual environment with:
+
+```
+<DIR>\Scripts\activate
+```
+
 
