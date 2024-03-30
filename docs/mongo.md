@@ -1,22 +1,14 @@
 ---
-title: 27017-27018 mongodb 
+title: Mongo
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - mongodb
-  - port 27017
-  - port 27018
+  - database
+  - database
+  - NoSQL
 ---
-
-# 27017 - 27018 mongoDB
-
-[https://book.hacktricks.xyz/network-services-pentesting/27017-27018-mongodb](https://book.hacktricks.xyz/network-services-pentesting/27017-27018-mongodb).
-
-## Description 
-
-27017 - The default port for mongod and mongos instances. You can change this port with port or --port.27018  - The default port for mongod when running with --shardsvr command-line option or the shardsvr value for the clusterRole setting in a configuration file.
-MongoDB is an open source database management system (DBMS) that uses a document-oriented database model which supports various forms of data. 
+# Mongo
 
 ## To connect to a MongoDB
 
@@ -29,7 +21,12 @@ mongo <HOST>:<PORT>/<DB>
 mongo <database> -u <username> -p '<password>'
 ```
 
-## Some MongoDB commands
+
+A collection is a group of documents in the database.
+
+
+## Basic usage
+
 
 ```mongo
 # Enter in mongodb application

