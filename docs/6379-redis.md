@@ -30,7 +30,7 @@ The command-line interface (CLI) is a powerful tool that gives you complete acce
 The database is stored in the server's RAM to enable fast data access. Redis also writes the contents of the database to disk at varying intervals to persist it as a backup, in case of failure.
 
 
-## To install it in your kali
+## Install redis in your kali
 
 ### Prerequisites
 

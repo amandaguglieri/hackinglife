@@ -8,17 +8,24 @@ tags:
 ---
 # SQLi Cheat sheet for manual injection
 
-!!! example "Resources"
+!!! quote "Resources"
     - See a more detailed [explanation about SQL injection](webexploitation/sql-injection.md).
     - [PayloadsAllTheThings Original payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
 
-!!! example "My cloned dictionaries"
+??? example "Dictionaries based on languages"
     - [MySQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MySQL%20Injection.md).
     - [MSSQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MSSQL%20Injection.md).
     - [PostgreSQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/PostgreSQL%20injection.md).
     - [Oracle SQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Oracle-SQL-injections.md).
     - [SQLite injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md).
+    - [Cassandra injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Cassandra%20Injection.md).
 
+??? example "Attack-based dictionaries"
+    - [Generic SQL Injection Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/generic-injections)
+    - [Generic Error Based Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based).
+    - [Generic Union Select Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/union-select).
+    - [SQL time based payloads ](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based).
+    - [SQL Injection Auth Bypass Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/auth-bypass) 
 
 ## Comment injection
 
@@ -107,7 +114,7 @@ SELECT * FROM users WHERE username = '' OR '1'='1'; -- ' AND password = '<passwo
 
 ## Error-based testing
 
-!!! example "Dictionaries"
+??? example "Dictionaries"
     [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based)
 
 Firstly, every DBMS/RDBMS responds to incorrect/erroneous SQL queries with different error messages, so an error response can be use to fingerprint the database:
@@ -130,7 +137,7 @@ snippet]
 
 ## UNION attack
 
-!!! example "Dictionaries"
+??? example "Dictionaries"
     [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/union-select](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/union-select)
 
 ### MYSQL
@@ -275,7 +282,7 @@ Firstly you need to check the application response to different requests (and/or
 
 #### Boolean based
 
-!!! example "Dictionaries"
+??? example "Dictionaries"
     [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based)
 
 user() returns the name of the user currently using the database.
@@ -300,7 +307,7 @@ More interesting queries:
 
 #### Time based
 
-!!! example "Dictionaries"
+??? example "Dictionaries"
     [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based)
 
 !!! quote "Resources"

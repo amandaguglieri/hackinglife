@@ -13,7 +13,7 @@ tags:
 
 **MySQL**: MySQL is an open-source relational database management system(RDBMS) based on Structured Query Language (SQL). It is developed and managed by oracle corporation and initially released on 23 may, 1995. It is widely being used in many small and large scale industrial applications and capable of handling a large volume of data. After the acquisition of MySQL by Oracle, some issues happened with the usage of the database and hence MariaDB was developed.
 
-By default, MySQL uses `TCP/3306`.
+By default, MySQL uses [`TCP/3306`](3306-mariadb-mysql.md).
 
 ## Authentication Mechanisms
 
