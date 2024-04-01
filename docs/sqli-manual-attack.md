@@ -12,13 +12,24 @@ tags:
     - See a more detailed [explanation about SQL injection](webexploitation/sql-injection.md).
     - [PayloadsAllTheThings Original payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
 
-??? example "Dictionaries based on languages"
-    - [MySQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MySQL%20Injection.md).
-    - [MSSQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MSSQL%20Injection.md).
-    - [PostgreSQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/PostgreSQL%20injection.md).
-    - [Oracle SQL injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Oracle-SQL-injections.md).
-    - [SQLite injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md).
-    - [Cassandra injections](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Cassandra%20Injection.md).
+
+??? quote "OWASP"
+	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 7. Data Validation Testing > 7.5. Testing for SQL Injection
+
+	| ID  | Link to Hackinglife             | Link to OWASP     | Description                                                                                                                       | 
+	| :-- | :------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+	| 7.5 | [WSTG-INPV-05](OWASP/WSTG-INPV-05.md) | [Testing for SQL Injection](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection) | - Identify SQL injection points.  - Assess the severity of the injection and the level of access that can be achieved through it. |
+
+
+??? example "Languages and dictionaries"
+	| Server | Dictionary |
+	| -- | -- |
+	|  [MySQL](mysql.md) | [MySQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MySQL%20Injection.md). | 
+	| [MSSQL](mssql.md) | [MSSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MSSQL%20Injection.md). |
+	|  [PostgreSQL](5432-postgresql.md) | [PostgreSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/PostgreSQL%20injection.md). |
+	|  [Oracle](1521-oracle-transparent-network-substrate.md) | [Oracle SQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Oracle-SQL-injections.md). |
+	| [SQLite](sqlite.md) | [SQLite payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md). | 
+	| Cassandra | [Cassandra payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Cassandra%20Injection.md). | 
 
 ??? example "Attack-based dictionaries"
     - [Generic SQL Injection Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/generic-injections)
