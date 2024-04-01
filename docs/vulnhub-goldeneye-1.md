@@ -137,7 +137,7 @@ Now, we have two usernames: boris and natalya, and we also have an aparently URL
 
 #### **Third**, now we can browse to http://192.168.56.101/sev-home 
 
-A [Basic-Authentification](http-authentication-schemes.md) pop-up layer will be displayed. To login into the system, enter:
+A [Basic-Authentification](webexploitation/http-authentication-schemes.md) pop-up layer will be displayed. To login into the system, enter:
 
 + user: boris
 + password: InvincibleHack3r
