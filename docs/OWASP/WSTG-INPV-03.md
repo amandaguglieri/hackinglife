@@ -19,3 +19,6 @@ tags:
 |:---|:---|:---|:---|
 |7.3|[WSTG-INPV-03](WSTG-INPV-03.md)|[Testing for HTTP Verb Tampering](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/03-Testing_for_HTTP_Verb_Tampering)|N/A, This content has been merged into: WSTG-CONF-06|
 
+This content has been merged into: [Test HTTP Methods](WSTG-CONF-06.md)
+
+
