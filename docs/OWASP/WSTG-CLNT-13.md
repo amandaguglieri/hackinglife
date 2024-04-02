@@ -7,9 +7,6 @@ tags:
   - web pentesting
   - WSTG-CLNT-13
 ---
-
-
-
 # Testing for Cross Site Script Inclusion
 
 !!! quote ""

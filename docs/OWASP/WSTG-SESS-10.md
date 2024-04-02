@@ -7,9 +7,6 @@ tags:
   - web pentesting
   - WSTG-SESS-10
 ---
-
-
-
 # Testing JSON Web Tokens
 
 !!! quote ""

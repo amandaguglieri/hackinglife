@@ -7,9 +7,6 @@ tags:
   - web pentesting
   - WSTG-SESS-07
 ---
-
-
-
 # Testing Session Timeout
 
 !!! quote ""

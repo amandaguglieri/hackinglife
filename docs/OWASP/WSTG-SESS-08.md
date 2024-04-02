@@ -7,9 +7,6 @@ tags:
   - web pentesting
   - WSTG-SESS-08
 ---
-
-
-
 # Testing for Session Puzzling
 
 !!! quote ""
