@@ -7,7 +7,7 @@ tags:
   - web pentesting
   - WSTG-INPV-12
 ---
-# Testing for Command Injection
+# Testing for command injection
 
 ??? quote "OWASP"
 	[OWASP Web Security Testing Guide 4.2](index.md) > 7. Data Validation Testing > 7.12. Testing for Command Injection
@@ -48,13 +48,35 @@ http://sensitive/cgi-bin/userData.pl?doc=user1.txt
 http://sensitive/cgi-bin/userData.pl?doc=/bin/ls|
 ```
 
-### Case Study: PHP
+### PHP code injection
 
-Appending a semicolon to the end of a URL for a .PHP page followed by an operating system command, will execute the command. %3B is URL encoded and decodes to semicolon 
+PHP code injection vulnerabilities, also known as PHP code execution vulnerabilities, occur when an attacker can inject and execute arbitrary PHP code within a web  application. These vulnerabilities are a serious security concern because they allow attackers to gain unauthorized access to the server, execute malicious actions, and potentially compromise the entire web application.
+
+
+Malicious Input: Attackers craft input that includes PHP code snippets, often enclosed within PHP tags (<?php ... ?>) or backticks (\`). 
+
+Code Execution: When the application processes the attacker's input, it includes the injected PHP code as part of a PHP script that is executed on the server.
+
+This allows the attacker to run arbitrary PHP code in the context of the web application. 
+
+**Command injection**: Appending a semicolon to the end of a URL for a .PHP page followed by an operating system command, will execute the command. %3B is URL encoded and decodes to semicolon 
 
 ```
+# Directly injecting operating system commands:
 http://sensitive/something.php?dir=%3Bcat%20/etc/passwd
+
+########
+# Injecting PHP commands
+#########
+
+# Validating that the injection is possible
+http://example.com/page.php?message=test;phpinfo();
+http://example.com/page.php?id=1'];phpinfo();
+
+# Executing PHP commands
+http://example.com/page.php?message=test;system(cat%20/etc/passwd)
 ```
+
 
 
 ## Special characters for command injection

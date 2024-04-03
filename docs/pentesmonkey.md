@@ -10,7 +10,16 @@ tags:
 
 # Pentesmonkey php reverse shell
 
-Download it from github: [https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php](https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php).
+
+??? abstract "Resources to generate reverse shells"
+    - [https://www.revshells.com/](https://www.revshells.com/)
+    - [Netcat for windows 32/64 bit](https://github.com/int0x33/nc.exe) 
+    - [Pentesmonkey](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
+    - [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) 
+
+Additionally, have a look at ["notes on reverse shells"](reverse-shells.md)
+
+Download Pentesmonkey from github: [https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php](https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php).
 
 
 ```bash

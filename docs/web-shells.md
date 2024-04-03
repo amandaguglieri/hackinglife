@@ -11,9 +11,14 @@ tags:
 
 # Web shells
 
+!!! example "Preconfigured webshells in Kali linux"
+    Go to /usr/share/webshells/
+    
+
 A Web Shell is typically a web script that accepts our command through HTTP request parameters, executes our command, and prints its output back on the web page.
 
 A web shell script is typically a one-liner that is very short and can be memorized easily.
+
 
 ## Some basic web shells
 

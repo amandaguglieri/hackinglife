@@ -22,6 +22,9 @@ tags:
 sudo nmap $ip -sV -sC -p3306 --script mysql*
 ```
 
+```
+sudo nmap -sS -sV --script mysql-empty-password -p 3306 $ip
+```
 
 
 
