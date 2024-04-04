@@ -23,20 +23,23 @@ curl -T file.txt
 curl -o target/path/filename URL
 # -o: to specify a location/filename
 
-curl -X GET $ip
+# Upload a File
+curl -F "Filedata=@./shellsample.php" URL
+
 # Sends a GET request
+curl -X GET $ip
 
-curl -l  $ip
 # Sends a HEAD request
+curl -l  $ip
 
-curl -X OPTIONS  $ip
 # Sends a OPTIONS request
+curl -X OPTIONS  $ip
 
-curl -X POST  $ip -d "name=username&password=password" -v
 # Sends a POST request with parameters name and password in the body data
+curl -X POST  $ip -d "name=username&password=password" -v
 
-curl $ip/uploads/ --upload-file hello.txt
 # Upload a file with a PUT method
+curl $ip/uploads/ --upload-file hello.txt
 
 curl -XDELETE $ip/uploads/hello.txt
 # Delete a file
