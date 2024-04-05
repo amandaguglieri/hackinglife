@@ -175,6 +175,21 @@ Set-Cookie: <cookie-name>=<cookie-value>; Domain=<domain-value>; Secure; HttpOnl
 
 ```
 
+#### Understanding SameSite attribute
+
+**Differences between SameSite and SameOrigin**: we will use the URL `http://www.example.org`  to  see the differences more clearly.
+
+| URL                           | Description                   | same-site | same-origin |
+| ----------------------------- | ----------------------------- | --------- | ----------- |
+| `http://www.example.org`      | Identical URL                 | ✅         | ✅           |
+| `http://www.example.org:80`   | Identical URL (implicit port) | ✅         | ✅           |
+| `http://www.example.org:8080` | Different port                | ✅         | ❌           |
+| `http://sub.example.org`      | Different subdomain           | ✅         | ❌           |
+| `https://www.example.org`     | Different scheme              | ❌         | ❌           |
+| `http://www.example.evil`     | Different TLD                 | ❌         | ❌           |
+
+When thinking about `SameSite` cookies, we're only thinking about "same-site" or "cross-site".
+
 
 ### CORS - Cross-Origin Resource Sharing 
 
