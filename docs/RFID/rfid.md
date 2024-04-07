@@ -1,9 +1,14 @@
 ---
-title: RFID 
+title: RFID
 author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentesting
+  - RFID
 ---
 
-# RFID
+# RFID 
 
 RFID Reader continuously sends Radio Waves. When the Tag is in the range it sends its feedback signals to the read.
 

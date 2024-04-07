@@ -5,7 +5,8 @@ draft: false
 TableOfContents: true
 tags:
   - pentesting
-  - NFC pentesting
+  - RFID pentesting
+  - NFC
 ---
 # Installing proxmark3 RDV4.01 in Kali
 

@@ -92,6 +92,8 @@ hf mf wrbl --blk 0 -k FFFFFFFFFFFF -d d3a2859f6b880400c801002000000016
 # Bruteforce MIFARE Classic card numbers from 11223344 to 11223346:
 script run hf_mf_uidbruteforce -s 0x11223344 -e 0x11223346 -t 1000 -x mfc
 
+# Bruteforce MIFARE Ultralight EV1 card numbers from 11223344556677 to 11223344556679
+script run hf_mf_uidbruteforce -s 0x11223344556677 -e 0x11223344556679 -t 1000 -x mfu
 ```
 
 
