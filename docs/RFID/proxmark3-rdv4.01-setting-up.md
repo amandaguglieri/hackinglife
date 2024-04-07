@@ -7,8 +7,9 @@ tags:
   - pentesting
   - NFC pentesting
 ---
-
 # Installing proxmark3 RDV4.01 in Kali
+
+[Basic usage](proxmark3.md)
 
 ## Preparing Linux
 
