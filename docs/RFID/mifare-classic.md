@@ -209,7 +209,7 @@ Using... hf-mf-<UID>-key.bin
 [=] -----+-----+-------------------------------------------------+-----------------
 [=]  sec | blk | data                                            | ascii
 [=] -----+-----+-------------------------------------------------+-----------------
-[=]    0 |   0 | F6 42 E4 ED BD 08 04 00 03 D4 5D 90 EF 36 06 90 | .B........]..6..
+[=]    0 |   0 | FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF | .B........]..6..
 [=]      |   1 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
 [=]      |   2 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
 [=]      |   3 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
@@ -308,7 +308,7 @@ hf mf cload -f /home/PATH/hf-mf-<UID>-dump.eml
 To copy that data onto a new card, place the (Chinese backdoor) card on the proxmark:
 
 ```
-hf mf restore --1k --uid <CAC0A500> -k /home/ME/hf-mf-<UID>-key.bin
+hf mf restore --1k --uid <UIDº> -k /home/ME/hf-mf-<UID>-key.bin
 ```
 
 This restores the dumped data onto the new card. Now we just need to give the card the UID we got from the original hf search command:

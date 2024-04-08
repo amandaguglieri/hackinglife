@@ -22,3 +22,6 @@ tags:
 ## See my notes
 
 [See my notes on Local File Inclusion](../webexploitation/local-file-inclusion-lfi.md)
+
+[See my notes on Remote File Inclusion](../webexploitation/remote-file-inclusion-rfi.md)
+
