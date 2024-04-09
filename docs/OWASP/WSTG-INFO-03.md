@@ -9,10 +9,9 @@ tags:
   - reconnaissance
   - WSTG-INFO-03
 ---
-
 # Review Webserver Metafiles for Information Leakage
 
-!!! quote ""
+??? quote "OWASP"
 	[OWASP Web Security Testing Guide 4.2](index.md) > 1. Information Gathering > 1.3. Review Webserver Metafiles for Information Leakage
 
 |ID|Link to Hackinglife|Link to OWASP|Objectives|

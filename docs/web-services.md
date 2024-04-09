@@ -1,7 +1,14 @@
-
-
-
-
+---
+title: Pentesting web services
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentesting
+  - webservices
+  - soap
+---
+# Pentesting web services
 ## Web services vs. Web applications
 
 ![web services vs web applications](img/web-services.png)
@@ -19,7 +26,7 @@ Web services and APIs (Application Programming Interfaces) are related concepts 
 
 
 
-## Implementations
+## Implementation of web services
 
 Web service implementations refer to the different ways in which web services can be created, deployed, and used. There are several methods and technologies  available for implementing web services.
 
@@ -69,23 +76,20 @@ REST is widely used for building scalable, stateless, and easy-to-maintain web s
 
 ## WSDL Language Fundamentals
 
-WSDL, which stands for Web Services Description Language, is an XML-based language used to describe the functionality and interface of a web service. WSDL documents serve as contracts between service providers and consumers, specifying how a web service can be used. WSDL is commonly used in conjunction with SOAP (Simple Object Access Protocol) to define and document SOAP-based web services.
+WSDL, which stands for Web Services Description Language, is an XML-based language used to describe the functionality and interface of a web service, typically, SOAP-based web services (Simple Object Access Protocol).
 
-Versions: At the time of writing, WSDL can be distinguished in two main versions: 1.1 and 2.0. Although 2.0 is the current version, many web services still use WSDL 1.1 therefore, in the next slides we will see both WSDL specifications.
+Versions: At the time of writing, WSDL can be distinguished in two main versions: 1.1 and 2.0. Although 2.0 is the current version, many web services still use WSDL 1.1.
+
+### The WSDL Document
+
+A WSDL document is typically created to describe a SOAP-based web service. It defines the service's operations, their input and output message structures, and how they are bound to the SOAP protocol. 
 
 First of all, it is important to know that WSDL documents have abstract and concrete definitions:
 
 - Abstract: describes what the service does, such as the operation provided, the input, the output and the fault messages used by each operation 
 - Concrete: adds information about how the web service communicates and where the functionality is offered
 
-### The WSDL Document
-
-A WSDL document is typically created to describe a SOAP-based web service. It defines the service's operations, their input and output message structures, and how they are bound to the SOAP protocol. 
-
-The WSDL document effectively documents  he API provided by the service. The WSDL document serves as a contract between the service provider and consumers. 
-
-It specifies how clients should construct SOAP requests to interact with the service. This contract defines the operations, their input parameters, and expected responses.
-
+The WSDL document effectively documents the API provided by the service. The WSDL document serves as a contract between the service provider and consumers. It specifies how clients should construct SOAP requests to interact with the service. This contract defines the operations, their input parameters, and expected responses.
 
 ### WSDL components
 
@@ -103,3 +107,63 @@ It specifies how clients should construct SOAP requests to interact with the ser
 Instead of portType, WSDL v. 2.0 uses interface elements which define a set of operations representing an interaction between the client and the service. Each operation specifies the types of messages that the service can send or receive. 
 
 Unlike the old portType, interface elements do not point to messages anymore (it does not exist in v. 2.0). Instead, they point to the schema elements contained within the types element
+
+## Web Service Security Testing
+
+Web service security testing is the process of evaluating the security of web services to identify vulnerabilities, weaknesses, and potential threats that could compromise the confidentiality, integrity, or availability of the service or its data.
+
+
+### Information Gathering and Analysis
+
+**1.** Identify the SOAP web services that need to be tested. 
+
+**2.** Identify the WSDL file for the SOAP web service. 
+
+Once the SOAP service has been identified, a way to discover WSDL files is by appending ?wsdl,.wsdl, ?disco or wsdl.aspx to the end of the service URL:
+
+![WSDL document](img/wsdl.png)
+
+**3.** With WSDL document identified we may gather information about the web service endpoints, operations, and data exchanged. 
+
+![enum](img/wsdl_01.png)
+
+![enum](img/wsdl_02.png)
+
+![enum](img/wsdl_02.png)
+
+
+**4.** Understand the security requirements, authentication methods, and authorization mechanisms in place. 
+
+
+### Authentication and Authorization Testing
+
+**Invoke hidden methods**
+
+![enum](img/wsdl_05.png)
+
+![enum](img/wsdl_04.png)
+
+- Test the authentication mechanisms in place (e.g., username/password, tokens) to ensure they prevent unauthorized access. 
+- Verify that users are correctly authenticated and authorized to access specific operations and resources. 
+- Input Validation Testing: 
+	- Test for input validation vulnerabilities, such as SQL injection, cross-site scripting (XSS), and XML-based attacks. 
+
+![sql injections](img/wsdl_06.png)
+
+![sql injections](img/wsdl_09.png)
+
+
+- Send malicious input data to the web service's input parameters to identify potential security weaknesses. For instance, command injection attacks:
+
+![command injection](img/wsdl_10.png)
+
+![command injections](img/wsdl_11.png)
+
+
+### The SOAPAction header
+
+The SOAPAction header is a transport protocol header (either HTTP or JMS). It is transmitted with SOAP messages, and provides information about the intention of the web service request, to the service. The WSDL interface for a web service defines the SOAPAction header value used for each operation. Some web service implementations use the SOAPAction header to determine behavior.
+
+![enum](img/wsdl_07.png)
+
+![enum](img/wsdl_08.png)
