@@ -156,6 +156,41 @@ Generally, web browsers (and other client-side components) automatically perform
 ![url encode](img/url-encoding.png)
 
 
+![url encode](img/url-encoding_01.png)
+
+|           |          |
+| --------- | -------- |
+| %23       | #        |
+| %3F       | ?        |
+| %24       | &        |
+| %25       | %        |
+| %2F       | /        |
+| %2B       | +        |
+| `<space>` | %20 or + |
+
+URL encoding is defined in the meta tag content type:
+
+```html
+# before HTML5
+<meta http-equiv="Content-Type"Content="text/html";charset="utf-8">
+
+# With HTML5
+<meta charset="utf-8">
+```
+
+This is how you define that HTML meta tag in some languages:
+
+```
+# PHP
+header('Content-type: text/html; charset=utf8');
+
+# ASP.NET
+<%Response.charset="utf-8"%>
+
+# JSP
+<%@ page contentType="text/html; charset=UTF-8" %>
+```
+
 ## Base64 encoding
 
 Base64 is an schema that allows any binary data (images, audio files, and other non-text data) to be safely represented by using solely printable ASCII characters. 
@@ -189,3 +224,6 @@ Base64 decoding is the reverse process. The encoded Base64 string is divided int
 >- Offline Storage: In certain offline or single-page applications, Base64-encoded data can be stored in local storage or indexedDB for quick access without the need to fetch resources from the server.
 
 
+## Base 36 encoding scheme
+
+It's the most compact, case-insensitive, alphanumeric numeral system using ASCII characters. The scheme's alphabet contains all digits `[0-9]` and Latin letters `[A-Z]`.
