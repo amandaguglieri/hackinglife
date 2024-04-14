@@ -6636,6 +6636,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#base-36-encoding-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Base 36 encoding scheme
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -15323,6 +15332,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#base-36-encoding-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Base 36 encoding scheme
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -15599,13 +15617,69 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Other characters are encoded by the use of a percent char (%) plus two hexadecimal digits. Although it appears to be a security feature, URL-encoding is not. It is only a method used to send data across the Internet but, it can lower (or enlarge) the attack surface (in some cases).</p>
 <p>Generally, web browsers (and other client-side components) automatically perform URL-encoding and, if a server-side script engine is present, it will automatically perform URL-decoding.</p>
 <p><img alt="url encode" src="../img/url-encoding.png" /></p>
+<p><img alt="url encode" src="../img/url-encoding_01.png" /></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%23</td>
+<td>#</td>
+</tr>
+<tr>
+<td>%3F</td>
+<td>?</td>
+</tr>
+<tr>
+<td>%24</td>
+<td>&amp;</td>
+</tr>
+<tr>
+<td>%25</td>
+<td>%</td>
+</tr>
+<tr>
+<td>%2F</td>
+<td>/</td>
+</tr>
+<tr>
+<td>%2B</td>
+<td>+</td>
+</tr>
+<tr>
+<td><code>&lt;space&gt;</code></td>
+<td>%20 or +</td>
+</tr>
+</tbody>
+</table>
+<p>URL encoding is defined in the meta tag content type:</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># before HTML5
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Content-Type&quot;</span><span class="na">Content</span><span class="o">=</span><span class="s">&quot;text/html&quot;</span><span class="err">;</span><span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a># With HTML5
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>This is how you define that HTML meta tag in some languages:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># PHP
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>header(&#39;Content-type: text/html; charset=utf8&#39;);
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a># ASP.NET
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>&lt;%Response.charset=&quot;utf-8&quot;%&gt;
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a># JSP
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>&lt;%@ page contentType=&quot;text/html; charset=UTF-8&quot; %&gt;
+</span></code></pre></div>
 <h2 id="base64-encoding">Base64 encoding</h2>
 <p>Base64 is an schema that allows any binary data (images, audio files, and other non-text data) to be safely represented by using solely printable ASCII characters. </p>
 <p>Base64 is commonly used for encoding email attachtment for safe transmission over <a href="../25-565-587-simple-mail-tranfer-protocol-smtp/">SMTP</a>. It's also used for encoding user credentials in basic <a href="../webexploitation/http-authentication-schemes/">HTTP authentication</a>. </p>
 <h3 id="how-it-works">How it works</h3>
 <p><strong>Encoding</strong></p>
 <p>Base64 encoding processes input data in blocks of 3 bytes. It divides these 24  bits into 4 chunks of six bits each. With these 64 different possible permuations (for the six bits) it can represent the following character set:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
 </span></code></pre></div>
 <p>Different variations of Base64 encoding may use different characters for the last two positions (<code>+</code> and <code>/</code>).</p>
 <p>If the final block of input data results in less than 3 chunks of output data, the the output is padded with one or two equal signs characters.</p>
@@ -15621,10 +15695,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>Offline Storage: In certain offline or single-page applications, Base64-encoded data can be stored in local storage or indexedDB for quick access without the need to fetch resources from the server.</li>
 </ul>
 </blockquote>
+<h2 id="base-36-encoding-scheme">Base 36 encoding scheme</h2>
+<p>It's the most compact, case-insensitive, alphanumeric numeral system using ASCII characters. The scheme's alphabet contains all digits <code>[0-9]</code> and Latin letters <code>[A-Z]</code>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-04-14T20:15:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-04-14</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-04-14T20:42:23+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-04-14</span></small></br>
 
 
     <small>Created: April 14, 2024 20:15:58</small>
