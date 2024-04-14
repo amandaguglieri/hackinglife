@@ -5,8 +5,9 @@ draft: false
 TableOfContents: true
 tags:
   - pentesting
-  - web pentesting
-  - reverse shells
+  - web
+  - pentesting
+  - reverse-shells
 ---
 
 # Reverse shells
@@ -16,6 +17,10 @@ tags:
     - [Netcat for windows 32/64 bit](https://github.com/int0x33/nc.exe) 
     - [Pentesmonkey](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
     - [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) 
+
+
+??? abstract "Other resources"
+    See [web shells](web-shells.md)
 
 
 Victim's machine Initiates a connection back to a "listener" on our attacking machine box. 

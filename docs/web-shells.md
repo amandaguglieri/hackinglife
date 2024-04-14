@@ -5,15 +5,17 @@ draft: false
 TableOfContents: true
 tags:
   - pentesting
-  - web pentesting
-  - web shells
+  - webshell
+  - reverse-shells
 ---
 
 # Web shells
 
 !!! example "Preconfigured webshells in Kali linux"
     Go to /usr/share/webshells/
-    
+
+??? abstract "Other resources"
+    See [reverse shells](reverse-shells.md)
 
 A Web Shell is typically a web script that accepts our command through HTTP request parameters, executes our command, and prints its output back on the web page.
 
