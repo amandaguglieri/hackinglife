@@ -8,7 +8,6 @@ tags:
   - phishing
   - tools
 ---
-
 # Tools for cloning a site
 
 [BeEF](beef.md).

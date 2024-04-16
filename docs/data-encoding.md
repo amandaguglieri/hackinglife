@@ -288,14 +288,14 @@ parseInt("ohpe",36)
 
 It's one of the possible attacks that can be perform with unicode:
 
-![Visual spoofing attack](visual-spoofing-attack.png)
+![Visual spoofing attack](img/visual-spoofing-attack.png)
 
-![Visual spoofing attack](visual-spoofing-attack_02.png)
+![Visual spoofing attack](img/visual-spoofing-attack_02.png)
 
 
 A tool for generating visual spoofing attacks: [https://www.irongeek.com/homoglyph-attack-generator.php](https://www.irongeek.com/homoglyph-attack-generator.php)
 
-![Visual spoofing attack](visual-spoofing-attack_03.png)
+![Visual spoofing attack](img/visual-spoofing-attack_03.png)
 
 [Paper](https://www.irongeek.com/i.php?page=security/out-of-character-use-of-punycode-and-homoglyph-attacks-to-obfuscate-urls-for-phishing)
 

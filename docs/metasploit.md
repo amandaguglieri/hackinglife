@@ -409,6 +409,9 @@ searchsploit nagios3
 
 Use this to enumerate users and brute force passwords in a smb service.
 
+### auxiliary/http_javascript_keylogger
+
+It creates the Javascript payload with a keylogger, which could be injected within the XSS vulnerable web page and automatically starts the listening server. To see how it works, set the DEMO option to true.
 
 ### post/windows/gather/hasdump 
 

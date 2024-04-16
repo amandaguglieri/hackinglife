@@ -28,7 +28,7 @@ eWPTX
 
 | Module | Course name                             | My notes on HackingLife                                                             |
 | ------ | --------------------------------------- | ----------------------------------------------------------------------------------- |
-| 01     | Encoding and filtering                  |                                                                                     |
+| 01     | Encoding and filtering                  | - [Data encoding](data-encoding.md)<br>- [Input filtering](input-filtering.md)      |
 | 02     | Evasion Basics                          |                                                                                     |
 | 03     | Cross-Site Scripting                    | - [Cross Site Script vulnerabilities](webexploitation/cross-site-scripting-xss.md). |
 | 04     | Filter evasion and WAF Bypasssing       |                                                                                     |
