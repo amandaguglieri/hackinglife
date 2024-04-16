@@ -77,9 +77,15 @@ URLs are permitted to contain only the printable characters in the US-ASCII char
 
 ## Unicode encoding
 
-Unicode is a character set standard that aims to encompass characters from all writing systems and languages used worldwide. Unlike early encoding standards like ASCII, which were limited to a small set of characters, Unicode provides a unified system for representing a vast range of characters, symbols, and glyphs in a consistent manner. It enables computers to handle text and characters from diverse languages and scripts, making it essential for  internationalization and multilingual communication. "UTF" stands for "Unicode Transformation Format." It refers to different character encoding schemes within the Unicode standard that are used to represent Unicode characters as binary data.
+Unicode is a character set standard that aims to encompass characters from all writing systems and languages used worldwide. Unlike early encoding standards like ASCII, which were limited to a small set of characters, Unicode provides a unified system for representing a vast range of characters, symbols, and glyphs in a consistent manner. It enables computers to handle text and characters from diverse languages and scripts, making it essential for  internationalization and multilingual communication. 
 
-UTF stands for Unicode Transformation Format. Unicode has three main character encoding schemes: UTF-8, UTF-16 and UTF-32.
+"UTF" stands for "Unicode Transformation Format." It refers to different character encoding schemes within the Unicode standard that are used to represent Unicode characters as binary data.  Unicode has three main character encoding schemes: UTF-8, UTF-16 and UTF-32. The trailing number indicates the number of bits to represent code points.
+
+![Unicode encoding](img/unicode_01.png)
+
+
+![Unicode encoding](img/unicode_02.png)
+
 
 [All UTF-8 enconding table and Unicode characters](https://www.utf8-chartable.de/)
 ### UTF-8 (Unicode Transformation Format 8-bit)
@@ -201,15 +207,24 @@ Base64 is commonly used for encoding email attachtment for safe transmission ove
 
 **Encoding**
 
-Base64 encoding processes input data in blocks of 3 bytes. It divides these 24  bits into 4 chunks of six bits each. With these 64 different possible permuations (for the six bits) it can represent the following character set:
+Base64 encoding processes input data in blocks of 3 bytes. It divides these 24  bits into 4 chunks of six bits each. With these 64 different possible permutations (for the six bits) it can represent the following character set:
 
 ```
 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
 ```
 
+![Base64 encoding scheme](img/base64_01.png)
+
 Different variations of Base64 encoding may use different characters for the last two positions (`+` and `/`).
 
 If the final block of input data results in less than 3 chunks of output data, the the output is padded with one or two equal signs characters.
+
+![Base 64 encoding example](img/base64_02.png)
+
+![Base 64 encoding example](img/base64_03.png)
+
+![Base 64 encoding example](img/base64_04.png)
+
 
 **Decoding**
 
@@ -224,6 +239,67 @@ Base64 decoding is the reverse process. The encoded Base64 string is divided int
 >- Offline Storage: In certain offline or single-page applications, Base64-encoded data can be stored in local storage or indexedDB for quick access without the need to fetch resources from the server.
 
 
+
+Encoding/decoding in Base64:
+
+```
+# PHP Example
+base64_encode('encode this string');
+base64_decode('ZW5jb2RlIHRoaXMgc3RyaW5n');
+
+# Javascript example
+window.btoa('encode this string');
+window.atob('ZW5jb2RlIHRoaXMgc3RyaW5n');
+
+# Handling Unicode in javascript requires previous encoding. The escapes and encodings are required to avoid exceptions with characters out of range
+window.btoa(encodeURIComponent(escape ('encode this string') ));
+window.atob(decodeURIComponent(escape ('ZW5jb2RlIHRoaXMgc3RyaW5n') ));
+
+```
+
+
 ## Base 36 encoding scheme
 
 It's the most compact, case-insensitive, alphanumeric numeral system using ASCII characters. The scheme's alphabet contains all digits `[0-9]` and Latin letters `[A-Z]`.
+
+![Base 36](img/base36_01.png)
+
+| Base 10       | Base 36  |     |
+| ------------- | -------- | --- |
+| 1294870408610 | GIUSEPPE |     |
+
+Base 36 Encoding scheme is used in many real-world scenarios.
+
+Converting Base36 to decimal:
+
+```
+# Number Base36 OHPE to decimal base
+
+# PHP Example: base_convert()
+base_convert("OHPE",36,10);
+
+# Javascript example: toString
+(1142690).toString(36)
+parseInt("ohpe",36)
+```
+
+
+## Visual spoofing attack
+
+It's one of the possible attacks that can be perform with unicode:
+
+![Visual spoofing attack](visual-spoofing-attack.png)
+
+![Visual spoofing attack](visual-spoofing-attack_02.png)
+
+
+A tool for generating visual spoofing attacks: [https://www.irongeek.com/homoglyph-attack-generator.php](https://www.irongeek.com/homoglyph-attack-generator.php)
+
+![Visual spoofing attack](visual-spoofing-attack_03.png)
+
+[Paper](https://www.irongeek.com/i.php?page=security/out-of-character-use-of-punycode-and-homoglyph-attacks-to-obfuscate-urls-for-phishing)
+
+
+## Multiple encodings/decodings
+
+Sometimes encoding and decoding is used multiple times. This can also be used to bypass security measures.

