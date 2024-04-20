@@ -148,10 +148,14 @@ $ fg
   
 ```bash
 # In reverse shell
-$ reset
-$ export SHELL=bash
-$ export TERM=xterm-256color
-$ stty rows <num> columns <cols>
+reset
+export SHELL=bash
+export TERM=xterm-256color
+stty rows <num> columns <cols>
+
+# In one line:
+reset; export SHELL=bash; export TERM=xterm-256color; stty rows <num> columns <cols>
+
 ```
 
 ### msfvenom

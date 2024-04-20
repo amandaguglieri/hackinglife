@@ -99,6 +99,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB trick](htb-trick.md)
 -   [HTB undetected](htb-undetected.md)
 -   [HTB unified](htb-unified.md)
+-   [HTB usage](htb-usage.md)
 -   [HTB vaccine](htb-vaccine.md)
 
 
