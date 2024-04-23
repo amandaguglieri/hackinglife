@@ -19,7 +19,7 @@ In the context of Active Directory, a forest is a collection of one or more doma
 ![AD structure](img/ldap-1.png)
 
 
-[And what about LDAP? See here](389-ldap.md).
+[And what about LDAP? See here](389-636-ldap.md).
 
 
 ## Tools
@@ -96,7 +96,7 @@ whoami /priv
 
 **Tool for enumeration**: 
 
-- [Enumeration with LDAP queries](389-ldap.md)
+- [Enumeration with LDAP queries](389-636-ldap.md)
 - [PowerView.ps1 from PowerSploit project (powershell)](powerview.md).
 - [The ActiveDirectory PowerShell module (powershell)](activedirectory-powershell-module.md).
 - [BloodHound (C# and PowerShell Collectors)](bloodhound.md).
