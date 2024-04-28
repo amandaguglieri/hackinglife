@@ -27,6 +27,9 @@ adb shell
 adb devices
 # -l: to list devices by model or product number
 
+# Connect to device
+adb connect
+
 # List Android devices connected and emulators in your computer
 show devices
 

@@ -57,3 +57,21 @@ _Note that this simplified process only works for released versions (it download
 scrcpy
 ```
 
+
+## Debugging
+
+For scrcpy to work, there must be an [adb connection](android-debug-bridge.md), which requires:
+
+- Having developer mode enabled.
+- Having USB debug mode enabled.
+
+And there’s an extra security restriction on Xiaomi Miui devices, which prevents USB debugging assigning permissions by default:
+
+> **USB debugging (Security settings)**  
+> _Allow granting permissions and simulating input via USB debugging_
+
+This may require to sign in into a Xiaomi account (or sign up if you have no account.)
+
+Otherwise you will obtain messages such as 
+
+![](img/scrcpy.png)
