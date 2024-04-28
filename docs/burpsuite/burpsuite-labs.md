@@ -71,20 +71,20 @@ tags:
 
 ## Cross-Site Request Forgery
 
-| Cross-site Request Forgery | level | link | Solved |
-| ------------- | ---- | ----- | -------- |
-| Cross-site Request Forgery | Apprentice | [CSRF vulnerability with no defenses](https://portswigger.net/web-security/csrf/lab-no-defenses) | Not solved |
-| Cross-site Request Forgery | Practitioner | [CSRF where token validation depends on request method](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-validation-depends-on-request-method) | Not solved |
-| Cross-site Request Forgery | Practitioner | [CSRF where token validation depends on token being present](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-validation-depends-on-token-being-present) | Not solved |
-| Cross-site Request Forgery | Practitioner | [CSRF where token is not tied to user session](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-not-tied-to-user-session) | Not solved |
-| Cross-site Request Forgery | Practitioner | [CSRF where token is tied to non-session cookie](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-tied-to-non-session-cookie) | Not solved |
-| Cross-site Request Forgery | Practitioner | [CSRF where token is duplicated in cookie](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-duplicated-in-cookie) | Not solved |
-| Cross-site Request Forgery | Practitioner | [SameSite Lax bypass via method override](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions/lab-samesite-lax-bypass-via-method-override) | Not solved |
-| Cross-site Request Forgery | Practitioner | [SameSite Strict bypass via client-side redirect](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions/lab-samesite-strict-bypass-via-client-side-redirect) | Not solved |
-| Cross-site Request Forgery | Practitioner | [SameSite Strict bypass via sibling domain](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions/lab-samesite-strict-bypass-via-sibling-domain) | Not solved |
-| Cross-site Request Forgery | Practitioner | [SameSite Lax bypass via cookie refresh](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions/lab-samesite-strict-bypass-via-cookie-refresh) | Not solved |
-| Cross-site Request Forgery | Practitioner | [CSRF where Referer validation depends on header being present](https://portswigger.net/web-security/csrf/bypassing-referer-based-defenses/lab-referer-validation-depends-on-header-being-present) | Not solved |
-| Cross-site Request Forgery | Practitioner | [CSRF with broken Referer validation](https://portswigger.net/web-security/csrf/bypassing-referer-based-defenses/lab-referer-validation-broken) | Not solved | 
+| Cross-site Request Forgery | level        | link                                                                                                                                                                                               | Solved     |     |
+| -------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --- |
+| Cross-site Request Forgery | Apprentice   | [CSRF vulnerability with no defenses](https://portswigger.net/web-security/csrf/lab-no-defenses)                                                                                                   | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [CSRF where token validation depends on request method](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-validation-depends-on-request-method)                       | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [CSRF where token validation depends on token being present](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-validation-depends-on-token-being-present)             | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [CSRF where token is not tied to user session](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-not-tied-to-user-session)                                            | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [CSRF where token is tied to non-session cookie](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-tied-to-non-session-cookie)                                        | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [CSRF where token is duplicated in cookie](https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-duplicated-in-cookie)                                                    | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [SameSite Lax bypass via method override](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions/lab-samesite-lax-bypass-via-method-override)                                   | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [SameSite Strict bypass via client-side redirect](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions/lab-samesite-strict-bypass-via-client-side-redirect)                   | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [SameSite Strict bypass via sibling domain](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions/lab-samesite-strict-bypass-via-sibling-domain)                               | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [SameSite Lax bypass via cookie refresh](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions/lab-samesite-strict-bypass-via-cookie-refresh)                                  | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [CSRF where Referer validation depends on header being present](https://portswigger.net/web-security/csrf/bypassing-referer-based-defenses/lab-referer-validation-depends-on-header-being-present) | Not solved |     |
+| Cross-site Request Forgery | Practitioner | [CSRF with broken Referer validation](https://portswigger.net/web-security/csrf/bypassing-referer-based-defenses/lab-referer-validation-broken)                                                    | Not solved |     |
 
 
 ## Clickjacking
@@ -139,15 +139,15 @@ tags:
 
 ## Server-side request forgery
 
-| Server-side request forgery | level | link | Solved |
-| ------------- | ---- | ----- | -------- |
-| Server-side request forgery | Apprentice | [Basic SSRF against the local server](https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-localhost) | Not solved |
-| Server-side request forgery | Apprentice | [Basic SSRF against another back-end system](https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-backend-system) | Not solved |
-| Server-side request forgery | Practitioner | [SSRF with blacklist-based input filter](https://portswigger.net/web-security/ssrf/lab-ssrf-with-blacklist-filter) | Not solved |
-| Server-side request forgery | Practitioner | [SSRF with filter bypass via open redirection vulnerability](https://portswigger.net/web-security/ssrf/lab-ssrf-filter-bypass-via-open-redirection) | Not solved |
-| Server-side request forgery | Practitioner | [Blind SSRF with out-of-band detection](https://portswigger.net/web-security/ssrf/blind/lab-out-of-band-detection) | Not solved |
-| Server-side request forgery | Expert | [SSRF with whitelist-based input filter](https://portswigger.net/web-security/ssrf/lab-ssrf-with-whitelist-filter) | Not solved |
-| Server-side request forgery | Expert | [Blind SSRF with Shellshock exploitation](https://portswigger.net/web-security/ssrf/blind/lab-shellshock-exploitation) | Not solved |
+|                                                                        | Server-side request forgery | level        | link                                                                                                                                                | Solved     |
+| ---------------------------------------------------------------------- | --------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| [ssrf-1](burpsuite-ssrf.md#basic-ssrf-against-the-local-server)        | Server-side request forgery | Apprentice   | [Basic SSRF against the local server](https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-localhost)                                   | Solved     |
+| [ssrf-2](burpsuite-ssrf.md#basic-ssrf-against-another-back-end-system) | Server-side request forgery | Apprentice   | [Basic SSRF against another back-end system](https://portswigger.net/web-security/ssrf/lab-basic-ssrf-against-backend-system)                       | Solved     |
+| [ssrf-3](burpsuite-ssrf.md#ssrf-with-blacklist-based-input-filters)    | Server-side request forgery | Practitioner | [SSRF with blacklist-based input filter](https://portswigger.net/web-security/ssrf/lab-ssrf-with-blacklist-filter)                                  | Solved     |
+| [ssrf-4](burpsuite-ssrf.md#ssrf-filter-bypass-via-open-redirection)    | Server-side request forgery | Practitioner | [SSRF with filter bypass via open redirection vulnerability](https://portswigger.net/web-security/ssrf/lab-ssrf-filter-bypass-via-open-redirection) | Not solved |
+|                                                                        | Server-side request forgery | Practitioner | [Blind SSRF with out-of-band detection](https://portswigger.net/web-security/ssrf/blind/lab-out-of-band-detection)                                  | Not solved |
+|                                                                        | Server-side request forgery | Expert       | [SSRF with whitelist-based input filter](https://portswigger.net/web-security/ssrf/lab-ssrf-with-whitelist-filter)                                  | Not solved |
+|                                                                        | Server-side request forgery | Expert       | [Blind SSRF with Shellshock exploitation](https://portswigger.net/web-security/ssrf/blind/lab-shellshock-exploitation)                              | Not solved |
 
 
 ## HTTP request smuggling
@@ -307,7 +307,6 @@ tags:
 | Information disclosure | Apprentice | [Authentication bypass via information disclosure](https://portswigger.net/web-security/information-disclosure/exploiting/lab-infoleak-authentication-bypass) | Not solved |
 | Information disclosure | Practitioner | [Information disclosure in version control history](https://portswigger.net/web-security/information-disclosure/exploiting/lab-infoleak-in-version-control-history) | Not solved | 
 
-
 ## Business logic vulnerabilities
 
 | Business logic vulnerabilities | level | link | Solved |
@@ -337,7 +336,6 @@ tags:
 | HTTP Host header attacks | Practitioner | [Host validation bypass via connection state attack](https://portswigger.net/web-security/host-header/exploiting/lab-host-header-host-validation-bypass-via-connection-state-attack) | Not solved |
 | HTTP Host header attacks | Expert | [Password reset poisoning via dangling markup](https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning/lab-host-header-password-reset-poisoning-via-dangling-markup) | Not solved | 
 
-
 ## OAuth authentication
 
 | OAuth authentication | level | link | Solved |
@@ -348,8 +346,6 @@ tags:
 | OAuth authentication | Practitioner | [Stealing OAuth access tokens via an open redirect](https://portswigger.net/web-security/oauth/lab-oauth-stealing-oauth-access-tokens-via-an-open-redirect) | Not solved |
 | OAuth authentication | Practitioner | [SSRF via OpenID dynamic client registration](https://portswigger.net/web-security/oauth/openid/lab-oauth-ssrf-via-openid-dynamic-client-registration) | Not solved |
 | OAuth authentication | Expert | [Stealing OAuth access tokens via a proxy page](https://portswigger.net/web-security/oauth/lab-oauth-stealing-oauth-access-tokens-via-a-proxy-page) | Not solved | 
-
-
 
 ## File upload vulnerabilities
 
@@ -362,7 +358,6 @@ tags:
 | File upload vulnerabilities | Practitioner | [Web shell upload via obfuscated file extension](https://portswigger.net/web-security/file-upload/lab-file-upload-web-shell-upload-via-obfuscated-file-extension) | Not solved |
 | File upload vulnerabilities | Practitioner | [Remote code execution via polyglot web shell upload](https://portswigger.net/web-security/file-upload/lab-file-upload-remote-code-execution-via-polyglot-web-shell-upload) | Not solved |
 | File upload vulnerabilities | Expert | [Web shell upload via race condition](https://portswigger.net/web-security/file-upload/lab-file-upload-web-shell-upload-via-race-condition) | Not solved | 
-
 
 ## JWT
 
