@@ -12,21 +12,15 @@ tags:
 
 ## About the machine
 
-![Omni Machine Banner](img/omni.png)
-
-
-
-| data       |                                                  |
-| ---------- | ------------------------------------------------ |
-| Machine    | Omni                                             |
-| Platform   | Hackthebox                                       |
-| url        | [link](https://app.hackthebox.com/machines/Omni) |
-| OS         | Linux                                            |
-| Difficulty | Easy                                             |
-| Points     | 20                                               |
-| ip         | 10.10.11.18                                      |
-
-
+| data       |                                                   |
+| ---------- | ------------------------------------------------- |
+| Machine    | Usage                                             |
+| Platform   | Hackthebox                                        |
+| url        | [link](https://app.hackthebox.com/machines/Usage) |
+| OS         | Linux                                             |
+| Difficulty | Easy                                              |
+| Points     | 20                                                |
+| ip         | 10.10.11.18                                       |
 
 ## Getting user.txt flag
 
@@ -151,7 +145,7 @@ xander:x:1001:1001::/home/xander:/bin/bash
 ```
 
 
-Upload the script [linpeas](linpeas.sh) to the victims machine.
+Upload the script [linpeas](linpeas.md) to the victims machine.
 
 ```
 ################

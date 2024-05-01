@@ -123,17 +123,17 @@ tags:
 
 ## XML external entity
 
-| XML external entity | level | link | Solved |
-| ------------- | ---- | ----- | -------- |
-| XML external entity | Apprentice | [Exploiting XXE using external entities to retrieve files](https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-retrieve-files) | Not solved |
-| XML external entity | Apprentice | [Exploiting XXE to perform SSRF attacks](https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-perform-ssrf) | Not solved |
-| XML external entity | Practitioner | [Blind XXE with out-of-band interaction](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-interaction) | Not solved |
-| XML external entity | Practitioner | [Blind XXE with out-of-band interaction via XML parameter entities](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-interaction-using-parameter-entities) | Not solved |
-| XML external entity | Practitioner | [Exploiting blind XXE to exfiltrate data using a malicious external DTD](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-exfiltration) | Not solved |
-| XML external entity | Practitioner | [Exploiting blind XXE to retrieve data via error messages](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-data-retrieval-via-error-messages) | Not solved |
-| XML external entity | Practitioner | [Exploiting XInclude to retrieve files](https://portswigger.net/web-security/xxe/lab-xinclude-attack) | Not solved |
-| XML external entity | Practitioner | [Exploiting XXE via image file upload](https://portswigger.net/web-security/xxe/lab-xxe-via-file-upload) | Not solved |
-| XML external entity | Expert | [Exploiting XXE to retrieve data by repurposing a local DTD](https://portswigger.net/web-security/xxe/blind/lab-xxe-trigger-error-message-by-repurposing-local-dtd) | Not solved | 
+| XML external entity | level        | link                                                                                                                                                                              | Solved     |     |
+| ------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --- |
+| XML external entity | Apprentice   | [Exploiting XXE using external entities to retrieve files](https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-retrieve-files)                                         | Not solved |     |
+| XML external entity | Apprentice   | [Exploiting XXE to perform SSRF attacks](https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-perform-ssrf)                                                             | Not solved |     |
+| XML external entity | Practitioner | [Blind XXE with out-of-band interaction](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-interaction)                                                     | Not solved |     |
+| XML external entity | Practitioner | [Blind XXE with out-of-band interaction via XML parameter entities](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-interaction-using-parameter-entities) | Not solved |     |
+| XML external entity | Practitioner | [Exploiting blind XXE to exfiltrate data using a malicious external DTD](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-exfiltration)                    | Not solved |     |
+| XML external entity | Practitioner | [Exploiting blind XXE to retrieve data via error messages](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-data-retrieval-via-error-messages)                         | Not solved |     |
+| XML external entity | Practitioner | [Exploiting XInclude to retrieve files](https://portswigger.net/web-security/xxe/lab-xinclude-attack)                                                                             | Not solved |     |
+| XML external entity | Practitioner | [Exploiting XXE via image file upload](https://portswigger.net/web-security/xxe/lab-xxe-via-file-upload)                                                                          | Not solved |     |
+| XML external entity | Expert       | [Exploiting XXE to retrieve data by repurposing a local DTD](https://portswigger.net/web-security/xxe/blind/lab-xxe-trigger-error-message-by-repurposing-local-dtd)               | Not solved |     |
 
 
 ## Server-side request forgery
@@ -190,15 +190,15 @@ tags:
 
 ## Server-side template injection
 
-| Server-side template injection | level | link | Solved |
-| ------------- | ---- | ----- | -------- |
-| Server-side template injection | Practitioner | [Basic server-side template injection](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-basic) | Not solved |
-| Server-side template injection | Practitioner | [Basic server-side template injection (code context)](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-basic-code-context) | Not solved |
-| Server-side template injection | Practitioner | [Server-side template injection using documentation](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-using-documentation) | Not solved |
-| Server-side template injection | Practitioner | [Server-side template injection in an unknown language with a documented exploit](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-in-an-unknown-language-with-a-documented-exploit) | Not solved |
-| Server-side template injection | Practitioner | [Server-side template injection with information disclosure via user-supplied objects](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-with-information-disclosure-via-user-supplied-objects) | Not solved |
-| Server-side template injection | Expert | [Server-side template injection in a sandboxed environment](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-in-a-sandboxed-environment) | Not solved |
-| Server-side template injection | Expert | [Server-side template injection with a custom exploit](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-with-a-custom-exploit) | Not solved | 
+| Solution                                                                                                                    | Server-side template injection | level        | link                                                                                                                                                                                                                                                            | Solved     |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| [ssti-1](burpsuite-ssti.md#exploiting/lab-server-side-template-injection-basic)                                             | Server-side template injection | Practitioner | [Basic server-side template injection](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-basic)                                                                                                 | Solved     |
+| [ssti-2](burpsuite-ssti.md#exploiting/server-side-template-injection-basic-code-context)                                    | Server-side template injection | Practitioner | [Basic server-side template injection (code context)](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-basic-code-context)                                                                     | Solved     |
+| [ssti-3](burpsuite-ssti.md#exploiting/server-side-template-injection-using-documentation)                                   | Server-side template injection | Practitioner | [Server-side template injection using documentation](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-using-documentation)                                                                     | Solved     |
+| [ssti-4](burpsuite-ssti.md#exploiting/server-side-template-injection-in-an-unknown-language-with-a-documented-exploit)      | Server-side template injection | Practitioner | [Server-side template injection in an unknown language with a documented exploit](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-in-an-unknown-language-with-a-documented-exploit)           | Solved     |
+| [ssti-5](burpsuite-ssti.md#exploiting/server-side-template-injection-with-information-disclosure-via-user-supplied-objects) | Server-side template injection | Practitioner | [Server-side template injection with information disclosure via user-supplied objects](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-with-information-disclosure-via-user-supplied-objects) | Solved     |
+| [ssti-6](burpsuite-ssti.md#exploiting/server-side-template-injection-in-a-sandboxed-environment)                            | Server-side template injection | Expert       | [Server-side template injection in a sandboxed environment](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-in-a-sandboxed-environment)                                                       | Solved     |
+|                                                                                                                             | Server-side template injection | Expert       | [Server-side template injection with a custom exploit](https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-with-a-custom-exploit)                                                                 | Not solved |
 
 
 ## Directory traversal
