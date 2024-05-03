@@ -637,6 +637,8 @@
       
         
       
+        
+      
     
     
     
@@ -1160,6 +1162,33 @@
   <a href="#software-vulnerability-scanner" class="md-nav__link">
     <span class="md-ellipsis">
       Software Vulnerability Scanner
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php-object-injection-slinger" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP Object Injection Slinger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      JWT Editor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-deserialization-scanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      Java Deserialization Scanner
     </span>
   </a>
   
@@ -3249,6 +3278,27 @@
   
   <span class="md-ellipsis">
     PeSecurity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phpggc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    phpggc
   </span>
   
 
@@ -15776,6 +15826,33 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#php-object-injection-slinger" class="md-nav__link">
+    <span class="md-ellipsis">
+      PHP Object Injection Slinger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      JWT Editor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-deserialization-scanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      Java Deserialization Scanner
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -15843,10 +15920,45 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="pdf-viewer">PDF Viewer</h3>
 <h3 id="wayback-machine">Wayback machine</h3>
 <h3 id="software-vulnerability-scanner">Software Vulnerability Scanner</h3>
+<h3 id="php-object-injection-slinger">PHP Object Injection Slinger</h3>
+<p><a href="https://github.com/portswigger/poi-slinger">https://github.com/portswigger/poi-slinger</a></p>
+<p>This is an extension for Burp Suite Professional, designed to help you scan for PHP Object Injection vulnerabilities on popular PHP Frameworks and some of their dependencies. It will send a serialized PHP Object to the web application designed to force the web server to perform a DNS lookup to a Burp Collaborator Callback Host.</p>
+<p>The payloads for this extension are all from the excellent Ambionics project PHPGGC. PHPGGC is a library of PHP unserialize() payloads along with a tool to generate them, from command line or programmatically. You will need it for further exploiting any vulnerabilities found by this extension.</p>
+<p>You should combine your testing with the PHP Object Injection Check extension from Securify so you can identify other possible PHP Object Injection issues that this extension does not pick up.</p>
+<p>To use the extension, on the Proxy/Target/Intruder/Repeater Tab, right click on the desired HTTP Request and click Send To POI Slinger. This will also highlight the HTTP Request and set the comment Sent to POI Slinger You can watch the debug messages on the extension's output pane under Extender-&gt;Extensions-&gt;PHP Object Injection Slinger.</p>
+<h3 id="jwt-editor">JWT Editor</h3>
+<p><a href="https://github.com/portswigger/jwt-editor">https://github.com/portswigger/jwt-editor</a></p>
+<p>JWT Editor is a Burp Suite extension for editing, signing, verifying, encrypting and decrypting JSON Web Tokens (JWTs).</p>
+<p>It provides automatic detection and in-line editing of JWTs within HTTP requests/responses and web socket messages, signing and encrypting of tokens and automation of several well-known attacks against JWT implementations.</p>
+<p>It was written originally by Fraser Winterborn, formerly of BlackBerry Security Research Group. The original source code can be found <a href="https://github.com/blackberry/jwt-editor">here</a>.</p>
+<p>For further information, check out the repository <a href="https://github.com/PortSwigger/jwt-editor">here</a>.</p>
+<h3 id="java-deserialization-scanner">Java Deserialization Scanner</h3>
+<p><a href="https://github.com/portswigger/java-deserialization-scanner">https://github.com/portswigger/java-deserialization-scanner</a></p>
+<p>This extension gives Burp Suite the ability to find Java deserialization vulnerabilities.</p>
+<p>It adds checks to both the active and passive scanner and can also be used in an "Intruder like" manual mode, with a dedicated tab.</p>
+<p>The extension allows the user to <em>discover and exploit</em> Java Deserialization Vulnerabilities with different encodings (Raw, Base64, Ascii Hex, GZIP, Base64 GZIP) when the following libraries are loaded in the target JVM:</p>
+<ul>
+<li>Apache Commons Collections 3 (up to 3.2.1), with five different chains</li>
+<li>Apache Commons Collections 4 (up to 4.4.0), with two different chains</li>
+<li>Spring (up to 4.2.2)</li>
+<li>Java 6 and Java 7 (up to Jdk7u21) without any weak library</li>
+<li>Hibernate 5</li>
+<li>JSON</li>
+<li>Rome</li>
+<li>Java 8 (up to Jdk8u20) without any weak library</li>
+<li>Apache Commons BeanUtils</li>
+<li>Javassist/Weld</li>
+<li>JBoss Interceptors</li>
+<li>Mozilla Rhino (two different chains)</li>
+<li>Vaadin</li>
+</ul>
+<p>Furthermore, URLSNDS payload has been introduced to actively detect Java deserialization on the backend without any vulnerable library. This check does the same job as the CPU attack vector already present in the "Manual testing" section but can be safely added to the Burp Suite Active Scanner engine, while the CPU payload should be use with caution.</p>
+<p>After that a Java deserialization vulnerability has been found, a dedicated exploitation tab offers a comfortable interface to exploit deserialization vulnerabilities using frohoff ysoserial <a href="https://github.com/frohoff/ysoserial">https://github.com/frohoff/ysoserial</a></p>
+<p>Mini walkthrough: <a href="https://techblog.mediaservice.net/2017/05/reliable-discovery-and-exploitation-of-java-deserialization-vulnerabilities/">https://techblog.mediaservice.net/2017/05/reliable-discovery-and-exploitation-of-java-deserialization-vulnerabilities/</a></p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-05T21:10:53+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-05</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-05-03T11:40:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-05-03</span></small></br>
 
 
     <small>Created: January 2, 2023 13:20:11</small>
