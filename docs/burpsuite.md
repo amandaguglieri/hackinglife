@@ -72,7 +72,6 @@ In Burp Suite, you can use the Param Miner extension's "Guess headers" function 
 
 ### Turbo intruder
 
-
 ### CMS Scanner
 
 ### WAF Detect
@@ -87,3 +86,56 @@ In Burp Suite, you can use the Param Miner extension's "Guess headers" function 
 
 ### Software Vulnerability Scanner
 
+### PHP Object Injection Slinger
+
+[https://github.com/portswigger/poi-slinger](https://github.com/portswigger/poi-slinger)
+
+This is an extension for Burp Suite Professional, designed to help you scan for PHP Object Injection vulnerabilities on popular PHP Frameworks and some of their dependencies. It will send a serialized PHP Object to the web application designed to force the web server to perform a DNS lookup to a Burp Collaborator Callback Host.
+
+The payloads for this extension are all from the excellent Ambionics project PHPGGC. PHPGGC is a library of PHP unserialize() payloads along with a tool to generate them, from command line or programmatically. You will need it for further exploiting any vulnerabilities found by this extension.
+
+You should combine your testing with the PHP Object Injection Check extension from Securify so you can identify other possible PHP Object Injection issues that this extension does not pick up.
+
+To use the extension, on the Proxy/Target/Intruder/Repeater Tab, right click on the desired HTTP Request and click Send To POI Slinger. This will also highlight the HTTP Request and set the comment Sent to POI Slinger You can watch the debug messages on the extension's output pane under Extender->Extensions->PHP Object Injection Slinger.
+
+### JWT Editor
+
+[https://github.com/portswigger/jwt-editor](https://github.com/portswigger/jwt-editor)
+
+JWT Editor is a Burp Suite extension for editing, signing, verifying, encrypting and decrypting JSON Web Tokens (JWTs).
+
+It provides automatic detection and in-line editing of JWTs within HTTP requests/responses and web socket messages, signing and encrypting of tokens and automation of several well-known attacks against JWT implementations.
+
+It was written originally by Fraser Winterborn, formerly of BlackBerry Security Research Group. The original source code can be found [here](https://github.com/blackberry/jwt-editor).
+
+For further information, check out the repository [here](https://github.com/PortSwigger/jwt-editor).
+
+### Java Deserialization Scanner
+
+[https://github.com/portswigger/java-deserialization-scanner](https://github.com/portswigger/java-deserialization-scanner)
+
+This extension gives Burp Suite the ability to find Java deserialization vulnerabilities.
+
+It adds checks to both the active and passive scanner and can also be used in an "Intruder like" manual mode, with a dedicated tab.
+
+The extension allows the user to _discover and exploit_ Java Deserialization Vulnerabilities with different encodings (Raw, Base64, Ascii Hex, GZIP, Base64 GZIP) when the following libraries are loaded in the target JVM:
+
+- Apache Commons Collections 3 (up to 3.2.1), with five different chains
+- Apache Commons Collections 4 (up to 4.4.0), with two different chains
+- Spring (up to 4.2.2)
+- Java 6 and Java 7 (up to Jdk7u21) without any weak library
+- Hibernate 5
+- JSON
+- Rome
+- Java 8 (up to Jdk8u20) without any weak library
+- Apache Commons BeanUtils
+- Javassist/Weld
+- JBoss Interceptors
+- Mozilla Rhino (two different chains)
+- Vaadin
+
+Furthermore, URLSNDS payload has been introduced to actively detect Java deserialization on the backend without any vulnerable library. This check does the same job as the CPU attack vector already present in the "Manual testing" section but can be safely added to the Burp Suite Active Scanner engine, while the CPU payload should be use with caution.
+
+After that a Java deserialization vulnerability has been found, a dedicated exploitation tab offers a comfortable interface to exploit deserialization vulnerabilities using frohoff ysoserial [https://github.com/frohoff/ysoserial](https://github.com/frohoff/ysoserial)
+
+Mini walkthrough: [https://techblog.mediaservice.net/2017/05/reliable-discovery-and-exploitation-of-java-deserialization-vulnerabilities/](https://techblog.mediaservice.net/2017/05/reliable-discovery-and-exploitation-of-java-deserialization-vulnerabilities/)

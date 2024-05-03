@@ -1,7 +1,14 @@
-
-
-
-
+---
+title: Ysoserial - A tool for Java deserialization
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - webpentesting
+  - tools
+  - deserialization
+  - java
+---
 # ysoserial - A tool for Java deserialization
 
 
@@ -76,5 +83,14 @@ java -jar ysoserial-all.jar [payload] "[command]"
 ```
 
 See lab: [Burpsuite Lab](burpsuite/burpsuite-insecure-deserialization.md#exploiting-java-deserialization-with-apache-commons)
+
+
+In Java versions 16 and above, you need to set a series of command-line arguments for Java to run ysoserial. For example:
+
+```
+java -jar ysoserial-all.jar \ --add-opens=java.xml/com.sun.org.apache.xalan.internal.xsltc.trax=ALL-UNNAMED \ --add-opens=java.xml/com.sun.org.apache.xalan.internal.xsltc.runtime=ALL-UNNAMED \ --add-opens=java.base/java.net=ALL-UNNAMED \ --add-opens=java.base/java.util=ALL-UNNAMED \ [payload] '[command]'
+```
+
+
 
 

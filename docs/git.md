@@ -207,3 +207,13 @@ Suppose you have a file called README.md, and it's in the main branch. You're wo
 ```
 git show <branchName>:<fileName>
 ```
+
+
+## Pentesting git
+
+Source: https://thecyberpunker.com/tools/git-exposed-pentesting-git-tools/
+
+### git-dumper
+
+[https://github.com/arthaud/git-dumper](https://github.com/arthaud/git-dumper)
+
