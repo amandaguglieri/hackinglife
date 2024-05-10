@@ -66,6 +66,10 @@ And select the new installation. Then check out java version:
 
 ![java](img/java.png)
 
+Additional debugging: [Java not found in “update-alternatives — config java” after installing java on linux](https://irsyadsec.medium.com/java-not-found-in-update-alternatives-config-java-after-installing-java-on-linux-d88e499e5c4f)
+
+
+
 After using ysoserial you may reconfigure to use your latest java version.
 
 Build the app:
