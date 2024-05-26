@@ -96,3 +96,55 @@ And this is how the interception looks like:
 
 ![graphic](img/tca-37.png)
 
+
+
+##  Burpsuite +  sqlmap
+
+
+### From Burpsuite
+
+Browse the application to capture the generating csfr request in your traffic.
+
+![example](img/burp-conf_00.png)
+
+Open Settings, go to tab Session and scroll down to the section Macros. 
+
+Click on "Add" (a macro.) You will see the already captured requests. 
+
+Select the request in which the csrt is created/refreshed (and still not used) and click on OK.
+
+Name your macro in the window "Macro Editor," for instance GET_csrf, and select "Configure item". 
+
+Now you indicate to Burpsuite where the value of the CSRF is shown in the response. Don't forget to add the name of the parameter. Click on OK.
+
+Click on OK in the window "Macro editor".
+
+![example](img/burp-conf_01.png)
+
+You are again in the Setting>Sessions section. Macro section is at the bottom of the page. Now we are going to configure the section "Session handling rules":
+
+Click on "Add" (a rule,) and the "Session handling rule editor" will open.
+
+- In Rule description write: PUT_CSRF
+- In Rule actions, click on "Add > Run a macro." 
+- New window will open for defining the action performed by the macro:
+	- Select the macro GET_csrf.
+	- Select the option "Update only the following parameter," and add in there the name we used before when defining where the token was, "csrf."
+	- In the top menu, select the tab "Scope," and add the url within scope. 
+	- IMPORTANT: In Tools Scope, select the module "Proxy." This will allow  sqlmap request to be routed.
+
+
+
+### From Sqlmap
+
+Create a file that contains the request that is vulnerable to SQLi and save it.
+
+Then:
+
+```
+sqlmap -r request.txt -p id --proxy=http://localhost:8080 --current-db --flush sessions -vv 
+```
+
+Important: Flag --proxy sends the request via Burpsuite.
+
+For Blind injections you need to specify other parameters such as risk and level.
