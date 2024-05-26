@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.24">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -7269,6 +7269,39 @@
       Setting up mitm_relay with Burpsuite
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#burpsuite-sqlmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Burpsuite + sqlmap
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Burpsuite + sqlmap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-burpsuite" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Burpsuite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-sqlmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Sqlmap
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -15564,6 +15597,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#burpsuite-sqlmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Burpsuite + sqlmap
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Burpsuite + sqlmap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-burpsuite" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Burpsuite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-sqlmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Sqlmap
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -15636,10 +15702,41 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><img alt="graphic" src="../img/tca-36.png" /></p>
 <p>And this is how the interception looks like:</p>
 <p><img alt="graphic" src="../img/tca-37.png" /></p>
+<h2 id="burpsuite-sqlmap">Burpsuite +  sqlmap</h2>
+<h3 id="from-burpsuite">From Burpsuite</h3>
+<p>Browse the application to capture the generating csfr request in your traffic.</p>
+<p><img alt="example" src="../img/burp-conf_00.png" /></p>
+<p>Open Settings, go to tab Session and scroll down to the section Macros. </p>
+<p>Click on "Add" (a macro.) You will see the already captured requests. </p>
+<p>Select the request in which the csrt is created/refreshed (and still not used) and click on OK.</p>
+<p>Name your macro in the window "Macro Editor," for instance GET_csrf, and select "Configure item". </p>
+<p>Now you indicate to Burpsuite where the value of the CSRF is shown in the response. Don't forget to add the name of the parameter. Click on OK.</p>
+<p>Click on OK in the window "Macro editor".</p>
+<p><img alt="example" src="../img/burp-conf_01.png" /></p>
+<p>You are again in the Setting&gt;Sessions section. Macro section is at the bottom of the page. Now we are going to configure the section "Session handling rules":</p>
+<p>Click on "Add" (a rule,) and the "Session handling rule editor" will open.</p>
+<ul>
+<li>In Rule description write: PUT_CSRF</li>
+<li>In Rule actions, click on "Add &gt; Run a macro." </li>
+<li>New window will open for defining the action performed by the macro:<ul>
+<li>Select the macro GET_csrf.</li>
+<li>Select the option "Update only the following parameter," and add in there the name we used before when defining where the token was, "csrf."</li>
+<li>In the top menu, select the tab "Scope," and add the url within scope. </li>
+<li>IMPORTANT: In Tools Scope, select the module "Proxy." This will allow  sqlmap request to be routed.</li>
+</ul>
+</li>
+</ul>
+<h3 id="from-sqlmap">From Sqlmap</h3>
+<p>Create a file that contains the request that is vulnerable to SQLi and save it.</p>
+<p>Then:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sqlmap -r request.txt -p id --proxy=http://localhost:8080 --current-db --flush sessions -vv 
+</span></code></pre></div>
+<p>Important: Flag --proxy sends the request via Burpsuite.</p>
+<p>For Blind injections you need to specify other parameters such as risk and level.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-24T17:04:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-24</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-05-26T15:44:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-05-26</span></small></br>
 
 
     <small>Created: February 7, 2023 18:30:04</small>
@@ -15714,7 +15811,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a7c05c9e.min.js"></script>
+      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

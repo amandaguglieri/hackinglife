@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.24">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.66ac8b77.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -3825,6 +3825,57 @@
   <a href="#getting-a-direct-sql-shell" class="md-nav__link">
     <span class="md-ellipsis">
       Getting a direct SQL Shell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suffixes-and-preffixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suffixes and preffixes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suffixes and preffixes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-a-suffix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set a suffix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prefix
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#injections-in-headers-and-other-http-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Injections in Headers and other HTTP Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tampers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tampers
     </span>
   </a>
   
@@ -15618,6 +15669,57 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#suffixes-and-preffixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suffixes and preffixes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suffixes and preffixes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-a-suffix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set a suffix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prefix
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#injections-in-headers-and-other-http-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Injections in Headers and other HTTP Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tampers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tampers
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -15702,10 +15804,228 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># GEt a SQL shell</span>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>sqlmap<span class="w"> </span>--url<span class="w"> </span>‘http://victim.site’<span class="w">  </span>--sql-shell
 </span></code></pre></div>
+<h2 id="suffixes-and-preffixes">Suffixes and preffixes</h2>
+<h3 id="set-a-suffix">Set a suffix</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sqlmap -u &quot;http://example.com/?id=1&quot;  -p id --suffix=&quot;-- &quot;
+</span></code></pre></div>
+<h3 id="prefix">Prefix</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sqlmap -u &quot;http://example.com/?id=1&quot;  -p id --prefix=&quot;&#39;) &quot;
+</span></code></pre></div>
+<h2 id="injections-in-headers-and-other-http-methods">Injections in Headers and other HTTP Methods</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>#Inside cookie
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>sqlmap  -u &quot;http://example.com&quot; --cookie &quot;mycookies=*&quot;
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>#Inside some header
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>sqlmap -u &quot;http://example.com&quot; --headers=&quot;x-forwarded-for:127.0.0.1*&quot;
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>sqlmap -u &quot;http://example.com&quot; --headers=&quot;referer:*&quot;
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>#PUT Method
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>sqlmap --method=PUT -u &quot;http://example.com&quot; --headers=&quot;referer:*&quot;
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>#The injection is located at the &#39;*&#39;
+</span></code></pre></div>
+<h2 id="tampers">Tampers</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sqlmap -r request.txt --tamper=space2comment
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a># space2comment: changes whitespace to /**/
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Tamper</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>apostrophemask.py</td>
+<td>Replaces apostrophe character with its UTF-8 full width counterpart</td>
+</tr>
+<tr>
+<td>apostrophenullencode.py</td>
+<td>Replaces apostrophe character with its illegal double unicode counterpart</td>
+</tr>
+<tr>
+<td>appendnullbyte.py</td>
+<td>Appends encoded NULL byte character at the end of payload</td>
+</tr>
+<tr>
+<td>base64encode.py</td>
+<td>Base64 all characters in a given payload</td>
+</tr>
+<tr>
+<td>between.py</td>
+<td>Replaces greater than operator ('&gt;') with 'NOT BETWEEN 0 AND #'</td>
+</tr>
+<tr>
+<td>bluecoat.py</td>
+<td>Replaces space character after SQL statement with a valid random blank character.Afterwards replace character = with LIKE operator</td>
+</tr>
+<tr>
+<td>chardoubleencode.py</td>
+<td>Double url-encodes all characters in a given payload (not processing already encoded)</td>
+</tr>
+<tr>
+<td>commalesslimit.py</td>
+<td>Replaces instances like 'LIMIT M, N' with 'LIMIT N OFFSET M'</td>
+</tr>
+<tr>
+<td>commalessmid.py</td>
+<td>Replaces instances like 'MID(A, B, C)' with 'MID(A FROM B FOR C)'</td>
+</tr>
+<tr>
+<td>concat2concatws.py</td>
+<td>Replaces instances like 'CONCAT(A, B)' with 'CONCAT_WS(MID(CHAR(0), 0, 0), A, B)'</td>
+</tr>
+<tr>
+<td>charencode.py</td>
+<td>Url-encodes all characters in a given payload (not processing already encoded)</td>
+</tr>
+<tr>
+<td>charunicodeencode.py</td>
+<td>Unicode-url-encodes non-encoded characters in a given payload (not processing already encoded). "%u0022"</td>
+</tr>
+<tr>
+<td>charunicodeescape.py</td>
+<td>Unicode-url-encodes non-encoded characters in a given payload (not processing already encoded). "\u0022"</td>
+</tr>
+<tr>
+<td>equaltolike.py</td>
+<td>Replaces all occurances of operator equal ('=') with operator 'LIKE'</td>
+</tr>
+<tr>
+<td>escapequotes.py</td>
+<td>Slash escape quotes (' and ")</td>
+</tr>
+<tr>
+<td>greatest.py</td>
+<td>Replaces greater than operator ('&gt;') with 'GREATEST' counterpart</td>
+</tr>
+<tr>
+<td>halfversionedmorekeywords.py</td>
+<td>Adds versioned MySQL comment before each keyword</td>
+</tr>
+<tr>
+<td>ifnull2ifisnull.py</td>
+<td>Replaces instances like 'IFNULL(A, B)' with 'IF(ISNULL(A), B, A)'</td>
+</tr>
+<tr>
+<td>modsecurityversioned.py</td>
+<td>Embraces complete query with versioned comment</td>
+</tr>
+<tr>
+<td>modsecurityzeroversioned.py</td>
+<td>Embraces complete query with zero-versioned comment</td>
+</tr>
+<tr>
+<td>multiplespaces.py</td>
+<td>Adds multiple spaces around SQL keywords</td>
+</tr>
+<tr>
+<td>nonrecursivereplacement.py</td>
+<td>Replaces predefined SQL keywords with representations suitable for replacement (e.g. .replace("SELECT", "")) filters</td>
+</tr>
+<tr>
+<td>percentage.py</td>
+<td>Adds a percentage sign ('%') infront of each character</td>
+</tr>
+<tr>
+<td>overlongutf8.py</td>
+<td>Converts all characters in a given payload (not processing already encoded)</td>
+</tr>
+<tr>
+<td>randomcase.py</td>
+<td>Replaces each keyword character with random case value</td>
+</tr>
+<tr>
+<td>randomcomments.py</td>
+<td>Add random comments to SQL keywords</td>
+</tr>
+<tr>
+<td>securesphere.py</td>
+<td>Appends special crafted string</td>
+</tr>
+<tr>
+<td>sp_password.py</td>
+<td>Appends 'sp_password' to the end of the payload for automatic obfuscation from DBMS logs</td>
+</tr>
+<tr>
+<td>space2comment.py</td>
+<td>Replaces space character (' ') with comments</td>
+</tr>
+<tr>
+<td>space2dash.py</td>
+<td>Replaces space character (' ') with a dash comment ('--') followed by a random string and a new line ('\n')</td>
+</tr>
+<tr>
+<td>space2hash.py</td>
+<td>Replaces space character (' ') with a pound character ('#') followed by a random string and a new line ('\n')</td>
+</tr>
+<tr>
+<td>space2morehash.py</td>
+<td>Replaces space character (' ') with a pound character ('#') followed by a random string and a new line ('\n')</td>
+</tr>
+<tr>
+<td>space2mssqlblank.py</td>
+<td>Replaces space character (' ') with a random blank character from a valid set of alternate characters</td>
+</tr>
+<tr>
+<td>space2mssqlhash.py</td>
+<td>Replaces space character (' ') with a pound character ('#') followed by a new line ('\n')</td>
+</tr>
+<tr>
+<td>space2mysqlblank.py</td>
+<td>Replaces space character (' ') with a random blank character from a valid set of alternate characters</td>
+</tr>
+<tr>
+<td>space2mysqldash.py</td>
+<td>Replaces space character (' ') with a dash comment ('--') followed by a new line ('\n')</td>
+</tr>
+<tr>
+<td>space2plus.py</td>
+<td>Replaces space character (' ') with plus ('+')</td>
+</tr>
+<tr>
+<td>space2randomblank.py</td>
+<td>Replaces space character (' ') with a random blank character from a valid set of alternate characters</td>
+</tr>
+<tr>
+<td>symboliclogical.py</td>
+<td>Replaces AND and OR logical operators with their symbolic counterparts (&amp;&amp; and</td>
+</tr>
+<tr>
+<td>unionalltounion.py</td>
+<td>Replaces UNION ALL SELECT with UNION SELECT</td>
+</tr>
+<tr>
+<td>unmagicquotes.py</td>
+<td>Replaces quote character (') with a multi-byte combo %bf%27 together with generic comment at the end (to make it work)</td>
+</tr>
+<tr>
+<td>uppercase.py</td>
+<td>Replaces each keyword character with upper case value 'INSERT'</td>
+</tr>
+<tr>
+<td>varnish.py</td>
+<td>Append a HTTP header 'X-originating-IP'</td>
+</tr>
+<tr>
+<td>versionedkeywords.py</td>
+<td>Encloses each non-function keyword with versioned MySQL comment</td>
+</tr>
+<tr>
+<td>versionedmorekeywords.py</td>
+<td>Encloses each keyword with versioned MySQL comment</td>
+</tr>
+<tr>
+<td>xforwardedfor.py</td>
+<td>Append a fake HTTP header 'X-Forwarded-For'</td>
+</tr>
+</tbody>
+</table>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-03-06T18:00:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-03-06</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-05-26T15:44:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-05-26</span></small></br>
 
 
     <small>Created: January 3, 2023 01:16:43</small>
@@ -15780,7 +16100,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a7c05c9e.min.js"></script>
+      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
