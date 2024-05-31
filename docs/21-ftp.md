@@ -76,6 +76,10 @@ put <yourfile>
 
 # Exit connection
 quit
+
+# Connect in passive mode
+ftp -p $ip
+# The `-p` flag in the `ftp` command on Linux is used to enable passive mode for the file transfer protocol (FTP) connection. Passive mode is a mode of FTP where the data connection is initiated by the client rather than the server. This can be useful when the client is behind a firewall or NAT (Network Address Translation) that does not allow incoming connections. 
 ```
 
 More posibilities with wget:

@@ -21,6 +21,26 @@ Resources:
 - [https://pentestreports.com/](https://pentestreports.com/)
 
 
+## Types of Penetration Testing
+
+| **Type**         | **Information Provided**                                                                                                                                                                                                                                              |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Blackbox`       | `Minimal`. Only the essential information, such as IP addresses and domains, is provided.                                                                                                                                                                             |
+| `Greybox`        | `Extended`. In this case, we are provided with additional information, such as specific URLs, hostnames, subnets, and similar.                                                                                                                                        |
+| `Whitebox`       | `Maximum`. Here everything is disclosed to us. This gives us an internal view of the entire structure, which allows us to prepare an attack using internal information. We may be given detailed configurations, admin credentials, web application source code, etc. |
+| `Red-Teaming`    | May include physical testing and social engineering, among other things. Can be combined with any of the above types.                                                                                                                                                 |
+| `Purple-Teaming` | It can be combined with any of the above types. However, it focuses on working closely with the defenders.                                                                                                                                                            |
+
+### Types of Testing Environments
+
+Apart from the test method and the type of test, another consideration is what is to be tested, which can be summarized in the following categories:
+
+|         |         |                   |                   |               |
+| ------- | ------- | ----------------- | ----------------- | ------------- |
+| Network | Web App | Mobile            | API               | Thick Clients |
+| IoT     | Cloud   | Source Code       | Physical Security | Employees     |
+|  Hosts  | Server  | Security Policies | Firewalls         | IDS/IPS       |
+
 ## Phases
 
 ### Pre-engagement
@@ -43,18 +63,19 @@ This can be one or more documents with the objective to define the following:
 - List of documents so far:
 
 
-| **Document** | **Timing for Creation** |
-| ----------- | ---------------------- |
-| Non-Disclosure Agreement (NDA) | After Initial Contact  | 
-|  Scoping Questionnaire | Before the Pre-Engagement Meeting | 
-| Scoping Document  | During the Pre-Engagement Meeting | 
-| Penetration Testing Proposal (Contract/Scope of Work (SoW)) | During the Pre-engagement Meeting | 
-| Rules of Engagement (RoE) |  Before the Kick-Off Meeting | 
-| Contractors Agreement (Physical Assessments) | Before the Kick-Off Meeting |
-|  Reports | During and after the conducted Penetration Test | 
+| **Document**                                                                         | **Timing for Creation**                         |     |
+| ------------------------------------------------------------------------------------ | ----------------------------------------------- | --- |
+| Non-Disclosure Agreement (NDA)                                                       | After Initial Contact                           |     |
+| Scoping Questionnaire                                                                | Before the Pre-Engagement Meeting               |     |
+| Scoping Document                                                                     | During the Pre-Engagement Meeting               |     |
+| [Penetration Testing Proposal (Contract/Scope of Work (SoW))](contract-checklist.md) | During the Pre-engagement Meeting               |     |
+| [Rules of Engagement (RoE)](rules-of-engagement-checklist.md)                        | Before the Kick-Off Meeting                     |     |
+| [Contractors Agreement (Physical Assessments)](contractor-agreement-checklist.md)    | Before the Kick-Off Meeting                     |     |
+| Reports                                                                              | During and after the conducted Penetration Test |     |
 
 - Risk Assessment and Acceptance: Perform a risk assessment to understand the potential impact of the penetration test on the web application and the organization. Obtain management's acceptance of any risks associated with the testing process.
 -  Engagement Kick-off: Officially kick-off the penetration test, confirming the start date and timeline with the organization's stakeholders. Share the RoE and any other relevant details with the testing team.
+
 
 
 ### Information gathering
@@ -68,14 +89,14 @@ We could tell 4 categories:
 
 A different way to approach to footprinting is considering the following layers:
 
-|**Layer**|**Description**|**Information Categories**|
-|---|---|---|
-|`1. Internet Presence`|Identification of internet presence and externally accessible infrastructure.|Domains, Subdomains, vHosts, ASN, Netblocks, IP Addresses, Cloud Instances, Security Measures|
-|`2. Gateway`|Identify the possible security measures to protect the company's external and internal infrastructure.|Firewalls, DMZ, IPS/IDS, EDR, Proxies, NAC, Network Segmentation, VPN, Cloudflare|
-|`3. Accessible Services`|Identify accessible interfaces and services that are hosted externally or internally.|Service Type, Functionality, Configuration, Port, Version, Interface|
-|`4. Processes`|Identify the internal processes, sources, and destinations associated with the services.|PID, Processed Data, Tasks, Source, Destination|
-|`5. Privileges`|Identification of the internal permissions and privileges to the accessible services.|Groups, Users, Permissions, Restrictions, Environment|
-|`6. OS Setup`|Identification of the internal components and systems setup.|OS Type, Patch Level, Network config, OS Environment, Configuration files, sensitive private files|
+| **Layer**                | **Description**                                                                                        | **Information Categories**                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `1. Internet Presence`   | Identification of internet presence and externally accessible infrastructure.                          | Domains, Subdomains, vHosts, ASN, Netblocks, IP Addresses, Cloud Instances, Security Measures      |
+| `2. Gateway`             | Identify the possible security measures to protect the company's external and internal infrastructure. | Firewalls, DMZ, IPS/IDS, EDR, Proxies, NAC, Network Segmentation, VPN, Cloudflare                  |
+| `3. Accessible Services` | Identify accessible interfaces and services that are hosted externally or internally.                  | Service Type, Functionality, Configuration, Port, Version, Interface                               |
+| `4. Processes`           | Identify the internal processes, sources, and destinations associated with the services.               | PID, Processed Data, Tasks, Source, Destination                                                    |
+| `5. Privileges`          | Identification of the internal permissions and privileges to the accessible services.                  | Groups, Users, Permissions, Restrictions, Environment                                              |
+| `6. OS Setup`            | Identification of the internal components and systems setup.                                           | OS Type, Patch Level, Network config, OS Environment, Configuration files, sensitive private files |
 
 
 #### Cloud resources
@@ -121,13 +142,13 @@ Types of tests: black box, gray box and white box.
 
 Specializations: 
 
-- Application petesters.
+- Application pentesters.
 - Network or infraestructure pentesters.
 - Physical pentesters.
 - Social engineering pentesters.
 
 
-Types os Security assessments:
+Types of Security assessments:
 
 - Vulnerability assessment.
 - Penetration test.

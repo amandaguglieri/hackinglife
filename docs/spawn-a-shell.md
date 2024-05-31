@@ -1,4 +1,3 @@
-
 ---
 title: Spawn a shell
 author: amandaguglieri
@@ -9,8 +8,14 @@ tags:
   - terminal
   - shells
 ---
-
 # Spawn a shell
+
+??? abstract "All about shells"
+    | **Shell Type**                       | **Description**                                                                                                                                                                                                                                   |
+    | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | [`Reverse shell`](reverse-shells.md) | Initiates a connection back to a "listener" on our attack box.                                                                                                                                                                                    |
+    | [`Bind shell`](bind-shells.md)       | "Binds" to a specific port on the target host and waits for a connection from our attack box.                                                                                                                                                     |
+    | [`Web shell`](web-shells.md)         | Runs operating system commands via the web browser, typically not interactive or semi-interactive. It can also be used to run single commands (i.e., leveraging a file upload vulnerability and uploading a `PHP` script to run a single command. |
 
 
 Webshell is a script written in a language that is executed by a server. Web shell are not fully interactive. 

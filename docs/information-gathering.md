@@ -38,8 +38,6 @@ Information gathering is typically broken down into two types:
 | Identify website content structure.                        | Subdomain enumeration via Brute-Force.               |
 
 
-
-
 ## 1. Passive information gathering
 
 ### 1.1. Fingerprint Web Server
