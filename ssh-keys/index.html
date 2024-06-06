@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
     
     
       
@@ -191,7 +191,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -6521,6 +6521,8 @@
       
         
       
+        
+      
     
     
     
@@ -7156,6 +7158,27 @@
   
   <span class="md-ellipsis">
     Input filtering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Machines and lab resources
   </span>
   
 
@@ -15655,18 +15678,24 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <h1 id="ssh-keys">SSH keys</h1>
 <h2 id="read-access-to-ssh">Read access to .ssh</h2>
-<p>Having read access over the .ssh directory for a specific user, we may read their private ssh keys found in /home/user/.ssh/id_rsa or /root/.ssh/id_rsa, and use it to log in to the server.</p>
+<p>Having read access over the .ssh directory for a specific user, we may read their private ssh keys found in /home/user/.ssh/id_rsa or /root/.ssh/id_rsa, and we can copy it to our machine and use the -i flag to log in with it:</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">vim id_rsa</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">chmod 600 id_rsa</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">ssh user@10.10.10.10 -i id_rsa</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp"># </span>If<span class="w"> </span>ssh<span class="w"> </span>keys<span class="w"> </span>have<span class="w"> </span>lax<span class="w"> </span>permissions,<span class="w"> </span>i.e.,<span class="w"> </span>maybe<span class="w"> </span><span class="nb">read</span><span class="w"> </span>by<span class="w"> </span>other<span class="w"> </span>people,<span class="w"> </span>the<span class="w"> </span>ssh<span class="w"> </span>server<span class="w"> </span>would<span class="w"> </span>prevent<span class="w"> </span>them<span class="w"> </span>from<span class="w"> </span>working.
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">ssh user@10.10.10.10 -i id_rsa</span>
 </span></code></pre></div>
 <h2 id="write-access-to-ssh">Write access to .ssh</h2>
 <p>Having write access over the .ssh directory for a specific user, we may place our public key in /home/user/.ssh/authorized_keys.</p>
 <p>But for this we need to have gained access first as that user. With this technique we obtain ssh access to the machine. </p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># Generating a public private rsa key pair
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>ssh-keygen -f key
+</span></code></pre></div>
+<p>This will give us two files: <code>key</code> (which we will use with <code>ssh -i</code>) and <code>key.pub</code>, which we will copy to the remote machine.</p>
+<p>Let us copy <code>key.pub</code>, then on the remote machine, we will add it into <code>/root/.ssh/authorized_keys</code>:</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-23T19:56:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-23</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-06-06T18:58:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-06-06</span></small></br>
 
 
     <small>Created: May 23, 2023 19:56:20</small>
@@ -15741,7 +15770,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
+      <script src="../assets/javascripts/bundle.ad660dcc.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
