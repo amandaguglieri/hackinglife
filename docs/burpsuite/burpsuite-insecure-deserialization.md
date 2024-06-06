@@ -503,7 +503,7 @@ T
 ### Solution
 
 
-![Insecure deserialization](../img/indes_.png)
+![Insecure deserialization]()
 
 
 ```
@@ -524,7 +524,7 @@ T
 ### Solution
 
 
-![Insecure deserialization](../img/indes_.png)
+![Insecure deserialization]()
 
 
 ```
@@ -545,7 +545,7 @@ T
 ### Solution
 
 
-![Insecure deserialization](../img/indes_.png)
+![Insecure deserialization]()
 
 
 ```

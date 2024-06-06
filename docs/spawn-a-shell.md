@@ -156,6 +156,7 @@ $ fg
 reset
 export SHELL=bash
 export TERM=xterm-256color
+stty size
 stty rows <num> columns <cols>
 
 # In one line:

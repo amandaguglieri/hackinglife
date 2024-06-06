@@ -9,7 +9,7 @@ tags:
   - CVE-2015-6967
 ---
 
-# Nibbles - A Hack The Box machine
+voy# Nibbles - A Hack The Box machine
 
 
 ```shell-session

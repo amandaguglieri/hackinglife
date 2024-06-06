@@ -1,0 +1,23 @@
+
+
+  
+
+| machine                                                                                                                              |                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/)                                                                        | Is a modern vulnerable web application written in Node.js, Express, and Angular which showcases the entire [OWASP Top Ten](https://owasp.org/www-project-top-ten) along with many other real-world application security flaws. |
+| [Metasploitable 2](https://docs.rapid7.com/metasploit/metasploitable-2-exploitability-guide/)                                        | Is a purposefully vulnerable Ubuntu Linux VM that can be used to practice enumeration, automated, and manual exploitation.                                                                                                     |
+| [Metasploitable 3](https://github.com/rapid7/metasploitable3)                                                                        | Is a template for building a vulnerable Windows VM configured with a wide range of [vulnerabilities](https://github.com/rapid7/metasploitable3/wiki/Vulnerabilities).                                                          |
+| [DVWA](https://github.com/digininja/DVWA)                                                                                            | This is a vulnerable PHP/MySQL web application showcasing many common web application vulnerabilities with varying degrees of difficulty.                                                                                      |
+| [VAPI](https://www.postman.com/postman/workspace/owasp-api-security-top-10/collection/10499635-b9c71557-d441-42ab-9836-9adf828cf1fc) | vAPI is Vulnerable Adversely Programmed Interface which is Self-Hostable API that mimics OWASP API Top 10 scenarios in the means of Exercises.                                                                                 |
+| https://overthewire.org/wargames/                                                                                                    | The wargames offered by the OverTheWire community can help you to learn and practice security concepts in the form of fun-filled games. Linux                                                                                  |
+| https://underthewire.tech/wargames                                                                                                   | The wargames offered by the OverTheWire community can help you to learn and practice security concepts in the form of fun-filled games. Windows                                                                                |
+
+Pro Lab has a specific scenario and level of difficulty:
+
+| Lab           | Scenario                                                                                                                                                                           |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Dante`       | Beginner-friendly to learn common pentesting techniques and methodologies, common pentesting tools, and common vulnerabilities.                                                    |
+| `Offshore`    | Active Directory lab that simulates a real-world corporate network.                                                                                                                |
+| `Cybernetics` | Simulates a fully-upgraded and up-to-date Active Directory network environment, which is hardened against attacks. It is aimed at experienced penetration testers and Red Teamers. |
+| `RastaLabs`   | Red Team simulation environment, featuring a combination of attacking misconfigurations and simulated users.                                                                       |
+| `APTLabs`     | This lab simulates a targeted attack by an external threat agent against an MSP (Managed Service Provider) and is the most advanced Pro Lab offered at this time.                  |

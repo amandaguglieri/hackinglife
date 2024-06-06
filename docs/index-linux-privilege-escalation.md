@@ -36,7 +36,7 @@ lsb_release -a
 ## Enumeration scripts
 
 !!! abstract "Enumeration scripts"
-
+    
     - [Scan the Linux system with "linEnum"](linenum.md).
     - [Search for possible paths to escalate privileges with "linPEAS"](linpeas.md).
     - [Enumerate privileges with "Linux Privilege Checker" tool](linux-privilege-checker.md).
