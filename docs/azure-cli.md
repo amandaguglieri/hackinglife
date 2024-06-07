@@ -43,7 +43,8 @@ curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 
 ```bash
 sudo apt-get install apt-transport-https
-sudo apt-get update && sudo apt-get install azure-cli
+sudo apt-get update
+sudo apt-get install azure-cli
 ```
 
 ## Basic usage

@@ -182,3 +182,27 @@ cat /root/flag.txt
 
 
 **Results**:  HTB{pr1v1l363_35c4l4710n_2_r007}
+
+
+
+### Nibbles - Enumeration
+
+ **Run an nmap script scan on the target. What is the Apache version running on the server? (answer format: X.X.XX)**
+
+
+```
+sudo nmap -sC -sV $ip
+```
+
+**Results**:  2.4.18
+
+
+### [Nibbles - Web Footprinting](# Nibbles - Web Footprinting)
+
+
+
+```
+
+```
+
+**Results**:  2.4.18
