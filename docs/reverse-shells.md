@@ -17,11 +17,6 @@ tags:
     - [Pentesmonkey](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
     - [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) 
 
-
-??? abstract "Other resources"
-    See [web shells](web-shells.md)
-
-
 ??? abstract "All about shells"
     | **Shell Type**                       | **Description**                                                                                                                                                                                                                                   |
     | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

