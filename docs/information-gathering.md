@@ -119,7 +119,7 @@ A valuable resource for this information is the Domain Name System (DNS). We can
 
 > Some if these tools can also be used in Active DNS enumerations.
 
-Worth trying: [DNSRecon](dnsrecon.md).
+Worth trying: [DNSRecon](dnsrecon.md) and https://domain.glass/
 
 | Tool + Cheat sheet                          | What it does                                                                                                                                                                                                  |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -128,6 +128,7 @@ Worth trying: [DNSRecon](dnsrecon.md).
 | [dnscan](dnscan.md)                         | Python wordlist-based DNS subdomain scanner.                                                                                                                                                                  |
 | [DNSRecon](dnsrecon.md)                     | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.                                                                              |
 | [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process.     |
+| https://domain.glass/                       |                                                                                                                                                                                                               |
 
 
 ### 1.3. Reviewing server metafiles
@@ -160,8 +161,15 @@ Some of these files:
 |:---|:---|:---|:---|
 |1.1|[WSTG-INFO-01](OWASP/WSTG-INFO-01.md) |[Conduct Search Engine Discovery Reconnaissance for Information Leakage](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/01-Conduct_Search_Engine_Discovery_Reconnaissance_for_Information_Leakage)|- Identify what sensitive design and configuration information of the application, system, or organization is exposed directly (on the organization's website) or indirectly (via third-party services).|
 
+### 1.5. Cloud resources
 
-### 1.5. Fingerprint web application technology and frameworks
+Buckets, blob, ...: https://buckets.grayhatwarfare.com/
+
+https://domain.glass/
+
+
+
+### 1.6. Fingerprint web application technology and frameworks
 
 !!! quote ""
 	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.8. Fingerprint Web Application Framework
@@ -255,7 +263,7 @@ sudo nmap -v $ip --script banner.nse
 
 
 
-### 1.6. WAF detection
+### 1.7. WAF detection
 
 #### wafw00f
 
@@ -277,7 +285,7 @@ wafw00f -v https://www.example.com
 nmap -p443 --script http-waf-detect <host>
 ```
 
-### 1.7. Code analysis: HTTRack and EyeWitness
+### 1.8. Code analysis: HTTRack and EyeWitness
 
 !!! quote ""
 	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.7. Map Execution Paths through applications
@@ -324,7 +332,7 @@ After that you will get a report.html file with the request and a screenshot of 
 eyewitness --web -f listOfdomains.txt -d path/to/save/ --proxy-ip 127.0.0.1 --proxy-port 8080
 ```
 
-### 1.8. Passive crawling with Burp Suite 
+### 1.9. Passive crawling with Burp Suite 
 
 **Crawling** is the process of navigating around the web application, following links, submitting forms and logging in (where possible) with the objective of mapping out and cataloging the web application and the navigational paths within it. 
 

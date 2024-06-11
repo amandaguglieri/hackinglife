@@ -185,7 +185,7 @@ And results:
 
 `/var/htb/bin/emergency` catches our attention inmediately. Doing a strings on it we can see that it contains a "/bin/bash" command. After resolving this machine, I read [this writeup](https://0xdf.gitlab.io/2020/07/07/htb-bank.html#emergency) and got some insights about how to investigate an elf file beyond doing some strings. In this writeup, a md5sum is done and googling the hash returned that this elf file is in reality a dash shell.
 
-Nice. Run the binary and you are root.
+Nice. Run the binary and you are root. If you have spawned the shell you may run into problems. Better do it without spawning it.
 
 ```bash
 ./var/htb/bin/emergency

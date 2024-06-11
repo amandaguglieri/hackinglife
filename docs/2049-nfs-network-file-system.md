@@ -13,7 +13,7 @@ tags:
 
 # Port 2049 -  NFS Network File System
 
-Network File System (NFS) is a network file system developed by Sun Microsystems and has the same purpose as SMB. Its purpose is to access file systems +over a network as if they were local. However, it uses an entirely different protocol. [NFS](https://en.wikipedia.org/wiki/Network_File_System) is used between Linux and Unix systems. This means that NFS clients cannot communicate directly with SMB servers. 
+Network File System (NFS) is a network file system developed by Sun Microsystems and has the same purpose as SMB. Its purpose is to access file systems over a network as if they were local. However, it uses an entirely different protocol. [NFS](https://en.wikipedia.org/wiki/Network_File_System) is used between Linux and Unix systems. This means that NFS clients cannot communicate directly with SMB servers. 
 
 NFS is an Internet standard that governs the procedures in a distributed file system. While NFS protocol version 3.0 (`NFSv3`), which has been in use for many years, authenticates the client computer, this changes with `NFSv4`. Here, as with the Windows SMB protocol, the user must authenticate.
 
@@ -92,7 +92,7 @@ ls -n mnt/nfs/
 sudo umount ./target-NFS
 ```
 
-By default nfs server has root_squash on which makes client access nobody:nogroup. To bypass it, sudo su your user to be root.
+By default nfs server has root_squash option on, which makes client access nobody:nogroup. To bypass it, sudo su your user to be root.
 
 ## Attacking wrong configured NFS 
 

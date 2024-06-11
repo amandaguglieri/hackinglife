@@ -9,8 +9,14 @@ tags:
   - active recon
   - passiverecon
 ---
-
 # nmap - A network exploration and security auditing tool
+
+
+??? abstract "Sources of this notes"
+    - [HackTheBox Academy: Network enumeration with nmap](https://academy.hackthebox.com/module/details/19)
+    - nmap documentation.
+    
+
 
 ## Description
 
@@ -174,8 +180,11 @@ nmap $ip -sC
 # Run  scripts from a category. See categories below
 nmap $ip --script <category>
 
-# Run specific scripts
+# Run defined scripts
 nmap --script <script-name>,<script-name>,<script-name> -p<port> $ip
+
+# Run custom scripts: 
+# Save them in /usr/share/nmaps/script
 ```
 
 
@@ -299,14 +308,14 @@ sudo nmap $ip/24 -F --min-rate 300
 
 Nmap offers six different timing templates (`-T <0-5>`), being defaul one, -T 3.
 
-| Flag | Mode|
-| ---- | ------ |
-| -T 0  |  Paranoid | 
-| -T 1 | Sneaky | 
-| -T 2 | Polite |
-| -T 3 | Normal |
+| Flag | Mode       |
+| ---- | ---------- |
+| -T 0 | Paranoid   |
+| -T 1 | Sneaky     |
+| -T 2 | Polite     |
+| -T 3 | Normal     |
 | -T 4 | Aggressive |
-| -T 5 | Insane | 
+| -T 5 | Insane     |
 
 More on [nmap documentation](https://nmap.org/book/performance-timing-templates.html).
 
@@ -372,7 +381,7 @@ sudo nmap $ip -p50000 -sS -Pn -n --disable-arp-ping --packet-trace
 
 
 # SYN-Scan From DNS Port
-sudo nmap $ip -p50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
+
 # PORT      STATE SERVICE
 # 50000/tcp open  ibm-db2
 ```
@@ -380,7 +389,7 @@ sudo nmap $ip -p50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port
 Following the example, a possible exploitation for this weak configuration would be:
 
 ```shell-session
-nc -nv -p 53 $ip 50000
+ 
 ```
 
 
@@ -449,6 +458,10 @@ List of the most filtered ports:  80, 25, 22, 443, 21, 113, 23, 53, 554, 3389, 1
 #### -sS (or TCP SYN scan)
 
 By default, `Nmap` scans the top 1000 TCP ports with the SYN scan (`-sS`). This SYN scan is set only to default when we run it as root because of the socket permissions required to create raw TCP packets. Therefore, by default, Nmap performs a SYN Scan, though it substitutes a connect scan if the user does not have proper privileges to send raw packets (requires root access on Unix). Unprivileged users can only execute connect and FTP bounce scans.
+
+- If our target sends an `SYN-ACK` flagged packet back to the scanned port, Nmap detects that the port is `open`.
+- If the packet receives an `RST` flag, it is an indicator that the port is `closed`.
+- If Nmap does not receive a packet back, it will display it as `filtered`. Depending on the firewall configuration, certain packets may be dropped or ignored by the firewall.
 
 ![TCP SYN scan](img/nmap_ss.jpeg)
 
@@ -542,7 +555,7 @@ xsltproc target.xml -o target.html
 It can be done with `-packet-trace` or  with  `--reason`. 
 
 ```shell-session
-sudo nmap <IP> -sn -oA host -PE --packet-trace
+sudo nmap <IP> -sn -oA host o
 # -sn 	Disables port scanning.
 # -oA host 	Stores the results in all formats starting with the name 'host'.
 # -PE 	Performs the ping scan by using 'ICMP Echo requests' against the target.

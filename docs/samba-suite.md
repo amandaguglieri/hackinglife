@@ -51,4 +51,6 @@ Be careful, sometimes the shell removes the slashes and you need to escape them.
 	- from  smb command line: 
 	```smb
 	get flag_1.txt
+	!ls
+	!cat flag.txt
 	```
