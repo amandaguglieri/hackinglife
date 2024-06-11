@@ -16335,6 +16335,13 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 <h1 id="nmap-a-network-exploration-and-security-auditing-tool">nmap - A network exploration and security auditing tool</h1>
+<details class="abstract">
+<summary>Sources of this notes</summary>
+<ul>
+<li><a href="https://academy.hackthebox.com/module/details/19">HackTheBox Academy: Network enumeration with nmap</a></li>
+<li>nmap documentation.</li>
+</ul>
+</details>
 <h2 id="description">Description</h2>
 <p>Network Mapper is an open source tool for network exploration and security auditing. Free and open-source scanner created by Gordon Lyon. Nmap is used to discover hosts and services on a computer network by sending packages and analyzing the responses. Another discovery feature is that of operating system detection. These features are extensible by scripts that provide more advanced service detection.</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">nmap &lt;scan types&gt; &lt;options&gt; $ip</span>
@@ -16472,8 +16479,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Run  scripts from a category. See categories below</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--script<span class="w"> </span>&lt;category&gt;
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Run specific scripts</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Run defined scripts</span>
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>nmap<span class="w"> </span>--script<span class="w"> </span>&lt;script-name&gt;,&lt;script-name&gt;,&lt;script-name&gt;<span class="w"> </span>-p&lt;port&gt;<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Run custom scripts: </span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Save them in /usr/share/nmaps/script</span>
 </span></code></pre></div>
 <p>NSE (Nmap Script Engine) provides us with the possibility to create scripts in Lua for interaction with certain services. There are a total of 14 categories into which these scripts can be divided: </p>
 <table>
@@ -16687,12 +16697,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
 </span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
 </span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># SYN-Scan From DNS Port</span>
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p50000<span class="w"> </span>-sS<span class="w"> </span>-Pn<span class="w"> </span>-n<span class="w"> </span>--disable-arp-ping<span class="w"> </span>--packet-trace<span class="w"> </span>--source-port<span class="w"> </span><span class="m">53</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
 </span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="c1"># PORT      STATE SERVICE</span>
 </span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># 50000/tcp open  ibm-db2</span>
 </span></code></pre></div>
 <p>Following the example, a possible exploitation for this weak configuration would be:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="go">nc -nv -p 53 $ip 50000</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>
 </span></code></pre></div>
 <h3 id="udp-scans-not-working-on-vpn-connections">UDP scans not working on VPN connections</h3>
 <p>Explanation from https://www.reddit.com/r/nmap/comments/u08lud/havin_a_rough_go_of_trying_to_scan_a_subnet_with/:</p>
@@ -16729,6 +16739,11 @@ When the port is shown as closed, the TCP protocol indicates that the packet we 
 <h3 id="scans">Scans</h3>
 <h4 id="-ss-or-tcp-syn-scan">-sS (or TCP SYN scan)</h4>
 <p>By default, <code>Nmap</code> scans the top 1000 TCP ports with the SYN scan (<code>-sS</code>). This SYN scan is set only to default when we run it as root because of the socket permissions required to create raw TCP packets. Therefore, by default, Nmap performs a SYN Scan, though it substitutes a connect scan if the user does not have proper privileges to send raw packets (requires root access on Unix). Unprivileged users can only execute connect and FTP bounce scans.</p>
+<ul>
+<li>If our target sends an <code>SYN-ACK</code> flagged packet back to the scanned port, Nmap detects that the port is <code>open</code>.</li>
+<li>If the packet receives an <code>RST</code> flag, it is an indicator that the port is <code>closed</code>.</li>
+<li>If Nmap does not receive a packet back, it will display it as <code>filtered</code>. Depending on the firewall configuration, certain packets may be dropped or ignored by the firewall.</li>
+</ul>
 <p><img alt="TCP SYN scan" src="../img/nmap_ss.jpeg" /></p>
 <ul>
 <li>No connection established, but we got our response.</li>
@@ -16782,7 +16797,7 @@ When the port is shown as closed, the TCP protocol indicates that the packet we 
 <h2 id="quick-techniques">Quick techniques</h2>
 <h3 id="host-enumeration-determining-if-host-is-alive-with-arp-ping">Host Enumeration: Determining if host is alive with ARP ping</h3>
 <p>It can be done with <code>-packet-trace</code> or  with  <code>--reason</code>. </p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="go">sudo nmap &lt;IP&gt; -sn -oA host -PE --packet-trace</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="go">sudo nmap &lt;IP&gt; -sn -oA host o</span>
 </span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="gp"># </span>-sn<span class="w">   </span>Disables<span class="w"> </span>port<span class="w"> </span>scanning.
 </span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="gp"># </span>-oA<span class="w"> </span>host<span class="w">  </span>Stores<span class="w"> </span>the<span class="w"> </span>results<span class="w"> </span><span class="k">in</span><span class="w"> </span>all<span class="w"> </span>formats<span class="w"> </span>starting<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>name<span class="w"> </span><span class="s1">&#39;host&#39;</span>.
 </span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="gp"># </span>-PE<span class="w">   </span>Performs<span class="w"> </span>the<span class="w"> </span>ping<span class="w"> </span>scan<span class="w"> </span>by<span class="w"> </span>using<span class="w"> </span><span class="s1">&#39;ICMP Echo requests&#39;</span><span class="w"> </span>against<span class="w"> </span>the<span class="w"> </span>target.
@@ -16807,7 +16822,7 @@ When the port is shown as closed, the TCP protocol indicates that the packet we 
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-27T18:22:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-27</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-06-11T20:27:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-06-11</span></small></br>
 
 
     <small>Created: January 1, 2023 21:59:36</small>
