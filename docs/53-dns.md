@@ -139,6 +139,13 @@ nslookup -query=MX $TARGET
 See [dig](dig.md).
 
 ```bash
+# Dig Version Query
+dig CH TXT version.bind $ip
+
+# View all available records
+dig any example.com @$ip
+ # here, $ip refers to ip of DNS server. The more recent RFC8482 specified that `ANY` DNS requests be abolished. Therefore, we may not receive a response to our `ANY` request from the DNS server. Basically, not all entries from the zones will be shown.
+
 # Querying: A Records for a Subdomain
  dig a www.example @$ip
  # here, $ip refers to ip of DNS server
@@ -149,14 +156,10 @@ dig soa www.example.com
 
 # ENUMERATION
 # List nameservers known for that domain
-dig ns example.com @$ip
+ ns 
 # -ns: other name servers are known in NS record
 #  `@` character specifies the DNS server we want to query.
 # here, $ip refers to ip of DNS server
-
-# View all available records
-dig any example.com @$ip
- # here, $ip refers to ip of DNS server. The more recent RFC8482 specified that `ANY` DNS requests be abolished. Therefore, we may not receive a response to our `ANY` request from the DNS server.
 
 # Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
 dig CH TXT version.bind $ip
@@ -200,10 +203,17 @@ dnsenum domain.com
 
 ## Subdomain brute enumeration
 
-Using Sec wordlist:
+Bash command Using Sec wordlist:
 
 ```shell-session
 for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
+```
+
+dnsenum:
+
+```shell-session
+ dnsenum --dnsserver $ip --enum -p 0 -s 0 -o subdomains.txt -f /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt inlanefreight.htb
+
 ```
 
 

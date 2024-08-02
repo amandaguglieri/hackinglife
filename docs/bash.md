@@ -162,28 +162,53 @@ uname -r
 ## Flags
  -a, --all
               print all information, in the following order, except omit -p and -i if unknown:
-
        -s, --kernel-name
               print the kernel name
-
        -n, --nodename
               print the network node hostname
-
        -r, --kernel-release
               print the kernel release
-
        -v, --kernel-version
               print the kernel version
-
        -m, --machine
               print the machine hardware name
-
        -p, --processor
               print the processor type (non-portable)
-
        -i, --hardware-platform
               print the hardware platform (non-portable)
-
        -o, --operating-system
+
 ```
+
+
+### xrandr
+
+Xrandr is used to set the size, orientation and/or reflection of the outputs for a screen. It can also set the screen size.
+
+```
+# See commands and usage
+man xrandr
+
+# List current settings
+xrandr
+
+# Also, for listing current settings
+xrandr --current
+```
+
+Listing current settings helps you out to see the name of the outputs of your screens.
+
+In my case:
+
+```shell-session
+# Place laptop to the left of DP-2 (27'')
+xrandr --output eDP-1  --left-of DP-2
+
+# Place 34'' to the right of DP-2 (27'')
+xrandr --output HDMI-1 --right-of DP-2
+
+# Rotate 27''
+xrandr --output DP-2  --rotate left 
+
+
 ```

