@@ -23,6 +23,252 @@ tags:
     - [Evasion and Combining techniques](evasion-combining-techniques.md).
     - [Setting up the labs + Writeups](other-labs.md)
 
+
+## API Authentication
+
+### Authentication Types
+
+- Basic Authentication: username and password base64 encoded included as a HTTP Authorization header in the request:
+
+```
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+```
+
+- API Keys: there is no standard way to present the API Keys. Usually they go as a HTTP header.
+- Certificate based authentication: Using TLS for authentication. It requires HTTPS and requires the API to present a certificate. 
+- Token based authentication: issued by a third party. Tokens are used to authenticate the caller, they can expire, they can have an audience. 
+- Token based authentication and authorization: Tokens can contains more information than caller id. OAuth uses scopes, OpenID Connect adds claims.
+
+
+### OAuth 1 and 2.0
+
+- OAuth 1: IETF standard in 2010. Driven by twitter and google. It does not require HTTPS. Difficult to implement.
+- OAuth 2: IETF standard in 2012. Widely adopted. It requires HTTPS. Easy to implement.
+- OAuth 2.1: underway
+
+The application accesses to the API on user's behalf without seeing the credentials. The user can revoke this delegation. Actors:
+- Resource owner
+- The Authorization server delegates access to the Client so it can access the resource server.
+- Client
+- Resource server.
+
+**Code flow: grant_type=authorization_code**
+
+![Code flow](../../img/auth-sequence-auth-code-pkce.png)
+
+1. The user visit the application and clicks on login.
+2. The application generates `Code Verifier`and `Code Challenge`.
+3. The application redirects the user to an endpoint `/authorize` in the Authorization Server with the following parameters:
+
+```HTTP
+GET /authorize
+	?response_type=code
+	&client_id=myApp  // but we don't prove that this is the real id of the application
+	&scope=read
+	&code_challenge=MY_CHALLENGE
+	&code_challenge_method=S256   // Also called PKCE
+	&state=MY_RANDOM_STATE   // it will be sent back to the client
+```
+
+PKCE stands for Proof Key for Code Exchange (PKCE).
+
+4. The Authorization Server takes the user to their own Authentication Service (with their own authentication flow).
+5. If successful, ...
+6. the Authorization Server will redirect back to a predefined callback within the client:
+
+```HTTP
+303 /callback
+?code=1234  // this is also called 'nonce' (no more than once). A one-time-code with a really short life
+&state=MY_RANDOM_STATE
+```
+
+7. The client makes a back channel call to the Authorization Server to validate the Code verifier and the challenge.
+
+```HTTP
+POST /token
+Content-type: application/x-www-form-urlencoded
+
+grant_type=authorization_code //to tell we want to do the code flow
+&client_id=myApp 
+&client_secret=vErys3crEt //this can be also passed in an Authorization Basic header, or tokens or...
+&code_verifier=MY_VERIFIER // This is the actual value of what we sent in the /authorization request. This is what binds these requests together
+&code=1234
+```
+
+This happens in less than 30 seconds.
+
+8. The Authorization Server evaluates the previous request.
+9. The Authorization Server issues a token:
+
+```json
+{
+"access token": "abcDEF",
+"scope": "read",
+"expires_in": 300,
+"refresh_token": "HJKSGFD",
+"token_type": "bearer"
+}
+```
+
+
+**Code flow: grant_type=client_credentials**
+
+Everything is as in the previous code flow, but in step 7, there is a deviation:
+
+7. The client makes a back channel call to the Authorization Server to validate the Code verifier and the challenge.
+
+```HTTP
+POST /token
+Content-type: application/x-www-form-urlencoded
+
+grant_type=client_credentials //to tell we want to do the client credentials flow
+&client_id=myserverApp 
+&client_secret=vErys3crEt 
+&cope=read
+```
+
+8. In this case, there is no user interaction. We don't get a refresh token.
+
+```json
+{
+"access_token": "_0XBPWQQ_1c51e9ed-8979-4c53-af17-159476e1d9fc",
+"scope": "read write",
+"token_type": "bearer",
+"expires_in": 299
+}
+```
+
+
+### Tokens
+
+**Types of tokens**
+
+Bearer Tokens: not binded to a sender. 
+Proof of Possession Tokens (PoP) or Holder of Key Tokens (HoK): The sender needs to present a proof of ownership (prove that they have the private key)
+
+```
+# Bearer tokens
+Authorization: Bearer ey...
+
+# PoP tokens
+Authorization: DPoP _023123jdkjhjsdehe234bscdks-
+DPoP: eyJ0xXAi...4UcbQ
+```
+
+**JSON Web Tokens (JWT)**
+
+Not a protocol, but a format. JWT can be:
+
+- **Signed** JWS: proves who issued the token, asymmetric signature, whitelist algorithms allowed. Doesn't rely exclusively on signature, it also verifies contents as well.
+- **Encrypted** JWE: keeps data confidential, used in OpenID Connect, ID tokens. Not practical for access tokens. Opaque tokens are preferred to keep confidentiality. 
+
+### Scopes vs Claims
+
+**Scopes** define what the application can access. They are just a set of strings (they are keys, not values). They can be requested by the client. The Authorization Server makes the final decision about if a scope should be issued with the token. Scopes are used to express client privileges (and not user level privileges). 
+
+Examples: read, openid, user_invoice_read...
+
+Claims are key value items inside the token and the are asserted by the issuer, which means that it can be used for fine grained access control.
+
+Examples: subject=jacob, age=23, suscription_level=gold...
+
+### Gateways and APIs
+
+They provide a layer of protection in layer 7 (firewalls - HTTP). 
+
+#### Introspection with exchange: Pure introspection
+
+When we want to send a request to an API and there is a Gateway in the middle and the token is opaque (format by reference), then this gateway makes a connection with the Authorization Server to validate this token:
+
+```
+POST /instrospection
+Content-type: application/x-www-form-urlencoded
+
+
+&client_id=gateway_client
+&client_secret=vErys3crEt
+&token=HJKLM
+```
+
+The Authorization Server returns a json with the value of the token
+
+```json
+{
+"sub": "admin",
+"purpose": "access_token",
+"iss": "https://issuer.example.com/~",
+"active": true,
+"token_type": "bearer",
+"client_id": "client-1",
+"aud": "api123",
+"nbf": 15465771377,
+"scope": "read",
+"exp":15465771677,
+"delegationId": "cg572fad-0000-0000-0000-00000000",
+"iat": 15465771377
+}
+```
+
+
+#### Introspection with exchange: Embedded token in JSON introspection
+
+Or the client indicates to the gateway that they want the jwt back, even embedded into the json:
+
+```
+POST /instrospection
+Content-type: application/x-www-form-urlencoded
+Accept: application/jwt
+
+&client_id=gateway_client
+&client_secret=vErys3crEt
+&token=HJKLM
+```
+
+The Authorization Server returns a json with the value of the token
+
+```json
+{
+"sub": "admin",
+"purpose": "access_token",
+"iss": "https://issuer.example.com/~",
+"active": true,
+"token_type": "bearer",
+"client_id": "client-1",
+"aud": "api123",
+"nbf": 15465771377,
+"scope": "read",
+"exp":15465771677,
+"delegationId": "cg572fad-0000-0000-0000-00000000",
+"iat": 15465771377,
+"jwt": "ey....."
+}
+```
+
+#### Introspection with exchange: token exchange
+
+We can also use Token exchange specification, which is fairly new and it allows the gateway to call the Authorization Server and, given the token, ask for a different kind of token. The implementation of the different kinds of token are defined in the Authorization server and the documentation for this implementation should be consulted.
+
+```
+POST /instrospection
+Content-type: application/x-www-form-urlencoded
+
+&client_id=gateway_client
+&client_secret=vErys3crEt
+&grant_type=urn:ietf:params:oauth:grant-type:token-exchange
+&subject_token=HIJKLM
+&subject_token_type=urn:ietf:params:oauth:token-type:access_token
+&requested_token_type=urn:ietf:params:oauth:token-type:jwt
+```
+
+
+### API to API calls
+
+- Exchange: Use token exchange to get another token. This is used on demand. It has powerful options.
+- Embed: Put tokens inside the first token. When it is known to happen on every request.
+- Shared: Shared JWT. When the APIs are in the same security domain.
+
+
+
 ## Classic authentication attacks
 
 We'll consider two attacks: Password Brute-Force Attack, and Password Spraying. These attacks may take place every time that Basic Authentication is deployed in the context of a RESTful API.
