@@ -168,7 +168,7 @@ Not a protocol, but a format. JWT can be:
 
 Examples: read, openid, user_invoice_read...
 
-Claims are key value items inside the token and the are asserted by the issuer, which means that it can be used for fine grained access control.
+**Claims** are key value items inside the token and the are asserted by the issuer, which means that it can be used for fine grained access control.
 
 Examples: subject=jacob, age=23, suscription_level=gold...
 
