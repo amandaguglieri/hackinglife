@@ -15887,6 +15887,9 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="connect-to-oracle-database-sqlplus">Connect to Oracle database: sqlplus</h2>
 <p>If we manage to get some credentials we can connect to the Oracle TNS service with <a href="../sqlplus/">sqlplus</a>.</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">sqlplus &lt;username&gt;/&lt;password&gt;@$ip/XE;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="gp"># </span>Whereas<span class="w"> </span>XE<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>identified<span class="w"> </span>with<span class="w"> </span>Odat<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>valid<span class="w"> </span>SID
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">sqlplus &lt;username&gt;/&lt;password&gt;@$ip/XE as sysdba</span>
 </span></code></pre></div>
 <p>In case of this error message ( sqlplus: error while loading shared libraries: libsqlplus.so: cannot open shared object file: No such file or directory), there might be an issue with libraries. Possible solution:</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">sudo sh -c &quot;echo /usr/lib/oracle/12.2/client64/lib &gt; /etc/ld.so.conf.d/oracle-instantclient.conf&quot;;sudo ldconfig</span>
@@ -15895,7 +15898,25 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">sqlplus &lt;user&gt;/&lt;password&gt;@$ip/XE as sysdba</span>
 </span></code></pre></div>
 <h2 id="upload-a-web-shell">Upload a web shell</h2>
-<p>If we have sysdba admin rights, we might  upload a web shell to the target. This requires the server to run a web server, and we need to know the exact location of the root directory for the webserver.</p>
+<p>If we have sysdba admin rights, we might  upload a webshell to the target. This requires the server to run a webserver, and we need to know the exact location of the root directory for the webserver. However, these are typical default paths for webservers:</p>
+<table>
+<thead>
+<tr>
+<th><strong>OS</strong></th>
+<th><strong>Path</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td><code>/var/www/html</code></td>
+</tr>
+<tr>
+<td>Windows</td>
+<td><code>C:\inetpub\wwwroot</code></td>
+</tr>
+</tbody>
+</table>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. Create a non suspicious web shell </span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Oracle File Upload Test&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>testing.txt
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
@@ -15928,7 +15949,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="how-does-oracle-tns-work">How does Oracle TNS work</h2>
 <h3 id="technical-components">Technical components</h3>
 <p><strong>The listener</strong>:  </p>
-<p>By default, the listener listens for incoming connections on the TCP/1521 port. However, this default port can be changed during installation or later in the configuration file. The TNS listener is configured to support various network protocols, including TCP/IP, UDP, IPX/SPX, and AppleTalk. The listener can also support multiple network interfaces and listen on specific IP addresses or all available network interfaces. By default, Oracle TNS can be remotely managed in Oracle 8i/9i but not in Oracle 10g/11g. </p>
+<p>By default, the listener  (<code>listener.ora</code>) listens for incoming connections on the TCP/1521 port. However, this default port can be changed during installation or later in the configuration file. The TNS listener is configured to support various network protocols, including TCP/IP, UDP, IPX/SPX, and AppleTalk. The listener can also support multiple network interfaces and listen on specific IP addresses or all available network interfaces. By default, Oracle TNS can be remotely managed in Oracle 8i/9i but not in Oracle 10g/11g. </p>
 <p>Additionally, the listener will use Oracle Net Services to encrypt the communication between the client and the server. </p>
 <p><strong>Configuration files for Oracle TNS</strong></p>
 <p>The configuration files for Oracle TNS are called <code>tnsnames.ora</code> and <code>listener.ora</code> and are typically located in the <code>ORACLE_HOME/network/admin</code> directory. The client-side Oracle Net Services software uses the <code>tnsnames.ora</code> file to resolve service names to network addresses, while the listener process uses the <code>listener.ora</code> file to determine the services it should listen to and the behavior of the listener.</p>
@@ -16087,7 +16108,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-03-29T17:52:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-03-29</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-07T19:13:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-07</span></small></br>
 
 
     <small>Created: June 29, 2023 14:54:11</small>

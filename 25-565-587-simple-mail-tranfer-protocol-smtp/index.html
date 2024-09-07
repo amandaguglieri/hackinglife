@@ -15923,19 +15923,27 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 <h1 id="ports-25-565-587-simple-mail-tranfer-protocol-smtp">Ports 25, 565, 587 - Simple Mail Tranfer Protocol (SMTP)</h1>
-<p>The Simple Mail Transfer Protocol (SMTP) is a protocol for sending emails in an IP network. y default, SMTP servers accept connection requests on port 25. However, newer SMTP servers also use other ports such as TCP port 587. This port is used to receive mail from authenticated users/servers, usually using the STARTTLS command. SMTP works unencrypted without further measures and transmits all commands, data, or authentication information in plain text. To prevent unauthorized reading of data, the SMTP is used in conjunction with SSL/TLS encryption. Under certain circumstances, a server uses a port other than the standard TCP port 25 for the encrypted connection, for example, TCP port 465.</p>
+<p>The Simple Mail Transfer Protocol (SMTP) is a protocol for sending emails in an IP network. By default, SMTP servers accept connection requests on port 25. However, newer SMTP servers also use other ports such as TCP port 587. This port is used to receive mail from authenticated users/servers, usually using the STARTTLS command. SMTP works unencrypted without further measures and transmits all commands, data, or authentication information in plain text. To prevent unauthorized reading of data, the SMTP is used in conjunction with SSL/TLS encryption. Under certain circumstances, a server uses a port other than the standard TCP port 25 for the encrypted connection, for example, TCP port 465.</p>
 <p><img alt="SMTP. Source: https://wiki.inf.ufpr.br/maziero/doku.php?id=espec:servico_de_e-mail" src="../img/smtp.gif" /></p>
 <p><code>Mail User Agent</code> (<code>MUA</code>): SMTP client who sends the email. MUA converts it into a  header and a body and uploads both to the SMTP server. </p>
+<p><code>Mail Submission Agent</code> (<code>MSA</code>), which checks the validity, i.e., the origin of the e-mail. This <code>MSA</code> is also called <code>Relay</code> server. These are very important later on, as the so-called <code>Open Relay Attack</code>.</p>
 <p><code>Mail Transfer Agent</code> (<code>MTA</code>):  The MTA checks the e-mail for size and spam and then stores it. At this point of the process, this MTA works as the sender's server. The MTA then searches the DNS for the IP address of the recipient mail server. On arrival at the destination SMTP server, the receiver's MTA reassembles the data packets to form a complete e-mail.</p>
 <p><code>Mail Submission Agent</code> (<code>MSA</code>): Proxy that occasionally precedes the MTA to relieve the load. It checks the validity, i.e., the origin of the e-mail. This <code>MSA</code> is also called <code>Relay</code> server.  </p>
-<p><code>Mail delivery agent</code> (<code>MDA</code>): It deals with transfering the email to the recipient's mailbox.</p>
+<p><code>Mail delivery agent</code> (<code>MDA</code>): It deals with transferring the email to the recipient's mailbox.</p>
+<blockquote>
+<p>Other concepts:</p>
+<ul>
+<li><a href="http://dkim.org/">DKIM</a> : DomainKeys Identified Mail (DKIM)  provides a method for validating a domain name identity that is associated with a message through cryptographic authentication. The identity is independent of other email identities, such as the author's From: field.</li>
+<li><a href="https://dmarcian.com/what-is-spf/">Sender Policy Framework</a> (<code>SPF</code>): Sender Policy Framework (SPF) is used to authenticate the sender of an email. With an SPF record in place, Internet Service Providers can verify that a mail server is authorized to send email for a specific domain. An SPF record is a DNS TXT record containing a list of the IP addresses that are allowed to send email on behalf of your domain.</li>
+</ul>
+</blockquote>
 <h2 id="extended-smtp-esmtp">Extended SMTP (ESMTP)</h2>
 <p>Extended SMTP (ESMTP) deals with the main two shortcomings of SMTP protocol: </p>
 <ul>
 <li>In SMTP, users are not authenticated, therefore the sender is unreliable.</li>
 <li>SMTP doesn't have confirmations.</li>
 </ul>
-<p>For this, ESMTP uses TLS for encryption and <a href="https://www.samlogic.net/articles/smtp-commands-reference-auth.htm">AUTH PLAIN</a> extension for authentication.</p>
+<p>For this, ESMTP uses TLS for encryption and <a href="https://www.samlogic.net/articles/smtp-commands-reference-auth.htm">AUTH PLAIN</a> extension for authentication. See also <a href="../postfix/">Postfix</a></p>
 <h2 id="basic-commands">Basic commands</h2>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp"># </span>We<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>telnet<span class="w"> </span>protocol<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>SMTP<span class="w"> </span>server
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">telnet $ip 25</span>
@@ -16049,7 +16057,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-07-01T08:34:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-07-01</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-07T19:13:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-07</span></small></br>
 
 
     <small>Created: June 28, 2023 19:14:21</small>

