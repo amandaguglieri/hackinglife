@@ -54,7 +54,7 @@ The application accesses to the API on user's behalf without seeing the credenti
 
 **Code flow: grant_type=authorization_code**
 
-![Code flow](../../img/auth-sequence-auth-code-pkce.png)
+![Code flow](../img/auth-sequence-auth-code-pkce.png)
 
 1. The user visit the application and clicks on login.
 2. The application generates `Code Verifier`and `Code Challenge`.

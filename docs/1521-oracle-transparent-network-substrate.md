@@ -57,6 +57,10 @@ If we manage to get some credentials we can connect to the Oracle TNS service wi
 
 ```shell-session
 sqlplus <username>/<password>@$ip/XE;
+# Whereas XE has been identified with Odat as a valid SID
+
+sqlplus <username>/<password>@$ip/XE as sysdba
+
 ```
 
 In case of this error message ( sqlplus: error while loading shared libraries: libsqlplus.so: cannot open shared object file: No such file or directory), there might be an issue with libraries. Possible solution:
@@ -73,7 +77,12 @@ sqlplus <user>/<password>@$ip/XE as sysdba
 
 ## Upload a web shell
 
-If we have sysdba admin rights, we might  upload a web shell to the target. This requires the server to run a web server, and we need to know the exact location of the root directory for the webserver.
+If we have sysdba admin rights, we might  upload a webshell to the target. This requires the server to run a webserver, and we need to know the exact location of the root directory for the webserver. However, these are typical default paths for webservers:
+
+| **OS**  | **Path**             |
+| ------- | -------------------- |
+| Linux   | `/var/www/html`      |
+| Windows | `C:\inetpub\wwwroot` |
 
 ```bash
 # 1. Create a non suspicious web shell 
@@ -117,7 +126,7 @@ echo "Oracle File Upload Test" > testing.txt
 
 **The listener**:  
 
-By default, the listener listens for incoming connections on the TCP/1521 port. However, this default port can be changed during installation or later in the configuration file. The TNS listener is configured to support various network protocols, including TCP/IP, UDP, IPX/SPX, and AppleTalk. The listener can also support multiple network interfaces and listen on specific IP addresses or all available network interfaces. By default, Oracle TNS can be remotely managed in Oracle 8i/9i but not in Oracle 10g/11g. 
+By default, the listener  (`listener.ora`) listens for incoming connections on the TCP/1521 port. However, this default port can be changed during installation or later in the configuration file. The TNS listener is configured to support various network protocols, including TCP/IP, UDP, IPX/SPX, and AppleTalk. The listener can also support multiple network interfaces and listen on specific IP addresses or all available network interfaces. By default, Oracle TNS can be remotely managed in Oracle 8i/9i but not in Oracle 10g/11g. 
 
 
 Additionally, the listener will use Oracle Net Services to encrypt the communication between the client and the server. 

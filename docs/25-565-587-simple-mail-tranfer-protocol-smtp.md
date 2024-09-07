@@ -14,18 +14,26 @@ tags:
 # Ports 25, 565, 587 - Simple Mail Tranfer Protocol (SMTP)
 
 
-The Simple Mail Transfer Protocol (SMTP) is a protocol for sending emails in an IP network. y default, SMTP servers accept connection requests on port 25. However, newer SMTP servers also use other ports such as TCP port 587. This port is used to receive mail from authenticated users/servers, usually using the STARTTLS command. SMTP works unencrypted without further measures and transmits all commands, data, or authentication information in plain text. To prevent unauthorized reading of data, the SMTP is used in conjunction with SSL/TLS encryption. Under certain circumstances, a server uses a port other than the standard TCP port 25 for the encrypted connection, for example, TCP port 465.
+The Simple Mail Transfer Protocol (SMTP) is a protocol for sending emails in an IP network. By default, SMTP servers accept connection requests on port 25. However, newer SMTP servers also use other ports such as TCP port 587. This port is used to receive mail from authenticated users/servers, usually using the STARTTLS command. SMTP works unencrypted without further measures and transmits all commands, data, or authentication information in plain text. To prevent unauthorized reading of data, the SMTP is used in conjunction with SSL/TLS encryption. Under certain circumstances, a server uses a port other than the standard TCP port 25 for the encrypted connection, for example, TCP port 465.
 
 ![SMTP. Source: https://wiki.inf.ufpr.br/maziero/doku.php?id=espec:servico_de_e-mail](img/smtp.gif)
 
 
 `Mail User Agent` (`MUA`): SMTP client who sends the email. MUA converts it into a  header and a body and uploads both to the SMTP server. 
 
+`Mail Submission Agent` (`MSA`), which checks the validity, i.e., the origin of the e-mail. This `MSA` is also called `Relay` server. These are very important later on, as the so-called `Open Relay Attack`.
+
 `Mail Transfer Agent` (`MTA`):  The MTA checks the e-mail for size and spam and then stores it. At this point of the process, this MTA works as the sender's server. The MTA then searches the DNS for the IP address of the recipient mail server. On arrival at the destination SMTP server, the receiver's MTA reassembles the data packets to form a complete e-mail.
 
 `Mail Submission Agent` (`MSA`): Proxy that occasionally precedes the MTA to relieve the load. It checks the validity, i.e., the origin of the e-mail. This `MSA` is also called `Relay` server.  
 
-`Mail delivery agent` (`MDA`): It deals with transfering the email to the recipient's mailbox.
+`Mail delivery agent` (`MDA`): It deals with transferring the email to the recipient's mailbox.
+
+>Other concepts:
+>
+> - [DKIM](http://dkim.org/) : DomainKeys Identified Mail (DKIM)  provides a method for validating a domain name identity that is associated with a message through cryptographic authentication. The identity is independent of other email identities, such as the author's From: field.
+> - [Sender Policy Framework](https://dmarcian.com/what-is-spf/) (`SPF`): Sender Policy Framework (SPF) is used to authenticate the sender of an email. With an SPF record in place, Internet Service Providers can verify that a mail server is authorized to send email for a specific domain. An SPF record is a DNS TXT record containing a list of the IP addresses that are allowed to send email on behalf of your domain.
+
 
 ## Extended SMTP (ESMTP)
 
@@ -34,9 +42,10 @@ Extended SMTP (ESMTP) deals with the main two shortcomings of SMTP protocol:
 - In SMTP, users are not authenticated, therefore the sender is unreliable.
 - SMTP doesn't have confirmations.
 
-For this, ESMTP uses TLS for encryption and [AUTH PLAIN](https://www.samlogic.net/articles/smtp-commands-reference-auth.htm) extension for authentication.
+For this, ESMTP uses TLS for encryption and [AUTH PLAIN](https://www.samlogic.net/articles/smtp-commands-reference-auth.htm) extension for authentication. See also [Postfix](postfix.md)
 
 ## Basic commands
+
 
 ```shell-session
 # We can use telnet protocol to connect to a SMTP server

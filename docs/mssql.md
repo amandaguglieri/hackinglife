@@ -62,7 +62,9 @@ Misconfigurations to look at:
 - MSSQL clients not using encryption to connect to the MSSQL server.    
 - The use of self-signed certificates when encryption is being used. It is possible to spoof self-signed certificates   
 - The use of [named pipes](https://docs.microsoft.com/en-us/sql/tools/configuration-manager/named-pipes-properties?view=sql-server-ver15)
-- Weak & default `sa` credentials. Admins may forget to disable this account
+- Weak & default `sa` credentials. Admins may forget to disable this account.## 
+
+The SA password for SQL Server is the SQL Administrator account built into the program.  The SA password is established during the installation of SQL Server.
 
 
 ## Interact with MSSQL
