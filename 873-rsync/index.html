@@ -26,7 +26,7 @@
     
     
       
-        <title>873 rsync - Hacking Life</title>
+        <title>Port 873 - rsync - Hacking Life</title>
       
     
     
@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#873-rsync" class="md-skip">
+        <a href="#port-873-rsync" class="md-skip">
           Skip to content
         </a>
       
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              873 rsync
+              Port 873 - rsync
             
           </span>
         </div>
@@ -5132,6 +5132,8 @@
       
         
       
+        
+      
     
     
     
@@ -5172,6 +5174,27 @@
   
   <span class="md-ellipsis">
     Index of modules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpts-cheat-sheet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cheat sheet
   </span>
   
 
@@ -7495,6 +7518,8 @@
       
         
       
+        
+      
     
     
     
@@ -7950,7 +7975,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../512-513-514-r-services/" class="md-nav__link">
+      <a href="../512-513-514-remote-services/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -7971,7 +7996,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../512-513-514-r-services/" class="md-nav__link">
+      <a href="../512-513-514-remote-services/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -7992,7 +8017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../512-513-514-r-services/" class="md-nav__link">
+      <a href="../512-513-514-remote-services/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -8055,7 +8080,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../623-intelligent-platform-management-interface-ipmi/" class="md-nav__link">
+      <a href="../623-1900-intelligent-platform-management-interface-ipmi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -8187,6 +8212,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#transfer-files-with-rsync-over-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transfer Files with Rsync over SSH
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -8313,6 +8347,27 @@
   
   <span class="md-ellipsis">
     1720 voip
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../623-1900-intelligent-platform-management-interface-ipmi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    623 ipmi
   </span>
   
 
@@ -15711,6 +15766,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#transfer-files-with-rsync-over-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transfer Files with Rsync over SSH
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -15728,7 +15792,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 
-<h1 id="873-rsync">873 rsync</h1>
+<h1 id="port-873-rsync">Port 873 - rsync</h1>
 <h2 id="description">Description</h2>
 <p>rsync is a utility for efficiently transferring and synchronizing files between a computer and an external hard drive and across networked computers. It can be used to copy files locally on a given machine and to/from remote hosts. It is highly versatile and well-known for its delta-transfer algorithm. This algorithm reduces the amount of data transmitted over the network when a version of the file already exists on the destination host. It does this by sending only the differences between the source files and the older version of the files that reside on the destination server. It is often used for backups and mirroring. It finds files that need to be transferred by looking at files that have changed in size or the last modified time. By default, it uses port <code>873</code> and can be configured to use SSH for secure file transfers by piggybacking on top of an established SSH server connection. </p>
 <h2 id="footprinting-rsync">Footprinting rsync</h2>
@@ -15786,10 +15850,18 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>You could also <strong>upload</strong> some <strong>content</strong> using rsync (for example, in this case we can upload an <strong><em>authorized_keys</em></strong> file to obtain access to the box):</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>home_user/.ssh/<span class="w"> </span>rsync://&lt;username&gt;@<span class="nv">$ip</span>/home_user/.ssh
 </span></code></pre></div>
+<h2 id="transfer-files-with-rsync-over-ssh">Transfer Files with Rsync over SSH</h2>
+<p>Before you can start transferring files and directories with rsync over SSH, make sure you can <a href="https://phoenixnap.com/kb/ssh-to-connect-to-remote-server-linux-or-windows">use SSH to connect to a remote server</a>. Once verified, you can begin backing up your data. Ensure your destination system has sufficient storage space.</p>
+<p>The syntax for copying files to a remote server over SSH with the <strong><code>rsync</code></strong> command is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>rsync OPTION SourceDirectory_or_filePath user@serverIP_or_name:Target
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a># Example
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>rsync ~/Desktop/Dir1/&quot;source pdf sample.pdf&quot; test@192.168.56.100:~/Desktop/test
+</span></code></pre></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-07-01T08:34:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-07-01</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-08T18:35:14+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-08</span></small></br>
 
 
     <small>Created: January 1, 2023 21:59:36</small>
