@@ -469,7 +469,7 @@ msfconsole -r path/to/metasploitRCfile
 
 ### IPMI Information discovery
 
-[See ipmi service on UDP/623](623-intelligent-platform-management-interface-ipmi.md). This module discovers host information through IPMI Channel Auth probes:
+[See ipmi service on UDP/623](623-1900-intelligent-platform-management-interface-ipmi.md). This module discovers host information through IPMI Channel Auth probes:
 
 ```msfc
 use auxiliary/scanner/ipmi/ipmi_version

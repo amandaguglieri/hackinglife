@@ -1,15 +1,16 @@
 ---
-title: 22 ssh 
+title: Port 22 - Secure Shell (SSH)
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
   - pentesting
-  - web pentesting
-  - port 22
+  - web
+  - pentesting
+  - port
+  - "22"
 ---
-
-# 22 ssh
+# Port 22 - Secure Shell (SSH)
 
 Secure Shell (SSH) enables two computers to establish an encrypted and direct connection within a possibly insecure network on the standard port TCP 22. 
 

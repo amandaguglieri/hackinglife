@@ -9,12 +9,11 @@ tags:
   - enumeration
   - tools
 ---
-
 # dig 
 
+References:  [https://linux.die.net/man/1/dig](https://linux.die.net/man/1/dig)
 
-References:  dig (https://linux.die.net/man/1/dig)
-
+See also [# Port 53 - Domain Name Server (DNS)](53-dns.md).
 
 ## Footprinting DNS with dig
 

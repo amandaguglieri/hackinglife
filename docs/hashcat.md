@@ -132,7 +132,7 @@ https://hashcat.net/wiki/doku.php?id=example_hashes
 
 ### mode 7300: IPMI
 
-For cracking hashes from [IPMI service](623-intelligent-platform-management-interface-ipmi.md):
+For cracking hashes from [IPMI service](623-1900-intelligent-platform-management-interface-ipmi.md):
 In the event of an HP iLO using a factory default password, we can use this Hashcat mask attack command 
 
 ```bash
