@@ -666,6 +666,8 @@ nslookup -query=MX $TARGET
 
 ### 2.5. Subdomain enumeration
 
+`Subdomain enumeration` is the process of systematically identifying and listing these subdomains. From a DNS perspective, subdomains are typically represented by `A` (or `AAAA` for IPv6) records, which map the subdomain name to its corresponding IP address. Additionally, `CNAME` records might be used to create aliases for subdomains, pointing them to other domains or subdomains. 
+
 Using Sec wordlist:
 
 ```shell-session
@@ -734,12 +736,15 @@ for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-11000
 
 ### 2.6. VHOST enumeration
 
-A virtual host (`vHost`) is a feature that allows several websites to be hosted on a single server. 
+A virtual host (`vHost`) is a feature that allows several websites to be hosted on a single server.  At the core of `virtual hosting` is the ability of web servers to distinguish between multiple websites or applications sharing the same IP address. This is achieved by leveraging the `HTTP Host` header, a piece of information included in every `HTTP` request sent by a web browser. The key difference between `VHosts` and `subdomains` is their relationship to the `Domain Name System (DNS)` and the web server's configuration.
 
-There are two ways to configure virtual hosts:
+There are 3 ways to configure virtual hosts:
 
-- `IP`-based virtual hosting
-- `Name`-based virtual hosting: The distinction for which domain the service was requested is made at the application level. For example, several domain names, such as `admin.inlanefreight.htb` and `backup.inlanefreight.htb`, can refer to the same IP. Internally on the server, these are separated and distinguished using different folders. 
+1. `Name-Based Virtual Hosting`: This method relies solely on the `HTTP Host header` to distinguish between websites. It is the most common and flexible method, as it doesn't require multiple IP addresses. It requires the web server to support name-based `virtual hosting` and can have limitations with certain protocols like `SSL/TLS`.
+2. `IP-Based Virtual Hosting`: This type of hosting assigns a unique IP address to each website hosted on the server. The server determines which website to serve based on the IP address to which the request was sent. It doesn't rely on the `Host header`, can be used with any protocol, and offers better isolation between websites. Still, it requires multiple IP addresses, which can be expensive and less scalable.
+3. `Port-Based Virtual Hosting`: Different websites are associated with different ports on the same IP address. For example, one website might be accessible on port 80, while another is on port 8080. `Port-based virtual hosting` can be used when IP addresses are limited, but it’s not as common or user-friendly as `name-based virtual hosting` and might require users to specify the port number in the URL.
+
+In essence, the `Host` header functions as a switch, enabling the web server to dynamically determine which website to serve based on the domain name requested by the browser.
 
 vHost Fuzzing
 
@@ -751,7 +756,7 @@ cp /usr/share/wordlists/secLists/Discovery/DNS/namelist.txt ./vhosts
 cat ./vhosts | while read vhost;do echo "\n********\nFUZZING: ${vhost}\n********";curl -s -I http://$ip -H "HOST: ${vhost}.example.com" | grep "Content-Length: ";done
 ```
 
-vHost Fuzzing with ffuf:
+#### vHost Fuzzing with [ffuf](ffuf.md)
 
 ```bash
 # Virtual Host enumeration
@@ -764,6 +769,23 @@ ffuf -w ./vhosts -u http://$ip -H "HOST: FUZZ.example.com" -fs 612
 # `-H "HOST: FUZZ.randomtarget.com"`: This is the `HOST` Header, and the word `FUZZ` will be used as the fuzzing point.
 # `-fs 612`: Filter responses with a size of 612, default response size in this case.
 ```
+
+####  vHost Fuzzing with [gobuster](gobuster.md) 
+
+There are a couple of things you need to prepare to brute force `Host` headers:
+
+1. `Target Identification`: First, identify the target web server's IP address. This can be done through DNS lookups or other reconnaissance techniques.
+2. `Wordlist Preparation`: Prepare a wordlist containing potential virtual host names. You can use a pre-compiled wordlist, such as SecLists, or create a custom one based on your target's industry, naming conventions, or other relevant information.
+
+```shell-session
+gobuster vhost -u http://$ip -w <wordlist_file> --append-domain
+# The `-u` flag specifies the target URL
+# The `-w` flag specifies the wordlist file 
+# The `--append-domain` flag appends the base domain to each word in the wordlist.
+```
+
+
+and [feroxbuster](feroxbuster.md).
 
 
 ### 2.6. Certificate enumeration

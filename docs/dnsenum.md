@@ -30,3 +30,8 @@ dnsenum domain.com
 One cool thing about dnsenum is that it can perform dns transfer zone, like [dig]](dig.md). 
 
 It performs DNS brute force with /usr/share/dnsenum/dns.txt.
+
+```bash
+dnsenum --enum example.com -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -r
+# -f Indicate the wordlist file
+```

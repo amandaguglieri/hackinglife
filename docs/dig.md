@@ -11,6 +11,8 @@ tags:
 ---
 # dig 
 
+The `dig` command (`Domain Information Groper`) is a versatile and powerful utility for querying DNS servers and retrieving various types of DNS records. Its flexibility and detailed and customizable output make it a go-to choice. 
+
 References:  [https://linux.die.net/man/1/dig](https://linux.die.net/man/1/dig)
 
 See also [# Port 53 - Domain Name Server (DNS)](53-dns.md).
@@ -18,38 +20,118 @@ See also [# Port 53 - Domain Name Server (DNS)](53-dns.md).
 ## Footprinting DNS with dig
 
 ```bash
-# Querying: A Records for a Subdomain
- dig a www.example @$ip
+# Querying: A Records for a Subdomain. Retrieves the IPv4 address (A record) associated with the domain. 
+dig A www.example @$ip
  # here, $ip refers to ip of DNS server
 
-# Get email of administrator of the domain
-dig soa www.example.com
+# Retrieves the IPv6 address (AAAA record) associated with the domain.
+dig AAAA www.example @$ip
+
+# Retrieves the start of authority (SOA) record for the domain. Get email of administrator of the domain
+dig SOA www.example.com
 # The email will contain a (.) dot notation instead of @
 
 # ENUMERATION
-# List nameservers known for that domain
-dig ns example.com @$ip
+# List nameservers known for that domain. Identifies the authoritative name servers for the domain.
+dig NS example.com @$ip
 # -ns: other name servers are known in NS record
 #  `@` character specifies the DNS server we want to query.
 # here, $ip refers to ip of DNS server
 
 # View all available records
-dig any example.com @$ip
+dig ANY example.com @$ip
  # here, $ip refers to ip of DNS server. The more recent RFC8482 specified that `ANY` DNS requests be abolished. Therefore, we may not receive a response to our `ANY` request from the DNS server.
 
 # Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.
 dig CH TXT version.bind $ip
 
-# Querying: PTR Records for an IP Address
-dig -x $ip @1.1.1.1
-# You can also facilitate a range:
-dig -x 192.168 @1.1.1.1
 
-# Querying: TXT Records
+
+# Querying: TXT Records. Retrieves any TXT records associated with the domain.
 dig txt example.com @$ip
 
-# Querying: MX Records
-dig mx example.com @1.1.1.1
+# Querying: MX Records. Finds the mail servers (MX records) responsible for the domain.
+dig MX example.com @1.1.1.1
+
+# Specifies a specific name server to query; in this case 1.1.1.1
+dig @1.1.1.1 domain.com
+
+# Querying: PTR Records for an IP Address
+dig -x $ip @1.1.1.1
+
+# Performs a reverse lookup on the IP address 192.168.1.1 to find the associated host name. You may need to specify a name server. You can also facilitate a range:
+dig -x 192.168 @1.1.1.1
+
+# Shows the full path of DNS resolution.
+dig +trace domain.com
+
+# Provides a short, concise answer to the query.
+dig +short domain.com
+
+# Displays only the answer section of the query output.
+dig +noall +answer domain.com
+
+```
+
+
+### Interpretation of the output
+
+The output can be broken down into four key sections:
+
+- Header
+- Question Section
+- Answer Section
+- Footer
+
+An `opt pseudosection` can sometimes exist in a `dig` query. This is due to Extension Mechanisms for DNS (`EDNS`), which allows for additional features such as larger message sizes and DNS Security Extensions (`DNSSEC`) support.
+
+```
+######
+# 1. Header
+######
+
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 16449`: 
+# This line indicates the type of query (`QUERY`), the successful status (`NOERROR`), and a unique identifier (`16449`) for this specific query.
+
+;; flags: qr rd ad; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0`:
+# This describes the flags in the DNS header:
+# - `qr`: Query Response flag - indicates this is a response.
+# - `rd`: Recursion Desired flag - means recursion was requested.
+# - `ad`: Authentic Data flag - means the resolver considers the data authentic.
+# The remaining numbers indicate the number of entries in each section of the DNS response: 1 question, 1 answer, 0 authority records, and 0 additional records.
+
+;; WARNING: recursion requested but not available
+# This indicates that recursion was requested, but the server does not support it.
+     
+######
+# 2. Question Section
+######
+    
+;google.com. IN A
+# This line specifies the question: "What is the IPv4 address (A record) for `google.com`?"
+
+######
+# 3. Answer Section
+######
+    
+google.com. 0 IN A 142.251.47.142
+# This is the answer to the query. It indicates that the IP address associated with `google.com` is `142.251.47.142`. The '`0`' represents the `TTL` (time-to-live), indicating how long the result can be cached before being refreshed.
+
+######
+# 4. Footer
+######
+    
+;; Query time: 0 msec`
+# This shows the time it took for the query to be processed and the response to be received (0 milliseconds).
+     
+;; SERVER: 172.23.176.1#53(172.23.176.1) (UDP)
+# This identifies the DNS server that provided the answer and the protocol used (UDP).
+
+;; WHEN: Thu Jun 13 10:45:58 SAST 2024
+# This is the timestamp of when the query was made.
+
+;; MSG SIZE rcvd: 54
+# This indicates the size of the DNS message received (54 bytes).
 ```
 
 
@@ -62,9 +144,10 @@ Basically, in a DNS query a client provide a human-readable hostname and the DNS
 Quick syntax for zone transfers:
 
 ```
-dig axfr actualtarget @nameserver 
+# This command instructs `dig` to request a full zone transfer (`axfr`) from the DNS server responsible for `actualtarget.com`. If the server is misconfigured and allows the transfer, you'll receive a complete list of DNS records for the domain, including all subdomains.
+dig axfr actualtarget.com @nameserver 
 
-# You can also solicitate the transfer of reverse DNS query_
+# You can also solicitate the transfer of reverse DNS query
  dig axfr -x 192.168  @ip
 ```
 

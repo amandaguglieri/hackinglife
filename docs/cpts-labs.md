@@ -1226,13 +1226,22 @@ Results: cr3n4o7rzse7rzhnckhssncif7ds
 
 #### Utilizing WHOIS
 
-Question
+**Perform a WHOIS lookup against the paypal.com domain. What is the registrar Internet Assigned Numbers Authority (IANA) ID number?**
 
 ```
-
+whoid paypal.com
 ```
 
-Results: 
+Results: 292
+
+**What is the admin email contact for the tesla.com domain (also in-scope for the Tesla bug bounty program)?**
+
+```
+whoid tesla.com
+```
+
+Results: admin@dnstinations.com
+
 
 
 ### DNS & Subdomains
@@ -1240,39 +1249,95 @@ Results:
 #### Digging DNS
 
 
-Question
+**Which IP address maps to inlanefreight.com?**
 
 ```
-
+dig +short inlanefreight.com
 ```
 
-Results: 
+Results: 134.209.24.248
 
 
+
+**Which domain is returned when querying the PTR record for 134.209.24.248?**
+
+```
+dig -x 134.209.24.248 @1.1.1.1
+```
+
+Results:  inlanefreight.com
+
+What is the full domain returned when you query the mail records for facebook.com?
+
+```
+dig MX facebook.com
+```
+
+Results: smtpin.vvv.facebook.com
 #### Subdomain BruteForcing
 
-Question
+**Using the known subdomains for inlanefreight.com (www, ns1, ns2, ns3, blog, support, customer), find any missing subdomains by brute-forcing possible domain names. Prov**ide your answer with the complete subdomain, e.g., www.inlanefreight.com.
 
 ```
-
+dnsenum --enum inlanefreight.com -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -r
 ```
 
-Results: 
+Results: my.inlanefreight.com
 
 #### DNS Zone Transfers
 
-Question
+**After performing a zone transfer for the domain inlanefreight.htb on the target system, how many DNS records are retrieved from the target system's name server? Provide your answer as an integer, e.g, 123.**
 
+```
+dig axfr inlanefreight.htb @$ip 
 ```
 
 ```
+# Response
+; <<>> DiG 9.19.21-1-Debian <<>> axfr inlanefreight.htb @10.129.72.193
+;; global options: +cmd
+inlanefreight.htb.	604800	IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2 604800 86400 2419200 604800
+inlanefreight.htb.	604800	IN	NS	ns.inlanefreight.htb.
+admin.inlanefreight.htb. 604800	IN	A	10.10.34.2
+ftp.admin.inlanefreight.htb. 604800 IN	A	10.10.34.2
+careers.inlanefreight.htb. 604800 IN	A	10.10.34.50
+dc1.inlanefreight.htb.	604800	IN	A	10.10.34.16
+dc2.inlanefreight.htb.	604800	IN	A	10.10.34.11
+internal.inlanefreight.htb. 604800 IN	A	127.0.0.1
+admin.internal.inlanefreight.htb. 604800 IN A	10.10.1.11
+wsus.internal.inlanefreight.htb. 604800	IN A	10.10.1.240
+ir.inlanefreight.htb.	604800	IN	A	10.10.45.5
+dev.ir.inlanefreight.htb. 604800 IN	A	10.10.45.6
+ns.inlanefreight.htb.	604800	IN	A	127.0.0.1
+resources.inlanefreight.htb. 604800 IN	A	10.10.34.100
+securemessaging.inlanefreight.htb. 604800 IN A	10.10.34.52
+test1.inlanefreight.htb. 604800	IN	A	10.10.34.101
+us.inlanefreight.htb.	604800	IN	A	10.10.200.5
+cluster14.us.inlanefreight.htb.	604800 IN A	10.10.200.14
+messagecenter.us.inlanefreight.htb. 604800 IN A	10.10.200.10
+ww02.inlanefreight.htb.	604800	IN	A	10.10.34.112
+www1.inlanefreight.htb.	604800	IN	A	10.10.34.111
+inlanefreight.htb.	604800	IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2 604800 86400 2419200 604800
+;; Query time: 540 msec
+;; SERVER: 10.129.72.193#53(10.129.72.193) (TCP)
+;; WHEN: Tue Sep 10 15:25:16 EDT 2024
+;; XFR size: 22 records (messages 1, bytes 594)
+```
 
-Results: 
 
+Results: 22
+
+**Within the zone record transferred above, find the ip address for ftp.admin.inlanefreight.htb. Respond only with the IP address, eg 127.0.0.1**
+
+Results:  10.10.34.2
+
+**Within the same zone record, identify the largest IP address allocated within the 10.10.200 IP range. Respond with the full IP address, eg 10.10.200.1**
+
+Results:  10.10.200.14
 
 #### Virtual Hosts
 
-Question
+**Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "web"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
 
 ```
 
@@ -1280,6 +1345,39 @@ Question
 
 Results: 
 
+**Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "vm"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
+
+```
+
+```
+
+Results: 
+
+**Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "br"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
+
+```
+
+```
+
+Results: 
+
+
+**Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "a"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
+
+```
+
+```
+
+Results: 
+
+
+**Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "su"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
+
+```
+
+```
+
+Results: 
 
 ### Fingerprinting
 
