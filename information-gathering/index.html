@@ -12390,6 +12390,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="2.6. VHOST enumeration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vhost-fuzzing-with-ffuf" class="md-nav__link">
+    <span class="md-ellipsis">
+      vHost Fuzzing with ffuf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vhost-fuzzing-with-gobuster" class="md-nav__link">
+    <span class="md-ellipsis">
+      vHost Fuzzing with gobuster
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -16956,6 +16980,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="2.6. VHOST enumeration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vhost-fuzzing-with-ffuf" class="md-nav__link">
+    <span class="md-ellipsis">
+      vHost Fuzzing with ffuf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vhost-fuzzing-with-gobuster" class="md-nav__link">
+    <span class="md-ellipsis">
+      vHost Fuzzing with gobuster
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -17666,6 +17714,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-34-20"><a id="__codelineno-34-20" name="__codelineno-34-20" href="#__codelineno-34-20"></a><span class="c1">#  Specify a nameserver if needed by adding `@&lt;nameserver/IP&gt;` to the command</span>
 </span></code></pre></div>
 <h3 id="25-subdomain-enumeration">2.5. Subdomain enumeration</h3>
+<p><code>Subdomain enumeration</code> is the process of systematically identifying and listing these subdomains. From a DNS perspective, subdomains are typically represented by <code>A</code> (or <code>AAAA</code> for IPv6) records, which map the subdomain name to its corresponding IP address. Additionally, <code>CNAME</code> records might be used to create aliases for subdomains, pointing them to other domains or subdomains. </p>
 <p>Using Sec wordlist:</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v &#39;;\|SOA&#39; | sed -r &#39;/^\s*$/d&#39; | grep $sub | tee -a subdomains.txt;done</span>
 </span></code></pre></div>
@@ -17708,19 +17757,21 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v &#39;;\|SOA&#39; | sed -r &#39;/^\s*$/d&#39; | grep $sub | tee -a subdomains.txt;done</span>
 </span></code></pre></div>
 <h3 id="26-vhost-enumeration">2.6. VHOST enumeration</h3>
-<p>A virtual host (<code>vHost</code>) is a feature that allows several websites to be hosted on a single server. </p>
-<p>There are two ways to configure virtual hosts:</p>
-<ul>
-<li><code>IP</code>-based virtual hosting</li>
-<li><code>Name</code>-based virtual hosting: The distinction for which domain the service was requested is made at the application level. For example, several domain names, such as <code>admin.inlanefreight.htb</code> and <code>backup.inlanefreight.htb</code>, can refer to the same IP. Internally on the server, these are separated and distinguished using different folders. </li>
-</ul>
+<p>A virtual host (<code>vHost</code>) is a feature that allows several websites to be hosted on a single server.  At the core of <code>virtual hosting</code> is the ability of web servers to distinguish between multiple websites or applications sharing the same IP address. This is achieved by leveraging the <code>HTTP Host</code> header, a piece of information included in every <code>HTTP</code> request sent by a web browser. The key difference between <code>VHosts</code> and <code>subdomains</code> is their relationship to the <code>Domain Name System (DNS)</code> and the web server's configuration.</p>
+<p>There are 3 ways to configure virtual hosts:</p>
+<ol>
+<li><code>Name-Based Virtual Hosting</code>: This method relies solely on the <code>HTTP Host header</code> to distinguish between websites. It is the most common and flexible method, as it doesn't require multiple IP addresses. It requires the web server to support name-based <code>virtual hosting</code> and can have limitations with certain protocols like <code>SSL/TLS</code>.</li>
+<li><code>IP-Based Virtual Hosting</code>: This type of hosting assigns a unique IP address to each website hosted on the server. The server determines which website to serve based on the IP address to which the request was sent. It doesn't rely on the <code>Host header</code>, can be used with any protocol, and offers better isolation between websites. Still, it requires multiple IP addresses, which can be expensive and less scalable.</li>
+<li><code>Port-Based Virtual Hosting</code>: Different websites are associated with different ports on the same IP address. For example, one website might be accessible on port 80, while another is on port 8080. <code>Port-based virtual hosting</code> can be used when IP addresses are limited, but it’s not as common or user-friendly as <code>name-based virtual hosting</code> and might require users to specify the port number in the URL.</li>
+</ol>
+<p>In essence, the <code>Host</code> header functions as a switch, enabling the web server to dynamically determine which website to serve based on the domain name requested by the browser.</p>
 <p>vHost Fuzzing</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># use a vhost dictionary file</span>
 </span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>cp<span class="w"> </span>/usr/share/wordlists/secLists/Discovery/DNS/namelist.txt<span class="w"> </span>./vhosts
 </span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>
 </span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>cat<span class="w"> </span>./vhosts<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>vhost<span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n********\nFUZZING: </span><span class="si">${</span><span class="nv">vhost</span><span class="si">}</span><span class="s2">\n********&quot;</span><span class="p">;</span>curl<span class="w"> </span>-s<span class="w"> </span>-I<span class="w"> </span>http://<span class="nv">$ip</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;HOST: </span><span class="si">${</span><span class="nv">vhost</span><span class="si">}</span><span class="s2">.example.com&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Content-Length: &quot;</span><span class="p">;</span><span class="k">done</span>
 </span></code></pre></div>
-<p>vHost Fuzzing with ffuf:</p>
+<h4 id="vhost-fuzzing-with-ffuf">vHost Fuzzing with <a href="../ffuf/">ffuf</a></h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Virtual Host enumeration</span>
 </span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="c1"># use a vhost dictionary file</span>
 </span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>cp<span class="w"> </span>/usr/share/wordlists/secLists/Discovery/DNS/namelist.txt<span class="w"> </span>./vhosts
@@ -17731,6 +17782,18 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-42-8"><a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="c1"># `-H &quot;HOST: FUZZ.randomtarget.com&quot;`: This is the `HOST` Header, and the word `FUZZ` will be used as the fuzzing point.</span>
 </span><span id="__span-42-9"><a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a><span class="c1"># `-fs 612`: Filter responses with a size of 612, default response size in this case.</span>
 </span></code></pre></div>
+<h4 id="vhost-fuzzing-with-gobuster">vHost Fuzzing with <a href="../gobuster/">gobuster</a></h4>
+<p>There are a couple of things you need to prepare to brute force <code>Host</code> headers:</p>
+<ol>
+<li><code>Target Identification</code>: First, identify the target web server's IP address. This can be done through DNS lookups or other reconnaissance techniques.</li>
+<li><code>Wordlist Preparation</code>: Prepare a wordlist containing potential virtual host names. You can use a pre-compiled wordlist, such as SecLists, or create a custom one based on your target's industry, naming conventions, or other relevant information.</li>
+</ol>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="go">gobuster vhost -u http://$ip -w &lt;wordlist_file&gt; --append-domain</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="gp"># </span>The<span class="w"> </span><span class="sb">`</span>-u<span class="sb">`</span><span class="w"> </span>flag<span class="w"> </span>specifies<span class="w"> </span>the<span class="w"> </span>target<span class="w"> </span>URL
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="gp"># </span>The<span class="w"> </span><span class="sb">`</span>-w<span class="sb">`</span><span class="w"> </span>flag<span class="w"> </span>specifies<span class="w"> </span>the<span class="w"> </span>wordlist<span class="w"> </span>file<span class="w"> </span>
+</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="gp"># </span>The<span class="w"> </span><span class="sb">`</span>--append-domain<span class="sb">`</span><span class="w"> </span>flag<span class="w"> </span>appends<span class="w"> </span>the<span class="w"> </span>base<span class="w"> </span>domain<span class="w"> </span>to<span class="w"> </span>each<span class="w"> </span>word<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>wordlist.
+</span></code></pre></div>
+<p>and <a href="../feroxbuster/">feroxbuster</a>.</p>
 <h3 id="26-certificate-enumeration">2.6. Certificate enumeration</h3>
 <p>SSL/TLS certificates are another potentially valuable source of information if HTTPS is in use (for instance, in gathering information to prepare a phising attack).</p>
 <h4 id="sslyze-and-sslabs">sslyze and sslabs</h4>
@@ -17740,29 +17803,29 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 - <a href="https://ciphersuite.info">https://ciphersuite.info</a>.</p>
 <h4 id="nmap_4">nmap</h4>
 <p>Also, you can use a script for nmap:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>nmap<span class="w"> </span>--script<span class="w"> </span>ssl-enum-ciphers<span class="w"> </span>&lt;HOSTNAME&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>nmap<span class="w"> </span>--script<span class="w"> </span>ssl-enum-ciphers<span class="w"> </span>&lt;HOSTNAME&gt;
 </span></code></pre></div>
 <h4 id="virustotal">virustotal</h4>
 <p><a href="https://www.virustotal.com/">virustotal</a>.</p>
 <h4 id="crtsh-with-curl">crt.sh with curl</h4>
 <p><strong><a href="https://crt.sh/">crt.sh</a></strong>: it enables the verification of issued digital certificates for encrypted Internet connections. This is intended to enable the detection of false or maliciously issued certificates for a domain.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># Get all subdomais with that digital certificate</span>
-</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>curl<span class="w"> </span>-s<span class="w"> </span>https://crt.sh/<span class="se">\?</span>q<span class="se">\=</span>example.com<span class="se">\&amp;</span>output<span class="se">\=</span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
-</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>
-</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a><span class="c1"># Filter all by unique subdomain</span>
-</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>curl<span class="w"> </span>-s<span class="w"> </span>https://crt.sh/<span class="se">\?</span>q<span class="se">\=</span>example.com<span class="se">\&amp;</span>output<span class="se">\=</span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot;:&quot;</span><span class="w"> </span>-f2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;CN=&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">&#39;&quot;&#39;</span><span class="w"> </span>-f2<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{gsub(/\\n/,&quot;\n&quot;);}1;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u
-</span><span id="__span-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>
-</span><span id="__span-44-7"><a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a><span class="c1"># With the list of unique subdomains, list all the Company hosted servers</span>
-</span><span id="__span-44-8"><a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>subdomainlist<span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span>host<span class="w"> </span><span class="nv">$i</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;has address&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>example.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f4<span class="w"> </span>&gt;&gt;<span class="w"> </span>ip-addresses.txt<span class="p">;</span><span class="k">done</span>
-</span><span id="__span-44-9"><a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a>
-</span><span id="__span-44-10"><a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;https://crt.sh/?q=</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">&amp;output=json&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.[] | &quot;\(.name_value)\n\(.common_name)&quot;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">_crt.sh.txt&quot;</span>
-</span><span id="__span-44-11"><a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a><span class="c1"># curl -s: Issue the request with minimal output.</span>
-</span><span id="__span-44-12"><a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a><span class="c1"># https://crt.sh/?q=&lt;DOMAIN&gt;&amp;output=json: Ask for the json output.</span>
-</span><span id="__span-44-13"><a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a><span class="c1"># jq -r &#39;.[]&#39; &quot;\(.name_value)\n\(.common_name)&quot;&#39;: Process the json output and print certificate&#39;s name value and common name one per line.</span>
-</span><span id="__span-44-14"><a id="__codelineno-44-14" name="__codelineno-44-14" href="#__codelineno-44-14"></a><span class="c1"># sort -u: Sort alphabetically the output provided and removes duplicates.</span>
-</span><span id="__span-44-15"><a id="__codelineno-44-15" name="__codelineno-44-15" href="#__codelineno-44-15"></a>
-</span><span id="__span-44-16"><a id="__codelineno-44-16" name="__codelineno-44-16" href="#__codelineno-44-16"></a><span class="c1"># We also can manually perform this operation against a target using OpenSSL via:</span>
-</span><span id="__span-44-17"><a id="__codelineno-44-17" name="__codelineno-44-17" href="#__codelineno-44-17"></a>openssl<span class="w"> </span>s_client<span class="w"> </span>-ign_eof<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="s1">$&#39;HEAD / HTTP/1.0\r\n\r&#39;</span><span class="w"> </span>-connect<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">PORT</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-text<span class="w"> </span>-in<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;DNS&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s|DNS:|\n|g&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s|^\*.*||g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="c1"># Get all subdomais with that digital certificate</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>curl<span class="w"> </span>-s<span class="w"> </span>https://crt.sh/<span class="se">\?</span>q<span class="se">\=</span>example.com<span class="se">\&amp;</span>output<span class="se">\=</span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="c1"># Filter all by unique subdomain</span>
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>curl<span class="w"> </span>-s<span class="w"> </span>https://crt.sh/<span class="se">\?</span>q<span class="se">\=</span>example.com<span class="se">\&amp;</span>output<span class="se">\=</span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot;:&quot;</span><span class="w"> </span>-f2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;CN=&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">&#39;&quot;&#39;</span><span class="w"> </span>-f2<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{gsub(/\\n/,&quot;\n&quot;);}1;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a><span class="c1"># With the list of unique subdomains, list all the Company hosted servers</span>
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>subdomainlist<span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span>host<span class="w"> </span><span class="nv">$i</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;has address&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>example.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s2">&quot; &quot;</span><span class="w"> </span>-f4<span class="w"> </span>&gt;&gt;<span class="w"> </span>ip-addresses.txt<span class="p">;</span><span class="k">done</span>
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a>
+</span><span id="__span-45-10"><a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;https://crt.sh/?q=</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">&amp;output=json&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.[] | &quot;\(.name_value)\n\(.common_name)&quot;&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">_crt.sh.txt&quot;</span>
+</span><span id="__span-45-11"><a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="c1"># curl -s: Issue the request with minimal output.</span>
+</span><span id="__span-45-12"><a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="c1"># https://crt.sh/?q=&lt;DOMAIN&gt;&amp;output=json: Ask for the json output.</span>
+</span><span id="__span-45-13"><a id="__codelineno-45-13" name="__codelineno-45-13" href="#__codelineno-45-13"></a><span class="c1"># jq -r &#39;.[]&#39; &quot;\(.name_value)\n\(.common_name)&quot;&#39;: Process the json output and print certificate&#39;s name value and common name one per line.</span>
+</span><span id="__span-45-14"><a id="__codelineno-45-14" name="__codelineno-45-14" href="#__codelineno-45-14"></a><span class="c1"># sort -u: Sort alphabetically the output provided and removes duplicates.</span>
+</span><span id="__span-45-15"><a id="__codelineno-45-15" name="__codelineno-45-15" href="#__codelineno-45-15"></a>
+</span><span id="__span-45-16"><a id="__codelineno-45-16" name="__codelineno-45-16" href="#__codelineno-45-16"></a><span class="c1"># We also can manually perform this operation against a target using OpenSSL via:</span>
+</span><span id="__span-45-17"><a id="__codelineno-45-17" name="__codelineno-45-17" href="#__codelineno-45-17"></a>openssl<span class="w"> </span>s_client<span class="w"> </span>-ign_eof<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="s1">$&#39;HEAD / HTTP/1.0\r\n\r&#39;</span><span class="w"> </span>-connect<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">PORT</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-text<span class="w"> </span>-in<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;DNS&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s|DNS:|\n|g&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s|^\*.*||g&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u
 </span></code></pre></div>
 <h4 id="censysio">censys.io</h4>
 <p><a href="https://censys.io">https://censys.io</a>: We can navigate to https://search.censys.io/certificates or https://crt.sh and introduce the domain name of our target organization to start discovering new subdomains.</p>
@@ -17771,24 +17834,24 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Automate the modules we want to launch:</p>
 <p><strong>1.</strong> Create a list of sources, one per line, sources.txt.</p>
 <p><strong>2.</strong> Execute:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="w"> </span>cat<span class="w"> </span>sources.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>source<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>theHarvester<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-b<span class="w"> </span><span class="nv">$source</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">source</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="k">done</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="w"> </span>cat<span class="w"> </span>sources.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>source<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>theHarvester<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-b<span class="w"> </span><span class="nv">$source</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">source</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="k">done</span>
 </span></code></pre></div>
 <p><strong>3.</strong> When the process finishes, extract all the subdomains found and sort them:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>cat<span class="w"> </span>*.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.hosts[]&#39;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">&#39;:&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">_theHarvester.txt&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>cat<span class="w"> </span>*.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.hosts[]&#39;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">&#39;:&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TARGET</span><span class="si">}</span><span class="s2">_theHarvester.txt&quot;</span>
 </span></code></pre></div>
 <p><strong>4.</strong> Merge all the passive reconnaissance files:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="go">cat facebook.com_*.txt | sort -u &gt; facebook.com_subdomains_passive.txt</span>
-</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="gp">$ </span>cat<span class="w"> </span>facebook.com_subdomains_passive.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="go">cat facebook.com_*.txt | sort -u &gt; facebook.com_subdomains_passive.txt</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="gp">$ </span>cat<span class="w"> </span>facebook.com_subdomains_passive.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
 </span></code></pre></div>
 <h4 id="shodan_1">Shodan</h4>
 <p><strong><a href="../shodan/">Shodan</a></strong>:  Once we see which hosts can be investigated further, we can generate a list of IP addresses with a minor adjustment to the <code>cut</code> command and run them through <code>Shodan</code>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="go">for i in $(cat ip-addresses.txt);do shodan host $i;done</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="go">for i in $(cat ip-addresses.txt);do shodan host $i;done</span>
 </span></code></pre></div>
 <p>With this we'll get an IP list, that we can use to search for <a href="../53-dns/">DNS records</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-06-11T20:27:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-06-11</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-10T19:51:47+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-10</span></small></br>
 
 
     <small>Created: May 22, 2023 16:32:18</small>

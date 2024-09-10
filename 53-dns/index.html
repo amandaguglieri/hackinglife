@@ -15886,34 +15886,73 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>A resource record is a four-tuple that contains the following 4 fields:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>(Name, Value, Type, TTL)
 </span></code></pre></div>
-<ul>
-<li><code>A</code> records: If Type=A, then Name is a hostname and Value is the IP address for that name. We recognize the IP addresses that point to a specific (sub)domain through the A record.  Example: </li>
-</ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>(relay1.bar.example.com, 145.222.36.125, A)
-</span></code></pre></div>
-<ul>
-<li>
-<p><code>MX</code> records: If Type=MX, then Value is the canonical name of a mail server that has an alias hostname Name. The mail server records show us which mail server is responsible for managing the emails for the company. Example:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>(example.com,mail.bar.example.com,MX)
-</span></code></pre></div></p>
-</li>
-<li>
-<p><code>NS</code> records: If Type=NS, then Name is a domain (such as example.com) and Value is the name of an authoritative DNS server that knows how to obtain the IP address for hosts in the domain. These kinds of records show which name servers are used to resolve the FQDN to IP addresses. Most hosting providers use their own name servers, making it easier to identify the hosting provider. Example:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>(example.com,dns.example.com,NS)
-</span></code></pre></div></p>
-</li>
-<li>
-<p><code>CNAME</code> records: If Type=CNAME, then Value is a canonical hostname for the alias hostname Name. Example:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>(example.com,relay1.bar.example.com,CNAME)
-</span></code></pre></div></p>
-</li>
-<li>
-<p><code>TXT</code> records: this type of record often contains verification keys for different third-party providers and other security aspects of DNS, such as SPF, DMARC, and DKIM, which are responsible for verifying and confirming the origin of the emails sent. Here we can already see some valuable information if we look closer at the results.</p>
-</li>
-<li><code>AAAA</code> records: Returns an IPv6 address of the requested domain.</li>
-<li><code>PTR</code> record: The PTR (Pointer) record works the other way around (reverse lookup). It converts IP addresses into valid domain names. For the IP address to be resolved from the <code>Fully Qualified Domain Name</code> (<code>FQDN</code>), the DNS server must have a reverse lookup file. In this file, the computer name (FQDN) is assigned to the last octet of an IP address, which corresponds to the respective host, using a <code>PTR</code> record. The PTR records are responsible for the reverse translation of IP addresses into names.</li>
-<li><code>SOA</code> records: (<code>Start Of Authority</code> (<code>SOA</code>)). It should be first in a zone file because it indicates the start of a zone. Each zone can only have one <code>SOA</code> record, and additionally, it contains the zone's values, such as a serial number and multiple expiration timeouts. Provides information about the corresponding DNS zone and email address of the administrative contact. The <code>SOA</code> record is located in a domain's zone file and specifies who is responsible for the operation of the domain and how DNS information for the domain is managed.</li>
-</ul>
+<p>The "<code>IN</code>" in the examples stands for "Internet." It's a class field in DNS records that specifies the protocol family. In most cases, you'll see "<code>IN</code>" used, as it denotes the Internet protocol suite (IP) used for most domain names. Other class values exist (e.g., <code>CH</code> for Chaosnet, <code>HS</code> for Hesiod) but are rarely used in modern DNS configurations.</p>
+<table>
+<thead>
+<tr>
+<th>Record Type</th>
+<th>Full Name</th>
+<th>Description</th>
+<th>Zone File Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A</code></td>
+<td>Address Record</td>
+<td>Maps a hostname to its IPv4 address. If Type=A, then Name is a hostname and Value is the IP address for that name. We recognize the IP addresses that point to a specific (sub)domain through the A record.  Example: <br><code>(relay1.bar.example.com, 145.222.36.125, A)</code><br></td>
+<td><code>www.example.com.</code> IN A <code>192.0.2.1</code></td>
+</tr>
+<tr>
+<td><code>AAAA</code></td>
+<td>IPv6 Address Record</td>
+<td>Maps a hostname to its IPv6 address.</td>
+<td><code>www.example.com.</code> IN AAAA <code>2001:db8:85a3::8a2e:370:7334</code></td>
+</tr>
+<tr>
+<td><code>CNAME</code></td>
+<td>Canonical Name Record</td>
+<td>Creates an alias for a hostname, pointing it to another hostname. If Type=CNAME, then Value is a canonical hostname for the alias hostname Name. Example:<br><code>(example.com,relay1.bar.example.com,CNAME)</code></td>
+<td><code>blog.example.com.</code> IN CNAME <code>webserver.example.net.</code></td>
+</tr>
+<tr>
+<td><code>MX</code></td>
+<td>Mail Exchange Record</td>
+<td>Specifies the mail server(s) responsible for handling email for the domain. If Type=MX, then Value is the canonical name of a mail server that has an alias hostname Name. The mail server records show us which mail server is responsible for managing the emails for the company. Example:<br><code>(example.com,mail.bar.example.com,MX)</code><br></td>
+<td><code>example.com.</code> IN MX 10 <code>mail.example.com.</code></td>
+</tr>
+<tr>
+<td><code>NS</code></td>
+<td>Name Server Record</td>
+<td>Delegates a DNS zone to a specific authoritative name server. If Type=NS, then Name is a domain (such as example.com) and Value is the name of an authoritative DNS server that knows how to obtain the IP address for hosts in the domain. These kinds of records show which name servers are used to resolve the FQDN to IP addresses. Most hosting providers use their own name servers, making it easier to identify the hosting provider. Example:<br><code>(example.com,dns.example.com,NS)</code><br></td>
+<td><code>example.com.</code> IN NS <code>ns1.example.com.</code></td>
+</tr>
+<tr>
+<td><code>TXT</code></td>
+<td>Text Record</td>
+<td>Stores arbitrary text information, often used for domain verification or security policies. This type of record often contains verification keys for different third-party providers and other security aspects of DNS, such as SPF, DMARC, and DKIM, which are responsible for verifying and confirming the origin of the emails sent. Here we can already see some valuable information if we look closer at the results.</td>
+<td><code>example.com.</code> IN TXT <code>"v=spf1 mx -all"</code> (SPF record)</td>
+</tr>
+<tr>
+<td><code>SOA</code></td>
+<td>Start of Authority Record</td>
+<td>Specifies administrative information about a DNS zone, including the primary name server, responsible person's email, and other parameters. (<code>Start Of Authority</code> (<code>SOA</code>)). It should be first in a zone file because it indicates the start of a zone. Each zone can only have one <code>SOA</code> record, and additionally, it contains the zone's values, such as a serial number and multiple expiration timeouts. Provides information about the corresponding DNS zone and email address of the administrative contact. The <code>SOA</code> record is located in a domain's zone file and specifies who is responsible for the operation of the domain and how DNS information for the domain is managed.</td>
+<td><code>example.com.</code> IN SOA <code>ns1.example.com. admin.example.com. 2024060301 10800 3600 604800 86400</code></td>
+</tr>
+<tr>
+<td><code>SRV</code></td>
+<td>Service Record</td>
+<td>Defines the hostname and port number for specific services.</td>
+<td><code>_sip._udp.example.com.</code> IN SRV 10 5 5060 <code>sipserver.example.com.</code></td>
+</tr>
+<tr>
+<td><code>PTR</code></td>
+<td>Pointer Record</td>
+<td>Used for reverse DNS lookups, mapping an IP address to a hostname. The PTR (Pointer) record works the other way around (reverse lookup). It converts IP addresses into valid domain names. For the IP address to be resolved from the <code>Fully Qualified Domain Name</code> (<code>FQDN</code>), the DNS server must have a reverse lookup file. In this file, the computer name (FQDN) is assigned to the last octet of an IP address, which corresponds to the respective host, using a <code>PTR</code> record. The PTR records are responsible for the reverse translation of IP addresses into names.</td>
+<td><code>1.2.0.192.in-addr.arpa.</code> IN PTR <code>www.example.com.</code></td>
+</tr>
+</tbody>
+</table>
 <p>Summarizing:</p>
 <p><img alt="DNS records" src="../img/dns.png" /></p>
 <h2 id="security">Security</h2>
@@ -15967,81 +16006,81 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>A list of vulnerabilities targeting the BIND9 server can be found at <a href="https://www.cvedetails.com/product/144/ISC-Bind.html?vendor_id=64">CVEdetails</a>. In addition, SecurityTrails provides a short <a href="https://securitytrails.com/blog/most-popular-types-dns-attacks">list</a> of the most popular attacks on DNS servers.</p>
 <h2 id="footprinting-dns">Footprinting DNS</h2>
 <p>See <a href="../nslookup/">nslookup</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Query `A` records by submitting a domain name: default behaviour</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>nslookup<span class="w"> </span><span class="nv">$TARGET</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># We can use the `-query` parameter to search specific resource records</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Querying: A Records for a Subdomain</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>A<span class="w"> </span><span class="nv">$TARGET</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># Querying: PTR Records for an IP Address</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>PTR<span class="w"> </span><span class="m">31</span>.13.92.36
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Querying: ANY Existing Records</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>ANY<span class="w"> </span><span class="nv">$TARGET</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># Querying: TXT Records</span>
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>TXT<span class="w"> </span><span class="nv">$TARGET</span>
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># Querying: MX Records</span>
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>MX<span class="w"> </span><span class="nv">$TARGET</span>
-</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
-</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="c1">#  Specify a nameserver if needed by adding `@&lt;nameserver/IP&gt;` to the command</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Query `A` records by submitting a domain name: default behaviour</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>nslookup<span class="w"> </span><span class="nv">$TARGET</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># We can use the `-query` parameter to search specific resource records</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Querying: A Records for a Subdomain</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>A<span class="w"> </span><span class="nv">$TARGET</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Querying: PTR Records for an IP Address</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>PTR<span class="w"> </span><span class="m">31</span>.13.92.36
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Querying: ANY Existing Records</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>ANY<span class="w"> </span><span class="nv">$TARGET</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># Querying: TXT Records</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>TXT<span class="w"> </span><span class="nv">$TARGET</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="c1"># Querying: MX Records</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>nslookup<span class="w"> </span>-query<span class="o">=</span>MX<span class="w"> </span><span class="nv">$TARGET</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="c1">#  Specify a nameserver if needed by adding `@&lt;nameserver/IP&gt;` to the command</span>
 </span></code></pre></div>
 <p>See <a href="../dig/">dig</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Dig Version Query</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>dig<span class="w"> </span>CH<span class="w"> </span>TXT<span class="w"> </span>version.bind<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># View all available records</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>dig<span class="w"> </span>any<span class="w"> </span>example.com<span class="w"> </span>@<span class="nv">$ip</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w"> </span><span class="c1"># here, $ip refers to ip of DNS server. The more recent RFC8482 specified that `ANY` DNS requests be abolished. Therefore, we may not receive a response to our `ANY` request from the DNS server. Basically, not all entries from the zones will be shown.</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Querying: A Records for a Subdomain</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w"> </span>dig<span class="w"> </span>a<span class="w"> </span>www.example<span class="w"> </span>@<span class="nv">$ip</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w"> </span><span class="c1"># here, $ip refers to ip of DNS server</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1"># Get email of administrator of the domain</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>dig<span class="w"> </span>soa<span class="w"> </span>www.example.com
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1"># The email will contain a (.) dot notation instead of @</span>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="c1"># ENUMERATION</span>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1"># List nameservers known for that domain</span>
-</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w"> </span>ns<span class="w"> </span>
-</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1"># -ns: other name servers are known in NS record</span>
-</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1">#  `@` character specifies the DNS server we want to query.</span>
-</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="c1"># here, $ip refers to ip of DNS server</span>
-</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
-</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="c1"># Display version. query a DNS server&#39;s version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.</span>
-</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>dig<span class="w"> </span>CH<span class="w"> </span>TXT<span class="w"> </span>version.bind<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>
-</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="c1"># Querying: PTR Records for an IP Address</span>
-</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>dig<span class="w"> </span>-x<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>@1.1.1.1
-</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>
-</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="c1"># Querying: TXT Records</span>
-</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>dig<span class="w"> </span>txt<span class="w"> </span>example.com<span class="w"> </span>@<span class="nv">$ip</span>
-</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>
-</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="c1"># Querying: MX Records</span>
-</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>dig<span class="w"> </span>mx<span class="w"> </span>example.com<span class="w"> </span>@1.1.1.1
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Dig Version Query</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>dig<span class="w"> </span>CH<span class="w"> </span>TXT<span class="w"> </span>version.bind<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># View all available records</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>dig<span class="w"> </span>any<span class="w"> </span>example.com<span class="w"> </span>@<span class="nv">$ip</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w"> </span><span class="c1"># here, $ip refers to ip of DNS server. The more recent RFC8482 specified that `ANY` DNS requests be abolished. Therefore, we may not receive a response to our `ANY` request from the DNS server. Basically, not all entries from the zones will be shown.</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># Querying: A Records for a Subdomain</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w"> </span>dig<span class="w"> </span>a<span class="w"> </span>www.example<span class="w"> </span>@<span class="nv">$ip</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w"> </span><span class="c1"># here, $ip refers to ip of DNS server</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Get email of administrator of the domain</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>dig<span class="w"> </span>soa<span class="w"> </span>www.example.com
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1"># The email will contain a (.) dot notation instead of @</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># ENUMERATION</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="c1"># List nameservers known for that domain</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w"> </span>ns<span class="w"> </span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c1"># -ns: other name servers are known in NS record</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1">#  `@` character specifies the DNS server we want to query.</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="c1"># here, $ip refers to ip of DNS server</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1"># Display version. query a DNS server&#39;s version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>dig<span class="w"> </span>CH<span class="w"> </span>TXT<span class="w"> </span>version.bind<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1"># Querying: PTR Records for an IP Address</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>dig<span class="w"> </span>-x<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>@1.1.1.1
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="c1"># Querying: TXT Records</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>dig<span class="w"> </span>txt<span class="w"> </span>example.com<span class="w"> </span>@<span class="nv">$ip</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="c1"># Querying: MX Records</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>dig<span class="w"> </span>mx<span class="w"> </span>example.com<span class="w"> </span>@1.1.1.1
 </span></code></pre></div>
 <p>Transfer a zone (<a href="../dig/">more on dig axfr</a>)</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="go">dig axfr example.htb @$ip</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">dig axfr example.htb @$ip</span>
 </span></code></pre></div>
 <p>If the administrator used a subnet for the <code>allow-transfer</code> option for testing purposes or as a workaround solution or set it to <code>any</code>, everyone would query the entire zone file at the DNS server.</p>
 <p>Another tools for transferring zones:</p>
 <p><a href="../fierce/">Fierce</a>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a># Perform a dns transfer using a wordlist againts domain.com
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>fierce -dns domain.com 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># Perform a dns transfer using a wordlist againts domain.com
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>fierce -dns domain.com 
 </span></code></pre></div>
 <p><a href="../dnsenum/">dnsenum</a>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>dnsenum domain.com
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a># additionally it performs DNS brute force with /usr/share/dnsenum/dns.txt.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>dnsenum domain.com
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a># additionally it performs DNS brute force with /usr/share/dnsenum/dns.txt.
 </span></code></pre></div>
 <h2 id="subdomain-brute-enumeration">Subdomain brute enumeration</h2>
 <p>Bash command Using Sec wordlist:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v &#39;;\|SOA&#39; | sed -r &#39;/^\s*$/d&#39; | grep $sub | tee -a subdomains.txt;done</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v &#39;;\|SOA&#39; | sed -r &#39;/^\s*$/d&#39; | grep $sub | tee -a subdomains.txt;done</span>
 </span></code></pre></div>
 <p>dnsenum:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="go"> dnsenum --dnsserver $ip --enum -p 0 -s 0 -o subdomains.txt -f /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt inlanefreight.htb</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="go"> dnsenum --dnsserver $ip --enum -p 0 -s 0 -o subdomains.txt -f /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt inlanefreight.htb</span>
 </span></code></pre></div>
 <h2 id="tools-for-passive-enumeration">Tools for passive enumeration</h2>
 <table>
@@ -16120,7 +16159,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-08-02T17:39:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-08-02</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-10T19:51:47+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-10</span></small></br>
 
 
     <small>Created: May 22, 2023 16:32:18</small>
