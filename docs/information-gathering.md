@@ -332,16 +332,43 @@ After that you will get a report.html file with the request and a screenshot of 
 eyewitness --web -f listOfdomains.txt -d path/to/save/ --proxy-ip 127.0.0.1 --proxy-port 8080
 ```
 
-### 1.9. Passive crawling with Burp Suite 
+### 1.9. Crawlers
 
 **Crawling** is the process of navigating around the web application, following links, submitting forms and logging in (where possible) with the objective of mapping out and cataloging the web application and the navigational paths within it. 
 
 Crawling is typically passive as engagement with the target is done via what is publicly accessible, we can utilize Burp Suite’s passive crawler to help us map out the web application to better understand how it is setup and how it works.
 
 
-[BurpSuite](burpsuite.md) Community edition has only Crawler feature available. For spidering, you need Pro edition.
+- [BurpSuite](burpsuite.md) Community edition has only Crawler feature available. For spidering, you need Pro edition. Burp Suite Spider
+- [OWASP ZAP (Zed Attack Proxy)](owasp-zap.md): ZAP is a free, open-source web application security scanner. It can be used in automated and manual modes and includes a spider component to crawl web applications and identify potential vulnerabilities. has both Spider and Crawler features available.
+- `Scrapy (Python Framework)`: Scrapy is a versatile and scalable Python framework for building custom web crawlers. It provides rich features for extracting structured data from websites, handling complex crawling scenarios, and automating data processing. Its flexibility makes it ideal for tailored reconnaissance tasks.
+- `Apache Nutch (Scalable Crawler)`: Nutch is a highly extensible and scalable open-source web crawler written in Java. It's designed to handle massive crawls across the entire web or focus on specific domains. While it requires more technical expertise to set up and configure, its power and flexibility make it a valuable asset for large-scale reconnaissance projects.
+#### Scrapy
 
-[OWASP Zap](owasp-zap.md) has both Spider and Crawler features available.
+`Scrapy (Python Framework)`: Scrapy is a versatile and scalable Python framework for building custom web crawlers. It provides rich features for extracting structured data from websites, handling complex crawling scenarios, and automating data processing. Its flexibility makes it ideal for tailored reconnaissance tasks.
+
+```shell-session
+# Installation
+pip3 install scrapy
+```
+
+#### ReconSpider
+
+```
+# Installation
+wget -O ReconSpider.zip https://academy.hackthebox.com/storage/modules/144/ReconSpider.v1.2.zip
+
+unzip ReconSpider.zip 
+```
+
+
+```shell-session
+# Basic usage
+python3 ReconSpider.py http://domain.com
+```
+
+After running `ReconSpider.py`, the data will be saved in a JSON file, `results.json`. This file can be explored using any text editor. 
+
 
 
 ## 2. Active  information gathering
@@ -436,7 +463,27 @@ nikto -h http://domain.com/index.php?page=target-page.php -Tuning 5 -Display V
 ```
 
 
-### 2.3. Directory/File enumeration
+### 2.3. # Well-Known URIs
+
+!!! quote "OWASP"
+	[OWASP Web Security Testing Guide 4.2](../OWASP/index.md) > 1. Information Gathering > 1.3. Review Webserver Metafiles for Information Leakage
+
+| ID  | Link to Hackinglife                      | Link to OWASP                                                                                                                                                                                                                           | Objectives                                                                                                                                                                                                                                   |
+| :-- | :--------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.3 | [WSTG-INFO-03](../OWASP/WSTG-INFO-03.md) | [Review Webserver Metafiles for Information Leakage](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/03-Review_Webserver_Metafiles_for_Information_Leakage) | - Identify hidden or obfuscated paths and functionality through the analysis of metadata files (robots.txt, `<META>` tag, sitemap.xml) - Extract and map other information that could lead to a better understanding of the systems at hand. |
+
+The `.well-known` standard, defined in [RFC 8615](https://datatracker.ietf.org/doc/html/rfc8615), serves as a standardized directory within a website's root domain. This designated location, typically accessible via the `/.well-known/` path on a web server, centralizes a website's critical metadata, including configuration files and information related to its services, protocols, and security mechanisms.
+
+| URI Suffix                     | Description                                                                                           | Status      | Reference                                                                               |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------- |
+| `security.txt`                 | Contains contact information for security researchers to report vulnerabilities.                      | Permanent   | RFC 9116                                                                                |
+| `/.well-known/change-password` | Provides a standard URL for directing users to a password change page.                                | Provisional | https://w3c.github.io/webappsec-change-password-url/#the-change-password-well-known-uri |
+| `openid-configuration`         | Defines configuration details for OpenID Connect, an identity layer on top of the OAuth 2.0 protocol. | Permanent   | http://openid.net/specs/openid-connect-discovery-1_0.html                               |
+| `assetlinks.json`              | Used for verifying ownership of digital assets (e.g., apps) associated with a domain.                 | Permanent   | https://github.com/google/digitalassetlinks/blob/master/well-known/specification.md     |
+| `mta-sts.txt`                  | Specifies the policy for SMTP MTA Strict Transport Security (MTA-STS) to enhance email security.      | Permanent   | RFC 8461                                                                                |
+
+
+### 2.4. Directory/File enumeration
 
 #### nmap
 
@@ -544,7 +591,7 @@ We can utilize OWASP ZAP’s Spider to automate the process of spidering a web a
 
 
 
-### 2.4. Active DNS enumeration
+### 2.5. Active DNS enumeration
 
 Domain Name System (DNS) is a protocol that is used to resolve domain names/hostnames to IP addresses. During the early days of the internet, users would have to remember the IP addresses of the sites that they wanted to visit, DNS resolves this issue by mapping domain names (easier to recall) to their respective IP addresses. 
 
@@ -664,7 +711,7 @@ nslookup -query=MX $TARGET
 
 
 
-### 2.5. Subdomain enumeration
+### 2.6. Subdomain enumeration
 
 `Subdomain enumeration` is the process of systematically identifying and listing these subdomains. From a DNS perspective, subdomains are typically represented by `A` (or `AAAA` for IPv6) records, which map the subdomain name to its corresponding IP address. Additionally, `CNAME` records might be used to create aliases for subdomains, pointing them to other domains or subdomains. 
 
@@ -734,7 +781,7 @@ Bash script, using Sec wordlist:
 for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
 ```
 
-### 2.6. VHOST enumeration
+### 2.7. VHOST enumeration
 
 A virtual host (`vHost`) is a feature that allows several websites to be hosted on a single server.  At the core of `virtual hosting` is the ability of web servers to distinguish between multiple websites or applications sharing the same IP address. This is achieved by leveraging the `HTTP Host` header, a piece of information included in every `HTTP` request sent by a web browser. The key difference between `VHosts` and `subdomains` is their relationship to the `Domain Name System (DNS)` and the web server's configuration.
 
@@ -788,7 +835,7 @@ gobuster vhost -u http://$ip -w <wordlist_file> --append-domain
 and [feroxbuster](feroxbuster.md).
 
 
-### 2.6. Certificate enumeration
+### 2.8. Certificate enumeration
 
 SSL/TLS certificates are another potentially valuable source of information if HTTPS is in use (for instance, in gathering information to prepare a phising attack).
 
@@ -825,6 +872,12 @@ curl -s https://crt.sh/\?q\=example.com\&output\=json | jq . | grep name | cut -
 
 # With the list of unique subdomains, list all the Company hosted servers
 for i in $(cat subdomainlist);do host $i | grep "has address" | grep example.com | cut -d" " -f4 >> ip-addresses.txt;done
+
+# Find all 'dev' subdomains on facebook.com using curl and jq:
+curl -s "https://crt.sh/?q=facebook.com&output=json" | jq -r '.[]
+ | select(.name_value | contains("dev")) | .name_value' | sort -u
+# -s  -s "https://crt.sh/?q=facebook.com&output=json":his command fetches the JSON output from crt.sh for certificates matching the domain `facebook.com`.  : 
+
 
 curl -s "https://crt.sh/?q=${TARGET}&output=json" | jq -r '.[] | "\(.name_value)\n\(.common_name)"' | sort -u > "${TARGET}_crt.sh.txt"
 # curl -s: Issue the request with minimal output.

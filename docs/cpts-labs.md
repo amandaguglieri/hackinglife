@@ -1339,93 +1339,160 @@ Results:  10.10.200.14
 
 **Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "web"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
 
-```
+Important, the --append-domain part
 
 ```
+gobuster vhost -u http://$domain:$port/ -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain
+```
 
-Results: 
+Results: web17611.inlanefreight.htb
 
 **Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "vm"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
 
-```
-
-```
-
-Results: 
+Results: vm5.inlanefreight.htb
 
 **Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "br"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
 
-```
-
-```
-
-Results: 
+Results: browser.inlanefreight.htb
 
 
 **Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "a"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
 
-```
-
-```
-
-Results: 
+Results: admin.inlanefreight.htb
 
 
 **Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "su"? Answer using the full domain, e.g. "x.inlanefreight.htb"**
 
-```
-
-```
-
-Results: 
+Results: support.inlanefreight.htb
 
 ### Fingerprinting
 
 #### Fingerprinting
 
-Question
+**Determine the Apache version running on app.inlanefreight.local on the target system. (Format: 0.0.0)**
 
 ```
-
+sudo echo $ip app.inlanefreight.local >> /etc/hosts
+curl -I app.inlanefreight.local
 ```
 
-Results: 
+Results: 2.4.41B
+
+
+
+**Which CMS is used on app.inlanefreight.local on the target system? Respond with the name only, e.g., WordPress.**
+
+```
+whatweb http://app.inlanefreight.local
+```
+
+Results: Joomla
+
+
+**On which operating system is the dev.inlanefreight.local webserver running in the target system? Respond with the name only, e.g., Debian.**
+
+Results: Ubuntu 
 
 ### Crawling
 
 #### Creepy crawlies
 
-Question
+**After spidering inlanefreight.com, identify the location where future reports will be stored. Respond with the full domain, e.g., files.inlanefreight.com.**
 
 ```
-
+python3 ReconSpider.py https://inlanefreight.com
 ```
 
-Results: 
+Results: inlanefreight-comp133.s3.amazonaws.htb
 
 ### Web Archives
 
-Question
 
-```
+**How many Pen Testing Labs did HackTheBox have on the 8th August 2018? Answer with an integer, eg 1234.**
 
-```
+Go to https://web.archive.org/web/20180808080705/https://www.hackthebox.eu/
 
-Results: 
+Results: 74
 
-### Automating Recon
+**How many members did HackTheBox have on the 10th June 2017? Answer with an integer, eg 1234.**
 
-Question
+Go to https://web.archive.org/web/20180808080705/https://www.hackthebox.eu/
 
-```
+Results: 3054
 
-```
+**Going back to March 2002, what website did the facebook.com domain redirect too? Answer with the full domain, eg http://www.facebook.com/**
 
-Results: 
+Go to https://web.archive.org/web/20020601000000*/www.facebook.com
+
+Results:  http://site.aboutface.com/
+
+**According to the paypal.com website in October 1999, what could you use to "beam money to anyone"? Answer with the product name, eg My Device, remove the ™ from your answer.**
+
+Go to https://web.archive.org/web/19991013140707/http://paypal.com/
+
+Results: Palm 0rganizer
+
+**Going back to November 1998 on google.com, what address hosted the non-alpha "Google Search Engine Prototype" of Google? Answer with the full address, eg http://google.com**
+
+Go to https://web.archive.org/web/19981111184551/http://google.com/
+
+Results: http://google.stanford.edu/
+
+
+**Going back to March 2000 on www.iana.org, when exacty was the site last updated? Answer with the date in the footer, eg 11-March-99**
+
+Go to https://web.archive.org/web/20000303211237/http://www.iana.org/
+
+Results: 17-December-99
+
+
+**According to the wikipedia.com snapshot taken in March 2001, how many pages did they have over? Answer with the number they state without any commas, eg 2000 not 2,000**
+
+Go to https://web.archive.org/web/20010331173908/http://www.wikipedia.com/
+
+Results: 3000
+
 
 ### Skills Assessment
 
-Question
+**What is the IANA ID of the registrar of the inlanefreight.com domain?**
+
+```
+whois inlanefreight.com
+```
+
+Results: 468
+
+
+**What http server software is powering the inlanefreight.htb site on the target system? Respond with the name of the software, not the version, e.g., Apache.**
+
+```
+curl -I $ip:$port
+```
+
+Results: nginx
+
+
+**What is the API key in the hidden admin directory that you have discovered on the target system?**
+
+```
+ffuz -w /usr/share/seclists/Discovery/DNS/namelist.txt -u http://$ip -H "HOST: FUZZ.inlanefreight.htb" -fs 120
+# Consider the following:
+# Do not add $ip and domain to /etc/hosts
+# 
+```
+
+Results: 
+
+ **After crawling the inlanefreight.htb domain on the target system, what is the email address you have found? Respond with the full email, e.g., mail@inlanefreight.htb.**
+
+```
+
+```
+
+Results: 
+
+**What is the API key the inlanefreight.htb developers will be changing too?**
 
 ```
 
@@ -1439,6 +1506,16 @@ Results:
 
 
 ## [Vulnerability Assessment](https://academy.hackthebox.com/module/details/108)
+
+
+Question
+
+```
+
+```
+
+Results: 
+
 
 ## [File Transfers](https://academy.hackthebox.com/module/details/24)
 

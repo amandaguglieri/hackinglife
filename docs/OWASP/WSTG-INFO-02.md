@@ -37,6 +37,12 @@ whois.exe <TARGET>
 
 ### Banner grabbing
 
+Basic:
+
+```
+curl -I <domain.com>
+```
+
 - [nmap](../nmap.md). 
 	```
 	# Grab banner of services in an IP
