@@ -28,11 +28,8 @@ sudo apt-get install gvm && openvas
 # Initiate setup process
 sudo gvm-setup
 
-
 # Check installation
 sudo gvm-check-setup
-
-
 
 # Start OpenVAS
 sudo gvm-start

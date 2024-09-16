@@ -13,7 +13,7 @@ tags:
 
 # Test HTTP Methods
 
-!!! quote ""
+!!! quote "OWASP"
 	[OWASP Web Security Testing Guide 4.2](index.md) > 2. Configuration and Deploy Management Testing> 2.6. Test HTTP Methods
 
 |ID|Link to Hackinglife|Link to OWASP|Description|

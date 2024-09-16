@@ -8,7 +8,6 @@ tags:
   - scanner
   - vulnerability assessment
 ---
-
 # Nessus
 
 Nessus has a client and a server. We use the client to configure the scans and the server to actually perform the scanning processes and report back the result to the client.
@@ -48,4 +47,14 @@ Scripts such as the [nessus-report-downloader](https://raw.githubusercontent.com
 
 **3.** Unless specifically requested, we should never perform Denial of Service checks. The "safe checks" setting allows Nessus users to enable a set of plugins within Nessus' library of vulnerability checks which Tenable feels can have negative effects on the network, device or application being tested. 
 
-**4.** It is also essential to keep in mind the potential impact of vulnerability scanning on a network, especially on low bandwidth or congested links. This can be measured using [vnstat](https://humdi.net/vnstat/):
+**4.** It is also essential to keep in mind the potential impact of vulnerability scanning on a network, especially on low bandwidth or congested links. This can be measured using [vnstat](https://humdi.net/vnstat/).
+
+```shell-session
+sudo vnstat -l -i eth0
+```
+
+### Nessus plugins
+
+Nessus works with plugins written in the [Nessus Attack Scripting Language (NASL)](https://en.wikipedia.org/wiki/Nessus_Attack_Scripting_Language) and can target new vulnerabilities and CVEs.  These plugins contain information such as the vulnerability name, impact, remediation, and a way to test for the presence of a particular issue.
+
+

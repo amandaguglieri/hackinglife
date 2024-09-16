@@ -1476,36 +1476,114 @@ Results: nginx
 **What is the API key in the hidden admin directory that you have discovered on the target system?**
 
 ```
-ffuz -w /usr/share/seclists/Discovery/DNS/namelist.txt -u http://$ip -H "HOST: FUZZ.inlanefreight.htb" -fs 120
-# Consider the following:
-# Do not add $ip and domain to /etc/hosts
-# 
+# 1. Add $ip inlanefreight.htb to /etc/hosts
+
+# 2. Create variable $port
+
+# 3. Do a vhost scan. For instance
+ffuf -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt:FUZZ -u http://inlanefreight.htb:$port -H "HOST:FUZZ.inlanefreight.htb" -fs 120
+
+# 4. Add the discovered VHOST to /etc/hosts
+
+# 5. Enumerate the site 
+dirb http://web1337.inlanefreight.htb:$port
+
+# 6. There is a robots.txt file in the results, with a hiden admin panel. Trying to access directly the panel returns a 404. However we could try to fuzz it deeper:
+ffuf -recursion -recursion-depth 1 -u http://web1337.inlanefreight.htb:53178/admin_h1dd3n/FUZZ -w /usr/share/seclists//Discovery/Web-Content/common.txt
+
+# 7. There is one result: index.html. Go to http://web1337.inlanefreight.htb:$port/admin_h1dd3n/index.html to retrieve the flag.
+
+
 ```
 
-Results: 
+Results:  e963d863ee0e82ba7080fbf558ca0d3f
 
  **After crawling the inlanefreight.htb domain on the target system, what is the email address you have found? Respond with the full email, e.g., mail@inlanefreight.htb.**
 
 ```
+# 1. Following the previous question, additional vhost discovery could be done:
+ffuf -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt:FUZZ -u http://inlanefreight.htb:$port -H "HOST:FUZZ.web1337.inlanefreight.htb" -fs 120
+# Add the second discovered VHOST (`dev`) to /etc/host, and visit the site http://dev.web1337.inlanefreight.htb/index.html. Notice that there is a next button, that takes you to a http://dev.web1337.inlanefreight.htb/index-123.html. Set-up an intruder attack with Numbered payload
 
 ```
 
-Results: 
+![pay](img/payload_00.png)
+
+![pay](img/payload_02.png)
+
+Results:   1337testing@inlanefreight.htb
+
 
 **What is the API key the inlanefreight.htb developers will be changing too?**
 
-```
 
-```
+![pay](img/payload_01.png)
 
-Results: 
-
-
+Results: ba988b835be4aa97d068941dc852ff33
 
 
 
 
 ## [Vulnerability Assessment](https://academy.hackthebox.com/module/details/108)
+
+### Nesus
+
+#### Nessus Skills assessment
+
+ 
+**What is the name of one of the accessible SMB shares from the authenticated Windows scan? (One word)**
+
+Authenticate to port 22  with user "htb-student" and password "HTB_@cademy_student!". Start nessus and go to the IP:8834 url. Have a look at the windows scan.
+
+Results: wsus
+
+
+**What was the target for the authenticated scan?** 
+
+Results: 172.16.16.100
+
+
+**What is the plugin ID of the highest criticality vulnerability for the Windows authenticated scan?** 
+
+Results: 156032
+
+
+
+ **What is the name of the vulnerability with plugin ID 26925 from the Windows authenticated scan? (Case sensitive)**
+
+Results:   VNC Server Unauthenticated Access
+
+
+
+ **What port is the VNC server running on in the authenticated Windows scan?**
+
+
+Results:  5900
+
+
+### Openvass
+
+#### Openvass Skills assessment
+
+**What type of operating system is the Linux host running? (one word)**
+
+Results:  Ubuntu
+
+
+**What type of FTP vulnerability is on the Linux host? (Case Sensitive, four words)**
+
+Results:  Anonymous FTP Login Reporting
+
+
+**What is the IP of the Linux host targeted for the scan?**
+
+Results:  172.16.16.160
+
+
+**What vulnerability is associated with the HTTP server? (Case-sensitive)**
+
+Results:  Cleartext Transmission of Sensitive Information via HTTP
+
 
 
 Question
@@ -1514,7 +1592,64 @@ Question
 
 ```
 
-Results: 
+Results:  
+
+
+
+
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+
+Question
+
+```
+
+```
+
+Results:  
+
 
 
 ## [File Transfers](https://academy.hackthebox.com/module/details/24)

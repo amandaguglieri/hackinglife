@@ -12,7 +12,7 @@ tags:
 
 # Testing for HTTP Verb Tampering
 
-!!! quote ""
+!!! quote "OWASP"
 	[OWASP Web Security Testing Guide 4.2](index.md) > 7. Data Validation Testing > 7.3. Testing for HTTP Verb Tampering
 
 |ID|Link to Hackinglife|Link to OWASP|Description|
