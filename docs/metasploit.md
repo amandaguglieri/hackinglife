@@ -11,6 +11,53 @@ tags:
 
 Developed in ruby by [rapid7](https://www.rapid7.com/products/metasploit/). "Free" edition preinstalled in Kali at /usr/share/metasploit-framework
 
+
+Existent modules: 
+
+```shell-session
+ls /usr/share/metasploit-framework/modules
+
+auxiliary  encoders  evasion  exploits  nops  payloads  post
+
+# Syntax: <No.> <type>/<os>/<service>/<name>
+# Example
+794   exploit/windows/ftp/scriptftp_list
+
+```
+
+Existent plugins:
+
+```shell-session
+ls /usr/share/metasploit-framework/plugins/
+
+aggregator.rb      ips_filter.rb  openvas.rb           sounds.rb
+alias.rb           komand.rb      pcap_log.rb          sqlmap.rb
+auto_add_route.rb  lab.rb         request.rb           thread.rb
+beholder.rb        libnotify.rb   rssfeed.rb           token_adduser.rb
+db_credcollect.rb  msfd.rb        sample.rb            token_hunter.rb
+db_tracker.rb      msgrpc.rb      session_notifier.rb  wiki.rb
+event_tester.rb    nessus.rb      session_tagger.rb    wmap.rb
+ffautoregen.rb     nexpose.rb     socket_logger.rb
+```
+
+Existent scripts (meterpreter among them):
+
+```shell-session
+ls /usr/share/metasploit-framework/scripts/
+
+meterpreter  ps  resource  shell
+```
+
+Command line utilities: 
+
+```shell-session
+ls /usr/share/metasploit-framework/tools/
+
+context  docs     hardware  modules   payloads
+dev      exploit  memdump   password  recon
+```
+
+
 ## Run metasploit
 
 ```bash
@@ -119,7 +166,7 @@ Cheat sheet:
 
 ```msf
 # Search modules
-search (mysearchitem> 
+search <mysearchitem> 
 grep meterpreter show payloads
 grep -c meterpreter grep reverse_tcp show payloads
 
@@ -388,6 +435,9 @@ If we do not want to use our web browser to search for a specific exploit within
 
 ```shell-session
 searchsploit nagios3
+
+
+search type:exploit platform:windows cve:2021 rank:excellent microsoft
 ```
 
 

