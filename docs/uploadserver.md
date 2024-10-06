@@ -10,7 +10,11 @@ tags:
 
 # uploadserver
 
-Python's http.server extended to include a file upload page
+Python's http.server extended to include a file upload page. Accepts the same options as http.server, plus a couple extras.
+
+After the server starts, the upload page is at /upload. For example, if the server is running at http://localhost:8000/ go to http://localhost:8000/upload .
+
+Warning: This is an upload server, and running it will allow uploads.
 
 ## Installation
 

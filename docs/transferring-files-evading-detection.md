@@ -9,8 +9,6 @@ tags:
   - file transfer technique
   - backdoors
 ---
-
-
 # Evading detection in file transfers
 
 ## Changing User Agent

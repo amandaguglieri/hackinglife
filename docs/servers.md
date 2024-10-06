@@ -7,20 +7,21 @@ tags:
   - servers
   - file transfer
 ---
-
 # Setting up a server (in the attacking machine)
 
-| **Protocol / app** |
-| --- |
-| [smb server](#smb-server) |
-| [Apache server](#apache-server) |
-| [ngix](#ngix) |
+| **Protocol / app**                            |
+| --------------------------------------------- |
+| [smb server](#smb-server)                     |
+| [Apache server](#apache-server)               |
+| [ngix](#ngix)                                 |
 | [symple python server](#simple-python-server) |
-| [php web server](#php-web-server) |
-| [Ruby web server](#ruby-web-server) |
-| Burp Suite Collaborator |
-| [Interactsh](interactsh.md) | 
-| [responder](responder.md) |
+| [php web server](#php-web-server)             |
+| [Ruby web server](#ruby-web-server)           |
+| Burp Suite Collaborator                       |
+| [Interactsh](interactsh.md)                   |
+| [responder](responder.md)                     |
+| [uploadserver](uploadserver.md)               |
+| [Webdav wsgodav server](webdav-wsgidav.md)    |
 
 
 ## smb server
@@ -143,3 +144,26 @@ php -S 0.0.0.0:8000
 ruby -run -ehttpd . -p8000
 ```
 
+## uploadserver
+
+More at [uploadserver](uploadserver.md).
+
+Python's http.server extended to include a file upload page. Accepts the same options as http.server, plus a couple extras.
+
+After the server starts, the upload page is at /upload. For example, if the server is running at http://localhost:8000/ go to http://localhost:8000/upload .
+
+Warning: This is an upload server, and running it will allow uploads.
+
+Repo: https://github.com/Densaugeo/uploadserver
+
+**Installation:**
+
+```bash
+python3 -m pip install --user uploadserver
+```
+
+Basic usage:
+
+```bash
+python3 -m uploadserver
+```
