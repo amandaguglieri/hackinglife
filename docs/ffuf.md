@@ -59,7 +59,7 @@ ffuf -recursion -recursion-depth 1 -u http://$ip/FUZZ -w /usr/share/wordlists/se
 # -recursion: activates the recursive scan
 # -recursion-depth 1: specifies the maximum depth to scan
 # -e is used to indicate the extension, because when fuzzing directories with recursiveness, the url needs to end up in /FUZZ
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -u http://$ip:$ip/FUZZ -recursion -recursion-depth 1 -e .php
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -u http://$ip:$port/FUZZ -recursion -recursion-depth 1 -e .php
 
 
 # fuzz a combination of folder names, with a wordlist of possible files and a dictionary of extensions

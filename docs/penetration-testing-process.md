@@ -63,15 +63,15 @@ This can be one or more documents with the objective to define the following:
 - List of documents so far:
 
 
-| **Document**                                                                         | **Timing for Creation**                         |     |
-| ------------------------------------------------------------------------------------ | ----------------------------------------------- | --- |
-| Non-Disclosure Agreement (NDA)                                                       | After Initial Contact                           |     |
-| Scoping Questionnaire                                                                | Before the Pre-Engagement Meeting               |     |
-| Scoping Document                                                                     | During the Pre-Engagement Meeting               |     |
-| [Penetration Testing Proposal (Contract/Scope of Work (SoW))](contract-checklist.md) | During the Pre-engagement Meeting               |     |
-| [Rules of Engagement (RoE)](rules-of-engagement-checklist.md)                        | Before the Kick-Off Meeting                     |     |
-| [Contractors Agreement (Physical Assessments)](contractor-agreement-checklist.md)    | Before the Kick-Off Meeting                     |     |
-| Reports                                                                              | During and after the conducted Penetration Test |     |
+| **Document**                                                                       | **Timing for Creation**                         |     |
+| ---------------------------------------------------------------------------------- | ----------------------------------------------- | --- |
+| Non-Disclosure Agreement (NDA)                                                     | After Initial Contact                           |     |
+| Scoping Questionnaire                                                              | Before the Pre-Engagement Meeting               |     |
+| Scoping Document                                                                   | During the Pre-Engagement Meeting               |     |
+| [Penetration Testing Proposal (Contract/Scope of Work (SoW))](#contract-checklist) | During the Pre-engagement Meeting               |     |
+| [Rules of Engagement (RoE)](#rules-of-engagement)                                  | Before the Kick-Off Meeting                     |     |
+| [Contractors Agreement (Physical Assessments)](#contractors-agreement)             | Before the Kick-Off Meeting                     |     |
+| Reports                                                                            | During and after the conducted Penetration Test |     |
 
 - Risk Assessment and Acceptance: Perform a risk assessment to understand the potential impact of the penetration test on the web application and the organization. Obtain management's acceptance of any risks associated with the testing process.
 -  Engagement Kick-off: Officially kick-off the penetration test, confirming the start date and timeline with the organization's stakeholders. Share the RoE and any other relevant details with the testing team.
@@ -266,3 +266,87 @@ Resources:
 **Post-Remediation Testing**: Most engagements include post-remediation testing as part of the project's total cost. In this phase, we will review any documentation provided by the client showing evidence of remediation or just a list of remediated findings.
 
 Since a penetration test is essentially an audit, we must remain impartial third parties and not perform remediation on our findings (such as fixing code, patching systems, or making configuration changes in Active Directory). After a penetration test concludes, we will have a considerable amount of client-specific data such as scan results, log output, credentials, screenshots, and more. We should retain evidence for some time after the penetration test in case questions arise about specific findings or to assist with retesting "closed" findings after the client has performed remediation activities. Any data retained after the assessment should be stored in a secure location owned and controlled by the firm and encrypted at rest.
+
+
+## Anex
+
+### Contractors Agreement
+
+**Checklist for Physical Assessments**
+
+|**Checkpoint**|**Contents**|
+|---|---|
+|`☐ Introduction`|Description of this document.|
+|`☐ Contractor`|Company name, contractor full name, job title.|
+|`☐ Penetration Testers`|Company name, pentesters full name.|
+|`☐ Contact Information`|Mailing addresses, e-mail addresses, and phone numbers of all client parties and penetration testers.|
+|`☐ Purpose`|Description of the purpose for the conducted penetration test.|
+|`☐ Goals`|Description of the goals that should be achieved with the penetration test.|
+|`☐ Scope`|All IPs, domain names, URLs, or CIDR ranges.|
+|`☐ Lines of Communication`|Online conferences or phone calls or face-to-face meetings, or via e-mail.|
+|`☐ Time Estimation`|Start and end dates.|
+|`☐ Time of the Day to Test`|Times of the day to test.|
+|`☐ Penetration Testing Type`|External/Internal Penetration Test/Vulnerability Assessments/Social Engineering.|
+|`☐ Penetration Testing Locations`|Description of how the connection to the client network is established.|
+|`☐ Methodologies`|OSSTMM, PTES, OWASP, and others.|
+|`☐ Objectives / Flags`|Users, specific files, specific information, and others.|
+|`☐ Evidence Handling`|Encryption, secure protocols|
+|`☐ System Backups`|Configuration files, databases, and others.|
+|`☐ Information Handling`|Strong data encryption|
+|`☐ Incident Handling and Reporting`|Cases for contact, pentest interruptions, type of reports|
+|`☐ Status Meetings`|Frequency of meetings, dates, times, included parties|
+|`☐ Reporting`|Type, target readers, focus|
+|`☐ Retesting`|Start and end dates|
+|`☐ Disclaimers and Limitation of Liability`|System damage, data loss|
+|`☐ Permission to Test`|Signed contract, contractors agreement|
+
+### Contract Checklist
+
+| **Checkpoint**                       | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `☐ NDA`                              | Non-Disclosure Agreement (NDA) refers to a secrecy contract between the client and the contractor regarding all written or verbal information concerning an order/project. The contractor agrees to treat all confidential information brought to its attention as strictly confidential, even after the order/project is completed. Furthermore, any exceptions to confidentiality, the transferability of rights and obligations, and contractual penalties shall be stipulated in the agreement. The NDA should be signed before the kick-off meeting or at the latest during the meeting before any information is discussed in detail. |
+| `☐ Goals`                            | Goals are milestones that must be achieved during the order/project. In this process, goal setting is started with the significant goals and continued with fine-grained and small ones.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `☐ Scope`                            | The individual components to be tested are discussed and defined. These may include domains, IP ranges, individual hosts, specific accounts, security systems, etc. Our customers may expect us to find out one or the other point by ourselves. However, the legal basis for testing the individual components has the highest priority here.                                                                                                                                                                                                                                                                                              |
+| `☐ Penetration Testing Type`         | When choosing the type of penetration test, we present the individual options and explain the advantages and disadvantages. Since we already know the goals and scope of our customers, we can and should also make a recommendation on what we advise and justify our recommendation accordingly. Which type is used in the end is the client's decision.                                                                                                                                                                                                                                                                                  |
+| `☐ Methodologies`                    | Examples: OSSTMM, OWASP, automated and manual unauthenticated analysis of the internal and external network components, vulnerability assessments of network components and web applications, vulnerability threat vectorization, verification and exploitation, and exploit development to facilitate evasion techniques.                                                                                                                                                                                                                                                                                                                  |
+| `☐ Penetration Testing Locations`    | External: Remote (via secure VPN) and/or Internal: Internal or Remote (via secure VPN)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `☐ Time Estimation`                  | For the time estimation, we need the start and the end date for the penetration test. This gives us a precise time window to perform the test and helps us plan our procedure. It is also vital to explicitly ask how time windows the individual attacks (Exploitation / Post-Exploitation / Lateral Movement) are to be carried out. These can be carried out during or outside regular working hours. When testing outside regular working hours, the focus is more on the security solutions and systems that should withstand our attacks.                                                                                             |
+| `☐ Third Parties`                    | For the third parties, it must be determined via which third-party providers our customer obtains services. These can be cloud providers, ISPs, and other hosting providers. Our client must obtain written consent from these providers describing that they agree and are aware that certain parts of their service will be subject to a simulated hacking attack. It is also highly advisable to require the contractor to forward the third-party permission sent to us so that we have actual confirmation that this permission has indeed been obtained.                                                                              |
+| `☐ Evasive Testing`                  | Evasive testing is the test of evading and passing security traffic and security systems in the customer's infrastructure. We look for techniques that allow us to find out information about the internal components and attack them. It depends on whether our contractor wants us to use such techniques or not.                                                                                                                                                                                                                                                                                                                         |
+| `☐ Risks`                            | We must also inform our client about the risks involved in the tests and the possible consequences. Based on the risks and their potential severity, we can then set the limitations together and take certain precautions.                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `☐ Scope Limitations & Restrictions` | It is also essential to determine which servers, workstations, or other network components are essential for the client's proper functioning and its customers. We will have to avoid these and must not influence them any further, as this could lead to critical technical errors that could also affect our client's customers in production.                                                                                                                                                                                                                                                                                           |
+| `☐ Information Handling`             | HIPAA, PCI, HITRUST, FISMA/NIST, etc.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `☐ Contact Information`              | For the contact information, we need to create a list of each person's name, title, job title, e-mail address, phone number, office phone number, and an escalation priority order.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `☐ Lines of Communication`           | It should also be documented which communication channels are used to exchange information between the customer and us. This may involve e-mail correspondence, telephone calls, or personal meetings.                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `☐ Reporting`                        | Apart from the report's structure, any customer-specific requirements the report should contain are also discussed. In addition, we clarify how the reporting is to take place and whether a presentation of the results is desired.                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `☐ Payment Terms`                    | Finally, prices and the terms of payment are explained.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+
+### Rules of Engagement 
+
+**Checklist**
+
+|**Checkpoint**|**Contents**|
+|---|---|
+|`☐ Introduction`|Description of this document.|
+|`☐ Contractor`|Company name, contractor full name, job title.|
+|`☐ Penetration Testers`|Company name, pentesters full name.|
+|`☐ Contact Information`|Mailing addresses, e-mail addresses, and phone numbers of all client parties and penetration testers.|
+|`☐ Purpose`|Description of the purpose for the conducted penetration test.|
+|`☐ Goals`|Description of the goals that should be achieved with the penetration test.|
+|`☐ Scope`|All IPs, domain names, URLs, or CIDR ranges.|
+|`☐ Lines of Communication`|Online conferences or phone calls or face-to-face meetings, or via e-mail.|
+|`☐ Time Estimation`|Start and end dates.|
+|`☐ Time of the Day to Test`|Times of the day to test.|
+|`☐ Penetration Testing Type`|External/Internal Penetration Test/Vulnerability Assessments/Social Engineering.|
+|`☐ Penetration Testing Locations`|Description of how the connection to the client network is established.|
+|`☐ Methodologies`|OSSTMM, PTES, OWASP, and others.|
+|`☐ Objectives / Flags`|Users, specific files, specific information, and others.|
+|`☐ Evidence Handling`|Encryption, secure protocols|
+|`☐ System Backups`|Configuration files, databases, and others.|
+|`☐ Information Handling`|Strong data encryption|
+|`☐ Incident Handling and Reporting`|Cases for contact, pentest interruptions, type of reports|
+|`☐ Status Meetings`|Frequency of meetings, dates, times, included parties|
+|`☐ Reporting`|Type, target readers, focus|
+|`☐ Retesting`|Start and end dates|
+|`☐ Disclaimers and Limitation of Liability`|System damage, data loss|
+|`☐ Permission to Test`|Signed contract, contractors agreement|
