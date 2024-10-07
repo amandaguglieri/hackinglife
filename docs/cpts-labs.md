@@ -1618,30 +1618,35 @@ Results:  f458303ea783c224c6b4e7ef7f17eb9d
 
 ### Linux File Transfer methods
 
-
-Question
-
-```
+**Download the file flag.txt from the web root using Python from the Pwnbox. Submit the contents of the file as your answer.**
 
 ```
-
-Results:  
-
-
-### Transferring Files with Code
-
-Question
-
+wget -O flag.txt http://$ip/flag.txt
 ```
 
+Results:  5d21cf3da9c0ccb94f709e2559f3ea50
+
+**SSH to 10.129.206.169 (ACADEMY-MISC-NIX04) with user "htb-student" and password "HTB_@cademy_stdnt!". Upload the attached file named upload_nix.zip to the target using the method of your choice. Once uploaded, SSH to the box, extract the file, and run "hasher `<extracted file>`" from the command line. Submit the generated hash as your answer.**
+
+```
+scp upload_nix.zip htb-student@$ip:/tmp
+# Enter the htb-student password
+
+# Unzip file
+python3 -m zipfile -e  upload_nix.zip .
+# Or
+ gunzip -S .zip upload_nix.zip
+
+# hash it
+hasher upload_nix.txt
 ```
 
-Results:  
+Results:  159cfe5c65054bbadb2761cfa359c8b0
 
 ###  Miscellaneous File Transfer Methods
 
 
-Question
+Use xfreerdp or rdesktop to connect to the target machine via RDP (Username: htb-student | Password:HTB_@cademy_stdnt!) and mount a Linux directory to practice file transfer operations (upload and download) with your attack host. Type "DONE" when finished.
 
 ```
 
