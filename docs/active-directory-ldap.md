@@ -8,8 +8,6 @@ tags:
   - ldap
   - windows
 ---
-
-
 # Active Directory - LDAP
 
 Active Directory (AD) is a directory service for Windows network environments. 
