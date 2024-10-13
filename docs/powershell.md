@@ -111,6 +111,47 @@ The four types of Wildcard:
 
 
 
+## Basic commands for reconnaissance
+
+```ps
+# Display Powershell relevant Powershell version information
+echo $PSVersion
+echo ~PSVersionTable
+
+# Check current execution policy. If the answer is
+# - "Restricted": Ps scripts cannot run.
+# - "RemoteSigned": Downloaded scripts will require the script to be signed by a trusted publisher.
+Get-Execution-Policy
+
+# Bypass execution policy
+powershell -ep bypass
+
+#You can tell if PowerShell is running with administrator privileges (a.k.a “elevated” rights) with the following snippet:
+[Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544'
+
+# Retrieves the WindowsIdentity for the currently running user.
+[Security.Principal.WindowsIdentity]::GetCurrent() 
+
+# Access the groups property of the identity to find out what user groups the identity is a member of.
+[Security.Principal.WindowsIdentity]::GetCurrent()(...).groups
+
+# It returns true if groups contains the Well Known SID of the Administrators group (the identity will only contain it if “run as administrator” was used) and otherwise false.
+[Security.Principal.WindowsIdentity]::GetCurrent() -contains "S-1-5-32-544" 
+
+# List which processes are elevated:
+Get-Process | Add-Member -Name Elevated -MemberType ScriptProperty -Value {if ($this.Name -in @('Idle','System')) {$null} else {-not $this.Path -and -not $this.Handle} } -PassThru | Format-Table Name,Elevated
+
+# List installed software on a computer
+get-ciminstance win32_product | fl
+
+
+# Gets content from a web page on the internet.
+Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 -OutFile PowerView.ps1
+# alias: `iwr`, `curl`, and `wget`
+
+```
+
+
 ## Filters
 
 Filters are a way to power up our queries in powershell.
@@ -175,43 +216,6 @@ When using filters, certain characters must be escaped:
 | ( | /28 | Escaped automatically.  |
 | )  | /29 | Escaped automatically.   |
 | / | /2f | Escaped automatically. |
-
-
-## Basic commands for reconnaissance
-
-```ps
-# Display Powershell relevant Powershell version information
-echo $PSVersion
-
-# Check current execution policy. If the answer is
-# - "Restricted": Ps scripts cannot run.
-# - "RemoteSigned": Downloaded scripts will require the script to be signed by a trusted publisher.
-Get-Execution-Policy
-
-# Bypass execution policy
-powershell -ep bypass
-
-#You can tell if PowerShell is running with administrator privileges (a.k.a “elevated” rights) with the following snippet:
-[Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544'
-# [Security.Principal.WindowsIdentity]::GetCurrent() - Retrieves the WindowsIdentity for the currently running user.
-# (...).groups - Access the groups property of the identity to find out what user groups the identity is a member of.
-# -contains "S-1-5-32-544" returns true if groups contains the Well Known SID of the Administrators group (the identity will only contain it if “run as administrator” was used) and otherwise false.
-
-
-# List which processes are elevated:
-Get-Process | Add-Member -Name Elevated -MemberType ScriptProperty -Value {if ($this.Name -in @('Idle','System')) {$null} else {-not $this.Path -and -not $this.Handle} } -PassThru | Format-Table Name,Elevated
-
-# List installed software on a computer
-get-ciminstance win32_product | fl
-
-
-# Gets content from a web page on the internet.
-Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 -OutFile PowerView.ps1
-# alias: `iwr`, `curl`, and `wget`
-
-```
-
-
 
 
 ## Disk Management

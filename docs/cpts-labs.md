@@ -1643,44 +1643,82 @@ hasher upload_nix.txt
 
 Results:  159cfe5c65054bbadb2761cfa359c8b0
 
-###  Miscellaneous File Transfer Methods
-
-
-Use xfreerdp or rdesktop to connect to the target machine via RDP (Username: htb-student | Password:HTB_@cademy_stdnt!) and mount a Linux directory to practice file transfer operations (upload and download) with your attack host. Type "DONE" when finished.
-
-```
-
-```
-
-Results:  
-
-
-### Living off the Land
-
-Question
-
-```
-
-```
-
-Results:  
-
-
-
-
-Question
-
-```
-
-```
-
-Results:  
-
-
 
 
 
 ## [Shells & Payloads](https://academy.hackthebox.com/module/details/115)
+
+### Shell Basics
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+### Payloads
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+### Windows Shells
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+### NIX Shells
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+### Web Shells
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+### Skills Assessment
+
+Question
+
+```
+
+```
+
+Results:  
+
+
+
+
 
 ## [Using the Metasploit Framework](https://academy.hackthebox.com/module/details/39)
 
