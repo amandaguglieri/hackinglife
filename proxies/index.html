@@ -7126,6 +7126,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setting-up-proxychains-with-burpsuite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up Proxychains with BurpSuite
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-nmap-through-burpsuite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routing nmap through Burpsuite
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#setting-up-postman-with-burpsuite" class="md-nav__link">
     <span class="md-ellipsis">
       Setting up Postman with BurpSuite
@@ -7173,6 +7191,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metasploit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metasploit
+    </span>
+  </a>
   
 </li>
       
@@ -16060,6 +16087,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setting-up-proxychains-with-burpsuite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting up Proxychains with BurpSuite
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-nmap-through-burpsuite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routing nmap through Burpsuite
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#setting-up-postman-with-burpsuite" class="md-nav__link">
     <span class="md-ellipsis">
       Setting up Postman with BurpSuite
@@ -16110,6 +16155,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#metasploit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metasploit
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -16130,7 +16184,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h1 id="proxies">Proxies</h1>
 <p>A proxy is when a device or service sits in the middle of a connection and acts as a mediator.</p>
 <ul>
-<li>HTTP Proxies: BurpSuite</li>
+<li>HTTP Proxies: <a href="../burpsuite/">BurpSuite</a></li>
 <li>Postman, mitm_relay</li>
 <li>SOCKS/SSH Proxy (for pivoting): Chisel, ptunnel, sshuttle.</li>
 </ul>
@@ -16140,6 +16194,30 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>Reverse Proxy: As you may have guessed, a reverse proxy, is the reverse of a Forward Proxy. Instead of being designed to filter outgoing requests, it filters incoming ones. The most common goal with a Reverse Proxy, is to listen on an address and forward it to a closed-off network. Many organizations use CloudFlare as they have a robust network that can withstand most DDOS Attacks.</li>
 <li>Transparent Proxy</li>
 </ul>
+<h2 id="setting-up-proxychains-with-burpsuite">Setting up Proxychains with BurpSuite</h2>
+<p>Using <a href="proxychains.md">Proxychains</a> to redirect traffic from an app to Burpsuite:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># Checks installation
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>which proxychains
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a># Configuration file
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>/etc/proxychains4.conf
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a># To use `proxychains`, we first have to edit `/etc/proxychains.conf`, comment out the final line and add the following line at the end of it:
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>#socks4         127.0.0.1 9050
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>http 127.0.0.1 8080
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a># Enable quiet_mode by uncommenting and removing # 
+</span></code></pre></div>
+<p>After this we can prepend <code>proxychains</code>to any command. The traffic of that command should be routed through proxychains. For example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>proxychains curl http://example.com
+</span></code></pre></div>
+<p>This request will be addressed to Burpsuite tool.</p>
+<h2 id="routing-nmap-through-burpsuite">Routing nmap through Burpsuite</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>nmap --proxies http://127.0.0.1:8080 $ip -p $port -Pn -sC
+</span></code></pre></div>
+<p>Go to Burpsuite proxy tool to see all requests made by nmap in the proxy history.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Note: Nmap&#39;s built-in proxy is still in its experimental phase, as mentioned by its manual (`man nmap`), so not all functions or traffic may be routed through the proxy. In these cases, we can simply resort to `proxychains`, as we did earlier.
+</span></code></pre></div>
 <h2 id="setting-up-postman-with-burpsuite">Setting up Postman with BurpSuite</h2>
 <p>1 - Postman &gt; Settings </p>
 <p><img alt="Captura" src="../img/postman1.png" /></p>
@@ -16174,10 +16252,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>4.</strong> mitm_relay will "unfunnel" the traffic from the HTPP protocol into the raw one</p>
 <p><strong>5.</strong> In a lab setup FTP server will be in the same network, so to not get in conflict with mitm_relay we will modify FTP listen port to 2111. In real life this change is not necessary</p>
 <p>Running mitm_relay:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python mitm_relay.py -l 0.0.0.0 -r tcp:21:10.0.2.15:2111 -p 127.0.0.1:8080
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a># -l listening address for mitm_relay (0.0.0.0 means we all listening in all interfaces)
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a># -r relay configuration: &lt;protocol&gt;:&lt;listeningPort&gt;:&lt;IPofDestinationserver&gt;:&lt;listeningPortonDestinationServer&gt;
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a># -p Proxy configuration: &lt;IPofProxy&gt;:&lt;portOfProxy&gt; 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python mitm_relay.py -l 0.0.0.0 -r tcp:21:10.0.2.15:2111 -p 127.0.0.1:8080
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a># -l listening address for mitm_relay (0.0.0.0 means we all listening in all interfaces)
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a># -r relay configuration: &lt;protocol&gt;:&lt;listeningPort&gt;:&lt;IPofDestinationserver&gt;:&lt;listeningPortonDestinationServer&gt;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a># -p Proxy configuration: &lt;IPofProxy&gt;:&lt;portOfProxy&gt; 
 </span></code></pre></div>
 <p><img alt="graphic" src="../img/tca-36.png" /></p>
 <p>And this is how the interception looks like:</p>
@@ -16209,14 +16287,23 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="from-sqlmap">From Sqlmap</h3>
 <p>Create a file that contains the request that is vulnerable to SQLi and save it.</p>
 <p>Then:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sqlmap -r request.txt -p id --proxy=http://localhost:8080 --current-db --flush sessions -vv 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sqlmap -r request.txt -p id --proxy=http://localhost:8080 --current-db --flush sessions -vv 
 </span></code></pre></div>
 <p>Important: Flag --proxy sends the request via Burpsuite.</p>
 <p>For Blind injections you need to specify other parameters such as risk and level.</p>
+<h2 id="metasploit">Metasploit</h2>
+<p>To proxy web traffic made by Metasploit modules to better investigate and debug them:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># Start metasploit
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>msfconsole -q
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a># Then, to set a proxy for any exploit within Metasploitwith the `set PROXIES` flag. 
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>set PROXIES HTTP:127.0.0.1:8080
+</span></code></pre></div>
+<p>With this, all the traffic of metasploit to the server will be proxied via Burpsuite.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-05-26T15:44:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-05-26</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-20T19:22:45+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-20</span></small></br>
 
 
     <small>Created: February 7, 2023 18:30:04</small>
