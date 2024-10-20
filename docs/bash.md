@@ -209,6 +209,5 @@ xrandr --output HDMI-1 --right-of DP-2
 
 # Rotate 27''
 xrandr --output DP-2  --rotate left 
-
-
 ```
+

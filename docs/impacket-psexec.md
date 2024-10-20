@@ -7,7 +7,6 @@ tags:
   - pentesting
   - smb
 ---
-
 # Impacket PsExec
 
 The PSExec service then creates a [named pipe](https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes) that can send commands to the system.

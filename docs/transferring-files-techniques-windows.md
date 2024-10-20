@@ -15,6 +15,12 @@ tags:
 [See different techniques to set up a server in the attacking machine, probably a Kali](servers.md)
 
 
+??? abstract "Quick link to resources"
+    - [PayloadsAllTheThings: Windows download and execute methods](
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute.md)
+    
+
+
 ## Certutil
 
 It's possible to [download a file with certutil](https://isc.sans.edu/forums/diary/A+Suspicious+Use+of+certutilexe/23517/):

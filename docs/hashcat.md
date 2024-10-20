@@ -130,6 +130,17 @@ hashcat -a 0 -m 9600 --status hash /root/Desktop/wordlists/1000000-password-secl
 
 https://hashcat.net/wiki/doku.php?id=example_hashes
 
+### mode 1000: NTLM hash
+
+```bash
+hashcat -m 1000 -a 0 hashes.txt /path/to/wordlist.txt`
+#  `-m 1000`: Specifies that the hash type is NTLM.
+#  `-a 0`: The attack mode (`0` is a dictionary attack).
+# `hashes.txt`: The file containing your NTLM hash.
+# `/path/to/wordlist.txt`: The path to your wordlist (for example,  /usr/share/wordlists/rockyou.txt`).
+```
+
+
 ### mode 7300: IPMI
 
 For cracking hashes from [IPMI service](623-1900-intelligent-platform-management-interface-ipmi.md):
