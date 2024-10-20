@@ -7,7 +7,6 @@ tags:
   - pentesting
   - windows
 ---
-
 # Impacket - A python tool for network protocols
 
 ## What for? 

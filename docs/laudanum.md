@@ -28,3 +28,23 @@ The Laudanum files can be found in the /usr/share/webshells/laudanum directory. 
 ```bash
 locate laudanum
 ```
+
+Fist step: Copy the file you want to use from laudanum repo to where you want to use it from:
+
+```shell-session
+cp /usr/share/laudanum/aspx/shell.aspx /your/path/laudanum.aspx
+# In this case I'm selecting an aspx shell. There are other types.
+```
+
+Second step: Modify the shell to use. Add to the whitelisting  rule your ip.
+
+
+![laudanum](img/laudanum2.png)
+
+Third step: Upload the file to the web server.
+
+Fourth step: Once uploaded, go to http://webserver//file/laudanum.aspx which is your uploaded file. You will see something like:
+
+![laudanum](img/laudanum.png)
+
+Ready to use!

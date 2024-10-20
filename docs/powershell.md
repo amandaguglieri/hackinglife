@@ -126,6 +126,10 @@ Get-Execution-Policy
 # Bypass execution policy
 powershell -ep bypass
 
+# Disable AV
+Set-MpPreference -DisableRealtimeMonitoring $true
+
+
 #You can tell if PowerShell is running with administrator privileges (a.k.a “elevated” rights) with the following snippet:
 [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544'
 
