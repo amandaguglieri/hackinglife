@@ -4,12 +4,11 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
-
 # Proxies
 
 A proxy is when a device or service sits in the middle of a connection and acts as a mediator.
 
-- HTTP Proxies: BurpSuite
+- HTTP Proxies: [BurpSuite](burpsuite.md)
 -  Postman, mitm_relay
 - SOCKS/SSH Proxy (for pivoting): Chisel, ptunnel, sshuttle.
 
@@ -19,6 +18,43 @@ There are many types of proxy services, but the key ones are:
 - Reverse Proxy: As you may have guessed, a reverse proxy, is the reverse of a Forward Proxy. Instead of being designed to filter outgoing requests, it filters incoming ones. The most common goal with a Reverse Proxy, is to listen on an address and forward it to a closed-off network. Many organizations use CloudFlare as they have a robust network that can withstand most DDOS Attacks.
 - Transparent Proxy
 
+## Setting up Proxychains with BurpSuite
+
+Using [Proxychains](proxychains.md) to redirect traffic from an app to Burpsuite:
+
+```
+# Checks installation
+which proxychains
+
+# Configuration file
+/etc/proxychains4.conf
+
+# To use `proxychains`, we first have to edit `/etc/proxychains.conf`, comment out the final line and add the following line at the end of it:
+#socks4         127.0.0.1 9050
+http 127.0.0.1 8080
+
+# Enable quiet_mode by uncommenting and removing # 
+```
+
+After this we can prepend `proxychains`to any command. The traffic of that command should be routed through proxychains. For example:
+
+```
+proxychains curl http://example.com
+```
+
+This request will be addressed to Burpsuite tool.
+
+## Routing nmap through Burpsuite
+
+```
+nmap --proxies http://127.0.0.1:8080 $ip -p $port -Pn -sC
+```
+
+Go to Burpsuite proxy tool to see all requests made by nmap in the proxy history.
+
+```
+Note: Nmap's built-in proxy is still in its experimental phase, as mentioned by its manual (`man nmap`), so not all functions or traffic may be routed through the proxy. In these cases, we can simply resort to `proxychains`, as we did earlier.
+```
 
 
 ## Setting up Postman with BurpSuite
@@ -148,3 +184,18 @@ sqlmap -r request.txt -p id --proxy=http://localhost:8080 --current-db --flush s
 Important: Flag --proxy sends the request via Burpsuite.
 
 For Blind injections you need to specify other parameters such as risk and level.
+
+
+## Metasploit
+
+To proxy web traffic made by Metasploit modules to better investigate and debug them:
+
+```
+# Start metasploit
+msfconsole -q
+
+# Then, to set a proxy for any exploit within Metasploitwith the `set PROXIES` flag. 
+set PROXIES HTTP:127.0.0.1:8080
+```
+
+With this, all the traffic of metasploit to the server will be proxied via Burpsuite.
