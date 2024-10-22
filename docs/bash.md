@@ -211,3 +211,7 @@ xrandr --output HDMI-1 --right-of DP-2
 xrandr --output DP-2  --rotate left 
 ```
 
+```
+xrandr --output  eDP-1 --brightness 0.5
+# ranges from 0 to 1
+```

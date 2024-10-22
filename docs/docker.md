@@ -20,6 +20,17 @@ sudo apt install docker docker-compose nginx
 
 Depending on the image you are going to compose you will need nginx or other dependencies. 
 
+Another way, see [https://www.kali.org/docs/containers/installing-docker-on-kali/](https://www.kali.org/docs/containers/installing-docker-on-kali/)
+
+```
+sudo apt update
+sudo apt install -y docker.io
+sudo systemctl enable docker --now
+docker
+sudo usermod -aG docker $USER
+```
+
+
 ## Basic commands
 
 ```bash
