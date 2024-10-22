@@ -9,7 +9,6 @@ tags:
   - windows
   - passwords
 ---
-
 # Medusa
 
 Medusa is a speedy, parallel, and modular, login brute-forcer. The goal is to support as many services which allow remote authentication as possible. The author considers following items as some of the key features of this application:

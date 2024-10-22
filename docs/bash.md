@@ -44,6 +44,19 @@ df -H
 # -h: Print sizes in powers of 1024. Humanly readable.
 ```
 
+
+### grep
+
+```shell-session
+grep -rn /mnt/Finance/ -ie cred
+# `grep`: The command used to search text using patterns.
+#  `-r`: Recursive search, meaning it will search through all files and subdirectories in `/mnt/Finance/`.
+#  `-n`: Displays the line number where the pattern is found within the files.
+#  `/mnt/Finance/`: The directory path where the search is performed.
+#  `-i`: Makes the search case-insensitive, so it will match "cred", "CRED", "Cred", etc.
+#  `-e cred`: Specifies the search pattern `"cred"`. It will search for any occurrence of the string "cred" in the files.
+```
+
 ### host
 
 host is a simple utility for performing DNS lookups. It is normally used to convert names to IP addresses and vice versa. When no arguments or options are given, host prints a short summary of its command-line arguments and options.
@@ -101,6 +114,43 @@ Print distribution-specific information
 lsb_release -a 
 ```
 
+
+### mount
+
+We need to install `cifs-utils` to connect to an SMB share folder. 
+
+**CIFS** (Common Internet File System) is a protocol used for network file sharing. CIFS is an implementation of the SMB (Server Message Block) protocol, commonly used for sharing files and printers between Windows machines and Linux systems.
+
+To install it:
+
+```
+sudo apt install cifs-utils
+```
+
+Now mount the file structure:
+
+```shell-session
+sudo mkdir /mnt/Finance
+sudo mount -t cifs -o username=plaintext,password=Password123,domain=. //$ip/Finance /mnt/Finance
+# 
+# `mount -t cifs`: Specifies that you are mounting a CIFS (or SMB) file system.
+```
+
+As an alternative, we can use a credential file.
+
+```shell-session
+mount -t cifs //$ip/Finance /mnt/Finance -o credentials=/path/credentialfile
+```
+
+whereas `credentialfile` has to be structured like this:
+
+```txt
+username=plaintext
+password=Password123
+domain=.
+```
+
+Once a shared folder is mounted, you can use common Linux tools such as `find` or `grep` to interact with the file structure. 
 ### netstat
 
 Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships. By default, netstat displays a list of open sockets.  If you don't specify any address families, then the active sockets of all configured address families will be printed.

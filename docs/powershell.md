@@ -14,12 +14,18 @@ TableOfContents: true
 net localgroup Administrators
 
 
-
 # List contents
 dir
 Get-ChildItem -Force
 # -Force: Display hidden files 
+gci
+# Short variant of dir
 
+# Count files from a directory
+(Get-ChildItem -File -Recurse | Measure-Object).Count
+
+# Find specific items from the directory specified by the Path parameter that contains the string cred.
+Get-ChildItem -Recurse -Path N:\ -Include *cred* -File
 
 # Print working directory
 pwd
@@ -41,6 +47,11 @@ Get-history
 
 # Browse the command history
 CTRL-R
+
+# Select-String: The `Select-String` cmdlet uses regular expression matching to search for text patterns in input strings and files. We can use `Select-String` similar to `grep` in UNIX or `findstr.exe` in Windows.
+Get-ChildItem -Recurse -Path N:\ | Select-String "cred" -List
+
+
 
 # Clear screen
 clear
@@ -95,6 +106,15 @@ netsh advfirewall set allprofiles state off
 reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
 
 
+# The command New-PSDrive onnects a computer to or disconnects a computer from a shared resource or displays information about computer connections.
+New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem"
+
+# Connect/ Disconnect a share with user and password
+$username = 'plaintext'
+$password = 'Password123'
+$secpassword = ConvertTo-SecureString $password -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential $username, $secpassword
+New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem" -Credential $cred
 ```
 
 ## Powershell wildcards

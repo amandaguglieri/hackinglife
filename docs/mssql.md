@@ -85,7 +85,7 @@ sqsh -S $ip -U .\\<username> -P 'MyPassword!' -h
 
 ### From Windows
 
-[sqlcmd](https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility) 
+[sqlcmd](https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility)  |  [Guide](https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-use-utility?view=sql-server-ver16)
 
 The `sqlcmd` utility lets you enter Transact-SQL statements, system procedures, and script files through a variety of available modes:
 
@@ -126,11 +126,21 @@ go
 
 ####  SQL Server Management Studio or SSMS 
 
-Only in windows. Download, install, and connect to database.
+[Only in windows](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16). Download, install, and connect to database. 
 
 #### dbeaver
 
 dbeaver is a multi-platform database tool for Linux, macOS, and Windows that supports connecting to multiple database engines such as MSSQL, MySQL, PostgreSQL, among others, making it easy for us, as an attacker, to interact with common database servers.
+
+```shell-session
+# Install dbeaver
+sudo dpkg -i dbeaver-<version>.deb
+
+# Run dbeaver
+dbeaver &
+
+# Once we have access to the database using a command-line utility or a GUI application, we can use common [Transact-SQL statements](https://docs.microsoft.com/en-us/sql/t-sql/statements/statements?view=sql-server-ver15) to enumerate databases and tables containing sensitive information such as usernames and passwords.
+```
 
 #### mssqlclient.py
 

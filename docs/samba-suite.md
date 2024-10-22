@@ -6,7 +6,6 @@ TableOfContents: true
 tags:
   - pentesting
 ---
-
 # Samba Suite
 
 It’s used to enumerate info. It might be used in a [Null session attack](windows-null-session-attack.md).

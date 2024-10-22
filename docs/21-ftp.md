@@ -72,8 +72,14 @@ cd <folder>
 # Download a file to your localhost
 get <nameofFileInOrigin> <nameOfFileInLocalhost>
 
+# Download multiple files to your localhost
+mget *.* <nameOfFileInLocalhost>
+
 # Upload a file from your localhost
 put <yourfile>
+
+# Upload multiple files from your localhost
+mput *.*
 
 # Exit connection
 quit
@@ -127,6 +133,15 @@ openssl s_client -connect $ip:21 -starttls ftp
 ```
 
 ## Attacking FTP
+
+### Anonymous access enabled
+
+```
+# Download all available files at once
+wget -m --no-passive ftp://anonymous:anonymous@$ip
+
+```
+
 ### Brute forcing with Medusa
 
 [Medusa Cheat sheet](medusa.md). 

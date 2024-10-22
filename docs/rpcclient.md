@@ -27,6 +27,7 @@ The [Remote Procedure Call](https://www.geeksforgeeks.org/remote-procedure-call-
 ```shell-session
 # Connect to a remote shared folder (same as smbclient in this regard)
 rpcclient -U "" 10.129.14.128
+rpcclient -U'%' 10.10.110.17
 
 # Server information
 srvinfo

