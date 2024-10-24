@@ -10,7 +10,7 @@ tags:
   - tftp
   - vsFTPd
 ---
-
+exi
 # 21 ftp
 
 The File Transfer Protocol (FTP) is a standard communication protocol used to transfer computer files from a server to a client on a computer network. FTP is built on a client–server model architecture using separate control and data connections between the client and the server. The FTP runs within the application layer of the TCP/IP protocol stack. Thus, it is on the same layer as `HTTP` or `POP`.

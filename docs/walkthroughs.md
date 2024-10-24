@@ -79,6 +79,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB friendzone](htb-friendzone.md)
 -   [HTB funnel](htb-funnel.md)
 -   [HTB included](htb-included.md)
+-   [HTB Greenhorn](htb-greenhorn.md)
 -   [HTB ignition](htb-ignition.md)
 -   [HTB lame](htb-lame.md)
 -   [HTB markup](htb-markup.md)

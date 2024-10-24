@@ -13,6 +13,15 @@ tags:
 
 [See msSQL](mssql.md).
 
+??? abstract "Sources and resources"
+	- [nc64.exe](https://github.com/vinsworldcom/NetCat64/releases).
+	- [Impacket](impacket.md): mssqlclient.py.  
+	- [Pentesmonkey Cheat sheet](https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet).
+	- [book.hacktricks.xyz](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server).
+	- [winPEAS](winpeas.md).
+
+By default, MSSQL uses ports `TCP/1433` and `UDP/1434`, and MySQL uses `TCP/3306`. However, when MSSQL operates in a "hidden" mode, it uses the `TCP/2433` port. 
+
 ## Enumeration
 
 Basic enumeration:
@@ -260,10 +269,8 @@ go
 
 >  If we need to use quotes in our query to the linked server, we need to use single double quotes to escape the single quote. To run multiples commands at once we can divide them up with a semi colon (;).
 
-## Sources and resources
+### CVE-2012-2122 for MySQL 5.6.x
 
-+ [nc64.exe](https://github.com/vinsworldcom/NetCat64/releases).
-+ [Impacket](impacket.md): mssqlclient.py.  
-+ [Pentesmonkey Cheat sheet](https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet).
-+ [book.hacktricks.xyz](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server).
-+ [winPEAS](winpeas.md).
+In the past, there was a vulnerability [CVE-2012-2122](https://www.trendmicro.com/vinfo/us/threat-encyclopedia/vulnerability/2383/mysql-database-authentication-bypass) in `MySQL 5.6.x` servers, among others, that allowed us to bypass authentication by repeatedly using the same incorrect password for the given account because the `timing attack` vulnerability existed in the way MySQL handled authentication attempts.
+
+In this timing attack, MySQL repeatedly attempts to authenticate to a server and measures the time it takes for the server to respond to each attempt. By measuring the time it takes the server to respond, we can determine when the correct password has been found, even if the server does not indicate success or failure. In the case of `MySQL 5.6.x`, the server takes longer to respond to an incorrect password than to a correct one. Thus, if we repeatedly try to authenticate with the same incorrect password, we will eventually receive a response indicating that the correct password was found, even though it was not.

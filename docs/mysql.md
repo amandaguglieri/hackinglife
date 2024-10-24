@@ -32,6 +32,49 @@ MySQL  supports different authentication methods, such as username and password,
 sudo nmap $ip -sV -sC -p3306 --script mysql*
 ```
 
+## Interact with MySQL
+
+### From Linux
+
+```shell-session
+mysql -u username -pPassword123 -h $ip
+# -h host/ip   
+# -u user As default mysql has a root user with no authentication
+mysql --host=INSTANCE_IP --user=root --password=thepassword
+mysql -h <host/IP> -u root -p<password>
+mysql -u root -h <host/IP>
+```
+
+### From Windows
+
+```cmd-session
+mysql.exe -u username -pPassword123 -h $IP
+```
+
+
+
+### GUI Application
+
+###  Server Management Studio or SSMS
+
+[SQL Server Management Studio or SSMS](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
+#### MySQL Workbench
+
+Download from: [https://dev.mysql.com/downloads/workbench/](https://dev.mysql.com/downloads/workbench/).
+#### dbeaver 
+
+[dbeaver](https://github.com/dbeaver/dbeaver) is a multi-platform database tool for Linux, macOS, and Windows that supports connecting to multiple database engines such as MSSQL, MySQL, PostgreSQL, among others, making it easy for us, as an attacker, to interact with common database servers.
+
+To install [dbeaver](https://github.com/dbeaver/dbeaver) using a Debian package we can download the release .deb package from [https://github.com/dbeaver/dbeaver/releases](https://github.com/dbeaver/dbeaver/releases) and execute the following command:
+
+```
+sudo dpkg -i dbeaver-<version>.deb
+
+# run dbeaver in a second plane
+ dbeaver &
+```
+
+
 ## Basic commands
 
 ![SQL](img/sql_00.png)
@@ -127,51 +170,6 @@ user()
 
 # Show current database
 database()
-```
-
-
-## Interact with MySQL
-
-### From Linux
-
-
-```shell-session
-mysql -u username -pPassword123 -h $IP
-# -h host/ip   
-# -u user As default mysql has a root user with no authentication
-mysql --host=INSTANCE_IP --user=root --password=thepassword
-mysql -h <host/IP> -u root -p<password>
-mysql -u root -h <host/IP>
-```
-
-### From Windows
-
-
-```cmd-session
-mysql.exe -u username -pPassword123 -h $IP
-```
-
-
-
-### GUI Application
-
-###  Server Management Studio or SSMS
-
-[SQL Server Management Studio or SSMS](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
-#### MySQL Workbench
-
-Download from: [https://dev.mysql.com/downloads/workbench/](https://dev.mysql.com/downloads/workbench/).
-#### dbeaver 
-
-[dbeaver](https://github.com/dbeaver/dbeaver) is a multi-platform database tool for Linux, macOS, and Windows that supports connecting to multiple database engines such as MSSQL, MySQL, PostgreSQL, among others, making it easy for us, as an attacker, to interact with common database servers.
-
-To install [dbeaver](https://github.com/dbeaver/dbeaver) using a Debian package we can download the release .deb package from [https://github.com/dbeaver/dbeaver/releases](https://github.com/dbeaver/dbeaver/releases) and execute the following command:
-
-```
-sudo dpkg -i dbeaver-<version>.deb
-
-# run dbeaver in a second plane
- dbeaver &
 ```
 
 

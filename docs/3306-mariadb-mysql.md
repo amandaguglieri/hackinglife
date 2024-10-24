@@ -48,15 +48,42 @@ mysql --host=INSTANCE_IP --user=root --password=thepassword
 mysql -h <host/IP> -u root -p<password>
 
 mysql -u root -h <host/IP>
-
 ```
+
+#### sqsh
+
+```shell-session
+# Targeting a local account:
+sqsh -S $ip -U <username> -P 'MyPassword!' -h
+
+# Targeting Windows authentication
+sqsh -S $ip -U .\\username -P 'MyPassword!' -h
+# -h: disable headers and footers for a cleaner look.
+```
+
+#### mssqlclient.py from impacket 
+
+```shell-session
+mssqlclient.py -p $port username@$ip 
+```
+
+
 
 ### From windows
 
+#### mysql.exe
 
 ```cmd-session
 mysql.exe -u username -pPassword123 -h $IP
 ```
+
+#### sqlcmd
+
+```cmd-session
+sqlcmd -S <server> -U <username> -P 'MyPassword!' -y 30 -Y 30
+# When we authenticate to MSSQL using `sqlcmd` we can use the parameters `-y` (SQLCMDMAXVARTYPEWIDTH) and `-Y` (SQLCMDMAXFIXEDTYPEWIDTH) for better looking output. Keep in mind it may affect performance.
+```
+
 ## mariadb commands
 
 ```bash

@@ -25,7 +25,7 @@ Webshell is a script written in a language that is executed by a server. Web she
     - [Cheat sheet](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet).
     - [Shell creation](https://rosettacode.org/wiki/Execute_a_system_command).
     - [About webshells](https://github.com/BlackArch/webshells).
-    - 
+    
 
 
 Sidenote: Also, you can generate a webshell by using  msfvenom

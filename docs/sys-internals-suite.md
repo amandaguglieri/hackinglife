@@ -7,11 +7,11 @@ tags:
   - windows
   - thick applications
 ---
-
 # SysInternals Suite
 
 To download: [https://learn.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite](https://learn.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite).
 
+ The Windows Sysinternals website was created in 1996 by [Mark Russinovich](https://en.wikipedia.org/wiki/Mark_Russinovich) and [Bryce Cogswell](https://en-academic.com/dic.nsf/enwiki/2358707) to offers technical resources and utilities to manage, diagnose, troubleshoot, and monitor a Microsoft Windows environment. Microsoft acquired Windows Sysinternals and its assets on July 18, 2006.
  
 ## TPCView
 

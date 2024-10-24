@@ -11,7 +11,6 @@ tags:
   - bypassing techniques
   - host based firewall
 ---
-
 # Hickjack the Internet Explorer process to bypass an host-based firewall
 
 From course: [Python For Offensive PenTest: A Complete Practical Course](https://www.udemy.com/course/python-for-offensive-security-practical-course/).
