@@ -5472,6 +5472,8 @@
       
         
       
+        
+      
     
     
     
@@ -5743,6 +5745,27 @@
   
   <span class="md-ellipsis">
     HTB funnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-greenhorn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTB greenhorn
   </span>
   
 
@@ -8140,17 +8163,17 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources-and-resources" class="md-nav__link">
+          <li class="md-nav__item">
+  <a href="#cve-2012-2122-for-mysql-56x" class="md-nav__link">
     <span class="md-ellipsis">
-      Sources and resources
+      CVE-2012-2122 for MySQL 5.6.x
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -16244,17 +16267,17 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sources-and-resources" class="md-nav__link">
+          <li class="md-nav__item">
+  <a href="#cve-2012-2122-for-mysql-56x" class="md-nav__link">
     <span class="md-ellipsis">
-      Sources and resources
+      CVE-2012-2122 for MySQL 5.6.x
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -16277,6 +16300,17 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <h1 id="1433-mssql">1433 msSQL</h1>
 <p><a href="../mssql/">See msSQL</a>.</p>
+<details class="abstract">
+<summary>Sources and resources</summary>
+<ul>
+<li><a href="https://github.com/vinsworldcom/NetCat64/releases">nc64.exe</a>.</li>
+<li><a href="../impacket/">Impacket</a>: mssqlclient.py.  </li>
+<li><a href="https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet">Pentesmonkey Cheat sheet</a>.</li>
+<li><a href="https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server">book.hacktricks.xyz</a>.</li>
+<li><a href="../winpeas/">winPEAS</a>.</li>
+</ul>
+</details>
+<p>By default, MSSQL uses ports <code>TCP/1433</code> and <code>UDP/1434</code>, and MySQL uses <code>TCP/3306</code>. However, when MSSQL operates in a "hidden" mode, it uses the <code>TCP/2433</code> port. </p>
 <h2 id="enumeration">Enumeration</h2>
 <p>Basic enumeration:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-sC<span class="w"> </span>-p1433<span class="w"> </span><span class="nv">$ip</span>
@@ -16458,18 +16492,13 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <blockquote>
 <p>If we need to use quotes in our query to the linked server, we need to use single double quotes to escape the single quote. To run multiples commands at once we can divide them up with a semi colon (;).</p>
 </blockquote>
-<h2 id="sources-and-resources">Sources and resources</h2>
-<ul>
-<li><a href="https://github.com/vinsworldcom/NetCat64/releases">nc64.exe</a>.</li>
-<li><a href="../impacket/">Impacket</a>: mssqlclient.py.  </li>
-<li><a href="https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet">Pentesmonkey Cheat sheet</a>.</li>
-<li><a href="https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server">book.hacktricks.xyz</a>.</li>
-<li><a href="../winpeas/">winPEAS</a>.</li>
-</ul>
+<h3 id="cve-2012-2122-for-mysql-56x">CVE-2012-2122 for MySQL 5.6.x</h3>
+<p>In the past, there was a vulnerability <a href="https://www.trendmicro.com/vinfo/us/threat-encyclopedia/vulnerability/2383/mysql-database-authentication-bypass">CVE-2012-2122</a> in <code>MySQL 5.6.x</code> servers, among others, that allowed us to bypass authentication by repeatedly using the same incorrect password for the given account because the <code>timing attack</code> vulnerability existed in the way MySQL handled authentication attempts.</p>
+<p>In this timing attack, MySQL repeatedly attempts to authenticate to a server and measures the time it takes for the server to respond to each attempt. By measuring the time it takes the server to respond, we can determine when the correct password has been found, even if the server does not indicate success or failure. In the case of <code>MySQL 5.6.x</code>, the server takes longer to respond to an incorrect password than to a correct one. Thus, if we repeatedly try to authenticate with the same incorrect password, we will eventually receive a response indicating that the correct password was found, even though it was not.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-24T11:19:43+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-24</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-24T18:13:03+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-24</span></small></br>
 
 
     <small>Created: January 6, 2023 21:39:12</small>
