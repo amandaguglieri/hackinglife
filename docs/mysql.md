@@ -32,32 +32,68 @@ MySQL  supports different authentication methods, such as username and password,
 sudo nmap $ip -sV -sC -p3306 --script mysql*
 ```
 
-## Interact with MySQL
+## Connect to database: mysql 
 
 ### From Linux
 
-```shell-session
+```bash
 mysql -u username -pPassword123 -h $ip
 # -h host/ip   
 # -u user As default mysql has a root user with no authentication
+
 mysql --host=INSTANCE_IP --user=root --password=thepassword
 mysql -h <host/IP> -u root -p<password>
 mysql -u root -h <host/IP>
 ```
 
-### From Windows
+#### sqsh
 
-```cmd-session
-mysql.exe -u username -pPassword123 -h $IP
+```shell-session
+# Targeting a local account:
+sqsh -S $ip -U <username> -P 'MyPassword!' -h
+
+# Targeting Windows authentication
+sqsh -S $ip -U .\\username -P 'MyPassword!' -h
+# -h: disable headers and footers for a cleaner look.
+```
+
+#### mssqlclient.py from impacket 
+
+```bash
+mssqlclient.py -p $port username@$ip 
+```
+
+If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (`Transact-SQL`). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.
+
+```bash
+python3 mssqlclient.py Administrator@$ip -windows-auth  
+# With python3 mssqlclient.py help you can see more options.
 ```
 
 
+### From Windows
 
-### GUI Application
+#### mysql.exe
 
-###  Server Management Studio or SSMS
+```powershell
+mysql.exe -u username -pPassword123 -h $IP
+```
 
-[SQL Server Management Studio or SSMS](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
+#### sqlcmd
+
+```powershell
+sqlcmd -S <server> -U <username> -P 'MyPassword!' -y 30 -Y 30
+# When we authenticate to MSSQL using `sqlcmd` we can use the parameters `-y` (SQLCMDMAXVARTYPEWIDTH) and `-Y` (SQLCMDMAXFIXEDTYPEWIDTH) for better looking output. Keep in mind it may affect performance.
+```
+
+
+### From GUI Application
+
+#### Server Management Studio or SSMS
+
+Download from: [SQL Server Management Studio or SSMS](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
+
+
 #### MySQL Workbench
 
 Download from: [https://dev.mysql.com/downloads/workbench/](https://dev.mysql.com/downloads/workbench/).
