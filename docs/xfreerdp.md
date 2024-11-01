@@ -21,6 +21,7 @@ To install xfreerdp, proceed with the following command:
 sudo apt-get install freerdp2-x11
 ```
 
+
 ## Basic commands
 
 ```bash

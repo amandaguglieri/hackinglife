@@ -42,6 +42,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	    - [Windows binaries: LOLBAS](windows-binaries.md).
 	    - bin Path.
 	    - [Abusing a service with PowerUp.ps1](powerup.md)
+	    - Creating a service with PsExec.
 	- Kernel.
 	- Password Mining:
 		- [Cached SAM](attacking-sam.md).

@@ -9,7 +9,6 @@ tags:
   - subdomain
   - pentesting
 ---
-
 # Port 53 - Domain Name Server (DNS) 
 
 Globally distributed DNS servers translate domain names into IP addresses and thus control which server a user can reach via a particular domain. There are several types of DNS servers that are used worldwide:
@@ -98,6 +97,12 @@ A list of vulnerabilities targeting the BIND9 server can be found at [CVEdetails
 
 ## Footprinting DNS
 
+**nmap**
+
+```shell-session
+nmap -p53 -Pn -sV -sC $ip
+```
+
 See [nslookup](nslookup.md).
 
 ```bash
@@ -177,6 +182,9 @@ Another tools for transferring zones:
 ```
 # Perform a dns transfer using a wordlist againts domain.com
 fierce -dns domain.com 
+
+# Enumerate all DNS servers of the root domain and scan for a DNS zone transfer:
+fierce --domain zonetransfer.me
 ```
 
 [dnsenum](dnsenum.md):
@@ -191,31 +199,33 @@ dnsenum domain.com
 
 ## Subdomain brute enumeration
 
-Bash command Using Sec wordlist:
+### **Bash** command Using Sec wordlist
 
 ```shell-session
 for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
 ```
 
-dnsenum:
+### **dnsenum**
+
+[dnsenum](dnsenum.md)
 
 ```shell-session
  dnsenum --dnsserver $ip --enum -p 0 -s 0 -o subdomains.txt -f /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt inlanefreight.htb
 
 ```
 
-
 ## Tools for passive enumeration
 
-| Tool + Cheat sheet                          | What it does                                                                                                                                                                                                    |
-| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Google dorks](google-dorks.md)             | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using.   |
-| [Sublist3r](sublist3r.md)                   | Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS. |
-| [crt.sh](ctr.md)                            | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality.                                |
-| [dnscan](dnscan.md)                         | Python wordlist-based DNS subdomain scanner.                                                                                                                                                                    |
-| [DNSRecon](dnsrecon.md)                     | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.                                                                                |
-| [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process.       |
-
+| Tool + Cheat sheet                          | What it does                                                                                                                                                                                                                                    |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Google dorks](google-dorks.md)             | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using.                                   |
+| [Sublist3r](sublist3r.md)                   | Sublist3r enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS.                                 |
+| [crt.sh](ctr.md)                            | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality.                                                                |
+| [dnscan](dnscan.md)                         | Python wordlist-based DNS subdomain scanner.                                                                                                                                                                                                    |
+| [DNSRecon](dnsrecon.md)                     | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.                                                                                                                |
+| [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process.                                       |
+| [Subfinder](subfinder.md)                   | `subfinder` is a subdomain discovery tool that returns valid subdomains for websites, using passive online sources. This tool can scrape subdomains from open sources like DNSdumpster.                                                         |
+| [Subbrute](subbrute.md)                     | SubBrute does not send traffic directly to the target's name servers. This tool allows us to use self-defined resolvers and perform pure DNS brute-forcing attacks during internal penetration tests on hosts that do not have Internet access. |
 
 ## Tools for active enumeration
 
@@ -228,3 +238,28 @@ dnsenum:
 | [gobuster](gobuster.md) | For brute force enumerations.                                                                                |
 | [nslookup](nslookup.md) | .                                                                                                            |
 | [amass](amass.md)       | In depth DNS Enumeration and network mapping.                                                                |
+
+
+## Domain takeover
+
+`Domain takeover` is registering a non-existent domain name to gain control over another domain. Domain takeover is also possible with subdomains called `subdomain takeover`.
+
+Subdomain takeover vulnerabilities occur when a subdomain (subdomain.example.com) is pointing to a service (e.g. GitHub pages, Heroku, etc.) that has been removed or deleted. This allows an attacker to set up a page on the service that was being used and point their page to that subdomain.
+
+The [can-i-take-over-xyz](https://github.com/EdOverflow/can-i-take-over-xyz) repository is also an excellent reference for a subdomain takeover vulnerability.
+
+## DNS spoofing / DNS Cache Poisoning
+
+This attack involves altering legitimate DNS records with false information so that they can be used to redirect online traffic to a fraudulent website.
+
+### Ettercap
+
+From a local network perspective, an attacker can also perform DNS Cache Poisoning using MITM tools like [Ettercap](https://www.ettercap-project.org/) or [Bettercap](https://www.bettercap.org/).
+
+**1.** Edit the `/etc/ettercap/etter.dns` file to map the target domain name (e.g., example.com) that they want to spoof and the attacker's IP address ($IPAttacker) that they want to redirect a user to.
+
+Next, start the `Ettercap` tool and scan for live hosts within the network by navigating to `Hosts > Scan for Hosts`. Once completed, add the target IP address ($ipTarget) to Target1 and add a default gateway IP (e.g., `192.168.152.2`) to Target2.
+
+Activate `dns_spoof` attack by navigating to `Plugins > Manage Plugins`. This sends the target machine with fake DNS responses that will resolve `inlanefreight.com` to IP address $ipAttacker.
+
+After a successful DNS spoof attack, if a victim user coming from the target machine $ipTarget visits the `inlanefreight.com` domain on a web browser, they will be redirected to a fake page that is hosted on IP address $ipAttacker. Also incoming pings will be resolved to $ipAttacker

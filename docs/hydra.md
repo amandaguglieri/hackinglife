@@ -9,7 +9,6 @@ tags:
   - windows
   - passwords
 ---
-
 # Hydra
 
 Hydra can attack nearly 50 services including: Cisco auth, FTP, HTTP, IMAP, RDP, SMB, SSH, Telnet... It uses modules for each protocol

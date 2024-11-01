@@ -84,7 +84,6 @@ john -w=/usr/share/wordlists/rockyou.txt hash.txt
 
 Results:
 
-
 ```
 Using default input encoding: UTF-8
 Loaded 1 password hash (netntlmv2, NTLMv2 C/R [MD4 HMAC-MD5 32/64])
