@@ -37,13 +37,16 @@ sudo nmap $ip -sV -sC -p3306 --script mysql*
 ### From Linux
 
 ```bash
-mysql -u username -pPassword123 -h $ip
+mysql -u username -pPassword123 -h $ip 
 # -h host/ip   
 # -u user As default mysql has a root user with no authentication
 
 mysql --host=INSTANCE_IP --user=root --password=thepassword
 mysql -h <host/IP> -u root -p<password>
 mysql -u root -h <host/IP>
+
+mysql -u root -h example.com -P 3306 -pPassword123
+# -P: port
 ```
 
 #### sqsh
@@ -117,6 +120,12 @@ sudo dpkg -i dbeaver-<version>.deb
 
 ![SQL](img/sql_01.png)
 
+
+```sql
+# Example:
+SELECT * FROM tableName WHERE username != 'john' AND id > 1;
+```
+
 Additionally there are two strings that you can use to comment a line in SQL:
 
 - `#` The hash symbol.
@@ -138,31 +147,72 @@ DROP DATABASE nameofdatabase;
 # Select a database
 USE nameofdatabase;
 
-# Show tablesç
+# Show tables
 SHOW tables;
+
+# DESCRIBE keyword is used to list the table structure with its fields and data types:
+DESCRIBE nameoftable;
 
 # Dump columns from nameOftable
 SELECT * FROM NameOfTable;
 # SELECT name, description FROM products WHERE id=9;
 
+# Another useful SQL clause is LIKE, enabling selecting records by matching a certain pattern. The query below retrieves all records with usernames starting with admin. The % symbol acts as a wildcard and matches all characters after admin. It is used to match zero or more characters. 
+SELECT * FROM logins WHERE username LIKE 'admin%';
+
+SELECT * FROM logins WHERE username NOT LIKE 'Bear';
+
+
+
 # Create a table with some columns in the previously selected database
 CREATE TABLE person(nombre VARCHAR(255), edad INT, id INT);
 
 # Modify, add, or remove a column attribute of a table
-ALTER TABLE persona MODIFY edad VARCHAR(200);
-ALTER TABLE persona ADD description VARCHAR(200);
 ALTER TABLE persona DROP edad VARCHAR(200);
+ALTER TABLE persona ADD edad VARCHAR(200);
+
+#  `NOT NULL` constraint ensures that a particular column is never left empty
+ALTER TABLE persona MODIFY id INT NOT NULL AUTO_INCREMENT;
+
+# `UNIQUE` constraint to ensure that the inserted item are always unique
+ALTER TABLE persona MODIFY nombre VARCHAR(100) UNIQUE NOT NULL;
+
+# Another important keyword is the `DEFAULT` keyword, which is used to specify the default value. `Now()` in MySQL returns the current date and time:
+ALTER TABLE persona ADD date_of_joining DATETIME DEFAULT NOW();
+
+# `PRIMARY KEY`, which we can use to uniquely identify each record in the table
+CREATE TABLE logins (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    date_of_joining DATETIME DEFAULT NOW(),
+    PRIMARY KEY (id)
+    );
+
+# Finally, We can use ALTER to change the name of any table and any of its fields or to delete or add a new column to an existing table. T
+ALTER TABLE tableName ADD newColumn INT;
+
+# We can also rename a column:
+ALTER TABLE tableName RENAME COLUMN newColumn TO oldColumn;
+
+# Or delete a column: 
+ALTER TABLE tableName DROP oldColumn;
 
 # Insert a new row with values in a table
+# INSERT INTO table_name VALUES (column1_value, column2_value, column3_value, ...);
 INSERT INTO persona VALUES("alvaro", 54, 1);
-```
 
+# Insert a new row with values in a table, but skipping some columns
+INSERT INTO table_name(column2, column3, ...) VALUES (column2_value, column3_value, ...);
 
-## Basic queries 
+# We can also insert multiple records at once by separating them with a comma:
+INSERT INTO logins(username, password) VALUES ('john', 'john123!'), ('tom', 'tom123!');
 
-```mysql
 # Show all columns from table
-SELECT * FROM persona
+SELECT * FROM tableName
+
+# Show only some columns from the table
+SELECT column1,column2 FROM tableName
 
 # Select a row from a table filtering by the value of a given column
 SELECT * FROM persona WHERE nombre="alvaro";
@@ -185,6 +235,13 @@ SELECT count(*) from persona;
 # Context: a wordpress database
 # Identify how many distinct authors have published a post in the blog
 SELECT DISTINCT(post_author) from wpdatabase.wp_posts;
+
+# Remove tables and databases from server
+DROP TABLE tableName;
+
+# the UPDATE statement can be used to update specific records within a table, based on certain conditions. Its general syntax is:
+UPDATE tableName SET column1=newvalue1, column2=newvalue2, ... WHERE <condition>;
+
 ```
 
 
@@ -193,7 +250,6 @@ SELECT DISTINCT(post_author) from wpdatabase.wp_posts;
 #<SELECT statement> UNION <other SELECT statement>;
 # Example:
 SELECT name, description FROM products WHERE id=9 UNION SELECT price FROM products WHERE id=9;
-
 ```
 
 

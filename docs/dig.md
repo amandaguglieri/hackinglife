@@ -11,11 +11,13 @@ tags:
 ---
 # dig 
 
-The `dig` command (`Domain Information Groper`) is a versatile and powerful utility for querying DNS servers and retrieving various types of DNS records. Its flexibility and detailed and customizable output make it a go-to choice. 
+!!! tip ""
+	The `dig` command (`Domain Information Groper`) is a versatile and powerful utility for querying DNS servers and retrieving various types of DNS records. Its flexibility and detailed and customizable output make it a go-to choice. 
 
-References:  [https://linux.die.net/man/1/dig](https://linux.die.net/man/1/dig)
+??? abstract "Resources"
+	- References:  [https://linux.die.net/man/1/dig](https://linux.die.net/man/1/dig)
+	- See also [# Port 53 - Domain Name Server (DNS)](53-dns.md).
 
-See also [# Port 53 - Domain Name Server (DNS)](53-dns.md).
 
 ## Footprinting DNS with dig
 

