@@ -22,11 +22,11 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.43">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.44">
     
     
       
-        <title>ssh tunneling - Hacking Life</title>
+        <title>SSH tunneling - Hacking Life</title>
       
     
     
@@ -126,7 +126,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ssh tunneling
+              SSH tunneling
             
           </span>
         </div>
@@ -16314,12 +16314,6 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 
-<hr />
-<p>title: SSH tunneling
-author: amandaguglieri
-TableOfContents: true
-draft:false</p>
-<hr />
 <h1 id="ssh-tunneling">SSH tunneling</h1>
 <h3 id="local-port-forwarding">Local port forwarding</h3>
 <p>In this example we will use this tunneling as a way to access locally to a remote postgresql service: </p>
@@ -16343,14 +16337,13 @@ draft:false</p>
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># -p 1234 as we are targeting the tunnel we created earlier with SSH, we need to specify which is the port the tunnel is listening on.</span>
 </span></code></pre></div>
 <h3 id="dynamic-port-forwarding">Dynamic Port Forwarding</h3>
-<p>Unlike local port forwarding and remote port forwarding, which use a specific local and remote port (earlier we used 1234 and 5432, for instance), dynamic port forwarding uses a single local port and dynamically
-assigns remote ports for each connection.</p>
+<p>Unlike local port forwarding and remote port forwarding, which use a specific local and remote port (earlier we used 1234 and 5432, for instance), dynamic port forwarding uses a single local port and dynamically assigns remote ports for each connection.</p>
 <p>To use dynamic port forwarding with SSH, you can use the ssh command with the -D option, followed by the local port, the remote host and port, and the remote SSH server. For example, the following command will forward traffic from the local port 1234 to the remote server on port 5432, where the PostgreSQL server is running:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ssh<span class="w"> </span>UserNameInTheAttackedMachine@IPOfAttackedMachine<span class="w"> </span>-D<span class="w"> </span><span class="m">1234</span><span class="w"> </span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># -f send the command to the shell&#39;s background right before executing it remotely</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># -N tells SSH not to execute any commands remotely.</span>
 </span></code></pre></div>
-<p>As you can see, this time around we speciify a single local port to which we will direct all the traffic needing forwarding. </p>
+<p>As you can see, this time around we specify a single local port to which we will direct all the traffic needing forwarding. </p>
 <p>If we now try running the same psql command as before, we will get an error. That is because this time around we did not specify a target port for our traffic to be directed to, meaning psql is just sending traffic into the established local socket on port 1234, but never reaches the To make use of dynamic port forwarding, a tool such as proxychains is especially useful. </p>
 <p>In summary and as the name implies, proxychains can be used to tunnel a connection through multiple proxies; a use case for this could be increasing anonymity, as the origin of a connection would be significantl more difficult to trace. </p>
 <p>In our case, we would only tunnel through one such "proxy"; the target machine. The tool is pre-installed on most pentesting distributions (such as ParrotOS and Kali Linux ) and is highly customisable, featuring an array of strategies for tunneling, which can be tampered with in itis configuration file /etc/proxychains4.conf.</p>
@@ -16359,7 +16352,7 @@ assigns remote ports for each connection.</p>
 <li>Ensure that strict_chain is not commented out; ( dynamic_chain and random_chain should be commented out)</li>
 <li>At the very bottom of the file, under [ProxyList], we specify the socks5 (or socks4 ) host and port that we used for our tunnel</li>
 </ol>
-<p>In our case, it would look something like this, as our tunnel is listening at localhost:1234.
+<p>In our case, it would look something like this, as our tunnel is listening at localhost:1234. 
 PostgreSQL service on the target machine.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>[ProxyList]
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a># add proxy here ...
@@ -16374,7 +16367,7 @@ PostgreSQL service on the target machine.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-01-31T19:48:07+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-01-31</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-05T21:44:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-05</span></small></br>
 
 
     <small>Created: January 1, 2023 21:59:36</small>
