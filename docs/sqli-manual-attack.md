@@ -204,6 +204,18 @@ a' or '1'='1' union select tbl_name,2,3,4,5 from sqlite_master --
 
 ```
 
+
+Other interesting queries:
+
+```
+database()
+user()
+@@version
+SLEEP(5)
+current_user()
+```
+
+
 ### SQLite
 
 ```

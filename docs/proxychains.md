@@ -36,3 +36,9 @@ proxychains curl http://example.com
 ```
 
 This request will be addressed to Burpsuite tool.
+
+With proxychains you can use more services. For instance, xfreerdp:
+
+```shell-session
+proxychains xfreerdp /v:$ip /u:$username /p:$password
+```

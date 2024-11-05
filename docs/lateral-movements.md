@@ -9,6 +9,7 @@ tags:
 
 # Lateral movements
 
+Lateral movement is a technique that adversaries use, after compromising an endpoint, to extend access to other hosts or applications in an organization.
 
 ![lateral-movement.png](img/lateral-movement.png)
 

@@ -2,7 +2,7 @@
 title: SSH tunneling
 author: amandaguglieri
 TableOfContents: true
-draft:false
+draft: false
 ---
 
 # SSH tunneling
@@ -33,8 +33,8 @@ psql -U christine -h localhost -p 1234
 ```
 
 ### Dynamic Port Forwarding
-Unlike local port forwarding and remote port forwarding, which use a specific local and remote port (earlier we used 1234 and 5432, for instance), dynamic port forwarding uses a single local port and dynamically
-assigns remote ports for each connection.
+
+Unlike local port forwarding and remote port forwarding, which use a specific local and remote port (earlier we used 1234 and 5432, for instance), dynamic port forwarding uses a single local port and dynamically assigns remote ports for each connection.
 
 To use dynamic port forwarding with SSH, you can use the ssh command with the -D option, followed by the local port, the remote host and port, and the remote SSH server. For example, the following command will forward traffic from the local port 1234 to the remote server on port 5432, where the PostgreSQL server is running:
 
@@ -44,7 +44,7 @@ ssh UserNameInTheAttackedMachine@IPOfAttackedMachine -D 1234
 # -N tells SSH not to execute any commands remotely.
 ```
 
-As you can see, this time around we speciify a single local port to which we will direct all the traffic needing forwarding. 
+As you can see, this time around we specify a single local port to which we will direct all the traffic needing forwarding. 
 
 If we now try running the same psql command as before, we will get an error. That is because this time around we did not specify a target port for our traffic to be directed to, meaning psql is just sending traffic into the established local socket on port 1234, but never reaches the To make use of dynamic port forwarding, a tool such as proxychains is especially useful. 
 
@@ -57,7 +57,7 @@ The minimal changes that we have to make to the file for proxychains to work in 
 1. Ensure that strict_chain is not commented out; ( dynamic_chain and random_chain should be commented out)
 2. At the very bottom of the file, under [ProxyList], we specify the socks5 (or socks4 ) host and port that we used for our tunnel
 
-In our case, it would look something like this, as our tunnel is listening at localhost:1234.
+In our case, it would look something like this, as our tunnel is listening at localhost:1234. 
 PostgreSQL service on the target machine.
 
 ```
