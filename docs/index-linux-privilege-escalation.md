@@ -6,7 +6,7 @@ TableOfContents: true
 tags:
   - privilege escalation
 ---
-
++++
 # Index for Linux Privilege Escalation
 
 ??? note "Guides to have at hand"

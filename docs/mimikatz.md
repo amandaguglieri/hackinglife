@@ -20,7 +20,7 @@ Kiwi module in [a meterpreter in metasploit](metasploit.md) is an adaptation of 
 
 ## No installation, portable
 
-Download from github repo: [https://github.com/gentilkiwi/mimikatz](https://github.com/gentilkiwi/mimikatz).
+Download from: https://github.com/ParrotSec/mimikatz.git
 
 
 ## Basic usage

