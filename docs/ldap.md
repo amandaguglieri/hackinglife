@@ -1,24 +1,19 @@
 ---
-title: Active Directory - LDAP 
+title: LDAP - Active Directory
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - active directory
+  - active
+  - directory
   - ldap
   - windows
 ---
-# Active Directory - LDAP
+# LDAP - Active directory
 
-Active Directory (AD) is a directory service for Windows network environments. 
-
-In the context of Active Directory, a forest is a collection of one or more domain trees that share a common schema and global catalog, while a domain is a logical unit within a forest that represents a security boundary for authentication and authorization purposes.
-
-![AD structure](img/ldap-1.png)
-
+Active Directory (AD) is a directory service for Windows network environments.  Lightweight Directory Access Protocol (LDAP) is an integral part of Active Directory (AD). The **Lightweight Directory Access Protocol** (**LDAP**) is an open, vendor-neutral, industry standard application protocol for accessing and maintaining distributed directory information services over a TCP/IP Internet Protocol (IP) network.
 
 [And what about LDAP? See here](389-636-ldap.md).
-
 
 ## Tools
 
@@ -91,15 +86,6 @@ net localgroup administrators
 # View a user's current rights
 whoami /priv
 ```
-
-**Tool for enumeration**: 
-
-- [Enumeration with LDAP queries](389-636-ldap.md)
-- [PowerView.ps1 from PowerSploit project (powershell)](powerview.md).
-- [The ActiveDirectory PowerShell module (powershell)](activedirectory-powershell-module.md).
-- [BloodHound (C# and PowerShell Collectors)](bloodhound.md).
-- [SharpView (C#)](sharpview.md). 
-
 
 
 A basic AD user account with no added privileges can be used to enumerate the majority of objects contained within AD, including but not limited to:
@@ -249,24 +235,24 @@ Active Directory can be easily misconfigurable. These are common attacks:
 
 ### Cheat sheet so far
 
-| **Command** | **Description** |
-| --------------|-------------------|
-| `xfreerdp /v:$ip /u:htb-student /p:<password>` | RDP to lab target |
-| `Get-ADGroup -Identity "<GROUP NAME"> -Properties *` | Get information about an AD group |
-| `whoami /priv`                                      | View a user's current rights  |
-| ` Get-WindowsCapability -Name RSAT* -Online \| Select-Object -Property Name, State` | Check if RSAT tools are installed |
-| `Get-WindowsCapability -Name RSAT* -Online \| Add-WindowsCapability –Online` | Install all RSAT tools |
-| `runas /netonly /user:htb.local\jackie.may powershell` | Run a utility as another user |
-| `Get-ADObject -LDAPFilter '(objectClass=group)' \| select cn` | LDAP query to return all AD groups |
-| `Get-ADUser -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=2)' \| select name` | List disabled users |
-| `(Get-ADUser -SearchBase "OU=Employees,DC=INLANEFREIGHT,DC=LOCAL" -Filter *).count` | Count all users in an OU |
-| `get-ciminstance win32_product \| fl` | Query for installed software |
-| `Get-ADComputer  -Filter "DNSHostName -like 'SQL*'"` | Get hostnames with the word "SQL" in their hostname |
-| `Get-ADGroup -Filter "adminCount -eq 1" \| select Name` | Get all administrative groups |
-| `Get-ADUser -Filter {adminCount -eq '1' -and DoesNotRequirePreAuth -eq 'True'}` | Find admin users that don't require Kerberos Pre-Auth |
-| `Get-ADUser -Filter {adminCount -gt 0} -Properties admincount,useraccountcontrol` | Enumerate UAC values for admin users |
-| `Get-WmiObject -Class win32_group -Filter "Domain='INLANEFREIGHT'"` | Get AD groups using WMI |
-| `([adsisearcher]"(&(objectClass=Computer))").FindAll()` | Use ADSI to search for all computers |
+| **Command**                                                                              | **Description**                                       |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `xfreerdp /v:$ip /u:htb-student /p:<password>`                                           | RDP to lab target                                     |
+|  `Get-ADGroup -Identity "<GROUP NAME"> -Properties *`                                    | Get information about an AD group                     |
+| `whoami /priv`                                                                           | View a user's current rights                          |
+| ` Get-WindowsCapability -Name RSAT* -Online \| Select-Object -Property Name, State`      | Check if RSAT tools are installed                     |
+| `Get-WindowsCapability -Name RSAT* -Online \| Add-WindowsCapability –Online`             | Install all RSAT tools                                |
+| `runas /netonly /user:htb.local\jackie.may powershell`                                   | Run a utility as another user                         |
+| `Get-ADObject -LDAPFilter '(objectClass=group)' \| select cn`                            | LDAP query to return all AD groups                    |
+| `Get-ADUser -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=2)' \| select name` | List disabled users                                   |
+| `(Get-ADUser -SearchBase "OU=Employees,DC=INLANEFREIGHT,DC=LOCAL" -Filter *).count`      | Count all users in an OU                              |
+| `get-ciminstance win32_product \| fl`                                                    | Query for installed software                          |
+| `Get-ADComputer  -Filter "DNSHostName -like 'SQL*'"`                                     | Get hostnames with the word "SQL" in their hostname   |
+| `Get-ADGroup -Filter "adminCount -eq 1" \| select Name`                                  | Get all administrative groups                         |
+| `Get-ADUser -Filter {adminCount -eq '1' -and DoesNotRequirePreAuth -eq 'True'}`          | Find admin users that don't require Kerberos Pre-Auth |
+| `Get-ADUser -Filter {adminCount -gt 0} -Properties admincount,useraccountcontrol`        | Enumerate UAC values for admin users                  |
+| `Get-WmiObject -Class win32_group -Filter "Domain='INLANEFREIGHT'"`                      | Get AD groups using WMI                               |
+| `([adsisearcher]"(&(objectClass=Computer))").FindAll()`                                  | Use ADSI to search for all computers                  |
 
 
 

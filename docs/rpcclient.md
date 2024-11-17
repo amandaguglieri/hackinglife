@@ -44,6 +44,9 @@ netshareenumall
 # Provides information about a specific share.
 netsharegetinfo <share>
 
+# Get Domain Password Information
+getdompwinfo
+
 # Enumerates all domain users.
 enumdomusers
 
@@ -54,6 +57,12 @@ queryuser <RID>
 
 # Provides information about a specific group.
 querygroup <ID>
+
+# Enumerating Privileges
+enumprivs
+
+# Enumerating SID from LSA
+lsaenumsid
 ```
 
 ### Brute forcing user enumeration with rpcclient

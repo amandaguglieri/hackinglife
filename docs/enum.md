@@ -7,10 +7,10 @@ tags:
   - windows
   - enumeration
 ---
-
 # enum
 
 Enum is a console-based Win32 information enumeration utility. Using null sessions, enum can retrieve userlists, machine lists, sharelists, namelists, group and member lists, password and LSA policy information. enum is also capable of a rudimentary brute force dictionary attack on individual accounts. 
+inux-ng -P 172.16.5.5 -oA ilfreight
 
 ## Installation
 

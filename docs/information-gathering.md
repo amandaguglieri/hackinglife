@@ -89,6 +89,7 @@ More issues fired up by netcraft: cms, server programming,...
 - [https://www.shodan.io/](https://www.shodan.io/)
 
 
+
 #### Wayback machine
 
 We can access several versions of these websites using the [Wayback Machine](http://web.archive.org) to find old versions that may have interesting comments in the source code or files that should not be there.
@@ -121,14 +122,17 @@ A valuable resource for this information is the Domain Name System (DNS). We can
 
 Worth trying: [DNSRecon](dnsrecon.md) and https://domain.glass/
 
-| Tool + Cheat sheet                          | What it does                                                                                                                                                                                                  |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Google dorks](google-dorks.md)             | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using. |
-| [crt.sh](ctr.md)                            | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality.                              |
-| [dnscan](dnscan.md)                         | Python wordlist-based DNS subdomain scanner.                                                                                                                                                                  |
-| [DNSRecon](dnsrecon.md)                     | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.                                                                              |
-| [dnsdumpster.com](https://dnsdumpster.com/) | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process.     |
-| https://domain.glass/                       |                                                                                                                                                                                                               |
+| Tool + Cheat sheet                            | What it does                                                                                                                                                                                                  |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Google dorks](google-dorks.md)               | Google hacking, also named Google dorking, is a hacker technique that uses Google Search and other Google applications to find security holes in the configuration and computer code that websites are using. |
+| [crt.sh](ctr.md)                              | It collects information about SSL certificates. If you visit a domain and it contains a certificate you can extract other subdomain by using the View Certificate functionality.                              |
+| [dnscan](dnscan.md)                           | Python wordlist-based DNS subdomain scanner.                                                                                                                                                                  |
+| [DNSRecon](dnsrecon.md)                       | Preinstalled with Linux: dsnrecon is a simple python script that enables to gather  DNS-oriented  information on a given target.                                                                              |
+| [dnsdumpster.com](https://dnsdumpster.com/)   | DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain. Finding visible hosts from the attackers perspective is an important part of the security assessment process.     |
+| https://domain.glass/                         |                                                                                                                                                                                                               |
+| [viewdns.info](https://viewdns.info/)         |                                                                                                                                                                                                               |
+| [domaintools](https://whois.domaintools.com/) |                                                                                                                                                                                                               |
+|                                               |                                                                                                                                                                                                               |
 
 
 ### 1.3. Reviewing server metafiles
@@ -165,8 +169,17 @@ Some of these files:
 
 Buckets, blob, ...: https://buckets.grayhatwarfare.com/
 
-https://domain.glass/
 
+#### Greyhat Warfare
+
+Monitoring breaches in buckets and storage accounts in the cloud.
+
+[Greyhat Warfare](https://buckets.grayhatwarfare.com/)
+
+#### Trufflehog 
+
+A tool for continuously monitoring **Git, Jira, Slack, Confluence, Microsoft Teams, Sharepoint, and more.**
+[Trufflehog](https://github.com/trufflesecurity/truffleHog)
 
 
 ### 1.6. Fingerprint web application technology and frameworks

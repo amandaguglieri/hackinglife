@@ -11,7 +11,6 @@ tags:
   - reconnaissance
   - tools
 ---
-
 # The ActiveDirectory PowerShell module 
 
 The Active Directory module for Windows PowerShell is a PowerShell module that consolidates a group of cmdlets. You can use these cmdlets to manage your Active Directory domains, Active Directory Lightweight Directory Services (AD LDS) configuration sets, and Active Directory Database Mounting Tool instances in a single, self-contained package.
