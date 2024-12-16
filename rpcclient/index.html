@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.46">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -16472,44 +16472,47 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>The <a href="https://www.geeksforgeeks.org/remote-procedure-call-rpc-in-operating-system/">Remote Procedure Call</a> (<code>RPC</code>) is a central tool to realize operational and work-sharing structures in networks and client-server architectures.</p>
 <p><strong>Remote Procedure Call (RPC)</strong> is a powerful technique for constructing <strong>distributed, client-server based applications</strong>. It is based on extending the conventional local procedure calling so that the <strong>called procedure need not exist in the same address space as the calling procedure</strong>. The two processes may be on the same system, or they may be on different systems with a network connecting them.</p>
 <h2 id="basic-usage">Basic usage</h2>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>shared<span class="w"> </span>folder<span class="w"> </span><span class="o">(</span>same<span class="w"> </span>as<span class="w"> </span>smbclient<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>regard<span class="o">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">rpcclient -U &quot;&quot; 10.129.14.128</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">rpcclient -U&#39;%&#39; 10.10.110.17</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp"># </span>Server<span class="w"> </span>information
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">srvinfo</span>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp"># </span>SMB<span class="w"> </span>NULL<span class="w"> </span>Session<span class="w"> </span>with<span class="w"> </span>rpcclient
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">rpcclient -U &quot;&quot; -N $ip</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>shared<span class="w"> </span>folder<span class="w"> </span><span class="o">(</span>same<span class="w"> </span>as<span class="w"> </span>smbclient<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>regard<span class="o">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">rpcclient -U &quot;&quot; 10.129.14.128</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">rpcclient -U&#39;%&#39; 10.10.110.17</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp"># </span>Enumerate<span class="w"> </span>all<span class="w"> </span>domains<span class="w"> </span>that<span class="w"> </span>are<span class="w"> </span>deployed<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>network<span class="w"> </span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">enumdomains</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp"># </span>Server<span class="w"> </span>information
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">srvinfo</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp"># </span>Provides<span class="w"> </span>domain,<span class="w"> </span>server,<span class="w"> </span>and<span class="w"> </span>user<span class="w"> </span>information<span class="w"> </span>of<span class="w"> </span>deployed<span class="w"> </span>domains.
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">querydominfo</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp"># </span>Enumerate<span class="w"> </span>all<span class="w"> </span>domains<span class="w"> </span>that<span class="w"> </span>are<span class="w"> </span>deployed<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>network<span class="w"> </span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">enumdomains</span>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="gp"># </span>Enumerates<span class="w"> </span>all<span class="w"> </span>available<span class="w"> </span>shares.
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">netshareenumall</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="gp"># </span>Provides<span class="w"> </span>domain,<span class="w"> </span>server,<span class="w"> </span>and<span class="w"> </span>user<span class="w"> </span>information<span class="w"> </span>of<span class="w"> </span>deployed<span class="w"> </span>domains.
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">querydominfo</span>
 </span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>share.
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="go">netsharegetinfo &lt;share&gt;</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="gp"># </span>Enumerates<span class="w"> </span>all<span class="w"> </span>available<span class="w"> </span>shares.
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="go">netshareenumall</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="gp"># </span>Get<span class="w"> </span>Domain<span class="w"> </span>Password<span class="w"> </span>Information
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="go">getdompwinfo</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>share.
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="go">netsharegetinfo &lt;share&gt;</span>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="gp"># </span>Enumerates<span class="w"> </span>all<span class="w"> </span>domain<span class="w"> </span>users.
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="go">enumdomusers</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="gp"># </span>Get<span class="w"> </span>Domain<span class="w"> </span>Password<span class="w"> </span>Information
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="go">getdompwinfo</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>user.
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="go">queryuser &lt;RID&gt;</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="gp">    # </span>An<span class="w"> </span>example:
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="gp">    # </span>rpcclient<span class="w"> </span>$&gt;<span class="w"> </span>queryuser<span class="w"> </span>0x3e8
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>group.
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="go">querygroup &lt;ID&gt;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="gp"># </span>Enumerates<span class="w"> </span>all<span class="w"> </span>domain<span class="w"> </span>users.
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="go">enumdomusers</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>user.
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="go">queryuser &lt;RID&gt;</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="gp">    # </span>An<span class="w"> </span>example:
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="gp">    # </span>rpcclient<span class="w"> </span>$&gt;<span class="w"> </span>queryuser<span class="w"> </span>0x3e8
 </span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="gp"># </span>Enumerating<span class="w"> </span>Privileges
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="go">enumprivs</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>group.
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="go">querygroup &lt;ID&gt;</span>
 </span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="gp"># </span>Enumerating<span class="w"> </span>SID<span class="w"> </span>from<span class="w"> </span>LSA
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="go">lsaenumsid</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="gp"># </span>Enumerating<span class="w"> </span>Privileges
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="go">enumprivs</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="gp"># </span>Enumerating<span class="w"> </span>SID<span class="w"> </span>from<span class="w"> </span>LSA
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="go">lsaenumsid</span>
 </span></code></pre></div>
 <h3 id="brute-forcing-user-enumeration-with-rpcclient">Brute forcing user enumeration with rpcclient</h3>
 <div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">for i in $(seq 500 1100);do rpcclient -N -U &quot;&quot; $ip -c &quot;queryuser 0x$(printf &#39;%x\n&#39; $i)&quot; | grep &quot;User Name\|user_rid\|group_rid&quot; &amp;&amp; echo &quot;&quot;;done</span>
@@ -16517,7 +16520,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-17T21:05:00+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-17</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-12-16T18:19:27+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-12-16</span></small></br>
 
 
     <small>Created: June 27, 2023 18:57:41</small>
@@ -16592,7 +16595,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
