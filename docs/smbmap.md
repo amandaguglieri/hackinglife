@@ -34,6 +34,10 @@ smbmap -H $ip
 # # Enumerate network shares and access associated permissions with recursivity
 smbmap -H $ip -r
 
+# Chack access and permissions level for a folder with recursion
+smbmap -u $username -p $password -d $domain -H $ip -R $nameofFolder --dir-only
+# --dir-only: provides only the output of all directories and did not list all files.
+
 # Download a file from a specific share folder
 smbmap -H $ip --download "folder\file.txt"
 

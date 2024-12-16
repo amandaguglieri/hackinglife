@@ -151,9 +151,12 @@ mimikatz.exe sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638
 
 ### Policies and antivirus
 
+ [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) is Microsoft's application whitelisting solution and gives system administrators control over which applications and files users can run.
+
 ```powershell
 # Enumerate AppLocker policies 
 Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
+# If we find that a file cannot be run from a location, maybe we can try to run it from another location.
 
 # Quickly enumerate whether we are in Full Language Mode or Constrained Language Mode.
 $ExecutionContext.SessionState.LanguageMode

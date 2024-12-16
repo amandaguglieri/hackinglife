@@ -25,6 +25,9 @@ The [Remote Procedure Call](https://www.geeksforgeeks.org/remote-procedure-call-
 ## Basic usage
 
 ```shell-session
+# SMB NULL Session with rpcclient
+rpcclient -U "" -N $ip
+
 # Connect to a remote shared folder (same as smbclient in this regard)
 rpcclient -U "" 10.129.14.128
 rpcclient -U'%' 10.10.110.17
