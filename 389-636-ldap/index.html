@@ -669,6 +669,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -1507,6 +1511,27 @@
   
   <span class="md-ellipsis">
     drozer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dsquery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    dsquery
   </span>
   
 
@@ -4636,6 +4661,27 @@
   
   <span class="md-ellipsis">
     white winter wolf webshell
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windapsearch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    windapsearch
   </span>
   
 
@@ -8138,6 +8184,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Exploiting vuLnDAP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -8405,6 +8466,21 @@
       Exploiting vuLnDAP
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Exploiting vuLnDAP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -16620,6 +16696,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Exploiting vuLnDAP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -16965,10 +17056,43 @@ A Directory service would be a database-like virtual storage that holds data in 
 <p><img alt="example 1" src="../img/ldap1.png" /></p>
 <p><img alt="example 2" src="../img/ldap2.png" /></p>
 <p><img alt="example 3" src="../img/ldap3.png" /></p>
+<h3 id="example">Example</h3>
+<p>When using <a href="../dsquery/">dsquery</a>:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c"># Searching for Domain Controllers</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a> <span class="n">dsquery</span> <span class="p">*</span> <span class="n">-filter</span> <span class="s2">&quot;(userAccountControl:1.2.840.113556.1.4.803:=8192)&quot;</span> <span class="n">-limit</span> <span class="n">5</span> <span class="n">-attr</span> <span class="n">sAMAccountName</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c"># userAccountControl:1.2.840.113556.1.4.803: Specifies that we are looking at the User Account Control (UAC) attributes for an object. This portion can change to include three different values we will explain below when searching for information in AD (also known as Object Identifiers (OIDs).</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c"># =8192 represents the decimal bitmask we want to match in this search. This decimal number corresponds to a corresponding UAC Attribute flag that determines if an attribute like password is not required or account is locked is set. </span>
+</span></code></pre></div>
+<blockquote>
+<p><code>userAccountControl:1.2.840.113556.1.4.803:</code> Specifies that we are looking at the <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties">User Account Control (UAC) attributes</a> for an object.</p>
+<ul>
+<li><code>userAccountControl:1.2.840.113556.1.4.803:</code> Specifies that we are looking at the <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties">User Account Control (UAC) attributes</a> for an object.</li>
+<li>
+<p><code>=8192</code> represents the decimal bitmask we want to match in this search.
+<img alt="" src="../img/uac.png" />
+OIDs are rules used to match bit values with attributes, as seen above. For LDAP and AD, there are three main matching rules:</p>
+</li>
+<li>
+<p><code>1.2.840.113556.1.4.803</code>
+When using this rule as we did in the example above, we are saying the bit value must match completely to meet the search requirements. Great for matching a singular attribute.</p>
+</li>
+<li>
+<p><code>1.2.840.113556.1.4.804</code>
+When using this rule, we are saying that we want our results to show any attribute match if any bit in the chain matches. This works in the case of an object having multiple attributes set.</p>
+</li>
+<li>
+<p><code>1.2.840.113556.1.4.1941</code>
+This rule is used to match filters that apply to the Distinguished Name of an object and will search through all ownership and membership entries.</p>
+</li>
+</ul>
+</blockquote>
+<p>Search users with UAC set to <code>Password Can't Change</code>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>dsquery * -filter &quot;(&amp;(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=64))&quot;
+</span></code></pre></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-17T21:05:00+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-17</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-12-24T16:59:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-12-24</span></small></br>
 
 
     <small>Created: April 23, 2024 19:54:12</small>

@@ -671,6 +671,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -1023,15 +1027,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installation
-    </span>
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#basic-usage" class="md-nav__link">
@@ -1567,6 +1562,27 @@
   
   <span class="md-ellipsis">
     drozer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dsquery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    dsquery
   </span>
   
 
@@ -4696,6 +4712,27 @@
   
   <span class="md-ellipsis">
     white winter wolf webshell
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windapsearch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    windapsearch
   </span>
   
 
@@ -16421,15 +16458,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#basic-usage" class="md-nav__link">
     <span class="md-ellipsis">
       Basic usage
@@ -16457,7 +16485,6 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <h1 id="bloodhound">BloodHound</h1>
 <p>(C# and PowerShell Collectors)</p>
-<h2 id="installation">Installation</h2>
 <p>BloodHound is a single page Javascript web application, built on top of <a href="http://linkurio.us/">Linkurious</a>, compiled with <a href="http://electron.atom.io/">Electron</a>, with a <a href="https://neo4j.com/">Neo4j</a> database fed by a C# data collector.</p>
 <p>Download github repo from: <a href="https://github.com/BloodHoundAD/BloodHound">https://github.com/BloodHoundAD/BloodHound</a>.</p>
 <p>Sharphound is the official data collector for BloodHound.</p>
@@ -16468,29 +16495,30 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div>
 <p>Open the browser at the indicated address: http://localhost:7474/</p>
 <p>The first time it will ask you for default user and password:  neo4j:neo4j.</p>
-<p>After loging into the application you will be prompted to change default password.</p>
-<h2 id="basic-usage">Basic usage</h2>
-<p><strong>1.</strong> Get SharpHound collector working in the victim's machine:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a># Same as with powerview
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>powershell -ep bypass
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a># Launch Sharphound
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>..\Downloads\SharpHound.ps1
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a># Generate a zip file
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>Invoke-BloodHound -CollectionMethod All -Domain CONTROLER.local -ZipFileName loot.zip
+<p>After loging into the application you will be prompted to change default password. We will use later this password to enter the Bloodhound tool.</p>
+<p>Upload and install the bloodhound binary into the foothold: <a href="https://github.com/SpecterOps/BloodHound-Legacy/releases">releases</a>.</p>
+<p>If bloodhound is already installed, you can run the <a href="https://github.com/dirkjanm/BloodHound.py">bloodhound.py</a> in the foothold machine: </p>
+<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">sudo bloodhound-python -u &#39;$username&#39; -p &#39;$password&#39; -ns $ip -d $domain -c all </span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="gp"># </span>-u:<span class="w"> </span>username
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="gp"># </span>-p:<span class="w"> </span>password
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="gp"># </span>-ns:<span class="w"> </span>name<span class="w"> </span>server
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="gp"># </span>-d:<span class="w"> </span>domain
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="gp"># </span>-c:<span class="w"> </span>checks.<span class="w"> </span>With<span class="w"> </span>-c<span class="w"> </span>all<span class="w"> </span>we<span class="w"> </span>are<span class="w"> </span>telling<span class="w"> </span>the<span class="w"> </span>tool<span class="w"> </span>to<span class="w"> </span>run<span class="w"> </span>all<span class="w"> </span>checks.
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="gp"># </span>Once<span class="w"> </span>the<span class="w"> </span>script<span class="w"> </span>finishes,<span class="w"> </span>we<span class="w"> </span>will<span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>files<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>working<span class="w"> </span>directory<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>format<span class="w"> </span>of<span class="w"> </span>&lt;date_object.json&gt;.
 </span></code></pre></div>
-<p><strong>2.</strong> <a href="../transferring-files-techniques-linux/">Transfer</a> loot.zip file to you attacker machine</p>
-<p><strong>3.</strong> Import loot.zip into Bloodhoud.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Launch Bloodhound interface.</span>
+<p>Move the json files to where you have your blodhound tool installed. Open bloodhound, we should have the BloodHound GUI tool loaded with a blank slate. </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Launch Bloodhound interface from your kali attacker machine.</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>bloodhound
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># enter user:password already set before for the neo4j console.</span>
 </span></code></pre></div>
-<p>Click on "Upload data". Upload the file.</p>
+<p>Now we need to upload the data. We can either upload each JSON file one by one or zip them first with a command such as <code>zip -r ilfreight_bh.zip *.json</code> and upload the Zip file. We do this by clicking the <code>Upload Data</code> button on the right side of the window.</p>
+<h2 id="basic-usage">Basic usage</h2>
+<p>Along with the Analytics tab, we can do some  <a href="https://hausec.com/2019/09/09/bloodhound-cypher-cheatsheet/">custom Cypher queries</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-07-05T16:04:22+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-07-05</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-12-24T16:59:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-12-24</span></small></br>
 
 
     <small>Created: May 9, 2023 17:16:52</small>
