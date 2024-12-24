@@ -253,6 +253,7 @@ Active Directory can be easily misconfigurable. These are common attacks:
 | `Get-ADUser -Filter {adminCount -gt 0} -Properties admincount,useraccountcontrol`        | Enumerate UAC values for admin users                  |
 | `Get-WmiObject -Class win32_group -Filter "Domain='INLANEFREIGHT'"`                      | Get AD groups using WMI                               |
 | `([adsisearcher]"(&(objectClass=Computer))").FindAll()`                                  | Use ADSI to search for all computers                  |
+|                                                                                          |                                                       |
 
 
 

@@ -3405,22 +3405,29 @@ Results: mmorgan
 **What is the membercount: of the "Interns" group?**
 
 ```
+# Connect to the machine via ssh
+ssh htb-student@$ip
 
+# ping sweet the network from than machine
+for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
+
+# After determining the target 172.16.5.5, we can enumerate groups with provided creds, and filter by "Interns"
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups | grep Interns
 ```
 
 Results: 10
 
 
-Question
+**Using Bloodhound, determine how many Kerberoastable accounts exist within the INLANEFREIGHT domain. (Submit the number as the answer)**
 
-```
+[For installing and using bloodhound](bloodhound.md).
 
-```
+![Bloodhound](img/blood.png)
 
-Results:
+Results: 13
 
 
-Question
+**What PowerView function allows us to test if a user has administrative access to a local or remote host?**
 
 ```
 

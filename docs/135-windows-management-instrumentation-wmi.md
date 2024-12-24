@@ -20,7 +20,25 @@ The initialization of the WMI communication always takes place on TCP port 135, 
 /usr/share/doc/python3-impacket/examples/wmiexec.py <username>:<"password">@$ip <hostname>
 ```
 
+```powershell
+# Prints the patch level and description of the Hotfixes applied
+wmic qfe get Caption,Description,HotFixID,InstalledOn	
 
-## Source
+# Displays basic host information to include any attributes within the list
+wmic computersystem get Name,Domain,Manufacturer,Model,Username,Roles /format:List	
 
-HackTheBox Academy
+# A listing of all processes on host
+wmic process list /format:list	
+
+# Displays information about the Domain and Domain Controllers
+wmic ntdomain list /format:list	
+
+#Displays information about all local accounts and any domain accounts that have logged into the device
+wmic useraccount list /format:list	
+
+# Information about all local groups
+wmic group list /format:list	
+
+# Dumps information about any system accounts that are being used as service accounts.
+wmic sysaccount list /format:list	
+```

