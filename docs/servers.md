@@ -13,7 +13,7 @@ tags:
 | --------------------------------------------- |
 | [smb server](#smb-server)                     |
 | [Apache server](#apache-server)               |
-| [ngix](#ngix)                                 |
+| [ngix](#nginx)                                 |
 | [symple python server](#simple-python-server) |
 | [php web server](#php-web-server)             |
 | [Ruby web server](#ruby-web-server)           |
@@ -59,7 +59,7 @@ service apache2 status
 
 In Apache, the PHP module loves to execute anything ending in PHP. Also, by default, with Apache, if we hit a directory without an index file (index.html), it will list all the files.
 
-## Nginx
+## nginx
 
 In Apache, the PHP module loves to execute anything ending in PHP. This is not very safe when allowing `HTTP` uploads, as we are trying to avoid that users cannot upload web shells and execute them.
 

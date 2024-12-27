@@ -28,7 +28,6 @@ ping $ip
 
 A typical response from a Windows host will either be 32 or 128. We can utilize this value since most hosts will never be more than 20 hops away from your point of origin, so there is little chance of the TTL counter dropping into the acceptable values of another OS type. More at [https://subinsb.com/default-device-ttl-values/](https://subinsb.com/default-device-ttl-values/).
 
-
 ## Payloads
 
 Payloads types:
