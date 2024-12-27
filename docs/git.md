@@ -180,30 +180,37 @@ To push our local changes into the connected github repo:
 ```bash
 git push -u origin main
 ```
+
 Note: origin references the connection, and main is because we are in the main branch (that's what we are pushing). The first git push is a little different from future gitpushes, since we'll need to use the -u gflag in order to set origin as the defaulto remote repository so we won't have to provide its name every time.
 
 ### Some tricks
 
 #### Counting commits
+
 ```
 git rev-list --count
 ```
+
 If you want to specify a branch name:
+
 ```
 git rev-list --count <branch>
 ```
 
 #### Backing-up untracked files
 Git, along with some Bash command piping, makes it easy to create a zip archive for your untracked files.
+
 ```
 $ git ls-files --others --exclude-standard -z |\
 xargs -0 tar rvf ~/backup-untracked.zip
 ```
 
 #### Viewing a file of another branch
+
 Sometimes you want to view the content of the file from another branch. It's possible with a simple Git command, and without actually switching your branch.
 
 Suppose you have a file called README.md, and it's in the main branch. You're working on a branch called dev: git show main:README.md
+
 ```
 git show <branchName>:<fileName>
 ```
