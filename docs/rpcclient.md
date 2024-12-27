@@ -12,7 +12,6 @@ tags:
   - samba
   - tools
 ---
-
 # rpcclient - A tool for interacting with smb shares
 
 

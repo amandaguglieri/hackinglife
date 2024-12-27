@@ -7,7 +7,7 @@ tags:
   - servers
   - file transfer
 ---
- # Setting up a server (in the attacking machine)
+# Setting up a server (in the attacking machine)
 
 | **Protocol / app**                            |
 | --------------------------------------------- |

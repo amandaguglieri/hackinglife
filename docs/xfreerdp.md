@@ -29,7 +29,7 @@ sudo apt-get install freerdp2-x11
 xfreerdp [/d:domain] /u:<username> /v:$ip
 
 xfreerdp [/d:domain] /u:<username> /p:<password> /v:$ip
-# /v:{target_IP} : Specifies the target IP of the host we would like to connect to.
+# /v:{target_IP} : Specifies  the target IP of the host we would like to connect to.
 
 xfreerdp [/d:domain] /u:<username> /pth:<hash> /v:$ip
 # /pth:<hash>   Pass the hash

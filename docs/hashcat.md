@@ -165,3 +165,19 @@ hashcat -m 5600 hash.txt /usr/share/wordlists/rockyou.txt
 ```bash
 hashcat -m 1800 -a 0 /tmp/unshadowed.hashes rockyou.txt -o /tmp/unshadowed.cracked
 ```
+
+
+### Module 13100: kerberos RC4
+
+```bash
+hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt 
+```
+
+
+### Module 19700: kerberos AES
+
+```bash
+hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt 
+```
+
+

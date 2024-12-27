@@ -44,5 +44,7 @@ sudo apt install python3 python3-pip
 - [samrdump](samrdump.md) 
 - [smbserver](smbserver.md)
 - [PsExec](impacket-psexec.md)
+- [GetUserSPNs](impacket-GetUserSPNs.md)
+-
 
 
