@@ -3385,22 +3385,30 @@ Results: dbranch
 ### Deeper Down the Rabbit Hole
 
 
-Question
+**What AD User has a RID equal to Decimal 1170?**
+
+```
+ssh htb-student@$ip
+rpcclient -U forend 172.16.5.5
+# Enter password when prompted
+
+# In the console of developer tools:
+number=1170; number.toString(16);
+# We obtain 457 as the hex value for that user RID
+
+queryuser 0x457
+```
+
+Results: mmorgan
+
+
+**What is the membercount: of the "Interns" group?**
 
 ```
 
 ```
 
-Results:
-
-
-Question
-
-```
-
-```
-
-Results:
+Results: 10
 
 
 Question

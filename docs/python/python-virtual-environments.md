@@ -30,8 +30,8 @@ sudo gedit ~/.bashrc
 # After opening it, add the following  lines to it :
 
 export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
-source /usr/local/bin/virtualenvwrapper.sh
+export PROJECT_HOME=$HOME/Projects
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 ```
 
 ### Basic usage
