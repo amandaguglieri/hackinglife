@@ -326,52 +326,9 @@ ldapsearch -h $ip -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10
 
 Other tools related to ldap: `windapsearch.py`, `ldapsearch`, `ad-ldapdomaindump.py`.
 
-## 4. Credentials
-
-### LLMNR/NBT-NS Poisoning
-
-[Link-Local Multicast Name Resolution](https://datatracker.ietf.org/doc/html/rfc4795) (LLMNR) and [NetBIOS Name Service](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc940063(v=technet.10)?redirectedfrom=MSDN) (NBT-NS) are Microsoft Windows components that serve as alternate methods of host identification that can be used when DNS fails.
-
-If a machine attempts to resolve a host but DNS resolution fails, typically, the machine will try to ask all other machines on the local network for the correct host address via LLMNR. LLMNR is based upon the Domain Name System (DNS) format and allows hosts on the same local link to perform name resolution for other hosts.
-
-It uses port `5355` over UDP natively. If LLMNR fails, the NBT-NS will be used. NBT-NS identifies systems on a local network by their NetBIOS name. NBT-NS utilizes port `137` over UDP.
-
-The kicker here is that when LLMNR/NBT-NS are used for name resolution, ANY host on the network can reply. This is where we come in with `Responder` to poison these requests.
-
-Several tools can be used to attempt LLMNR & NBT-NS poisoning:
-
-|**Tool**|**Description**|
-|---|---|
-|[Responder](https://github.com/lgandx/Responder)|Responder is a purpose-built tool to poison LLMNR, NBT-NS, and MDNS, with many different functions.|
-|[Inveigh](https://github.com/Kevin-Robertson/Inveigh)|Inveigh is a cross-platform MITM platform that can be used for spoofing and poisoning attacks.|
-|[Metasploit](https://www.metasploit.com/)|Metasploit has several built-in scanners and spoofing modules made to deal with poisoning attacks.|
-
-Listening with responder
-
-```bash
-sudo responder -I ens224 -A -wf
-# sudo privileges or root to make sure that all ports needed are available on our attack host for it to function best.
-# -w: The use of the -w flag utilizes the built-in WPAD proxy server. This can be highly effective, especially in large organizations, because it will capture all HTTP requests by any users that launch Internet Explorer if the browser has Auto-detect settings enabled.
-# -f: attempts to fingerprint the remote host operating system and version.
-```
-
-With this configuration shown above, Responder will listen and answer any requests it sees on the wire.
-
-All saved Hashes are located in Responder's logs directory (`/usr/share/responder/logs/`). 
-
-**NetNTLMv2 hashes are very useful once cracked, but cannot be used for techniques such as pass-the-hash**, meaning we have to attempt to crack them offline with [hashcat](hashcat.md) or [johntheripper](john-the-ripper.md). For example, in the case of a  NetNTLMv2 hash, we can copy the hash to a file and attempt to crack it using the hashcat module 5600. 
-
-```shell-session
-hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt 
-```
-
-[See hashcat for other modules beside 5600](hashcat.md).
-
-> Hashes are also stored in a SQLite database that can be configured in the `Responder.conf` config file, typically located in `/usr/share/responder` unless we clone the Responder repo directly from GitHub.
 
 
-
-## 5. Shares
+## 4. Shares
 
 ### crackmapexec
 

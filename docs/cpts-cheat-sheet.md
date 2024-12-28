@@ -1,3 +1,14 @@
+---
+title: CPTS Cheat sheet
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - certification
+  - CPTS
+  - cheat sheet
+---
+# CPTS Cheat sheet
 
 ## Generic cheat sheet
 

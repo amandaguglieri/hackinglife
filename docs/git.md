@@ -215,6 +215,23 @@ Suppose you have a file called README.md, and it's in the main branch. You're wo
 git show <branchName>:<fileName>
 ```
 
+#### Modify author in commits
+
+```bash
+# Make sure that the author is set globally
+git config --global user.name "username"     
+git config --global user.email "whatever@example.com"    
+
+git rebase -r 787dda7 --exec 'git commit --amend --no-edit --reset-author'
+# -r: rebase until the commit
+# --exec: here we place the command to reset the author
+
+git add .
+git commit -m "updating author"
+
+# After that:
+git push --force origin main
+```
 
 ## Pentesting git
 

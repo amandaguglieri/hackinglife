@@ -92,7 +92,14 @@ If we can guess or gain access to credentials, this allows us to remotely connec
 ```bash
 python3 mssqlclient.py Administrator@$ip -windows-auth  
 # With python3 mssqlclient.py help you can see more options.
+
+# Another example
+mssqlclient.py $domain/$user@$ip -windows-auth
+# Example:
+# mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth
 ```
+
+
 
 
 ### From Windows

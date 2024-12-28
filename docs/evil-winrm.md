@@ -8,7 +8,6 @@ tags:
   - active directory
   - windows remote management
 ---
-
 # Evil-WinRm
 
 Evil-WinRM connects to a target using the Windows Remote Management service combined with the PowerShell Remoting Protocol to establish a PowerShell session with the target.
@@ -25,7 +24,6 @@ evil-winrm -i $ip -u <username -p <password>
 
 evil-winrm -i <ip> -u Administrator -H "<passwordhash>"
 # -H: Hash
-
 ```
 
 

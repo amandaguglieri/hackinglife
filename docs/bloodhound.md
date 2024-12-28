@@ -90,3 +90,21 @@ Along with the Analytics tab, we can do some  [custom Cypher queries](https://h
 - `Find Computers where Domain Users are Local Admin` to quickly see if there are any hosts where all users have local admin rights.
 
 We can also type `domain:` in the search bar and select one.
+
+
+### Enumerate  Remote Desktop Users Group
+
+In Bloodhound, we can use this Cypher query and add it as a custom query:
+
+```cypher
+MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:CanPSRemote*1..]->(c:Computer) RETURN p2
+```
+
+
+### Enumerate  SQL Server Admin
+
+Enumerate via Bloodhound and the `SQLAdmin` edge. We can check for `SQL Admin Rights` in the `Node Info` tab for a given user or use this custom Cypher query to search:
+
+```cypher
+MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:SQLAdmin*1..]->(c:Computer) RETURN p2
+```

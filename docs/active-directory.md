@@ -4,8 +4,7 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - active
-  - directory
+  - active directory
   - ldap
   - windows
 ---
