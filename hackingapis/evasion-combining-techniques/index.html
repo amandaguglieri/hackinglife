@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17325,29 +17348,37 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>1</strong>. Headers such as X-CDN means that the API is leveraging a Content Delivery Network (CDN), which often provides WAFs as a service.</p>
 <p><strong>2</strong>. Use Burp Suite's Proxy and Repeater to watch if your requests are being sent to a proxy (302 sending you to a CDN).</p>
 <p><strong>3</strong>. Use some tools:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span><span class="w"> </span>-script<span class="w"> </span>http-waf-detect<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span><span class="w"> </span>-script<span class="w"> </span>http-waf-detect<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>Also <a href="../../w3af/">w3af</a>, <a href="https://github.com/EnableSecurity/wafw00f">WAFW00f</a>, and this recollection of handy tools: <a href="https://waf-bypass.com/">waf-bypass.com</a>.</p>
 <p>Great article found when searchin for these tools: <a href="https://hacken.io/discover/how-to-bypass-waf-hackenproof-cheat-sheet/">hacken.io</a>.</p>
 <h2 id="techniques-for-evasion">Techniques for evasion</h2>
 <h3 id="1-burners-accounts">1. Burners accounts</h3>
 <p>So there is a WAF. Before attacking, create several extra accounts (or tokens you can dispose). Watch out! When creating these accounts, make sure you use information not associated to your other accounts:</p>
-<div class="language-text highlight"><pre><span></span><code>- Different names and emails.
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>- Different names and emails.
 - Different passwords.
 - Use VPN and disguise your IP.
-</code></pre></div>
+</code></pre></div></td></tr></table></div>
 <h3 id="2-bypassing-controls-with-string-terminators">2. Bypassing controls with string terminators</h3>
 <p><a href="https://raw.githubusercontent.com/amandaguglieri/dictionaries/main/string-terminators.md">Simple payloads</a>.</p>
 <p>Null bytes and other combinations of symbols are often interpreted as string terminators. When not filtered out they could terminate the API security control filters.</p>
 <p>Here an example of a NULL byte included in a <a href="../../webexploitation/cross-site-scripting-xss/">XSS</a>  combined with a <a href="../../webexploitation/sql-injection/">SQL injection</a> attack.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>POST /api/v1/user/profile/update
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>--snip--
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>     {
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        “username”: “&lt;%00script&gt;alert(1);&lt;/%00script&gt;”
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        “pass”: &quot;%00&#39;OR 1=1&quot;
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>POST /api/v1/user/profile/update
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>--snip--
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>     {
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>        “username”: “&lt;%00script&gt;alert(1);&lt;/%00script&gt;”
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>        “pass”: &quot;%00&#39;OR 1=1&quot;
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>}
+</span></code></pre></div></td></tr></table></div>
 <h3 id="3-bypassing-controls-with-case-switching">3. Bypassing controls with case switching</h3>
 <p>Case switching the payload may provoke the WAF not detecting the attack.</p>
 <h3 id="4-bypassing-controls-by-encoding-payloads">4. Bypassing controls by encoding payloads</h3>
@@ -17359,19 +17390,30 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><img alt="BurpSuite Intruder Payload processing" src="../../img/burpsuite-intruder.png" /></p>
 <h3 id="2-wfuzz">2. wfuzz</h3>
 <p><a href="../../wfuzz/">wfuzz Cheat sheet</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Check which wfuzz encoders are available</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>wfuzz<span class="w"> </span>-e<span class="w"> </span>encoders
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># To use an encoder, add a comma to the payload and specify the encoder name</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,path/to/payload.txt,base64<span class="w"> </span>http://hackig-example.com/api/v2/FUZZ
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Using multiple encoders. Each payload will be processed in separated requests.  </span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>list,a,base64-md5-none<span class="w"> </span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># this results in three payloads: one encoded in base64, another in md5 and last with none. </span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># Each payload will be processed by multiple encoders.</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,payload1-payload2,base64@md5@random_upper<span class="w"> </span>-u<span class="w"> </span>http://hackig-example.com/api/v2/FUZZ
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># Check which wfuzz encoders are available</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>wfuzz<span class="w"> </span>-e<span class="w"> </span>encoders
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1"># To use an encoder, add a comma to the payload and specify the encoder name</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,path/to/payload.txt,base64<span class="w"> </span>http://hackig-example.com/api/v2/FUZZ
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="c1"># Using multiple encoders. Each payload will be processed in separated requests.  </span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>list,a,base64-md5-none<span class="w"> </span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="c1"># this results in three payloads: one encoded in base64, another in md5 and last with none. </span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="c1"># Each payload will be processed by multiple encoders.</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,payload1-payload2,base64@md5@random_upper<span class="w"> </span>-u<span class="w"> </span>http://hackig-example.com/api/v2/FUZZ
+</span></code></pre></div></td></tr></table></div>
 <h2 id="testing-rate-limits">Testing rate limits</h2>
 <h3 id="rate-limits-what-for">Rate limits. What for?</h3>
 <ul>
@@ -17388,13 +17430,15 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="techniques">Techniques</h3>
 <p><strong>1. Throttle your scanning</strong></p>
 <p>In wfuzz: </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Units are specified in seconds
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>-s  Specify a time delay between requests.
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>-t Specify the concurrent number of connections
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a># Units are specified in seconds
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>-s  Specify a time delay between requests.
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>-t Specify the concurrent number of connections
+</span></code></pre></div></td></tr></table></div>
 <p>In BurpSuite:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Set up Intruder&#39;s Resource Pool to limit the rate (in milliseconds).
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>Set up Intruder&#39;s Resource Pool to limit the rate (in milliseconds).
+</span></code></pre></div></td></tr></table></div>
 <p><strong>2. Bypassing paths</strong></p>
 <p>When altering slightly the URL path, this could cause the API provider to handle the request diferently, potentially bypassing the rate limit.</p>
 <ul>
@@ -17421,8 +17465,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <ul>
 <li>Install the tool Boto3.</li>
 </ul>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip3<span class="w"> </span>install<span class="w"> </span>boto3
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>pip3<span class="w"> </span>install<span class="w"> </span>boto3
+</span></code></pre></div></td></tr></table></div>
 <ul>
 <li>Install the Jython standalone file from <a href="https://www.jython.org/download.html">https://www.jython.org/download.html</a>.</li>
 <li>You will need an AWS account in which you can create an IAM user. There is a small cost associated with using the AWS API gateway. After downloading the IAM Services page, click Add Users and create an user account with programmatic access selected. On the "Set Permissions page", select "Attach Existing Policies Directly". NExt filter policies by searching for "API". Select the "AmazonAPIGatewayAdministrator" and "AmazonAPIGatewayInvokeFullAccess" permissions. Preceed to the review page.. No tags needed. Skip ahead and create the users. Now, download CSV file containing your user's access key.</li>
@@ -17504,7 +17548,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

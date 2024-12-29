@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -16994,90 +17017,158 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 <h1 id="htb-lame">HTB Lame</h1>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Reconnaissance</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$IP</span><span class="w"> </span>-Pn
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>PORT    STATE SERVICE     VERSION
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>21/tcp  open  ftp         vsftpd 2.3.4
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>| ftp-syst: 
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>|   STAT: 
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>| FTP server status:
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>|      Connected to 10.10.14.2
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>|      Logged in as ftp
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>|      TYPE: ASCII
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>|      No session bandwidth limit
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>|      Session timeout in seconds is 300
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>|      Control connection is plain text
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>|      Data connections will be plain text
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>|      vsFTPd 2.3.4 - secure, fast, stable
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>|_End of status
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>|_ftp-anon: Anonymous FTP login allowed (FTP code 230)
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>22/tcp  open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>| ssh-hostkey: 
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>|   1024 600fcfe1c05f6a74d69024fac4d56ccd (DSA)
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>|_  2048 5656240f211ddea72bae61b1243de8f3 (RSA)
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>445/tcp open  netbios-ssn Samba smbd 3.0.20-Debian (workgroup: WORKGROUP)
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>Host script results:
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>|_clock-skew: mean: 2h00m28s, deviation: 2h49m43s, median: 27s
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>| smb-os-discovery: 
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>|   OS: Unix (Samba 3.0.20-Debian)
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>|   Computer name: lame
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>|   NetBIOS computer name: 
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>|   Domain name: hackthebox.gr
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>|   FQDN: lame.hackthebox.gr
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>|_  System time: 2023-04-18T17:35:18-04:00
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>| p2p-conficker: 
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>|   Checking for Conficker.C or higher...
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>|   Check 1 (port 25444/tcp): CLEAN (Timeout)
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>|   Check 2 (port 29825/tcp): CLEAN (Timeout)
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>|   Check 3 (port 9648/udp): CLEAN (Timeout)
-</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>|   Check 4 (port 21091/udp): CLEAN (Timeout)
-</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>|_  0/4 checks are positive: Host is CLEAN or ports are blocked
-</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>|_smb2-time: Protocol negotiation failed (SMB2)
-</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>| smb-security-mode: 
-</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>|   account_used: &lt;blank&gt;
-</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>|   authentication_level: user
-</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>|   challenge_response: supported
-</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>|_  message_signing: disabled (dangerous, but default)
-</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>
-</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>NSE: Script Post-scanning.
-</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>NSE: Starting runlevel 1 (of 3) scan.
-</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>Initiating NSE at 17:35
-</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>Completed NSE at 17:35, 0.00s elapsed
-</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>NSE: Starting runlevel 2 (of 3) scan.
-</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>Initiating NSE at 17:35
-</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>Completed NSE at 17:35, 0.00s elapsed
-</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>NSE: Starting runlevel 3 (of 3) scan.
-</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>Initiating NSE at 17:35
-</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>Completed NSE at 17:35, 0.00s elapsed
-</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>Read data files from: /usr/bin/../share/nmap
-</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>Nmap done: 1 IP address (1 host up) scanned in 69.50 seconds
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Reconnaissance</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$IP</span><span class="w"> </span>-Pn
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span>
+<span class="normal"><a href="#__codelineno-1-36">36</a></span>
+<span class="normal"><a href="#__codelineno-1-37">37</a></span>
+<span class="normal"><a href="#__codelineno-1-38">38</a></span>
+<span class="normal"><a href="#__codelineno-1-39">39</a></span>
+<span class="normal"><a href="#__codelineno-1-40">40</a></span>
+<span class="normal"><a href="#__codelineno-1-41">41</a></span>
+<span class="normal"><a href="#__codelineno-1-42">42</a></span>
+<span class="normal"><a href="#__codelineno-1-43">43</a></span>
+<span class="normal"><a href="#__codelineno-1-44">44</a></span>
+<span class="normal"><a href="#__codelineno-1-45">45</a></span>
+<span class="normal"><a href="#__codelineno-1-46">46</a></span>
+<span class="normal"><a href="#__codelineno-1-47">47</a></span>
+<span class="normal"><a href="#__codelineno-1-48">48</a></span>
+<span class="normal"><a href="#__codelineno-1-49">49</a></span>
+<span class="normal"><a href="#__codelineno-1-50">50</a></span>
+<span class="normal"><a href="#__codelineno-1-51">51</a></span>
+<span class="normal"><a href="#__codelineno-1-52">52</a></span>
+<span class="normal"><a href="#__codelineno-1-53">53</a></span>
+<span class="normal"><a href="#__codelineno-1-54">54</a></span>
+<span class="normal"><a href="#__codelineno-1-55">55</a></span>
+<span class="normal"><a href="#__codelineno-1-56">56</a></span>
+<span class="normal"><a href="#__codelineno-1-57">57</a></span>
+<span class="normal"><a href="#__codelineno-1-58">58</a></span>
+<span class="normal"><a href="#__codelineno-1-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>PORT    STATE SERVICE     VERSION
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>21/tcp  open  ftp         vsftpd 2.3.4
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>| ftp-syst: 
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>|   STAT: 
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>| FTP server status:
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>|      Connected to 10.10.14.2
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>|      Logged in as ftp
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>|      TYPE: ASCII
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>|      No session bandwidth limit
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>|      Session timeout in seconds is 300
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>|      Control connection is plain text
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>|      Data connections will be plain text
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a>|      vsFTPd 2.3.4 - secure, fast, stable
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a>|_End of status
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a>|_ftp-anon: Anonymous FTP login allowed (FTP code 230)
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a>22/tcp  open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a>| ssh-hostkey: 
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a>|   1024 600fcfe1c05f6a74d69024fac4d56ccd (DSA)
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a>|_  2048 5656240f211ddea72bae61b1243de8f3 (RSA)
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a>139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a>445/tcp open  netbios-ssn Samba smbd 3.0.20-Debian (workgroup: WORKGROUP)
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a>Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a>Host script results:
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a>|_clock-skew: mean: 2h00m28s, deviation: 2h49m43s, median: 27s
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a>| smb-os-discovery: 
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a>|   OS: Unix (Samba 3.0.20-Debian)
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a>|   Computer name: lame
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>|   NetBIOS computer name: 
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a>|   Domain name: hackthebox.gr
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a>|   FQDN: lame.hackthebox.gr
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a>|_  System time: 2023-04-18T17:35:18-04:00
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a>| p2p-conficker: 
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a>|   Checking for Conficker.C or higher...
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a>|   Check 1 (port 25444/tcp): CLEAN (Timeout)
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a>|   Check 2 (port 29825/tcp): CLEAN (Timeout)
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a>|   Check 3 (port 9648/udp): CLEAN (Timeout)
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a>|   Check 4 (port 21091/udp): CLEAN (Timeout)
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a>|_  0/4 checks are positive: Host is CLEAN or ports are blocked
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a>|_smb2-time: Protocol negotiation failed (SMB2)
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a>| smb-security-mode: 
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a>|   account_used: &lt;blank&gt;
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a>|   authentication_level: user
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44"></a>|   challenge_response: supported
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45"></a>|_  message_signing: disabled (dangerous, but default)
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46"></a>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47"></a>NSE: Script Post-scanning.
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48"></a>NSE: Starting runlevel 1 (of 3) scan.
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49"></a>Initiating NSE at 17:35
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50"></a>Completed NSE at 17:35, 0.00s elapsed
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51"></a>NSE: Starting runlevel 2 (of 3) scan.
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52"></a>Initiating NSE at 17:35
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53"></a>Completed NSE at 17:35, 0.00s elapsed
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54"></a>NSE: Starting runlevel 3 (of 3) scan.
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55"></a>Initiating NSE at 17:35
+</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56"></a>Completed NSE at 17:35, 0.00s elapsed
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57"></a>Read data files from: /usr/bin/../share/nmap
+</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58"></a>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59"></a>Nmap done: 1 IP address (1 host up) scanned in 69.50 seconds
+</span></code></pre></div></td></tr></table></div>
 <h2 id="enumeration">Enumeration</h2>
 <p>Samba smbd 3.0.20-Debian is vulnerable. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>smbclient<span class="w"> </span>-L<span class="w"> </span><span class="se">\\</span><span class="nv">$IP</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>smbclient<span class="w"> </span>-L<span class="w"> </span><span class="se">\\</span><span class="nv">$IP</span>
+</span></code></pre></div></td></tr></table></div>
 <p>And enumerate shared resources:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>smbmap<span class="w"> </span>-H<span class="w"> </span><span class="nv">$IP</span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>[+] IP: 10.129.228.86:445       Name: unknown                                           
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>        Disk                                                    Permissions     Comment
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        ----                                                    -----------     -------
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        print$                                                  NO ACCESS       Printer Drivers
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        tmp                                                     READ, WRITE     oh noes!
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        opt                                                     NO ACCESS
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        IPC$                                                    NO ACCESS       IPC Service (lame server (Samba 3.0.20-Debian))
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        ADMIN$                                                  NO ACCESS       IPC Service (lame server (Samba 3.0.20-Debian))
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>smbmap<span class="w"> </span>-H<span class="w"> </span><span class="nv">$IP</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">7</a></span>
+<span class="normal"><a href="#__codelineno-4-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>[+] IP: 10.129.228.86:445       Name: unknown                                           
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>        Disk                                                    Permissions     Comment
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>        ----                                                    -----------     -------
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>        print$                                                  NO ACCESS       Printer Drivers
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>        tmp                                                     READ, WRITE     oh noes!
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>        opt                                                     NO ACCESS
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>        IPC$                                                    NO ACCESS       IPC Service (lame server (Samba 3.0.20-Debian))
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>        ADMIN$                                                  NO ACCESS       IPC Service (lame server (Samba 3.0.20-Debian))
+</span></code></pre></div></td></tr></table></div>
 <p>tmp share has READ and WRITE permissions.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>msfconsole
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>use<span class="w"> </span>exploit/multi/samba/usermap_script
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># configure it and run it</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>msfconsole
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>use<span class="w"> </span>exploit/multi/samba/usermap_script
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1"># configure it and run it</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17153,7 +17244,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

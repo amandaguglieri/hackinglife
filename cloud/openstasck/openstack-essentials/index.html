@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17128,33 +17151,39 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="2-add-stack-user-optional">2. Add Stack User (optional)</h3>
 <p>DevStack should be run as a non-root user with sudo enabled (standard logins to cloud images such as “ubuntu” or “cloud-user” are usually fine).</p>
 <p>If you are not using a cloud image, you can create a separate stack user to run DevStack with</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo useradd -s /bin/bash -d /opt/stack -m stack
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo useradd -s /bin/bash -d /opt/stack -m stack
+</span></code></pre></div></td></tr></table></div>
 <p>Ensure home directory for the <code>stack</code> user has executable permission for all, as RHEL based distros create it with <code>700</code> and Ubuntu 21.04+ with <code>750</code> which can cause issues during deployment.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo chmod +x /opt/stack
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo chmod +x /opt/stack
+</span></code></pre></div></td></tr></table></div>
 <p>Since this user will be making many changes to your system, it should have sudo privileges:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>echo &quot;stack ALL=(ALL) NOPASSWD: ALL&quot; | sudo tee /etc/sudoers.d/stack
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo -u stack -i
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>echo &quot;stack ALL=(ALL) NOPASSWD: ALL&quot; | sudo tee /etc/sudoers.d/stack
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>sudo -u stack -i
+</span></code></pre></div></td></tr></table></div>
 <h3 id="3-download-devstack">3. Download DevStack<a href="https://docs.openstack.org/devstack/latest/#download-devstack" title="Link to this heading"></a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>git clone https://opendev.org/openstack/devstack
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cd devstack
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>git clone https://opendev.org/openstack/devstack
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>cd devstack
+</span></code></pre></div></td></tr></table></div>
 <p>The <code>devstack</code> repo contains a script that installs OpenStack and templates for configuration files.</p>
 <h3 id="4-create-a-localconf">4. Create a local.conf<a href="https://docs.openstack.org/devstack/latest/#create-a-local-conf" title="Link to this heading"></a></h3>
 <p>Create a <code>local.conf</code> file with four passwords preset at the root of the devstack git repo.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>[[local|localrc]]
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>ADMIN_PASSWORD=secret
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>DATABASE_PASSWORD=$ADMIN_PASSWORD
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>RABBIT_PASSWORD=$ADMIN_PASSWORD
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>SERVICE_PASSWORD=$ADMIN_PASSWORD
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>[[local|localrc]]
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>ADMIN_PASSWORD=secret
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>DATABASE_PASSWORD=$ADMIN_PASSWORD
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>RABBIT_PASSWORD=$ADMIN_PASSWORD
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>SERVICE_PASSWORD=$ADMIN_PASSWORD
+</span></code></pre></div></td></tr></table></div>
 <p>This is the minimum required config to get started with DevStack. There is a sample <a href="https://docs.openstack.org/devstack/latest/_downloads/d6fbba8d6ab5e970a86dd2ca0b884098/local.conf"><code>local.conf</code></a> file under the <em>samples</em> directory in the devstack repository.</p>
 <p>Warning: Only use alphanumeric characters in your passwords, as some services fail to work when using special characters.</p>
 <h3 id="5-start-the-install">5. Start the install</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>./stack.sh
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>./stack.sh
+</span></code></pre></div></td></tr></table></div>
 <p>This will take 15 - 30 minutes, largely depending on the speed of your internet connection. Many git trees and packages will be installed during this process.</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17231,7 +17260,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

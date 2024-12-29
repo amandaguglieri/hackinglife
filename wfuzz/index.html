@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17044,44 +17067,69 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h1 id="wfuzz">wfuzz</h1>
 <h2 id="basic-commands">Basic commands</h2>
 <p><img alt="burp-capture" src="../img/hapihacker1.png" /></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>wfuzz<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;email&quot;:&quot;hapihacker@hapihacker.com&quot;,&quot;password&quot;:&quot;PASSWORD&quot;}&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span>-z<span class="w"> </span>file,/usr/share/wordlists/rockyou.txt<span class="w"> </span>-u<span class="w"> </span>http://localhost:8888/identity/api/auth/login<span class="w"> </span>--hc<span class="w"> </span><span class="m">500</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># -H to specify content-type headers. You use a -H flag for each header</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># -d allows you to include the POST Body data. </span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># -u specifies the url</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># --hc/hl/hw/hh hide responses with the specified code/lines/words/chars. In our case, &quot;--hc 500&quot; hides 500 code responses.</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># -z specifies a payload   </span>
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Fuzzing an old api version which doesn&#39;t implement a request limit when resetting password. It allows us to FUZZ the OTP and reset the password for any user.</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>wfuzz<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;email&quot;:&quot;hapihacker@hapihacker.com&quot;, &quot;otp&quot;:&quot;FUZZ&quot; &quot;password&quot;:&quot;NewPasswordreseted&quot;}&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span>-z<span class="w"> </span>file,/usr/share/wordlists/SecLists-master/Fuzzing/4-digits-0000-9999.txt<span class="w"> </span>-u<span class="w"> </span>http://localhost:8888/identity/api/auth/v2/check-otp<span class="w">  </span>--hc<span class="w"> </span><span class="m">500</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>wfuzz<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;email&quot;:&quot;hapihacker@hapihacker.com&quot;,&quot;password&quot;:&quot;PASSWORD&quot;}&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span>-z<span class="w"> </span>file,/usr/share/wordlists/rockyou.txt<span class="w"> </span>-u<span class="w"> </span>http://localhost:8888/identity/api/auth/login<span class="w"> </span>--hc<span class="w"> </span><span class="m">500</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1"># -H to specify content-type headers. You use a -H flag for each header</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1"># -d allows you to include the POST Body data. </span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># -u specifies the url</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c1"># --hc/hl/hw/hh hide responses with the specified code/lines/words/chars. In our case, &quot;--hc 500&quot; hides 500 code responses.</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="c1"># -z specifies a payload   </span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Fuzzing an old api version which doesn&#39;t implement a request limit when resetting password. It allows us to FUZZ the OTP and reset the password for any user.</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>wfuzz<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;email&quot;:&quot;hapihacker@hapihacker.com&quot;, &quot;otp&quot;:&quot;FUZZ&quot; &quot;password&quot;:&quot;NewPasswordreseted&quot;}&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span>-z<span class="w"> </span>file,/usr/share/wordlists/SecLists-master/Fuzzing/4-digits-0000-9999.txt<span class="w"> </span>-u<span class="w"> </span>http://localhost:8888/identity/api/auth/v2/check-otp<span class="w">  </span>--hc<span class="w"> </span><span class="m">500</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Subdomain enumeration:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H &quot;Host: FUZZ.nunchucks.htb&quot; --hl 546</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="gp"># </span>-c:<span class="w"> </span>Color<span class="w"> </span><span class="k">in</span><span class="w"> </span>output
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="gp"># </span>–hc<span class="w"> </span><span class="m">404</span>:<span class="w"> </span>Hide<span class="w"> </span><span class="m">404</span><span class="w"> </span>code<span class="w"> </span>responses
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="gp"># </span>-t<span class="w"> </span><span class="m">200</span>:<span class="w"> </span>Concurrent<span class="w"> </span>Threads
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="gp"># </span>-u<span class="w"> </span>http://nunchucks.htb/:<span class="w"> </span>Target<span class="w"> </span>URL
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="gp"># </span>-w<span class="w"> </span>/usr/share/dirb/wordlists/common.txt:<span class="w"> </span>Wordlist<span class="w"> </span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="gp"># </span>-H<span class="w"> </span>“Host:<span class="w"> </span>FUZZ.nunchucks.htb”:<span class="w"> </span>Header.<span class="w"> </span>Also<span class="w"> </span>with<span class="w"> </span><span class="s2">&quot;FUZZ&quot;</span><span class="w"> </span>we<span class="w"> </span>indicate<span class="w"> </span>the<span class="w"> </span>injection<span class="w"> </span>point<span class="w"> </span><span class="k">for</span><span class="w"> </span>payloads
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="gp"># </span>–hl<span class="w"> </span><span class="m">546</span>:<span class="w"> </span>Filter<span class="w"> </span>out<span class="w"> </span>responses<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>lines.<span class="w"> </span>In<span class="w"> </span>this<span class="w"> </span><span class="k">case</span>,<span class="w"> </span><span class="m">546</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span>
+<span class="normal"><a href="#__codelineno-2-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H &quot;Host: FUZZ.nunchucks.htb&quot; --hl 546</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="gp"># </span>-c:<span class="w"> </span>Color<span class="w"> </span><span class="k">in</span><span class="w"> </span>output
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="gp"># </span>–hc<span class="w"> </span><span class="m">404</span>:<span class="w"> </span>Hide<span class="w"> </span><span class="m">404</span><span class="w"> </span>code<span class="w"> </span>responses
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="gp"># </span>-t<span class="w"> </span><span class="m">200</span>:<span class="w"> </span>Concurrent<span class="w"> </span>Threads
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="gp"># </span>-u<span class="w"> </span>http://nunchucks.htb/:<span class="w"> </span>Target<span class="w"> </span>URL
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="gp"># </span>-w<span class="w"> </span>/usr/share/dirb/wordlists/common.txt:<span class="w"> </span>Wordlist<span class="w"> </span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="gp"># </span>-H<span class="w"> </span>“Host:<span class="w"> </span>FUZZ.nunchucks.htb”:<span class="w"> </span>Header.<span class="w"> </span>Also<span class="w"> </span>with<span class="w"> </span><span class="s2">&quot;FUZZ&quot;</span><span class="w"> </span>we<span class="w"> </span>indicate<span class="w"> </span>the<span class="w"> </span>injection<span class="w"> </span>point<span class="w"> </span><span class="k">for</span><span class="w"> </span>payloads
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="gp"># </span>–hl<span class="w"> </span><span class="m">546</span>:<span class="w"> </span>Filter<span class="w"> </span>out<span class="w"> </span>responses<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>lines.<span class="w"> </span>In<span class="w"> </span>this<span class="w"> </span><span class="k">case</span>,<span class="w"> </span><span class="m">546</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="encoding">Encoding</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Check which wfuzz encoders are available</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>wfuzz<span class="w"> </span>-e<span class="w"> </span>encoders
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># To use an encoder, add a comma to the payload and specify the encoder name</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,path/to/payload.txt,base64<span class="w"> </span>http://hackig-example.com/api/v2/FUZZ
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Using multiple encoders. Each payload will be processed in separated requests.  </span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>list,a,base64-md5-none<span class="w"> </span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># this results in three payloads: one encoded in base64, another in md5 and last with none. </span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># Each payload will be processed by multiple encoders.</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,payload1-payload2,base64@md5@random_upper<span class="w"> </span>-u<span class="w"> </span>http://hackig-example.com/api/v2/FUZZ
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1"># Check which wfuzz encoders are available</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>wfuzz<span class="w"> </span>-e<span class="w"> </span>encoders
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="c1"># To use an encoder, add a comma to the payload and specify the encoder name</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,path/to/payload.txt,base64<span class="w"> </span>http://hackig-example.com/api/v2/FUZZ
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="c1"># Using multiple encoders. Each payload will be processed in separated requests.  </span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>list,a,base64-md5-none<span class="w"> </span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="c1"># this results in three payloads: one encoded in base64, another in md5 and last with none. </span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="c1"># Each payload will be processed by multiple encoders.</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,payload1-payload2,base64@md5@random_upper<span class="w"> </span>-u<span class="w"> </span>http://hackig-example.com/api/v2/FUZZ
+</span></code></pre></div></td></tr></table></div>
 <h3 id="dealing-with-rate-limits-in-apis">Dealing with rate limits (in APIs)</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>-s  Specify a time delay between requests.
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>-t Specify the concurrent number of connections
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>-s  Specify a time delay between requests.
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>-t Specify the concurrent number of connections
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17157,7 +17205,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

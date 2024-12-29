@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17206,34 +17229,37 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <h2 id="footprinting-oracle-tns">Footprinting Oracle TNS</h2>
 <p>Let's now use nmap to scan the default Oracle TNS listener port:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">sudo nmap -p1521 -sV $ip --open</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">sudo nmap -p1521 -sV $ip --open</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="enumerating-sids">Enumerating SIDs</h3>
 <p>In Oracle relational databases, also known as <strong>Oracle RDBMS</strong>, there are System Identifiers (<code>SID</code>).</p>
 <blockquote>
 <p><strong>System Identifiers (SID)</strong> are a unique name that identifies a particular database instance. It can have multiple instances, each with its own System ID. An instance is a set of processes and memory structures that interact to manage the database's data. </p>
 <p>The client uses this SID to identify which database instance it wants to connect to. If there is not a SID in the request, then, the default value defined in the <code>tnsnames.ora</code> file is used.</p>
 </blockquote>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">sudo nmap -p1521 -sV $ip --open --script oracle-sid-brute</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">sudo nmap -p1521 -sV $ip --open --script oracle-sid-brute</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="more-enumeration-with-odat">More enumeration with ODAT</h3>
 <p>We can use the <code>odat.py</code>  from <a href="../odat/">ODAT</a> tool to retrieve database names, versions, running processes, user accounts, vulnerabilities, misconfigurations,...</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">/odat.py all -s $ip</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">/odat.py all -s $ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Addittionaly, if you have sysdba admin rights, you might  upload a web shell to the target (<a href="../odat/">more in odat</a>)  </p>
 <h2 id="connect-to-oracle-database-sqlplus">Connect to Oracle database: sqlplus</h2>
 <p>If we manage to get some credentials we can connect to the Oracle TNS service with <a href="../sqlplus/">sqlplus</a>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">sqlplus &lt;username&gt;/&lt;password&gt;@$ip/XE;</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="gp"># </span>Whereas<span class="w"> </span>XE<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>identified<span class="w"> </span>with<span class="w"> </span>Odat<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>valid<span class="w"> </span>SID
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">sqlplus &lt;username&gt;/&lt;password&gt;@$ip/XE as sysdba</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">sqlplus &lt;username&gt;/&lt;password&gt;@$ip/XE;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="gp"># </span>Whereas<span class="w"> </span>XE<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>identified<span class="w"> </span>with<span class="w"> </span>Odat<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>valid<span class="w"> </span>SID
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="go">sqlplus &lt;username&gt;/&lt;password&gt;@$ip/XE as sysdba</span>
+</span></code></pre></div></td></tr></table></div>
 <p>In case of this error message ( sqlplus: error while loading shared libraries: libsqlplus.so: cannot open shared object file: No such file or directory), there might be an issue with libraries. Possible solution:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">sudo sh -c &quot;echo /usr/lib/oracle/12.2/client64/lib &gt; /etc/ld.so.conf.d/oracle-instantclient.conf&quot;;sudo ldconfig</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">sudo sh -c &quot;echo /usr/lib/oracle/12.2/client64/lib &gt; /etc/ld.so.conf.d/oracle-instantclient.conf&quot;;sudo ldconfig</span>
+</span></code></pre></div></td></tr></table></div>
 <p>The System Database Admin  in an Oracle RDBMS is <strong>sysdba</strong>. If an user has more privileges that they should have we can try to exploit it as sysdba.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">sqlplus &lt;user&gt;/&lt;password&gt;@$ip/XE as sysdba</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">sqlplus &lt;user&gt;/&lt;password&gt;@$ip/XE as sysdba</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="upload-a-web-shell">Upload a web shell</h2>
 <p>If we have sysdba admin rights, we might  upload a webshell to the target. This requires the server to run a webserver, and we need to know the exact location of the root directory for the webserver. However, these are typical default paths for webservers:</p>
 <table>
@@ -17254,35 +17280,59 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tr>
 </tbody>
 </table>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. Create a non suspicious web shell </span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Oracle File Upload Test&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>testing.txt
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 2. Upload  the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>./odat.py<span class="w"> </span>utlfile<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-d<span class="w"> </span>XE<span class="w"> </span>-U<span class="w"> </span>&lt;user&gt;<span class="w"> </span>-P<span class="w"> </span>&lt;password&gt;<span class="w"> </span>--sysdba<span class="w"> </span>--putFile<span class="w"> </span>C:<span class="se">\\</span>inetpub<span class="se">\\</span>wwwroot<span class="w"> </span>testing.txt<span class="w"> </span>./testing.txt
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">## 3. Test if the file upload approach worked with curl, or visit via browser.</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="nv">$ip</span>/testing.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span>
+<span class="normal"><a href="#__codelineno-6-6">6</a></span>
+<span class="normal"><a href="#__codelineno-6-7">7</a></span>
+<span class="normal"><a href="#__codelineno-6-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1"># 1. Create a non suspicious web shell </span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Oracle File Upload Test&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>testing.txt
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c1"># 2. Upload  the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>./odat.py<span class="w"> </span>utlfile<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-d<span class="w"> </span>XE<span class="w"> </span>-U<span class="w"> </span>&lt;user&gt;<span class="w"> </span>-P<span class="w"> </span>&lt;password&gt;<span class="w"> </span>--sysdba<span class="w"> </span>--putFile<span class="w"> </span>C:<span class="se">\\</span>inetpub<span class="se">\\</span>wwwroot<span class="w"> </span>testing.txt<span class="w"> </span>./testing.txt
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="c1">## 3. Test if the file upload approach worked with curl, or visit via browser.</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://<span class="nv">$ip</span>/testing.txt
+</span></code></pre></div></td></tr></table></div>
 <h2 id="oracle-basic-commands">Oracle basic commands</h2>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="gp"># </span>List<span class="w"> </span>all<span class="w"> </span>available<span class="w"> </span>tables<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>database
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="go">select table_name from all_tables;</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="gp"># </span>Show<span class="w"> </span>the<span class="w"> </span>privileges<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>user
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="go">select * from user_role_privs;</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="gp"># </span>If<span class="w"> </span>we<span class="w"> </span>have<span class="w"> </span>sysdba<span class="w"> </span>admin<span class="w"> </span>rights,<span class="w"> </span>we<span class="w"> </span>might:
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="gp">    #</span><span class="c1"># 1. enumerate all databases</span>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="go">select * from user_role_privs;</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="gp">    #</span><span class="c1"># 2. extract Password Hashes</span>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="go">select name, password from sys.user$;</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="gp">    #</span><span class="c1"># 3. upload a web shell to the target. This requires the server to run a web server, and we need to know the exact location of the root directory for the webserver.</span>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="gp">    #</span><span class="c1"># 1. Creating a non suspicious web shell </span>
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="go">echo &quot;Oracle File Upload Test&quot; &gt; testing.txt</span>
-</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="gp">    #</span><span class="c1"># 2. Uploading the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):</span>
-</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="go">./odat.py utlfile -s $ip -d XE -U &lt;user&gt; -P &lt;password&gt; --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span>
+<span class="normal"><a href="#__codelineno-7-13">13</a></span>
+<span class="normal"><a href="#__codelineno-7-14">14</a></span>
+<span class="normal"><a href="#__codelineno-7-15">15</a></span>
+<span class="normal"><a href="#__codelineno-7-16">16</a></span>
+<span class="normal"><a href="#__codelineno-7-17">17</a></span>
+<span class="normal"><a href="#__codelineno-7-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="gp"># </span>List<span class="w"> </span>all<span class="w"> </span>available<span class="w"> </span>tables<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>database
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="go">select table_name from all_tables;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="gp"># </span>Show<span class="w"> </span>the<span class="w"> </span>privileges<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>user
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="go">select * from user_role_privs;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="gp"># </span>If<span class="w"> </span>we<span class="w"> </span>have<span class="w"> </span>sysdba<span class="w"> </span>admin<span class="w"> </span>rights,<span class="w"> </span>we<span class="w"> </span>might:
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="gp">    #</span><span class="c1"># 1. enumerate all databases</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="go">select * from user_role_privs;</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="gp">    #</span><span class="c1"># 2. extract Password Hashes</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="go">select name, password from sys.user$;</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="gp">    #</span><span class="c1"># 3. upload a web shell to the target. This requires the server to run a web server, and we need to know the exact location of the root directory for the webserver.</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="gp">    #</span><span class="c1"># 1. Creating a non suspicious web shell </span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="go">echo &quot;Oracle File Upload Test&quot; &gt; testing.txt</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="gp">    #</span><span class="c1"># 2. Uploading the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18"></a><span class="go">./odat.py utlfile -s $ip -d XE -U &lt;user&gt; -P &lt;password&gt; --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="how-does-oracle-tns-work">How does Oracle TNS work</h2>
 <h3 id="technical-components">Technical components</h3>
 <p><strong>The listener</strong>:  </p>
@@ -17294,47 +17344,80 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <blockquote>
 <p>Each database or service has a unique entry in the <a href="https://docs.oracle.com/cd/E11882_01/network.112/e10835/tnsnames.htm#NETRF007">tnsnames.ora</a> file, containing the necessary information for clients to connect to the service. The entry consists of a name for the service, the network location of the service, and the database or service name that clients should use when connecting to the service.</p>
 </blockquote>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Code: txt
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>&gt;ORCL =
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  (DESCRIPTION =
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    (ADDRESS_LIST =
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>      (ADDRESS = (PROTOCOL = TCP)(HOST = 10.129.11.102)(PORT = 1521))
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    )
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    (CONNECT_DATA =
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>      (SERVER = DEDICATED)
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>      (SERVICE_NAME = orcl)
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    )
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>  )
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>Code: txt
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>&gt;ORCL =
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>  (DESCRIPTION =
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>    (ADDRESS_LIST =
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>      (ADDRESS = (PROTOCOL = TCP)(HOST = 10.129.11.102)(PORT = 1521))
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>    )
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>    (CONNECT_DATA =
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>      (SERVER = DEDICATED)
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>      (SERVICE_NAME = orcl)
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>    )
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>  )
+</span></code></pre></div></td></tr></table></div>
 <p><em>listener.ora</em></p>
 <blockquote>
 <p>The <code>listener.ora</code> file is a server-side configuration file that defines the listener process's properties and parameters, which is responsible for receiving incoming client requests and forwarding them to the appropriate Oracle database instance.</p>
 </blockquote>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>SID_LIST_LISTENER =
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  (SID_LIST =
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    (SID_DESC =
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>      (SID_NAME = PDB1)
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>      (ORACLE_HOME = C:\oracle\product\19.0.0\dbhome_1)
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>      (GLOBAL_DBNAME = PDB1)
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>      (SID_DIRECTORY_LIST =
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>        (SID_DIRECTORY =
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>          (DIRECTORY_TYPE = TNS_ADMIN)
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>          (DIRECTORY = C:\oracle\product\19.0.0\dbhome_1\network\admin)
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>        )
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>      )
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    )
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>  )
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>LISTENER =
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>  (DESCRIPTION_LIST =
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    (DESCRIPTION =
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>      (ADDRESS = (PROTOCOL = TCP)(HOST = orcl.inlanefreight.htb)(PORT = 1521))
-</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
-</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>    )
-</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>  )
-</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>
-</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>ADR_BASE_LISTENER = C:\oracle
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span>
+<span class="normal"><a href="#__codelineno-9-12">12</a></span>
+<span class="normal"><a href="#__codelineno-9-13">13</a></span>
+<span class="normal"><a href="#__codelineno-9-14">14</a></span>
+<span class="normal"><a href="#__codelineno-9-15">15</a></span>
+<span class="normal"><a href="#__codelineno-9-16">16</a></span>
+<span class="normal"><a href="#__codelineno-9-17">17</a></span>
+<span class="normal"><a href="#__codelineno-9-18">18</a></span>
+<span class="normal"><a href="#__codelineno-9-19">19</a></span>
+<span class="normal"><a href="#__codelineno-9-20">20</a></span>
+<span class="normal"><a href="#__codelineno-9-21">21</a></span>
+<span class="normal"><a href="#__codelineno-9-22">22</a></span>
+<span class="normal"><a href="#__codelineno-9-23">23</a></span>
+<span class="normal"><a href="#__codelineno-9-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>SID_LIST_LISTENER =
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>  (SID_LIST =
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>    (SID_DESC =
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>      (SID_NAME = PDB1)
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>      (ORACLE_HOME = C:\oracle\product\19.0.0\dbhome_1)
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>      (GLOBAL_DBNAME = PDB1)
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a>      (SID_DIRECTORY_LIST =
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a>        (SID_DIRECTORY =
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a>          (DIRECTORY_TYPE = TNS_ADMIN)
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10"></a>          (DIRECTORY = C:\oracle\product\19.0.0\dbhome_1\network\admin)
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11"></a>        )
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12"></a>      )
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13"></a>    )
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14"></a>  )
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15"></a>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16"></a>LISTENER =
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17"></a>  (DESCRIPTION_LIST =
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18"></a>    (DESCRIPTION =
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19"></a>      (ADDRESS = (PROTOCOL = TCP)(HOST = orcl.inlanefreight.htb)(PORT = 1521))
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20"></a>      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21"></a>    )
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22"></a>  )
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23"></a>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24"></a>ADR_BASE_LISTENER = C:\oracle
+</span></code></pre></div></td></tr></table></div>
 <h3 id="default-passwords">Default passwords</h3>
 <ul>
 <li>Oracle 9 has a default password, CHANGE_ON_INSTALL.</li>
@@ -17439,8 +17522,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </table>
 <h2 id="extra-bonus-dual">Extra Bonus: DUAL</h2>
 <p>The DUAL is a special one row, one column table present by default in all Oracle databases. The owner of DUAL is SYS, but DUAL can be accessed by every user. This is a possible payload for SQLi:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&#39;+UNION+SELECT+NULL+FROM+dual--
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>&#39;+UNION+SELECT+NULL+FROM+dual--
+</span></code></pre></div></td></tr></table></div>
 <p>Oracle syntax requires the use of FROM, but some queries don't requires any table. For these case we use DUAL. Also Oracle doesn't allow the queries that employ information_schema.tables.</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17517,7 +17600,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

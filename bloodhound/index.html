@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17130,11 +17153,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>(C# and PowerShell Collectors)</p>
 <p>BloodHound is a single page Javascript web application, built on top of <a href="http://linkurio.us/">Linkurious</a>, compiled with <a href="http://electron.atom.io/">Electron</a>, with a <a href="https://neo4j.com/">Neo4j</a> database fed by a C# data collector.</p>
 <p>Download github repo from: <a href="https://github.com/BloodHoundAD/BloodHound">https://github.com/BloodHoundAD/BloodHound</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>bloodhound
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>bloodhound
+</span></code></pre></div></td></tr></table></div>
 <p>Initialize the console:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>neo4j<span class="w"> </span>console<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>neo4j<span class="w"> </span>console<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>Open the browser at the indicated address: http://localhost:7474/</p>
 <p>The first time it will ask you for default user and password:  neo4j:neo4j.</p>
 <p>After loging into the application you will be prompted to change default password. We will use later this password to enter the Bloodhound tool.</p>
@@ -17142,29 +17165,40 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Upload and install the bloodhound binary into the foothold: <a href="https://github.com/SpecterOps/BloodHound-Legacy/releases">releases</a>.</p>
 <h3 id="21-bloodhoundpy">2.1. Bloodhound.py</h3>
 <p>If bloodhound is already installed, you can run the <a href="https://github.com/dirkjanm/BloodHound.py">bloodhound.py</a> in the foothold machine: </p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">sudo bloodhound-python -u &#39;$username&#39; -p &#39;$password&#39; -ns $ip -d $domain -c all </span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="gp"># </span>-u:<span class="w"> </span>username
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="gp"># </span>-p:<span class="w"> </span>password
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="gp"># </span>-ns:<span class="w"> </span>name<span class="w"> </span>server
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="gp"># </span>-d:<span class="w"> </span>domain
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="gp"># </span>-c:<span class="w"> </span>checks.<span class="w"> </span>With<span class="w"> </span>-c<span class="w"> </span>all<span class="w"> </span>we<span class="w"> </span>are<span class="w"> </span>telling<span class="w"> </span>the<span class="w"> </span>tool<span class="w"> </span>to<span class="w"> </span>run<span class="w"> </span>all<span class="w"> </span>checks.
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="gp"># </span>Once<span class="w"> </span>the<span class="w"> </span>script<span class="w"> </span>finishes,<span class="w"> </span>we<span class="w"> </span>will<span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>files<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>working<span class="w"> </span>directory<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>format<span class="w"> </span>of<span class="w"> </span>&lt;date_object.json&gt;.
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span>
+<span class="normal"><a href="#__codelineno-2-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">sudo bloodhound-python -u &#39;$username&#39; -p &#39;$password&#39; -ns $ip -d $domain -c all </span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="gp"># </span>-u:<span class="w"> </span>username
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="gp"># </span>-p:<span class="w"> </span>password
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="gp"># </span>-ns:<span class="w"> </span>name<span class="w"> </span>server
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="gp"># </span>-d:<span class="w"> </span>domain
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="gp"># </span>-c:<span class="w"> </span>checks.<span class="w"> </span>With<span class="w"> </span>-c<span class="w"> </span>all<span class="w"> </span>we<span class="w"> </span>are<span class="w"> </span>telling<span class="w"> </span>the<span class="w"> </span>tool<span class="w"> </span>to<span class="w"> </span>run<span class="w"> </span>all<span class="w"> </span>checks.
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="gp"># </span>Once<span class="w"> </span>the<span class="w"> </span>script<span class="w"> </span>finishes,<span class="w"> </span>we<span class="w"> </span>will<span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>files<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>working<span class="w"> </span>directory<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>format<span class="w"> </span>of<span class="w"> </span>&lt;date_object.json&gt;.
+</span></code></pre></div></td></tr></table></div>
 <h3 id="22-sharphoundexe">2.2. Sharphound.exe</h3>
 <p>Sharphound is the official data collector for BloodHound.</p>
 <p>We run the SharpHound.exe collector from the attack host (our foothold).</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">.\</span><span class="n">SharpHound</span><span class="p">.</span><span class="n">exe</span> <span class="n">-c</span> <span class="n">All</span> <span class="p">-</span><span class="n">-zipfilename</span> <span class="nv">$zipName</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c"># -c: checks. With -c all we are telling the tool to run all checks.</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c"># --zipfilename: saves all to a file, named $zipName</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">.\</span><span class="n">SharpHound</span><span class="p">.</span><span class="n">exe</span> <span class="n">-c</span> <span class="n">All</span> <span class="p">-</span><span class="n">-zipfilename</span> <span class="nv">$zipName</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c"># -c: checks. With -c all we are telling the tool to run all checks.</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c"># --zipfilename: saves all to a file, named $zipName</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="3-using-bloodhound">3. Using bloodhound</h2>
 <p>In our attacker machine we had launched the neo4j database. Now we need to launch bloodhound, and import the generated by the collector files to be interpreted.</p>
 <p>Move the json files to where you have your blodhound tool installed. Open bloodhound, we should have the BloodHound GUI tool loaded with a blank slate. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Launch Bloodhound interface from your kali attacker machine.</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>bloodhound
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># enter user:password already set before for the neo4j console.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1"># Launch Bloodhound interface from your kali attacker machine.</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>bloodhound
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1"># enter user:password already set before for the neo4j console.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now, we upload the data. We can either upload each JSON file one by one or zip them first with a command such as <code>zip -r ilfreight_bh.zip *.json</code> and upload the Zip file. We do this by clicking the <code>Upload Data</code> button on the right side of the window.</p>
 <p>Along with the Analytics tab, we can do some  <a href="https://hausec.com/2019/09/09/bloodhound-cypher-cheatsheet/">custom Cypher queries</a>.</p>
 <ul>
@@ -17174,12 +17208,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>We can also type <code>domain:</code> in the search bar and select one.</p>
 <h3 id="enumerate-remote-desktop-users-group">Enumerate  Remote Desktop Users Group</h3>
 <p>In Bloodhound, we can use this Cypher query and add it as a custom query:</p>
-<div class="language-cypher highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">MATCH</span><span class="w"> </span><span class="n">p1</span><span class="p">=</span><span class="n">shortestPath</span><span class="p">((</span><span class="n">u1</span><span class="p">:</span><span class="n">User</span><span class="p">)</span><span class="o">-[</span><span class="n">r1</span><span class="p">:</span><span class="n">MemberOf</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">g1</span><span class="p">:</span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="k">MATCH</span><span class="w"> </span><span class="n">p2</span><span class="p">=(</span><span class="n">u1</span><span class="p">)</span><span class="o">-[</span><span class="p">:</span><span class="n">CanPSRemote</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">Computer</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="n">p2</span>
-</span></code></pre></div>
+<div class="language-cypher highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="k">MATCH</span><span class="w"> </span><span class="n">p1</span><span class="p">=</span><span class="n">shortestPath</span><span class="p">((</span><span class="n">u1</span><span class="p">:</span><span class="n">User</span><span class="p">)</span><span class="o">-[</span><span class="n">r1</span><span class="p">:</span><span class="n">MemberOf</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">g1</span><span class="p">:</span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="k">MATCH</span><span class="w"> </span><span class="n">p2</span><span class="p">=(</span><span class="n">u1</span><span class="p">)</span><span class="o">-[</span><span class="p">:</span><span class="n">CanPSRemote</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">Computer</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="n">p2</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="enumerate-sql-server-admin">Enumerate  SQL Server Admin</h3>
 <p>Enumerate via Bloodhound and the <code>SQLAdmin</code> edge. We can check for <code>SQL Admin Rights</code> in the <code>Node Info</code> tab for a given user or use this custom Cypher query to search:</p>
-<div class="language-cypher highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">MATCH</span><span class="w"> </span><span class="n">p1</span><span class="p">=</span><span class="n">shortestPath</span><span class="p">((</span><span class="n">u1</span><span class="p">:</span><span class="n">User</span><span class="p">)</span><span class="o">-[</span><span class="n">r1</span><span class="p">:</span><span class="n">MemberOf</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">g1</span><span class="p">:</span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="k">MATCH</span><span class="w"> </span><span class="n">p2</span><span class="p">=(</span><span class="n">u1</span><span class="p">)</span><span class="o">-[</span><span class="p">:</span><span class="n">SQLAdmin</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">Computer</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="n">p2</span>
-</span></code></pre></div>
+<div class="language-cypher highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="k">MATCH</span><span class="w"> </span><span class="n">p1</span><span class="p">=</span><span class="n">shortestPath</span><span class="p">((</span><span class="n">u1</span><span class="p">:</span><span class="n">User</span><span class="p">)</span><span class="o">-[</span><span class="n">r1</span><span class="p">:</span><span class="n">MemberOf</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">g1</span><span class="p">:</span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="k">MATCH</span><span class="w"> </span><span class="n">p2</span><span class="p">=(</span><span class="n">u1</span><span class="p">)</span><span class="o">-[</span><span class="p">:</span><span class="n">SQLAdmin</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">Computer</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="n">p2</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17255,7 +17289,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

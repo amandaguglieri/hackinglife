@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17032,40 +17055,49 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h1 id="masscan-an-ip-scanner">masscan - An IP scanner</h1>
 <p>Masscan was designed to deal with large networks and to scan thousands of Ip addresses at once. It’s faster than nmap but probably less accurate.</p>
 <h2 id="installation">Installation</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>gcc<span class="w"> </span>make<span class="w"> </span>libpcap-dev
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/robertdavidgraham/masscan
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>masscan/
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>make
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>gcc<span class="w"> </span>make<span class="w"> </span>libpcap-dev
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/robertdavidgraham/masscan
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>masscan/
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>make
+</span></code></pre></div></td></tr></table></div>
 <p>"make" puts the program in the <code>masscan/bin</code> subdirectory. To install it (on Linux) run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>make<span class="w"> </span>install
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>make<span class="w"> </span>install
+</span></code></pre></div></td></tr></table></div>
 <p>The source consists of a lot of small files, so building goes a lot faster by using the multi-threaded build. This requires more than 2gigs on a 
 Raspberry Pi (and breaks), so you might use a smaller number, like <code>-j4</code> rather than all possible threads.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>make<span class="w"> </span>-j
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>make<span class="w"> </span>-j
+</span></code></pre></div></td></tr></table></div>
 <p>Make sure that is running properly:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>bin
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>./masscan<span class="w"> </span>--regress
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>bin
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>./masscan<span class="w"> </span>--regress
+</span></code></pre></div></td></tr></table></div>
 <h2 id="usage">Usage</h2>
 <p>Usage is similar to <code>nmap</code>. To scan a network segment for some ports:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>./masscan<span class="w"> </span>-p22,80,443,53,3389,8080,445<span class="w"> </span>-Pn<span class="w"> </span>--rate<span class="o">=</span><span class="m">800</span><span class="w"> </span>--banners<span class="w"> </span><span class="m">10</span>.0.2.1/24<span class="w"> </span>-e<span class="w"> </span>tcp0<span class="w"> </span>--router-ip<span class="w"> </span><span class="m">10</span>.0.2.456<span class="w">  </span>--echo<span class="w"> </span>&gt;<span class="w">  </span>masscan.conf
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># To see the complete list of options, use the `--echo` feature. This dumps the current configuration and exits. This output can be used as input back into the program:</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>./masscan<span class="w"> </span>-p22,80,443,53,3389,8080,445<span class="w"> </span>-Pn<span class="w"> </span>--rate<span class="o">=</span><span class="m">800</span><span class="w"> </span>--banners<span class="w"> </span><span class="m">10</span>.0.2.1/24<span class="w"> </span>-e<span class="w"> </span>tcp0<span class="w"> </span>--router-ip<span class="w"> </span><span class="m">10</span>.0.2.456<span class="w">  </span>--echo<span class="w"> </span>&gt;<span class="w">  </span>masscan.conf
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1"># To see the complete list of options, use the `--echo` feature. This dumps the current configuration and exits. This output can be used as input back into the program:</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Another example:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>masscan<span class="w"> </span>-p80,8000-8100<span class="w"> </span><span class="m">10</span>.0.0.0/8<span class="w"> </span><span class="m">2603</span>:3001:2d00:da00::/112
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># This will scan the `10.x.x.x` subnet, and `2603:3001:2d00:da00::x` subnets</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Scan port 80 and the range 8000 to 8100, or 102 ports total, on both subnets</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Print output to `&lt;stdout&gt;` that can be redirected to a file</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>masscan<span class="w"> </span>-p80,8000-8100<span class="w"> </span><span class="m">10</span>.0.0.0/8<span class="w"> </span><span class="m">2603</span>:3001:2d00:da00::/112
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1"># This will scan the `10.x.x.x` subnet, and `2603:3001:2d00:da00::x` subnets</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1"># Scan port 80 and the range 8000 to 8100, or 102 ports total, on both subnets</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1"># Print output to `&lt;stdout&gt;` that can be redirected to a file</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="editing-config-file">Editing config file</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>nano<span class="w"> </span>masscan.conf
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># here, you add:  output-filename = scan.list //also json, xml</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>nano<span class="w"> </span>masscan.conf
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="c1"># here, you add:  output-filename = scan.list //also json, xml</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now to tun it again using the configuration file: </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>masscan<span class="w"> </span>-c<span class="w"> </span>masscan.conf
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>masscan<span class="w"> </span>-c<span class="w"> </span>masscan.conf
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17141,7 +17173,7 @@ Raspberry Pi (and breaks), so you might use a smaller number, like <code>-j4</co
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

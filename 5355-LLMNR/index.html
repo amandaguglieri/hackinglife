@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17196,16 +17219,19 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="from-linux">From Linux</h2>
 <h3 id="responder">Responder</h3>
 <p>Listening with responder</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>ens224<span class="w"> </span>-A<span class="w"> </span>-wf
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># sudo privileges or root to make sure that all ports needed are available on our attack host for it to function best.</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># -w: The use of the -w flag utilizes the built-in WPAD proxy server. This can be highly effective, especially in large organizations, because it will capture all HTTP requests by any users that launch Internet Explorer if the browser has Auto-detect settings enabled.</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># -f: attempts to fingerprint the remote host operating system and version.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>ens224<span class="w"> </span>-A<span class="w"> </span>-wf
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1"># sudo privileges or root to make sure that all ports needed are available on our attack host for it to function best.</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1"># -w: The use of the -w flag utilizes the built-in WPAD proxy server. This can be highly effective, especially in large organizations, because it will capture all HTTP requests by any users that launch Internet Explorer if the browser has Auto-detect settings enabled.</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># -f: attempts to fingerprint the remote host operating system and version.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>With this configuration shown above, Responder will listen and answer any requests it sees on the wire.</p>
 <p>All saved Hashes are located in Responder's logs directory (<code>/usr/share/responder/logs/</code>). </p>
 <p><strong>NetNTLMv2 hashes are very useful once cracked, but cannot be used for techniques such as pass-the-hash</strong>, meaning we have to attempt to crack them offline with <a href="../hashcat/">hashcat</a> or <a href="../john-the-ripper/">johntheripper</a>. For example, in the case of a  NetNTLMv2 hash, we can copy the hash to a file and attempt to crack it using the hashcat module 5600. </p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt </span>
+</span></code></pre></div></td></tr></table></div>
 <p><a href="../hashcat/">See hashcat for other modules beside 5600</a>.</p>
 <blockquote>
 <p>Hashes are also stored in a SQLite database that can be configured in the <code>Responder.conf</code> config file, typically located in <code>/usr/share/responder</code> unless we clone the Responder repo directly from GitHub.</p>
@@ -17220,66 +17246,109 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h4 id="powershell-version">Powershell version</h4>
 <p>The PowerShell version of Inveigh is the original version and is no longer updated. The tool author maintains the C# version (in the belowed section).
 Configurable parameters in inveigh: <a href="https://github.com/Kevin-Robertson/Inveigh/wiki/Parameters">https://github.com/Kevin-Robertson/Inveigh/wiki/Parameters</a></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a># Install the module
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Import-Module .\Inveigh.ps1
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a># List parameters
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>(Get-Command Invoke-Inveigh).Parameters
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a># Start Inveigh with LLMNR and NBNS spoofing, and output to the console and write to a file.
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span>
+<span class="normal"><a href="#__codelineno-2-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a># Install the module
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Import-Module .\Inveigh.ps1
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a># List parameters
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>(Get-Command Invoke-Inveigh).Parameters
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a># Start Inveigh with LLMNR and NBNS spoofing, and output to the console and write to a file.
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y
+</span></code></pre></div></td></tr></table></div>
 <h4 id="c-inveigh-inveighzero">C# Inveigh (InveighZero)</h4>
 <p>Before we can use the C# version of the tool, we have to compile the executable. </p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">.\</span><span class="n">Inveigh</span><span class="p">.</span><span class="n">exe</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">.\</span><span class="n">Inveigh</span><span class="p">.</span><span class="n">exe</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">[*]</span> <span class="n">Inveigh</span> <span class="n">2</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">4</span> <span class="p">[</span><span class="n">Started</span> <span class="n">2022</span><span class="p">-</span><span class="n">02</span><span class="p">-</span><span class="n">28T20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">28</span> <span class="p">|</span> <span class="n">PID</span> <span class="n">6276</span><span class="p">]</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">[+]</span> <span class="n">Packet</span> <span class="n">Sniffer</span> <span class="n">Addresses</span> <span class="p">[</span><span class="n">IP</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">25</span> <span class="p">|</span> <span class="n">IPv6</span> <span class="n">fe80</span><span class="p">::</span><span class="n">dcec</span><span class="p">:</span><span class="n">2831</span><span class="p">:</span><span class="n">712b</span><span class="p">:</span><span class="n">c9a3</span><span class="k">%</span><span class="n">8</span><span class="p">]</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">[+]</span> <span class="n">Listener</span> <span class="n">Addresses</span> <span class="p">[</span><span class="n">IP</span> <span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span> <span class="p">|</span> <span class="n">IPv6</span> <span class="p">::]</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">[+]</span> <span class="n">Spoofer</span> <span class="n">Reply</span> <span class="n">Addresses</span> <span class="p">[</span><span class="n">IP</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">25</span> <span class="p">|</span> <span class="n">IPv6</span> <span class="n">fe80</span><span class="p">::</span><span class="n">dcec</span><span class="p">:</span><span class="n">2831</span><span class="p">:</span><span class="n">712b</span><span class="p">:</span><span class="n">c9a3</span><span class="k">%</span><span class="n">8</span><span class="p">]</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">[+]</span> <span class="n">Spoofer</span> <span class="n">Options</span> <span class="p">[</span><span class="n">Repeat</span> <span class="n">Enabled</span> <span class="p">|</span> <span class="n">Local</span> <span class="n">Attacks</span> <span class="n">Disabled</span><span class="p">]</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">[</span> <span class="p">]</span> <span class="n">DHCPv6</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">[+]</span> <span class="n">DNS</span> <span class="n">Packet</span> <span class="n">Sniffer</span> <span class="no">[Type A]</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">[</span> <span class="p">]</span> <span class="n">ICMPv6</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">[+]</span> <span class="n">LLMNR</span> <span class="n">Packet</span> <span class="n">Sniffer</span> <span class="no">[Type A]</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">[</span> <span class="p">]</span> <span class="n">MDNS</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">[</span> <span class="p">]</span> <span class="n">NBNS</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">[+]</span> <span class="n">HTTP</span> <span class="n">Listener</span> <span class="p">[</span><span class="n">HTTPAuth</span> <span class="n">NTLM</span> <span class="p">|</span> <span class="n">WPADAuth</span> <span class="n">NTLM</span> <span class="p">|</span> <span class="n">Port</span> <span class="n">80</span><span class="p">]</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">[</span> <span class="p">]</span> <span class="n">HTTPS</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">[+]</span> <span class="n">WebDAV</span> <span class="no">[WebDAVAuth NTLM]</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">[</span> <span class="p">]</span> <span class="n">Proxy</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="p">[+]</span> <span class="n">LDAP</span> <span class="n">Listener</span> <span class="no">[Port 389]</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">[+]</span> <span class="n">SMB</span> <span class="n">Packet</span> <span class="n">Sniffer</span> <span class="no">[Port 445]</span>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="p">[+]</span> <span class="n">File</span> <span class="n">Output</span> <span class="p">[</span><span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">]</span>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="p">[+]</span> <span class="n">Previous</span> <span class="n">Session</span> <span class="n">Files</span> <span class="p">(</span><span class="n">Not</span> <span class="n">Found</span><span class="p">)</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="p">[*]</span> <span class="n">Press</span> <span class="n">ESC</span> <span class="n">to</span> <span class="n">enter</span><span class="p">/</span><span class="n">exit</span> <span class="n">interactive</span> <span class="n">console</span>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="p">[!]</span> <span class="n">Failed</span> <span class="n">to</span> <span class="nb">start </span><span class="n">HTTP</span> <span class="n">listener</span> <span class="n">on</span> <span class="n">port</span> <span class="n">80</span><span class="p">,</span> <span class="n">check</span> <span class="n">IP</span> <span class="n">and</span> <span class="n">port</span> <span class="n">usage</span><span class="p">.</span>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="p">[!]</span> <span class="n">Failed</span> <span class="n">to</span> <span class="nb">start </span><span class="n">HTTPv6</span> <span class="n">listener</span> <span class="n">on</span> <span class="n">port</span> <span class="n">80</span><span class="p">,</span> <span class="n">check</span> <span class="n">IP</span> <span class="n">and</span> <span class="n">port</span> <span class="n">usage</span><span class="p">.</span>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="p">[</span> <span class="p">]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">mDNS</span><span class="p">(</span><span class="n">QM</span><span class="p">)(</span><span class="n">A</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">.</span><span class="n">local</span><span class="p">]</span> <span class="n">from</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">125</span> <span class="no">[disabled]</span>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="p">[</span> <span class="p">]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">mDNS</span><span class="p">(</span><span class="n">QM</span><span class="p">)(</span><span class="n">AAAA</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">.</span><span class="n">local</span><span class="p">]</span> <span class="n">from</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">125</span> <span class="no">[disabled]</span>
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="p">[</span> <span class="p">]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">mDNS</span><span class="p">(</span><span class="n">QM</span><span class="p">)(</span><span class="n">A</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">.</span><span class="n">local</span><span class="p">]</span> <span class="n">from</span> <span class="n">fe80</span><span class="p">::</span><span class="n">f098</span><span class="p">:</span><span class="n">4f63</span><span class="p">:</span><span class="n">8384</span><span class="p">:</span><span class="n">d1d0</span><span class="k">%</span><span class="n">8</span> <span class="no">[disabled]</span>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="p">[</span> <span class="p">]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">mDNS</span><span class="p">(</span><span class="n">QM</span><span class="p">)(</span><span class="n">AAAA</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">.</span><span class="n">local</span><span class="p">]</span> <span class="n">from</span> <span class="n">fe80</span><span class="p">::</span><span class="n">f098</span><span class="p">:</span><span class="n">4f63</span><span class="p">:</span><span class="n">8384</span><span class="p">:</span><span class="n">d1d0</span><span class="k">%</span><span class="n">8</span> <span class="no">[disabled]</span>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="p">[+]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">LLMNR</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">]</span> <span class="n">from</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">125</span> <span class="no">[response sent]</span>
-</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="p">[-]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">LLMNR</span><span class="p">(</span><span class="n">AAAA</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">]</span> <span class="n">from</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">125</span> <span class="no">[type ignored]</span>
-</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="p">[+]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">LLMNR</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">]</span> <span class="n">from</span> <span class="n">fe80</span><span class="p">::</span><span class="n">f098</span><span class="p">:</span><span class="n">4f63</span><span class="p">:</span><span class="n">8384</span><span class="p">:</span><span class="n">d1d0</span><span class="k">%</span><span class="n">8</span> <span class="no">[response sent]</span>
-</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="p">[-]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">LLMNR</span><span class="p">(</span><span class="n">AAAA</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">]</span> <span class="n">from</span> 
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span>
+<span class="normal"><a href="#__codelineno-4-20">20</a></span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span>
+<span class="normal"><a href="#__codelineno-4-22">22</a></span>
+<span class="normal"><a href="#__codelineno-4-23">23</a></span>
+<span class="normal"><a href="#__codelineno-4-24">24</a></span>
+<span class="normal"><a href="#__codelineno-4-25">25</a></span>
+<span class="normal"><a href="#__codelineno-4-26">26</a></span>
+<span class="normal"><a href="#__codelineno-4-27">27</a></span>
+<span class="normal"><a href="#__codelineno-4-28">28</a></span>
+<span class="normal"><a href="#__codelineno-4-29">29</a></span>
+<span class="normal"><a href="#__codelineno-4-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="p">[*]</span> <span class="n">Inveigh</span> <span class="n">2</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">4</span> <span class="p">[</span><span class="n">Started</span> <span class="n">2022</span><span class="p">-</span><span class="n">02</span><span class="p">-</span><span class="n">28T20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">28</span> <span class="p">|</span> <span class="n">PID</span> <span class="n">6276</span><span class="p">]</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="p">[+]</span> <span class="n">Packet</span> <span class="n">Sniffer</span> <span class="n">Addresses</span> <span class="p">[</span><span class="n">IP</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">25</span> <span class="p">|</span> <span class="n">IPv6</span> <span class="n">fe80</span><span class="p">::</span><span class="n">dcec</span><span class="p">:</span><span class="n">2831</span><span class="p">:</span><span class="n">712b</span><span class="p">:</span><span class="n">c9a3</span><span class="k">%</span><span class="n">8</span><span class="p">]</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="p">[+]</span> <span class="n">Listener</span> <span class="n">Addresses</span> <span class="p">[</span><span class="n">IP</span> <span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span> <span class="p">|</span> <span class="n">IPv6</span> <span class="p">::]</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="p">[+]</span> <span class="n">Spoofer</span> <span class="n">Reply</span> <span class="n">Addresses</span> <span class="p">[</span><span class="n">IP</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">25</span> <span class="p">|</span> <span class="n">IPv6</span> <span class="n">fe80</span><span class="p">::</span><span class="n">dcec</span><span class="p">:</span><span class="n">2831</span><span class="p">:</span><span class="n">712b</span><span class="p">:</span><span class="n">c9a3</span><span class="k">%</span><span class="n">8</span><span class="p">]</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="p">[+]</span> <span class="n">Spoofer</span> <span class="n">Options</span> <span class="p">[</span><span class="n">Repeat</span> <span class="n">Enabled</span> <span class="p">|</span> <span class="n">Local</span> <span class="n">Attacks</span> <span class="n">Disabled</span><span class="p">]</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="p">[</span> <span class="p">]</span> <span class="n">DHCPv6</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="p">[+]</span> <span class="n">DNS</span> <span class="n">Packet</span> <span class="n">Sniffer</span> <span class="no">[Type A]</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="p">[</span> <span class="p">]</span> <span class="n">ICMPv6</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="p">[+]</span> <span class="n">LLMNR</span> <span class="n">Packet</span> <span class="n">Sniffer</span> <span class="no">[Type A]</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="p">[</span> <span class="p">]</span> <span class="n">MDNS</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="p">[</span> <span class="p">]</span> <span class="n">NBNS</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="p">[+]</span> <span class="n">HTTP</span> <span class="n">Listener</span> <span class="p">[</span><span class="n">HTTPAuth</span> <span class="n">NTLM</span> <span class="p">|</span> <span class="n">WPADAuth</span> <span class="n">NTLM</span> <span class="p">|</span> <span class="n">Port</span> <span class="n">80</span><span class="p">]</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="p">[</span> <span class="p">]</span> <span class="n">HTTPS</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="p">[+]</span> <span class="n">WebDAV</span> <span class="no">[WebDAVAuth NTLM]</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="p">[</span> <span class="p">]</span> <span class="n">Proxy</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="p">[+]</span> <span class="n">LDAP</span> <span class="n">Listener</span> <span class="no">[Port 389]</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="p">[+]</span> <span class="n">SMB</span> <span class="n">Packet</span> <span class="n">Sniffer</span> <span class="no">[Port 445]</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18"></a><span class="p">[+]</span> <span class="n">File</span> <span class="n">Output</span> <span class="p">[</span><span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">]</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="p">[+]</span> <span class="n">Previous</span> <span class="n">Session</span> <span class="n">Files</span> <span class="p">(</span><span class="n">Not</span> <span class="n">Found</span><span class="p">)</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20"></a><span class="p">[*]</span> <span class="n">Press</span> <span class="n">ESC</span> <span class="n">to</span> <span class="n">enter</span><span class="p">/</span><span class="n">exit</span> <span class="n">interactive</span> <span class="n">console</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="p">[!]</span> <span class="n">Failed</span> <span class="n">to</span> <span class="nb">start </span><span class="n">HTTP</span> <span class="n">listener</span> <span class="n">on</span> <span class="n">port</span> <span class="n">80</span><span class="p">,</span> <span class="n">check</span> <span class="n">IP</span> <span class="n">and</span> <span class="n">port</span> <span class="n">usage</span><span class="p">.</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22"></a><span class="p">[!]</span> <span class="n">Failed</span> <span class="n">to</span> <span class="nb">start </span><span class="n">HTTPv6</span> <span class="n">listener</span> <span class="n">on</span> <span class="n">port</span> <span class="n">80</span><span class="p">,</span> <span class="n">check</span> <span class="n">IP</span> <span class="n">and</span> <span class="n">port</span> <span class="n">usage</span><span class="p">.</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23"></a><span class="p">[</span> <span class="p">]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">mDNS</span><span class="p">(</span><span class="n">QM</span><span class="p">)(</span><span class="n">A</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">.</span><span class="n">local</span><span class="p">]</span> <span class="n">from</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">125</span> <span class="no">[disabled]</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24"></a><span class="p">[</span> <span class="p">]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">mDNS</span><span class="p">(</span><span class="n">QM</span><span class="p">)(</span><span class="n">AAAA</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">.</span><span class="n">local</span><span class="p">]</span> <span class="n">from</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">125</span> <span class="no">[disabled]</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25"></a><span class="p">[</span> <span class="p">]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">mDNS</span><span class="p">(</span><span class="n">QM</span><span class="p">)(</span><span class="n">A</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">.</span><span class="n">local</span><span class="p">]</span> <span class="n">from</span> <span class="n">fe80</span><span class="p">::</span><span class="n">f098</span><span class="p">:</span><span class="n">4f63</span><span class="p">:</span><span class="n">8384</span><span class="p">:</span><span class="n">d1d0</span><span class="k">%</span><span class="n">8</span> <span class="no">[disabled]</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26"></a><span class="p">[</span> <span class="p">]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">mDNS</span><span class="p">(</span><span class="n">QM</span><span class="p">)(</span><span class="n">AAAA</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">.</span><span class="n">local</span><span class="p">]</span> <span class="n">from</span> <span class="n">fe80</span><span class="p">::</span><span class="n">f098</span><span class="p">:</span><span class="n">4f63</span><span class="p">:</span><span class="n">8384</span><span class="p">:</span><span class="n">d1d0</span><span class="k">%</span><span class="n">8</span> <span class="no">[disabled]</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27"></a><span class="p">[+]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">LLMNR</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">]</span> <span class="n">from</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">125</span> <span class="no">[response sent]</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28"></a><span class="p">[-]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">LLMNR</span><span class="p">(</span><span class="n">AAAA</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">]</span> <span class="n">from</span> <span class="n">172</span><span class="p">.</span><span class="n">16</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">125</span> <span class="no">[type ignored]</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29"></a><span class="p">[+]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">LLMNR</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">]</span> <span class="n">from</span> <span class="n">fe80</span><span class="p">::</span><span class="n">f098</span><span class="p">:</span><span class="n">4f63</span><span class="p">:</span><span class="n">8384</span><span class="p">:</span><span class="n">d1d0</span><span class="k">%</span><span class="n">8</span> <span class="no">[response sent]</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30"></a><span class="p">[-]</span> <span class="p">[</span><span class="n">20</span><span class="p">:</span><span class="n">03</span><span class="p">:</span><span class="n">31</span><span class="p">]</span> <span class="n">LLMNR</span><span class="p">(</span><span class="n">AAAA</span><span class="p">)</span> <span class="n">request</span> <span class="p">[</span><span class="n">academy-ea-web0</span><span class="p">]</span> <span class="n">from</span> 
+</span></code></pre></div></td></tr></table></div>
 <ul>
 <li><code>[+]</code>  default option and enabled by default</li>
 <li><code>[ ]</code>  disabled options .</li>
 </ul>
 <p><strong>Console access:</strong> </p>
 <p>Press ESC to enter/exit interactive console. The console gives us access to captured credentials/hashes, allows us to stop Inveigh, and more.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a># List commands
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>&gt; HELP
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a># view unique captured hashes
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>&gt;  GET NTLMV2UNIQUE
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>#  see which usernames we have collected.
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>GET NTLMV2USERNAMES
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span>
+<span class="normal"><a href="#__codelineno-5-7">7</a></span>
+<span class="normal"><a href="#__codelineno-5-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a># List commands
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>&gt; HELP
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a># view unique captured hashes
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>&gt;  GET NTLMV2UNIQUE
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>#  see which usernames we have collected.
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>GET NTLMV2USERNAMES
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17355,7 +17424,7 @@ Configurable parameters in inveigh: <a href="https://github.com/Kevin-Robertson/
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

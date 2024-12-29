@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17033,135 +17056,210 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Dynamic instrumentation toolkit for developers, reverse-engineers, and security researchers.  It lets you inject snippets of JavaScript or your own library into native apps on Windows, macOS, GNU/Linux, iOS, watchOS, tvOS, Android, FreeBSD, and QNX. Frida also provides you with some simple tools built on top of the Frida API. These can be used as-is, tweaked to your needs, or serve as examples of how to use the API. <a href="https://frida.re/docs/home/">More</a>.</p>
 <h2 id="installation-and-set-up">Installation and set up</h2>
 <p>Download it:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>frida-tools
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>frida
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>wget<span class="w"> </span>https://github.com/frida/frida/releases/download/15.1.14/frida-server-15.1.14-android-x86.xz
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>frida-tools
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>frida
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>wget<span class="w"> </span>https://github.com/frida/frida/releases/download/15.1.14/frida-server-15.1.14-android-x86.xz
+</span></code></pre></div></td></tr></table></div>
 <p>Unzip the file with extension xz:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>unxz<span class="w"> </span>frida-server-15.1.14-android-x86.xz
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>unxz<span class="w"> </span>frida-server-15.1.14-android-x86.xz
+</span></code></pre></div></td></tr></table></div>
 <p>Make sure we're connected to the device:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>adb<span class="w"> </span>connect<span class="w"> </span><span class="m">192</span>.168.156.103:5555
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>adb<span class="w"> </span>connect<span class="w"> </span><span class="m">192</span>.168.156.103:5555
+</span></code></pre></div></td></tr></table></div>
 <p>Upload frida file to the device:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>adb<span class="w"> </span>push<span class="w"> </span>frida-server-15.1.14-android-x86<span class="w"> </span>/data/local/tmp/frida-server
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>adb<span class="w"> </span>push<span class="w"> </span>frida-server-15.1.14-android-x86<span class="w"> </span>/data/local/tmp/frida-server
+</span></code></pre></div></td></tr></table></div>
 <p>We go to the path where we have stored the file:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>adb<span class="w"> </span>shell
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>/data/local/temp
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>adb<span class="w"> </span>shell
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>/data/local/temp
+</span></code></pre></div></td></tr></table></div>
 <p>We list contents, see frida-server file, and we change permissions:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ls<span class="w"> </span>-la
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>chmod<span class="w"> </span><span class="m">777</span><span class="w"> </span>frida-server
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>ls<span class="w"> </span>-la
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>chmod<span class="w"> </span><span class="m">777</span><span class="w"> </span>frida-server
+</span></code></pre></div></td></tr></table></div>
 <p>Now we can run the binary:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>./frida-server
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>./frida-server
+</span></code></pre></div></td></tr></table></div>
 <p>From another terminal we can see processes running on the device:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>frida-ps<span class="w"> </span>U
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>frida-ps<span class="w"> </span>U
+</span></code></pre></div></td></tr></table></div>
 <h2 id="install-burp-certificate-in-frida">Install Burp Certificate in Frida</h2>
 <p>Our goal is to install it at: /system/etc/security/cacerts. Here we can find stored Authority certificates and it 's the place where we will install Burp certificate.</p>
 <p>First, we open Burp &gt; Proxy &gt; Options &gt; Proxy Listener and we click on "Import / Export CA Certificate". We save it in DER format to a folder accessible from kali. We can give it the name: cacert.der.</p>
 <p>Second, we convert der format to pem:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-inform<span class="w"> </span>DER<span class="w"> </span>-in<span class="w"> </span>cacert.der<span class="w"> </span>-out<span class="w"> </span>cacert.pem
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-inform<span class="w"> </span>DER<span class="w"> </span>-in<span class="w"> </span>cacert.der<span class="w"> </span>-out<span class="w"> </span>cacert.pem
+</span></code></pre></div></td></tr></table></div>
 <p>Now, we extract the hash that we will use later on to name the certificate.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-inform<span class="w"> </span>PEM<span class="w"> </span>-subject_hash_old<span class="w"> </span>-in<span class="w"> </span>cacert.pem<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-inform<span class="w"> </span>PEM<span class="w"> </span>-subject_hash_old<span class="w"> </span>-in<span class="w"> </span>cacert.pem<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1
+</span></code></pre></div></td></tr></table></div>
 <p>It returns (for instance): 9a5ba575.</p>
 <p>Let's change the name to cacert.pem:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mv<span class="w"> </span>cacert.pem<span class="w"> </span>9a5ba575.0
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>mv<span class="w"> </span>cacert.pem<span class="w"> </span>9a5ba575.0
+</span></code></pre></div></td></tr></table></div>
 <p>To act as root we'll run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>adb<span class="w"> </span>root
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>adb<span class="w"> </span>root
+</span></code></pre></div></td></tr></table></div>
 <p>And to mount again the units:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>adb<span class="w"> </span>remount
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>adb<span class="w"> </span>remount
+</span></code></pre></div></td></tr></table></div>
 <p>Netx step will be to upload the certificate 9a5ba575.0 to the SD Card:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>adb<span class="w"> </span>push<span class="w"> </span>9a5ba575.0<span class="w"> </span>/sdcard/
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>adb<span class="w"> </span>push<span class="w"> </span>9a5ba575.0<span class="w"> </span>/sdcard/
+</span></code></pre></div></td></tr></table></div>
 <p>Let's go to that directory and move the file to our preferred location:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>adb<span class="w"> </span>shell
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">cd</span><span class="w"> </span>/sdcard
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>ls<span class="w"> </span>-la
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>mv<span class="w"> </span>9a5ba575.0<span class="w"> </span>/system/etc/security/cacerts
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span>
+<span class="normal"><a href="#__codelineno-14-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>adb<span class="w"> </span>shell
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="nb">cd</span><span class="w"> </span>/sdcard
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>ls<span class="w"> </span>-la
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a>mv<span class="w"> </span>9a5ba575.0<span class="w"> </span>/system/etc/security/cacerts
+</span></code></pre></div></td></tr></table></div>
 <p>Change permissions to the file:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/system/etc/security/cacerts/9a5ba575.0
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>In<span class="w"> </span>Burp<span class="w"> </span>now<span class="w"> </span>we<span class="w"> </span>need<span class="w"> </span>a<span class="w"> </span>Proxy<span class="w"> </span>Listener.<span class="w"> </span>We<span class="w"> </span>will<span class="w"> </span>indicate<span class="w"> </span>the<span class="w"> </span>Host-Only<span class="w"> </span>IP<span class="w"> </span>that<span class="w"> </span>we<span class="w"> </span>have<span class="w"> </span><span class="k">in</span><span class="w"> </span>our<span class="w"> </span>kali.<span class="w"> </span>For<span class="w"> </span>instance:<span class="w"> </span><span class="m">192</span>.168.156.107.<span class="w"> </span>Port:<span class="w"> </span><span class="m">8080</span>.
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>And<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>wifi<span class="w"> </span>settings<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>virtual<span class="w"> </span>device<span class="w"> </span>running<span class="w"> </span>on<span class="w"> </span>GenyMotion<span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>instance<span class="w"> </span>a<span class="w"> </span>Galaxy6<span class="o">)</span>,<span class="w"> </span>we<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>indicate<span class="w"> </span>this<span class="w"> </span>same<span class="w"> </span>IP<span class="w"> </span>on<span class="w"> </span>Host-Only<span class="w"> </span>mode<span class="w"> </span>from<span class="w"> </span>our<span class="w"> </span>kali.
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span>
+<span class="normal"><a href="#__codelineno-15-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/system/etc/security/cacerts/9a5ba575.0
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>In<span class="w"> </span>Burp<span class="w"> </span>now<span class="w"> </span>we<span class="w"> </span>need<span class="w"> </span>a<span class="w"> </span>Proxy<span class="w"> </span>Listener.<span class="w"> </span>We<span class="w"> </span>will<span class="w"> </span>indicate<span class="w"> </span>the<span class="w"> </span>Host-Only<span class="w"> </span>IP<span class="w"> </span>that<span class="w"> </span>we<span class="w"> </span>have<span class="w"> </span><span class="k">in</span><span class="w"> </span>our<span class="w"> </span>kali.<span class="w"> </span>For<span class="w"> </span>instance:<span class="w"> </span><span class="m">192</span>.168.156.107.<span class="w"> </span>Port:<span class="w"> </span><span class="m">8080</span>.
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>And<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>wifi<span class="w"> </span>settings<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>virtual<span class="w"> </span>device<span class="w"> </span>running<span class="w"> </span>on<span class="w"> </span>GenyMotion<span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>instance<span class="w"> </span>a<span class="w"> </span>Galaxy6<span class="o">)</span>,<span class="w"> </span>we<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>indicate<span class="w"> </span>this<span class="w"> </span>same<span class="w"> </span>IP<span class="w"> </span>on<span class="w"> </span>Host-Only<span class="w"> </span>mode<span class="w"> </span>from<span class="w"> </span>our<span class="w"> </span>kali.
+</span></code></pre></div></td></tr></table></div>
 <h2 id="basic-commands">Basic commands</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a># Display active processes, and installed
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>frida-ps -Ua
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a># Restaurate class loaders
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>Java.perform(function() {
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    var application = Java.use(&quot;android.com.application&quot;);
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    var classloader;
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    application.attach.overload(&#39;android.content.Context&#39;).implementation = function(context) {
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>        var result = this.attach(context);
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        classloader = context.getClassLoader();
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>        Java.classFactory.loader = classloader;
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>    return result;
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>    }
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>})
-</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a># Enumerate classes loaded in memory
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>Java.perform(function() {
-</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    Java.enumerateLoadedClasses
-</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>    ({
-</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>        &quot;onMatch&quot;: function(className) {
-</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>            console.log(className)
-</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>            },
-</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>        &quot;onComplete&quot;: function(){]
-</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>    })
-</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a>})
-</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a>
-</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a># Enumerate classes loaded in memory linked to a specific &lt;package&gt;
-</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a>Java.enumerateLoadedClasses
-</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a>({
-</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a>    &quot;onMatch&quot;: function(className) {
-</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a>        if(className.includes(&quot;&lt;package&gt;&quot;)) {
-</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a>            console.log(className);
-</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a>        }
-</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a>    },
-</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a>    &quot;onComplete&quot;: function(){]
-</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a>});
-</span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38" href="#__codelineno-16-38"></a>
-</span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39" href="#__codelineno-16-39"></a># Android version installed on device
-</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40" href="#__codelineno-16-40"></a>Java.androidVersion
-</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41" href="#__codelineno-16-41"></a>
-</span><span id="__span-16-42"><a id="__codelineno-16-42" name="__codelineno-16-42" href="#__codelineno-16-42"></a># Execute a method of an Activity
-</span><span id="__span-16-43"><a id="__codelineno-16-43" name="__codelineno-16-43" href="#__codelineno-16-43"></a>Java.choose(&quot;&lt;Name and path of the activity&gt;&quot;), {
-</span><span id="__span-16-44"><a id="__codelineno-16-44" name="__codelineno-16-44" href="#__codelineno-16-44"></a>    onMatch: function(instance) {
-</span><span id="__span-16-45"><a id="__codelineno-16-45" name="__codelineno-16-45" href="#__codelineno-16-45"></a>    // This function will be called for every instance found by frida console.log (Found instance: &quot;+ instance).
-</span><span id="__span-16-46"><a id="__codelineno-16-46" name="__codelineno-16-46" href="#__codelineno-16-46"></a>        instace.&lt;Method name&gt;/&lt;function()&gt;;
-</span><span id="__span-16-47"><a id="__codelineno-16-47" name="__codelineno-16-47" href="#__codelineno-16-47"></a>    },
-</span><span id="__span-16-48"><a id="__codelineno-16-48" name="__codelineno-16-48" href="#__codelineno-16-48"></a>    onComplete: function(){}
-</span><span id="__span-16-49"><a id="__codelineno-16-49" name="__codelineno-16-49" href="#__codelineno-16-49"></a>});
-</span><span id="__span-16-50"><a id="__codelineno-16-50" name="__codelineno-16-50" href="#__codelineno-16-50"></a>
-</span><span id="__span-16-51"><a id="__codelineno-16-51" name="__codelineno-16-51" href="#__codelineno-16-51"></a># Save an Activity in a variable
-</span><span id="__span-16-52"><a id="__codelineno-16-52" name="__codelineno-16-52" href="#__codelineno-16-52"></a>var NameofVariable = Java.use(com.android.application.&lt;nameOfActivity&gt;); 
-</span><span id="__span-16-53"><a id="__codelineno-16-53" name="__codelineno-16-53" href="#__codelineno-16-53"></a>
-</span><span id="__span-16-54"><a id="__codelineno-16-54" name="__codelineno-16-54" href="#__codelineno-16-54"></a># Execute a script js from Frida
-</span><span id="__span-16-55"><a id="__codelineno-16-55" name="__codelineno-16-55" href="#__codelineno-16-55"></a>frida -U com.android.applicationName -l instance.js
-</span><span id="__span-16-56"><a id="__codelineno-16-56" name="__codelineno-16-56" href="#__codelineno-16-56"></a>
-</span><span id="__span-16-57"><a id="__codelineno-16-57" name="__codelineno-16-57" href="#__codelineno-16-57"></a># Modify the implementation of a function
-</span><span id="__span-16-58"><a id="__codelineno-16-58" name="__codelineno-16-58" href="#__codelineno-16-58"></a>var activity = Java.use(com.droidhem.basketball.adapters.Game);
-</span><span id="__span-16-59"><a id="__codelineno-16-59" name="__codelineno-16-59" href="#__codelineno-16-59"></a>activity.normalshoot.implementation = function(x,y){
-</span><span id="__span-16-60"><a id="__codelineno-16-60" name="__codelineno-16-60" href="#__codelineno-16-60"></a>    //print the original arguments
-</span><span id="__span-16-61"><a id="__codelineno-16-61" name="__codelineno-16-61" href="#__codelineno-16-61"></a>    console.log(&quot;Dentro de normalshoot&quot;);
-</span><span id="__span-16-62"><a id="__codelineno-16-62" name="__codelineno-16-62" href="#__codelineno-16-62"></a>    this.score.value += 10000;
-</span><span id="__span-16-63"><a id="__codelineno-16-63" name="__codelineno-16-63" href="#__codelineno-16-63"></a>    // in the original code:
-</span><span id="__span-16-64"><a id="__codelineno-16-64" name="__codelineno-16-64" href="#__codelineno-16-64"></a>    // this.score += 2;
-</span><span id="__span-16-65"><a id="__codelineno-16-65" name="__codelineno-16-65" href="#__codelineno-16-65"></a>}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span>
+<span class="normal"><a href="#__codelineno-16-14">14</a></span>
+<span class="normal"><a href="#__codelineno-16-15">15</a></span>
+<span class="normal"><a href="#__codelineno-16-16">16</a></span>
+<span class="normal"><a href="#__codelineno-16-17">17</a></span>
+<span class="normal"><a href="#__codelineno-16-18">18</a></span>
+<span class="normal"><a href="#__codelineno-16-19">19</a></span>
+<span class="normal"><a href="#__codelineno-16-20">20</a></span>
+<span class="normal"><a href="#__codelineno-16-21">21</a></span>
+<span class="normal"><a href="#__codelineno-16-22">22</a></span>
+<span class="normal"><a href="#__codelineno-16-23">23</a></span>
+<span class="normal"><a href="#__codelineno-16-24">24</a></span>
+<span class="normal"><a href="#__codelineno-16-25">25</a></span>
+<span class="normal"><a href="#__codelineno-16-26">26</a></span>
+<span class="normal"><a href="#__codelineno-16-27">27</a></span>
+<span class="normal"><a href="#__codelineno-16-28">28</a></span>
+<span class="normal"><a href="#__codelineno-16-29">29</a></span>
+<span class="normal"><a href="#__codelineno-16-30">30</a></span>
+<span class="normal"><a href="#__codelineno-16-31">31</a></span>
+<span class="normal"><a href="#__codelineno-16-32">32</a></span>
+<span class="normal"><a href="#__codelineno-16-33">33</a></span>
+<span class="normal"><a href="#__codelineno-16-34">34</a></span>
+<span class="normal"><a href="#__codelineno-16-35">35</a></span>
+<span class="normal"><a href="#__codelineno-16-36">36</a></span>
+<span class="normal"><a href="#__codelineno-16-37">37</a></span>
+<span class="normal"><a href="#__codelineno-16-38">38</a></span>
+<span class="normal"><a href="#__codelineno-16-39">39</a></span>
+<span class="normal"><a href="#__codelineno-16-40">40</a></span>
+<span class="normal"><a href="#__codelineno-16-41">41</a></span>
+<span class="normal"><a href="#__codelineno-16-42">42</a></span>
+<span class="normal"><a href="#__codelineno-16-43">43</a></span>
+<span class="normal"><a href="#__codelineno-16-44">44</a></span>
+<span class="normal"><a href="#__codelineno-16-45">45</a></span>
+<span class="normal"><a href="#__codelineno-16-46">46</a></span>
+<span class="normal"><a href="#__codelineno-16-47">47</a></span>
+<span class="normal"><a href="#__codelineno-16-48">48</a></span>
+<span class="normal"><a href="#__codelineno-16-49">49</a></span>
+<span class="normal"><a href="#__codelineno-16-50">50</a></span>
+<span class="normal"><a href="#__codelineno-16-51">51</a></span>
+<span class="normal"><a href="#__codelineno-16-52">52</a></span>
+<span class="normal"><a href="#__codelineno-16-53">53</a></span>
+<span class="normal"><a href="#__codelineno-16-54">54</a></span>
+<span class="normal"><a href="#__codelineno-16-55">55</a></span>
+<span class="normal"><a href="#__codelineno-16-56">56</a></span>
+<span class="normal"><a href="#__codelineno-16-57">57</a></span>
+<span class="normal"><a href="#__codelineno-16-58">58</a></span>
+<span class="normal"><a href="#__codelineno-16-59">59</a></span>
+<span class="normal"><a href="#__codelineno-16-60">60</a></span>
+<span class="normal"><a href="#__codelineno-16-61">61</a></span>
+<span class="normal"><a href="#__codelineno-16-62">62</a></span>
+<span class="normal"><a href="#__codelineno-16-63">63</a></span>
+<span class="normal"><a href="#__codelineno-16-64">64</a></span>
+<span class="normal"><a href="#__codelineno-16-65">65</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a># Display active processes, and installed
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>frida-ps -Ua
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a># Restaurate class loaders
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a>Java.perform(function() {
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a>    var application = Java.use(&quot;android.com.application&quot;);
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a>    var classloader;
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a>    application.attach.overload(&#39;android.content.Context&#39;).implementation = function(context) {
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10"></a>        var result = this.attach(context);
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11"></a>        classloader = context.getClassLoader();
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12"></a>        Java.classFactory.loader = classloader;
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13"></a>    return result;
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14"></a>    }
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15"></a>})
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16"></a>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17"></a># Enumerate classes loaded in memory
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18"></a>Java.perform(function() {
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19"></a>    Java.enumerateLoadedClasses
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20"></a>    ({
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21"></a>        &quot;onMatch&quot;: function(className) {
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22"></a>            console.log(className)
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23"></a>            },
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24"></a>        &quot;onComplete&quot;: function(){]
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25"></a>    })
+</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26"></a>})
+</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27"></a>
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28"></a># Enumerate classes loaded in memory linked to a specific &lt;package&gt;
+</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29"></a>Java.enumerateLoadedClasses
+</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30"></a>({
+</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31"></a>    &quot;onMatch&quot;: function(className) {
+</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32"></a>        if(className.includes(&quot;&lt;package&gt;&quot;)) {
+</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33"></a>            console.log(className);
+</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34"></a>        }
+</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35"></a>    },
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36"></a>    &quot;onComplete&quot;: function(){]
+</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37"></a>});
+</span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38"></a>
+</span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39"></a># Android version installed on device
+</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40"></a>Java.androidVersion
+</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41"></a>
+</span><span id="__span-16-42"><a id="__codelineno-16-42" name="__codelineno-16-42"></a># Execute a method of an Activity
+</span><span id="__span-16-43"><a id="__codelineno-16-43" name="__codelineno-16-43"></a>Java.choose(&quot;&lt;Name and path of the activity&gt;&quot;), {
+</span><span id="__span-16-44"><a id="__codelineno-16-44" name="__codelineno-16-44"></a>    onMatch: function(instance) {
+</span><span id="__span-16-45"><a id="__codelineno-16-45" name="__codelineno-16-45"></a>    // This function will be called for every instance found by frida console.log (Found instance: &quot;+ instance).
+</span><span id="__span-16-46"><a id="__codelineno-16-46" name="__codelineno-16-46"></a>        instace.&lt;Method name&gt;/&lt;function()&gt;;
+</span><span id="__span-16-47"><a id="__codelineno-16-47" name="__codelineno-16-47"></a>    },
+</span><span id="__span-16-48"><a id="__codelineno-16-48" name="__codelineno-16-48"></a>    onComplete: function(){}
+</span><span id="__span-16-49"><a id="__codelineno-16-49" name="__codelineno-16-49"></a>});
+</span><span id="__span-16-50"><a id="__codelineno-16-50" name="__codelineno-16-50"></a>
+</span><span id="__span-16-51"><a id="__codelineno-16-51" name="__codelineno-16-51"></a># Save an Activity in a variable
+</span><span id="__span-16-52"><a id="__codelineno-16-52" name="__codelineno-16-52"></a>var NameofVariable = Java.use(com.android.application.&lt;nameOfActivity&gt;); 
+</span><span id="__span-16-53"><a id="__codelineno-16-53" name="__codelineno-16-53"></a>
+</span><span id="__span-16-54"><a id="__codelineno-16-54" name="__codelineno-16-54"></a># Execute a script js from Frida
+</span><span id="__span-16-55"><a id="__codelineno-16-55" name="__codelineno-16-55"></a>frida -U com.android.applicationName -l instance.js
+</span><span id="__span-16-56"><a id="__codelineno-16-56" name="__codelineno-16-56"></a>
+</span><span id="__span-16-57"><a id="__codelineno-16-57" name="__codelineno-16-57"></a># Modify the implementation of a function
+</span><span id="__span-16-58"><a id="__codelineno-16-58" name="__codelineno-16-58"></a>var activity = Java.use(com.droidhem.basketball.adapters.Game);
+</span><span id="__span-16-59"><a id="__codelineno-16-59" name="__codelineno-16-59"></a>activity.normalshoot.implementation = function(x,y){
+</span><span id="__span-16-60"><a id="__codelineno-16-60" name="__codelineno-16-60"></a>    //print the original arguments
+</span><span id="__span-16-61"><a id="__codelineno-16-61" name="__codelineno-16-61"></a>    console.log(&quot;Dentro de normalshoot&quot;);
+</span><span id="__span-16-62"><a id="__codelineno-16-62" name="__codelineno-16-62"></a>    this.score.value += 10000;
+</span><span id="__span-16-63"><a id="__codelineno-16-63" name="__codelineno-16-63"></a>    // in the original code:
+</span><span id="__span-16-64"><a id="__codelineno-16-64" name="__codelineno-16-64"></a>    // this.score += 2;
+</span><span id="__span-16-65"><a id="__codelineno-16-65" name="__codelineno-16-65"></a>}
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17237,7 +17335,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

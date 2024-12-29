@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17058,51 +17081,84 @@ tags:
 <h3 id="invoke-aesencryptionps1-powershell-script">Invoke-AESEncryption.ps1 PowerShell script</h3>
 <p><a href="https://www.powershellgallery.com/packages/DRTools/4.0.2.3/Content/Functions%5CInvoke-AESEncryption.ps1">Invoke-AESEncryption.ps1</a> PowerShell script</p>
 <p>After the script has been transferred, it only needs to be imported as a module, as shown below.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>PS C:\htb&gt; Import-Module .\Invoke-AESEncryption.ps1
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>PS C:\htb&gt; Import-Module .\Invoke-AESEncryption.ps1
+</span></code></pre></div></td></tr></table></div>
 <p>This command creates an encrypted file with the same name as the encrypted file but with the extension "<code>.aes</code>."
 Cheat sheet for encrypting and decrypting files:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c">############</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c"># ENCRYPTION</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c">############</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c"># Encrypts the string &quot;Secret Test&quot; and outputs a Base64 encoded ciphertext</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">Invoke-AESEncryption</span> <span class="n">-Mode</span> <span class="n">Encrypt</span> <span class="n">-Key</span> <span class="s2">&quot;p@ssw0rd&quot;</span> <span class="n">-Text</span> <span class="s2">&quot;Secret Text&quot;</span> 
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c"># Encrypts the file &quot;file.bin&quot; and outputs an encrypted file &quot;file.bin.aes&quot;</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nb">Invoke-AESEncryption</span> <span class="n">-Mode</span> <span class="n">Encrypt</span> <span class="n">-Key</span> <span class="s2">&quot;p@ssw0rd&quot;</span> <span class="n">-Path</span> <span class="n">file</span><span class="p">.</span><span class="n">bin</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c"># Decrypts the file &quot;file.bin&quot; and outputs an encrypted file &quot;file.bin.aes&quot;</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nb">Invoke-AESEncryption</span> <span class="n">-Mode</span> <span class="n">Encrypt</span> <span class="n">-Key</span> <span class="s2">&quot;p@ssw0rd&quot;</span> <span class="n">-Path</span> <span class="n">file</span><span class="p">.</span><span class="n">bin</span><span class="p">.</span><span class="n">aes</span>
-</span></code></pre></div>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c">############</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c"># DECRYPTION</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c">############</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c"># Decrypts the Base64 encoded string &quot;LtxcRelxrDLrDB9rBD6JrfX/czKjZ2CUJkrg++kAMfs=&quot; and outputs plain text.</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">Invoke-AESEncryption</span> <span class="n">-Mode</span> <span class="n">Decrypt</span> <span class="n">-Key</span> <span class="s2">&quot;p@ssw0rd&quot;</span> <span class="n">-Text</span> <span class="s2">&quot;LtxcRelxrDLrDB9rBD6JrfX/czKjZ2CUJkrg++kAMfs=&quot;</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c">############</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="c"># ENCRYPTION</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c">############</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c"># Encrypts the string &quot;Secret Test&quot; and outputs a Base64 encoded ciphertext</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="nb">Invoke-AESEncryption</span> <span class="n">-Mode</span> <span class="n">Encrypt</span> <span class="n">-Key</span> <span class="s2">&quot;p@ssw0rd&quot;</span> <span class="n">-Text</span> <span class="s2">&quot;Secret Text&quot;</span> 
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="c"># Encrypts the file &quot;file.bin&quot; and outputs an encrypted file &quot;file.bin.aes&quot;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="nb">Invoke-AESEncryption</span> <span class="n">-Mode</span> <span class="n">Encrypt</span> <span class="n">-Key</span> <span class="s2">&quot;p@ssw0rd&quot;</span> <span class="n">-Path</span> <span class="n">file</span><span class="p">.</span><span class="n">bin</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="c"># Decrypts the file &quot;file.bin&quot; and outputs an encrypted file &quot;file.bin.aes&quot;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="nb">Invoke-AESEncryption</span> <span class="n">-Mode</span> <span class="n">Encrypt</span> <span class="n">-Key</span> <span class="s2">&quot;p@ssw0rd&quot;</span> <span class="n">-Path</span> <span class="n">file</span><span class="p">.</span><span class="n">bin</span><span class="p">.</span><span class="n">aes</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c">############</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c"># DECRYPTION</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c">############</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c"># Decrypts the Base64 encoded string &quot;LtxcRelxrDLrDB9rBD6JrfX/czKjZ2CUJkrg++kAMfs=&quot; and outputs plain text.</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="nb">Invoke-AESEncryption</span> <span class="n">-Mode</span> <span class="n">Decrypt</span> <span class="n">-Key</span> <span class="s2">&quot;p@ssw0rd&quot;</span> <span class="n">-Text</span> <span class="s2">&quot;LtxcRelxrDLrDB9rBD6JrfX/czKjZ2CUJkrg++kAMfs=&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="linux">Linux</h2>
 <p><a href="../openssl/">See openssl</a></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Encrypt a file</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>openssl<span class="w"> </span>enc<span class="w"> </span>-aes-256-cbc<span class="w"> </span>-iter<span class="w"> </span><span class="m">100000</span><span class="w"> </span>-pbkdf2<span class="w"> </span>-in<span class="w"> </span>sourceFile.txt<span class="w"> </span>-out<span class="w"> </span>outputFile.txt.enc
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># -iter 100000: Optional. Override the default iterations counts with this option.</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># -pbkdf2: Optional. Use the Password-Based Key Derivation Function 2 algorithm.</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Decrypt a file</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>openssl<span class="w"> </span>enc<span class="w"> </span>-d<span class="w"> </span>-aes-256-cbc<span class="w"> </span>-iter<span class="w"> </span><span class="m">100000</span><span class="w"> </span>-pbkdf2<span class="w"> </span>-in<span class="w"> </span>encryptedFile.enc<span class="w"> </span>-out<span class="w"> </span>outputFile.txt
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># Generate private key</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>openssl<span class="w"> </span>genrsa<span class="w"> </span>-aes256<span class="w"> </span>-out<span class="w"> </span>private.pem<span class="w"> </span><span class="m">2048</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># Generate public key</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>openssl<span class="w"> </span>rsa<span class="w"> </span>-in<span class="w"> </span>private.pem<span class="w"> </span>-outform<span class="w"> </span>PEM<span class="w"> </span>-pubout<span class="w"> </span>-out<span class="w"> </span>public.pem
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1"># Encrypt a file with public key</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>openssl<span class="w"> </span>rsautl<span class="w"> </span>-encrypt<span class="w"> </span>-inkey<span class="w"> </span>public.pem<span class="w"> </span>-pubin<span class="w"> </span>-in<span class="w"> </span>file.txt<span class="w"> </span>-out<span class="w"> </span>file.enc
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="c1"># -pubin: Specify the entry parameter</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1"># Decrypt a dile with private key</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>openssl<span class="w"> </span>rsautl<span class="w"> </span>-decrypt<span class="w"> </span>-inkey<span class="w"> </span>private.pem<span class="w"> </span>-in<span class="w"> </span>file.enc<span class="w"> </span>-out<span class="w"> </span>file.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1"># Encrypt a file</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>openssl<span class="w"> </span>enc<span class="w"> </span>-aes-256-cbc<span class="w"> </span>-iter<span class="w"> </span><span class="m">100000</span><span class="w"> </span>-pbkdf2<span class="w"> </span>-in<span class="w"> </span>sourceFile.txt<span class="w"> </span>-out<span class="w"> </span>outputFile.txt.enc
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1"># -iter 100000: Optional. Override the default iterations counts with this option.</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="c1"># -pbkdf2: Optional. Use the Password-Based Key Derivation Function 2 algorithm.</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="c1"># Decrypt a file</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>openssl<span class="w"> </span>enc<span class="w"> </span>-d<span class="w"> </span>-aes-256-cbc<span class="w"> </span>-iter<span class="w"> </span><span class="m">100000</span><span class="w"> </span>-pbkdf2<span class="w"> </span>-in<span class="w"> </span>encryptedFile.enc<span class="w"> </span>-out<span class="w"> </span>outputFile.txt
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="c1"># Generate private key</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>openssl<span class="w"> </span>genrsa<span class="w"> </span>-aes256<span class="w"> </span>-out<span class="w"> </span>private.pem<span class="w"> </span><span class="m">2048</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="c1"># Generate public key</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>openssl<span class="w"> </span>rsa<span class="w"> </span>-in<span class="w"> </span>private.pem<span class="w"> </span>-outform<span class="w"> </span>PEM<span class="w"> </span>-pubout<span class="w"> </span>-out<span class="w"> </span>public.pem
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="c1"># Encrypt a file with public key</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>openssl<span class="w"> </span>rsautl<span class="w"> </span>-encrypt<span class="w"> </span>-inkey<span class="w"> </span>public.pem<span class="w"> </span>-pubin<span class="w"> </span>-in<span class="w"> </span>file.txt<span class="w"> </span>-out<span class="w"> </span>file.enc
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="c1"># -pubin: Specify the entry parameter</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="c1"># Decrypt a dile with private key</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>openssl<span class="w"> </span>rsautl<span class="w"> </span>-decrypt<span class="w"> </span>-inkey<span class="w"> </span>private.pem<span class="w"> </span>-in<span class="w"> </span>file.enc<span class="w"> </span>-out<span class="w"> </span>file.txt
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17178,7 +17234,7 @@ Cheat sheet for encrypting and decrypting files:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

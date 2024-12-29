@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17068,12 +17091,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h1 id="smbclient-a-tool-for-interacting-with-smb-shares">smbclient - A tool for interacting with smb shares</h1>
 <p>See <a href="#quick-cheat-sheet">Quick Cheat sheet for smbclient</a>.</p>
 <h2 id="smbclient-installation">smbclient installation</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>smbclient
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>smbclient
+</span></code></pre></div></td></tr></table></div>
 <h2 id="smbclient-configuration">smbclient configuration</h2>
 <p>Default settings are in <code>/etc/samba/smb.conf</code>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go"> cat /etc/samba/smb.conf | grep -v &quot;#\|\;&quot; </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go"> cat /etc/samba/smb.conf | grep -v &quot;#\|\;&quot; </span>
+</span></code></pre></div></td></tr></table></div>
 <table>
 <thead>
 <tr>
@@ -17131,77 +17154,125 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><a href="../137-138-139-445-smb/">For pentesting notes on ports 137, 138, 139 and 445 with a smb service, see 137-138-139-445-smb</a>. </p>
 <h2 id="smbclient-connection">smbclient connection</h2>
 <p>See 
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># [-L|--list=HOST] : Selecting the targeted host for the connection request.</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>-N<span class="w"> </span>//<span class="nv">$ip</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># -N: Suppresses the password prompt.</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># -L: retrieve a list of available shares on the remote host</span>
-</span></code></pre></div></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># [-L|--list=HOST] : Selecting the targeted host for the connection request.</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>-N<span class="w"> </span>//<span class="nv">$ip</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1"># -N: Suppresses the password prompt.</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1"># -L: retrieve a list of available shares on the remote host</span>
+</span></code></pre></div></td></tr></table></div></p>
 <p>Smbclient will attempt to connect to the remote host and check if there is any authentication required. If there is, it will ask you for a user and a password for your local username. If we do not specify a specific username to smbclient when attempting to connect to the remote host, it will just use your local machine's username.If vulnerable and performing a Null Attack, we will hit Enter when prompted for a password.</p>
 <p>After authenticating, we may obtain access to some typical shared folders, such as:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ADMIN$ - Administrative shares are hidden network shares created by the Windows NT family of operating systems that allow system administrators to have remote access to every disk volume on a network-connected system. These shares may not be permanently deleted but may be disabled.
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>C$ - Administrative share for the C:\ disk volume. This is where the operating system is hosted.
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>IPC$ - The inter-process communication share. Used for inter-process communication via named pipes and is not part of the file system.
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>WorkShares - Custom share. 
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>ADMIN$ - Administrative shares are hidden network shares created by the Windows NT family of operating systems that allow system administrators to have remote access to every disk volume on a network-connected system. These shares may not be permanently deleted but may be disabled.
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>C$ - Administrative share for the C:\ disk volume. This is where the operating system is hosted.
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>IPC$ - The inter-process communication share. Used for inter-process communication via named pipes and is not part of the file system.
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>WorkShares - Custom share. 
+</span></code></pre></div></td></tr></table></div>
 <p>We will try to connect to each of the shares except for the IPC$ one, which is not valuable for us since it is not browsable as any regular directory would be and does not contain any files that we could use at this stage of our learning experience: 
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># the use of / and \ might be different if you need to escape some characters</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>smbclient<span class="w"> </span><span class="se">\\\\</span><span class="nv">$ip</span><span class="se">\\</span>ADMIN$
-</span></code></pre></div></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1"># the use of / and \ might be different if you need to escape some characters</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>smbclient<span class="w"> </span><span class="se">\\\\</span><span class="nv">$ip</span><span class="se">\\</span>ADMIN$
+</span></code></pre></div></td></tr></table></div></p>
 <p>Important: Sometimes some jugling is needed:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">smbclient -N -L \\$ip</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="go">smbclient -N -L \\\\$ip</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="go">smbclient -N -L /\/\$ip</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">smbclient -N -L \\$ip</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="go">smbclient -N -L \\\\$ip</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="go">smbclient -N -L /\/\$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If we have NT_STATUS_ACCESS_DENIED as output, we do not have the proper credentials to connect to this share. </p>
 <p>Connect to a Shared folders as Administrator:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>smbclient<span class="w"> </span>-L<span class="w"> </span><span class="m">10</span>.129.228.98<span class="w"> </span>-U<span class="w"> </span>Administrator
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>smbclient<span class="w"> </span>-L<span class="w"> </span><span class="m">10</span>.129.228.98<span class="w"> </span>-U<span class="w"> </span>Administrator
+</span></code></pre></div></td></tr></table></div>
 <p>Also we can use <a href="../rpcclient/">rpcclient tool</a> for connecting to the shared folders.</p>
 <h2 id="basic-commands-in-smbclient">Basic commands in SMBclient</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># Show available commands
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>help
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a># Download a file
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>get &lt;file&gt;
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a># See status
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>smbstatus
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a># Smbclient also allows us to execute local system commands using an exclamation mark at the beginning (`!&lt;cmd&gt;`) without interrupting the connection.
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>!cmd
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>!cat prep-prod.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span>
+<span class="normal"><a href="#__codelineno-7-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a># Show available commands
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>help
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a># Download a file
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>get &lt;file&gt;
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a># See status
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8"></a>smbstatus
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10"></a># Smbclient also allows us to execute local system commands using an exclamation mark at the beginning (`!&lt;cmd&gt;`) without interrupting the connection.
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11"></a>!cmd
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13"></a>!cat prep-prod.txt
+</span></code></pre></div></td></tr></table></div>
 <h2 id="quick-cheat-sheet">Quick cheat sheet</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># List shares on a machine using NULL Session</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>&lt;target-IP&gt;
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># List shares on a machine using a valid username + password</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>smbclient<span class="w"> </span>-L<span class="w"> </span><span class="se">\&lt;</span>target-IP<span class="se">\&gt;</span><span class="w"> </span>-U<span class="w"> </span>username%password
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Connect to a valid share with username + password</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-U<span class="w"> </span>username%password
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># List files on a specific share</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;ls&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1"># List files on a specific share folder inside the share</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;cd folder; ls&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="c1"># Download a file from a specific share folder</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;cd folder;get desired_file_name&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="c1"># Copy a file to a specific share folder</span>
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;put /var/www/my_local_file.txt .\target_folder\target_file.txt&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="c1"># Create a folder in a specific share folder</span>
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;mkdir .\target_folder\new_folder&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="c1"># Rename a file in a specific share folder</span>
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;rename current_file.txt new_file.txt&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1"># List shares on a machine using NULL Session</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>&lt;target-IP&gt;
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c1"># List shares on a machine using a valid username + password</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>smbclient<span class="w"> </span>-L<span class="w"> </span><span class="se">\&lt;</span>target-IP<span class="se">\&gt;</span><span class="w"> </span>-U<span class="w"> </span>username%password
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="c1"># Connect to a valid share with username + password</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-U<span class="w"> </span>username%password
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="c1"># List files on a specific share</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;ls&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="c1"># List files on a specific share folder inside the share</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;cd folder; ls&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="c1"># Download a file from a specific share folder</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;cd folder;get desired_file_name&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a><span class="c1"># Copy a file to a specific share folder</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;put /var/www/my_local_file.txt .\target_folder\target_file.txt&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22"></a><span class="c1"># Create a folder in a specific share folder</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;mkdir .\target_folder\new_folder&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24"></a>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25"></a><span class="c1"># Rename a file in a specific share folder</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26"></a>smbclient<span class="w"> </span>//<span class="se">\&lt;</span>target<span class="se">\&gt;</span>/<span class="se">\&lt;</span>share$<span class="se">\&gt;</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;rename current_file.txt new_file.txt&#39;</span><span class="w"> </span>password<span class="w"> </span>-U<span class="w"> </span>username
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17277,7 +17348,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

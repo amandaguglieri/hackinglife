@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17087,68 +17110,85 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="description">Description</h2>
 <p>rsync is a utility for efficiently transferring and synchronizing files between a computer and an external hard drive and across networked computers. It can be used to copy files locally on a given machine and to/from remote hosts. It is highly versatile and well-known for its delta-transfer algorithm. This algorithm reduces the amount of data transmitted over the network when a version of the file already exists on the destination host. It does this by sending only the differences between the source files and the older version of the files that reside on the destination server. It is often used for backups and mirroring. It finds files that need to be transferred by looking at files that have changed in size or the last modified time. By default, it uses port <code>873</code> and can be configured to use SSH for secure file transfers by piggybacking on top of an established SSH server connection. </p>
 <h2 id="footprinting-rsync">Footprinting rsync</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">873</span><span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">873</span><span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>We can next probe the service a bit to see what we can gain access to:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>nc<span class="w"> </span>-nv<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">873</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>nc<span class="w"> </span>-nv<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">873</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If some share is returned, we could go further by enumerating the share:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://<span class="nv">$ip</span>$/&lt;nameOfShare&gt;
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://<span class="nv">$ip</span>$/&lt;nameOfShare&gt;
+</span></code></pre></div></td></tr></table></div>
 <p>nmap script to enumerate shares:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="w"> </span><span class="s2">&quot;rsync-list-modules&quot;</span><span class="w"> </span>-p<span class="w"> </span>&lt;PORT&gt;<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="w"> </span><span class="s2">&quot;rsync-list-modules&quot;</span><span class="w"> </span>-p<span class="w"> </span>&lt;PORT&gt;<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>metasploit module to enumerate shares</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>use auxiliary/scanner/rsync/modules_list
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>use auxiliary/scanner/rsync/modules_list
+</span></code></pre></div></td></tr></table></div>
 <p>If IPv6 is in use:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Example using IPv6 and a different port</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://<span class="o">[</span>dead:beef::250:56ff:feb9:e90a<span class="o">]</span>:8730
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># Example using IPv6 and a different port</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://<span class="o">[</span>dead:beef::250:56ff:feb9:e90a<span class="o">]</span>:8730
+</span></code></pre></div></td></tr></table></div>
 <h2 id="connect-to-the-service">Connect to the service</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>rsync<span class="w"> </span>rsync://IP
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>rsync<span class="w"> </span>rsync://IP
+</span></code></pre></div></td></tr></table></div>
 <h2 id="basic-rsync-commands">Basic rsync commands</h2>
 <p>General syntax:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>rsync [OPTION] ... [USER@]HOST::SRC [DEST]
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># List content</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>rsync<span class="w"> </span>IP::
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># List recursively a directory</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>rsync<span class="w"> </span>-r<span class="w"> </span>IP::folder
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Download a file from  the server to your machine</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>rsync<span class="w"> </span>IP::folder/sourcefile.txt<span class="w"> </span>destinationfile.txt<span class="w">    </span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># Downloa a folder</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>rsync<span class="w"> </span>-r<span class="w"> </span>IP::folder/sourcefile.txt<span class="w"> </span>destinationfile.txt<span class="w">   </span>
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>rsync [OPTION] ... [USER@]HOST::SRC [DEST]
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1"># List content</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>rsync<span class="w"> </span>IP::
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c1"># List recursively a directory</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>rsync<span class="w"> </span>-r<span class="w"> </span>IP::folder
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="c1"># Download a file from  the server to your machine</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>rsync<span class="w"> </span>IP::folder/sourcefile.txt<span class="w"> </span>destinationfile.txt<span class="w">    </span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="c1"># Downloa a folder</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>rsync<span class="w"> </span>-r<span class="w"> </span>IP::folder/sourcefile.txt<span class="w"> </span>destinationfile.txt<span class="w">   </span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="brute-force">Brute force</h2>
 <p>Once you have the list of modules you have a few different options depending on the actions you want to take and whether or not authentication is required. If authentication is not required you can list a shared folder:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://<span class="nv">$ip</span>$/&lt;nameOfShared&gt;
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://<span class="nv">$ip</span>$/&lt;nameOfShared&gt;
+</span></code></pre></div></td></tr></table></div>
 <p>And copy all files to your local machine via the following command:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>rsync://<span class="nv">$ip</span>:8730/&lt;nameOfShared&gt;./rsyn_shared
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>rsync://<span class="nv">$ip</span>:8730/&lt;nameOfShared&gt;./rsyn_shared
+</span></code></pre></div></td></tr></table></div>
 <p>This recursively transfers all files from the directory <code>&lt;nameOfShared&gt;</code> on the machine $ip into the <code>./rsync_shared</code> directory on the local machine. The files are transferred in "archive" mode, which ensures that symbolic links, devices, attributes, permissions, ownerships, etc. are preserved in the transfer.</p>
 <p>If you <strong>have credentials</strong> you can <strong>list/download</strong> a <strong>shared name</strong> using (the password will be prompted):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://&lt;username&gt;@<span class="nv">$ip</span>/&lt;nameOfShared&gt;
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>rsync<span class="w"> </span>-av<span class="w"> </span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>rsync://&lt;username&gt;@<span class="nv">$ip</span>$:8730/&lt;nameOfShared&gt;<span class="w"> </span>./rsyn_shared
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://&lt;username&gt;@<span class="nv">$ip</span>/&lt;nameOfShared&gt;
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>rsync<span class="w"> </span>-av<span class="w"> </span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>rsync://&lt;username&gt;@<span class="nv">$ip</span>$:8730/&lt;nameOfShared&gt;<span class="w"> </span>./rsyn_shared
+</span></code></pre></div></td></tr></table></div>
 <p>You could also <strong>upload</strong> some <strong>content</strong> using rsync (for example, in this case we can upload an <strong><em>authorized_keys</em></strong> file to obtain access to the box):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>home_user/.ssh/<span class="w"> </span>rsync://&lt;username&gt;@<span class="nv">$ip</span>/home_user/.ssh
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>home_user/.ssh/<span class="w"> </span>rsync://&lt;username&gt;@<span class="nv">$ip</span>/home_user/.ssh
+</span></code></pre></div></td></tr></table></div>
 <h2 id="transfer-files-with-rsync-over-ssh">Transfer Files with Rsync over SSH</h2>
 <p>Before you can start transferring files and directories with rsync over SSH, make sure you can <a href="https://phoenixnap.com/kb/ssh-to-connect-to-remote-server-linux-or-windows">use SSH to connect to a remote server</a>. Once verified, you can begin backing up your data. Ensure your destination system has sufficient storage space.</p>
 <p>The syntax for copying files to a remote server over SSH with the <strong><code>rsync</code></strong> command is:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>rsync OPTION SourceDirectory_or_filePath user@serverIP_or_name:Target
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a># Example
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>rsync ~/Desktop/Dir1/&quot;source pdf sample.pdf&quot; test@192.168.56.100:~/Desktop/test
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>rsync OPTION SourceDirectory_or_filePath user@serverIP_or_name:Target
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a># Example
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>rsync ~/Desktop/Dir1/&quot;source pdf sample.pdf&quot; test@192.168.56.100:~/Desktop/test
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17224,7 +17264,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

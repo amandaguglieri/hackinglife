@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17681,147 +17704,268 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </details>
 <h2 id="description">Description</h2>
 <p>Network Mapper is an open source tool for network exploration and security auditing. Free and open-source scanner created by Gordon Lyon. Nmap is used to discover hosts and services on a computer network by sending packages and analyzing the responses. Another discovery feature is that of operating system detection. These features are extensible by scripts that provide more advanced service detection.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">nmap &lt;scan types&gt; &lt;options&gt; $ip</span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># commonly used
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>nmap -sT -Pn --unprivileged --script banner $ip
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a># enumerate ciphers supported by the application server
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>nmap -sT -p 443 -Pn -unprivileged --script ssl-enum-ciphers $ip
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a># sync-scan the top 10,000 most well-known ports
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>nmap -sS $ip --top-ports 10000
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">nmap &lt;scan types&gt; &lt;options&gt; $ip</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span>
+<span class="normal"><a href="#__codelineno-1-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a># commonly used
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>nmap -sT -Pn --unprivileged --script banner $ip
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a># enumerate ciphers supported by the application server
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>nmap -sT -p 443 -Pn -unprivileged --script ssl-enum-ciphers $ip
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a># sync-scan the top 10,000 most well-known ports
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>nmap -sS $ip --top-ports 10000
+</span></code></pre></div></td></tr></table></div>
 <p>Worthwhile for understanding how packages are sent and received is the --packet-trace option. Also --reason displays the reason for specific result.</p>
 <p>Also, Nmap does not always recognize all information by default. Sometimes you can use <a href="../netcat/">netcat</a> to interpelate a service:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go"> nc -nv $ip &lt;PORT NUMBER&gt;</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go"> nc -nv $ip &lt;PORT NUMBER&gt;</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="cheat-sheet">Cheat Sheet</h2>
 <p>By default, Nmap will conduct a TCP scan unless specifically requested to perform a UDP scan. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1/24
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1-254
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>nmap<span class="w"> </span><span class="m">10</span>.0.*.*
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1,3,17
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2,4.1,3,17
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>nmap<span class="w"> </span>domain.com
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1<span class="w"> </span>-p<span class="w"> </span><span class="m">3389</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span>,3389
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1<span class="w"> </span>-p<span class="w"> </span><span class="m">50</span>-90
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1<span class="w"> </span>-p<span class="w"> </span>U:53,<span class="w"> </span>T:80
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># ***** Saving results ******</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1"># -----------------------------------------</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1"># -oN: Normal output with .nmap file extension</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1"># -oG: Grepable output with the .gnmap file extension</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="c1"># -oX: XML output  with the .xml file extension</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1"># -oA: Save results in all formats</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1"># -oA target: Saves the results in all formats, starting the name of each file with &#39;target&#39;.</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-oA<span class="w"> </span>path/to/target
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="c1"># It forces port enumeration and it&#39;s not limited to 1000 ports</span>
-</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p-<span class="w">     </span>
-</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="c1"># Disables port scanning. If we disable port scan (`-sn`), Nmap automatically ping scan with `ICMP Echo Requests` (`-PE`). Also called ping scan or ping sweep. More reliable that pinging the broadcast address because hosts do not reply to broadcast queries).</span>
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>nmap<span class="w"> </span>-sn<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
-</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="c1"># Disables DNS resolution.</span>
-</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>nmap<span class="w"> </span>-n<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>
-</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="c1"># Disables ARP ping.</span>
-</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--disable-arp-ping
-</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>
-</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="c1"># This option skips the host discovery stage altogether. It deactivates the ICMP echo requests</span>
-</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>nmap<span class="w">  </span>-Pn<span class="w">  </span><span class="nv">$ip</span><span class="w">  </span>
-</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>
-</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="c1"># Scans top 100 ports.</span>
-</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>nmap<span class="w">  </span>-F<span class="w">  </span><span class="nv">$ip</span><span class="w"> </span>
-</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>
-</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="c1"># Shows the progress of the scan every 5 seconds.</span>
-</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--stats-every<span class="o">=</span>5s
-</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>
-</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="c1"># To skip host discovery and port scan, while still allowing NMAP Scripting Engine to run, we use -Pn -sn combined.</span>
-</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>nmap<span class="w"> </span>-Pn<span class="w"> </span>-sn<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>
-</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="c1"># OS detection</span>
-</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>nmap<span class="w"> </span>-O<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a>
-</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="c1"># Limit OS detection to promising targets</span>
-</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a>nmap<span class="w"> </span>-O<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-osscan-limit
-</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>
-</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="c1"># Guess OS more aggressively</span>
-</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a>nmap<span class="w"> </span>-O<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-osscan-guess
-</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a>
-</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="c1"># Version detection</span>
-</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a>nmap<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span><span id="__span-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a>
-</span><span id="__span-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a><span class="c1"># Intensity level goes from 0 to 9</span>
-</span><span id="__span-3-60"><a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a>nmap<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>–-version-intensity<span class="w"> </span><span class="m">8</span><span class="w">  </span>
-</span><span id="__span-3-61"><a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a>
-</span><span id="__span-3-62"><a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a><span class="c1"># tcpwrapped means that the TCP handshake was completed, </span>
-</span><span id="__span-3-63"><a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a><span class="c1"># but the remote host closed the connection without receiving any data. </span>
-</span><span id="__span-3-64"><a id="__codelineno-3-64" name="__codelineno-3-64" href="#__codelineno-3-64"></a><span class="c1"># This means that something is blocking connectivity with the target host. </span>
-</span><span id="__span-3-65"><a id="__codelineno-3-65" name="__codelineno-3-65" href="#__codelineno-3-65"></a>
-</span><span id="__span-3-66"><a id="__codelineno-3-66" name="__codelineno-3-66" href="#__codelineno-3-66"></a><span class="c1"># OS detection + version detection + script scanning + traceroute</span>
-</span><span id="__span-3-67"><a id="__codelineno-3-67" name="__codelineno-3-67" href="#__codelineno-3-67"></a>nmap<span class="w"> </span>-A<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-3-68"><a id="__codelineno-3-68" name="__codelineno-3-68" href="#__codelineno-3-68"></a>
-</span><span id="__span-3-69"><a id="__codelineno-3-69" name="__codelineno-3-69" href="#__codelineno-3-69"></a><span class="c1"># Half-open scanning. SYN + SYN ACK + RST</span>
-</span><span id="__span-3-70"><a id="__codelineno-3-70" name="__codelineno-3-70" href="#__codelineno-3-70"></a><span class="c1"># A well-configured IDS will still detect the scan</span>
-</span><span id="__span-3-71"><a id="__codelineno-3-71" name="__codelineno-3-71" href="#__codelineno-3-71"></a>nmap<span class="w"> </span>-sS<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-3-72"><a id="__codelineno-3-72" name="__codelineno-3-72" href="#__codelineno-3-72"></a>
-</span><span id="__span-3-73"><a id="__codelineno-3-73" name="__codelineno-3-73" href="#__codelineno-3-73"></a><span class="c1"># TCP connect scan: SYN + SYN ACK + ACK + DATA (banner) +RST</span>
-</span><span id="__span-3-74"><a id="__codelineno-3-74" name="__codelineno-3-74" href="#__codelineno-3-74"></a><span class="c1"># This scan gets recorded in the application logs on the target systems</span>
-</span><span id="__span-3-75"><a id="__codelineno-3-75" name="__codelineno-3-75" href="#__codelineno-3-75"></a>nmap<span class="w"> </span>-sT<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-3-76"><a id="__codelineno-3-76" name="__codelineno-3-76" href="#__codelineno-3-76"></a>
-</span><span id="__span-3-77"><a id="__codelineno-3-77" name="__codelineno-3-77" href="#__codelineno-3-77"></a><span class="c1"># Scan a list of hosts. One per line in the file</span>
-</span><span id="__span-3-78"><a id="__codelineno-3-78" name="__codelineno-3-78" href="#__codelineno-3-78"></a>nmap<span class="w"> </span>-sn<span class="w"> </span>-iL<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>hosttoscanlist.txt<span class="w"> </span>
-</span><span id="__span-3-79"><a id="__codelineno-3-79" name="__codelineno-3-79" href="#__codelineno-3-79"></a>
-</span><span id="__span-3-80"><a id="__codelineno-3-80" name="__codelineno-3-80" href="#__codelineno-3-80"></a><span class="c1"># List targets to scan</span>
-</span><span id="__span-3-81"><a id="__codelineno-3-81" name="__codelineno-3-81" href="#__codelineno-3-81"></a>nmap<span class="w"> </span>-sL<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span><span id="__span-3-82"><a id="__codelineno-3-82" name="__codelineno-3-82" href="#__codelineno-3-82"></a>
-</span><span id="__span-3-83"><a id="__codelineno-3-83" name="__codelineno-3-83" href="#__codelineno-3-83"></a><span class="c1"># Full scanner</span>
-</span><span id="__span-3-84"><a id="__codelineno-3-84" name="__codelineno-3-84" href="#__codelineno-3-84"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span>-p-<span class="w"> </span><span class="nv">$ip</span><span class="w">  </span>
-</span><span id="__span-3-85"><a id="__codelineno-3-85" name="__codelineno-3-85" href="#__codelineno-3-85"></a><span class="c1"># The script scan `-sC` flag causes `Nmap` to report the server headers `http-server-header` page and the page title `http-title` for any web page hosted on the webserver.</span>
-</span><span id="__span-3-86"><a id="__codelineno-3-86" name="__codelineno-3-86" href="#__codelineno-3-86"></a>
-</span><span id="__span-3-87"><a id="__codelineno-3-87" name="__codelineno-3-87" href="#__codelineno-3-87"></a>
-</span><span id="__span-3-88"><a id="__codelineno-3-88" name="__codelineno-3-88" href="#__codelineno-3-88"></a><span class="c1"># UDP quick</span>
-</span><span id="__span-3-89"><a id="__codelineno-3-89" name="__codelineno-3-89" href="#__codelineno-3-89"></a>nmap<span class="w"> </span>-sU<span class="w"> </span>-sV<span class="w">  </span><span class="nv">$ip</span>
-</span><span id="__span-3-90"><a id="__codelineno-3-90" name="__codelineno-3-90" href="#__codelineno-3-90"></a>
-</span><span id="__span-3-91"><a id="__codelineno-3-91" name="__codelineno-3-91" href="#__codelineno-3-91"></a><span class="c1"># Called ACK scan. Returns if the port is filtered or not. Useful to determine if there is a firewall.</span>
-</span><span id="__span-3-92"><a id="__codelineno-3-92" name="__codelineno-3-92" href="#__codelineno-3-92"></a>nmap<span class="w"> </span>-sA<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span><span id="__span-3-93"><a id="__codelineno-3-93" name="__codelineno-3-93" href="#__codelineno-3-93"></a>
-</span><span id="__span-3-94"><a id="__codelineno-3-94" name="__codelineno-3-94" href="#__codelineno-3-94"></a><span class="c1"># It sends a ACK packet. In the response we pay attention to the windows size of the TCP header. If the windows size is different from zero, the port is open. If it is zero, then port is either closed or filtered. </span>
-</span><span id="__span-3-95"><a id="__codelineno-3-95" name="__codelineno-3-95" href="#__codelineno-3-95"></a>nmap<span class="w"> </span>-sW<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span>
+<span class="normal"><a href="#__codelineno-3-23">23</a></span>
+<span class="normal"><a href="#__codelineno-3-24">24</a></span>
+<span class="normal"><a href="#__codelineno-3-25">25</a></span>
+<span class="normal"><a href="#__codelineno-3-26">26</a></span>
+<span class="normal"><a href="#__codelineno-3-27">27</a></span>
+<span class="normal"><a href="#__codelineno-3-28">28</a></span>
+<span class="normal"><a href="#__codelineno-3-29">29</a></span>
+<span class="normal"><a href="#__codelineno-3-30">30</a></span>
+<span class="normal"><a href="#__codelineno-3-31">31</a></span>
+<span class="normal"><a href="#__codelineno-3-32">32</a></span>
+<span class="normal"><a href="#__codelineno-3-33">33</a></span>
+<span class="normal"><a href="#__codelineno-3-34">34</a></span>
+<span class="normal"><a href="#__codelineno-3-35">35</a></span>
+<span class="normal"><a href="#__codelineno-3-36">36</a></span>
+<span class="normal"><a href="#__codelineno-3-37">37</a></span>
+<span class="normal"><a href="#__codelineno-3-38">38</a></span>
+<span class="normal"><a href="#__codelineno-3-39">39</a></span>
+<span class="normal"><a href="#__codelineno-3-40">40</a></span>
+<span class="normal"><a href="#__codelineno-3-41">41</a></span>
+<span class="normal"><a href="#__codelineno-3-42">42</a></span>
+<span class="normal"><a href="#__codelineno-3-43">43</a></span>
+<span class="normal"><a href="#__codelineno-3-44">44</a></span>
+<span class="normal"><a href="#__codelineno-3-45">45</a></span>
+<span class="normal"><a href="#__codelineno-3-46">46</a></span>
+<span class="normal"><a href="#__codelineno-3-47">47</a></span>
+<span class="normal"><a href="#__codelineno-3-48">48</a></span>
+<span class="normal"><a href="#__codelineno-3-49">49</a></span>
+<span class="normal"><a href="#__codelineno-3-50">50</a></span>
+<span class="normal"><a href="#__codelineno-3-51">51</a></span>
+<span class="normal"><a href="#__codelineno-3-52">52</a></span>
+<span class="normal"><a href="#__codelineno-3-53">53</a></span>
+<span class="normal"><a href="#__codelineno-3-54">54</a></span>
+<span class="normal"><a href="#__codelineno-3-55">55</a></span>
+<span class="normal"><a href="#__codelineno-3-56">56</a></span>
+<span class="normal"><a href="#__codelineno-3-57">57</a></span>
+<span class="normal"><a href="#__codelineno-3-58">58</a></span>
+<span class="normal"><a href="#__codelineno-3-59">59</a></span>
+<span class="normal"><a href="#__codelineno-3-60">60</a></span>
+<span class="normal"><a href="#__codelineno-3-61">61</a></span>
+<span class="normal"><a href="#__codelineno-3-62">62</a></span>
+<span class="normal"><a href="#__codelineno-3-63">63</a></span>
+<span class="normal"><a href="#__codelineno-3-64">64</a></span>
+<span class="normal"><a href="#__codelineno-3-65">65</a></span>
+<span class="normal"><a href="#__codelineno-3-66">66</a></span>
+<span class="normal"><a href="#__codelineno-3-67">67</a></span>
+<span class="normal"><a href="#__codelineno-3-68">68</a></span>
+<span class="normal"><a href="#__codelineno-3-69">69</a></span>
+<span class="normal"><a href="#__codelineno-3-70">70</a></span>
+<span class="normal"><a href="#__codelineno-3-71">71</a></span>
+<span class="normal"><a href="#__codelineno-3-72">72</a></span>
+<span class="normal"><a href="#__codelineno-3-73">73</a></span>
+<span class="normal"><a href="#__codelineno-3-74">74</a></span>
+<span class="normal"><a href="#__codelineno-3-75">75</a></span>
+<span class="normal"><a href="#__codelineno-3-76">76</a></span>
+<span class="normal"><a href="#__codelineno-3-77">77</a></span>
+<span class="normal"><a href="#__codelineno-3-78">78</a></span>
+<span class="normal"><a href="#__codelineno-3-79">79</a></span>
+<span class="normal"><a href="#__codelineno-3-80">80</a></span>
+<span class="normal"><a href="#__codelineno-3-81">81</a></span>
+<span class="normal"><a href="#__codelineno-3-82">82</a></span>
+<span class="normal"><a href="#__codelineno-3-83">83</a></span>
+<span class="normal"><a href="#__codelineno-3-84">84</a></span>
+<span class="normal"><a href="#__codelineno-3-85">85</a></span>
+<span class="normal"><a href="#__codelineno-3-86">86</a></span>
+<span class="normal"><a href="#__codelineno-3-87">87</a></span>
+<span class="normal"><a href="#__codelineno-3-88">88</a></span>
+<span class="normal"><a href="#__codelineno-3-89">89</a></span>
+<span class="normal"><a href="#__codelineno-3-90">90</a></span>
+<span class="normal"><a href="#__codelineno-3-91">91</a></span>
+<span class="normal"><a href="#__codelineno-3-92">92</a></span>
+<span class="normal"><a href="#__codelineno-3-93">93</a></span>
+<span class="normal"><a href="#__codelineno-3-94">94</a></span>
+<span class="normal"><a href="#__codelineno-3-95">95</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1/24
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1-254
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>nmap<span class="w"> </span><span class="m">10</span>.0.*.*
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1,3,17
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2,4.1,3,17
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>nmap<span class="w"> </span>domain.com
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1<span class="w"> </span>-p<span class="w"> </span><span class="m">3389</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span>,3389
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1<span class="w"> </span>-p<span class="w"> </span><span class="m">50</span>-90
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>nmap<span class="w"> </span><span class="m">10</span>.0.2.1<span class="w"> </span>-p<span class="w"> </span>U:53,<span class="w"> </span>T:80
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="c1"># ***** Saving results ******</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="c1"># -----------------------------------------</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="c1"># -oN: Normal output with .nmap file extension</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="c1"># -oG: Grepable output with the .gnmap file extension</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="c1"># -oX: XML output  with the .xml file extension</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="c1"># -oA: Save results in all formats</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="c1"># -oA target: Saves the results in all formats, starting the name of each file with &#39;target&#39;.</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-oA<span class="w"> </span>path/to/target
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22"></a>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="c1"># It forces port enumeration and it&#39;s not limited to 1000 ports</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p-<span class="w">     </span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25"></a>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26"></a><span class="c1"># Disables port scanning. If we disable port scan (`-sn`), Nmap automatically ping scan with `ICMP Echo Requests` (`-PE`). Also called ping scan or ping sweep. More reliable that pinging the broadcast address because hosts do not reply to broadcast queries).</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27"></a>nmap<span class="w"> </span>-sn<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28"></a>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29"></a><span class="c1"># Disables DNS resolution.</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30"></a>nmap<span class="w"> </span>-n<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31"></a>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32"></a><span class="c1"># Disables ARP ping.</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--disable-arp-ping
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34"></a>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35"></a><span class="c1"># This option skips the host discovery stage altogether. It deactivates the ICMP echo requests</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36"></a>nmap<span class="w">  </span>-Pn<span class="w">  </span><span class="nv">$ip</span><span class="w">  </span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37"></a>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38"></a><span class="c1"># Scans top 100 ports.</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39"></a>nmap<span class="w">  </span>-F<span class="w">  </span><span class="nv">$ip</span><span class="w"> </span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40"></a>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41"></a><span class="c1"># Shows the progress of the scan every 5 seconds.</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--stats-every<span class="o">=</span>5s
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43"></a>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44"></a><span class="c1"># To skip host discovery and port scan, while still allowing NMAP Scripting Engine to run, we use -Pn -sn combined.</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45"></a>nmap<span class="w"> </span>-Pn<span class="w"> </span>-sn<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46"></a>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47"></a><span class="c1"># OS detection</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48"></a>nmap<span class="w"> </span>-O<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49"></a>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50"></a><span class="c1"># Limit OS detection to promising targets</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51"></a>nmap<span class="w"> </span>-O<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-osscan-limit
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52"></a>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53"></a><span class="c1"># Guess OS more aggressively</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54"></a>nmap<span class="w"> </span>-O<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-osscan-guess
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55"></a>
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56"></a><span class="c1"># Version detection</span>
+</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57"></a>nmap<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span><span id="__span-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58"></a>
+</span><span id="__span-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59"></a><span class="c1"># Intensity level goes from 0 to 9</span>
+</span><span id="__span-3-60"><a id="__codelineno-3-60" name="__codelineno-3-60"></a>nmap<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>–-version-intensity<span class="w"> </span><span class="m">8</span><span class="w">  </span>
+</span><span id="__span-3-61"><a id="__codelineno-3-61" name="__codelineno-3-61"></a>
+</span><span id="__span-3-62"><a id="__codelineno-3-62" name="__codelineno-3-62"></a><span class="c1"># tcpwrapped means that the TCP handshake was completed, </span>
+</span><span id="__span-3-63"><a id="__codelineno-3-63" name="__codelineno-3-63"></a><span class="c1"># but the remote host closed the connection without receiving any data. </span>
+</span><span id="__span-3-64"><a id="__codelineno-3-64" name="__codelineno-3-64"></a><span class="c1"># This means that something is blocking connectivity with the target host. </span>
+</span><span id="__span-3-65"><a id="__codelineno-3-65" name="__codelineno-3-65"></a>
+</span><span id="__span-3-66"><a id="__codelineno-3-66" name="__codelineno-3-66"></a><span class="c1"># OS detection + version detection + script scanning + traceroute</span>
+</span><span id="__span-3-67"><a id="__codelineno-3-67" name="__codelineno-3-67"></a>nmap<span class="w"> </span>-A<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-3-68"><a id="__codelineno-3-68" name="__codelineno-3-68"></a>
+</span><span id="__span-3-69"><a id="__codelineno-3-69" name="__codelineno-3-69"></a><span class="c1"># Half-open scanning. SYN + SYN ACK + RST</span>
+</span><span id="__span-3-70"><a id="__codelineno-3-70" name="__codelineno-3-70"></a><span class="c1"># A well-configured IDS will still detect the scan</span>
+</span><span id="__span-3-71"><a id="__codelineno-3-71" name="__codelineno-3-71"></a>nmap<span class="w"> </span>-sS<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-3-72"><a id="__codelineno-3-72" name="__codelineno-3-72"></a>
+</span><span id="__span-3-73"><a id="__codelineno-3-73" name="__codelineno-3-73"></a><span class="c1"># TCP connect scan: SYN + SYN ACK + ACK + DATA (banner) +RST</span>
+</span><span id="__span-3-74"><a id="__codelineno-3-74" name="__codelineno-3-74"></a><span class="c1"># This scan gets recorded in the application logs on the target systems</span>
+</span><span id="__span-3-75"><a id="__codelineno-3-75" name="__codelineno-3-75"></a>nmap<span class="w"> </span>-sT<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-3-76"><a id="__codelineno-3-76" name="__codelineno-3-76"></a>
+</span><span id="__span-3-77"><a id="__codelineno-3-77" name="__codelineno-3-77"></a><span class="c1"># Scan a list of hosts. One per line in the file</span>
+</span><span id="__span-3-78"><a id="__codelineno-3-78" name="__codelineno-3-78"></a>nmap<span class="w"> </span>-sn<span class="w"> </span>-iL<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>hosttoscanlist.txt<span class="w"> </span>
+</span><span id="__span-3-79"><a id="__codelineno-3-79" name="__codelineno-3-79"></a>
+</span><span id="__span-3-80"><a id="__codelineno-3-80" name="__codelineno-3-80"></a><span class="c1"># List targets to scan</span>
+</span><span id="__span-3-81"><a id="__codelineno-3-81" name="__codelineno-3-81"></a>nmap<span class="w"> </span>-sL<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span><span id="__span-3-82"><a id="__codelineno-3-82" name="__codelineno-3-82"></a>
+</span><span id="__span-3-83"><a id="__codelineno-3-83" name="__codelineno-3-83"></a><span class="c1"># Full scanner</span>
+</span><span id="__span-3-84"><a id="__codelineno-3-84" name="__codelineno-3-84"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span>-p-<span class="w"> </span><span class="nv">$ip</span><span class="w">  </span>
+</span><span id="__span-3-85"><a id="__codelineno-3-85" name="__codelineno-3-85"></a><span class="c1"># The script scan `-sC` flag causes `Nmap` to report the server headers `http-server-header` page and the page title `http-title` for any web page hosted on the webserver.</span>
+</span><span id="__span-3-86"><a id="__codelineno-3-86" name="__codelineno-3-86"></a>
+</span><span id="__span-3-87"><a id="__codelineno-3-87" name="__codelineno-3-87"></a>
+</span><span id="__span-3-88"><a id="__codelineno-3-88" name="__codelineno-3-88"></a><span class="c1"># UDP quick</span>
+</span><span id="__span-3-89"><a id="__codelineno-3-89" name="__codelineno-3-89"></a>nmap<span class="w"> </span>-sU<span class="w"> </span>-sV<span class="w">  </span><span class="nv">$ip</span>
+</span><span id="__span-3-90"><a id="__codelineno-3-90" name="__codelineno-3-90"></a>
+</span><span id="__span-3-91"><a id="__codelineno-3-91" name="__codelineno-3-91"></a><span class="c1"># Called ACK scan. Returns if the port is filtered or not. Useful to determine if there is a firewall.</span>
+</span><span id="__span-3-92"><a id="__codelineno-3-92" name="__codelineno-3-92"></a>nmap<span class="w"> </span>-sA<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span><span id="__span-3-93"><a id="__codelineno-3-93" name="__codelineno-3-93"></a>
+</span><span id="__span-3-94"><a id="__codelineno-3-94" name="__codelineno-3-94"></a><span class="c1"># It sends a ACK packet. In the response we pay attention to the windows size of the TCP header. If the windows size is different from zero, the port is open. If it is zero, then port is either closed or filtered. </span>
+</span><span id="__span-3-95"><a id="__codelineno-3-95" name="__codelineno-3-95"></a>nmap<span class="w"> </span>-sW<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>To redirect results to a file &gt; targetfile.txt</p>
 <h2 id="search-and-run-a-script-in-nmap">Search and run a script in nmap</h2>
 <p>NSE: Nmap Scripting Engine.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># All scripts are located under:</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>/usr/share/nmaps/script
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>locate<span class="w"> </span>-r<span class="w"> </span>nse$<span class="p">|</span>grep<span class="w"> </span>&lt;term&gt;
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># if this doesn’t work, update the db with:</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>sudo<span class="w"> </span>updatedb
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Also:</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>locate<span class="w"> </span>scripts/&lt;nameOfservice&gt;
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1"># All scripts are located under:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>/usr/share/nmaps/script
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>locate<span class="w"> </span>-r<span class="w"> </span>nse$<span class="p">|</span>grep<span class="w"> </span>&lt;term&gt;
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="c1"># if this doesn’t work, update the db with:</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>sudo<span class="w"> </span>updatedb
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="c1"># Also:</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>locate<span class="w"> </span>scripts/&lt;nameOfservice&gt;
+</span></code></pre></div></td></tr></table></div>
 <p>Run a script:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Run default scripts </span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-sC
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Run  scripts from a category. See categories below</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--script<span class="w"> </span>&lt;category&gt;
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Run defined scripts</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>nmap<span class="w"> </span>--script<span class="w"> </span>&lt;script-name&gt;,&lt;script-name&gt;,&lt;script-name&gt;<span class="w"> </span>-p&lt;port&gt;<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Run custom scripts: </span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Save them in /usr/share/nmaps/script</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># Run default scripts </span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-sC
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1"># Run  scripts from a category. See categories below</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--script<span class="w"> </span>&lt;category&gt;
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="c1"># Run defined scripts</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>nmap<span class="w"> </span>--script<span class="w"> </span>&lt;script-name&gt;,&lt;script-name&gt;,&lt;script-name&gt;<span class="w"> </span>-p&lt;port&gt;<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="c1"># Run custom scripts: </span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="c1"># Save them in /usr/share/nmaps/script</span>
+</span></code></pre></div></td></tr></table></div>
 <p>NSE (Nmap Script Engine) provides us with the possibility to create scripts in Lua for interaction with certain services. There are a total of 14 categories into which these scripts can be divided: </p>
 <table>
 <thead>
@@ -17890,67 +18034,98 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tbody>
 </table>
 <h3 id="general-vulnerability-assessment">General vulnerability assessment</h3>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">sudo nmap $ip -p 80 -sV --script vuln </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="go">sudo nmap $ip -p 80 -sV --script vuln </span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="port-21-footprinting-ftp">Port 21: footprinting FTP</h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Locate all ftp scripts related</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>find<span class="w"> </span>/<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span>ftp*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>scripts
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Run a general scanner for version, mode aggresive and perform default scripts</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sV<span class="w"> </span>-p21<span class="w"> </span>-sC<span class="w"> </span>-A<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># ftp-anon NSE script checks whether the FTP server allows anonymous access.</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># ftp-syst, for example, executes the `STAT` command, which displays information about the FTP server status.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span>
+<span class="normal"><a href="#__codelineno-7-6">6</a></span>
+<span class="normal"><a href="#__codelineno-7-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c1"># Locate all ftp scripts related</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>find<span class="w"> </span>/<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span>ftp*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>scripts
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="c1"># Run a general scanner for version, mode aggresive and perform default scripts</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sV<span class="w"> </span>-p21<span class="w"> </span>-sC<span class="w"> </span>-A<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="c1"># ftp-anon NSE script checks whether the FTP server allows anonymous access.</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="c1"># ftp-syst, for example, executes the `STAT` command, which displays information about the FTP server status.</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="port-22-attack-a-ssh-connection">Port 22: attack a ssh connection</h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p<span class="w"> </span><span class="m">22</span><span class="w"> </span>--script<span class="w"> </span>ssh-brute<span class="w"> </span>--script-args<span class="w"> </span><span class="nv">userdb</span><span class="o">=</span>users.txt,passdb<span class="o">=</span>/usr/share/nmap/nselib/data/passwords.lst
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p<span class="w"> </span><span class="m">22</span><span class="w"> </span>--script<span class="w"> </span>ssh-brute<span class="w"> </span>--script-args<span class="w"> </span><span class="nv">userdb</span><span class="o">=</span>users.txt,passdb<span class="o">=</span>/usr/share/nmap/nselib/data/passwords.lst
+</span></code></pre></div></td></tr></table></div>
 <h4 id="ports-137-138-139-445-footprinting-smb">Ports 137, 138, 139, 445: footprinting SMB</h4>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">sudo nmap $ip -sV -sC -p139,445</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="go">sudo nmap $ip -sV -sC -p139,445</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="grab-banners-of-services">Grab banners of services</h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Grab banner of services in an IP</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="o">=</span>banner<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Grab banners of services in a range</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="o">=</span>banner<span class="w"> </span><span class="nv">$ip</span>/24
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span>
+<span class="normal"><a href="#__codelineno-10-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1"># Grab banner of services in an IP</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="o">=</span>banner<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="c1"># Grab banners of services in a range</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="o">=</span>banner<span class="w"> </span><span class="nv">$ip</span>/24
+</span></code></pre></div></td></tr></table></div>
 <h3 id="enumerate-samba-service-smb">Enumerate samba service (smb)</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 1. Search for existing script for smb enumeration</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>locate<span class="w"> </span>-r<span class="w"> </span>nse$<span class="p">|</span>grep<span class="w"> </span>&lt;term&gt;
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># 2. Select smb-enum-shares and run it</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>nmap<span class="w"> </span>-script<span class="o">=</span>smb-enum-shares<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># 3. Retrieve users</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>nmap<span class="w"> </span>-script<span class="o">=</span>smb-enum-users<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># 4. Retrieve groups with passwords and user</span>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>nmap<span class="w"> </span>-script<span class="o">=</span>smb-brute<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1"># Interact with the SMB service to extract the reported operating system version</span>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>nmap<span class="w"> </span>--script<span class="w"> </span>smb-os-discovery.nse<span class="w"> </span>-p445<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="c1"># 1. Search for existing script for smb enumeration</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>locate<span class="w"> </span>-r<span class="w"> </span>nse$<span class="p">|</span>grep<span class="w"> </span>&lt;term&gt;
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="c1"># 2. Select smb-enum-shares and run it</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a>nmap<span class="w"> </span>-script<span class="o">=</span>smb-enum-shares<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="c1"># 3. Retrieve users</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a>nmap<span class="w"> </span>-script<span class="o">=</span>smb-enum-users<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="c1"># 4. Retrieve groups with passwords and user</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11"></a>nmap<span class="w"> </span>-script<span class="o">=</span>smb-brute<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="c1"># Interact with the SMB service to extract the reported operating system version</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14"></a>nmap<span class="w"> </span>--script<span class="w"> </span>smb-os-discovery.nse<span class="w"> </span>-p445<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="performance">Performance</h2>
 <h3 id="introducing-delays-or-timeouts">Introducing delays or Timeouts</h3>
 <p>When Nmap sends a packet, it takes some time (Round-Trip-Time - RTT) to receive a response from the scanned port. Generally, Nmap starts with a high timeout (--min-RTT-timeout) of 100ms. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># While connecting to the service, we noticed that the connection took longer than usual (about 15 seconds). There are some services whose connection speed, or response time, can be configured. Now that we know that an FTP server is running on this port, we can deduce the origin of our &quot;failed&quot; scan. We could confirm this again by specifying the minimum `probe round trip time` (`--min-rtt-timeout`) in Nmap to 15 or 20 seconds and rerunning the scan.</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>nmap<span class="w"> </span><span class="nv">$IP</span><span class="w"> </span>--min-rtt-timeout<span class="w"> </span><span class="m">15</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Optimized RTT</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>IP/24<span class="w"> </span>-F<span class="w"> </span>--initial-rtt-timeout<span class="w"> </span>50ms<span class="w"> </span>--max-rtt-timeout<span class="w"> </span>100ms
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># -F: Scans top 100 ports.</span>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># --initial-rtt-timeout 50ms: Sets the specified time value as initial RTT timeout.</span>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># --max-rtt-timeout 100ms: Sets the specified time value as maximum RTT timeout.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span>
+<span class="normal"><a href="#__codelineno-12-6">6</a></span>
+<span class="normal"><a href="#__codelineno-12-7">7</a></span>
+<span class="normal"><a href="#__codelineno-12-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="c1"># While connecting to the service, we noticed that the connection took longer than usual (about 15 seconds). There are some services whose connection speed, or response time, can be configured. Now that we know that an FTP server is running on this port, we can deduce the origin of our &quot;failed&quot; scan. We could confirm this again by specifying the minimum `probe round trip time` (`--min-rtt-timeout`) in Nmap to 15 or 20 seconds and rerunning the scan.</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>nmap<span class="w"> </span><span class="nv">$IP</span><span class="w"> </span>--min-rtt-timeout<span class="w"> </span><span class="m">15</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="c1"># Optimized RTT</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>IP/24<span class="w"> </span>-F<span class="w"> </span>--initial-rtt-timeout<span class="w"> </span>50ms<span class="w"> </span>--max-rtt-timeout<span class="w"> </span>100ms
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="c1"># -F: Scans top 100 ports.</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="c1"># --initial-rtt-timeout 50ms: Sets the specified time value as initial RTT timeout.</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="c1"># --max-rtt-timeout 100ms: Sets the specified time value as maximum RTT timeout.</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="max-retries">Max Retries</h3>
 <p>The default value for the retry rate is 10, so if Nmap does not receive a response for a port, it will not send any more packets to the port and will be skipped.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="go">sudo nmap $ip/24 -F --max-retries 0</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="go">sudo nmap $ip/24 -F --max-retries 0</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="rates">Rates</h3>
 <p>When setting the minimum rate (--min-rate) for sending packets, we tell <code>Nmap</code> to simultaneously send the specified number of packets.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span>/24<span class="w"> </span>-F<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">300</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># --min-rate 300 Sets the minimum number of packets to be sent per second.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span>/24<span class="w"> </span>-F<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">300</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="c1"># --min-rate 300 Sets the minimum number of packets to be sent per second.</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="timing">Timing</h3>
 <p>Nmap offers six different timing templates (<code>-T &lt;0-5&gt;</code>), being defaul one, -T 3.</p>
 <table>
@@ -18004,43 +18179,59 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ol>
 <p>Unlike outgoing connections, all connection attempts (with the <code>SYN</code> flag) from external networks are usually blocked by firewalls. However, the packets with the <code>ACK</code> flag are often passed by the firewall because the firewall cannot determine whether the connection was first established from the external network or the internal network.</p>
 <h3 id="detect-a-waf">Detect a WAF</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span><span class="w"> </span>-script<span class="w"> </span>http-waf-detect<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span><span class="w"> </span>-script<span class="w"> </span>http-waf-detect<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="decoys">Decoys</h3>
 <p>There are cases in which administrators block specific subnets from different regions in principle. Decoys can be used for SYN, ACK, ICMP scans, and OS detection scans. </p>
 <p>With the <strong>Decoy scanning method (-D)</strong>, Nmap generates various random IP addresses inserted into the IP header to disguise the origin of the packet sent.  </p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="go">sudo nmap $ip -p 80 -sS -Pn -n --disable-arp-ping --packet-trace -D RND:5</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="gp"># </span>-D<span class="w"> </span>RND:5<span class="w">  </span>Generates<span class="w"> </span>five<span class="w"> </span>random<span class="w"> </span>IP<span class="w"> </span>addresses<span class="w"> </span>that<span class="w"> </span>indicates<span class="w"> </span>the<span class="w"> </span><span class="nb">source</span><span class="w"> </span>IP<span class="w"> </span>the<span class="w"> </span>connection<span class="w"> </span>comes<span class="w"> </span>from.
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<span class="normal"><a href="#__codelineno-16-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="go">sudo nmap $ip -p 80 -sS -Pn -n --disable-arp-ping --packet-trace -D RND:5</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="gp"># </span>-D<span class="w"> </span>RND:5<span class="w">  </span>Generates<span class="w"> </span>five<span class="w"> </span>random<span class="w"> </span>IP<span class="w"> </span>addresses<span class="w"> </span>that<span class="w"> </span>indicates<span class="w"> </span>the<span class="w"> </span><span class="nb">source</span><span class="w"> </span>IP<span class="w"> </span>the<span class="w"> </span>connection<span class="w"> </span>comes<span class="w"> </span>from.
+</span></code></pre></div></td></tr></table></div>
 <p>Manually specify <strong>IP address (-S)</strong> for getting to services only accessible from individual subnets:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="go">sudo nmap 10.129.2.28 -n -Pn -p 445 -O -S 10.129.2.200 -e tun0</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="gp"># </span>-n:<span class="w"> </span>Disables<span class="w"> </span>DNS<span class="w"> </span>resolution.
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="gp"># </span>-Pn:<span class="w"> </span>Disables<span class="w"> </span>ICMP<span class="w"> </span>Echo<span class="w"> </span>requests.
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="gp"># </span>-p<span class="w"> </span><span class="m">445</span>:<span class="w"> </span>Scans<span class="w"> </span>only<span class="w"> </span>the<span class="w"> </span>specified<span class="w"> </span>ports.
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="gp"># </span>-O:<span class="w"> </span>Performs<span class="w"> </span>operation<span class="w"> </span>system<span class="w"> </span>detection<span class="w"> </span>scan.
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="gp"># </span>-S:<span class="w"> </span>Scans<span class="w"> </span>the<span class="w"> </span>target<span class="w"> </span>by<span class="w"> </span>using<span class="w"> </span>different<span class="w"> </span><span class="nb">source</span><span class="w"> </span>IP<span class="w"> </span>address.
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="gp"># </span>-e<span class="w"> </span>tun0:<span class="w"> </span>Sends<span class="w"> </span>all<span class="w"> </span>requests<span class="w"> </span>through<span class="w"> </span>the<span class="w"> </span>specified<span class="w"> </span>interface.
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span>
+<span class="normal"><a href="#__codelineno-17-3">3</a></span>
+<span class="normal"><a href="#__codelineno-17-4">4</a></span>
+<span class="normal"><a href="#__codelineno-17-5">5</a></span>
+<span class="normal"><a href="#__codelineno-17-6">6</a></span>
+<span class="normal"><a href="#__codelineno-17-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="go">sudo nmap 10.129.2.28 -n -Pn -p 445 -O -S 10.129.2.200 -e tun0</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="gp"># </span>-n:<span class="w"> </span>Disables<span class="w"> </span>DNS<span class="w"> </span>resolution.
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="gp"># </span>-Pn:<span class="w"> </span>Disables<span class="w"> </span>ICMP<span class="w"> </span>Echo<span class="w"> </span>requests.
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="gp"># </span>-p<span class="w"> </span><span class="m">445</span>:<span class="w"> </span>Scans<span class="w"> </span>only<span class="w"> </span>the<span class="w"> </span>specified<span class="w"> </span>ports.
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a><span class="gp"># </span>-O:<span class="w"> </span>Performs<span class="w"> </span>operation<span class="w"> </span>system<span class="w"> </span>detection<span class="w"> </span>scan.
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a><span class="gp"># </span>-S:<span class="w"> </span>Scans<span class="w"> </span>the<span class="w"> </span>target<span class="w"> </span>by<span class="w"> </span>using<span class="w"> </span>different<span class="w"> </span><span class="nb">source</span><span class="w"> </span>IP<span class="w"> </span>address.
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a><span class="gp"># </span>-e<span class="w"> </span>tun0:<span class="w"> </span>Sends<span class="w"> </span>all<span class="w"> </span>requests<span class="w"> </span>through<span class="w"> </span>the<span class="w"> </span>specified<span class="w"> </span>interface.
+</span></code></pre></div></td></tr></table></div>
 <h3 id="dns-proxying">DNS proxying</h3>
 <p>The DNS queries are made over the <code>UDP port 53</code>. The <code>TCP port 53</code> was previously only used for the so-called "<code>Zone transfers</code>" between the DNS servers or data transfer larger than 512 bytes. More and more, this is changing due to IPv6 and DNSSEC expansions. These changes cause many DNS requests to be made via TCP port 53.</p>
 <p>Bypassing demilitarized zone (DMZ) by specifying DNS servers ourselves (we can use the company's DNS server). 
 <code>--dns-server &lt;ns&gt;,&lt;ns&gt;</code></p>
 <p>We can also use TCP port 53 as a source port (<code>--source-port</code>) for our scans. If the administrator uses the firewall to control this port and does not filter IDS/IPS properly, our TCP packets will be trusted and passed through. </p>
 <p>Example:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Simple SYS-Scan of a filtered port</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p50000<span class="w"> </span>-sS<span class="w"> </span>-Pn<span class="w"> </span>-n<span class="w"> </span>--disable-arp-ping<span class="w"> </span>--packet-trace
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="c1"># PORT      STATE    SERVICE</span>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># 50000/tcp filtered ibm-db2</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># SYN-Scan From DNS Port</span>
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="c1"># PORT      STATE SERVICE</span>
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># 50000/tcp open  ibm-db2</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="c1"># Simple SYS-Scan of a filtered port</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-p50000<span class="w"> </span>-sS<span class="w"> </span>-Pn<span class="w"> </span>-n<span class="w"> </span>--disable-arp-ping<span class="w"> </span>--packet-trace
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="c1"># PORT      STATE    SERVICE</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="c1"># 50000/tcp filtered ibm-db2</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a><span class="c1"># SYN-Scan From DNS Port</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a><span class="c1"># PORT      STATE SERVICE</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a><span class="c1"># 50000/tcp open  ibm-db2</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Following the example, a possible exploitation for this weak configuration would be:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="udp-scans-not-working-on-vpn-connections">UDP scans not working on VPN connections</h3>
 <p>Explanation from https://www.reddit.com/r/nmap/comments/u08lud/havin_a_rough_go_of_trying_to_scan_a_subnet_with/:</p>
 <blockquote>
@@ -18065,13 +18256,18 @@ When the port is shown as closed, the TCP protocol indicates that the packet we 
 <p><strong>closed|filtered</strong> port:</p>
 <p>This state only occurs in the <strong>IP ID idle</strong> scans and indicates that it was impossible to determine if the scanned port is closed or filtered by a firewall.</p>
 <h3 id="probes-for-host-discovery">Probes for HOST discovery</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>TCP SYN probe (-PS &lt;portlist&gt;)
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>TCP ACK probe (-PA &lt;portlist&gt;)
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>UDP probe (-PU &lt;portlist&gt;)
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>ICMP Echo Request/Ping (-PE)
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>ICMP Timestamp Request (-PP)
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>ICMP Netmask Request (-PM)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span>
+<span class="normal"><a href="#__codelineno-20-4">4</a></span>
+<span class="normal"><a href="#__codelineno-20-5">5</a></span>
+<span class="normal"><a href="#__codelineno-20-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>TCP SYN probe (-PS &lt;portlist&gt;)
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a>TCP ACK probe (-PA &lt;portlist&gt;)
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3"></a>UDP probe (-PU &lt;portlist&gt;)
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4"></a>ICMP Echo Request/Ping (-PE)
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5"></a>ICMP Timestamp Request (-PP)
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6"></a>ICMP Netmask Request (-PM)
+</span></code></pre></div></td></tr></table></div>
 <p>List of the most filtered ports:  80, 25, 22, 443, 21, 113, 23, 53, 554, 3389, 1723. These are valuable ping ports.</p>
 <h3 id="scans">Scans</h3>
 <h4 id="-ss-or-tcp-syn-scan">-sS (or TCP SYN scan)</h4>
@@ -18109,53 +18305,71 @@ When the port is shown as closed, the TCP protocol indicates that the packet we 
 </ul>
 <h2 id="how-to-identify-operating-system-using-ttl-value-and-ping-command">How To Identify Operating System Using TTL Value And Ping Command</h2>
 <p>After running:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="go">sudo nmap $ip -sn -oA host -PE --packet-trace --disable-arp-ping </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="go">sudo nmap $ip -sn -oA host -PE --packet-trace --disable-arp-ping </span>
+</span></code></pre></div></td></tr></table></div>
 <p>We can get:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="go">Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-15 00:12 CEST</span>
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="go">SENT (0.0107s) ICMP [10.10.14.2 &gt; 10.129.2.18 Echo request (type=8/code=0) id=13607 seq=0] IP [ttl=255 id=23541 iplen=28 ]</span>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="go">RCVD (0.0152s) ICMP [10.129.2.18 &gt; 10.10.14.2 Echo reply (type=0/code=0) id=13607 seq=0] IP [ttl=128 id=40622 iplen=28 ]</span>
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="go">Nmap scan report for 10.129.2.18</span>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="go">Host is up (0.086s latency).</span>
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="go">MAC Address: DE:AD:00:00:BE:EF</span>
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="go">Nmap done: 1 IP address (1 host up) scanned in 0.11 seconds</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
+<span class="normal"><a href="#__codelineno-22-2">2</a></span>
+<span class="normal"><a href="#__codelineno-22-3">3</a></span>
+<span class="normal"><a href="#__codelineno-22-4">4</a></span>
+<span class="normal"><a href="#__codelineno-22-5">5</a></span>
+<span class="normal"><a href="#__codelineno-22-6">6</a></span>
+<span class="normal"><a href="#__codelineno-22-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="go">Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-15 00:12 CEST</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="go">SENT (0.0107s) ICMP [10.10.14.2 &gt; 10.129.2.18 Echo request (type=8/code=0) id=13607 seq=0] IP [ttl=255 id=23541 iplen=28 ]</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="go">RCVD (0.0152s) ICMP [10.129.2.18 &gt; 10.10.14.2 Echo reply (type=0/code=0) id=13607 seq=0] IP [ttl=128 id=40622 iplen=28 ]</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4"></a><span class="go">Nmap scan report for 10.129.2.18</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5"></a><span class="go">Host is up (0.086s latency).</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6"></a><span class="go">MAC Address: DE:AD:00:00:BE:EF</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7"></a><span class="go">Nmap done: 1 IP address (1 host up) scanned in 0.11 seconds</span>
+</span></code></pre></div></td></tr></table></div>
 <p>You can quickly detect whether a system is running with Linux, or Windows or any other OS by looking at the TTL value from the output of the <strong><code>ping</code></strong> command. You don't need any extra applications to detect a remote system's OS. The default initial TTL value for <strong>Linux/Unix</strong> is <strong>64</strong>, and TTL value for <strong>Windows</strong> is <strong>128</strong>.</p>
 <p><img alt="TTL" src="../img/ttl.png" /></p>
 <h2 id="saving-the-results">Saving the results</h2>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="go">-oN: Normal output with .nmap file extension</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="go">-oG: Grepable output with the .gnmap file extension</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="go">-oX: XML output  with the .xml file extension</span>
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="go">-oA: Save results in all formats</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
+<span class="normal"><a href="#__codelineno-23-2">2</a></span>
+<span class="normal"><a href="#__codelineno-23-3">3</a></span>
+<span class="normal"><a href="#__codelineno-23-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="go">-oN: Normal output with .nmap file extension</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="go">-oG: Grepable output with the .gnmap file extension</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="go">-oX: XML output  with the .xml file extension</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a><span class="go">-oA: Save results in all formats</span>
+</span></code></pre></div></td></tr></table></div>
 <p>With the XML output, we can easily create HTML reports. To convert the stored results from XML format to HTML, we can use the tool  <a href="../xsltproc/">xsltproc</a>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="go">xsltproc target.xml -o target.html</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="go">xsltproc target.xml -o target.html</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="quick-techniques">Quick techniques</h2>
 <h3 id="host-enumeration-determining-if-host-is-alive-with-arp-ping">Host Enumeration: Determining if host is alive with ARP ping</h3>
 <p>It can be done with <code>-packet-trace</code> or  with  <code>--reason</code>. </p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="go">sudo nmap &lt;IP&gt; -sn -oA host o</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="gp"># </span>-sn<span class="w">   </span>Disables<span class="w"> </span>port<span class="w"> </span>scanning.
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="gp"># </span>-oA<span class="w"> </span>host<span class="w">  </span>Stores<span class="w"> </span>the<span class="w"> </span>results<span class="w"> </span><span class="k">in</span><span class="w"> </span>all<span class="w"> </span>formats<span class="w"> </span>starting<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>name<span class="w"> </span><span class="s1">&#39;host&#39;</span>.
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="gp"># </span>-PE<span class="w">   </span>Performs<span class="w"> </span>the<span class="w"> </span>ping<span class="w"> </span>scan<span class="w"> </span>by<span class="w"> </span>using<span class="w"> </span><span class="s1">&#39;ICMP Echo requests&#39;</span><span class="w"> </span>against<span class="w"> </span>the<span class="w"> </span>target.
-</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="gp"># </span>--packet-trace<span class="w">    </span>Shows<span class="w"> </span>all<span class="w"> </span>packets<span class="w"> </span>sent<span class="w"> </span>and<span class="w"> </span>received
-</span></code></pre></div>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="go">sudo nmap &lt;IP&gt; -sn -oA host -PE --reason</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="gp"># </span>-sn<span class="w">   </span>Disables<span class="w"> </span>port<span class="w"> </span>scanning.
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="gp"># </span>-oA<span class="w"> </span>host<span class="w">  </span>Stores<span class="w"> </span>the<span class="w"> </span>results<span class="w"> </span><span class="k">in</span><span class="w"> </span>all<span class="w"> </span>formats<span class="w"> </span>starting<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>name<span class="w"> </span><span class="s1">&#39;host&#39;</span>.
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="gp"># </span>-PE<span class="w">   </span>Performs<span class="w"> </span>the<span class="w"> </span>ping<span class="w"> </span>scan<span class="w"> </span>by<span class="w"> </span>using<span class="w"> </span><span class="s1">&#39;ICMP Echo requests&#39;</span><span class="w"> </span>against<span class="w"> </span>the<span class="w"> </span>target.
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="gp"># </span>--reason<span class="w">  </span>Displays<span class="w"> </span>the<span class="w"> </span>reason<span class="w"> </span><span class="k">for</span><span class="w"> </span>specific<span class="w"> </span>result.
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
+<span class="normal"><a href="#__codelineno-25-2">2</a></span>
+<span class="normal"><a href="#__codelineno-25-3">3</a></span>
+<span class="normal"><a href="#__codelineno-25-4">4</a></span>
+<span class="normal"><a href="#__codelineno-25-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="go">sudo nmap &lt;IP&gt; -sn -oA host o</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="gp"># </span>-sn<span class="w">   </span>Disables<span class="w"> </span>port<span class="w"> </span>scanning.
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="gp"># </span>-oA<span class="w"> </span>host<span class="w">  </span>Stores<span class="w"> </span>the<span class="w"> </span>results<span class="w"> </span><span class="k">in</span><span class="w"> </span>all<span class="w"> </span>formats<span class="w"> </span>starting<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>name<span class="w"> </span><span class="s1">&#39;host&#39;</span>.
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="gp"># </span>-PE<span class="w">   </span>Performs<span class="w"> </span>the<span class="w"> </span>ping<span class="w"> </span>scan<span class="w"> </span>by<span class="w"> </span>using<span class="w"> </span><span class="s1">&#39;ICMP Echo requests&#39;</span><span class="w"> </span>against<span class="w"> </span>the<span class="w"> </span>target.
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="gp"># </span>--packet-trace<span class="w">    </span>Shows<span class="w"> </span>all<span class="w"> </span>packets<span class="w"> </span>sent<span class="w"> </span>and<span class="w"> </span>received
+</span></code></pre></div></td></tr></table></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span>
+<span class="normal"><a href="#__codelineno-26-4">4</a></span>
+<span class="normal"><a href="#__codelineno-26-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="go">sudo nmap &lt;IP&gt; -sn -oA host -PE --reason</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="gp"># </span>-sn<span class="w">   </span>Disables<span class="w"> </span>port<span class="w"> </span>scanning.
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a><span class="gp"># </span>-oA<span class="w"> </span>host<span class="w">  </span>Stores<span class="w"> </span>the<span class="w"> </span>results<span class="w"> </span><span class="k">in</span><span class="w"> </span>all<span class="w"> </span>formats<span class="w"> </span>starting<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>name<span class="w"> </span><span class="s1">&#39;host&#39;</span>.
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4"></a><span class="gp"># </span>-PE<span class="w">   </span>Performs<span class="w"> </span>the<span class="w"> </span>ping<span class="w"> </span>scan<span class="w"> </span>by<span class="w"> </span>using<span class="w"> </span><span class="s1">&#39;ICMP Echo requests&#39;</span><span class="w"> </span>against<span class="w"> </span>the<span class="w"> </span>target.
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5"></a><span class="gp"># </span>--reason<span class="w">  </span>Displays<span class="w"> </span>the<span class="w"> </span>reason<span class="w"> </span><span class="k">for</span><span class="w"> </span>specific<span class="w"> </span>result.
+</span></code></pre></div></td></tr></table></div>
 <p>To disable ARP requests and scan our target with the desired <code>ICMP echo requests</code>, we can disable ARP pings by setting the "<code>--disable-arp-ping</code>" option.</p>
 <h3 id="port-scanning-having-a-clear-view-of-a-syn-scan-on-a-port">Port scanning: having a clear view of a SYN scan on a port</h3>
 <p>To have a clear view of the SYN scan on port 21,  disable the ICMP echo requests (<code>-Pn</code>), DNS resolution (<code>-n</code>), and ARP ping scan (<code>--disable-arp-ping</code>).</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="go">sudo nmap &lt;IP&gt; -p 21 --packet-trace -Pn -n --disable-arp-ping</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="go">sudo nmap &lt;IP&gt; -p 21 --packet-trace -Pn -n --disable-arp-ping</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="performing-a-ftp-bounce-attack">Performing a FTP bounce attack</h3>
 <p>An FTP bounce attack is a network attack that uses FTP servers to deliver outbound traffic to another device on the network. For instance, consider we are targetting an FTP Server <code>FTP_DMZ</code> exposed to the internet. Another device within the same network, <code>Internal_DMZ</code>, is not exposed to the internet. We can use the connection to the <code>FTP_DMZ</code> server to scan <code>Internal_DMZ</code> using the FTP Bounce attack and obtain information about the server's open ports.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="go">nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz</span>
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="gp"># </span>-b<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>Nmap<span class="sb">`</span><span class="w"> </span>-b<span class="w"> </span>flag<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>an<span class="w"> </span>FTP<span class="w"> </span>bounce<span class="w"> </span>attack:<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span>
+<span class="normal"><a href="#__codelineno-28-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="go">nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a><span class="gp"># </span>-b<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>Nmap<span class="sb">`</span><span class="w"> </span>-b<span class="w"> </span>flag<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>an<span class="w"> </span>FTP<span class="w"> </span>bounce<span class="w"> </span>attack:<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -18231,7 +18445,7 @@ When the port is shown as closed, the TCP protocol indicates that the packet we 
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

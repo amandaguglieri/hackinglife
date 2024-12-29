@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17016,44 +17039,80 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>It feels like an eternity since I embarked on my first walkthroughs of the Overthewire game challenges. However, the reality is that this happened just one year ago (or maybe two). During those days, I was consumed by an intense obsession with documenting every single step I took. Allow me to relive and share a snippet of my explanation for progressing from level 31 to level 32 in Bandit so you can draw your own conclusions:</p>
 <details class="abstract">
 <summary>Click to keep reading why this is a mess</summary>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>1. mkdir /tmp/amanda31
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>2. cd /tmp/amanda31
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>3. git clone ssh://bandit31-git@localhost/home/bandit31-git/repo
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>4. cd repo
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a># when listing repo, you can realize that there is a .gitignore file
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>5. ls -la
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a># Print the .gitignore file to see which changes are not being commited
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>6. cat .gitignore
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a># &quot;*.txt&quot; files are being excluded from being pushed
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>7. cat README.md
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a># README.md file will provide you with the instructions to pass the level: &quot;This time your task is to push a file to the remote repository.
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a># Details:
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>#    File name: key.txt
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>#    Content: &#39;May I come in?&#39;
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>#    Branch: master  &quot;
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a># Remove &quot;*.txt&quot; from .gitignore&quot;
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>8. echo &quot;&quot; &gt; .gitignore
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a># Create a key.txt file
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>9. echo &quot;May I come in?&quot; &gt; ./.git/key.txt
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a># Add these changes to the commit
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>10. git add -A
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a># Commit the changes in your repository. A line with the explanation of the changes may be required
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>11. git commit
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a># Push the changes to the server
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>12. git push
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a># In the results of the git push commands, the server will 
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a># provide the password for the next level.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>1. mkdir /tmp/amanda31
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>2. cd /tmp/amanda31
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>3. git clone ssh://bandit31-git@localhost/home/bandit31-git/repo
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>4. cd repo
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a># when listing repo, you can realize that there is a .gitignore file
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>5. ls -la
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a># Print the .gitignore file to see which changes are not being commited
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>6. cat .gitignore
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a># &quot;*.txt&quot; files are being excluded from being pushed
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>7. cat README.md
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a># README.md file will provide you with the instructions to pass the level: &quot;This time your task is to push a file to the remote repository.
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a># Details:
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>#    File name: key.txt
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>#    Content: &#39;May I come in?&#39;
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>#    Branch: master  &quot;
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a># Remove &quot;*.txt&quot; from .gitignore&quot;
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>8. echo &quot;&quot; &gt; .gitignore
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a># Create a key.txt file
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>9. echo &quot;May I come in?&quot; &gt; ./.git/key.txt
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a># Add these changes to the commit
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>10. git add -A
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a># Commit the changes in your repository. A line with the explanation of the changes may be required
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>11. git commit
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a># Push the changes to the server
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>12. git push
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a># In the results of the git push commands, the server will 
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a># provide the password for the next level.
+</span></code></pre></div></td></tr></table></div>
 <p>Smile on my face. I even commented what "git push" or "cat file.txt" were executing! XDDDDDDDD</p>
 <p>I also vividly remember spending <strong>A LOT</strong> of time doing this. But you know what? I don't care what my colleagues say. All that time was completely worthwhile because it helped me integrate that knowledge into my tired brain. Take, for instance, <a href="../vulnhub-goldeneye-1/">the walkthrough of vulnhub Goldeneye 1</a>. It took me a while to format and prepare it for sharing (and I did it with the intention of sharing).</p>
 <p>Now things have changed. <strong>I don't do that anymore. I've become selfish. My walkthroughs have transformed into a list of steps linked to tools, tags and concise explanations, solely for the purpose of helping me remember that machine</strong>. They are probably only useful to me (not suitable for LinkedIn hahaha). </p>
@@ -17173,7 +17232,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

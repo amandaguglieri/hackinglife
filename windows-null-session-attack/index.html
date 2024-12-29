@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17055,45 +17078,54 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <ol>
 <li><strong>Enumerate File Server services</strong>:    </li>
 </ol>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nbtstat -A $ip  
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a># ELS-WINXP   &lt;00&gt;   UNIQUE   Registered
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a># &lt;00&gt; tells us ELS-WINXP is a workstation.
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a># &lt;20&gt; says that the file sharing service is up and running on the machine
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a># UNIQUE tells us that this compiter must have only one IP address assigned
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>nbtstat -A $ip  
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a># ELS-WINXP   &lt;00&gt;   UNIQUE   Registered
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a># &lt;00&gt; tells us ELS-WINXP is a workstation.
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a># &lt;20&gt; says that the file sharing service is up and running on the machine
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a># UNIQUE tells us that this compiter must have only one IP address assigned
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li><strong>Enumerate Windows Shares</strong>. Once we spot a machine with the File Server service running, we can enumerate:</li>
 </ol>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>NET VIEW $ip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>NET VIEW $ip
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Verify if a null attack is possible by exploiting the IPC$ administrative share and trying to connect without valid credentials.</li>
 </ol>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>NET USE \\$ip\IPC$ ‘’ /u:’’
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>NET USE \\$ip\IPC$ ‘’ /u:’’
+</span></code></pre></div></td></tr></table></div>
 <p>This tells Windows to connect to the IPC$ share by using an empty password and a empty username. It only works with IPC$ (not c$).</p>
 <h2 id="manually-from-linux">Manually from Linux</h2>
 <p>Using the samba suite: https://www.samba.org/</p>
 <ol>
 <li><strong>Enumerate File Server services</strong>: </li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nmblookup<span class="w"> </span>-A<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>nmblookup<span class="w"> </span>-A<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Also with the smbclient we can <strong>enumerate the shares</strong> provides by a host:  </li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>//<span class="nv">$ip</span><span class="w"> </span>-N
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># -L  Look at what services are available on a target</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># $ip Prepend the two slahes</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># -N  Force the tool not to ask for a password</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>//<span class="nv">$ip</span><span class="w"> </span>-N
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1"># -L  Look at what services are available on a target</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1"># $ip Prepend the two slahes</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="c1"># -N  Force the tool not to ask for a password</span>
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Connect:</li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>smbclient<span class="w"> </span><span class="se">\\</span><span class="nv">$ip</span><span class="se">\s</span>haredfolder<span class="w"> </span>-N
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>smbclient<span class="w"> </span><span class="se">\\</span><span class="nv">$ip</span><span class="se">\s</span>haredfolder<span class="w"> </span>-N
+</span></code></pre></div></td></tr></table></div>
 <p>Be careful, sometimes the shell removes the slashes and you need to escape them.</p>
 <ol>
 <li>Once connected you can browse with the smb command line. To see allowed commands: help </li>
@@ -17101,26 +17133,26 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>When you know the path of a file and you want to retrieve it:</p>
 <ul>
 <li>from kali: 
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>smbget<span class="w"> </span>smb://<span class="nv">$ip</span>/SharedFolder/flag_1.txt
-</span></code></pre></div></li>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>smbget<span class="w"> </span>smb://<span class="nv">$ip</span>/SharedFolder/flag_1.txt
+</span></code></pre></div></td></tr></table></div></li>
 <li>from  smb command line: 
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>get flag_1.txt
-</span></code></pre></div></li>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>get flag_1.txt
+</span></code></pre></div></td></tr></table></div></li>
 </ul>
 </li>
 <li>
 <p>To map users with permissions</p>
 </li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>smbmap<span class="w"> </span>-H<span class="w"> </span>demo.ine.local
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>smbmap<span class="w"> </span>-H<span class="w"> </span>demo.ine.local
+</span></code></pre></div></td></tr></table></div>
 <p>To get an specific file in a connection: get flag.txt</p>
 <h2 id="tricks">Tricks</h2>
 <p>Enumerate users with enum4linux -U demo.ine.local</p>
 <p>Enumerate the permissions of users with smbmap -H demo.ine.local</p>
 <p>If some users are missing in the permission list, maybe they are accesible, try with:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>smbclient -L //$ip\&lt;user&gt; -N
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>smbclient -L //$ip\&lt;user&gt; -N
+</span></code></pre></div></td></tr></table></div>
 <h2 id="more-tools">More tools</h2>
 <ul>
 <li><a href="../winfo/">Winfo</a>.</li>
@@ -17203,7 +17235,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

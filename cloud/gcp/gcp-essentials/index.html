@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -18222,16 +18245,24 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>From GCP web dashboard, go to Compute Engine, then Instance Templates. </li>
 <li>Select machine type, disk image, and allow  HTTP and HTTPs in firewall configuration since we are launching a web server. Configure automation to get the server running from booting. Add the following script:</li>
 </ul>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Add the below script while creating the instance template </span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">#! /bin/bash </span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>apt-get<span class="w"> </span>update<span class="w"> </span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apache2<span class="w"> </span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; /var/www/html/index.html </span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="s">&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from $(hostname)&lt;/h1&gt; </span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="s">&lt;/body&gt;&lt;/html&gt; </span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="s">EOF</span><span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">7</a></span>
+<span class="normal"><a href="#__codelineno-0-8">8</a></span>
+<span class="normal"><a href="#__codelineno-0-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Add the below script while creating the instance template </span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">#! /bin/bash </span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>apt-get<span class="w"> </span>update<span class="w"> </span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>apache2<span class="w"> </span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; /var/www/html/index.html </span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="s">&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from $(hostname)&lt;/h1&gt; </span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="s">&lt;/body&gt;&lt;/html&gt; </span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="s">EOF</span><span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <ul>
 <li>Create the template.</li>
 <li>Now go to Instance group for setting up the deployment. Configure multiple zones, select the instance template (the one you created before) and the number of instances to deploy. Create a Health Check. Launch the instance group and in a few minutes you will have the 2 web servers (Go to VM instances to see them).</li>
@@ -18345,10 +18376,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 </li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>    &lt;service&gt;.&lt;resource&gt;.&lt;verb&gt;
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    - pubsub.subscriptions.consume
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    - compute.instances.insert
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>    &lt;service&gt;.&lt;resource&gt;.&lt;verb&gt;
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>    - pubsub.subscriptions.consume
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>    - compute.instances.insert
+</span></code></pre></div></td></tr></table></div>
 <ul>
 <li>
 <p>Roles – A collection of permissions</p>
@@ -18505,31 +18538,54 @@ and can perform one single query that will automatically join and do group by cl
 <h4 id="case-use">Case use</h4>
 <p>Open BigQuery and open a public dataset. Select Stack Overflow.
 We will try to extract the number of users in Stack Overflow with gold badges and how many days it took them to get there.
-<div class="language-SQL highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">#</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">below</span><span class="w"> </span><span class="k">SQL</span><span class="w"> </span><span class="k">statement</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">BigQuery</span><span class="w"> </span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">badge_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">First_Gold_Badge</span><span class="p">,</span><span class="w">  </span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">       </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Num_Users</span><span class="p">,</span><span class="w"> </span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">       </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">tenure_in_days</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Avg_Num_Days</span><span class="w"> </span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">FROM</span><span class="w"> </span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">(</span><span class="w"> </span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="k">SELECT</span><span class="w">  </span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="n">badges</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">badges</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">badge_name</span><span class="p">,</span><span class="w"> </span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">TIMESTAMP_DIFF</span><span class="p">(</span><span class="n">badges</span><span class="p">.</span><span class="nb">date</span><span class="p">,</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">creation_date</span><span class="p">,</span><span class="w"> </span><span class="k">DAY</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tenure_in_days</span><span class="p">,</span><span class="w"> </span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">badges</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">                       </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">badges</span><span class="p">.</span><span class="nb">date</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">row_number</span><span class="w"> </span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="k">FROM</span><span class="w">  </span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="o">`</span><span class="n">bigquery</span><span class="o">-</span><span class="k">public</span><span class="o">-</span><span class="k">data</span><span class="p">.</span><span class="n">stackoverflow</span><span class="p">.</span><span class="n">badges</span><span class="o">`</span><span class="w"> </span><span class="n">badges</span><span class="w"> </span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span><span class="k">JOIN</span><span class="w"> </span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="o">`</span><span class="n">bigquery</span><span class="o">-</span><span class="k">public</span><span class="o">-</span><span class="k">data</span><span class="p">.</span><span class="n">stackoverflow</span><span class="p">.</span><span class="n">users</span><span class="o">`</span><span class="w"> </span><span class="n">users</span><span class="w"> </span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">  </span><span class="k">ON</span><span class="w"> </span><span class="n">badges</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">id</span><span class="w"> </span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">badges</span><span class="p">.</span><span class="k">class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="p">)</span><span class="w">  </span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">row_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">First_Gold_Badge</span><span class="w"> </span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Num_Users</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span>
-</span></code></pre></div></p>
+<div class="language-SQL highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="o">#</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">below</span><span class="w"> </span><span class="k">SQL</span><span class="w"> </span><span class="k">statement</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">BigQuery</span><span class="w"> </span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">badge_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">First_Gold_Badge</span><span class="p">,</span><span class="w">  </span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">       </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Num_Users</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">       </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">tenure_in_days</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Avg_Num_Days</span><span class="w"> </span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="k">FROM</span><span class="w"> </span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="p">(</span><span class="w"> </span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">  </span><span class="k">SELECT</span><span class="w">  </span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="n">badges</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">    </span><span class="n">badges</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">badge_name</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">    </span><span class="n">TIMESTAMP_DIFF</span><span class="p">(</span><span class="n">badges</span><span class="p">.</span><span class="nb">date</span><span class="p">,</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">creation_date</span><span class="p">,</span><span class="w"> </span><span class="k">DAY</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tenure_in_days</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">    </span><span class="n">ROW_NUMBER</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">badges</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">                       </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">badges</span><span class="p">.</span><span class="nb">date</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">row_number</span><span class="w"> </span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">  </span><span class="k">FROM</span><span class="w">  </span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">    </span><span class="o">`</span><span class="n">bigquery</span><span class="o">-</span><span class="k">public</span><span class="o">-</span><span class="k">data</span><span class="p">.</span><span class="n">stackoverflow</span><span class="p">.</span><span class="n">badges</span><span class="o">`</span><span class="w"> </span><span class="n">badges</span><span class="w"> </span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">  </span><span class="k">JOIN</span><span class="w"> </span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">    </span><span class="o">`</span><span class="n">bigquery</span><span class="o">-</span><span class="k">public</span><span class="o">-</span><span class="k">data</span><span class="p">.</span><span class="n">stackoverflow</span><span class="p">.</span><span class="n">users</span><span class="o">`</span><span class="w"> </span><span class="n">users</span><span class="w"> </span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="w">  </span><span class="k">ON</span><span class="w"> </span><span class="n">badges</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">id</span><span class="w"> </span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">badges</span><span class="p">.</span><span class="k">class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="p">)</span><span class="w">  </span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">row_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">First_Gold_Badge</span><span class="w"> </span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Num_Users</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span>
+</span></code></pre></div></td></tr></table></div></p>
 <h2 id="8-ai-and-ml-services">8. AI and ML Services</h2>
 <ul>
 <li>AI Building Blocks provide AI through simple REST API calls. </li>
@@ -18642,34 +18698,56 @@ We will try to extract the number of users in Stack Overflow with gold badges an
 </ul>
 <h4 id="use-case-adding-an-image-to-gcp-container-registry">Use case: adding an image to GCP Container Registry</h4>
 <p>In GCP Dashboard go yo Container Registry. First time it will be empty. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Run the below commands in Google Cloud Shell </span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w"> </span>gcloud<span class="w"> </span>services<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>containerregistry.googleapis.com<span class="w"> </span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_ID</span><span class="o">=</span>&lt;PROJECT<span class="w"> </span>ID&gt;<span class="w"> </span><span class="c1"># Replace this with your GCP Project ID </span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>docker<span class="w"> </span>pull<span class="w"> </span>busybox<span class="w"> </span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>docker<span class="w"> </span>images<span class="w"> </span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>cat &lt;&lt;EOF &gt;&gt;Dockerfile 
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>from busybox:latest 
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>CMD [&quot;date&quot;] 
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>EOF
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker build . -t mybusybox ç
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a># Tag your image with the convention stated by GCP
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>docker tag mybusybox gcr.io/$PROJECT_ID/mybusybox:latest 
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a># When listing images with docker images, you will see it renamed.
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a># Run your image
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>docker run gcr.io/$PROJECT_ID/mybusybox:latest 
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a># Wire the credentials of GCP Container Registry with Docker
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>gcloud auth configure-docker 
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a># Take our mybusybox image available in the environment and pushes it to the Container Registry.
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>docker push gcr.io/$PROJECT_ID/mybusybox:latest 
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1"># Run the below commands in Google Cloud Shell </span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w"> </span>gcloud<span class="w"> </span>services<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>containerregistry.googleapis.com<span class="w"> </span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_ID</span><span class="o">=</span>&lt;PROJECT<span class="w"> </span>ID&gt;<span class="w"> </span><span class="c1"># Replace this with your GCP Project ID </span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>docker<span class="w"> </span>pull<span class="w"> </span>busybox<span class="w"> </span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>docker<span class="w"> </span>images<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>cat &lt;&lt;EOF &gt;&gt;Dockerfile 
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>from busybox:latest 
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>CMD [&quot;date&quot;] 
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>EOF
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>docker build . -t mybusybox ç
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a># Tag your image with the convention stated by GCP
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>docker tag mybusybox gcr.io/$PROJECT_ID/mybusybox:latest 
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a># When listing images with docker images, you will see it renamed.
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a># Run your image
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>docker run gcr.io/$PROJECT_ID/mybusybox:latest 
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a># Wire the credentials of GCP Container Registry with Docker
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>gcloud auth configure-docker 
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a># Take our mybusybox image available in the environment and pushes it to the Container Registry.
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>docker push gcr.io/$PROJECT_ID/mybusybox:latest 
+</span></code></pre></div></td></tr></table></div>
 <h3 id="94-devel-tools-integration">9.4. Devel Tools Integration</h3>
 <ul>
 <li>IDE plugins for popular development tools.<ul>
@@ -18799,7 +18877,7 @@ We will try to extract the number of users in Stack Overflow with gold badges an
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

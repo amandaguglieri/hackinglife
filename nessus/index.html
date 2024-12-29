@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17045,9 +17068,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Nessus has a client and a server. We use the client to configure the scans and the server to actually perform the scanning processes and report back the result to the client.</p>
 <h2 id="installation">Installation</h2>
 <p>Download .deb from: https://www.tenable.com/downloads/nessus</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>Nessus-10.3.0-debian9_amdb64.deb
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>service<span class="w"> </span>nessusd<span class="w"> </span>start
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>Nessus-10.3.0-debian9_amdb64.deb
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>service<span class="w"> </span>nessusd<span class="w"> </span>start
+</span></code></pre></div></td></tr></table></div>
 <p>Now you can go to https://localhost:8834</p>
 <p>Once installed Nessus Esentials, register in the website to generate an API key.</p>
 <p>Nessus gives us the option to create scan policies. Essentially these are customized scans that allow us to define specific scan options, save the policy configuration, and have them available to us under Scan Templates when creating a new scan. </p>
@@ -17055,15 +17079,15 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>To exclude false positives from scan results Under the <code>Resources</code> section, we can select <code>Plugin Rules</code>. In the new plugin rule, we input the host to be excluded, along with the Plugin ID for Microsoft DirectAccess, for instance.</p>
 <p>Nessus gives us the option to export scan results in a variety of report formats as well as the option to export raw Nessus scan results to be imported into other tools, archived, or passed to tools, such as <a href="https://github.com/FortyNorthSecurity/EyeWitness">EyeWitness</a>. Nessus  gives the option to export scans into two formats <code>Nessus (scan.nessus)</code> or <code>Nessus DB (scan.db)</code>.  The <code>.nessus</code> file is an <code>.xml</code> file and includes a copy of the scan settings and plugin outputs. The <code>.db</code> file contains the <code>.nessus</code> file and the scan's KB, plugin Audit Trail, and any scan attachments.</p>
 <p>Scripts such as the <a href="https://raw.githubusercontent.com/eelsivart/nessus-report-downloader/master/nessus6-report-downloader.rb">nessus-report-downloader</a> can be used to quickly download scan results in all available formats from the CLI using the Nessus REST API:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">./nessus_downloader.rb </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">./nessus_downloader.rb </span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="mitigating-issues">Mitigating Issues</h2>
 <p><strong>1.</strong> Some firewalls will cause us to receive scan results showing either all ports open or no ports open. If this happens, a quick fix is often to configure an Advanced Scan and disable the <code>Ping the remote host</code> option.</p>
 <p><strong>2.</strong> Adjust <code>Performance Options</code> and modify <code>Max Concurrent Checks Per Host</code> if the target host is often under heavy load, such as a widely used web application.</p>
 <p><strong>3.</strong> Unless specifically requested, we should never perform Denial of Service checks. The "safe checks" setting allows Nessus users to enable a set of plugins within Nessus' library of vulnerability checks which Tenable feels can have negative effects on the network, device or application being tested. </p>
 <p><strong>4.</strong> It is also essential to keep in mind the potential impact of vulnerability scanning on a network, especially on low bandwidth or congested links. This can be measured using <a href="https://humdi.net/vnstat/">vnstat</a>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">sudo vnstat -l -i eth0</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">sudo vnstat -l -i eth0</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="nessus-plugins">Nessus plugins</h3>
 <p>Nessus works with plugins written in the <a href="https://en.wikipedia.org/wiki/Nessus_Attack_Scripting_Language">Nessus Attack Scripting Language (NASL)</a> and can target new vulnerabilities and CVEs.  These plugins contain information such as the vulnerability name, impact, remediation, and a way to test for the presence of a particular issue.</p>
 
@@ -17141,7 +17165,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

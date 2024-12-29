@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17152,40 +17175,43 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <h3 id="steps">Steps</h3>
 <p><strong>1.</strong> Start crAPI applicationi</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lab/crapi
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>docker-compose<span class="w"> </span>start
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lab/crapi
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>sudo<span class="w"> </span>docker-compose<span class="w"> </span>start
+</span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Open the browser, and select "postman 5555" in your Foxyproxy addon to proxy the traffic. </p>
 <p><strong>3.</strong> Open your local crapi application in the browser: http://localhost:8888</p>
 <p><strong>4.</strong> Run postman from the command line:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>postman
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>postman
+</span></code></pre></div></td></tr></table></div>
 <p><strong>5.</strong> Once postman is open, press on "Capture traffic link" (at the bottom right of the application). Set up the capture, and make sure that proxy is enabled in the application. A useful shortcut to go to Settings is CTRL-, (comma).</p>
 <p><strong>6.</strong> Now you are capturing the traffic. Go through your crapi application and when done, go to postman and stop the capture. </p>
 <p><strong>7.</strong> Final step is to filter out the requests you want and add them to a collection. In the collection, you will be able to organize these requests in folders /endpoints.</p>
 <h2 id="build-out-an-api-specification-using-mitmproxy2swagger">Build out an API specification using mitmproxy2swagger</h2>
 <h3 id="steps_1">Steps</h3>
 <p><strong>1.</strong> From cli, run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mitmweb
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>mitmweb
+</span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Select burp 8080 in the foxyproxy addon in your browser.</p>
 <p><strong>3.</strong> Open a tab in your browser with the mitmweb proxy service: http://localhost:8081, and make sure that traffic is being captured there.</p>
 <p><strong>4.</strong> Now you are capturing the traffic. Go through your crapi application and when done, turn off the foxyproxy.</p>
 <p><strong>5.</strong> In the mitmweb service at http://localhost:8081, go to File&gt;Save. A file called "flows" will be downloaded to your download folder.</p>
 <p><strong>6.</strong> We need to parse this "flows" file into something understandable by Postman. For that, we will use a tool called mitmproxy2swagger, which will transform our captured traffic into an Open API 3.0 YAML file that can be viewed in a browser and imported as a collection into Postman. Run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>mitmproxy2swagger<span class="w"> </span>-i<span class="w"> </span>~/Downloads/flows<span class="w"> </span>-o<span class="w"> </span>spec.yml<span class="w"> </span>-p<span class="w"> </span>http://localhost:8888/<span class="w"> </span>-f<span class="w"> </span>flow<span class="w"> </span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># -i: input    |  -o: output   | -p: target   |  -f: force format to the specified.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo<span class="w"> </span>mitmproxy2swagger<span class="w"> </span>-i<span class="w"> </span>~/Downloads/flows<span class="w"> </span>-o<span class="w"> </span>spec.yml<span class="w"> </span>-p<span class="w"> </span>http://localhost:8888/<span class="w"> </span>-f<span class="w"> </span>flow<span class="w"> </span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1"># -i: input    |  -o: output   | -p: target   |  -f: force format to the specified.</span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>7.</strong> Edit spec.yml to remove "ignore:" when it proceeds, and save changes . </p>
 <p><img alt="ignore" src="../../img/ignore.png" /> </p>
 <p><strong>Run again mitmproxy2swagger to populate your spec with examples.</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>mitmproxy2swagger<span class="w"> </span>-i<span class="w"> </span>~/Downloads/flows<span class="w"> </span>-o<span class="w"> </span>spec.yml<span class="w"> </span>-p<span class="w"> </span>http://localhost:8888/<span class="w"> </span>-f<span class="w"> </span>flow<span class="w"> </span>--examples
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># --examples will grab the previously created spec.yml and will populate it with real examples. We do this in two steps to avoid creating examples for request out of scope.  </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sudo<span class="w"> </span>mitmproxy2swagger<span class="w"> </span>-i<span class="w"> </span>~/Downloads/flows<span class="w"> </span>-o<span class="w"> </span>spec.yml<span class="w"> </span>-p<span class="w"> </span>http://localhost:8888/<span class="w"> </span>-f<span class="w"> </span>flow<span class="w"> </span>--examples
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c1"># --examples will grab the previously created spec.yml and will populate it with real examples. We do this in two steps to avoid creating examples for request out of scope.  </span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>8.</strong> Open https://editor.swagger.io/ and click on File &gt; Import. Import your spec.yml. The goal here is to validate the structure of your file.</p>
 <p><strong>9.</strong> If everything is ok, open the postman application:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>postman
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>postman
+</span></code></pre></div></td></tr></table></div>
 <p><strong>10.</strong> In postman, go to File &gt; Import, and select the spec.yml file. After importing it, you will be able to add it to a collection, and compare this collection against that created by browsing just with postman.</p>
 <h2 id="data-exposure">Data Exposure</h2>
 <p>Quoting directly from the course: "When making a request to an endpoint, make sure you note the request requirements. Requirements could include some form of authentication, parameters, path variables, headers, and information included in the body of the request. The API documentation should tell you what it requires of you and mention which part of the request that information belongs in. If the documentation provides examples, use them to help you. Typically, you can replace the example values with the ones you’re looking for. The table below describes some of the conventions often used in these examples".</p>
@@ -17291,7 +17317,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

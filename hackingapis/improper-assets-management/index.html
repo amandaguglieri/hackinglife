@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17034,49 +17057,72 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Testing for improper assets management is all about discovering unsupported and non-production versions of an API. </p>
 <h2 id="finding-api-versions">Finding API versions</h2>
 <p>Paths to check out:</p>
-<div class="language-text highlight"><pre><span></span><code>api.target.com/v3
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>api.target.com/v3
 /api/v2/accounts
 /api/v3/accounts
 /v2/accounts
-</code></pre></div>
+</code></pre></div></td></tr></table></div>
 <p>API versioning could also be maintained as a header:</p>
-<div class="language-text highlight"><pre><span></span><code>Accept: version=2.0
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Accept: version=2.0
 Accept api-version=3
-</code></pre></div>
+</code></pre></div></td></tr></table></div>
 <p>In addition versioning could also be set within a query parameter or request body.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/api/accounts?ver=2
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>POST /api/accounts
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>{
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>&quot;ver&quot;:1.0,
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>&quot;user&quot;:&quot;hapihacker&quot;;
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>/api/accounts?ver=2
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>POST /api/accounts
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>{
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>&quot;ver&quot;:1.0,
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>&quot;user&quot;:&quot;hapihacker&quot;;
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>}
+</span></code></pre></div></td></tr></table></div>
 <p>The discovery of non-production versions of an API might not be treated with the same security controls as the production version. </p>
 <h2 id="exploiting-non-production-old-and-deprecate-api-versions">Exploiting non-production, old and deprecate api versions</h2>
 <p>We'll use postman. We are assuming that we have build our collection of requests and that we have identify those parameters regarding API version.</p>
 <p><strong>0</strong>.  On collection, right click and select "Run Collection". In the following screen you can unmark those requests that don't need to be run.  But, first, define a Test.</p>
 <p><strong>1.</strong> Run a test "Status code: Code is 200". In your collection options, go to tab Test and select the option that gives you this code:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pm.test(&quot;Status code is 200&quot;, function () { pm.response.to.have.status(200); })
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>pm.test(&quot;Status code is 200&quot;, function () { pm.response.to.have.status(200); })
+</span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Run an unauthenticated baseline scan of the crAPI collection with the Collection Runner. Make sure that "Save Responses" is checked. Important. Review the results from your unauthenticated baseline scan to have an idea of how the API provider responds to requests using supported production versioning. After that, repeat the same but this time with an Authenticated user, to obtain an authenticated baseline.</p>
 <p><strong>3.</strong> Next, use "Find and Replace" to turn the collection's current versions into a variable. For that, use Environmental variables.</p>
 <p><strong>4.</strong> Run the collection with the variable set to v1, v2, v3, mobile, internal, test, uat..., and check out the different responses.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>In the course, we are using the crAPI app, and by replicating these steps you can spot different code responses for the request {{base_url}}/identity/api/auth/{{var}}/check-otp.
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>/v1 received a 404 Not Found
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>/v2 received a 500 response
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>/v3 received a 500 response
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>Also, body response in /v2 is different from body response in /v3: 
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>The /v2 password reset request responds with the body (left):
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>{&quot;message&quot;:&quot;Invalid OTP! Please try again..&quot;,&quot;status&quot;:500}
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>The /v3 password reset request responds with the body (right):
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>{&quot;message&quot;:&quot;ERROR..&quot;,&quot;status&quot;:500}
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>That might be a sign of improper assets management. Going further and testing it, you can discover that /v2 does not have a limitation on the number of times we can guess the OTP. With a four-digit OTP, we should be able to brute force the OTP within 10,000 requests. Since this endpoint manages resetting passwords, in the end this vulnerability allows you to gain control on any account in the system. 
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>In the course, we are using the crAPI app, and by replicating these steps you can spot different code responses for the request {{base_url}}/identity/api/auth/{{var}}/check-otp.
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>/v1 received a 404 Not Found
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>/v2 received a 500 response
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>/v3 received a 500 response
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>Also, body response in /v2 is different from body response in /v3: 
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>The /v2 password reset request responds with the body (left):
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>{&quot;message&quot;:&quot;Invalid OTP! Please try again..&quot;,&quot;status&quot;:500}
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>The /v3 password reset request responds with the body (right):
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>{&quot;message&quot;:&quot;ERROR..&quot;,&quot;status&quot;:500}
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>That might be a sign of improper assets management. Going further and testing it, you can discover that /v2 does not have a limitation on the number of times we can guess the OTP. With a four-digit OTP, we should be able to brute force the OTP within 10,000 requests. Since this endpoint manages resetting passwords, in the end this vulnerability allows you to gain control on any account in the system. 
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17152,7 +17198,7 @@ Accept api-version=3
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

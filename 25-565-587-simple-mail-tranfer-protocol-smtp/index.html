@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -18295,92 +18318,164 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <p>For this, ESMTP uses TLS for encryption and <a href="https://www.samlogic.net/articles/smtp-commands-reference-auth.htm">AUTH PLAIN</a> extension for authentication. See also <a href="../postfix/">Postfix</a></p>
 <h2 id="basic-commands">Basic commands</h2>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp"># </span>We<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>telnet<span class="w"> </span>protocol<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>SMTP<span class="w"> </span>server
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">telnet $ip 25</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp"># </span>AUTH<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>service<span class="w"> </span>extension<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>authenticate<span class="w"> </span>the<span class="w"> </span>client
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">AUTH PLAIN  </span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>logs<span class="w"> </span><span class="k">in</span><span class="w"> </span>with<span class="w"> </span>its<span class="w"> </span>computer<span class="w"> </span>name<span class="w"> </span>and<span class="w"> </span>thus<span class="w"> </span>starts<span class="w"> </span>the<span class="w"> </span>session.<span class="w"> </span>It<span class="w"> </span>also<span class="w"> </span>lists<span class="w"> </span>all<span class="w"> </span>available<span class="w"> </span>commands
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">EHLO</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp">    # </span>Example:<span class="w"> </span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="gp">    # </span>HELO<span class="w"> </span>mail1.inlanefreight.htb
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>names<span class="w"> </span>the<span class="w"> </span>email<span class="w"> </span>sender
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="go">MAIL FROM   </span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>names<span class="w"> </span>the<span class="w"> </span>email<span class="w"> </span>recipient
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="go">RCPT TO</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>initiates<span class="w"> </span>the<span class="w"> </span>transmission<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>email
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="go">DATA </span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>aborts<span class="w"> </span>the<span class="w"> </span>initiated<span class="w"> </span>transmission<span class="w"> </span>but<span class="w"> </span>keeps<span class="w"> </span>the<span class="w"> </span>connection<span class="w"> </span>between<span class="w"> </span>client<span class="w"> </span>and<span class="w"> </span>server
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="go">RSET</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>checks<span class="w"> </span><span class="k">if</span><span class="w"> </span>a<span class="w"> </span>mailbox<span class="w"> </span>is<span class="w"> </span>available<span class="w"> </span><span class="k">for</span><span class="w"> </span>message<span class="w"> </span>transfer.<span class="w"> </span>This<span class="w"> </span>also<span class="w"> </span>means<span class="w"> </span>that<span class="w"> </span>this<span class="w"> </span><span class="nb">command</span><span class="w"> </span>could<span class="w">  </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>enumerate<span class="w"> </span>existing<span class="w"> </span>users<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>system.<span class="w"> </span>However,<span class="w"> </span>this<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>always<span class="w"> </span>work.<span class="w"> </span>Depending<span class="w"> </span>on<span class="w"> </span>how<span class="w"> </span>the<span class="w"> </span>SMTP<span class="w"> </span>server<span class="w"> </span>is<span class="w"> </span>configured,<span class="w"> </span>the<span class="w"> </span>SMTP<span class="w"> </span>server<span class="w"> </span>may<span class="w"> </span>issue<span class="w"> </span><span class="sb">`</span>code<span class="w"> </span><span class="m">252</span><span class="sb">`</span><span class="w"> </span>and<span class="w"> </span>confirm<span class="w"> </span>the<span class="w"> </span>existence<span class="w"> </span>of<span class="w"> </span>a<span class="w"> </span>user<span class="w"> </span>that<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>system.
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="go">VRFY</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="gp"># </span>Example:<span class="w"> </span>VRFY<span class="w"> </span>root
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>also<span class="w"> </span>checks<span class="w"> </span><span class="k">if</span><span class="w"> </span>a<span class="w"> </span>mailbox<span class="w"> </span>is<span class="w"> </span>available<span class="w"> </span><span class="k">for</span><span class="w"> </span>messaging<span class="w"> </span>with<span class="w"> </span>this<span class="w"> </span><span class="nb">command</span><span class="w"> </span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="go">EXPN</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>requests<span class="w"> </span>a<span class="w"> </span>response<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>server<span class="w"> </span>to<span class="w"> </span>prevent<span class="w"> </span>disconnection<span class="w"> </span>due<span class="w"> </span>to<span class="w"> </span>time-out
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="go">NOOP</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>terminates<span class="w"> </span>the<span class="w"> </span>session
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="go">QUIT</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="gp"># </span>We<span class="w"> </span>can<span class="w"> </span>use<span class="w"> </span>telnet<span class="w"> </span>protocol<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>SMTP<span class="w"> </span>server
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="go">telnet $ip 25</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="gp"># </span>AUTH<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>service<span class="w"> </span>extension<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>authenticate<span class="w"> </span>the<span class="w"> </span>client
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="go">AUTH PLAIN  </span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>logs<span class="w"> </span><span class="k">in</span><span class="w"> </span>with<span class="w"> </span>its<span class="w"> </span>computer<span class="w"> </span>name<span class="w"> </span>and<span class="w"> </span>thus<span class="w"> </span>starts<span class="w"> </span>the<span class="w"> </span>session.<span class="w"> </span>It<span class="w"> </span>also<span class="w"> </span>lists<span class="w"> </span>all<span class="w"> </span>available<span class="w"> </span>commands
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="go">EHLO</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="gp">    # </span>Example:<span class="w"> </span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="gp">    # </span>HELO<span class="w"> </span>mail1.inlanefreight.htb
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>names<span class="w"> </span>the<span class="w"> </span>email<span class="w"> </span>sender
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="go">MAIL FROM   </span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>names<span class="w"> </span>the<span class="w"> </span>email<span class="w"> </span>recipient
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="go">RCPT TO</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>initiates<span class="w"> </span>the<span class="w"> </span>transmission<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>email
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="go">DATA </span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>aborts<span class="w"> </span>the<span class="w"> </span>initiated<span class="w"> </span>transmission<span class="w"> </span>but<span class="w"> </span>keeps<span class="w"> </span>the<span class="w"> </span>connection<span class="w"> </span>between<span class="w"> </span>client<span class="w"> </span>and<span class="w"> </span>server
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="go">RSET</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>checks<span class="w"> </span><span class="k">if</span><span class="w"> </span>a<span class="w"> </span>mailbox<span class="w"> </span>is<span class="w"> </span>available<span class="w"> </span><span class="k">for</span><span class="w"> </span>message<span class="w"> </span>transfer.<span class="w"> </span>This<span class="w"> </span>also<span class="w"> </span>means<span class="w"> </span>that<span class="w"> </span>this<span class="w"> </span><span class="nb">command</span><span class="w"> </span>could<span class="w">  </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>enumerate<span class="w"> </span>existing<span class="w"> </span>users<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>system.<span class="w"> </span>However,<span class="w"> </span>this<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>always<span class="w"> </span>work.<span class="w"> </span>Depending<span class="w"> </span>on<span class="w"> </span>how<span class="w"> </span>the<span class="w"> </span>SMTP<span class="w"> </span>server<span class="w"> </span>is<span class="w"> </span>configured,<span class="w"> </span>the<span class="w"> </span>SMTP<span class="w"> </span>server<span class="w"> </span>may<span class="w"> </span>issue<span class="w"> </span><span class="sb">`</span>code<span class="w"> </span><span class="m">252</span><span class="sb">`</span><span class="w"> </span>and<span class="w"> </span>confirm<span class="w"> </span>the<span class="w"> </span>existence<span class="w"> </span>of<span class="w"> </span>a<span class="w"> </span>user<span class="w"> </span>that<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>system.
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="go">VRFY</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="gp"># </span>Example:<span class="w"> </span>VRFY<span class="w"> </span>root
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>also<span class="w"> </span>checks<span class="w"> </span><span class="k">if</span><span class="w"> </span>a<span class="w"> </span>mailbox<span class="w"> </span>is<span class="w"> </span>available<span class="w"> </span><span class="k">for</span><span class="w"> </span>messaging<span class="w"> </span>with<span class="w"> </span>this<span class="w"> </span><span class="nb">command</span><span class="w"> </span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="go">EXPN</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>requests<span class="w"> </span>a<span class="w"> </span>response<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>server<span class="w"> </span>to<span class="w"> </span>prevent<span class="w"> </span>disconnection<span class="w"> </span>due<span class="w"> </span>to<span class="w"> </span>time-out
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="go">NOOP</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="gp"># </span>The<span class="w"> </span>client<span class="w"> </span>terminates<span class="w"> </span>the<span class="w"> </span>session
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="go">QUIT</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If we are connected to a proxy and we want this proxy to connect to a SMTP server, the command that we would send than would look something like this: </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>CONNECT<span class="w"> </span><span class="m">10</span>.129.14.128:25<span class="w"> </span>HTTP/1.0
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>CONNECT<span class="w"> </span><span class="m">10</span>.129.14.128:25<span class="w"> </span>HTTP/1.0
+</span></code></pre></div></td></tr></table></div>
 <p>Example:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span><span class="w">  </span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Trying 10.129.14.128... ç</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Connected to 10.129.14.128. </span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Escape character is &#39;^]&#39;. </span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># 220 ESMTP Server   </span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>EHLO<span class="w"> </span>inlanefreight.htb<span class="w">  </span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># 250-mail1.inlanefreight.htb </span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># 250-PIPELINING </span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># 250-SIZE 10240000 </span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># 250-ETRN </span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># 250-ENHANCEDSTATUSCODES </span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1"># 250-8BITMIME </span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1"># 250-DSN </span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># 250-SMTPUTF8 </span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="c1"># 250 CHUNKING   </span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>MAIL<span class="w"> </span>FROM:<span class="w"> </span>&lt;cry0l1t3inlanefreight.htb&gt;<span class="w">  </span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1"># 250 2.1.0 Ok   </span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>RCPT<span class="w"> </span>TO:<span class="w"> </span>&lt;mrb3n@inlanefreight.htb&gt;<span class="w"> </span><span class="nv">NOTIFY</span><span class="o">=</span>success,failure<span class="w">  </span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1"># 250 2.1.5 Ok   </span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>DATA<span class="w">  </span>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1"># 354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;  </span>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="c1"># From: &lt;cry0l1t3@inlanefreight.htb&gt; </span>
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="c1"># To: &lt;mrb3n@inlanefreight.htb&gt; </span>
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="c1"># Subject: DB </span>
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="c1"># Date: Tue, 28 Sept 2021 16:32:51 +0200 </span>
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="sb">`</span>Hey<span class="w"> </span>man,<span class="w"> </span>I<span class="w"> </span>am<span class="w"> </span>trying<span class="w"> </span>to<span class="w"> </span>access<span class="w"> </span>our<span class="w"> </span>XY-DB<span class="w"> </span>but<span class="w"> </span>the<span class="w"> </span>creds<span class="w"> </span>dont<span class="w"> </span>work.<span class="w">  </span>Did<span class="w"> </span>you<span class="w"> </span>make<span class="w"> </span>any<span class="w"> </span>changes<span class="w"> </span>there?.<span class="sb">`</span><span class="w">  </span>
-</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="c1"># 250 2.0.0 Ok: queued as 6E1CF1681AB   </span>
-</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>
-</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>QUIT<span class="w">  </span>
-</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="c1"># 221 2.0.0 Bye Connection closed by foreign host.`</span>
-</span></code></pre></div>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">mynetworks = 0.0.0.0/0</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span>
+<span class="normal"><a href="#__codelineno-2-30">30</a></span>
+<span class="normal"><a href="#__codelineno-2-31">31</a></span>
+<span class="normal"><a href="#__codelineno-2-32">32</a></span>
+<span class="normal"><a href="#__codelineno-2-33">33</a></span>
+<span class="normal"><a href="#__codelineno-2-34">34</a></span>
+<span class="normal"><a href="#__codelineno-2-35">35</a></span>
+<span class="normal"><a href="#__codelineno-2-36">36</a></span>
+<span class="normal"><a href="#__codelineno-2-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span><span class="w">  </span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1"># Trying 10.129.14.128... ç</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1"># Connected to 10.129.14.128. </span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="c1"># Escape character is &#39;^]&#39;. </span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="c1"># 220 ESMTP Server   </span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>EHLO<span class="w"> </span>inlanefreight.htb<span class="w">  </span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="c1"># 250-mail1.inlanefreight.htb </span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="c1"># 250-PIPELINING </span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="c1"># 250-SIZE 10240000 </span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="c1"># 250-ETRN </span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="c1"># 250-ENHANCEDSTATUSCODES </span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="c1"># 250-8BITMIME </span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="c1"># 250-DSN </span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="c1"># 250-SMTPUTF8 </span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="c1"># 250 CHUNKING   </span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a>MAIL<span class="w"> </span>FROM:<span class="w"> </span>&lt;cry0l1t3inlanefreight.htb&gt;<span class="w">  </span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="c1"># 250 2.1.0 Ok   </span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a>RCPT<span class="w"> </span>TO:<span class="w"> </span>&lt;mrb3n@inlanefreight.htb&gt;<span class="w"> </span><span class="nv">NOTIFY</span><span class="o">=</span>success,failure<span class="w">  </span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a><span class="c1"># 250 2.1.5 Ok   </span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a>DATA<span class="w">  </span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a><span class="c1"># 354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;  </span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28"></a><span class="c1"># From: &lt;cry0l1t3@inlanefreight.htb&gt; </span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29"></a><span class="c1"># To: &lt;mrb3n@inlanefreight.htb&gt; </span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30"></a><span class="c1"># Subject: DB </span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31"></a><span class="c1"># Date: Tue, 28 Sept 2021 16:32:51 +0200 </span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32"></a>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33"></a><span class="sb">`</span>Hey<span class="w"> </span>man,<span class="w"> </span>I<span class="w"> </span>am<span class="w"> </span>trying<span class="w"> </span>to<span class="w"> </span>access<span class="w"> </span>our<span class="w"> </span>XY-DB<span class="w"> </span>but<span class="w"> </span>the<span class="w"> </span>creds<span class="w"> </span>dont<span class="w"> </span>work.<span class="w">  </span>Did<span class="w"> </span>you<span class="w"> </span>make<span class="w"> </span>any<span class="w"> </span>changes<span class="w"> </span>there?.<span class="sb">`</span><span class="w">  </span>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34"></a><span class="c1"># 250 2.0.0 Ok: queued as 6E1CF1681AB   </span>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35"></a>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36"></a>QUIT<span class="w">  </span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37"></a><span class="c1"># 221 2.0.0 Bye Connection closed by foreign host.`</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">mynetworks = 0.0.0.0/0</span>
+</span></code></pre></div></td></tr></table></div>
 <p>With this setting, this SMTP server can send fake emails and thus initialize communication between multiple parties. Another attack possibility would be to spoof the email and read it.</p>
 <h2 id="footprinting-smtp">Footprinting SMTP</h2>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">sudo nmap $ip -sC -sV -p25</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="go">sudo nmap $ip -p25 --script smtp-open-relay -v</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">sudo nmap $ip -sC -sV -p25</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="go">sudo nmap $ip -p25 --script smtp-open-relay -v</span>
+</span></code></pre></div></td></tr></table></div>
 <table>
 <thead>
 <tr>
@@ -18427,123 +18522,174 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>The SMTP server has different commands that can be used to enumerate valid usernames <code>VRFY</code>, <code>EXPN</code>, and <code>RCPT TO</code>. If we successfully enumerate valid usernames, we can attempt to password spray, brute-forcing, or guess a valid password.</p>
 <h5 id="vrfy">VRFY</h5>
 <p>First we try to connect to the server:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span>
+</span></code></pre></div></td></tr></table></div>
 <p>If anonymous login is enabled, we are in. Otherwise we could try to login, for instance with user <code>root</code>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>VFFY root
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>VFFY root
+</span></code></pre></div></td></tr></table></div>
 <p>The code 252 in the answer means that the user exists. The code 550 means that it is an unknown user. </p>
 <h5 id="expn">EXPN</h5>
 <p><code>EXPN</code> is similar to <code>VRFY</code>, except that when used with a distribution list. 
 First we try to connect to the server:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Then we try to list all users on that distribution list with EXPN:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">EXPN support-team</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="go">EXPN support-team</span>
+</span></code></pre></div></td></tr></table></div>
 <p>A typical response could be:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">250 2.0.0 carol@inlanefreight.htb</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="go">250 2.1.5 elisa@inlanefreight.htb</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="go">250 2.0.0 carol@inlanefreight.htb</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="go">250 2.1.5 elisa@inlanefreight.htb</span>
+</span></code></pre></div></td></tr></table></div>
 <h5 id="rcpt-to-command">RCPT TO Command</h5>
 <p><code>RCPT TO</code> identifies the recipient of the email message. This command can be repeated multiple times for a given message to deliver a single message to multiple recipients.</p>
 <p>First we try to connect to the server:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Then we attempt the <code>RCPT TO</code> command:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="go">MAIL FROM:test@htb.com</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="go">it is</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="go">250 2.1.0 test@htb.com... Sender ok</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="go">RCPT TO:julio</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="go">550 5.1.1 julio... User unknown</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="go">RCPT TO:kate</span>
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="go">550 5.1.1 kate... User unknown</span>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
-</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
-</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="go">RCPT TO:john</span>
-</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
-</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="go">250 2.1.5 john... Recipient ok</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span>
+<span class="normal"><a href="#__codelineno-11-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="go">MAIL FROM:test@htb.com</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="go">it is</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="go">250 2.1.0 test@htb.com... Sender ok</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="go">RCPT TO:julio</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="go">550 5.1.1 julio... User unknown</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="go">RCPT TO:kate</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="go">550 5.1.1 kate... User unknown</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14"></a>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15"></a>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="go">RCPT TO:john</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17"></a>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18"></a><span class="go">250 2.1.5 john... Recipient ok</span>
+</span></code></pre></div></td></tr></table></div>
 <h5 id="user">USER</h5>
 <p>We can also use the <code>POP3</code> protocol to enumerate users depending on the service implementation. For example, we can use the command <code>USER</code> followed by the username, and if the server responds <code>OK</code>. This means that the user exists on the server. First we try to connect to the server:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>telnet<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Then we attempt the <code>USER</code> command:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="go">USER julio</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="go">-ERR</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="go">USER john</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="go">+OK</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span>
+<span class="normal"><a href="#__codelineno-13-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="go">USER julio</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="go">-ERR</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="go">USER john</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="go">+OK</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="user-enumeration-with-commands_1">User enumeration with commands</h4>
 <p>A way to automate this enumeration is this <strong>script for user enumeration</strong>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Enumerate users:</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">for</span><span class="w"> </span>user<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>users.txt<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>VRFY<span class="w"> </span><span class="nv">$user</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-nv<span class="w"> </span>-w<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span><span class="w">  </span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1"># -w: Include a delay in passing the argument. In seconds.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1"># Enumerate users:</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="k">for</span><span class="w"> </span>user<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>users.txt<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>VRFY<span class="w"> </span><span class="nv">$user</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>-nv<span class="w"> </span>-w<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="nv">$ip</span><span class="w"> </span><span class="m">25</span><span class="w">  </span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="c1"># -w: Include a delay in passing the argument. In seconds.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results from script in user enumeration:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>(UNKNOWN) [10.129.16.141] 25 (smtp) open
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>220 InFreight ESMTP v2.11
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>252 2.0.0 root
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>(UNKNOWN) [10.129.16.141] 25 (smtp) open
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>220 InFreight ESMTP v2.11
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>550 5.1.1 &lt;lala&gt;: Recipient address rejected: User unknown in local recipient table
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>(UNKNOWN) [10.129.16.141] 25 (smtp) open
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>220 InFreight ESMTP v2.11
-</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>550 5.1.1 &lt;admin&gt;: Recipient address rejected: User unknown in local recipient table
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>(UNKNOWN) [10.129.16.141] 25 (smtp) open
-</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>220 InFreight ESMTP v2.11
-</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>252 2.0.0 robin                 
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-15-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-15-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-15-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-15-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-15-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-15-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-15-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-15-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-15-10">10</a></span>
+<span class="normal"><a href="#__codelineno-15-11">11</a></span>
+<span class="normal"><a href="#__codelineno-15-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>(UNKNOWN) [10.129.16.141] 25 (smtp) open
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>220 InFreight ESMTP v2.11
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>252 2.0.0 root
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a>(UNKNOWN) [10.129.16.141] 25 (smtp) open
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>220 InFreight ESMTP v2.11
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a>550 5.1.1 &lt;lala&gt;: Recipient address rejected: User unknown in local recipient table
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7"></a>(UNKNOWN) [10.129.16.141] 25 (smtp) open
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8"></a>220 InFreight ESMTP v2.11
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9"></a>550 5.1.1 &lt;admin&gt;: Recipient address rejected: User unknown in local recipient table
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10"></a>(UNKNOWN) [10.129.16.141] 25 (smtp) open
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11"></a>220 InFreight ESMTP v2.11
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12"></a>252 2.0.0 robin                 
+</span></code></pre></div></td></tr></table></div>
 <h4 id="smtp-user-enum">smtp-user-enum</h4>
 <p>Username guessing tool primarily for use against the default Solaris SMTP service. Can use either EXPN, VRFY or RCPT TO.</p>
 <p>Repo: <a href="https://github.com/pentestmonkey/smtp-user-enum">https://github.com/pentestmonkey/smtp-user-enum</a></p>
 <p>Basic usage:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="go">smtp-user-enum -M RCPT -U userlist.txt -D inlanefreight.htb -t $ip</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="gp"># </span>-M:<span class="w"> </span>Enumeration<span class="w"> </span>mode,<span class="w"> </span>it<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span><span class="sb">`</span>VRFY<span class="sb">`</span>,<span class="w"> </span><span class="sb">`</span>EXPN<span class="sb">`</span>,<span class="w"> </span>or<span class="w"> </span><span class="sb">`</span>RCPT<span class="sb">`</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="gp"># </span>-U:<span class="w"> </span>file<span class="w"> </span>with<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>users
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="gp"># </span>-D:<span class="w"> </span>domain
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="gp"># </span>-t:<span class="w"> </span>target
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<span class="normal"><a href="#__codelineno-16-2">2</a></span>
+<span class="normal"><a href="#__codelineno-16-3">3</a></span>
+<span class="normal"><a href="#__codelineno-16-4">4</a></span>
+<span class="normal"><a href="#__codelineno-16-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="go">smtp-user-enum -M RCPT -U userlist.txt -D inlanefreight.htb -t $ip</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="gp"># </span>-M:<span class="w"> </span>Enumeration<span class="w"> </span>mode,<span class="w"> </span>it<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span><span class="sb">`</span>VRFY<span class="sb">`</span>,<span class="w"> </span><span class="sb">`</span>EXPN<span class="sb">`</span>,<span class="w"> </span>or<span class="w"> </span><span class="sb">`</span>RCPT<span class="sb">`</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="gp"># </span>-U:<span class="w"> </span>file<span class="w"> </span>with<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>users
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="gp"># </span>-D:<span class="w"> </span>domain
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="gp"># </span>-t:<span class="w"> </span>target
+</span></code></pre></div></td></tr></table></div>
 <h3 id="cloud-mail-server-implementation">Cloud mail server implementation</h3>
 <h4 id="enumerating-users-in-microsoft-office-365-o365">Enumerating users in Microsoft Office 365 (O365)</h4>
 <h5 id="o365spray">O365spray</h5>
 <p><a href="../o365spray/">O365spray</a> is a username enumeration and password spraying tool aimed at Microsoft Office 365 (O365). This tool reimplements a collection of enumeration and spray techniques.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>sudo pip install -r requirements.txt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>sudo pip install -r requirements.txt
+</span></code></pre></div></td></tr></table></div>
 <p>Basic usage:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="gp"># </span>First<span class="w"> </span>validate<span class="w"> </span><span class="k">if</span><span class="w"> </span>our<span class="w"> </span>target<span class="w"> </span>domain<span class="w"> </span>is<span class="w"> </span>using<span class="w"> </span>Office<span class="w"> </span><span class="m">365</span>.
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="go">python3 o365spray.py --validate --domain msexample.com</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="gp"># </span>Attempt<span class="w"> </span>to<span class="w"> </span>identify<span class="w"> </span>usernames.
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="go">python3 o365spray.py --enum -U users.txt --domain msexample.com</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span>
+<span class="normal"><a href="#__codelineno-18-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="gp"># </span>First<span class="w"> </span>validate<span class="w"> </span><span class="k">if</span><span class="w"> </span>our<span class="w"> </span>target<span class="w"> </span>domain<span class="w"> </span>is<span class="w"> </span>using<span class="w"> </span>Office<span class="w"> </span><span class="m">365</span>.
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="go">python3 o365spray.py --validate --domain msexample.com</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="gp"># </span>Attempt<span class="w"> </span>to<span class="w"> </span>identify<span class="w"> </span>usernames.
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="go">python3 o365spray.py --enum -U users.txt --domain msexample.com</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="password-attacks">Password Attacks</h2>
 <h3 id="custom-mail-servers">Custom mail servers</h3>
 <h4 id="hydra">hydra</h4>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="gp"># </span>Attacking<span class="w"> </span>a<span class="w"> </span>pop3<span class="w"> </span>service
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="go">hydra -L users.txt -p &#39;Company01!&#39; -f $ip pop3</span>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="go">hydra -l user@inlanefreight.htb -P passwords.list -t 64 -f $ip smtp</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="gp"># </span>Attacking<span class="w"> </span>a<span class="w"> </span>pop3<span class="w"> </span>service
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="go">hydra -L users.txt -p &#39;Company01!&#39; -f $ip pop3</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="go">hydra -l user@inlanefreight.htb -P passwords.list -t 64 -f $ip smtp</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="cloud-mail-services">Cloud mail services</h3>
 <p>If cloud services support SMTP, POP3, or IMAP4 protocols, we may be able to attempt to perform password spray using tools like <code>Hydra</code>, but these tools are usually blocked.</p>
 <h4 id="msoffice-365">MSOffice 365</h4>
 <h5 id="o365spray_1">O365spray</h5>
 <p>See <a href="../o365spray/">O365spray</a></p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="gp"># </span>First<span class="w"> </span>validate<span class="w"> </span><span class="k">if</span><span class="w"> </span>our<span class="w"> </span>target<span class="w"> </span>domain<span class="w"> </span>is<span class="w"> </span>using<span class="w"> </span>Office<span class="w"> </span><span class="m">365</span>.
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="go">python3 o365spray.py --validate --domain msexample.com</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="gp"># </span>Password<span class="w"> </span>spraying<span class="w"> </span>technique<span class="w"> </span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="go">python3 o365spray.py --spray -U usersfound.txt -p &#39;March2022!&#39; --count 1 --lockout 1 --domain msexample.com</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span>
+<span class="normal"><a href="#__codelineno-20-4">4</a></span>
+<span class="normal"><a href="#__codelineno-20-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="gp"># </span>First<span class="w"> </span>validate<span class="w"> </span><span class="k">if</span><span class="w"> </span>our<span class="w"> </span>target<span class="w"> </span>domain<span class="w"> </span>is<span class="w"> </span>using<span class="w"> </span>Office<span class="w"> </span><span class="m">365</span>.
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="go">python3 o365spray.py --validate --domain msexample.com</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4"></a><span class="gp"># </span>Password<span class="w"> </span>spraying<span class="w"> </span>technique<span class="w"> </span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="go">python3 o365spray.py --spray -U usersfound.txt -p &#39;March2022!&#39; --count 1 --lockout 1 --domain msexample.com</span>
+</span></code></pre></div></td></tr></table></div>
 <h5 id="mailsniper">MailSniper</h5>
 <p>See <a href="../mailsniper/">MailSniper</a></p>
 <h4 id="gmail-and-okta">Gmail and Okta</h4>
@@ -18551,11 +18697,11 @@ First we try to connect to the server:</p>
 <h2 id="open-relay-attack">Open relay attack</h2>
 <p>An open relay is a Simple Mail Transfer Protocol (<code>SMTP</code>) server, which is improperly configured and allows an unauthenticated email relay.</p>
 <p>First, identify if an SMTP port allows an open relay:</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="go">nmap -p25 -Pn --script smtp-open-relay $ip</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="go">nmap -p25 -Pn --script smtp-open-relay $ip</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Next, we can use any mail client to connect to the mail server and send our email.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="go">swaks --from notifications@inlanefreight.com --to employees@inlanefreight.com --header &#39;Subject: Company Notification&#39; --body &#39;Hi All, we want to hear from you! Please complete the following survey. http://mycustomphishinglink.com/&#39; --server $ipSMTPServerVictim</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="go">swaks --from notifications@inlanefreight.com --to employees@inlanefreight.com --header &#39;Subject: Company Notification&#39; --body &#39;Hi All, we want to hear from you! Please complete the following survey. http://mycustomphishinglink.com/&#39; --server $ipSMTPServerVictim</span>
+</span></code></pre></div></td></tr></table></div>
 <p>See <a href="../swaks/">swaks</a>.</p>
 <h2 id="attacks-on-smtpd">Attacks on SMTPD</h2>
 <p><strong>Affected version</strong>:  <a href="https://www.opensmtpd.org/">OpenSMTPD</a> up to version 6.6.2
@@ -18640,7 +18786,7 @@ First we try to connect to the server:</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17254,34 +17277,42 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h1 id="linux">Linux</h1>
 <h2 id="find-sensitive-files">Find sensitive files</h2>
 <h3 id="configuration-files">Configuration files</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Return files with extension .conf, .config and .cnf, which in linux are configuration files.</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">for</span><span class="w"> </span>l<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;.conf .config .cnf&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nFile extension: &quot;</span><span class="w"> </span><span class="nv">$l</span><span class="p">;</span><span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span>*<span class="nv">$l</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;lib\|fonts\|share\|core&quot;</span><span class="w"> </span><span class="p">;</span><span class="k">done</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Search for three words (user, password, pass) in each file with the file extension .cnf.</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span>*.cnf<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;doc\|lib&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nFile: &quot;</span><span class="w"> </span><span class="nv">$i</span><span class="p">;</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;user\|password\|pass&quot;</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;\#&quot;</span><span class="p">;</span><span class="k">done</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Return files with extension .conf, .config and .cnf, which in linux are configuration files.</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="k">for</span><span class="w"> </span>l<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;.conf .config .cnf&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nFile extension: &quot;</span><span class="w"> </span><span class="nv">$l</span><span class="p">;</span><span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span>*<span class="nv">$l</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;lib\|fonts\|share\|core&quot;</span><span class="w"> </span><span class="p">;</span><span class="k">done</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c1"># Search for three words (user, password, pass) in each file with the file extension .cnf.</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span>*.cnf<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;doc\|lib&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nFile: &quot;</span><span class="w"> </span><span class="nv">$i</span><span class="p">;</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;user\|password\|pass&quot;</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;\#&quot;</span><span class="p">;</span><span class="k">done</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="databases">Databases</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Search for databases</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">for</span><span class="w"> </span>l<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;.sql .db .*db .db*&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nDB File extension: &quot;</span><span class="w"> </span><span class="nv">$l</span><span class="p">;</span><span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span>*<span class="nv">$l</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;doc\|lib\|headers\|share\|man&quot;</span><span class="p">;</span><span class="k">done</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Search for databases</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="k">for</span><span class="w"> </span>l<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;.sql .db .*db .db*&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nDB File extension: &quot;</span><span class="w"> </span><span class="nv">$l</span><span class="p">;</span><span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span>*<span class="nv">$l</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;doc\|lib\|headers\|share\|man&quot;</span><span class="p">;</span><span class="k">done</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="scripts">Scripts</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">for</span><span class="w"> </span>l<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;.py .pyc .pl .go .jar .c .sh&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nFile extension: &quot;</span><span class="w"> </span><span class="nv">$l</span><span class="p">;</span><span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span>*<span class="nv">$l</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;doc\|lib\|headers\|share&quot;</span><span class="p">;</span><span class="k">done</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">for</span><span class="w"> </span>l<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;.py .pyc .pl .go .jar .c .sh&quot;</span><span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\nFile extension: &quot;</span><span class="w"> </span><span class="nv">$l</span><span class="p">;</span><span class="w"> </span>find<span class="w"> </span>/<span class="w"> </span>-name<span class="w"> </span>*<span class="nv">$l</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;doc\|lib\|headers\|share&quot;</span><span class="p">;</span><span class="k">done</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="files-including-the-txt-file-extension-and-files-that-have-no-file-extension-at-all">Files including the .txt file extension and files that have no file extension at all</h3>
 <p>Admin may change the name of configuration files. But you can try to find them:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>find<span class="w"> </span>/home/*<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.txt&quot;</span><span class="w"> </span>-o<span class="w"> </span>!<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.*&quot;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>find<span class="w"> </span>/home/*<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.txt&quot;</span><span class="w"> </span>-o<span class="w"> </span>!<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.*&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="cronjobs">cronjobs</h3>
 <p>These are divided into the system-wide area (<code>/etc/crontab</code>) and user-dependent executions. Some applications and scripts require credentials to run and are therefore incorrectly entered in the cronjobs. Furthermore, there are the areas that are divided into different time ranges (/etc/cron.daily, /etc/cron.hourly, /etc/cron.monthly, /etc/cron.weekly). The scripts and files used by cron can also be found in /etc/cron.d/ for Debian-based distributions.</p>
 <h3 id="ssh-keys">SSH Keys</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>grep<span class="w"> </span>-rnw<span class="w"> </span><span class="s2">&quot;PRIVATE KEY&quot;</span><span class="w"> </span>/home/*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;:1&quot;</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>grep<span class="w"> </span>-rnw<span class="w"> </span><span class="s2">&quot;ssh-rsa&quot;</span><span class="w"> </span>/home/*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;:1&quot;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>grep<span class="w"> </span>-rnw<span class="w"> </span><span class="s2">&quot;PRIVATE KEY&quot;</span><span class="w"> </span>/home/*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;:1&quot;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>grep<span class="w"> </span>-rnw<span class="w"> </span><span class="s2">&quot;ssh-rsa&quot;</span><span class="w"> </span>/home/*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;:1&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="bash-history">Bash History</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>tail<span class="w"> </span>-n5<span class="w"> </span>/home/*/.bash*
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>tail<span class="w"> </span>-n5<span class="w"> </span>/home/*/.bash*
+</span></code></pre></div></td></tr></table></div>
 <h3 id="logs">Logs</h3>
 <table>
 <thead>
@@ -17341,14 +17372,15 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tr>
 </tbody>
 </table>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="w"> </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>/var/log/*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nv">GREP</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span><span class="s2">&quot;accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs&quot;</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$GREP</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="k">then</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n#### Log file: &quot;</span><span class="w"> </span><span class="nv">$i</span><span class="p">;</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs&quot;</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="p">;</span><span class="k">fi</span><span class="p">;</span><span class="k">done</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="w"> </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>/var/log/*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span><span class="p">;</span><span class="k">do</span><span class="w"> </span><span class="nv">GREP</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span><span class="s2">&quot;accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs&quot;</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$GREP</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="k">then</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n#### Log file: &quot;</span><span class="w"> </span><span class="nv">$i</span><span class="p">;</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs&quot;</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="p">;</span><span class="k">fi</span><span class="p">;</span><span class="k">done</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="credentials-storage">Credentials storage</h2>
 <h3 id="shadow-file">Shadow file</h3>
 <p>The /etc/shadow file has a unique format in which the entries are entered and saved when new users are created.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>htb-student:    $y$j9T$3QSBB6CbHEu...SNIP...f8Ms:   18955:  0:  99999:  7:  :   :   :
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>&lt;username&gt;:     &lt;encrypted password&gt;:   &lt;day of last change&gt;:   &lt;min age&gt;:  &lt;max age&gt;:  &lt;warning period&gt;:   &lt;inactivity period&gt;:    &lt;expiration date&gt;:  &lt;reserved field&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>htb-student:    $y$j9T$3QSBB6CbHEu...SNIP...f8Ms:   18955:  0:  99999:  7:  :   :   :
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>&lt;username&gt;:     &lt;encrypted password&gt;:   &lt;day of last change&gt;:   &lt;min age&gt;:  &lt;max age&gt;:  &lt;warning period&gt;:   &lt;inactivity period&gt;:    &lt;expiration date&gt;:  &lt;reserved field&gt;
+</span></code></pre></div></td></tr></table></div>
 <p>The encryption of the password in this file is formatted as follows:</p>
 <table>
 <thead>
@@ -17417,26 +17449,32 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>The /etc/shadow file can only be read by the user root.</p>
 <h3 id="passwd-file">Passwd file</h3>
 <p>The /etc/passwd</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>htb-student:    x:  1000:   1000:   ,,,:    /home/htb-student:  /bin/bash
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>&lt;username&gt;:     &lt;password&gt;:     &lt;uid&gt;:  &lt;gid&gt;:  &lt;comment&gt;:  &lt;home directory&gt;:   &lt;cmd executed after logging in&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>htb-student:    x:  1000:   1000:   ,,,:    /home/htb-student:  /bin/bash
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>&lt;username&gt;:     &lt;password&gt;:     &lt;uid&gt;:  &lt;gid&gt;:  &lt;comment&gt;:  &lt;home directory&gt;:   &lt;cmd executed after logging in&gt;
+</span></code></pre></div></td></tr></table></div>
 <p>The <code>x</code> in the password field indicates that the encrypted password is in the <code>/etc/shadow</code> file.</p>
 <h2 id="opasswd">Opasswd</h2>
 <p>The PAM library (<code>pam_unix.so</code>) can prevent reusing old passwords. The file where old passwords are stored is the <code>/etc/security/opasswd</code>. Administrator/root permissions are also required to read the file if the permissions for this file have not been changed manually.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Reading /etc/security/opasswd</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>sudo<span class="w"> </span>cat<span class="w"> </span>/etc/security/opasswd
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># cry0l1t3:1000:2:$1$HjFAfYTG$qNDkF0zJ3v8ylCOrKB0kt0,$1$kcUjWZJX$E9uMSmiQeRh4pAAgzuvkq1</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1"># Reading /etc/security/opasswd</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>sudo<span class="w"> </span>cat<span class="w"> </span>/etc/security/opasswd
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="c1"># cry0l1t3:1000:2:$1$HjFAfYTG$qNDkF0zJ3v8ylCOrKB0kt0,$1$kcUjWZJX$E9uMSmiQeRh4pAAgzuvkq1</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Looking at the contents of this file, we can see that it contains several entries for the user cry0l1t3, separated by a comma (,). Another critical point to pay attention to is the hashing type that has been used. This is because the MD5 ($1$) algorithm is much easier to crack than SHA-512. This is especially important for identifying old passwords and maybe even their pattern because they are often used across several services or applications. We increase the probability of guessing the correct password many times over based on its pattern.</p>
 <h2 id="dumping-memory-and-cache">Dumping memory and cache</h2>
 <p><a href="https://github.com/huntergregal/mimipenguin">mimipenguin</a>
 <a href="https://github.com/AlessandroZ/LaZagne">lazagne</a></p>
 <p>Firefox stored credentials:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>ls<span class="w"> </span>-l<span class="w"> </span>.mozilla/firefox/<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>default<span class="w"> </span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>cat<span class="w"> </span>.mozilla/firefox/xxxxxxxxx-xxxxxxxxxx/logins.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>ls<span class="w"> </span>-l<span class="w"> </span>.mozilla/firefox/<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>default<span class="w"> </span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>cat<span class="w"> </span>.mozilla/firefox/xxxxxxxxx-xxxxxxxxxx/logins.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+</span></code></pre></div></td></tr></table></div>
 <p>The tool <a href="https://github.com/unode/firefox_decrypt">Firefox Decrypt</a> is excellent for decrypting these credentials, and is updated regularly. It requires Python 3.9 to run the latest version. Otherwise, <code>Firefox Decrypt 0.7.0</code> with Python 2 must be used.</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17513,7 +17551,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

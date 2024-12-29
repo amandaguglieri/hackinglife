@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17456,8 +17479,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <ul>
 <li>Basic Authentication: username and password base64 encoded included as a HTTP Authorization header in the request:</li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+</span></code></pre></div></td></tr></table></div>
 <ul>
 <li>API Keys: there is no standard way to present the API Keys. Usually they go as a HTTP header.</li>
 <li>Certificate based authentication: Using TLS for authentication. It requires HTTPS and requires the API to present a certificate. </li>
@@ -17482,83 +17505,120 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>The application generates <code>Code Verifier</code>and <code>Code Challenge</code>.</li>
 <li>The application redirects the user to an endpoint <code>/authorize</code> in the Authorization Server with the following parameters:</li>
 </ol>
-<div class="language-HTTP highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="err">GET /authorize</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="err">    ?response_type=code</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="err">    &amp;client_id=myApp  // but we don&#39;t prove that this is the real id of the application</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="err">    &amp;scope=read</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="err">    &amp;code_challenge=MY_CHALLENGE</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="err">    &amp;code_challenge_method=S256   // Also called PKCE</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="err">    &amp;state=MY_RANDOM_STATE   // it will be sent back to the client</span>
-</span></code></pre></div>
+<div class="language-HTTP highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="err">GET /authorize</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="err">    ?response_type=code</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="err">    &amp;client_id=myApp  // but we don&#39;t prove that this is the real id of the application</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="err">    &amp;scope=read</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="err">    &amp;code_challenge=MY_CHALLENGE</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="err">    &amp;code_challenge_method=S256   // Also called PKCE</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="err">    &amp;state=MY_RANDOM_STATE   // it will be sent back to the client</span>
+</span></code></pre></div></td></tr></table></div>
 <p>PKCE stands for Proof Key for Code Exchange (PKCE).</p>
 <ol>
 <li>The Authorization Server takes the user to their own Authentication Service (with their own authentication flow).</li>
 <li>If successful, ...</li>
 <li>the Authorization Server will redirect back to a predefined callback within the client:</li>
 </ol>
-<div class="language-HTTP highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="err">303 /callback</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="err">?code=1234  // this is also called &#39;nonce&#39; (no more than once). A one-time-code with a really short life</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="err">&amp;state=MY_RANDOM_STATE</span>
-</span></code></pre></div>
+<div class="language-HTTP highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="err">303 /callback</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="err">?code=1234  // this is also called &#39;nonce&#39; (no more than once). A one-time-code with a really short life</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="err">&amp;state=MY_RANDOM_STATE</span>
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>The client makes a back channel call to the Authorization Server to validate the Code verifier and the challenge.</li>
 </ol>
-<div class="language-HTTP highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="err">POST /token</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="err">Content-type: application/x-www-form-urlencoded</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="err">grant_type=authorization_code //to tell we want to do the code flow</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="err">&amp;client_id=myApp </span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="err">&amp;client_secret=vErys3crEt //this can be also passed in an Authorization Basic header, or tokens or...</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="err">&amp;code_verifier=MY_VERIFIER // This is the actual value of what we sent in the /authorization request. This is what binds these requests together</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="err">&amp;code=1234</span>
-</span></code></pre></div>
+<div class="language-HTTP highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span>
+<span class="normal"><a href="#__codelineno-3-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="err">POST /token</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="err">Content-type: application/x-www-form-urlencoded</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="err">grant_type=authorization_code //to tell we want to do the code flow</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="err">&amp;client_id=myApp </span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="err">&amp;client_secret=vErys3crEt //this can be also passed in an Authorization Basic header, or tokens or...</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="err">&amp;code_verifier=MY_VERIFIER // This is the actual value of what we sent in the /authorization request. This is what binds these requests together</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="err">&amp;code=1234</span>
+</span></code></pre></div></td></tr></table></div>
 <p>This happens in less than 30 seconds.</p>
 <ol>
 <li>The Authorization Server evaluates the previous request.</li>
 <li>The Authorization Server issues a token:</li>
 </ol>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">&quot;access token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abcDEF&quot;</span><span class="p">,</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nt">&quot;expires_in&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">&quot;refresh_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HJKSGFD&quot;</span><span class="p">,</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">}</span>
-</span></code></pre></div>
+<div class="language-json highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nt">&quot;access token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abcDEF&quot;</span><span class="p">,</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="nt">&quot;expires_in&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="nt">&quot;refresh_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HJKSGFD&quot;</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
 <p><strong>Code flow: grant_type=client_credentials</strong></p>
 <p>Everything is as in the previous code flow, but in step 7, there is a deviation:</p>
 <ol>
 <li>The client makes a back channel call to the Authorization Server to validate the Code verifier and the challenge.</li>
 </ol>
-<div class="language-HTTP highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="err">POST /token</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="err">Content-type: application/x-www-form-urlencoded</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="err">grant_type=client_credentials //to tell we want to do the client credentials flow</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="err">&amp;client_id=myserverApp </span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="err">&amp;client_secret=vErys3crEt </span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="err">&amp;cope=read</span>
-</span></code></pre></div>
+<div class="language-HTTP highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span>
+<span class="normal"><a href="#__codelineno-5-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="err">POST /token</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="err">Content-type: application/x-www-form-urlencoded</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="err">grant_type=client_credentials //to tell we want to do the client credentials flow</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="err">&amp;client_id=myserverApp </span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="err">&amp;client_secret=vErys3crEt </span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="err">&amp;cope=read</span>
+</span></code></pre></div></td></tr></table></div>
 <ol>
 <li>In this case, there is no user interaction. We don't get a refresh token.</li>
 </ol>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;_0XBPWQQ_1c51e9ed-8979-4c53-af17-159476e1d9fc&quot;</span><span class="p">,</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read write&quot;</span><span class="p">,</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nt">&quot;expires_in&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">299</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">}</span>
-</span></code></pre></div>
+<div class="language-json highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span>
+<span class="normal"><a href="#__codelineno-6-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;_0XBPWQQ_1c51e9ed-8979-4c53-af17-159476e1d9fc&quot;</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read write&quot;</span><span class="p">,</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="nt">&quot;expires_in&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">299</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="tokens">Tokens</h3>
 <p><strong>Types of tokens</strong></p>
 <p>Bearer Tokens: not binded to a sender. 
 Proof of Possession Tokens (PoP) or Holder of Key Tokens (HoK): The sender needs to present a proof of ownership (prove that they have the private key)</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># Bearer tokens
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Authorization: Bearer ey...
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a># PoP tokens
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Authorization: DPoP _023123jdkjhjsdehe234bscdks-
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>DPoP: eyJ0xXAi...4UcbQ
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span>
+<span class="normal"><a href="#__codelineno-7-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a># Bearer tokens
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>Authorization: Bearer ey...
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a># PoP tokens
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>Authorization: DPoP _023123jdkjhjsdehe234bscdks-
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>DPoP: eyJ0xXAi...4UcbQ
+</span></code></pre></div></td></tr></table></div>
 <p><strong>JSON Web Tokens (JWT)</strong></p>
 <p>Not a protocol, but a format. JWT can be:</p>
 <ul>
@@ -17574,69 +17634,116 @@ Proof of Possession Tokens (PoP) or Holder of Key Tokens (HoK): The sender needs
 <p>They provide a layer of protection in layer 7 (firewalls - HTTP). </p>
 <h4 id="introspection-with-exchange-pure-introspection">Introspection with exchange: Pure introspection</h4>
 <p>When we want to send a request to an API and there is a Gateway in the middle and the token is opaque (format by reference), then this gateway makes a connection with the Authorization Server to validate this token:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>POST /instrospection
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Content-type: application/x-www-form-urlencoded
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>&amp;client_id=gateway_client
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>&amp;client_secret=vErys3crEt
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>&amp;token=HJKLM
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span>
+<span class="normal"><a href="#__codelineno-8-6">6</a></span>
+<span class="normal"><a href="#__codelineno-8-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>POST /instrospection
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>Content-type: application/x-www-form-urlencoded
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>&amp;client_id=gateway_client
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>&amp;client_secret=vErys3crEt
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>&amp;token=HJKLM
+</span></code></pre></div></td></tr></table></div>
 <p>The Authorization Server returns a json with the value of the token</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nt">&quot;sub&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nt">&quot;purpose&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;access_token&quot;</span><span class="p">,</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nt">&quot;iss&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://issuer.example.com/~&quot;</span><span class="p">,</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="nt">&quot;client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;client-1&quot;</span><span class="p">,</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="nt">&quot;aud&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;api123&quot;</span><span class="p">,</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="nt">&quot;nbf&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15465771377</span><span class="p">,</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="nt">&quot;exp&quot;</span><span class="p">:</span><span class="mi">15465771677</span><span class="p">,</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="nt">&quot;delegationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cg572fad-0000-0000-0000-00000000&quot;</span><span class="p">,</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="nt">&quot;iat&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15465771377</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="p">}</span>
-</span></code></pre></div>
+<div class="language-json highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span>
+<span class="normal"><a href="#__codelineno-9-12">12</a></span>
+<span class="normal"><a href="#__codelineno-9-13">13</a></span>
+<span class="normal"><a href="#__codelineno-9-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="nt">&quot;sub&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="nt">&quot;purpose&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;access_token&quot;</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="nt">&quot;iss&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://issuer.example.com/~&quot;</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="nt">&quot;client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;client-1&quot;</span><span class="p">,</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="nt">&quot;aud&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;api123&quot;</span><span class="p">,</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="nt">&quot;nbf&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15465771377</span><span class="p">,</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="nt">&quot;exp&quot;</span><span class="p">:</span><span class="mi">15465771677</span><span class="p">,</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12"></a><span class="nt">&quot;delegationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cg572fad-0000-0000-0000-00000000&quot;</span><span class="p">,</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13"></a><span class="nt">&quot;iat&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15465771377</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="introspection-with-exchange-embedded-token-in-json-introspection">Introspection with exchange: Embedded token in JSON introspection</h4>
 <p>Or the client indicates to the gateway that they want the jwt back, even embedded into the json:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>POST /instrospection
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>Content-type: application/x-www-form-urlencoded
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>Accept: application/jwt
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>&amp;client_id=gateway_client
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>&amp;client_secret=vErys3crEt
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>&amp;token=HJKLM
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span>
+<span class="normal"><a href="#__codelineno-10-5">5</a></span>
+<span class="normal"><a href="#__codelineno-10-6">6</a></span>
+<span class="normal"><a href="#__codelineno-10-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>POST /instrospection
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>Content-type: application/x-www-form-urlencoded
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>Accept: application/jwt
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>&amp;client_id=gateway_client
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>&amp;client_secret=vErys3crEt
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a>&amp;token=HJKLM
+</span></code></pre></div></td></tr></table></div>
 <p>The Authorization Server returns a json with the value of the token</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">{</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nt">&quot;sub&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nt">&quot;purpose&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;access_token&quot;</span><span class="p">,</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="nt">&quot;iss&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://issuer.example.com/~&quot;</span><span class="p">,</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nt">&quot;client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;client-1&quot;</span><span class="p">,</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="nt">&quot;aud&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;api123&quot;</span><span class="p">,</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="nt">&quot;nbf&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15465771377</span><span class="p">,</span>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="nt">&quot;exp&quot;</span><span class="p">:</span><span class="mi">15465771677</span><span class="p">,</span>
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="nt">&quot;delegationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cg572fad-0000-0000-0000-00000000&quot;</span><span class="p">,</span>
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="nt">&quot;iat&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15465771377</span><span class="p">,</span>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="nt">&quot;jwt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ey.....&quot;</span>
-</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="p">}</span>
-</span></code></pre></div>
+<div class="language-json highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="p">{</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="nt">&quot;sub&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="nt">&quot;purpose&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;access_token&quot;</span><span class="p">,</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="nt">&quot;iss&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://issuer.example.com/~&quot;</span><span class="p">,</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="nt">&quot;token_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="nt">&quot;client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;client-1&quot;</span><span class="p">,</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="nt">&quot;aud&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;api123&quot;</span><span class="p">,</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="nt">&quot;nbf&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15465771377</span><span class="p">,</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="nt">&quot;exp&quot;</span><span class="p">:</span><span class="mi">15465771677</span><span class="p">,</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="nt">&quot;delegationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cg572fad-0000-0000-0000-00000000&quot;</span><span class="p">,</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="nt">&quot;iat&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15465771377</span><span class="p">,</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14"></a><span class="nt">&quot;jwt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ey.....&quot;</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="introspection-with-exchange-token-exchange">Introspection with exchange: token exchange</h4>
 <p>We can also use Token exchange specification, which is fairly new and it allows the gateway to call the Authorization Server and, given the token, ask for a different kind of token. The implementation of the different kinds of token are defined in the Authorization server and the documentation for this implementation should be consulted.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>POST /instrospection
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Content-type: application/x-www-form-urlencoded
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>&amp;client_id=gateway_client
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>&amp;client_secret=vErys3crEt
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>&amp;grant_type=urn:ietf:params:oauth:grant-type:token-exchange
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>&amp;subject_token=HIJKLM
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>&amp;subject_token_type=urn:ietf:params:oauth:token-type:access_token
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>&amp;requested_token_type=urn:ietf:params:oauth:token-type:jwt
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span>
+<span class="normal"><a href="#__codelineno-12-6">6</a></span>
+<span class="normal"><a href="#__codelineno-12-7">7</a></span>
+<span class="normal"><a href="#__codelineno-12-8">8</a></span>
+<span class="normal"><a href="#__codelineno-12-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>POST /instrospection
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>Content-type: application/x-www-form-urlencoded
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a>&amp;client_id=gateway_client
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>&amp;client_secret=vErys3crEt
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a>&amp;grant_type=urn:ietf:params:oauth:grant-type:token-exchange
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a>&amp;subject_token=HIJKLM
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a>&amp;subject_token_type=urn:ietf:params:oauth:token-type:access_token
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9"></a>&amp;requested_token_type=urn:ietf:params:oauth:token-type:jwt
+</span></code></pre></div></td></tr></table></div>
 <h3 id="api-to-api-calls">API to API calls</h3>
 <ul>
 <li>Exchange: Use token exchange to get another token. This is used on demand. It has powerful options.</li>
@@ -17658,13 +17765,18 @@ Proof of Possession Tokens (PoP) or Holder of Key Tokens (HoK): The sender needs
 <li><a href="../../OWASP/">others</a>.</li>
 </ul>
 <p>Let's see <a href="../../wfuzz/">wfuzz</a>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>wfuzz<span class="w"> </span>-d<span class="w"> </span><span class="o">{</span><span class="s2">&quot;email&quot;</span>:<span class="s2">&quot;hapihacker@hapihacjer.com&quot;</span>,<span class="s2">&quot;password&quot;</span>:<span class="s2">&quot;PASSWORD&quot;</span><span class="o">}</span><span class="w"> </span>-z<span class="w"> </span>file,/usr/share/wordlists/rockyou.txt<span class="w"> </span>-u<span class="w"> </span>http://localhost:8888/identity/api/auth/login<span class="w"> </span>--hc<span class="w"> </span><span class="m">500</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1"># -H to specify content-type headers. </span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># -d allows you to include the POST Body data. </span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># -u specifies the url</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># --hc/hl/hw/hh hide responses with the specified code/lines/words/chars. In our case, &quot;--hc 500&quot; hides 500 code responses.</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># -z specifies a payload   </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span>
+<span class="normal"><a href="#__codelineno-13-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>wfuzz<span class="w"> </span>-d<span class="w"> </span><span class="o">{</span><span class="s2">&quot;email&quot;</span>:<span class="s2">&quot;hapihacker@hapihacjer.com&quot;</span>,<span class="s2">&quot;password&quot;</span>:<span class="s2">&quot;PASSWORD&quot;</span><span class="o">}</span><span class="w"> </span>-z<span class="w"> </span>file,/usr/share/wordlists/rockyou.txt<span class="w"> </span>-u<span class="w"> </span>http://localhost:8888/identity/api/auth/login<span class="w"> </span>--hc<span class="w"> </span><span class="m">500</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="c1"># -H to specify content-type headers. </span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="c1"># -d allows you to include the POST Body data. </span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="c1"># -u specifies the url</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="c1"># --hc/hl/hw/hh hide responses with the specified code/lines/words/chars. In our case, &quot;--hc 500&quot; hides 500 code responses.</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="c1"># -z specifies a payload   </span>
+</span></code></pre></div></td></tr></table></div>
 <p>Tools to build password lists:
 + <a href="https://github.com/sc0tfree/mentalist">https://github.com/sc0tfree/mentalist</a>.
 + <a href="../../cupp-common-user-password-profiler/">CUPP - Common User Password Profiler</a>.
@@ -17673,8 +17785,8 @@ Proof of Possession Tokens (PoP) or Holder of Key Tokens (HoK): The sender needs
 <p>Very useful if you know the password policy of the API we are attacking. Say that there is a lockout account policy for ten tries. Then you can password spray attack with 9 tries and use for that the 9 most probable passwords for all the accounts email spotted.</p>
 <p>As in crapi we have detected before a disclosure of information in the forum page (a json response with all kind of data from users who have posted on the forum), we can save that json response as response.json and filter out the emails of users:</p>
 <p>Also, using this grep command should pull everything out of a file that resembles an email. Then you can save those captured emails to a file and use that file as a payload in Burp Suite. You can then use a command like sort -u to get rid of duplicate emails.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>grep<span class="w"> </span>-oe<span class="w"> </span><span class="s2">&quot;[a-zA-Z0-9._]\+@[a-zA-Z]\+.[a-zA-Z]\+&quot;</span><span class="w"> </span>response.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span>mailusers.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>grep<span class="w"> </span>-oe<span class="w"> </span><span class="s2">&quot;[a-zA-Z0-9._]\+@[a-zA-Z]\+.[a-zA-Z]\+&quot;</span><span class="w"> </span>response.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span>mailusers.txt
+</span></code></pre></div></td></tr></table></div>
 <h2 id="api-authentication-attacks_1">API Authentication Attacks</h2>
 <p>To go further in authentification attacks we will need to analyze the API tokens and the way they are generated, and when talking about token generation and analysis, a word comes out inmediately: <strong>entropy</strong>.</p>
 <h3 id="entropy-analysis-burpsuite-sequencers-live-capture">Entropy analysis: BurpSuite Sequencer's live capture</h3>
@@ -17699,60 +17811,75 @@ Proof of Possession Tokens (PoP) or Holder of Key Tokens (HoK): The sender needs
 <h3 id="jwt-attacks">JWT attacks</h3>
 <p>Two tools: <a href="https://jwt.io">jwt.io</a> and <a href="../../jwt-tool/">jwt_tools</a>.</p>
 <p>To see a jwt decoded on your CLI:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>jwt_tool<span class="w"> </span>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0IjoxNjY5NDYxODk5LCJleHAiOjE2Njk
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>1NDgyOTl9.yeyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0IjoxNjY5NDYxODk5LCJleHAiOjE2Njk121Lj2Doa7rA9oUQk1Px7b2hUCMQJeyCsGYLbJ8hZMWc7304aX_hfkLB__1o2YfU49VajMBhhRVP_OYNafttug<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>jwt_tool<span class="w"> </span>eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0IjoxNjY5NDYxODk5LCJleHAiOjE2Njk
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>1NDgyOTl9.yeyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0IjoxNjY5NDYxODk5LCJleHAiOjE2Njk121Lj2Doa7rA9oUQk1Px7b2hUCMQJeyCsGYLbJ8hZMWc7304aX_hfkLB__1o2YfU49VajMBhhRVP_OYNafttug<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>Result:</p>
 <p><img alt="jwt " src="../../img/jwt-tool.png" /></p>
 <p>Also, to see the decoded jwt, knowing that is encoded in base64, we could echo each of its parts:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">echo</span><span class="w"> </span>eyJhbGciOiJIUzUxMiJ9<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>eyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>IjoxNjY5NDYxODk5LCJleHAiOjE2Njk1NDgyOTl9<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<span class="normal"><a href="#__codelineno-16-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="nb">echo</span><span class="w"> </span>eyJhbGciOiJIUzUxMiJ9<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>eyJzdWIiOiJoYXBpaGFja2VyQGhhcGloYWNoZXIuY29tIiwiaWF0
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>IjoxNjY5NDYxODk5LCJleHAiOjE2Njk1NDgyOTl9<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>{&quot;alg&quot;:&quot;HS512&quot;}{&quot;sub&quot;:&quot;hapihacker@hapihacher.com&quot;,&quot;iat&quot;:1669461899,&quot;exp&quot;:1669548299} 
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>{&quot;alg&quot;:&quot;HS512&quot;}{&quot;sub&quot;:&quot;hapihacker@hapihacher.com&quot;,&quot;iat&quot;:1669461899,&quot;exp&quot;:1669548299} 
+</span></code></pre></div></td></tr></table></div>
 <p>To run a JWT scan with jwt_tool, run: </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>jwt_tool<span class="w"> </span>-t<span class="w"> </span>&lt;http://target-site.com/&gt;<span class="w"> </span>-rh<span class="w"> </span><span class="s2">&quot;&lt;Header&gt;: &lt;JWT_Token&gt;&quot;</span><span class="w"> </span>-M<span class="w"> </span>pb
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># in the target site specify a path that leverages a call to a token</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="c1"># replace Header with the name of the Header and JWT_Tocker with the actual token.</span>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># -M: Scanning mode. &#39;pb&#39; is playbook audit. &#39;er&#39;: fuzz existing claims to force errors. &#39;cc&#39;: fuzz common claims. &#39;at&#39;: All tests.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>jwt_tool<span class="w"> </span>-t<span class="w"> </span>&lt;http://target-site.com/&gt;<span class="w"> </span>-rh<span class="w"> </span><span class="s2">&quot;&lt;Header&gt;: &lt;JWT_Token&gt;&quot;</span><span class="w"> </span>-M<span class="w"> </span>pb
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="c1"># in the target site specify a path that leverages a call to a token</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="c1"># replace Header with the name of the Header and JWT_Tocker with the actual token.</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="c1"># -M: Scanning mode. &#39;pb&#39; is playbook audit. &#39;er&#39;: fuzz existing claims to force errors. &#39;cc&#39;: fuzz common claims. &#39;at&#39;: All tests.</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Example:</p>
 <p><img alt="jwt " src="../../img/jwt-tool2.png" /></p>
 <p>Some more jwt_tool flags that may come in hand:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a># -X EXPLOIT, --exploit EXPLOIT
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>#                        eXploit known vulnerabilities:
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>#                        a = alg:none
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>#                        n = null signature
-</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>#                        b = blank password accepted in signature
-</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>#                        s = spoof JWKS (specify JWKS URL with -ju, or set in jwtconf.ini to automate this attack)
-</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>#                        k = key confusion (specify public key with -pk)
-</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>#                        i = inject inline JWKS
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">4</a></span>
+<span class="normal"><a href="#__codelineno-19-5">5</a></span>
+<span class="normal"><a href="#__codelineno-19-6">6</a></span>
+<span class="normal"><a href="#__codelineno-19-7">7</a></span>
+<span class="normal"><a href="#__codelineno-19-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a># -X EXPLOIT, --exploit EXPLOIT
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>#                        eXploit known vulnerabilities:
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a>#                        a = alg:none
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a>#                        n = null signature
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5"></a>#                        b = blank password accepted in signature
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6"></a>#                        s = spoof JWKS (specify JWKS URL with -ju, or set in jwtconf.ini to automate this attack)
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7"></a>#                        k = key confusion (specify public key with -pk)
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8"></a>#                        i = inject inline JWKS
+</span></code></pre></div></td></tr></table></div>
 <h4 id="1-the-none-attack">1. The none attack</h4>
 <p>A JWT with "none" as its algorithm is a free ticket. Modify user and become admin, root,... 
 Also, in poorly implemented JWT, sometimes user and password can be found in the payload.</p>
 <p>To craft a jwt with "none" as the value for "alg", run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>jwt_tool<span class="w"> </span>&lt;JWT_Token&gt;<span class="w"> </span>-X<span class="w"> </span>a
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>jwt_tool<span class="w"> </span>&lt;JWT_Token&gt;<span class="w"> </span>-X<span class="w"> </span>a
+</span></code></pre></div></td></tr></table></div>
 <h4 id="2-the-null-signature-attack">2. The null signature attack</h4>
 <p>Second attack in this section is removing the signature from the token. This can be done by erasing the signature altogether and leaving the last period in place.</p>
 <h4 id="the-blank-password-accepted-in-signature">The blank password accepted in signature</h4>
 <p>Launching this attack is relatively simple. Just remove the password value from the payload and leave it in blank. Then, regenerate the jwt.</p>
 <p>Also, with jwt_tool, run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>jwt_tool<span class="w"> </span>&lt;JWT_Token&gt;<span class="w"> </span>-X<span class="w"> </span>b
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>jwt_tool<span class="w"> </span>&lt;JWT_Token&gt;<span class="w"> </span>-X<span class="w"> </span>b
+</span></code></pre></div></td></tr></table></div>
 <h4 id="3-the-algorithm-switch-or-key-confusion-attack">3. The algorithm switch (or key-confusion) attack</h4>
 <p>A more likely scenario than the provider accepting no algorithm is that they accept multiple algorithms. For example, if the provider uses RS256 but doesn’t limit the acceptable algorithm values, we could alter the algorithm to HS256. This is useful, as RS256 is an asymmetric encryption scheme, meaning we need both the provider’s private key and a public key in order to accurately hash the JWT signature. Meanwhile, HS256 is symmetric encryption, so only one key is used for both the signature and verification of the token. If you can discover the provider’s RS256 public key and then switch the algorithm from RS256 to HS256, there is a chance you may be able to leverage the RS256 public key as the HS256 key.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>jwt_tool<span class="w"> </span>&lt;JWT_Token&gt;<span class="w"> </span>-X<span class="w"> </span>k<span class="w"> </span>-pk<span class="w"> </span>public-key.pem
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1"># You will need to save the captured public key as a file on your attacking machine.</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
+<span class="normal"><a href="#__codelineno-22-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>jwt_tool<span class="w"> </span>&lt;JWT_Token&gt;<span class="w"> </span>-X<span class="w"> </span>k<span class="w"> </span>-pk<span class="w"> </span>public-key.pem
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="c1"># You will need to save the captured public key as a file on your attacking machine.</span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="4-the-jwt-crack-attack">4. The jwt crack attack</h4>
 <p>JWT_Tool can still test 12 million passwords in under a minute. To perform a JWT Crack attack using JWT_Tool, use the following command:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>jwt_tool<span class="w"> </span>&lt;JWT<span class="w"> </span>Token&gt;<span class="w"> </span>-C<span class="w"> </span>-d<span class="w"> </span>/wordlist.txt
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="c1"># -C indicates that you are conducting a hash crack attack</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1"># -d specifies the dictionary or wordlist</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
+<span class="normal"><a href="#__codelineno-23-2">2</a></span>
+<span class="normal"><a href="#__codelineno-23-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>jwt_tool<span class="w"> </span>&lt;JWT<span class="w"> </span>Token&gt;<span class="w"> </span>-C<span class="w"> </span>-d<span class="w"> </span>/wordlist.txt
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="c1"># -C indicates that you are conducting a hash crack attack</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="c1"># -d specifies the dictionary or wordlist</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Once you crack the secret of the signature, we can create our own trusted tokens. 
 1. Grab another user email (in the crapi app, from the data exposure vulnerability when getting the forum (GET {{baseUrl}}/community/api/v2/community/posts/recent).
 2. Generate a token with the secret.</p>
@@ -17833,7 +17960,7 @@ Also, in poorly implemented JWT, sometimes user and password can be found in the
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

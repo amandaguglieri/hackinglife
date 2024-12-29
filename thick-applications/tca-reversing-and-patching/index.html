@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17249,30 +17272,47 @@ Download from: https://www.jetbrains.com/es-es/decompiler/download/#section=web-
 <p><img alt="graphic" src="../../img/tca-57.png" /></p>
 <h2 id="decompiling-with-dotpeek-executing-with-visual-studio">decompiling with dotPeek + executing with Visual Studio</h2>
 <p>We will try to decompile the app using dotPeek to decrypt the database connection. Remember from the config file </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>      &lt;add key=&quot;DBPASSWORD&quot; value=&quot;CTsvjZ0jQghXYWbSRcPxpQ==&quot; /&gt;
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>      &lt;add key=&quot;AESKEY&quot; value=&quot;J8gLXc454o5tW2HEF7HahcXPufj9v8k8&quot; /&gt;
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>      &lt;add key=&quot;IV&quot; value=&quot;fq20T0gMnXa6g0l4&quot; /&gt;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>      &lt;add key=&quot;DBPASSWORD&quot; value=&quot;CTsvjZ0jQghXYWbSRcPxpQ==&quot; /&gt;
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>      &lt;add key=&quot;AESKEY&quot; value=&quot;J8gLXc454o5tW2HEF7HahcXPufj9v8k8&quot; /&gt;
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>      &lt;add key=&quot;IV&quot; value=&quot;fq20T0gMnXa6g0l4&quot; /&gt;
+</span></code></pre></div></td></tr></table></div>
 <p>(The config file was  DVTA.exe.Config, located in the same directory as the app).</p>
 <p>We will use dotpeek + Visual Studio to understand the logic under that connection.</p>
 <p>Open the app DVTA from dotpeek, go to DVTA&gt;References&gt;DBAccess and double click it. Then you will get a Resource uploaded with the name &gt; DBAccess Class. In it there is a function called decryptPassword() </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>public string decryptPassword()
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    {
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>      string s1 = ConfigurationManager.AppSettings[&quot;DBPASSWORD&quot;].ToString();
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      string s2 = ConfigurationManager.AppSettings[&quot;AESKEY&quot;].ToString();
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>      string s3 = ConfigurationManager.AppSettings[&quot;IV&quot;].ToString();
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>      byte[] inputBuffer = Convert.FromBase64String(s1);
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>      AesCryptoServiceProvider cryptoServiceProvider = new AesCryptoServiceProvider();
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>      cryptoServiceProvider.BlockSize = 128;
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>      cryptoServiceProvider.KeySize = 256;
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>      cryptoServiceProvider.Key = Encoding.ASCII.GetBytes(s2);
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>      cryptoServiceProvider.IV = Encoding.ASCII.GetBytes(s3);
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>      cryptoServiceProvider.Padding = PaddingMode.PKCS7;
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>      cryptoServiceProvider.Mode = CipherMode.CBC;
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>      this.decryptedDBPassword = Encoding.ASCII.GetString(cryptoServiceProvider.CreateDecryptor(cryptoServiceProvider.Key, cryptoServiceProvider.IV).TransformFinalBlock(inputBuffer, 0, inputBuffer.Length));
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>      Console.WriteLine(this.decryptedDBPassword);
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>      return this.decryptedDBPassword;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>public string decryptPassword()
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>    {
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>      string s1 = ConfigurationManager.AppSettings[&quot;DBPASSWORD&quot;].ToString();
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>      string s2 = ConfigurationManager.AppSettings[&quot;AESKEY&quot;].ToString();
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>      string s3 = ConfigurationManager.AppSettings[&quot;IV&quot;].ToString();
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>      byte[] inputBuffer = Convert.FromBase64String(s1);
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>      AesCryptoServiceProvider cryptoServiceProvider = new AesCryptoServiceProvider();
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>      cryptoServiceProvider.BlockSize = 128;
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>      cryptoServiceProvider.KeySize = 256;
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>      cryptoServiceProvider.Key = Encoding.ASCII.GetBytes(s2);
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>      cryptoServiceProvider.IV = Encoding.ASCII.GetBytes(s3);
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>      cryptoServiceProvider.Padding = PaddingMode.PKCS7;
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a>      cryptoServiceProvider.Mode = CipherMode.CBC;
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a>      this.decryptedDBPassword = Encoding.ASCII.GetString(cryptoServiceProvider.CreateDecryptor(cryptoServiceProvider.Key, cryptoServiceProvider.IV).TransformFinalBlock(inputBuffer, 0, inputBuffer.Length));
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a>      Console.WriteLine(this.decryptedDBPassword);
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a>      return this.decryptedDBPassword;
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="graphic" src="../../img/tca-57.png" /></p>
 <p>So we will open Visual Studio and we will create a New Project, a Windows Form  Application (.NET Framework).
 We will call the project PasswordDecryptor. 
@@ -17280,54 +17320,94 @@ Create a button. Name it Decrypt.</p>
 <p><img alt="graphic" src="../../img/tca-58.png" /></p>
 <p>By double-clicking on the Decrypt button we will be taken to the Source code of that button.</p>
 <p>This is what we are going to put in that button:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>using System;
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>using System.Collections.Generic;
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>using System.ComponentModel;
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>using System.Data;
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>using System.Drawing;
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>using System.Linq;
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>using System.Text;
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>using System.Threading.Tasks;
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>using System.Windows.Forms;
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>using System.Security.Cryptography;
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>namespace decryptorpassword
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>{
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    public partial class Decrypt : Form
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    {
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        public Decrypt()
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>        {
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>            InitializeComponent();
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>        }
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>        private void button1_Click(object sender, EventArgs e)
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>        {
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>            string dbpassword = &quot;CTsvjZ0jQghXYWbSRcPxpQ==&quot;;
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>            string  aeskey = &quot;J8gLXc454o5tW2HEF7HahcXPufj9v8k8&quot;;
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>            string iv = &quot;fq20T0gMnXa6g0l4&quot;;
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>            byte[] inputBuffer = Convert.FromBase64String(dbpassword);
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>            AesCryptoServiceProvider cryptoServiceProvider = new AesCryptoServiceProvider();
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>            cryptoServiceProvider.BlockSize = 128;
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>            cryptoServiceProvider.KeySize = 256;
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>            cryptoServiceProvider.Key = Encoding.ASCII.GetBytes(aeskey);
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>            cryptoServiceProvider.IV = Encoding.ASCII.GetBytes(iv);
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>            cryptoServiceProvider.Padding = PaddingMode.PKCS7;
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>            cryptoServiceProvider.Mode = CipherMode.CBC;
-</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>            string decryptedDBPassword = Encoding.ASCII.GetString(cryptoServiceProvider.CreateDecryptor(cryptoServiceProvider.Key, cryptoServiceProvider.IV).TransformFinalBlock(inputBuffer, 0, inputBuffer.Length));
-</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>            Console.WriteLine(decryptedDBPassword);
-</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>        }
-</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>    }
-</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>}
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span>
+<span class="normal"><a href="#__codelineno-2-30">30</a></span>
+<span class="normal"><a href="#__codelineno-2-31">31</a></span>
+<span class="normal"><a href="#__codelineno-2-32">32</a></span>
+<span class="normal"><a href="#__codelineno-2-33">33</a></span>
+<span class="normal"><a href="#__codelineno-2-34">34</a></span>
+<span class="normal"><a href="#__codelineno-2-35">35</a></span>
+<span class="normal"><a href="#__codelineno-2-36">36</a></span>
+<span class="normal"><a href="#__codelineno-2-37">37</a></span>
+<span class="normal"><a href="#__codelineno-2-38">38</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>using System;
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>using System.Collections.Generic;
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>using System.ComponentModel;
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>using System.Data;
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>using System.Drawing;
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>using System.Linq;
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>using System.Text;
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>using System.Threading.Tasks;
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>using System.Windows.Forms;
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>using System.Security.Cryptography;
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>namespace decryptorpassword
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>{
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>    public partial class Decrypt : Form
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>    {
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>        public Decrypt()
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>        {
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a>            InitializeComponent();
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a>        }
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a>        private void button1_Click(object sender, EventArgs e)
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a>        {
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a>            string dbpassword = &quot;CTsvjZ0jQghXYWbSRcPxpQ==&quot;;
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a>            string  aeskey = &quot;J8gLXc454o5tW2HEF7HahcXPufj9v8k8&quot;;
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a>            string iv = &quot;fq20T0gMnXa6g0l4&quot;;
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a>            byte[] inputBuffer = Convert.FromBase64String(dbpassword);
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a>            AesCryptoServiceProvider cryptoServiceProvider = new AesCryptoServiceProvider();
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28"></a>            cryptoServiceProvider.BlockSize = 128;
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29"></a>            cryptoServiceProvider.KeySize = 256;
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30"></a>            cryptoServiceProvider.Key = Encoding.ASCII.GetBytes(aeskey);
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31"></a>            cryptoServiceProvider.IV = Encoding.ASCII.GetBytes(iv);
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32"></a>            cryptoServiceProvider.Padding = PaddingMode.PKCS7;
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33"></a>            cryptoServiceProvider.Mode = CipherMode.CBC;
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34"></a>            string decryptedDBPassword = Encoding.ASCII.GetString(cryptoServiceProvider.CreateDecryptor(cryptoServiceProvider.Key, cryptoServiceProvider.IV).TransformFinalBlock(inputBuffer, 0, inputBuffer.Length));
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35"></a>            Console.WriteLine(decryptedDBPassword);
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36"></a>        }
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37"></a>    }
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38"></a>}
+</span></code></pre></div></td></tr></table></div>
 <p>Some things not said in the video: it's quite possible you will need to debug this simple application. For that, the best thing to do is reading error messages and try to fix them. In my case,  a basic library for the execution of this code was missing:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>using System.Security.Cryptography;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>using System.Security.Cryptography;
+</span></code></pre></div></td></tr></table></div>
 <p>Also, it was needed to rename the .exe output file in the Main() function like this</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># what it said
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  Application.Run(new Form1());
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a># what it needed to say to match to my code
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  Application.Run(new Decrypt());
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a># what it said
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>  Application.Run(new Form1());
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a># what it needed to say to match to my code
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>  Application.Run(new Decrypt());
+</span></code></pre></div></td></tr></table></div>
 <h2 id="decompiling-and-executing-with-dnspy">Decompiling and executing with dnspy</h2>
 <p><strong>1.</strong> Open the application in dnspy. Go to Login. Click on namespace DBAccess</p>
 <p><img alt="graphic" src="../../img/tca-60.png" /></p>
@@ -17362,11 +17442,11 @@ Create a button. Name it Decrypt.</p>
 <h2 id="using-ilasm-and-ldasm-to-patch-applications">Using ilasm and ldasm to patch applications</h2>
 <p>ilasm (IL assembler) and ldasm (il disasembler) are tools provided by Microsoft in Visual Studio.</p>
 <p>We will use ILDASM to disasembler the DVTA application</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\ildasm.exe
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\ildasm.exe
+</span></code></pre></div></td></tr></table></div>
 <p>And ILASM to assemble again the application:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>C:\Windows\Microsoft.NET\Framework\v4.0.30319\ilasm.exe
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>C:\Windows\Microsoft.NET\Framework\v4.0.30319\ilasm.exe
+</span></code></pre></div></td></tr></table></div>
 <p><strong>1.</strong> Open DVTA.exe with ILDASM.exe from command line:</p>
 <p><img alt="code" src="../../img/tca-69.png" /></p>
 <p><strong>2.</strong> Dump the folder. FILES&gt; Dump</p>
@@ -17375,9 +17455,10 @@ Create a button. Name it Decrypt.</p>
 <p><strong>4.</strong> Open DVTA.il in a text editor and modify the instruction you want to modify. In our case we will change "ldc.i4.1" to "ldc.i4.0".</p>
 <p><img alt="code" src="../../img/tca-71.png" /></p>
 <p><strong>5.</strong> From command line, we will use ILASM to assemble that DVTA.il file into a new application</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cd C:\Windows\Microsoft.NET\Framework\v4.0.30319\
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>.\ilasm.exe C:\User\lala\Desktop\RE\DVTA.il
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>cd C:\Windows\Microsoft.NET\Framework\v4.0.30319\
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>.\ilasm.exe C:\User\lala\Desktop\RE\DVTA.il
+</span></code></pre></div></td></tr></table></div>
 <h2 id="anti-piracy-measures-implemented-by-some-apps">Anti piracy measures implemented by some apps</h2>
 <p>Mechanism to track or prevent illegitimate copying or usage of the software:</p>
 <ul>
@@ -17461,7 +17542,7 @@ Create a button. Name it Decrypt.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>

