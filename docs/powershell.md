@@ -66,8 +66,11 @@ Copy-Item nameOfSource nameOfDestiny
 cp originFolder destinyPath -Recurse
 Copy-Item originFolder destinyPath -Recurse
 
-# Get running processes filtered by name
+# Way 1: Get running processes filtered by name
 get-process -name ccSvcHst
+
+# Way 2: Get running processes filtered by the string
+tasklist /V |findstr backupadm
 
 # Kill processes called ccSvcHst* // Notice here wild card *
 taskkill /f /im ccSvcHst*

