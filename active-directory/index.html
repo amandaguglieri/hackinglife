@@ -16106,6 +16106,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#domain-trust-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain Trust Overview
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -17037,6 +17046,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#domain-trust-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain Trust Overview
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -17330,10 +17348,45 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tr>
 </tbody>
 </table>
+<h2 id="domain-trust-overview">Domain Trust Overview</h2>
+<p>A trust creates a link between the authentication systems of two domains and may allow either one-way or two-way (bidirectional) communication. </p>
+<p>Types of trusts:</p>
+<ul>
+<li><code>Parent-child</code>: Two or more domains within the same forest. The child domain has a two-way transitive trust with the parent domain, meaning that users in the child domain <code>corp.inlanefreight.local</code> could authenticate into the parent domain <code>inlanefreight.local</code>, and vice-versa.</li>
+<li><code>Cross-link</code>: A trust between child domains to speed up authentication.</li>
+<li><code>External</code>: A non-transitive trust between two separate domains in separate forests which are not already joined by a forest trust. This type of trust utilizes <a href="https://www.serverbrain.org/active-directory-2008/sid-history-and-sid-filtering.html">SID filtering</a> or filters out authentication requests (by SID) not from the trusted domain.</li>
+<li><code>Tree-root</code>: A two-way transitive trust between a forest root domain and a new tree root domain. They are created by design when you set up a new tree root domain within a forest.</li>
+<li><code>Forest</code>: A transitive trust between two forest root domains.</li>
+<li><a href="https://docs.microsoft.com/en-us/security/compass/esae-retirement">ESAE</a>: A bastion forest used to manage Active Directory.</li>
+</ul>
+<p>Trusts can be transitive or non-transitive:</p>
+<ul>
+<li>A <code>transitive</code> trust means that trust is extended to objects that the child domain trusts:<ul>
+<li>Shared, 1 to many.</li>
+<li>The trust is shared with anyone in the forest. </li>
+<li>Forest, tree-root, parent-child, and cross-link trusts are transitive.</li>
+</ul>
+</li>
+<li>In a non-transitive trust, the child domain itself is the only one trusted:<ul>
+<li>Direct trust.</li>
+<li>Not extended to the next level child domains.</li>
+<li>Typical for external or custom trust setup.</li>
+</ul>
+</li>
+</ul>
+<p>Trusts can be set up in two directions: one-way or two-way (bidirectional):</p>
+<ul>
+<li>
+<ul>
+<li><code>One-way trust</code>: Users in a <code>trusted</code> domain can access resources in a trusting domain, not vice-versa.</li>
+</ul>
+</li>
+<li><code>Bidirectional trust</code>: Users from both trusting domains can access resources in the other domain. </li>
+</ul>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-12-28T19:25:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-12-28</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-01T20:37:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-01</span></small></br>
 
 
     <small>Created: November 17, 2024 21:05:00</small>

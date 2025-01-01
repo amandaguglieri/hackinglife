@@ -17158,122 +17158,124 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>The Active Directory module for Windows PowerShell is a PowerShell module that consolidates a group of cmdlets. You can use these cmdlets to manage your Active Directory domains, Active Directory Lightweight Directory Services (AD LDS) configuration sets, and Active Directory Database Mounting Tool instances in a single, self-contained package.</p>
 <h2 id="installation">Installation</h2>
 <p>Download from <a href="https://github.com/samratashok/ADModule">The ActiveDirectory PowerShell module github repository</a> </p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">Import-Module</span> <span class="n">activedirectory</span>
+</span></code></pre></div></td></tr></table></div>
 <p>This module is Microsoft signed and works even in PowerShell Constrained Language Mode (CLM). </p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
-<span class="normal"><a href="#__codelineno-0-2">2</a></span>
-<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>Import-Module .\ADModule-master\Microsoft.ActiveDirectory.Management.dll 
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>Import-Module .\ADModule-master\ActiveDirectory\ActiveDirectory.psd1 
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">ADModule-master</span><span class="p">\</span><span class="n">Microsoft</span><span class="p">.</span><span class="n">ActiveDirectory</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">dll</span> 
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">ADModule-master</span><span class="p">\</span><span class="n">ActiveDirectory</span><span class="p">\</span><span class="n">ActiveDirectory</span><span class="p">.</span><span class="n">psd1</span> 
 </span></code></pre></div></td></tr></table></div>
 <p>Also, you can copy the DLL from the github repo to your machine and use it to enumerate Active Directory without installing RSAT and without having administrative privileges.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>Import-Module C:\ADModule\Microsoft.ActiveDirectory.Management.dll -Verbose
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nb">Import-Module</span> <span class="n">C</span><span class="p">:\</span><span class="n">ADModule</span><span class="p">\</span><span class="n">Microsoft</span><span class="p">.</span><span class="n">ActiveDirectory</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">dll</span> <span class="n">-Verbose</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="basic-commands">Basic commands</h2>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span>
-<span class="normal"><a href="#__codelineno-2-4">4</a></span>
-<span class="normal"><a href="#__codelineno-2-5">5</a></span>
-<span class="normal"><a href="#__codelineno-2-6">6</a></span>
-<span class="normal"><a href="#__codelineno-2-7">7</a></span>
-<span class="normal"><a href="#__codelineno-2-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c"># Get ACL for a folder (or a file)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="nb">Get-ACL</span> <span class="err">“</span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">Public</span><span class="p">\</span><span class="n">Desktop</span><span class="err">”</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c"># Search for AD elements. [See more in ldap queries](ldap.md)</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="nb">Get-ADObject</span> <span class="n">-LDAPFilter</span> <span class="p">&lt;</span><span class="n">thespecificfilter</span><span class="p">&gt;</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="c"># Count occurrences in a query, like the one above.</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="p">(</span><span class="nb">Get-ADObject</span> <span class="n">-LDAPFilter</span> <span class="p">&lt;</span><span class="n">thespecificfilter</span><span class="p">&gt;).</span><span class="n">count</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span>
+<span class="normal"><a href="#__codelineno-3-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c"># Get ACL for a folder (or a file)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nb">Get-ACL</span> <span class="err">“</span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">Public</span><span class="p">\</span><span class="n">Desktop</span><span class="err">”</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="c"># Search for AD elements. [See more in ldap queries](ldap.md)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="nb">Get-ADObject</span> <span class="n">-LDAPFilter</span> <span class="p">&lt;</span><span class="n">thespecificfilter</span><span class="p">&gt;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="c"># Count occurrences in a query, like the one above.</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="p">(</span><span class="nb">Get-ADObject</span> <span class="n">-LDAPFilter</span> <span class="p">&lt;</span><span class="n">thespecificfilter</span><span class="p">&gt;).</span><span class="n">count</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="get-addomain">Get-ADDomain</h3>
 <p>We'll enumerate some basic information about the domain with the Get-ADDomain cmdlet.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
-<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c"># This will print out helpful information like the domain SID, domain functional level, any child domains, and more.</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nb">Get-ADDomain</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c"># This will print out helpful information like the domain SID, domain functional level, any child domains, and more.</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nb">Get-ADDomain</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="get-aduser">Get-ADUser</h3>
 <p><a href="https://learn.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2022-ps">More on https://learn.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2022-ps</a>.  </p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-4-10">10</a></span>
-<span class="normal"><a href="#__codelineno-4-11">11</a></span>
-<span class="normal"><a href="#__codelineno-4-12">12</a></span>
-<span class="normal"><a href="#__codelineno-4-13">13</a></span>
-<span class="normal"><a href="#__codelineno-4-14">14</a></span>
-<span class="normal"><a href="#__codelineno-4-15">15</a></span>
-<span class="normal"><a href="#__codelineno-4-16">16</a></span>
-<span class="normal"><a href="#__codelineno-4-17">17</a></span>
-<span class="normal"><a href="#__codelineno-4-18">18</a></span>
-<span class="normal"><a href="#__codelineno-4-19">19</a></span>
-<span class="normal"><a href="#__codelineno-4-20">20</a></span>
-<span class="normal"><a href="#__codelineno-4-21">21</a></span>
-<span class="normal"><a href="#__codelineno-4-22">22</a></span>
-<span class="normal"><a href="#__codelineno-4-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c"># This command gets all users in the container OU=Finance,OU=UserAccounts,DC=FABRIKAM,DC=COM.</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=Finance,OU=UserAccounts,DC=FABRIKAM,DC=COM&quot;</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c"># This command gets all users that have a name that ends with SvcAccount:</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s1">&#39;Name -like &quot;*SvcAccount&quot;&#39;</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span><span class="n">SamAccountName</span> <span class="n">-A</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="c"># This command gets all of the properties of the user with the SAM account name ChewDavid:</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="n">ChewDavid</span> <span class="n">-Properties</span> <span class="p">*</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="c"># This command gets the user with the name ChewDavid in the Active Directory Lightweight Directory Services (AD LDS) instance:</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;Name -eq &#39;ChewDavid&#39;&quot;</span> <span class="n">-SearchBase</span> <span class="s2">&quot;DC=AppNC&quot;</span> <span class="n">-Properties</span> <span class="s2">&quot;mail&quot;</span> <span class="n">-Server</span> <span class="n">lds</span><span class="p">.</span><span class="n">Fabrikam</span><span class="p">.</span><span class="n">com</span><span class="p">:</span><span class="n">50000</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="c"># This command gets all enabled user accounts in Active Directory using an LDAP filter: meaning to return all disabled accounts</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="nb">Get-ADUser</span> <span class="n">-LDAPFilter</span> <span class="s1">&#39;(!userAccountControl:1.2.840.113556.1.4.803:=2)&#39;</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a><span class="c"># search for all administrative users with the `DoesNotRequirePreAuth` attribute set, meaning that they can be ASREPRoasted:</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">adminCount</span> <span class="o">-eq</span> <span class="s1">&#39;1&#39;</span> <span class="o">-and</span> <span class="n">DoesNotRequirePreAuth</span> <span class="o">-eq</span> <span class="s1">&#39;True&#39;</span><span class="p">}</span>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18"></a>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="c"># Find all administrative users with the SPN &quot;servicePrincipalName&quot; attribute set, meaning that they can likely be subject to a Kerberoasting attack</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;adminCount -eq &#39;1&#39;&quot;</span> <span class="n">-Properties</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">where </span><span class="n">servicePrincipalName</span> <span class="o">-ne</span> <span class="nv">$null</span> <span class="p">|</span> <span class="nb">select </span><span class="n">SamAccountName</span><span class="p">,</span><span class="n">MemberOf</span><span class="p">,</span><span class="n">ServicePrincipalName</span> <span class="p">|</span> <span class="nb">fl</span>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21"></a>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22"></a><span class="c"># Another way to retrieve Service Principals</span>
-</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">ServicePrincipalName</span> <span class="o">-ne</span> <span class="s2">&quot;$null&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">ServicePrincipalName</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c"># This command gets all users in the container OU=Finance,OU=UserAccounts,DC=FABRIKAM,DC=COM.</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="n">-SearchBase</span> <span class="s2">&quot;OU=Finance,OU=UserAccounts,DC=FABRIKAM,DC=COM&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c"># This command gets all users that have a name that ends with SvcAccount:</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s1">&#39;Name -like &quot;*SvcAccount&quot;&#39;</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span><span class="n">SamAccountName</span> <span class="n">-A</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="c"># This command gets all of the properties of the user with the SAM account name ChewDavid:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="nb">Get-ADUser</span> <span class="n">-Identity</span> <span class="n">ChewDavid</span> <span class="n">-Properties</span> <span class="p">*</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="c"># This command gets the user with the name ChewDavid in the Active Directory Lightweight Directory Services (AD LDS) instance:</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;Name -eq &#39;ChewDavid&#39;&quot;</span> <span class="n">-SearchBase</span> <span class="s2">&quot;DC=AppNC&quot;</span> <span class="n">-Properties</span> <span class="s2">&quot;mail&quot;</span> <span class="n">-Server</span> <span class="n">lds</span><span class="p">.</span><span class="n">Fabrikam</span><span class="p">.</span><span class="n">com</span><span class="p">:</span><span class="n">50000</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="c"># This command gets all enabled user accounts in Active Directory using an LDAP filter: meaning to return all disabled accounts</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="nb">Get-ADUser</span> <span class="n">-LDAPFilter</span> <span class="s1">&#39;(!userAccountControl:1.2.840.113556.1.4.803:=2)&#39;</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a><span class="c"># search for all administrative users with the `DoesNotRequirePreAuth` attribute set, meaning that they can be ASREPRoasted:</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">adminCount</span> <span class="o">-eq</span> <span class="s1">&#39;1&#39;</span> <span class="o">-and</span> <span class="n">DoesNotRequirePreAuth</span> <span class="o">-eq</span> <span class="s1">&#39;True&#39;</span><span class="p">}</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="c"># Find all administrative users with the SPN &quot;servicePrincipalName&quot; attribute set, meaning that they can likely be subject to a Kerberoasting attack</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s2">&quot;adminCount -eq &#39;1&#39;&quot;</span> <span class="n">-Properties</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">where </span><span class="n">servicePrincipalName</span> <span class="o">-ne</span> <span class="nv">$null</span> <span class="p">|</span> <span class="nb">select </span><span class="n">SamAccountName</span><span class="p">,</span><span class="n">MemberOf</span><span class="p">,</span><span class="n">ServicePrincipalName</span> <span class="p">|</span> <span class="nb">fl</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21"></a>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22"></a><span class="c"># Another way to retrieve Service Principals</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="p">{</span><span class="n">ServicePrincipalName</span> <span class="o">-ne</span> <span class="s2">&quot;$null&quot;</span><span class="p">}</span> <span class="n">-Properties</span> <span class="n">ServicePrincipalName</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="get-adcomputer">Get-ADComputer</h3>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
-<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c"># Search domain computers for interesting hostnames. SQL servers are a particularly juicy target on internal assessments. The below command searches all hosts in the domain using `Get-ADComputer`, filtering on the `DNSHostName` property that contains the word `SQL`</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="nb">Get-ADComputer</span>  <span class="n">-Filter</span> <span class="s2">&quot;DNSHostName -like &#39;SQL*&#39;&quot;</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c"># Search domain computers for interesting hostnames. SQL servers are a particularly juicy target on internal assessments. The below command searches all hosts in the domain using `Get-ADComputer`, filtering on the `DNSHostName` property that contains the word `SQL`</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nb">Get-ADComputer</span>  <span class="n">-Filter</span> <span class="s2">&quot;DNSHostName -like &#39;SQL*&#39;&quot;</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="get-adgroup">Get-ADGroup</h3>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
-<span class="normal"><a href="#__codelineno-6-2">2</a></span>
-<span class="normal"><a href="#__codelineno-6-3">3</a></span>
-<span class="normal"><a href="#__codelineno-6-4">4</a></span>
-<span class="normal"><a href="#__codelineno-6-5">5</a></span>
-<span class="normal"><a href="#__codelineno-6-6">6</a></span>
-<span class="normal"><a href="#__codelineno-6-7">7</a></span>
-<span class="normal"><a href="#__codelineno-6-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c"># Group enumeration</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">select </span><span class="n">name</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c"># Get detailed information about a group</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="s2">&quot;Backup Operators&quot;</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="c"># Search for administrative groups by filtering on the `adminCount` attribute. If set to `1`, it&#39;s protected by AdminSDHolder and known as protected groups. `AdminSDHolder` is owned by the Domain Admins group. It has the privileges to change the permissions of objects in Active Directory. </span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="s2">&quot;adminCount -eq 1&quot;</span> <span class="p">|</span> <span class="nb">select </span><span class="n">Name</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span>
+<span class="normal"><a href="#__codelineno-7-6">6</a></span>
+<span class="normal"><a href="#__codelineno-7-7">7</a></span>
+<span class="normal"><a href="#__codelineno-7-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c"># Group enumeration</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="p">*</span> <span class="p">|</span> <span class="nb">select </span><span class="n">name</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="c"># Get detailed information about a group</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="s2">&quot;Backup Operators&quot;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="c"># Search for administrative groups by filtering on the `adminCount` attribute. If set to `1`, it&#39;s protected by AdminSDHolder and known as protected groups. `AdminSDHolder` is owned by the Domain Admins group. It has the privileges to change the permissions of objects in Active Directory. </span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="nb">Get-ADGroup</span> <span class="n">-Filter</span> <span class="s2">&quot;adminCount -eq 1&quot;</span> <span class="p">|</span> <span class="nb">select </span><span class="n">Name</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="get-adgroupmember">Get-ADGroupMember</h3>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
-<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c"># Returns members of a group</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;Backup Operators&quot;</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c"># Returns members of a group</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="nb">Get-ADGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;Backup Operators&quot;</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="get-adtrust">Get-ADTrust</h3>
 <p>Verify domain trust relationships using the <a href="https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adtrust?view=windowsserver2022-ps">Get-ADTrust</a> cmdlet. This cmdlet will print out any trust relationships the domain has. We can determine if they are trusts within our forest or with domains in other forests, the type of trust, the direction of the trust, and the name of the domain the relationship is with. This will be useful  on when looking to take advantage of child-to-parent trust relationships and attacking across forest trusts. </p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="nb">Get-ADTrust</span> <span class="n">-Filter</span> <span class="p">*</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nb">Get-ADTrust</span> <span class="n">-Filter</span> <span class="p">*</span>
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-12-27T22:00:41+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-12-27</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-01T20:37:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-01</span></small></br>
 
 
     <small>Created: May 9, 2023 17:16:52</small>
