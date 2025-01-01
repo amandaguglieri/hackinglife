@@ -108,3 +108,33 @@ tags:
 |[ADRecon](https://github.com/adrecon/ADRecon)|A tool used to extract various data from a target AD environment. The data can be output in Microsoft Excel format with summary views and analysis to assist with analysis and paint a picture of the environment's overall security state.|
 
 
+## Domain Trust Overview
+
+A trust creates a link between the authentication systems of two domains and may allow either one-way or two-way (bidirectional) communication. 
+
+Types of trusts:
+
+- `Parent-child`: Two or more domains within the same forest. The child domain has a two-way transitive trust with the parent domain, meaning that users in the child domain `corp.inlanefreight.local` could authenticate into the parent domain `inlanefreight.local`, and vice-versa.
+- `Cross-link`: A trust between child domains to speed up authentication.
+- `External`: A non-transitive trust between two separate domains in separate forests which are not already joined by a forest trust. This type of trust utilizes [SID filtering](https://www.serverbrain.org/active-directory-2008/sid-history-and-sid-filtering.html) or filters out authentication requests (by SID) not from the trusted domain.
+- `Tree-root`: A two-way transitive trust between a forest root domain and a new tree root domain. They are created by design when you set up a new tree root domain within a forest.
+- `Forest`: A transitive trust between two forest root domains.
+- [ESAE](https://docs.microsoft.com/en-us/security/compass/esae-retirement): A bastion forest used to manage Active Directory.
+
+
+Trusts can be transitive or non-transitive:
+
+- A `transitive` trust means that trust is extended to objects that the child domain trusts:
+	- Shared, 1 to many.
+	- The trust is shared with anyone in the forest. 
+	- Forest, tree-root, parent-child, and cross-link trusts are transitive.
+- In a non-transitive trust, the child domain itself is the only one trusted:
+	- Direct trust.
+	- Not extended to the next level child domains.
+	- Typical for external or custom trust setup.
+
+
+Trusts can be set up in two directions: one-way or two-way (bidirectional):
+
+- - `One-way trust`: Users in a `trusted` domain can access resources in a trusting domain, not vice-versa.
+- `Bidirectional trust`: Users from both trusting domains can access resources in the other domain. 

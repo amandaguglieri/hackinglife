@@ -26,7 +26,6 @@ tags:
 
 
 
-
 **Tool for enumeration**: 
 
 - [Enumeration with LDAP queries](389-636-ldap.md)
@@ -1110,4 +1109,117 @@ Get-GPO -Guid $GUID
 ```
 
 [See how to take this attack further](active-directory-from-windows-attacks.md#group-policy-object-abuse).
+
+## 9. Trust Relationships
+
+### Introduction to Domain Trust Overview
+
+A trust creates a link between the authentication systems of two domains and may allow either one-way or two-way (bidirectional) communication. 
+
+Types of trusts:
+
+- `Parent-child`: Two or more domains within the same forest. The child domain has a two-way transitive trust with the parent domain, meaning that users in the child domain `corp.inlanefreight.local` could authenticate into the parent domain `inlanefreight.local`, and vice-versa.
+- `Cross-link`: A trust between child domains to speed up authentication.
+- `External`: A non-transitive trust between two separate domains in separate forests which are not already joined by a forest trust. This type of trust utilizes [SID filtering](https://www.serverbrain.org/active-directory-2008/sid-history-and-sid-filtering.html) or filters out authentication requests (by SID) not from the trusted domain.
+- `Tree-root`: A two-way transitive trust between a forest root domain and a new tree root domain. They are created by design when you set up a new tree root domain within a forest.
+- `Forest`: A transitive trust between two forest root domains.
+- [ESAE](https://docs.microsoft.com/en-us/security/compass/esae-retirement): A bastion forest used to manage Active Directory.
+
+
+Trusts can be transitive or non-transitive:
+
+- A `transitive` trust means that trust is extended to objects that the child domain trusts:
+	- Shared, 1 to many.
+	- The trust is shared with anyone in the forest. 
+	- Forest, tree-root, parent-child, and cross-link trusts are transitive.
+- In a non-transitive trust, the child domain itself is the only one trusted:
+	- Direct trust.
+	- Not extended to the next level child domains.
+	- Typical for external or custom trust setup.
+
+
+Trusts can be set up in two directions: one-way or two-way (bidirectional):
+
+- - `One-way trust`: Users in a `trusted` domain can access resources in a trusting domain, not vice-versa.
+- `Bidirectional trust`: Users from both trusting domains can access resources in the other domain. 
+
+### Windows binary: nltest
+
+Similar, but very simplified information could be gleaned from a native Windows binary:
+
+```powershell
+nltest /domain_trusts
+```
+
+
+### Powershell
+
+Powershell way of checking trust relationships:
+
+```powershell
+([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()
+```
+
+### Active Directory module: Get-ADTrust 
+
+[See complete Active directory powershell module](activedirectory-powershell-module.md).
+
+```powershell
+Import-Module activedirectory
+Get-ADTrust -Filter *
+```
+
+Pay attention to properties such as Direction, ForestTransitive and some others. 
+
+From here we could enumerate users in the child domain:
+
+```powershell
+Get-DomainUser -Domain $domain | select SamAccountName
+# Example:
+# Get-DomainUser -Domain LOGISTICS.INLANEFREIGHT.LOCAL | select SamAccountName
+```
+
+
+### PowerView.ps1 module: Get-DomainTrust
+
+PowerView can be used to perform a domain trust mapping and provide information such as the type of trust (parent/child, external, forest) and the direction of the trust (one-way or bidirectional).
+
+```powershell
+Import-Module .\PowerView.ps1
+Get-DomainTrust
+```
+
+Also we could do some mapping:
+
+```powershell
+Get-DomainTrustMapping
+```
+
+### netdom
+
+The `netdom query` sub-command of the `netdom` command-line tool in Windows can retrieve information about the domain, including a list of workstations, servers, and domain trusts.
+
+```cmd-session
+# List trusts:
+netdom query /domain:$domain trust
+# Example:
+# netdom query /domain:inlanefreight.local trust
+
+# Enumerate Domain Controllers with accounts in the domain
+netdom query /domain:$domain dc
+# Example: 
+# netdom query /domain:inlanefreight.local dc
+
+#  query workstations and servers
+netdom query /domain:$domain workstation
+# Example:
+# netdom query /domain:inlanefreight.local workstation
+```
+
+
+### Visualizing Trust Relationships in BloodHound
+
+[See more about bloodhound](bloodhound.md).
+
+![](img/blood02.png)
 

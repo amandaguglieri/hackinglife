@@ -20,9 +20,13 @@ The Active Directory module for Windows PowerShell is a PowerShell module that c
 
 Download from [The ActiveDirectory PowerShell module github repository](https://github.com/samratashok/ADModule ) 
 
+```powershell
+Import-Module activedirectory
+```
+
 This module is Microsoft signed and works even in PowerShell Constrained Language Mode (CLM). 
 
-```ps
+```powershell
 Import-Module .\ADModule-master\Microsoft.ActiveDirectory.Management.dll 
 
 Import-Module .\ADModule-master\ActiveDirectory\ActiveDirectory.psd1 
@@ -30,9 +34,11 @@ Import-Module .\ADModule-master\ActiveDirectory\ActiveDirectory.psd1 
 
 Also, you can copy the DLL from the github repo to your machine and use it to enumerate Active Directory without installing RSAT and without having administrative privileges.
 
-```ps
+```powershell
 Import-Module C:\ADModule\Microsoft.ActiveDirectory.Management.dll -Verbose
 ```
+
+
 
 
 ## Basic commands

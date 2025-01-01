@@ -108,3 +108,9 @@ Enumerate via Bloodhound and the `SQLAdmin` edge. We can check for `SQL Admin
 ```cypher
 MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:SQLAdmin*1..]->(c:Computer) RETURN p2
 ```
+
+
+### Visualizing Trust Relationships in BloodHound
+
+![](img/blood02.png)
+
