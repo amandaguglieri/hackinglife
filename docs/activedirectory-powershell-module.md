@@ -113,6 +113,9 @@ Get-ADGroup -Identity "Backup Operators"
 
 # Search for administrative groups by filtering on the `adminCount` attribute. If set to `1`, it's protected by AdminSDHolder and known as protected groups. `AdminSDHolder` is owned by the Domain Admins group. It has the privileges to change the permissions of objects in Active Directory. 
 Get-ADGroup -Filter "adminCount -eq 1" | select Name
+
+# Viewing the Protected Users Group with Get-ADGroup
+Get-ADGroup -Identity "Protected Users" -Properties Name,Description,Members
 ```
 
 
@@ -122,7 +125,6 @@ Get-ADGroup -Filter "adminCount -eq 1" | select Name
 # Returns members of a group
 Get-ADGroupMember -Identity "Backup Operators"
 ```
-
 
 
 ### Get-ADTrust

