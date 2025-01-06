@@ -747,6 +747,8 @@ This can be performed entering in the Windows machine (Windows-based pivot host)
 netsh.exe interface portproxy add v4tov4 listenport=8080 listenaddress=$IpInterface1 connectport=3389 connectaddress=$IpInterface2
 ```
 
+
+
 Now we can connect to the 8080 port of the Windows machine (Windows-based pivot host) from our kali attacking machine using xfreerdp:
 
 ```

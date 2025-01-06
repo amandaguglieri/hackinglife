@@ -587,6 +587,7 @@ The Wayback Machine, a project by the Internet Archive, has been archiving the w
 
 By leveraging the Wayback Machine, you can gain a historical perspective on your target's online presence, potentially revealing vulnerabilities that may have been overlooked in the current version of the website.
 
+
 ##  File Transferr techniques
 
 | **Command**                                                                                                        | **Description**                             |

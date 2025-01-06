@@ -21,6 +21,7 @@ Basically, the tool sends TGT requests to the domain controller without Kerberos
 
 
 ```
+# Requirements: having Go installed
 sudo git clone https://github.com/ropnop/kerbrute.git
 
 # Typing make help will show us the compiling options available.

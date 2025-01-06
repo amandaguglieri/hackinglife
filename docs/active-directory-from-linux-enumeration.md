@@ -324,6 +324,10 @@ LDAP anonymous binds allow unauthenticated attackers to retrieve information fro
 
 ```shell-session
 ldapsearch -h $ip -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength
+
+
+
+ldapsearch -h 172.16.7.3 -x -s base -b '' "(objectClass=*)" "*" +                                                                                                                                                                     
 ```
 
 Other tools related to ldap: `windapsearch.py`, `ldapsearch`, `ad-ldapdomaindump.py`.
@@ -395,7 +399,7 @@ However, this will be as accurate as the user list.
 ####  Get-NPUsers.py from the Impacket toolkit
 
 ```bash
-# Retuns all users that with DONT_REQ_PREAUTH amd UF_DONT_REQ_PREAUTH
+# Retuns all users that with DONT_REQ_PREAUTH and UF_DONT_REQ_PREAUTH
 GetNPUsers.py INLANEFREIGHT.LOCAL/ -dc-ip 172.16.5.5 -no-pass -usersfile jsmith.txt | grep -v SessionError
 ```
 
@@ -490,4 +494,35 @@ enumprivs
 lsaenumsid
 ```
 
+
+## 6. DNS Records
+
+! tips ""
+	- [Getting in the Zone: dumping Active Directory DNS using adidnsdump](https://dirkjanm.io/getting-in-the-zone-dumping-active-directory-dns-with-adidnsdump/)
+	- [See the tool adidnsdump](adidnsdump.md)
+
+
+### adidnsdump
+
+[See  adidnsdump](adidnsdump.md).
+
+We can use a tool such as adidnsdump to enumerate all DNS records in a domain using a valid domain user account.  The tool works because, by default, all users can list the child objects of a DNS zone in an AD environment. By default, querying DNS records using LDAP does not return all results. So by using the `adidnsdump` tool, we can resolve all records in the zone and potentially find something useful for our engagement.
+
+```bash
+adidnsdump -u $domain\\$user ldap://$DomainControllerIP
+# Example:
+# adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 
+
+# adidnsdump -u inlanefreight\\jjones ldap://172.16.7.3 
+# Viewing the Contents of the records.csv File
+head records.csv 
+
+# If we run again with the -r flag the tool will attempt to resolve unknown records by performing an A query. 
+adidnsdump -u $domain\\$user ldap://$DomainControllerIP -r
+# Example:
+# adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 -r
+
+# Now records.csv will include previously hidden records
+head records.csv 
+```
 

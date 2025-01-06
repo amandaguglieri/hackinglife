@@ -21,6 +21,8 @@ For linux:
 sudo apt install ncat
 ```
 
+Netcat in windows: [nc64.exe](https://github.com/vinsworldcom/NetCat64/releases).
+
 
 ## Usage
 
