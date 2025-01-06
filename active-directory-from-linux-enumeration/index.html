@@ -16420,6 +16420,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#6-dns-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. DNS Records
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. DNS Records">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adidnsdump" class="md-nav__link">
+    <span class="md-ellipsis">
+      adidnsdump
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -17531,6 +17555,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#6-dns-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. DNS Records
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. DNS Records">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adidnsdump" class="md-nav__link">
+    <span class="md-ellipsis">
+      adidnsdump
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -17908,7 +17956,15 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <h3 id="ldap_1">ldap</h3>
 <p>LDAP anonymous binds allow unauthenticated attackers to retrieve information from the domain, such as a complete listing of users, groups, computers, user account attributes, and the domain password policy.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="go">ldapsearch -h $ip -x -b &quot;DC=INLANEFREIGHT,DC=LOCAL&quot; -s sub &quot;*&quot; | grep -m 1 -B 10 pwdHistoryLength</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span>
+<span class="normal"><a href="#__codelineno-18-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="go">ldapsearch -h $ip -x -b &quot;DC=INLANEFREIGHT,DC=LOCAL&quot; -s sub &quot;*&quot; | grep -m 1 -B 10 pwdHistoryLength</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="go">ldapsearch -h 172.16.7.3 -x -s base -b &#39;&#39; &quot;(objectClass=*)&quot; &quot;*&quot; +                                                                                                                                                                     </span>
 </span></code></pre></div></td></tr></table></div>
 <p>Other tools related to ldap: <code>windapsearch.py</code>, <code>ldapsearch</code>, <code>ad-ldapdomaindump.py</code>.</p>
 <h2 id="4-credentials">4. Credentials</h2>
@@ -17955,7 +18011,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>However, this will be as accurate as the user list.</p>
 <h4 id="get-npuserspy-from-the-impacket-toolkit">Get-NPUsers.py from the Impacket toolkit</h4>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
-<span class="normal"><a href="#__codelineno-24-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="c1"># Retuns all users that with DONT_REQ_PREAUTH amd UF_DONT_REQ_PREAUTH</span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="c1"># Retuns all users that with DONT_REQ_PREAUTH and UF_DONT_REQ_PREAUTH</span>
 </span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a>GetNPUsers.py<span class="w"> </span>INLANEFREIGHT.LOCAL/<span class="w"> </span>-dc-ip<span class="w"> </span><span class="m">172</span>.16.5.5<span class="w"> </span>-no-pass<span class="w"> </span>-usersfile<span class="w"> </span>jsmith.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>SessionError
 </span></code></pre></div></td></tr></table></div>
 <h2 id="5-shares">5. Shares</h2>
@@ -18081,10 +18137,47 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-28-40"><a id="__codelineno-28-40" name="__codelineno-28-40"></a><span class="gp"># </span>Enumerating<span class="w"> </span>SID<span class="w"> </span>from<span class="w"> </span>LSA
 </span><span id="__span-28-41"><a id="__codelineno-28-41" name="__codelineno-28-41"></a><span class="go">lsaenumsid</span>
 </span></code></pre></div></td></tr></table></div>
+<h2 id="6-dns-records">6. DNS Records</h2>
+<p>! tips ""
+    - <a href="https://dirkjanm.io/getting-in-the-zone-dumping-active-directory-dns-with-adidnsdump/">Getting in the Zone: dumping Active Directory DNS using adidnsdump</a>
+    - <a href="../adidnsdump/">See the tool adidnsdump</a></p>
+<h3 id="adidnsdump">adidnsdump</h3>
+<p><a href="../adidnsdump/">See  adidnsdump</a>.</p>
+<p>We can use a tool such as adidnsdump to enumerate all DNS records in a domain using a valid domain user account.  The tool works because, by default, all users can list the child objects of a DNS zone in an AD environment. By default, querying DNS records using LDAP does not return all results. So by using the <code>adidnsdump</code> tool, we can resolve all records in the zone and potentially find something useful for our engagement.</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-29-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-29-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-29-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-29-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-29-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-29-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-29-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-29-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-29-10">10</a></span>
+<span class="normal"><a href="#__codelineno-29-11">11</a></span>
+<span class="normal"><a href="#__codelineno-29-12">12</a></span>
+<span class="normal"><a href="#__codelineno-29-13">13</a></span>
+<span class="normal"><a href="#__codelineno-29-14">14</a></span>
+<span class="normal"><a href="#__codelineno-29-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>adidnsdump<span class="w"> </span>-u<span class="w"> </span><span class="nv">$domain</span><span class="se">\\</span><span class="nv">$user</span><span class="w"> </span>ldap://<span class="nv">$DomainControllerIP</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a><span class="c1"># Example:</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a><span class="c1"># adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 </span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4"></a>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5"></a><span class="c1"># adidnsdump -u inlanefreight\\jjones ldap://172.16.7.3 </span>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6"></a><span class="c1"># Viewing the Contents of the records.csv File</span>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7"></a>head<span class="w"> </span>records.csv<span class="w"> </span>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8"></a>
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9"></a><span class="c1"># If we run again with the -r flag the tool will attempt to resolve unknown records by performing an A query. </span>
+</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10"></a>adidnsdump<span class="w"> </span>-u<span class="w"> </span><span class="nv">$domain</span><span class="se">\\</span><span class="nv">$user</span><span class="w"> </span>ldap://<span class="nv">$DomainControllerIP</span><span class="w"> </span>-r
+</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11"></a><span class="c1"># Example:</span>
+</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12"></a><span class="c1"># adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 -r</span>
+</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13"></a>
+</span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14"></a><span class="c1"># Now records.csv will include previously hidden records</span>
+</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15"></a>head<span class="w"> </span>records.csv<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-03T20:08:12+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-03</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-06T21:05:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-06</span></small></br>
 
 
     <small>Created: December 27, 2024 22:00:41</small>
