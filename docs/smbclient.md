@@ -102,8 +102,6 @@ Also we can use [rpcclient tool](rpcclient.md) for connecting to the shared fold
 
 ## Basic commands in SMBclient
 
-
-
 ```smb-session
 # Show available commands
 help

@@ -11,8 +11,9 @@ tags:
 ---
 # Attacking Active Directory from Linux
 
-
 [Index of Active Directory](active-directory.md)
+
+[Hardening and auditing Active Directory ](hardening-auditing-active-directory.md)
 
 !!! tip "Attacking from linux"
 	- [Enumerating Active Directory from Linux](active-directory-from-linux-enumeration.md)

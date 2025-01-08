@@ -57,6 +57,7 @@ crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN>
 
 # Using a hash instead of a password, to authenticate ourselves: Pass the hash attack (PtH)
 crackmapexec smb $ip -u <username> -H <hash> -d <DOMAIN>
+
 ```
 
 ### Basic enumeration

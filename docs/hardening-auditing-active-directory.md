@@ -1,5 +1,5 @@
 ---
-title: Hardening Active Directory
+title: Hardening and auditing Active Directory
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -10,6 +10,24 @@ tags:
   - linux
 ---
 # Active Directory: Hardening and auditing
+
+[Index of Active Directory](active-directory.md)
+
+[Hardening and auditing Active Directory ](hardening-auditing-active-directory.md)
+
+!!! tip "Attacking from linux"
+	- [Enumerating Active Directory from Linux](active-directory-from-linux-enumeration.md)
+	- [Attacking Active Directory from Linux](active-directory-from-linux-attacks.md)
+	- [Lateral Movement in Active Directory from Linux](active-directory-from-linux-lateral-movement.md)
+	- [Privileges escalation in Active Directory from Linux](active-directory-from-linux-privilege-escalation.md)
+
+!!! tip "Attacking from Windows"
+	- [Enumerating Active Directory from Windows](active-directory-from-windows-enumeration.md)
+	- [Active directory: connecting to other hosts](active-directory-connections.md)
+	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
+	- [Privileges escalation in Active Directory from Windows](active-directory-from-windows-privilege-escalation.md)
+
+
 
 ## Hardening  Active Directory
 

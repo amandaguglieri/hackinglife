@@ -47,7 +47,6 @@ mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /
 
 ```
 
-
 ## An Example
 
 

