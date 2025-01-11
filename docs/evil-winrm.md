@@ -24,9 +24,21 @@ evil-winrm -i $ip -u <username -p <password>
 
 evil-winrm -i <ip> -u Administrator -H "<passwordhash>"
 # -H: Hash
+
+# Open a menu
+menu
+
+# There are some options there like
+[+] Bypass-4MSI
+[+] services
+[+] upload
+[+] download
+[+] menu
+[+] exit
+
+# To use them, just run it on the terminal
 ```
 
 
-evil-winrm -i 172.16.6.100 -u svc_sql -p "lucky7"
 
 

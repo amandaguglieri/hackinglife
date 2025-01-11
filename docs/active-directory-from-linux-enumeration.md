@@ -173,8 +173,15 @@ crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --grou
 [rpcclient](rpcclient.md) and the  SMB NULL session technique:
 
 ```shell-session
-# Connect to a remote shared folder (same as smbclient in this regard)
+# SMB NULL Session with rpcclient
 rpcclient -U "" -N $ip
+
+# Connect to a remote shared folder (same as smbclient in this regard)
+rpcclient -U "" 10.129.14.128
+rpcclient -U'%' 10.10.110.17
+
+# Server information
+srvinfo
 
 # Enumerate all domains that are deployed in the network 
 enumdomains
@@ -182,8 +189,31 @@ enumdomains
 # Provides domain, server, and user information of deployed domains.
 querydominfo
 
+# Enumerates all available shares.
+netshareenumall
+
+# Provides information about a specific share.
+netsharegetinfo <share>
+
+# Get Domain Password Information
+getdompwinfo
+
 # Enumerates all domain users.
 enumdomusers
+
+# Provides information about a specific user.
+queryuser <RID>
+	# An example:
+	# rpcclient $> queryuser 0x3e8
+
+# Provides information about a specific group.
+querygroup <ID>
+
+# Enumerating Privileges
+enumprivs
+
+# Enumerating SID from LSA
+lsaenumsid
 ```
 
 
@@ -225,7 +255,7 @@ Other tools related to ldap: `windapsearch.py`, `ldapsearch`, `ad-ldapdomaindu
 # -d: indicates domain
 
 # Enumerate users with no user foothold
-./windapsearch.py --dc-ip $ip -u "" -U
+
 # -u: specifies username. "" for blank
 # -U: returns only USERS
 
@@ -326,10 +356,10 @@ LDAP anonymous binds allow unauthenticated attackers to retrieve information fro
 
 ```shell-session
 ldapsearch -h $ip -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength
+ldapsearch -H ldap://$ip -x -b "DC=HTB,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength 
 
 
-
-ldapsearch -h 172.16.7.3 -x -s base -b '' "(objectClass=*)" "*" +                                                                                                                                                                     
+ldapsearch -H ldap://$ip -x -s base -b '' "(objectClass=*)" "*" +  
 ```
 
 Other tools related to ldap: `windapsearch.py`, `ldapsearch`, `ad-ldapdomaindump.py`.
@@ -364,7 +394,7 @@ gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE
 Locating & Retrieving GPP Passwords with CrackMapExec
 
 ```shell-session
-crackmapexec smb -L | grep gpp
+crackmapexec smb -L $ip | grep gpp
 ```
 
 To access the GPP information and decrypt its stored password using CrackMapExec, we can use 2 modules — `**gpp_password**` and `**gpp_autologin**` modules. The `**gpp_password**` decrypts passwords stored in the Group.xml file, while `**gpp_autologin**` retrieves autologin information from the Registry.xml file in the preferences folder.

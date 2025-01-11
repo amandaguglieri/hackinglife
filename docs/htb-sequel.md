@@ -12,6 +12,7 @@ tags:
 
 # Sequel - A HackTheBox machine
 
+
 ```bash
 nmap -sC -A 10.129.95.232 -Pn
 ```
@@ -34,8 +35,6 @@ PORT     STATE SERVICE VERSION
 |   Salt: d7$M6g&&+DSV7PkJptwz
 |_  Auth Plugin Name: mysql_native_password
 ```
-
-
 
 
 Connect to database: mariadb

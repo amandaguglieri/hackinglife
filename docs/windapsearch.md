@@ -31,13 +31,14 @@ pip install python-ldap #or apt-get install python-ldap
 # -p: indicates password
 # -d: indicates domain
 
+
 # Enumerate users with no user foothold
 ./windapsearch.py --dc-ip $ip -u "" -U
 # -u: specifies username. "" for blank
 # -U: returns only USERS
 
 # Enumerate Domain Admins
-./windapsearch.py --dc-ip $ip -u $username@$domain -p $password --da
+./windapsearch.py --dc-ip $ControllerDomainIP -u $username@$domain -p $password --da
 ./windapsearch.py -d $domain -u $username\\ldapbind -p $password --da
 # --da: returns only Domain admins
 # -u: specifies username. "" for blank

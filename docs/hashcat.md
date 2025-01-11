@@ -181,3 +181,9 @@ hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt
 ```
 
 ### Module 18200: kerberos asrep
+
+```bash
+
+hashcat -m 18200 asrep /usr/share/wordlists/rockyou.txt 
+```
+

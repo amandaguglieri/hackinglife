@@ -116,6 +116,20 @@ sudo crackmapexec smb  $ip --local-auth -u <username> -p <password> -d <DOMAIN> 
 crackmapexec smb $ip -u Administrator -p '<password>' -x 'whoami' --exec-method smbexec
 ```
 
+Sometimes we cannot get execution with smbexec method for several reasons. One of them may be  that the `--exec-method smbexec` relies on specific services to be running, such as the Remote Procedure Call (RPC) or Server Message Block (SMB). Try an alternate execution method:
+
+```bash
+crackmapexec smb $ip -u Administrator -p '<password>' -x  'whoami' --exec-method wmiexec
+
+crackmapexec smb $ip -u Administrator -p '<password>' -x  'whoami' --exec-method atexec
+```
+
+Also, the `smbexec` method requires:
+    - A writable `\C$\Windows\Temp` directory.
+    - Permissions to copy files to the target machine.
+ 
+If these conditions are not met, execution will fail.
+
 
 ## Basic technique
 
