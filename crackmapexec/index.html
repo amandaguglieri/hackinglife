@@ -689,6 +689,8 @@
       
         
       
+        
+      
     
     
     
@@ -2354,6 +2356,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../inmunity-debugger/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inmunity debugger
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../impacket-GetUserSPNs/" class="md-nav__link">
         
   
@@ -2417,11 +2440,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../impacket-smbexec/" class="md-nav__link">
+      <a href="../impacket-secretsdump/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    impacket smbexec
+    impacket secretsdump
   </span>
   
 
@@ -2438,11 +2461,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../inmunity-debugger/" class="md-nav__link">
+      <a href="../impacket-smbexec/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    inmunity debugger
+    impacket smbexec
   </span>
   
 
@@ -6077,6 +6100,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -6180,6 +6207,27 @@
   
   <span class="md-ellipsis">
     Vulnhub Raven 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-active/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTB active
   </span>
   
 
@@ -6306,6 +6354,27 @@
   
   <span class="md-ellipsis">
     HTB explosion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-forest/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTB forest
   </span>
   
 
@@ -17345,6 +17414,17 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1">#  If the--exec-method is not defined, CrackMapExec will try to execute the atexec method, if it fails you can try to specify the --exec-method smbexec.</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;&lt;password&gt;&#39;</span><span class="w"> </span>-x<span class="w"> </span><span class="s1">&#39;whoami&#39;</span><span class="w"> </span>--exec-method<span class="w"> </span>smbexec
 </span></code></pre></div></td></tr></table></div>
+<p>Sometimes we cannot get execution with smbexec method for several reasons. One of them may be  that the <code>--exec-method smbexec</code> relies on specific services to be running, such as the Remote Procedure Call (RPC) or Server Message Block (SMB). Try an alternate execution method:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;&lt;password&gt;&#39;</span><span class="w"> </span>-x<span class="w">  </span><span class="s1">&#39;whoami&#39;</span><span class="w"> </span>--exec-method<span class="w"> </span>wmiexec
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;&lt;password&gt;&#39;</span><span class="w"> </span>-x<span class="w">  </span><span class="s1">&#39;whoami&#39;</span><span class="w"> </span>--exec-method<span class="w"> </span>atexec
+</span></code></pre></div></td></tr></table></div>
+<p>Also, the <code>smbexec</code> method requires:
+    - A writable <code>\C$\Windows\Temp</code> directory.
+    - Permissions to copy files to the target machine.</p>
+<p>If these conditions are not met, execution will fail.</p>
 <h2 id="basic-technique">Basic technique</h2>
 <p>Once we have access to  a domain:</p>
 <ol>
@@ -17361,7 +17441,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>With krbtgt and DC$ user you can get a golden ticket. And with DC$ a silver ticket.</p>
 <h2 id="what-is-a-sam-hash-like">What is a SAM hash like?</h2>
 <p>Take the Administrator one:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
 </span></code></pre></div></td></tr></table></div>
 <p>Basically, it has 4 parts: </p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>                user : id: LM-authentication : NTLM
@@ -17370,7 +17450,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-08T21:45:55+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-08</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-11T17:59:31+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-11</span></small></br>
 
 
     <small>Created: July 13, 2023 15:55:29</small>
