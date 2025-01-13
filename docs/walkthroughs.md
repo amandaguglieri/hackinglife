@@ -95,6 +95,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB photobomb](htb-photobomb.md)
 -   [HTB popcorn](htb-popcorn.md)
 -   [HTB redeemer](htb-redeemer.md)
+-   [HTB resolute](htb-resolute.md)
 -   [HTB responder](htb-responder.md)
 -   [HTB sauna](htb-sauna.md)
 -   [HTB sequel](htb-sequel.md)

