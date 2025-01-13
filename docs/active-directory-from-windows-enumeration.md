@@ -420,6 +420,56 @@ Download github repo from: [https://github.com/tevora-threat/SharpView/](https:/
 
 ## 2. Credentials 
 
+### Querying the Registry for AutoLogon Credentials
+
+Windows stores AutoLogon credentials in the registry, under a specific path. You can retrieve this information by querying the registry directly.
+
+You can access the relevant registry keys for AutoLogon credentials using PowerShell via Evil-WinRM.
+
+**1.**  **First way**: Use PowerShell to Read Registry Keys
+
+- `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
+
+```powershell
+# Query AutoLogon settings from the registry
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" | Select-Object DefaultDomainName, DefaultUserName, DefaultPassword
+```
+
+**2.** **Second way**: Check the Registry for AutoLogon Credentials directly:
+
+```powershell
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+```
+
+**3.** Search the System for Plaintext Credentials: Sometimes credentials are stored in files or scripts. You can search the filesystem for potential matches using **PowerShell**.
+
+```powershell
+Get-ChildItem -Path C:\ -Recurse -ErrorAction SilentlyContinue | Select-String -Pattern "password|pwd|pass"
+```
+
+**4.** Dump the Registry and Analyze Offline: If allowed, you can export the registry hive and analyze it locally.
+
+```powershell
+# Export Winlogon Hive:
+reg save "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" C:\Users\Public\winlogon.reg
+```
+
+**5.** Use Built-in Tools:  Run `cmdkey` to List Stored Credentials.
+
+```powershell
+cmdkey /list
+```
+
+**6.** Check Scheduled Tasks: Sometimes credentials are stored in scheduled tasks.
+
+```powershell
+Get-ScheduledTask | ForEach-Object { Get-ScheduledTaskInfo -TaskName $_.TaskName } | Select-String -Pattern "password|user"
+```
+
+
+
+
+
 ### LLMNR/NBT-NS Poisoning with Inveigh
 
 [See Inveigh](inveigh.md).

