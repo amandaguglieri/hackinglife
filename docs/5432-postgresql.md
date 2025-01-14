@@ -12,6 +12,30 @@ tags:
 
 [https://book.hacktricks.xyz/network-services-pentesting/pentesting-postgresql](https://book.hacktricks.xyz/network-services-pentesting/pentesting-postgresql).
 
+!!! tip "Related resources"
+	- [Detailed SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
+	- [SQL injection](webexplotation/sql-injection.md)
+	- [NoSQL injection](webexplotation/nosql-injection.md)
+	- [SQL injections](webexplotation/sqlite-injections.md)
+
+??? example "Languages and dictionaries"
+	| Server | Dictionary |
+	| -- | -- |
+	|  [MySQL](../mysql.md) | [MySQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MySQL%20Injection.md). | 
+	| [MSSQL](../mssql.md) | [MSSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MSSQL%20Injection.md). |
+	|  [PostgreSQL](../5432-postgresql.md) | [PostgreSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/PostgreSQL%20injection.md). |
+	|  [Oracle](../1521-oracle-transparent-network-substrate.md) | [Oracle SQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Oracle-SQL-injections.md). |
+	| [SQLite](sqlite-injections.md) | [SQLite payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md). | 
+	| Cassandra | [Cassandra payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Cassandra%20Injection.md). | 
+
+??? example "Attack-based dictionaries"
+    - [Generic SQL Injection Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/generic-injections)
+    - [Generic Error Based Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based).
+    - [Generic Union Select Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/union-select).
+    - [SQL time based payloads ](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based).
+    - [SQL Injection Auth Bypass Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/auth-bypass) 
+
+
 ## Description
 In some cases, the default service that runs on TCP port 5432 is PostgreSQL, which is a database management system: creating, modifying, and updating databases, changing and adding data, and more. PostgreSQL can typically be interacted with using a command-line tool called psql.
 

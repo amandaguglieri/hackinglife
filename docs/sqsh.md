@@ -8,7 +8,7 @@ tags:
   - cheat sheet
   - mssql
 ---
-
+# SQSH
 ## Installation
 
 Pre-installed in Kali. Used to interact with MSSQL (Microsoft SQL Server) from Linux. 

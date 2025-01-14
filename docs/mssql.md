@@ -10,6 +10,30 @@ tags:
 
 # MSSQL - Microsoft SQL Server
 
+!!! tip "Related resources"
+	- [Detailed SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
+	- [SQL injection](webexplotation/sql-injection.md)
+	- [NoSQL injection](webexplotation/nosql-injection.md)
+	- [SQL injections](webexplotation/sqlite-injections.md)
+
+??? example "Languages and dictionaries"
+	| Server | Dictionary |
+	| -- | -- |
+	|  [MySQL](../mysql.md) | [MySQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MySQL%20Injection.md). | 
+	| [MSSQL](../mssql.md) | [MSSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MSSQL%20Injection.md). |
+	|  [PostgreSQL](../5432-postgresql.md) | [PostgreSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/PostgreSQL%20injection.md). |
+	|  [Oracle](../1521-oracle-transparent-network-substrate.md) | [Oracle SQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Oracle-SQL-injections.md). |
+	| [SQLite](sqlite-injections.md) | [SQLite payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md). | 
+	| Cassandra | [Cassandra payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Cassandra%20Injection.md). | 
+
+??? example "Attack-based dictionaries"
+    - [Generic SQL Injection Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/generic-injections)
+    - [Generic Error Based Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based).
+    - [Generic Union Select Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/union-select).
+    - [SQL time based payloads ](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based).
+    - [SQL Injection Auth Bypass Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/auth-bypass) 
+
+
 Microsoft SQL Server is a relational database management system developed by Microsoft. As a database server, it is a software product with the primary function of storing and retrieving data as requested by other software applications—which may run either on the same computer or on another computer across a network. [Wikipedia](https://en.wikipedia.org/wiki/Microsoft_SQL_Server).
 
 [By default, MSSQL uses ports `TCP/1433` and `UDP/1434`](1433-mssql.md).  However, when MSSQL operates in a "hidden" mode, it uses the `TCP/2433` port.

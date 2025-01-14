@@ -8,7 +8,6 @@ tags:
   - port 1521
   - tools
 ---
-
 # sqlplus - To connect and manage the Oracle RDBMS
 
 SQL Plus is a command-line tool that provides access to the Oracle RDBMS. SQLPlus enables you to:

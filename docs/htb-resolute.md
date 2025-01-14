@@ -1,5 +1,5 @@
 ---
-title: Active - A HackTheBox machine
+title: Resolute - A HackTheBox machine
 author: amandaguglieri
 draft: false
 TableOfContents: true
