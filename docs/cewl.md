@@ -9,7 +9,6 @@ tags:
   - dictionaries
   - tools
 ---
-
 # cewl - A custom dictionary generator
 
 ## Installation

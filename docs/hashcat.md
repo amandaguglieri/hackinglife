@@ -17,6 +17,8 @@ tags:
 
 Download from: [https://hashcat.net/hashcat/](https://hashcat.net/hashcat/).
 
+Official documentation: https://hashcat.net/wiki/doku.php?id=rule_based_attack
+
 
 ## Basic commands
 
@@ -46,7 +48,6 @@ Status...........: Exhausted
 
 ```
 
-
 To fix this, you can use the flag '-w', which is used to set the workload profile. The -w 3 flag specifically sets the workload profile to "Insane."
 
 
@@ -54,9 +55,54 @@ To fix this, you can use the flag '-w', which is used to set the workload profil
 
 Located at:  `/usr/share/hashcat/rules/`.
 
+```shell-session
+ls /usr/share/hashcat/rules/
+```
+
+**One of the most used rules is `best64.rule`, which can often lead to good results.**
+
 You can create rules by creating a file called custom.rule and using these commands: [https://hashcat.net/wiki/doku.php?id=rule_based_attack](https://hashcat.net/wiki/doku.php?id=rule_based_attack).
 
-After that use the flag -r to be able to use the rule created:
+**1.** Let's have a look at an example of a custom.rule:
+
+```
+:
+c
+so0
+c so0
+sa@
+c sa@
+c sa@ so0
+$!
+$! c
+$! so0
+$! sa@
+$! c so0
+$! c sa@
+$! so0 sa@
+$! c so0 sa@
+```
+
+whereas, 
+
+| **Function** | **Description**                                   |
+| ------------ | ------------------------------------------------- |
+| `:`          | Do nothing.                                       |
+| `l`          | Lowercase all letters.                            |
+| `u`          | Uppercase all letters.                            |
+| `c`          | Capitalize the first letter and lowercase others. |
+| `sXY`        | Replace all instances of X with Y.                |
+| `$!`         | Add the exclamation character at the end.         |
+
+**2.** Generate a mutate password list based on a custom.rule:
+
+```bash
+hashcat --force password.list -r custom.rule --stdout > mutated_password.list
+```
+
+Hashcat will apply the rules of `custom.rule` for each word in `password.list` and store the mutated version in our `mut_password.list` accordingly.
+
+**3.** After that use the flag -r to be able to use the rule created:
 
 ```bash
 hashcat -m 0 -a 0 -D2 example0.hash example.dict -r rules/custom.rule
@@ -65,11 +111,6 @@ S
 # By clicking s you can check at any time the status
 ```
 
-Generate a mutate password list based on a custom.rule:
-
-```bash
-hashcat --force password.list -r custom.rule --stdout > mutated_password.list
-```
 
 ## Mask attacks 
 
