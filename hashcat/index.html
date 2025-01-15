@@ -17491,6 +17491,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>Hashcat</strong> is a password recovery tool. It had a proprietary code base until 2015, but was then released as open source software. Versions are available for Linux, OS X, and Windows. Wikipedia</p>
 <h2 id="installation">Installation</h2>
 <p>Download from: <a href="https://hashcat.net/hashcat/">https://hashcat.net/hashcat/</a>.</p>
+<p>Official documentation: https://hashcat.net/wiki/doku.php?id=rule_based_attack</p>
 <h2 id="basic-commands">Basic commands</h2>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
 <span class="normal"><a href="#__codelineno-0-2">2</a></span>
@@ -17520,51 +17521,91 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>To fix this, you can use the flag '-w', which is used to set the workload profile. The -w 3 flag specifically sets the workload profile to "Insane."</p>
 <h2 id="rules">Rules</h2>
 <p>Located at:  <code>/usr/share/hashcat/rules/</code>.</p>
-<p>You can create rules by creating a file called custom.rule and using these commands: <a href="https://hashcat.net/wiki/doku.php?id=rule_based_attack">https://hashcat.net/wiki/doku.php?id=rule_based_attack</a>.</p>
-<p>After that use the flag -r to be able to use the rule created:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span>
-<span class="normal"><a href="#__codelineno-2-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">0</span><span class="w"> </span>-a<span class="w"> </span><span class="m">0</span><span class="w"> </span>-D2<span class="w"> </span>example0.hash<span class="w"> </span>example.dict<span class="w"> </span>-r<span class="w"> </span>rules/custom.rule
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>S<span class="w">  </span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1"># By clicking s you can check at any time the status</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">ls /usr/share/hashcat/rules/</span>
 </span></code></pre></div></td></tr></table></div>
-<p>Generate a mutate password list based on a custom.rule:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>hashcat<span class="w"> </span>--force<span class="w"> </span>password.list<span class="w"> </span>-r<span class="w"> </span>custom.rule<span class="w"> </span>--stdout<span class="w"> </span>&gt;<span class="w"> </span>mutated_password.list
+<p><strong>One of the most used rules is <code>best64.rule</code>, which can often lead to good results.</strong></p>
+<p>You can create rules by creating a file called custom.rule and using these commands: <a href="https://hashcat.net/wiki/doku.php?id=rule_based_attack">https://hashcat.net/wiki/doku.php?id=rule_based_attack</a>.</p>
+<p><strong>1.</strong> Let's have a look at an example of a custom.rule:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>c
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>so0
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>c so0
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>sa@
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>c sa@
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>c sa@ so0
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>$!
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>$! c
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>$! so0
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>$! sa@
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>$! c so0
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>$! c sa@
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>$! so0 sa@
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>$! c so0 sa@
+</span></code></pre></div></td></tr></table></div>
+<p>whereas, </p>
+<table>
+<thead>
+<tr>
+<th><strong>Function</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:</code></td>
+<td>Do nothing.</td>
+</tr>
+<tr>
+<td><code>l</code></td>
+<td>Lowercase all letters.</td>
+</tr>
+<tr>
+<td><code>u</code></td>
+<td>Uppercase all letters.</td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td>Capitalize the first letter and lowercase others.</td>
+</tr>
+<tr>
+<td><code>sXY</code></td>
+<td>Replace all instances of X with Y.</td>
+</tr>
+<tr>
+<td><code>$!</code></td>
+<td>Add the exclamation character at the end.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2.</strong> Generate a mutate password list based on a custom.rule:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>hashcat<span class="w"> </span>--force<span class="w"> </span>password.list<span class="w"> </span>-r<span class="w"> </span>custom.rule<span class="w"> </span>--stdout<span class="w"> </span>&gt;<span class="w"> </span>mutated_password.list
+</span></code></pre></div></td></tr></table></div>
+<p>Hashcat will apply the rules of <code>custom.rule</code> for each word in <code>password.list</code> and store the mutated version in our <code>mut_password.list</code> accordingly.</p>
+<p><strong>3.</strong> After that use the flag -r to be able to use the rule created:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">0</span><span class="w"> </span>-a<span class="w"> </span><span class="m">0</span><span class="w"> </span>-D2<span class="w"> </span>example0.hash<span class="w"> </span>example.dict<span class="w"> </span>-r<span class="w"> </span>rules/custom.rule
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>S<span class="w">  </span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="c1"># By clicking s you can check at any time the status</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="mask-attacks">Mask attacks</h2>
 <p>These are the possible masks that you can use:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-4-10">10</a></span>
-<span class="normal"><a href="#__codelineno-4-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>?l = abcdefghijklmnopqrstuvwxyz
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>?d = 0123456789
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>?h = 0123456789abcdef
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>?H = 0123456789ABCDEF
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>?s = «space»!&quot;#$%&amp;&#39;()*+,-./:;&lt;=&gt;?@[\]^_`{|}~
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>?a = ?l?u?d?s
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>?c = Capitalize the first letter and lowercase others
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>?sXY = Replace all instances of X with Y.
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>?b = 0x00 - 0xff
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>?$!     Add the exclamation character at the end.
-</span></code></pre></div></td></tr></table></div>
-<p>Hashcat will apply the rules of custom.rule for each word in password.list and store the mutated version in our mut_password.list accordingly. </p>
-<p><strong>Example of a mask attack</strong>:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
-<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">0</span><span class="w"> </span>-a<span class="w"> </span><span class="m">3</span><span class="w"> </span>example0.hash<span class="w"> </span>?l?l?l?l?L?l?l?la<span class="w">  </span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1"># first 8 letter will be lowercase and the ninth one will be from the all-character pool</span>
-</span></code></pre></div></td></tr></table></div>
-<p>Hashcat and John come with pre-built rule lists that we can use for our password generating and cracking purposes. One of the most used rules is best64.rule</p>
-<h2 id="cracking-password-of-microsoft-word-file">Cracking Password of Microsoft Word file</h2>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
@@ -17575,64 +17616,94 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-6-10">10</a></span>
-<span class="normal"><a href="#__codelineno-6-11">11</a></span>
-<span class="normal"><a href="#__codelineno-6-12">12</a></span>
-<span class="normal"><a href="#__codelineno-6-13">13</a></span>
-<span class="normal"><a href="#__codelineno-6-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>cd /root/Desktop/
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>/usr/share/john/office2john.py MS_Word_Document.docx &gt; hash
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>cat hash
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>MS_Word_Document.docx:$office$*2013*100000*256*16*ff2563844faca58a12fc42c5036f9cf8*ffaf52db903dbcb6ac2db4bab6d343ab*c237403ec97e5f68b7be3324a8633c9ff95e0bb44b1efcf798c70271a54336a2
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>Remove the first part. Hash would be
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>$office$*2013*100000*256*16*ff2563844faca58a12fc42c5036f9cf8*ffaf52db903dbcb6ac2db4bab6d343ab*c237403ec97e5f68b7be3324a8633c9ff95e0bb44b1efcf798c70271a54336a2
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>hashcat -a 0 -m 9600 --status hash /root/Desktop/wordlists/1000000-password-seclists.txt --force
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a># -a 0: dictionary mode
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13"></a># -m 9600: Set method to MS Office 2013
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14"></a># --status : Enable automatic update of the status screen
+<span class="normal"><a href="#__codelineno-6-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>?l = abcdefghijklmnopqrstuvwxyz
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>?d = 0123456789
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>?h = 0123456789abcdef
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>?H = 0123456789ABCDEF
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>?s = «space»!&quot;#$%&amp;&#39;()*+,-./:;&lt;=&gt;?@[\]^_`{|}~
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>?a = ?l?u?d?s
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>?c = Capitalize the first letter and lowercase others
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>?sXY = Replace all instances of X with Y.
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>?b = 0x00 - 0xff
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>?$!     Add the exclamation character at the end.
+</span></code></pre></div></td></tr></table></div>
+<p>Hashcat will apply the rules of custom.rule for each word in password.list and store the mutated version in our mut_password.list accordingly. </p>
+<p><strong>Example of a mask attack</strong>:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">0</span><span class="w"> </span>-a<span class="w"> </span><span class="m">3</span><span class="w"> </span>example0.hash<span class="w"> </span>?l?l?l?l?L?l?l?la<span class="w">  </span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="c1"># first 8 letter will be lowercase and the ninth one will be from the all-character pool</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Hashcat and John come with pre-built rule lists that we can use for our password generating and cracking purposes. One of the most used rules is best64.rule</p>
+<h2 id="cracking-password-of-microsoft-word-file">Cracking Password of Microsoft Word file</h2>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>cd /root/Desktop/
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>/usr/share/john/office2john.py MS_Word_Document.docx &gt; hash
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>cat hash
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>MS_Word_Document.docx:$office$*2013*100000*256*16*ff2563844faca58a12fc42c5036f9cf8*ffaf52db903dbcb6ac2db4bab6d343ab*c237403ec97e5f68b7be3324a8633c9ff95e0bb44b1efcf798c70271a54336a2
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>Remove the first part. Hash would be
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>$office$*2013*100000*256*16*ff2563844faca58a12fc42c5036f9cf8*ffaf52db903dbcb6ac2db4bab6d343ab*c237403ec97e5f68b7be3324a8633c9ff95e0bb44b1efcf798c70271a54336a2
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>hashcat -a 0 -m 9600 --status hash /root/Desktop/wordlists/1000000-password-seclists.txt --force
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a># -a 0: dictionary mode
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a># -m 9600: Set method to MS Office 2013
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a># --status : Enable automatic update of the status screen
 </span></code></pre></div></td></tr></table></div>
 <h2 id="resources">Resources</h2>
 <p><a href="https://infosecwriteups.com/cracking-hashes-with-hashcat-2b21c01c18ec">Examples: cracking common hashes: https://infosecwriteups.com/cracking-hashes-with-hashcat-2b21c01c18ec</a>.</p>
 <h2 id="modules-cheatsheet">Modules cheatsheet</h2>
 <p>https://hashcat.net/wiki/doku.php?id=example_hashes</p>
 <h3 id="mode-1000-ntlm-hash">mode 1000: NTLM hash</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
-<span class="normal"><a href="#__codelineno-7-2">2</a></span>
-<span class="normal"><a href="#__codelineno-7-3">3</a></span>
-<span class="normal"><a href="#__codelineno-7-4">4</a></span>
-<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-a<span class="w"> </span><span class="m">0</span><span class="w"> </span>hashes.txt<span class="w"> </span>/path/to/wordlist.txt<span class="sb">`</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="c1">#  `-m 1000`: Specifies that the hash type is NTLM.</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="c1">#  `-a 0`: The attack mode (`0` is a dictionary attack).</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="c1"># `hashes.txt`: The file containing your NTLM hash.</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="c1"># `/path/to/wordlist.txt`: The path to your wordlist (for example,  /usr/share/wordlists/rockyou.txt`).</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-a<span class="w"> </span><span class="m">0</span><span class="w"> </span>hashes.txt<span class="w"> </span>/path/to/wordlist.txt<span class="sb">`</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="c1">#  `-m 1000`: Specifies that the hash type is NTLM.</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="c1">#  `-a 0`: The attack mode (`0` is a dictionary attack).</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="c1"># `hashes.txt`: The file containing your NTLM hash.</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="c1"># `/path/to/wordlist.txt`: The path to your wordlist (for example,  /usr/share/wordlists/rockyou.txt`).</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="mode-7300-ipmi">mode 7300: IPMI</h3>
 <p>For cracking hashes from <a href="../623-1900-intelligent-platform-management-interface-ipmi/">IPMI service</a>:
 In the event of an HP iLO using a factory default password, we can use this Hashcat mask attack command </p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">7300</span><span class="w"> </span>ipmi.txt<span class="w"> </span>-a<span class="w"> </span><span class="m">3</span><span class="w"> </span>?1?1?1?1?1?1?1?1<span class="w"> </span>-1<span class="w"> </span>?d?u
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">7300</span><span class="w"> </span>ipmi.txt<span class="w"> </span>-a<span class="w"> </span><span class="m">3</span><span class="w"> </span>?1?1?1?1?1?1?1?1<span class="w"> </span>-1<span class="w"> </span>?d?u
 </span></code></pre></div></td></tr></table></div>
 <h3 id="module-5600">Module 5600</h3>
 <p>All saved Hashes are located in <a href="../responder/">Responder</a>'s logs directory (/usr/share/responder/logs/). We can copy the hash to a file and attempt to crack it using the hashcat module 5600.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="go">hashcat -m 5600 hash.txt /usr/share/wordlists/rockyou.txt</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="go">hashcat -m 5600 hash.txt /usr/share/wordlists/rockyou.txt</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="mode-1800-unshadow-file">Mode 1800: unshadow file</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">1800</span><span class="w"> </span>-a<span class="w"> </span><span class="m">0</span><span class="w"> </span>/tmp/unshadowed.hashes<span class="w"> </span>rockyou.txt<span class="w"> </span>-o<span class="w"> </span>/tmp/unshadowed.cracked
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">1800</span><span class="w"> </span>-a<span class="w"> </span><span class="m">0</span><span class="w"> </span>/tmp/unshadowed.hashes<span class="w"> </span>rockyou.txt<span class="w"> </span>-o<span class="w"> </span>/tmp/unshadowed.cracked
 </span></code></pre></div></td></tr></table></div>
 <h3 id="module-13100-kerberos-rc4">Module 13100: kerberos RC4</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">13100</span><span class="w"> </span>rc4_to_crack<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">13100</span><span class="w"> </span>rc4_to_crack<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="module-19700-kerberos-aes">Module 19700: kerberos AES</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">19700</span><span class="w"> </span>aes_to_crack<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">19700</span><span class="w"> </span>aes_to_crack<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="module-18200-kerberos-asrep">Module 18200: kerberos asrep</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">18200</span><span class="w"> </span>asrep<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">18200</span><span class="w"> </span>asrep<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-11T17:59:31+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-11</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-15T20:43:18+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-15</span></small></br>
 
 
     <small>Created: January 18, 2023 23:33:16</small>
