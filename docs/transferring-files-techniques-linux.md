@@ -133,6 +133,7 @@ scp foo.txt username@$IPvictim:/some/remote/directory
 
 We can use [uploadserver](uploadserver.md).
 
+The target machine is a linux. We will upload a file from that target machine to our attacker machine:
 
 ```bash
 # Install

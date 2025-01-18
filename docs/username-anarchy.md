@@ -1,6 +1,13 @@
-
-
-
+---
+title: Username Anarchy
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - CPTS
+  - dictionary
+  - password
+---
 # Username Anarchy
 
 Ruby-based tool for generating usernames.

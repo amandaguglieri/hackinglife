@@ -8,8 +8,7 @@ tags:
   - dump hashes
   - passwords
 ---
-
-# `pypykatz`
+# pypykatz
 
 Mimikatz implementation in pure Python.  Runs on all OS's which support python>=3.6
 

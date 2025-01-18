@@ -19,8 +19,7 @@ Being the following script:
 
 ```
 #!/usr/bin/env -S python3 -tt
-# Based on the Kerberoast script from Tim Medin to extract the Kerberos tickets
-# from a kirbi file.
+# Based on the Kerberoast script from Tim Medin to extract the Kerberos tickets from a kirbi file.
 # Modification to parse them into the JTR-format by Michael Kramer (SySS GmbH)
 # Copyright [2015] [Tim Medin, Michael Kramer]
 #

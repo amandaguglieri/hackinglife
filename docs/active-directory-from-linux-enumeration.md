@@ -368,6 +368,61 @@ Other tools related to ldap: `windapsearch.py`, `ldapsearch`, `ad-ldapdomaindu
 
 ## 4. Credentials
 
+Enumerating all these categories will allow us to increase the probability of successfully finding out with some ease credentials of existing users on the system.
+
+| **`Files`**  | **`History`**        | **`Memory`**         | **`Key-Rings`**            |
+| ------------ | -------------------- | -------------------- | -------------------------- |
+| Configs      | Logs                 | Cache                | Browser stored credentials |
+| Databases    | Command-line History | In-memory Processing |                            |
+| Notes        |                      |                      |                            |
+| Scripts      |                      |                      |                            |
+| Source codes |                      |                      |                            |
+| Cronjobs     |                      |                      |                            |
+| SSH Keys     |                      |                      |                            |
+
+### Enumerating interesting files in a linux AD machine
+
+[More about Linux and enumeration](linux.md).
+
+Assuming that we have a foothold on the active directory and it's a linux machine:
+
+```shell-session
+# Enumerate configuration files:
+for l in $(echo ".conf .config .cnf");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null | grep -v "lib\|fonts\|share\|core" ;done
+
+# Enumerate **credentials in Configuration Files:
+for i in $(find / -name *.cnf 2>/dev/null | grep -v "doc\|lib");do echo -e "\nFile: " $i; grep "user\|password\|pass" $i 2>/dev/null | grep -v "\#";done
+
+# Enumerate database files:
+for l in $(echo ".sql .db .*db .db*");do echo -e "\nDB File extension: " $l; find / -name *$l 2>/dev/null | grep -v "doc\|lib\|headers\|share\|man";done
+
+# Enumerate txt files within the system:
+find /home/* -type f -name "*.txt" -o ! -name "*.*"
+
+# Enumerate scripts:
+for l in $(echo ".py .pyc .pl .go .jar .c .sh");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null | grep -v "doc\|lib\|headers\|share";done
+
+# Enumerate cronjobs
+cat /etc/crontab
+ls -la /etc/cron.*/
+
+# Enumerate SSH private keys
+grep -rnw "PRIVATE KEY" /home/* 2>/dev/null | grep ":1"
+
+# Enumerate SSH public keys
+grep -rnw "ssh-rsa" /home/* 2>/dev/null | grep ":1"
+
+# Enumerate history
+ tail -n5 /home/*/.bash*
+cat .bash_history
+cat .bashrc
+cat .bash_profile
+
+# Enumerating interesting aspects in logs
+for i in $(ls /var/log/* 2>/dev/null);do GREP=$(grep "accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs" $i 2>/dev/null); if [[ $GREP ]];then echo -e "\n#### Log file: " $i; grep "accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs" $i 2>/dev/null;fi;done
+```
+
+
 ### Credentials in SMB Shares and SYSVOL Scripts
 
 The SYSVOL share can be a treasure trove of data, especially in large organizations. It is recommendable always have to look at it.

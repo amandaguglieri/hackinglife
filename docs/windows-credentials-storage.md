@@ -50,9 +50,6 @@ Upon initial logon, LSASS will:
 - Enforce security policies
 - Write to Windows [security log](https://docs.microsoft.com/en-us/windows/win32/eventlog/event-logging-security)
 
-
-
-
 ### GINA
 
 Each interactive logon session creates a separate instance of the Winlogon service. The Graphical Identification and Authentication (GINA) architecture is loaded into the process area used by Winlogon, receives and processes the credentials, and invokes the authentication interfaces via the LSALogonUser function.
@@ -66,7 +63,6 @@ SYSTEM level permissions are required to view it.
 Windows systems can be assigned to either a workgroup or domain during setup. If the system has been assigned to a workgroup, it handles the SAM database locally and stores all existing users locally in this database. However, if the system has been joined to a domain, the Domain Controller (`DC`) must validate the credentials from the Active Directory database (`ntds.dit`), which is stored in `%SystemRoot%\ntds.dit`.
 
 Microsoft introduced a security feature in Windows NT 4.0 to help improve the security of the SAM database against offline software cracking. This is the SYSKEY (syskey.exe) feature, which, when enabled, partially encrypts the hard disk copy of the SAM file so that the password hash values for all local accounts stored in the SAM are encrypted with a key.
-
 
 Credential Manager is a feature built-in to all Windows operating systems that allows users to save the credentials they use to access various network resources and websites. Saved credentials are stored based on user profiles in each user's `Credential Locker`. Credentials are encrypted and stored at the following location:
 

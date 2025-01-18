@@ -88,7 +88,7 @@ Open the file with the logs of the application and, if you are lucky and debug m
 
 ### DLL Hickjacking
 
-[Step by step](tca-attacking-thick-clients-applications.md#how-is-dll-hijacking-perform.md). 
+[Step by step](tca-attacking-thick-clients-applications.md#how-is-dll-hijacking-perform). 
 
 **1.** Locate interesting DLL files with ProcessMonitor (or ProcMon).
 

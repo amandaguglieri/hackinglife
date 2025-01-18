@@ -306,7 +306,7 @@ User Account Control (UAC) is a fundamental component of Microsoft's overall sec
 
 ## Attacking Active Directory
 
-Once a Windows system is joined to a domain, it will no longer default to referencing [the SAM database](attacking-sam.md) to validate logon requests. That domain-joined system will now send all authentication requests to be validated by the domain controller before allowing a user to log on. 
+Once a Windows system is joined to a domain, it will no longer default to referencing [the SAM database](active-directory-from-windows-privilege-escalation.md#attacking-sam) to validate logon requests. That domain-joined system will now send all authentication requests to be validated by the domain controller before allowing a user to log on. 
 
 If needed, use tools like [username Anarchy](username-anarchy.md) to create list of usernames.
 

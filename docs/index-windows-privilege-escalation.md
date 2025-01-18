@@ -45,8 +45,8 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	    - Creating a service with PsExec.
 	- Kernel.
 	- Password Mining:
-		- [Cached SAM](attacking-sam.md).
-		- [Cached LSASS](attacking-lsass.md).
+		- [Cached SAM](active-directory-from-windows-privilege-escalation.md#attacking-sam).
+		- [Cached LSASS](active-directory-from-windows-privilege-escalation.md#attacking-lsass).
 		- [Pass The Hash](pass-the-hash.md).
 		- Configuration files: unattend.xml, SiteList.xml, web.config, vnc.ini.
 		- Logs.
@@ -65,7 +65,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 ## Privilege escalation tools
 
-- [CrackMapexex](crackmapexec.md).
+- [CrackMapexec](crackmapexec.md).
 - [mimikatz](mimikatz.md).
 
 

@@ -49,11 +49,19 @@ find /home/* -type f -name "*.txt" -o ! -name "*.*"
 
 These are divided into the system-wide area (`/etc/crontab`) and user-dependent executions. Some applications and scripts require credentials to run and are therefore incorrectly entered in the cronjobs. Furthermore, there are the areas that are divided into different time ranges (/etc/cron.daily, /etc/cron.hourly, /etc/cron.monthly, /etc/cron.weekly). The scripts and files used by cron can also be found in /etc/cron.d/ for Debian-based distributions.
 
+```
+cat /etc/crontab
+ls -la /etc/cron.*/
+```
+
+
 ### SSH Keys
 
 ```bash
+# Enumerate SSH private keys
 grep -rnw "PRIVATE KEY" /home/* 2>/dev/null | grep ":1"
 
+# Enumerate SSH public keys
 grep -rnw "ssh-rsa" /home/* 2>/dev/null | grep ":1"
 ```
 
@@ -91,7 +99,7 @@ tail -n5 /home/*/.bash*
 
 ### Shadow file
 
-The /etc/shadow file has a unique format in which the entries are entered and saved when new users are created.
+The `/etc/shadow` file has a unique format in which the entries are entered and saved when new users are created.
 
 ```
 htb-student: 	$y$j9T$3QSBB6CbHEu...SNIP...f8Ms: 	18955: 	0: 	99999: 	7: 	: 	: 	:
@@ -101,10 +109,10 @@ htb-student: 	$y$j9T$3QSBB6CbHEu...SNIP...f8Ms: 	18955: 	0: 	99999: 	7: 	: 	: 	:
 
 The encryption of the password in this file is formatted as follows:
 
-| | | |
-|---|---|---|
-|`$ <id>`|`$ <salt>`|`$ <hashed>`|
-|`$ y`|`$ j9T`|`$ 3QSBB6CbHEu...SNIP...f8Ms`|
+|            |            |                               |
+| ---------- | ---------- | ----------------------------- |
+| `$ <type>` | `$ <salt>` | `$ <hashed>`                  |
+| `$ y`      | `$ j9T`    | `$ 3QSBB6CbHEu...SNIP...f8Ms` |
 
 
 The type (`id`) is the cryptographic hash method used to encrypt the password. Many different cryptographic hash methods were used in the past and are still used by some systems today.
@@ -122,6 +130,8 @@ The type (`id`) is the cryptographic hash method used to encrypt the password. M
 
 The /etc/shadow file can only be read by the user root.
 
+By default, the SHA-512 (`$6$`) encryption method is used on the latest Linux distributions.
+
 ### Passwd file
 
 The /etc/passwd
@@ -131,13 +141,14 @@ htb-student: 	x: 	1000: 	1000: 	,,,: 	/home/htb-student: 	/bin/bash
 <username>: 	<password>: 	<uid>: 	<gid>: 	<comment>: 	<home directory>: 	<cmd executed after logging in>
 ```
 
-The `x` in the password field indicates that the encrypted password is in the `/etc/shadow` file.
+The `x` in the password field indicates that the encrypted password is in the `/etc/shadow` file. However, it can also be that the `/etc/passwd` file is writeable by mistake. This would allow us to clear this field for the user `root` so that the password info field is empty.
 
 
+### Opasswd
 
-## Opasswd
+The  [Pluggable Authentication Modules](https://web.archive.org/web/20220622215926/http://www.linux-pam.org/Linux-PAM-html/Linux-PAM_SAG.html) (`PAM`) library (`pam_unix.so`) can prevent reusing old passwords. The file where old passwords are stored is the `/etc/security/opasswd`. 
 
-The PAM library (`pam_unix.so`) can prevent reusing old passwords. The file where old passwords are stored is the `/etc/security/opasswd`. Administrator/root permissions are also required to read the file if the permissions for this file have not been changed manually.
+Administrator/root permissions are also required to read the file if the permissions for this file have not been changed manually.
 
 ```bash
 # Reading /etc/security/opasswd
@@ -149,10 +160,54 @@ sudo cat /etc/security/opasswd
 Looking at the contents of this file, we can see that it contains several entries for the user cry0l1t3, separated by a comma (,). Another critical point to pay attention to is the hashing type that has been used. This is because the MD5 ($1$) algorithm is much easier to crack than SHA-512. This is especially important for identifying old passwords and maybe even their pattern because they are often used across several services or applications. We increase the probability of guessing the correct password many times over based on its pattern.
 
 
+### Cracking Linux Credentials
+
+#### Unshadow
+
+```shell-session
+cp /etc/passwd /tmp/passwd.bak 
+cp /etc/shadow /tmp/shadow.bak 
+unshadow /tmp/passwd.bak /tmp/shadow.bak > /tmp/unshadowed.hashes
+
+hashcat -m 1800 -a 0 /tmp/unshadowed.hashes /usr/share/wordlists/rockyou.txt -o /tmp/unshadowed.cracked
+
+```
+
+#### MD5
+If we observe a MD5 hash, like in this case (see `$1$`)
+
+```shell-session
+sudo cat /etc/security/opasswd
+
+cry0l1t3:1000:2:$1$HjFAfYTG$qNDkF0zJ3v8ylCOrKB0kt0,$1$kcUjWZJX$E9uMSmiQeRh4pAAgzuvkq1
+```
+
+Then:
+
+```shell-session
+hashcat -m 500 -a 0 md5-hashes.list rockyou.txt
+```
+
 ## Dumping memory and cache
 
+Many applications and processes work with credentials needed for authentication and store them either in memory or in files so that they can be reused. 
+
 [mimipenguin](https://github.com/huntergregal/mimipenguin)
+
+```shell-session
+sudo python3 mimipenguin.py
+```
+
+
 [lazagne](https://github.com/AlessandroZ/LaZagne)
+
+```shell-session
+sudo python2.7 laZagne.py all
+
+# And browsers:
+sudo python3 laZagne.py browsers
+
+```
 
 Firefox stored credentials:
 
@@ -164,3 +219,8 @@ cat .mozilla/firefox/xxxxxxxxx-xxxxxxxxxx/logins.json | jq .
 
 The tool [Firefox Decrypt](https://github.com/unode/firefox_decrypt) is excellent for decrypting these credentials, and is updated regularly. It requires Python 3.9 to run the latest version. Otherwise, `Firefox Decrypt 0.7.0` with Python 2 must be used.
 
+```
+git clone https://github.com/unode/firefox_decrypt.git   
+cd firefox_decrypt 
+python firefox_decrypt.py
+```

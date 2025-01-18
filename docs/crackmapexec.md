@@ -48,6 +48,7 @@ Main flags:
 - --groups `Specifies to enumerate domain groups`
 - --loggedon-users `Attempts to enumerate what users are logged on to a target, if any`
 
+>If we see `Pwn3d!`, it means that the user is a local administrator on the target computer.
 
 ### Access the machine
 
@@ -102,7 +103,10 @@ crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --grou
 
 ```powershell
 # See shares
-crackmapexec smb $ip --local-auth -u <username> -p <password> -d <DOMAIN> --shares
+# Local auth
+crackmapexec smb $ip --local-auth -u <username> -p <password> --shares
+# Doimain
+crackmapexec smb $ip -u <username> -p <password> -d <DOMAIN> --shares
 
 # The module spider_plus will dig through each readable share on the host and list all readable files. 
 sudo crackmapexec smb  $ip --local-auth -u <username> -p <password> -d <DOMAIN> -M spider_plus --share 'NameOfShare'

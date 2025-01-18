@@ -33,6 +33,11 @@ hashcat -m 0 -a 0 -D2 example0.hash example.dict
 # Results are stored in file hashcat.potfile
 ```
 
+Where is the hashcat.potfile?
+
+```
+~/.local/share/hashcat/hashcat.potfile
+```
 
 
 ## Modules
@@ -171,7 +176,20 @@ hashcat -a 0 -m 9600 --status hash /root/Desktop/wordlists/1000000-password-secl
 
 https://hashcat.net/wiki/doku.php?id=example_hashes
 
-### mode 1000: NTLM hash
+- `1000` - Crack NTLM hash.
+- `1100` - Crack DCC hash.
+- `5500` - Crack Net-NTLMv1
+- `5600` - Crack Net-NTLMv2
+- `13100` - Crack Kerberoast(ed) hash.
+- `27100` - Crack Net-NTLMv2 to an NTLM hash.
+
+### Module 500:  MD5 Hashes
+
+```shell-session
+hashcat -m 500 -a 0 md5-hashes.list /usr/share/wordlists/rockyou.txt
+```
+
+### Module 1000: NTLM hash
 
 ```bash
 hashcat -m 1000 -a 0 hashes.txt /path/to/wordlist.txt`
@@ -182,17 +200,15 @@ hashcat -m 1000 -a 0 hashes.txt /path/to/wordlist.txt`
 ```
 
 
-### mode 7300: IPMI
+### Module 1800: unshadow file
 
-For cracking hashes from [IPMI service](623-1900-intelligent-platform-management-interface-ipmi.md):
-In the event of an HP iLO using a factory default password, we can use this Hashcat mask attack command 
 
 ```bash
-hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
+hashcat -m 1800 -a 0 /tmp/unshadowed.hashes rockyou.txt -o /tmp/unshadowed.cracked
 ```
 
 
-### Module 5600
+### Module 5600: netNTLMv2
 
 All saved Hashes are located in [Responder](responder.md)'s logs directory (/usr/share/responder/logs/). We can copy the hash to a file and attempt to crack it using the hashcat module 5600.
 
@@ -200,11 +216,13 @@ All saved Hashes are located in [Responder](responder.md)'s logs directory (/usr
 hashcat -m 5600 hash.txt /usr/share/wordlists/rockyou.txt
 ```
 
-### Mode 1800: unshadow file
+### Module 7300: IPMI
 
+For cracking hashes from [IPMI service](623-1900-intelligent-platform-management-interface-ipmi.md):
+In the event of an HP iLO using a factory default password, we can use this Hashcat mask attack command 
 
 ```bash
-hashcat -m 1800 -a 0 /tmp/unshadowed.hashes rockyou.txt -o /tmp/unshadowed.cracked
+hashcat -m 7300 ipmi.txt -a 3 ?1?1?1?1?1?1?1?1 -1 ?d?u
 ```
 
 

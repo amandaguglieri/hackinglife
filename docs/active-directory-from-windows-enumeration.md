@@ -420,6 +420,18 @@ Download github repo from: [https://github.com/tevora-threat/SharpView/](https:/
 
 ## 2. Credentials 
 
+Here are some other places we should keep in mind when credential hunting:
+
+- Passwords in Group Policy in the SYSVOL share
+- Passwords in scripts in the SYSVOL share
+- Password in scripts on IT shares
+- Passwords in web.config files on dev machines and IT shares
+- unattend.xml
+- Passwords in the AD user or computer description fields
+- KeePass databases --> pull hash, crack and get loads of access.
+- Found on user systems and shares
+- Files such as pass.txt, passwords.docx, passwords.xlsx found on user systems, shares, [Sharepoint](https://www.microsoft.com/en-us/microsoft-365/sharepoint/collaboration)
+
 ### Querying the Registry for AutoLogon Credentials
 
 Windows stores AutoLogon credentials in the registry, under a specific path. You can retrieve this information by querying the registry directly.
@@ -467,7 +479,11 @@ Get-ScheduledTask | ForEach-Object { Get-ScheduledTaskInfo -TaskName $_.TaskName
 ```
 
 
+### Querying patterns of files with findstr
 
+```cmd-session
+findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml
+```
 
 
 ### LLMNR/NBT-NS Poisoning with Inveigh

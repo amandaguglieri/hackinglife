@@ -1,6 +1,13 @@
-
-
-
+---
+title: Default Credentials Cheat Sheet
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - passwords
+  - tools
+  - credential
+---
 # Default Credentials Cheat Sheet
 
 ## Installation
