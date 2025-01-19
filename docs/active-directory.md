@@ -16,6 +16,10 @@ tags:
 	- [LDAP](ldap.md)
 
 
+[Index of Active Directory](active-directory.md)
+
+[Hardening and auditing Active Directory ](hardening-auditing-active-directory.md)
+
 !!! tip "Attacking from linux"
 	- [Enumerating Active Directory from Linux](active-directory-from-linux-enumeration.md)
 	- [Attacking Active Directory from Linux](active-directory-from-linux-attacks.md)
@@ -24,9 +28,12 @@ tags:
 
 !!! tip "Attacking from Windows"
 	- [Enumerating Active Directory from Windows](active-directory-from-windows-enumeration.md)
+	- [Active directory: connecting to other hosts](active-directory-connections.md)
 	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
 	- [Privileges escalation in Active Directory from Windows](active-directory-from-windows-privilege-escalation.md)
 
+!!! tip "Linux in AD"
+	- [Linux in active directory](linux-in-active-directory.md)
 
 
 ## Reconnaissance: External Recon and Enumeration Principles

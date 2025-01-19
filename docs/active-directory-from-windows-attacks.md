@@ -27,9 +27,12 @@ tags:
 	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
 	- [Privileges escalation in Active Directory from Windows](active-directory-from-windows-privilege-escalation.md)
 
+!!! tip "Linux in AD"
+	- [Linux in active directory](linux-in-active-directory.md)
+
+
 
 ## Password attacks
-
 
 ## 🍥 Password spraying
 

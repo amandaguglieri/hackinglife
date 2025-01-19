@@ -53,7 +53,23 @@ ip route
 
 ### Local port forwarding 
 
-In this example we will use this tunneling as a way to access locally to a remote postgresql service: 
+Example:
+
+```
+# Three hosts:
+# Attacking Kali with ip 10.10.15.90
+# Pivot host MS01 with one IP 10.129.32.62 and another IP 172.16.1.5
+# Target host LINUX01 with IP 172.16.1.15
+# Kali can connect to MS01. And MS01 can connect to LINUX01.
+# We will do a ssh port forwarding to access LINUX01 from kali:
+
+ssh $MS01username@10.129.32.62 -L 9999:172.16.1.15:22 
+
+# Logs you into MS01 (10.129.32.62). Sets up a port forwarding tunnel from your Kali machine (localhost:9999) to 172.16.1.15:22 via MS01. - The `-L` option sets up forwarding for traffic through `MS01`. Since `MS01` has direct access to `LINUX01`, it transparently forwards the connection.
+```
+
+
+Anothe  example. We will use this tunneling as a way to access locally to a remote postgresql service: 
 
 **1.** In the attacking machine:
 

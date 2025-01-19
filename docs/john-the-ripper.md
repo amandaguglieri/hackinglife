@@ -222,10 +222,36 @@ john --wordlist=/root/Desktop/wordlists/1000000-password-seclists.txt hash
 
 ## Cracking password of a zip file
 
+List compressed files:
+
+```shell-session
+curl -s https://fileinfo.com/filetypes/compressed | html2text | awk '{print tolower($1)}' | grep "\." | tee -a compressed_ext.txt
+```
+
 ```bash
 zip2john nameoffile.zip > zip.hashes
 cat zip.hashes
 john zip.hashes
 ```
 
+## Cracking a ssh private key
 
+There is a Python script called [`ssh2john.py`](ssh2john.md) for SSH keys, which generates the corresponding hashes for encrypted SSH keys, which we can then store in files. It's preinstalled in Kali linux:
+
+```shell-session
+ssh2john.py SSH.private > ssh.hash
+```
+
+Now we can crack the hash with [john the ripper](john-the-ripper.md):
+
+```shell-session
+john --wordlist=rockyou.txt ssh.hash
+```
+
+
+## Cracking PDFs protected file
+
+```bash
+pdf2john.py PDF.pdf > pdf.hash
+john --wordlist=rockyou.txt pdf.hash
+```

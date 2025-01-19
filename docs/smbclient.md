@@ -12,7 +12,6 @@ tags:
   - samba
   - tools
 ---
-
 # smbclient - A tool for interacting with smb shares
 
 See [Quick Cheat sheet for smbclient](#quick-cheat-sheet).
@@ -96,6 +95,15 @@ Connect to a Shared folders as Administrator:
 ```bash
 smbclient -L 10.129.228.98 -U Administrator
 ```
+
+```bash
+smbclient //dc01/username -k -c ls
+# -k: Enables Kerberos authentication. This tells `smbclient` to use the Kerberos ticket currently in the cache instead of asking for a username and password.
+# -c ls: Runs the ls command on the SMB share to list its contents. The -c option allows you to pass commands to be executed on the SMB server directly from the command line.
+```
+
+[See more about  Linux in Active Directory with kerberos](linux-in-active-directory.md).
+
 
 Also we can use [rpcclient tool](rpcclient.md) for connecting to the shared folders.
 

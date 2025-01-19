@@ -4,7 +4,6 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 ---
-
 # Wireless security
 
 

@@ -25,8 +25,10 @@ tags:
 	- [Enumerating Active Directory from Windows](active-directory-from-windows-enumeration.md)
 	- [Active directory: connecting to other hosts](active-directory-connections.md)
 	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
-	- [Lateral Movement in Active Directory from Windows](active-directory-from-windows-lateral-movement.md)
 	- [Privileges escalation in Active Directory from Windows](active-directory-from-windows-privilege-escalation.md)
+
+!!! tip "Linux in AD"
+	- [Linux in active directory](linux-in-active-directory.md)
 
 
 

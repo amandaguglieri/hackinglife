@@ -246,3 +246,12 @@ hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt
 hashcat -m 18200 asrep /usr/share/wordlists/rockyou.txt 
 ```
 
+
+### Module 22100: bitlocker
+
+```bash
+hashcat -m 22100 backup.hash /usr/share/wordlists/rockyou.txt -o backup.cracked
+
+cat backup.cracked 
+```
+

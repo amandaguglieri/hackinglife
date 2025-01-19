@@ -11,6 +11,7 @@ tags:
 ---
 # Enumerating Active Directory from Linux
 
+
 [Index of Active Directory](active-directory.md)
 
 [Hardening and auditing Active Directory ](hardening-auditing-active-directory.md)
@@ -27,7 +28,8 @@ tags:
 	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
 	- [Privileges escalation in Active Directory from Windows](active-directory-from-windows-privilege-escalation.md)
 
-
+!!! tip "Linux in AD"
+	- [Linux in active directory](linux-in-active-directory.md)
 
 
 ## 1.Hosts

