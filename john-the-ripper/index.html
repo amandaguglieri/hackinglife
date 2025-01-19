@@ -2599,6 +2599,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cracking-a-ssh-private-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cracking a ssh private key
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cracking-pdfs-protected-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cracking PDFs protected file
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -17599,6 +17617,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cracking-a-ssh-private-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cracking a ssh private key
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cracking-pdfs-protected-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cracking PDFs protected file
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -18120,16 +18156,31 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>john --wordlist=/root/Desktop/wordlists/1000000-password-seclists.txt hash
 </span></code></pre></div></td></tr></table></div>
 <h2 id="cracking-password-of-a-zip-file">Cracking password of a zip file</h2>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
-<span class="normal"><a href="#__codelineno-10-2">2</a></span>
-<span class="normal"><a href="#__codelineno-10-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>zip2john<span class="w"> </span>nameoffile.zip<span class="w"> </span>&gt;<span class="w"> </span>zip.hashes
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>cat<span class="w"> </span>zip.hashes
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>john<span class="w"> </span>zip.hashes
+<p>List compressed files:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="go">curl -s https://fileinfo.com/filetypes/compressed | html2text | awk &#39;{print tolower($1)}&#39; | grep &quot;\.&quot; | tee -a compressed_ext.txt</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>zip2john<span class="w"> </span>nameoffile.zip<span class="w"> </span>&gt;<span class="w"> </span>zip.hashes
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>cat<span class="w"> </span>zip.hashes
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>john<span class="w"> </span>zip.hashes
+</span></code></pre></div></td></tr></table></div>
+<h2 id="cracking-a-ssh-private-key">Cracking a ssh private key</h2>
+<p>There is a Python script called <a href="../ssh2john/"><code>ssh2john.py</code></a> for SSH keys, which generates the corresponding hashes for encrypted SSH keys, which we can then store in files. It's preinstalled in Kali linux:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="go">ssh2john.py SSH.private &gt; ssh.hash</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Now we can crack the hash with <a href="./">john the ripper</a>:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="go">john --wordlist=rockyou.txt ssh.hash</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="cracking-pdfs-protected-file">Cracking PDFs protected file</h2>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>pdf2john.py<span class="w"> </span>PDF.pdf<span class="w"> </span>&gt;<span class="w"> </span>pdf.hash
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>john<span class="w"> </span>--wordlist<span class="o">=</span>rockyou.txt<span class="w"> </span>pdf.hash
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-15T20:43:18+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-15</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-19T22:33:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-19</span></small></br>
 
 
     <small>Created: January 18, 2023 23:33:16</small>

