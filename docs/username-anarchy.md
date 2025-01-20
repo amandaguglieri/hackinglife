@@ -29,3 +29,9 @@ git clone https://github.com/urbanadventurer/username-anarchy.git
 cd username-anarchy
 ./username-anarchy -i /home/ltnbob/realneames.txt 
 ```
+
+```bash
+# List modules
+./username-anarchy -l
+```
+

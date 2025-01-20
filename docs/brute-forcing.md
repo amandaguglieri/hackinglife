@@ -1,5 +1,5 @@
 
-
+# Brute forcing
 
 | Method                    | Description                                                                                                                   | Example                                                                                                                                                  | Best Used When...                                                                                                                           |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -11,3 +11,73 @@
 | `Rainbow Table Attack`    | Uses pre-computed tables of password hashes to reverse hashes and recover plaintext passwords quickly.                        | Pre-computing hashes for all possible passwords of a certain length and character set, then comparing captured hashes against the table to find matches. | A large number of password hashes need to be cracked, and storage space for the rainbow tables is available.                                |
 | `Reverse Brute Force`     | Targets a single password against multiple usernames, often used in conjunction with credential stuffing attacks.             | Using a leaked password from one service to try logging into multiple accounts with different usernames.                                                 | A strong suspicion exists that a particular password is being reused across multiple accounts.                                              |
 | `Distributed Brute Force` | Distributes the brute forcing workload across multiple computers or devices to accelerate the process.                        | Using a cluster of computers to perform a brute-force attack significantly increases the number of combinations that can be tried per second.            | The target password or key is highly complex, and a single machine lacks the computational power to crack it within a reasonable timeframe. |
+
+
+[See Default Credentials Cheat Sheet](default-creds.md)
+
+
+```bash
+ creds search mysql  
+```
+
+
+Dictionaries of common admin usernames: https://github.com/danielmiessler/SecLists/blob/master/Usernames/top-usernames-shortlist.txt
+
+
+|Password Length|Character Set|Possible Combinations|
+|---|---|---|
+|`Short and Simple`|6|Lowercase letters (a-z)|26^6 = 308,915,776|
+|`Longer but Still Simple`|8|Lowercase letters (a-z)|26^8 = 208,827,064,576|
+|`Adding Complexity`|8|Lowercase and uppercase letters (a-z, A-Z)|52^8 = 53,459,728,531,456|
+|`Maximum Complexity`|12|Lowercase and uppercase letters, numbers, and symbols|94^12 = 475,920,493,781,698,549,504|
+
+
+  
+
+| Wordlist                                                                                                              | Description                                                                                      | Typical Use                                        | Source                                                                                                      |
+| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `rockyou.txt`                                                                                                         | A popular password wordlist containing millions of passwords leaked from the RockYou breach.     | Commonly used for password brute force attacks.    | [RockYou breach dataset](https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt) |
+| `top-usernames-shortlist.txt`                                                                                         | A concise list of the most common usernames.                                                     | Suitable for quick brute force username attempts.  | [SecLists](https://github.com/danielmiessler/SecLists/tree/master)                                          |
+| `xato-net-10-million-usernames.txt`                                                                                   | A more extensive list of 10 million usernames.                                                   | Used for thorough username brute forcing.          | [SecLists](https://github.com/danielmiessler/SecLists/tree/master)                                          |
+| `2023-200_most_used_passwords.txt`                                                                                    | A list of the 200 most commonly used passwords as of 2023.                                       | Effective for targeting commonly reused passwords. | [SecLists](https://github.com/danielmiessler/SecLists/tree/master)                                          |
+| `Default-Credentials/default-passwords.txt`                                                                           | A list of default usernames and passwords commonly used in routers, software, and other devices. | Ideal for trying default credentials.              |                                                                                                             |
+| [darkweb2017-top10000.txt](https://github.com/danielmiessler/SecLists/blob/master/Passwords/darkweb2017-top10000.txt) |                                                                                                  |                                                    | https://github.com/danielmiessler/SecLists/blob/master/Passwords/darkweb2017-top10000.txt                   |
+
+
+Using grep to filter out dictionaries based on password policies. For instance we have the following policies for passwords:
+
+- Minimum length: 8 characters
+- Must include:
+    - At least one uppercase letter
+    - At least one lowercase letter
+    - At least one number
+
+Filtering minimum length of 8 characters:
+
+```shell-session
+grep -E '^.{8,}$' dicionary.txt > dictionary-minlength.txt
+```
+
+At least one uppercase letter:
+
+```shell-session
+grep -E '[A-Z]' dictionary-minlength.txt > dictionary-minlength-uppercase.txt
+```
+
+At least one lowercase letter.
+
+```shell-session
+grep -E '[a-z]' dictionary-minlength-uppercase.txt > dictionary-minlength-uppercase-lowercase.txt
+```
+
+At least one numerical digit
+
+```shell-session
+grep -E '[0-9]' dictionary-minlength-uppercase-lowercase.txt > dictionary-minlength-uppercase-lowercase-number.txt
+```
+
+Or in one step:
+
+```shell-session
+grep -E '^.{6,}$' dictionary.txt | grep -E '[A-Z]' | grep -E '[a-z]' | grep -E '[0-9]' | grep -E '([!@#$%^&*].*){2,}' > dictionary-filtered.txt
+```

