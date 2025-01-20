@@ -85,6 +85,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#brute-forcing" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -17335,6 +17340,8 @@
   
   
   
+    
+  
   
 </nav>
                   </div>
@@ -17351,6 +17358,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 
+<h1 id="brute-forcing">Brute forcing</h1>
 <table>
 <thead>
 <tr>
@@ -17411,10 +17419,118 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tr>
 </tbody>
 </table>
+<p><a href="../default-creds/">See Default Credentials Cheat Sheet</a></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="w"> </span>creds<span class="w"> </span>search<span class="w"> </span>mysql<span class="w">  </span>
+</span></code></pre></div></td></tr></table></div>
+<p>Dictionaries of common admin usernames: https://github.com/danielmiessler/SecLists/blob/master/Usernames/top-usernames-shortlist.txt</p>
+<table>
+<thead>
+<tr>
+<th>Password Length</th>
+<th>Character Set</th>
+<th>Possible Combinations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Short and Simple</code></td>
+<td>6</td>
+<td>Lowercase letters (a-z)</td>
+</tr>
+<tr>
+<td><code>Longer but Still Simple</code></td>
+<td>8</td>
+<td>Lowercase letters (a-z)</td>
+</tr>
+<tr>
+<td><code>Adding Complexity</code></td>
+<td>8</td>
+<td>Lowercase and uppercase letters (a-z, A-Z)</td>
+</tr>
+<tr>
+<td><code>Maximum Complexity</code></td>
+<td>12</td>
+<td>Lowercase and uppercase letters, numbers, and symbols</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Wordlist</th>
+<th>Description</th>
+<th>Typical Use</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rockyou.txt</code></td>
+<td>A popular password wordlist containing millions of passwords leaked from the RockYou breach.</td>
+<td>Commonly used for password brute force attacks.</td>
+<td><a href="https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt">RockYou breach dataset</a></td>
+</tr>
+<tr>
+<td><code>top-usernames-shortlist.txt</code></td>
+<td>A concise list of the most common usernames.</td>
+<td>Suitable for quick brute force username attempts.</td>
+<td><a href="https://github.com/danielmiessler/SecLists/tree/master">SecLists</a></td>
+</tr>
+<tr>
+<td><code>xato-net-10-million-usernames.txt</code></td>
+<td>A more extensive list of 10 million usernames.</td>
+<td>Used for thorough username brute forcing.</td>
+<td><a href="https://github.com/danielmiessler/SecLists/tree/master">SecLists</a></td>
+</tr>
+<tr>
+<td><code>2023-200_most_used_passwords.txt</code></td>
+<td>A list of the 200 most commonly used passwords as of 2023.</td>
+<td>Effective for targeting commonly reused passwords.</td>
+<td><a href="https://github.com/danielmiessler/SecLists/tree/master">SecLists</a></td>
+</tr>
+<tr>
+<td><code>Default-Credentials/default-passwords.txt</code></td>
+<td>A list of default usernames and passwords commonly used in routers, software, and other devices.</td>
+<td>Ideal for trying default credentials.</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://github.com/danielmiessler/SecLists/blob/master/Passwords/darkweb2017-top10000.txt">darkweb2017-top10000.txt</a></td>
+<td></td>
+<td></td>
+<td>https://github.com/danielmiessler/SecLists/blob/master/Passwords/darkweb2017-top10000.txt</td>
+</tr>
+</tbody>
+</table>
+<p>Using grep to filter out dictionaries based on password policies. For instance we have the following policies for passwords:</p>
+<ul>
+<li>Minimum length: 8 characters</li>
+<li>Must include:<ul>
+<li>At least one uppercase letter</li>
+<li>At least one lowercase letter</li>
+<li>At least one number</li>
+</ul>
+</li>
+</ul>
+<p>Filtering minimum length of 8 characters:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">grep -E &#39;^.{8,}$&#39; dicionary.txt &gt; dictionary-minlength.txt</span>
+</span></code></pre></div></td></tr></table></div>
+<p>At least one uppercase letter:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go">grep -E &#39;[A-Z]&#39; dictionary-minlength.txt &gt; dictionary-minlength-uppercase.txt</span>
+</span></code></pre></div></td></tr></table></div>
+<p>At least one lowercase letter.</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">grep -E &#39;[a-z]&#39; dictionary-minlength-uppercase.txt &gt; dictionary-minlength-uppercase-lowercase.txt</span>
+</span></code></pre></div></td></tr></table></div>
+<p>At least one numerical digit</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">grep -E &#39;[0-9]&#39; dictionary-minlength-uppercase-lowercase.txt &gt; dictionary-minlength-uppercase-lowercase-number.txt</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Or in one step:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">grep -E &#39;^.{6,}$&#39; dictionary.txt | grep -E &#39;[A-Z]&#39; | grep -E &#39;[a-z]&#39; | grep -E &#39;[0-9]&#39; | grep -E &#39;([!@#$%^&amp;*].*){2,}&#39; &gt; dictionary-filtered.txt</span>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-19T22:33:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-19</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-20T19:41:31+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-20</span></small></br>
 
 
     <small>Created: January 19, 2025 22:33:25</small>
