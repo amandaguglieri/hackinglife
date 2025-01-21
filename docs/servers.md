@@ -13,7 +13,7 @@ tags:
 | --------------------------------------------- |
 | [smb server](#smb-server)                     |
 | [Apache server](#apache-server)               |
-| [ngix](#nginx)                                 |
+| [ngix](#nginx)                                |
 | [symple python server](#simple-python-server) |
 | [php web server](#php-web-server)             |
 | [Ruby web server](#ruby-web-server)           |
@@ -22,6 +22,19 @@ tags:
 | [responder](responder.md)                     |
 | [uploadserver](uploadserver.md)               |
 | [Webdav wsgodav server](webdav-wsgidav.md)    |
+| FTP server                                    |
+
+## FTP server 
+
+We may also host our script through the FTP protocol.  We can start a basic FTP server with Python's `pyftpdlib`, as follows:
+
+```
+# Install the library
+sudo apt-get install python3-pyftpdlib
+
+# Launch the server
+sudo python3 -m pyftpdlib -p 21  
+```
 
 
 ## smb server
@@ -29,6 +42,10 @@ tags:
 [Launch smbserver in our attacker machine](smbserver.md):
 
 ```bash
+# Alternative 1
+impacket-smbserver -smb2support CompData $(pwd)
+
+# Alternative 2
 sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support CompData /home/username/Documents/
 ```
 

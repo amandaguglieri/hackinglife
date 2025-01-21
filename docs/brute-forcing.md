@@ -1,4 +1,13 @@
-
+---
+title: Brute forcing
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - OSCP
+  - CPTS
+  - passwords
+---
 # Brute forcing
 
 | Method                    | Description                                                                                                                   | Example                                                                                                                                                  | Best Used When...                                                                                                                           |

