@@ -1,5 +1,5 @@
 ---
-title: File Encryption: windows and linux  
+title: File Encryption  windows and linux  
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -8,8 +8,6 @@ tags:
   - windows
   - linux
 ---
-
-
 # File Encryption 
 
 ## Windows

