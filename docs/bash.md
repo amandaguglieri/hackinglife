@@ -259,9 +259,65 @@ xrandr --output HDMI-1 --right-of DP-2
 
 # Rotate 27''
 xrandr --output DP-2  --rotate left 
+
+# Mirror display
+xrandr --output DP-2 --same-as eDP-1
 ```
 
 ```
 xrandr --output  eDP-1 --brightness 0.5
 # ranges from 0 to 1
+```
+
+
+### update-alternatives
+
+```
+# List update alternatives in java
+update-alternatives --list java
+
+# List update alternatives in python
+update-alternatives --list python
+
+# Installing python alternatives 
+# 1. Find out which python binary executables are availables on the system
+ls /usr/bin/python*
+
+# 2. Checks out which one is in use
+python3 --version
+
+# 3. we need to update our alternatives table and include both python2.7,  python3.11 and python3.12:
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.11 2
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.12 3
+
+# Now, when listing we will obtain these three available options
+sudo update-alternatives --list python
+
+# Switch to a different python version
+sudo update-alternatives --config python
+
+# Remove an alternative
+sudo update-alternatives --remove python /usr/bin/python2.7
+
+```
+
+```
+# Changing my python version in a virtual environment created with mkvirtualenv wrapper. Deactivate your current environment session.
+deactivate
+
+If you have many packages or libraries installed, it would be a good idea to make a requirements.txt file. Remember to edit version as necessary.
+pip install pipreqs
+pipreqs ~/tools
+
+# 3. Remove the virtualenv with the wrapper command: `rmvirtualenv` This will remove the virtualenv, but leave your project files.
+rmvirtualenv tooling
+
+3. Make a new virtualenv with the Python version you want.
+mkvirtualenv -p python3.11 env-name -r requirements.txt
+# You can specify the Python version with the `-p` flag and version. If you have a _requirements.txt_ file, you can specify that with `-r requirements.txt`
+
+# 4. Now bind your new virtualenv to your project directory. You can specify the full paths, but it is easier to have your new virtualenv activated and be in your project directory. Then, run the command:
+setvirtualenvproject
+
 ```
