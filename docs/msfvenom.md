@@ -30,7 +30,6 @@ msfvenom -l payloads | grep "cmd/unix" | awk '{print $1}'
 ```
 
 
-
 ## Some flags
 
 ```bash

