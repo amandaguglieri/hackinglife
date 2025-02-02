@@ -79,3 +79,53 @@ Now you can activate or deactivate the virtual environment with:
 ```
 
 
+## pyenv
+
+**Install prerequisites**: Ensure you have the required dependencies for `pyenv` installation.
+
+```
+sudo apt update sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev \ libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \ xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git
+```
+
+**Install `pyenv`**: Use the following commands to install `pyenv`:
+
+```
+curl https://pyenv.run | bash
+```
+
+
+Update .bashrc to set up pyenv: Add the following to your .bashrc (or .zshrc if using zsh):
+
+```
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+```
+
+Then, reload your shell configuration:
+
+```
+pyenv install 2.7.18
+```
+
+
+This command installs Python 2.7.18, or you can choose another Python 2.7 version if needed.
+
+Create a Python 2.7 virtual environment: Once Python 2.7 is installed, you can create a virtual environment with:
+
+```
+pyenv virtualenv 2.7.18 env_name
+```
+
+**Activate the virtual environment**: To activate the environment, run:
+
+```
+pyenv activate env_name
+```
+
+Or deactivate:
+
+```
+deactivate
+```

@@ -27,6 +27,10 @@ wpscan --update
 ## Basic commands
 
 ```bash
+
+# Using the API token after registering an account at wpscan
+wpscan --url http://target.tld --enumerate --api-token f34R3...[SNIP
+
 # Enumerate users
 wpscan --url https://target.tld/domain --enumerate u
 wpscan --url https://target.tld/ -eu
@@ -43,7 +47,7 @@ wpscan --url HOST/domain -usernames admin, webadmin  --password-attack wp-login 
 
 # Brute force attack on xmlrpc with passwords:
 wpscan --password-attack xmlrpc -t 20 -U username1, username2 -P PATH/TO/passwords.txt --url http://<TARGET>
-
+# -t: Threads in use. Default is 5
 
 # Enumerate plugins on pasive mode 
 wpscan --url https://target.tld/ --plugins-detection passive 
@@ -64,7 +68,28 @@ wpscan --url https://target.tld/ --plugins-detection passive
 
 # Ignore HTTPS Certificate
 --disable-tls-checks
+
 ```
+
+
+Troubleshooting for the following error message:
+
+```
+in `<module:LoggerThreadSafeLevel>': uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger (NameError)
+
+    Logger::Severity.constants.each do |severity|
+```
+
+We can  manually specify logger
+
+```
+RUBYOPT='-rlogger' wpscan --url http://blog.inlanefreight.local 
+```
+
+
+This forces Ruby to load the logger module.
+
+
 
 ## Examples from labs:
 

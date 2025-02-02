@@ -17,6 +17,11 @@ EyeWitness is designed to take screenshots of websites provide some server heade
 
 Download from: [https://github.com/FortyNorthSecurity/EyeWitness](https://github.com/FortyNorthSecurity/EyeWitness).
 
+```
+sudo apt install eyewitness
+```
+
+
 
 ## Basic usage
 

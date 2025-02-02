@@ -55,11 +55,7 @@ tags:
 
 [Web attacks](cpts-labs-22-webattacks.md)
 
-
-
-
-
-## [Attacking Common Applications](https://academy.hackthebox.com/module/details/113)
+[Attacking Common Applications](cpts-labs-23-attackingcommonapplications.md)
 
 
 ## [Linux Privilege Escalation](https://academy.hackthebox.com/module/details/51)
