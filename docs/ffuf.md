@@ -79,6 +79,13 @@ for i in $(seq 1 1000); do echo $i >> ids.txt; done
 # Now, fuzz
 ffuf -w ids.txt:FUZZ -u http://admin.academy.htb:$port/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx
 
+
+# Fuzzing injection endpoint for Tomcat CGI vulnerabilities.
+
+ffuf -w /usr/share/dirb/wordlists/common.txt -u http://$targe:8080/cgi/FUZZ.cmd 
+
+ffuf -w /usr/share/dirb/wordlists/common.txt -u http://10.129.204.227:8080/cgi/FUZZ.bat
+
 ```
 
 
