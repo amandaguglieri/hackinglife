@@ -22,7 +22,8 @@ tags:
     - [Traffic analysis](tca-traffic-analysis.md).
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
-    - [Common vulnerabilities](tca-common-vulnerabilities.md).
+    - [Common vulnerabilities](tca-common-vulnerabilities.md).    
+    - [Attack example](tca-attack-example.md)
 
 
 Thick clients applications  are the applications that are run as standalone applications on the desktop.  Thick clients have two attack surfaces:
@@ -37,6 +38,7 @@ They are usually written in these languages:
 - .NET
 - C/C++
 - Java applets etc
+- Microsoft Silverlight
 - Native android / IOS mobile applications: Objective C, swift 
 - and more.
 

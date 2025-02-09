@@ -23,7 +23,14 @@ tags:
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
     - [Common vulnerabilities](tca-common-vulnerabilities.md).
+    - [Attack example](tca-attack-example.md)
 
+## Tools
+
+[CFF Explorer](https://ntcore.com/?page_id=388)
+[Detect It Easy](https://github.com/horsicq/Detect-It-Easy)
+[Process Monitor](https://learn.microsoft.com/en-us/sysinternals/downloads/procmon)
+[Strings](https://learn.microsoft.com/en-us/sysinternals/downloads/strings)
 
 
 ## What we will be doing
@@ -82,6 +89,7 @@ For instance, you can analyze the access to interesting files in the application
 <add key="ClientSettingsProvider.ServiceUri" value="" />
 <add key="FTPSERVER" value="127.0.0.1" />
 ```
+
 ## Locate credentials and information in Registry entries
 
 ### ProcessMonitor

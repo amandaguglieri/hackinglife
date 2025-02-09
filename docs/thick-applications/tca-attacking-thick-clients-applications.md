@@ -26,6 +26,7 @@ tags:
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
     - [Common vulnerabilities](tca-common-vulnerabilities.md).
+    - [Attack example](tca-attack-example.md)
 
 ## 1. Hard Coded credentials
 
@@ -47,6 +48,7 @@ strings.exe C:\Users\admin\Desktop\tools\original\DVTA.exe > C:\Users\admin\Desk
 We know the FTP conection is done in the Admin screen, so we open the application with dnspy and we locate the button in the Admin screen that calls the FTP conection. Credentials for the conection can be there:
 
 ![graphic](../img/tca-41.png)
+
 
 
 ## 2. Storing sensitive data in Registry entries 

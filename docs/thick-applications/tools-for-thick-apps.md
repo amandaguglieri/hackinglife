@@ -21,7 +21,7 @@ tags:
     - [Attacking thick clients applications](tca-attacking-thick-clients-applications.md).
     - [Reversing and patching thick clients applications](tca-reversing-and-patching.md).    
     - [Common vulnerabilities](tca-common-vulnerabilities.md).
-
+    - [Attack example](tca-attack-example.md)
 
 ## Decompilation tools
 
@@ -29,16 +29,31 @@ tags:
 + C# decompilation: [dnspy](../dnspy.md).
 + JetBrains [dotPeek](../dotpeek.md).
 
+- [Ghidra](https://www.ghidra-sre.org/)
+- [IDA](https://hex-rays.com/ida-pro/)
+- [OllyDbg](http://www.ollydbg.de/)
+- [Radare2](https://www.radare.org/r/index.html)
+- [dnSpy](https://github.com/dnSpy/dnSpy)
+- [x64dbg](https://x64dbg.com/)
+- [JADX](https://github.com/skylot/jadx)
+- [Frida](https://frida.re/)
+
 
 ## Read app metadata
 
 +  [CFF explorer](../cff-explorer.md). Open the app with CFF  Explorer to see which language and tool was used for its creation.
 
 
++ [Detect It Easy](https://github.com/horsicq/Detect-It-Easy)
++ [Process Monitor](https://learn.microsoft.com/en-us/sysinternals/downloads/procmon)
++ [Strings](https://learn.microsoft.com/en-us/sysinternals/downloads/strings)
+
 ## Sniff connections 
 
 - TCP View from [sysInternalsSuite](../sys-internals-suite.md).
 - Wireshark.
+- [tcpdump](https://www.tcpdump.org/)
+- Burpsuite
 
 
 ## Traffic monitoring
@@ -54,6 +69,7 @@ tags:
 
 + Strings from  [sysInternalsSuite](../sys-internals-suite.md). It's similar to the command "strings" in bash. It displays all the human readable strings in a binary.
 + [dnspy](../dnspy.md) can be used to spot functions containing hard coded credentials (for connections,...).
+
 
 ### Log analysis
 
@@ -85,6 +101,16 @@ Open the file with the logs of the application and, if you are lucky and debug m
 
 
 ## Attacks
+
+A quick list:
+
+- Improper Error Handling.
+- Hardcoded sensitive data.
+- DLL Hijacking.
+- Buffer Overflow.
+- SQL Injection.
+- Insecure Storage.
+- Session Management.
 
 ### DLL Hickjacking
 
