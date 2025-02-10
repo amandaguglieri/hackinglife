@@ -19,19 +19,9 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 ![local-privilege-escalation.jpg](img/local-privilege-escalation.jpg)
 
+## Basic enumeration
 
-## Basic commands for reconnaissance
-
-Some basic commands once you have gained access to a Linux machine:
-
-```bash
-whoami
-pwd
-id
-uname -a
-lsb_release -a
-```
-
+See [Linux Enumeration Cheat sheet](linux-enumeration-md)
 
 ## Enumeration scripts
 
@@ -51,7 +41,7 @@ lsb_release -a
     - Daemons. 
 	- [Dirty cow](dirty-cow.md).
 	- File Permissions: 
-		- [Configuration files](configuration-files.md).
+		- [Configuration files](linux-enumeration.md).
 		- Startup scripts.
 		- [Process capabilities: getcap](process-capabilities-getcap.md)
 		- [Suid binaries](suid-binaries.md): shared object injection, symlink, environmental variables.
@@ -60,7 +50,9 @@ lsb_release -a
 	- LD_PRELOAD / LD_LIBRARY_PATH.
 	- NFS.
 	- Password Mining: logs, memory, history, configuration files.
+	- [Path Abuse](linux-path-abuse.md)
 	- Sudo: shell escape sequences, abuse intended functionality.
 	- [ssh keys](ssh-keys.md).
+	- Wildcard Abuse
 
 
