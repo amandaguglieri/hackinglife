@@ -75,6 +75,7 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB archetype](htb-archetype.md)
 -   [HTB bank](htb-bank.md)
 -   [HTB base](htb-base.md)
+-   [HTB Cap](htb-cap.md)
 -   [HTB crocodile](htb-crocodile.md)
 -   [HTB explosion](htb-explosion.md)
 -   [HTB forest](htb-forest.md)
