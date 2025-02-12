@@ -1,19 +1,28 @@
 ---
-title: Suid Binaries
+title: Suid and Setgid Binaries
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
   - pentesting
-  - privilege escalation
+  - privilege
+  - escalation
   - linux
 ---
+# Suid and Setgid Binaries
 
-# Suid binaries
+## Suid binaries
+
+The Set-Group-ID (setgid) permission is another special permission that allows us to run binaries as if we were part of the group that created them. 
 
 Resources: [https://gtfobins.github.io/](https://gtfobins.github.io/) contains a list of commands and how they can be exploited through "sudo". 
 
 Equivalent to suid binaries in Windows would be: [LOLBAS](https://lolbas-project.github.io/)
+
+
+```shell-session
+find / -user root -perm -4000 -exec ls -ldb {} \; 2>/dev/null
+```
 
 
 ## Most used (by me)
@@ -78,7 +87,17 @@ sudo vi -c ':!/bin/sh' /dev/null
 
 If the binary is allowed to run as superuser by sudo, it does not drop the elevated privileges and may be used to access the file system, escalate or maintain privileged access.
 
-- ```
-    CMD="/bin/sh"
-    sudo php -r "system('$CMD');"
-    ```
+```
+CMD="/bin/sh"
+sudo php -r "system('$CMD');"
+```
+
+
+
+## Setgid Binaries
+
+The Set-Group-ID (setgid) permission is another special permission that allows us to run binaries as if we were part of the group that created them. 
+
+```shell-session
+find / -user root -perm -6000 -exec ls -ldb {} \; 2>/dev/null
+```

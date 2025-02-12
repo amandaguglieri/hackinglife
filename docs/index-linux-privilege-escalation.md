@@ -6,7 +6,6 @@ TableOfContents: true
 tags:
   - privilege escalation
 ---
-+++
 # Index for Linux Privilege Escalation
 
 ??? note "Guides to have at hand"
@@ -21,7 +20,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 ## Basic enumeration
 
-See [Linux Enumeration Cheat sheet](linux-enumeration-md)
+See [Linux Enumeration Cheat sheet](linux-enumeration.md)
 
 ## Enumeration scripts
 
@@ -51,8 +50,13 @@ See [Linux Enumeration Cheat sheet](linux-enumeration-md)
 	- NFS.
 	- Password Mining: logs, memory, history, configuration files.
 	- [Path Abuse](linux-path-abuse.md)
-	- Sudo: shell escape sequences, abuse intended functionality.
+	- Sudo: 
+		- [Escaping restricted shells](linux-escaping-restricted-shells.md).
+		- [Sudo Rights Abuse](sudo-rights-abuse.md)
+		- Others.
 	- [ssh keys](ssh-keys.md).
-	- Wildcard Abuse
+	- Vulnerable services:
+		- [Screen 4.5.0](screen-4.5.0.md)
+	- [Wildcard Abuse](linux-wildcard-abuse.md)
 
 
