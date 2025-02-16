@@ -6,9 +6,19 @@ TableOfContents: true
 tags:
   - docker
 ---
-
 # docker 
 
+At the core of the Docker architecture lies a client-server model, where we have two primary components:
+
+- The Docker daemon
+- The Docker client
+
+The Docker client acts as our interface for issuing commands and interacting with the Docker ecosystem, while the `Docker Daemon`, also known as the Docker server, is responsible for executing those commands and managing containers.
+
+
+Think of a `Docker image` as a blueprint or a template for creating containers. A `Docker container` is an instance of a Docker image. It is a lightweight, isolated, and executable environment that runs applications. While `images` are immutable and `read-only`, `containers` are mutable and `can be modified` during runtime. However, any modifications made to a container's filesystem are not persisted unless explicitly saved as a new image or stored in a persistent volume.
+
+[See Pentesting docker](cloud/containers/pentesting-docker.md).
 
 ## Installation
 
@@ -49,8 +59,4 @@ sudo docker run hello-world
 sudo docker run -it <image> <echo lala / bf bash>
 # image: for instance, debian
 # <echo lala or bf bash>: command echo lala. Or terminal in bash
-
-
-
-
 ```

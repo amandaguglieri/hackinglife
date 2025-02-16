@@ -45,11 +45,15 @@ See [Linux Enumeration Cheat sheet](linux-enumeration.md)
 		- [Process capabilities: getcap](process-capabilities-getcap.md)
 		- [Suid binaries](suid-binaries.md): shared object injection, symlink, environmental variables.
 		- [Lxd privileges escalation](lxd.md).
+		- [Pentesting docker](cloud/containers/pentesting-docker.md)
+		- [Pentesting kubernetes](pentesting-kubernetes.md)
+	- [Hijacking Tmux Sessions](hijacking-tmux-sessions.md)
 	- [Kernel vulnerability exploitation](kernel-vulnerability-exploitation.md).
-	- LD_PRELOAD / LD_LIBRARY_PATH.
-	- NFS.
+	- [Logrotate](logrotate.md)
+	- [NFS](2049-nfs-network-file-system.md).
 	- Password Mining: logs, memory, history, configuration files.
 	- [Path Abuse](linux-path-abuse.md)
+	- [Shared libraries: LD_PRELOAD / LD_LIBRARY_PATH.](shared-libraries-ldpreload-ldlibrarypath.md)
 	- Sudo: 
 		- [Escaping restricted shells](linux-escaping-restricted-shells.md).
 		- [Sudo Rights Abuse](sudo-rights-abuse.md)

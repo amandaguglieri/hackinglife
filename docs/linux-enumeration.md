@@ -1,5 +1,5 @@
 ---
-title: Configuration files
+title: Linux Enumeration Cheat sheet
 author: amandaguglieri
 draft: false
 TableOfContents: true
