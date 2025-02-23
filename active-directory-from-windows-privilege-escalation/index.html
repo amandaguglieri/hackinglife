@@ -9221,6 +9221,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -10296,6 +10304,94 @@
   
   <span class="md-ellipsis">
     8080 jboss
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8089-splunk-universal-forwarder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8089 splunk universal Forwarder
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14147-14148-filezilla/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14147 filezilla
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14147-14148-filezilla/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14147 filezilla
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25672-erlang-port/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    25672 erlang port
     
   </span>
   
@@ -18979,6 +19075,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#juicypotato" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥔 JuicyPotato
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#printnightmare" class="md-nav__link">
     <span class="md-ellipsis">
       🖨️ PrintNightmare
@@ -20079,6 +20184,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#juicypotato" class="md-nav__link">
+    <span class="md-ellipsis">
+      🥔 JuicyPotato
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#printnightmare" class="md-nav__link">
     <span class="md-ellipsis">
       🖨️ PrintNightmare
@@ -20375,11 +20489,15 @@ We can also authenticate from our Linux attack host using <a href="https://gith
 <blockquote>
 <p>Finally, we can run commands in the format <code>xp_cmdshell &lt;command&gt;</code>. Here we can enumerate the rights that our user has on the system and see that we have <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege">SeImpersonatePrivilege</a>, which can be leveraged in combination with a tool such as <a href="https://github.com/ohpe/juicy-potato">JuicyPotato</a>, <a href="https://github.com/itm4n/PrintSpoofer">PrintSpoofer</a>, or <a href="https://github.com/antonioCoco/RoguePotato">RoguePotato</a> to escalate to <code>SYSTEM</code> level privileges, depending on the target host, and use this access to continue toward our goal.</p>
 </blockquote>
+<h2 id="juicypotato">🥔 JuicyPotato</h2>
+<p><a href="https://github.com/breenmachine/RottenPotatoNG">RottenPotatoNG</a> and its <a href="https://github.com/decoder-it/lonelypotato">variants</a> leverages the privilege escalation chain based on <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799(v=vs.85).aspx"><code>BITS</code></a> <a href="https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126">service</a> having the MiTM listener on <code>127.0.0.1:6666</code> and when you have <code>SeImpersonate</code> or <code>SeAssignPrimaryToken</code> privileges. During a Windows build review we found a setup where <code>BITS</code> was intentionally disabled and port <code>6666</code> was taken.</p>
+<p><a href="../juicypotato/">See more on JuicyPotato</a></p>
 <h2 id="printnightmare">🖨️ PrintNightmare</h2>
 <p><code>PrintNightmare</code> is the nickname given to two vulnerabilities (<a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527">CVE-2021-34527</a> and <a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-1675">CVE-2021-1675</a>) found in the <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-prsod/7262f540-dd18-46a3-b645-8ea9b59753dc">Print Spooler service</a> that runs on all Windows operating systems.</p>
 <p><a href="../printnightmare/">See more on PrintNightmare</a></p>
 <h2 id="print-spooler">🏊 Print Spooler</h2>
 <p>The Print Spooler exploitation leverages the Windows Print Spooler service in conjunction with the SeImpersonatePrivilege privilege. The goal is to impersonate a SYSTEM token to escalate privileges. Tools like PrintSpoofer automate this process effectively. Below are detailed steps for exploiting this vulnerability:</p>
+<p><a href="../printspoofer/">See more on PrintSpoofer</a></p>
 <h2 id="nopac-samaccountname-spoofing">🪤 NoPac (SamAccountName Spoofing)</h2>
 <div class="admonition tips">
 <p class="admonition-title">Detailed explanations</p>
@@ -20442,7 +20560,7 @@ Also the <code>Windows PowerShell</code> log is located at <code>Applications 
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-19T22:33:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-19</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-23T21:12:05+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-23</span></small></br>
 
 
     <small>Created: December 27, 2024 22:00:41</small>
