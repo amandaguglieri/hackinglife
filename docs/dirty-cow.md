@@ -8,10 +8,11 @@ tags:
   - linux
   - privileges escalation
 ---
-
 # Dirty COW (Copy On Write)
 
 A race condition was found in the way the Linux kernel's memory subsystem handled the copy-on-write (COW) breakage of private read-only memory mappings. All the information we have so far is included in this page.
+
+[See a complete explanation](https://dirtycow.ninja/).
 
 An unprivileged local user could use this flaw to gain write access to otherwise read-only memory mappings and thus increase their privileges on the system.
 

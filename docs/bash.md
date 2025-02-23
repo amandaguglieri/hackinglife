@@ -321,3 +321,194 @@ mkvirtualenv -p python3.11 env-name -r requirements.txt
 setvirtualenvproject
 
 ```
+
+
+### bluetoothctl
+
+Enter into the bluwtooth terminal:
+
+```
+bluetoothctl 
+```
+
+Output: 
+
+```
+[NEW] Controller 5C:51:4F:DC:FB:D0 ChromeLinux_CBDE [default]
+[NEW] Device FB:59:51:BF:60:XX MX Anywhere 2
+```
+
+Get info about a device:
+
+```
+[bluetooth]# info FB:59:51:BF:60:XX
+```
+
+Output: 
+
+```
+Device FB:59:51:BF:60:XX
+    Name: MX Anywhere 2
+    Alias: MX Anywhere 2
+    Appearance: 0x03c2
+    Icon: input-mouse
+    Paired: yes
+    Trusted: yes
+    Blocked: no
+    Connected: no
+    LegacyPairing: no
+    UUID: Generic Access Profile    (00001800-0000-1000-8000-00805f9b34fb)
+    UUID: Generic Attribute Profile (00001801-0000-1000-8000-00805f9b34fb)
+    Modalias: usb:v046DpB013d0007
+```
+
+As you can see - my device was somehow not connected. And thus not responsive. What I did to make it work was only call 'connect':
+
+```
+[bluetooth]# connect FB:59:51:BF:60:XX
+```
+
+Output:
+
+```
+Attempting to connect to FB:59:51:BF:60:XX
+[CHG] Device FB:59:51:BF:60:XX Connected: yes
+Connection successful
+[CHG] Device FB:59:51:BF:60:XX UUIDs: 00001800-0000-1000-8000-00805f9b34fb
+[..snip..]
+[CHG] Device FB:59:51:BF:60:XX Paired: yes
+```
+
+
+
+## chroot
+
+```
+# Go to where we want to create the env
+cd ~/tools
+
+# Create a folder
+mkdir glibc_env
+
+# Generate the os with debootstrap
+sudo debootstrap --variant=minbase bullseye glibc_env http://deb.debian.org/debian/
+
+# We access the install:
+sudo chroot glibc_env /bin/bash 
+
+# From a different terminal in the original OS, now we can access ~/tools/glibc_env and see all the file structure of the chroot.
+
+```
+
+###  Setting Up a Chroot Environment for GLIBC 2.34
+
+A **chroot environment** allows you to run a different Linux system inside your existing one without affecting the main OS. This guide will help you set up a **chroot** with **Ubuntu 22.04**, which ships with **GLIBC 2.34** by default.
+
+---
+**Why Use a Chroot for GLIBC 2.34?**
+
+- **Isolated environment**: Keeps your main system untouched.
+- **No need for Docker or virtual machines**: A lightweight alternative.
+- **Use a different Linux version**: Easily run Ubuntu 22.04 (which has GLIBC 2.34) even if your host system has a different version.
+
+---
+
+**Step-by-Step Guide to Setting Up a Chroot with GLIBC 2.34**
+
+ **Step 1: Install Required Tools**
+
+Ensure you have the required packages installed:
+
+```bash
+sudo apt update
+sudo apt install debootstrap schroot
+```
+
+- **`debootstrap`** helps create a minimal Debian/Ubuntu system.
+- **`schroot`** makes it easier to enter and manage chroot environments.
+
+---
+
+**Step 2: Create the Chroot Directory**
+
+Pick a directory where the chroot environment will live. For example:
+
+```bash
+sudo mkdir -p /opt/ubuntu-22.04
+```
+
+---
+
+**Step 3: Install Ubuntu 22.04 Inside the Chroot**
+
+Run `debootstrap` to install a minimal Ubuntu 22.04 system into `/opt/ubuntu-22.04`:
+
+```bash
+sudo debootstrap --variant=minbase jammy /opt/ubuntu-22.04 http://archive.ubuntu.com/ubuntu/
+```
+
+- **`jammy`** is the codename for Ubuntu 22.04.
+- **`/opt/ubuntu-22.04`** is where we install the new environment.
+
+---
+
+ **Step 4: Mount Essential System Directories**
+
+For the chroot to function correctly, we need to mount some system directories:
+
+```bash
+sudo mount --bind /dev /opt/ubuntu-22.04/dev
+sudo mount --bind /proc /opt/ubuntu-22.04/proc
+sudo mount --bind /sys /opt/ubuntu-22.04/sys
+```
+
+---
+
+**Step 5: Enter the Chroot Environment**
+
+Now, enter the chroot:
+
+```bash
+sudo chroot /opt/ubuntu-22.04 /bin/bash
+```
+
+You should now be inside the Ubuntu 22.04 environment, separate from your host system.
+
+---
+
+**Step 6: Verify GLIBC Version**
+
+Inside the chroot, check the **GLIBC version**:
+
+```bash
+ldd --version
+```
+
+It should show:
+
+```
+ldd (Ubuntu GLIBC 2.34-0ubuntu3.2) 2.34
+```
+
+---
+
+**Step 7: Install Additional Packages (Optional)**
+
+Since it's a minimal installation, install some basic utilities:
+
+```bash
+apt update
+apt install vim gcc gdb make git
+```
+
+---
+
+**Step 8: Using `git clone` Inside the Chroot**
+
+To clone a repository inside the chroot, you need **git** installed (done in Step 7). Then, you can run:
+
+```bash
+git clone https://github.com/example/repository.git
+```
+
+Replace `https://github.com/example/repository.git` with the actual repo URL.

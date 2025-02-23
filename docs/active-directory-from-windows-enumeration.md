@@ -46,13 +46,6 @@ tags:
 - [ActiveDirectory PowerShell Module](activedirectory-powershell-module.md).
 
 
-## 0. System
-
-```powershell
-
-
-```
-
 ## 1. Users
 
 ### Kerbrute

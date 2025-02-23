@@ -9,7 +9,7 @@ tags:
   - escalation
   - linux
 ---
-# Shared libraries: LD_PRELOAD / LD_LIBRARY_PATH.
+# Shared libraries: LD_PRELOAD / LD_LIBRARY_PATH
 
 It is common for Linux programs to use dynamically linked shared object libraries. Libraries contain compiled code or other data that developers use to avoid having to re-write the same pieces of code across multiple programs.
 
