@@ -9,24 +9,93 @@ tags:
 ---
 # Footprinting Windows
 
+## System Information
+
+```powershell
+systeminfo
+```
+
+If `systeminfo` doesn't display hotfixes, they may be queriable with [WMI](https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page) using the WMI-Command binary with [QFE (Quick Fix Engineering)](https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering) to display patches.
+
+```
+# In cmd
+wmic qfe
+
+# With powershell
+Get-HotFix | ft -AutoSize
+```
+
+```cmd
+# Tasklist: Using the tasklist command to look at running processes will give us a better idea of what applications are currently running on the system.
+tasklist /svc
+```
+
+It is essential to become familiar with standard Windows processes such as [Session Manager Subsystem (smss.exe)](https://en.wikipedia.org/wiki/Session_Manager_Subsystem), [Client Server Runtime Subsystem (csrss.exe)](https://en.wikipedia.org/wiki/Client/Server_Runtime_Subsystem), [WinLogon (winlogon.exe)](https://en.wikipedia.org/wiki/Winlogon), [Local Security Authority Subsystem Service (LSASS)](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service), and [Service Host (svchost.exe)](https://en.wikipedia.org/wiki/Svchost.exe), among others
+
+Environment variables:
+
+```cmd
+# In cmd
+set
+# In addition to the PATH, set can also give up other helpful information such as the HOME DRIVE. In enterprises, this will often be a file share. Navigating to the file share itself may reveal other directories that can be accessed.
+
+# Print path
+PATH
+```
+
+Installed programs:
+
+```
+# With cmd
+wmic product get name
+
+# With Powershell
+Get-WmiObject -Class Win32_Product |  select Name, Version
+```
+
 
 ## Interface(s), IP Address(es), DNS Information
 
 ```cmd-session
 ipconfig /all
-```
 
 
-#### ARP Table
-
-```cmd-session
+# ARP Table
 arp -a
+
+# Routing Table
+route print
 ```
 
-#### Routing Table
+## Users and groups
 
-```cmd-session
-route print
+```
+# Logged-In Users
+query user
+
+# Current User with cmd
+echo %USERNAME%
+
+# Current User with cmd and powershell
+whoami
+
+# Current User Privileges with cmd and powershell
+whoami /priv
+
+# Current User Group Information in cmd and powershell
+whoami /groups
+
+# Get All Users
+net user
+
+# Get All Groups
+net localgroup
+
+# Details About a Group
+net localgroup administrators
+
+# Get Password Policy & Other Account Information
+net accounts
 ```
 
 
@@ -51,6 +120,18 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 ```powershell-session
 Get-AppLockerPolicy -Local | Test-AppLockerPolicy -path C:\Windows\System32\cmd.exe -User Everyone
 ```
+
+
+## Processes
+
+Display Running Processes:
+
+```
+# With Netstat
+netstat -ano
+```
+
+The main thing to look for with Active Network Connections are entries listening on loopback addresses (127.0.0.1 and ::1) that are not listening on the IP Address (10.129.43.8) or broadcast (0.0.0.0, ::/0).
 
 
 ## Nmap and TTL

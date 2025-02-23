@@ -203,6 +203,14 @@ xp_cmdshell whoami /priv
 >Finally, we can run commands in the format `xp_cmdshell <command>`. Here we can enumerate the rights that our user has on the system and see that we have [SeImpersonatePrivilege](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege), which can be leveraged in combination with a tool such as [JuicyPotato](https://github.com/ohpe/juicy-potato), [PrintSpoofer](https://github.com/itm4n/PrintSpoofer), or [RoguePotato](https://github.com/antonioCoco/RoguePotato) to escalate to `SYSTEM` level privileges, depending on the target host, and use this access to continue toward our goal.
 
 
+## 🥔 JuicyPotato
+
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) and its [variants](https://github.com/decoder-it/lonelypotato) leverages the privilege escalation chain based on [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [service](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) having the MiTM listener on `127.0.0.1:6666` and when you have `SeImpersonate` or `SeAssignPrimaryToken` privileges. During a Windows build review we found a setup where `BITS` was intentionally disabled and port `6666` was taken.
+
+[See more on JuicyPotato](juicypotato.md)
+
+
+
 ## 🖨️ PrintNightmare
 
 `PrintNightmare` is the nickname given to two vulnerabilities ([CVE-2021-34527](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-34527) and [CVE-2021-1675](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-1675)) found in the [Print Spooler service](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-prsod/7262f540-dd18-46a3-b645-8ea9b59753dc) that runs on all Windows operating systems.
@@ -212,6 +220,9 @@ xp_cmdshell whoami /priv
 
 ##  🏊 Print Spooler 
 The Print Spooler exploitation leverages the Windows Print Spooler service in conjunction with the SeImpersonatePrivilege privilege. The goal is to impersonate a SYSTEM token to escalate privileges. Tools like PrintSpoofer automate this process effectively. Below are detailed steps for exploiting this vulnerability:
+
+[See more on PrintSpoofer](printspoofer.md)
+
 
 
 ## 🪤 NoPac (SamAccountName Spoofing)

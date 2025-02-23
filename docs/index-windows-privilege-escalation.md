@@ -49,14 +49,17 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 !!! abstract "Techniques"
 
-    - Services:
-	    - DLL Hacking.
-	    - Uniqued Path.
-	    - Named Pipes.
+	- Abusing User privileges:
+		- 
+	- Services:
+	    - [Abusing processes in windows](abussing-processes-windows.md)
+	    - [Abusing a service with PowerUp.ps1](powerup.md)
+		- DLL Hacking
+	    - Uniqued Path
+	    - [Named Pipes](named-pipes.md)
 	    - Registry.
 	    - [Windows binaries: LOLBAS](windows-binaries.md).
 	    - bin Path.
-	    - [Abusing a service with PowerUp.ps1](powerup.md)
 	    - Creating a service with PsExec.
 	- Kernel.
 	- Password Mining:

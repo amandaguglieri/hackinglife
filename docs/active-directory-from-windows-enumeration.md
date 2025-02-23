@@ -48,6 +48,17 @@ tags:
 
 ## 1. Users
 
+We can escalate privileges to one of the following depending on the system configuration and what type of data we encounter:
+
+|                                                                                                                                                                                                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The highly privileged `NT AUTHORITY\SYSTEM` account, or [LocalSystem](https://docs.microsoft.com/en-us/windows/win32/services/localsystem-account) account which is a highly privileged account with more privileges than a local administrator account and is used to run most Windows services. |
+| The built-in local `administrator` account. Some organizations disable this account, but many do not. It is not uncommon to see this account reused across multiple systems in a client environment.                                                                                              |
+| Another local account that is a member of the local `Administrators` group. Any account in this group will have the same privileges as the built-in `administrator` account.                                                                                                                      |
+| A standard (non-privileged) domain user who is part of the local `Administrators` group.                                                                                                                                                                                                          |
+| A domain admin (highly privileged in the Active Directory environment) that is part of the local `Administrators` group.                                                                                                                                                                          |
+
+
 ### Kerbrute
 
 [See kerbrute](kerbrute.md).
