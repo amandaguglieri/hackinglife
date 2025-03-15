@@ -19608,24 +19608,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      Detection
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#other-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Other resources
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#abusing-seimpersonate-and-seassignprimarytoken" class="md-nav__link">
     <span class="md-ellipsis">
       🤷 Abusing SeImpersonate and SeAssignPrimaryToken
@@ -19680,6 +19662,24 @@
   <a href="#setakeownershipprivilege" class="md-nav__link">
     <span class="md-ellipsis">
       🅾️ SeTakeOwnershipPrivilege
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other resources
     </span>
   </a>
   
@@ -20481,24 +20481,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      Detection
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#other-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Other resources
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#abusing-seimpersonate-and-seassignprimarytoken" class="md-nav__link">
     <span class="md-ellipsis">
       🤷 Abusing SeImpersonate and SeAssignPrimaryToken
@@ -20553,6 +20535,24 @@
   <a href="#setakeownershipprivilege" class="md-nav__link">
     <span class="md-ellipsis">
       🅾️ SeTakeOwnershipPrivilege
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other resources
     </span>
   </a>
   
@@ -21047,12 +21047,6 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-82"><a id="__codelineno-2-82" name="__codelineno-2-82"></a><span class="nv">$type</span> <span class="p">=</span> <span class="nb">Add-Type</span> <span class="nv">$definition</span> <span class="n">-PassThru</span>
 </span><span id="__span-2-83"><a id="__codelineno-2-83" name="__codelineno-2-83"></a><span class="nv">$type</span><span class="p">[</span><span class="n">0</span><span class="p">]::</span><span class="n">EnablePrivilege</span><span class="p">(</span><span class="nv">$processHandle</span><span class="p">,</span> <span class="nv">$Privilege</span><span class="p">,</span> <span class="nv">$Disable</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-<h2 id="detection">Detection</h2>
-<p>By logging event <a href="https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672">4672: Special privileges assigned to new logon</a> which will generate an event if certain sensitive privileges are assigned to a new logon session. This can be fine-tuned in many ways, such as by monitoring privileges that should <em>never</em> be assigned or those that should only ever be assigned to specific accounts.</p>
-<h2 id="other-resources">Other resources</h2>
-<ul>
-<li><a href="https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e">Windows Privilege Abuse: Auditing, Detection, and Defense</a></li>
-</ul>
 <h2 id="abusing-seimpersonate-and-seassignprimarytoken">🤷 Abusing SeImpersonate and SeAssignPrimaryToken</h2>
 <p>In Windows, every process has a token that has information about the account that is running it. These tokens are not considered secure resources, as they are just locations within memory.</p>
 <p>To utilize the token, the <code>SeImpersonate</code> privilege is needed.  It is only given to administrative accounts.</p>
@@ -21077,10 +21071,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="setakeownershipprivilege">🅾️ SeTakeOwnershipPrivilege</h2>
 <p><a href="https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/take-ownership-of-files-or-other-objects">SeTakeOwnershipPrivilege</a> grants a user the ability to take ownership of any "securable object," meaning Active Directory objects, NTFS files/folders, printers, registry keys, services, and processes. This privilege assigns <a href="https://docs.microsoft.com/en-us/windows/win32/secauthz/standard-access-rights">WRITE_OWNER</a> rights over an object, meaning the user can change the owner within the object's security descriptor.</p>
 <p><a href="../setakeownershipprivilege/">See more on SeTakeOwnershipPrivilege</a>.</p>
+<h2 id="detection">Detection</h2>
+<p>By logging event <a href="https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672">4672: Special privileges assigned to new logon</a> which will generate an event if certain sensitive privileges are assigned to a new logon session. This can be fine-tuned in many ways, such as by monitoring privileges that should <em>never</em> be assigned or those that should only ever be assigned to specific accounts.</p>
+<h2 id="other-resources">Other resources</h2>
+<ul>
+<li><a href="https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e">Windows Privilege Abuse: Auditing, Detection, and Defense</a></li>
+</ul>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 15, 2025 13:29:13"><span class="timeago" datetime="2025-03-15T13:29:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 15, 2025 13:29:13">2025-03-15</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 15, 2025 20:21:43"><span class="timeago" datetime="2025-03-15T20:21:43+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 15, 2025 20:21:43">2025-03-15</span></small></br>
 
 
     <small>Created: February 23, 2025 21:12:05</small>

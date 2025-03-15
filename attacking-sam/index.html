@@ -19908,6 +19908,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#extracting-credential-from-sam" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extracting Credential from SAM
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extracting Credential from SAM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-secretsdumppy" class="md-nav__link">
+    <span class="md-ellipsis">
+      With secretsdump.py
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -20418,6 +20442,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#extracting-credential-from-sam" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extracting Credential from SAM
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extracting Credential from SAM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-secretsdumppy" class="md-nav__link">
+    <span class="md-ellipsis">
+      With secretsdump.py
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -20529,10 +20577,22 @@ also dumped the cached domain logon information if the target was domain-joined 
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>--local-auth<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;<span class="w"> </span>--lsa
 </span></code></pre></div></td></tr></table></div>
+<h2 id="extracting-credential-from-sam">Extracting Credential from SAM</h2>
+<h3 id="with-secretsdumppy">With secretsdump.py</h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>python3<span class="w"> </span>/usr/share/doc/python3-impacket/examples/secretsdump.py<span class="w"> </span>-sam<span class="w"> </span>sam.save<span class="w"> </span>-security<span class="w"> </span>security.save<span class="w"> </span>-system<span class="w"> </span>system.save<span class="w"> </span>LOCAL
+</span></code></pre></div></td></tr></table></div>
+<p>Secretsdump dumps the local SAM hashes and would've 
+also dumped the cached domain logon information if the target was domain-joined and had cached credentials present in hklm\security. </p>
+<p>The first step secretsdump executes is targeting the system bootkey before proceeding to dump the LOCAL SAM hashes. It cannot dump those hashes without the boot key because that boot key is used to encrypt &amp; decrypt the SAM database.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>(uid:rid:lmhash:nthash)
+</span></code></pre></div></td></tr></table></div>
+<p>Most modern Windows operating systems store the password as an NT hash. Operating systems older than Windows Vista &amp; Windows Server 2008 store passwords as an LM hash, so we may only benefit from cracking those if our target is an older Windows OS. Knowing this, we can copy the NT hashes associated with each user account into a text file and start cracking passwords.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 18, 2025 19:59:20"><span class="timeago" datetime="2025-01-18T19:59:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 18, 2025 19:59:20">2025-01-18</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 15, 2025 20:21:43"><span class="timeago" datetime="2025-03-15T20:21:43+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 15, 2025 20:21:43">2025-03-15</span></small></br>
 
 
     <small>Created: July 13, 2023 23:13:01</small>
