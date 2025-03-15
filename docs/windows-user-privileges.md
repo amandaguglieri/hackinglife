@@ -243,15 +243,6 @@ $type[0]::EnablePrivilege($processHandle, $Privilege, $Disable)
 ```
 
 
-## Detection
-
-By logging event [4672: Special privileges assigned to new logon](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672) which will generate an event if certain sensitive privileges are assigned to a new logon session. This can be fine-tuned in many ways, such as by monitoring privileges that should _never_ be assigned or those that should only ever be assigned to specific accounts.
-
-## Other resources
-
-- [Windows Privilege Abuse: Auditing, Detection, and Defense](https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e)
-
-
 ## 🤷 Abusing SeImpersonate and SeAssignPrimaryToken
 
 In Windows, every process has a token that has information about the account that is running it. These tokens are not considered secure resources, as they are just locations within memory.
@@ -303,3 +294,13 @@ This privilege can be used to capture sensitive information from system memory, 
 [SeTakeOwnershipPrivilege](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/take-ownership-of-files-or-other-objects) grants a user the ability to take ownership of any "securable object," meaning Active Directory objects, NTFS files/folders, printers, registry keys, services, and processes. This privilege assigns [WRITE_OWNER](https://docs.microsoft.com/en-us/windows/win32/secauthz/standard-access-rights) rights over an object, meaning the user can change the owner within the object's security descriptor.
 
 [See more on SeTakeOwnershipPrivilege](setakeownershipprivilege.md).
+
+## Detection
+
+By logging event [4672: Special privileges assigned to new logon](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672) which will generate an event if certain sensitive privileges are assigned to a new logon session. This can be fine-tuned in many ways, such as by monitoring privileges that should _never_ be assigned or those that should only ever be assigned to specific accounts.
+
+## Other resources
+
+- [Windows Privilege Abuse: Auditing, Detection, and Defense](https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e)
+
+

