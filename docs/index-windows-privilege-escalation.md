@@ -49,11 +49,16 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 !!! abstract "Techniques"
 
-	- Abusing User privileges:
-		- 
+	- User privileges:
+		- [Abusing User privileges](windows-user-privileges.md)
+	    - [JuicyPotato: SeImpersonate or SeAssignPrimaryToken](juicypotato.md)
+        - [PrintNightmare](printnightmare.md)
+        - [Print Spooler / PrintSpoofer: SeImpersonatePrivilege + Windows Print Spooler service](printspoofer.md)
+        - [SeDebugPrivilege](sedebugprivilege.md)
+	    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)  
+	- [Abusing Group privileges](windows-group-privileges.md)
 	- Services:
-	    - [Abusing processes in windows](abussing-processes-windows.md)
-	    - [Abusing a service with PowerUp.ps1](powerup.md)
+		- [Abusing processes in windows](abusing-processes-windows.md)
 		- DLL Hacking
 	    - Uniqued Path
 	    - [Named Pipes](named-pipes.md)

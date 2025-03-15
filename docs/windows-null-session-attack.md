@@ -6,7 +6,6 @@ TableOfContents: true
 tags:
   - pentesting windows 
 ---
-
 # Windows Null session attack
 
 It’s used to enumerate info (password, system users, system groups. running system processes). A null session attack exploits an authentification vulnerability for Windows Administrative Shares. This lets an attacker connect to a local or remote share without authentification.

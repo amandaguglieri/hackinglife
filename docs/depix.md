@@ -6,6 +6,7 @@ TableOfContents: true
 tags:
   - reconnaissance
   - scanner
+  - pixel
 ---
 # Depix - A tool for extracting data from pixeled images
 
@@ -25,3 +26,5 @@ python3 depix.py \
     --backgroundcolor 40,41,35 \
     --averagetype linear
 ```
+
+

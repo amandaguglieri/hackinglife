@@ -4,11 +4,11 @@ author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
+  - pentesting
   - windows
   - privilege
 ---
-
-## 🪤 NoPac (SamAccountName Spoofing)
+# 🪤 NoPac (SamAccountName Spoofing)
 
 !!! tips "Detailed explanations"
 	- [noPac: A Tale of Two Vulnerabilities That Could End in Ransomware](https://www.secureworks.com/blog/nopac-a-tale-of-two-vulnerabilities-that-could-end-in-ransomware).

@@ -92,6 +92,7 @@ kerbrute_windows_amd64.exe userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmit
 
 ### powershell and net commands
 
+#### Enumerate within local
 [See powershell](powershell.md)
 
 ```powershell
@@ -126,7 +127,7 @@ echo %USERDOMAIN%
 # Prints out the name of the Domain controller the host checks in with (ran from CMD-prompt)
 echo %logonserver%	
 
-#You can tell if PowerShell is running with administrator privileges (a.k.a “elevated” rights) with the following snippet:
+# You can tell if PowerShell is running with administrator privileges (a.k.a “elevated” rights) with the following snippet:
 [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544'
 
 # Retrieves the WindowsIdentity for the currently running user.
@@ -187,6 +188,7 @@ net user /domain
 net user %username%	
 	
 ```
+
 
 
 ### Windows Management Instrumentation (WMI)
@@ -280,7 +282,6 @@ Get-ADTrust -Filter *
 
 ### PowerView
 [See more at Powerview](powerview.md).
-
 
 **Module: ActiveDirectory**
 

@@ -6,6 +6,7 @@ TableOfContents: true
 tags:
   - windows
   - privilege
+  - SeImpersonatePrivilege
 ---
 # 🖨️ PrintSpoofer
 

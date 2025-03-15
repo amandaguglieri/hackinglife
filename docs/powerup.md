@@ -1,16 +1,17 @@
 ---
-title: PowerUp.ps1 
+title: PowerUp
 author: amandaguglieri
 draft: false
 TableOfContents: true
 tags:
-  - active directory
+  - active
+  - directory
   - ldap
   - windows
-  - privilege escalation
+  - privilege
+  - escalation
   - tools
 ---
-
 # PowerUp.ps1
 
 Run from powershell.

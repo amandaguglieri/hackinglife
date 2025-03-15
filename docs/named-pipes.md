@@ -1,5 +1,5 @@
 ---
-title: 25672 - Erlang Port
+title: Named Pipes
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -9,7 +9,6 @@ tags:
   - windows
 ---
 # Named Pipes
-
 
 Pipes are used for communication between two applications or processes using shared memory. There are two types of pipes, [named pipes](https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes) and anonymous pipes. An example of a named pipe is `\\.\PipeName\\ExampleNamedPipeServer`.
 

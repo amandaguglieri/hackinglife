@@ -34,18 +34,10 @@ tags:
 - [Command injections](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-21-commandinjections.md)
 - [Web attacks](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-22-webattacks.md)
 - [Attacking Common Applications](cpts-labs-23-attackingcommonapplications.md)
-
-
-## [Linux Privilege Escalation](https://academy.hackthebox.com/module/details/51)
-
-
-## [Windows Privilege Escalation](https://academy.hackthebox.com/module/details/67)
-
-
-## [Documentation & Reporting](https://academy.hackthebox.com/module/details/162)
-
-
-##  [Attacking Enterprise Networks](https://academy.hackthebox.com/module/details/163)
+- [Linux Privilege Escalation](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-24-linuxprivilegeescalation.md)
+-  [Windows Privilege Escalation](cpts-labs-25-windowsprivilegeescalation.md)
+- [Documentation & Reporting](cpts-labs-26-documentationandreporting.md)
+- [Attacking Enterprise Networks](https://academy.hackthebox.com/module/details/163)
 
 
 

@@ -224,7 +224,6 @@ The Print Spooler exploitation leverages the Windows Print Spooler service in co
 [See more on PrintSpoofer](printspoofer.md)
 
 
-
 ## 🪤 NoPac (SamAccountName Spoofing)
 
 !!! tips "Detailed explanations"

@@ -1,5 +1,13 @@
-
-
+---
+title: Windows User Privileges
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - privilege
+  - escalation
+  - windows
+---
 # Windows User Privileges
 
 ## Windows Authorization Process
@@ -244,7 +252,7 @@ By logging event [4672: Special privileges assigned to new logon](https://docs.
 - [Windows Privilege Abuse: Auditing, Detection, and Defense](https://blog.palantir.com/windows-privilege-abuse-auditing-detection-and-defense-3078a403d74e)
 
 
-## Abusing SeImpersonate and SeAssignPrimaryToken
+## 🤷 Abusing SeImpersonate and SeAssignPrimaryToken
 
 In Windows, every process has a token that has information about the account that is running it. These tokens are not considered secure resources, as they are just locations within memory.
 
@@ -263,7 +271,7 @@ If the command `whoami /priv` confirms that [SeImpersonatePrivilege](https://
 For that there are several tools such as [JuicyPotato](https://github.com/ohpe/juicy-potato), [PrintSpoofer](https://github.com/itm4n/PrintSpoofer), or [RoguePotato](https://github.com/antonioCoco/RoguePotato) to escalate to `SYSTEM` level privileges, depending on the target host.
 
 
-### 🥔 JuicyPotato
+### 🥔 JuicyPotato: SeImpersonate or SeAssignPrimaryToken
 
 [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) and its [variants](https://github.com/decoder-it/lonelypotato) leverages the privilege escalation chain based on [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [service](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) having the MiTM listener on `127.0.0.1:6666` and when you have `SeImpersonate` or `SeAssignPrimaryToken` privileges. During a Windows build review we found a setup where `BITS` was intentionally disabled and port `6666` was taken.
 
@@ -277,14 +285,21 @@ For that there are several tools such as [JuicyPotato](https://github.com/ohpe/
 [See more on PrintNightmare](printnightmare.md)
 
 
-###  🏊 Print Spooler 
+###  🏊 Print Spooler / PrintSpoofer: SeImpersonatePrivilege + Windows Print Spooler service
 The Print Spooler exploitation leverages the Windows Print Spooler service in conjunction with the SeImpersonatePrivilege privilege. The goal is to impersonate a SYSTEM token to escalate privileges. Tools like PrintSpoofer automate this process effectively. Below are detailed steps for exploiting this vulnerability:
 
 [See more on PrintSpoofer](printspoofer.md)
 
 
+## 🗒️ Abusing SeDebugPrivilege
 
-## Abusing SeDebugPrivilege
+This privilege can be used to capture sensitive information from system memory, or access/modify kernel and application structures. A user might be assigned the SeDebugPrivilege without belonging to the administrators group.
+
+[See more on SeDebugPrivilege](sedebugprivilege.md).
 
 
+## 🅾️ SeTakeOwnershipPrivilege
 
+[SeTakeOwnershipPrivilege](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/take-ownership-of-files-or-other-objects) grants a user the ability to take ownership of any "securable object," meaning Active Directory objects, NTFS files/folders, printers, registry keys, services, and processes. This privilege assigns [WRITE_OWNER](https://docs.microsoft.com/en-us/windows/win32/secauthz/standard-access-rights) rights over an object, meaning the user can change the owner within the object's security descriptor.
+
+[See more on SeTakeOwnershipPrivilege](setakeownershipprivilege.md).
