@@ -9170,6 +9170,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#virtualbox-troubleshooting-guide-memory-ballooning-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      VirtualBox Troubleshooting Guide (Memory Ballooning Issue)
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -20302,6 +20311,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#virtualbox-troubleshooting-guide-memory-ballooning-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      VirtualBox Troubleshooting Guide (Memory Ballooning Issue)
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -20328,10 +20346,85 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ol>
 <h2 id="how-to-enlarge-a-virtual-machines-disk-in-virtualbox">How to Enlarge a Virtual Machine’s Disk in VirtualBox</h2>
 <p>In VirtualBox, go to File &gt; Virtual Media Manager and use the slider to adjust the disk size. In VMWare, right-click your virtual machine (VM), then go to Settings &gt; Hard Disk &gt; Expand, and expand the disk. Finally, boot your VM and expand the partition using GParted on Linux or Disk Management on Windows.</p>
+<h2 id="virtualbox-troubleshooting-guide-memory-ballooning-issue">VirtualBox Troubleshooting Guide (Memory Ballooning Issue)</h2>
+<p><strong>1. Check VirtualBox Memory Settings</strong></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>VBoxManage<span class="w"> </span>showvminfo<span class="w"> </span><span class="s2">&quot;VM_NAME&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>memory
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Ensure <code>Configured memory balloon</code> is set to <code>0MB</code>.</strong></p>
+<hr />
+<p><strong>2. Disable Memory Ballooning</strong></p>
+<p><strong>Using VBoxManage</strong></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>VBoxManage<span class="w"> </span>modifyvm<span class="w"> </span><span class="s2">&quot;VM_NAME&quot;</span><span class="w"> </span>--guest-memory-balloon<span class="w"> </span><span class="m">0</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Then verify:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>VBoxManage<span class="w"> </span>showvminfo<span class="w"> </span><span class="s2">&quot;VM_NAME&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>memory
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Using VirtualBox GUI</strong>
+1. Open <strong>VirtualBox</strong>.
+2. Select your VM.
+3. Click <strong>Settings → System</strong>.
+4. Disable <strong>Memory Ballooning</strong> or set it to <strong>0 MB</strong>.
+5. Click <strong>OK</strong> and restart the VM.</p>
+<hr />
+<p><strong>3. Restart VirtualBox Kernel Modules</strong></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>vboxdrv
+</span></code></pre></div></td></tr></table></div>
+<p>If the above fails, manually remove and reload the modules:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>-r<span class="w"> </span>vboxdrv<span class="w"> </span>vboxnetflt<span class="w"> </span>vboxnetadp
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>sudo<span class="w"> </span>modprobe<span class="w"> </span>vboxdrv
+</span></code></pre></div></td></tr></table></div>
+<hr />
+<p><strong>4. Kill Stuck VirtualBox Processes</strong></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>vbox
+</span></code></pre></div></td></tr></table></div>
+<p>Kill any <strong>stuck processes</strong>:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>sudo<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span>&lt;PID&gt;
+</span></code></pre></div></td></tr></table></div>
+<hr />
+<p><strong>5. Restart VirtualBox Service</strong></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>vboxdrv
+</span></code></pre></div></td></tr></table></div>
+<hr />
+<p><strong>6. Start the VM Again</strong></p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>VBoxManage<span class="w"> </span>startvm<span class="w"> </span><span class="s2">&quot;VM_NAME&quot;</span>
+</span></code></pre></div></td></tr></table></div>
+<hr />
+<p><strong>7. Check for Secure Boot Issues</strong>ç</p>
+<p>If <strong>kernel modules fail to load</strong>, check Secure Boot status:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>mokutil<span class="w"> </span>--sb-state
+</span></code></pre></div></td></tr></table></div>
+<p>If <strong>Secure Boot is enabled</strong>, disable it from BIOS.</p>
+<hr />
+<p><strong>8. Check VirtualBox Version &amp; Dependencies</strong></p>
+<p>If VirtualBox still has issues, reinstall it properly:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>VBoxManage<span class="w"> </span>--version
+</span></code></pre></div></td></tr></table></div>
+<p>Ensure necessary dependencies are installed:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>linux-headers-<span class="k">$(</span>uname<span class="w"> </span>-r<span class="k">)</span><span class="w"> </span>dkms
+</span></code></pre></div></td></tr></table></div>
+<p>If <code>vboxdrv</code> fails to load:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>sudo<span class="w"> </span>/sbin/vboxconfig
+</span></code></pre></div></td></tr></table></div>
+<hr />
+<p><strong>Final Notes</strong>
+- The <strong>main fix</strong> is setting <code>--guest-memory-balloon 0</code> or disabling it in the GUI.
+- Ensure <strong>VirtualBox modules are loaded</strong> (<code>lsmod | grep vbox</code>).
+- If VirtualBox <strong>keeps freezing</strong>, try removing and reinstalling it:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>remove<span class="w"> </span>--purge<span class="w"> </span>virtualbox
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>virtualbox
+</span></code></pre></div></td></tr></table></div>
+<ul>
+<li>If all else fails, <strong>reboot</strong> after applying these changes:</li>
+</ul>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>sudo<span class="w"> </span>reboot
+</span></code></pre></div></td></tr></table></div>
+<hr />
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="May 2, 2023 20:07:02"><span class="timeago" datetime="2023-05-02T20:07:02+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="May 2, 2023 20:07:02">2023-05-02</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 16, 2025 16:20:58"><span class="timeago" datetime="2025-03-16T16:20:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 16, 2025 16:20:58">2025-03-16</span></small></br>
 
 
     <small>Created: January 25, 2023 17:26:59</small>

