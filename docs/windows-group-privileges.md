@@ -802,3 +802,45 @@ sc.exe start MozillaMaintenance
 
 ## Print Operators: SeLoadDriverPrivilege
 
+[Print Operators](https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/active-directory-security-groups#print-operators) is another highly privileged group, which grants its members the `SeLoadDriverPrivilege`, rights to manage, create, share, and delete printers connected to a Domain Controller, as well as the ability to log on locally to a Domain Controller and shut it down.
+
+Check our group membershipts:
+
+```powershell
+whoami /groups
+```
+
+We see Print Operators, which usually has the SeLoadDriverPrivilege. However when we check our permissions is not listed:
+
+```powershell
+whoami /priv
+```
+
+Output:
+
+```
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                    State
+============================= ============================== ========
+SeShutdownPrivilege           Shut down the system           Disabled
+SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+SeIncreaseWorkingSetPrivilege Increase a process working set Disabled
+```
+
+
+If we issue the command `whoami /priv`, and don't see the `SeLoadDriverPrivilege` from an unelevated context, we will need to bypass UAC. 
+	- You can bypass it with  [UACMe](https://github.com/hfiref0x/UACME) repo features or any similar code approach.
+	- You can also bypass it from user interface. Open a powershell with administrator permissions. 	
+
+
+**2.** Now, next troubleshooting is that the `SeLoadDriverPrivilege` may be Disabled. To enable it we will need the following:
+- the forked repo [https://github.com/amandaguglieri/enabling-privileges](https://github.com/amandaguglieri/enabling-privileges). I've already downloaded to a windows machine with Visual Studio 2022. 
+	- the file Capcom.sys. I've forked it to [https://github.com/amandaguglieri/Capcom-Rootkit/blob/master/Driver/Capcom.sys](https://github.com/amandaguglieri/Capcom-Rootkit/blob/master/Driver/Capcom.sys)
+- We will generate 
+ It's well known that the driver `Capcom.sys` contains functionality to allow any user to execute shellcode with SYSTEM privileges. 
+
+ We can use our privileges to load this vulnerable driver and escalate privileges. We can use [this](https://raw.githubusercontent.com/3gstudent/Homework-of-C-Language/master/EnableSeLoadDriverPrivilege.cpp) tool to load the driver. The PoC enables the privilege as well as loads the driver for us.
+

