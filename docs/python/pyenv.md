@@ -62,6 +62,25 @@ Set global Python version:
 pyenv global 2.7.18
 ```
 
+Virtual Environments (with pyenv-virtualenv)
+
+```
+# Create venv named 'myenv'
+pyenv virtualenv 3.11.7 myenv            
+
+# Activate venv pyenv deactivate  
+pyenv activate myenv                                          
+
+# Deactivate venv                        
+pyenv deactivate
+
+# List all pyenv-managed virtualenvs
+pyenv virtualenvs
+
+# Delete a pyenv virtualenv
+pyenv uninstall myenv
+```
+
 ## Managing Different Python Versions for Different Applications
 
 ### Set a Local Python Version for a Specific Application

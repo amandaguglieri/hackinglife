@@ -38,7 +38,7 @@ To get out of INSERT mode, press ESC.
 + 2:  Go to line 2 of the file.
 + gg: Go to line 1 of the file.
 + G : Go to last line.
-+ <n>G : Go to line n. 
++ `<n>` G : Go to line n. 
 + 0 : Go to the beginning of line.
 + $ : Go to the end of line.
 
@@ -50,8 +50,8 @@ There is no delete in CURSOR mode. What it does is to CUT the content. There is 
 + dd : Cut full line.
 + dw : Cut word.
 + d$ : Cut from the cursor position to the end of line.
-+ d<n>w : Cut n words from cursor position. For instance, "d3w" cuts three words. 
-+ d<n>d : Cut n lines from cursor position. For instance, "d4d" cuts four lines.
++ d`<n>`w : Cut n words from cursor position. For instance, "d3w" cuts three words. 
++ d`<n>`d : Cut n lines from cursor position. For instance, "d4d" cuts four lines.
 + ciw : Cut word no matter cursor position. Also no matter it word was in parathesis or "".
 + yw: Copy word.
 + yy: Copy full line.

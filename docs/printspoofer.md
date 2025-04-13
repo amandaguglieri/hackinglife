@@ -10,6 +10,11 @@ tags:
 ---
 # 🖨️ PrintSpoofer
 
+!!! tip "Kernel exploits"
+	- [Windows kernel exploits](windows-kernel-exploits.md)
+	- [Linux kernel exploits](linux-kernel-exploits.md)
+
+
  [PrintSpoofer](https://github.com/itm4n/PrintSpoofer) and [RoguePotato](https://github.com/antonioCoco/RoguePotato) can be used to leverage `NT AUTHORITY\SYSTEM` level access on Windows Server 2019 and Windows 10 build 1809 onwards when the  command `whoami /priv` confirms that [SeImpersonatePrivilege](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege) is listed. 
 
 Download from: [https://github.com/itm4n/PrintSpoofer](https://github.com/itm4n/PrintSpoofer)

@@ -1,6 +1,14 @@
+---
+title: Scripts for enabling provileges
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentesting
+  - windows
+---
 
-
-# Scripts for enabling provileges
+# Scripts for enabling privileges
 
 ## 3gstudent/Homework-of-C-Language
 

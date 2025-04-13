@@ -91,15 +91,17 @@ rbenv rehash
 
 ### Running Metasploit from Any Directory
 
+#### Alternative 1
+
 By default, `msfconsole -q` will only work inside `/usr/share/metasploit-framework`. To run it from anywhere, use one of these approaches:
 
-#### Approach 1: Specify the Version Inline
+##### Approach 1: Specify the Version Inline
 
 ```sh
 RBENV_VERSION=3.1.0 msfconsole -q
 ```
 
-#### Approach 2: Create a Wrapper Script (Recommended)
+##### Approach 2: Create a Wrapper Script (Recommended)
 
 Modify your `.zshrc` file:
 
@@ -124,3 +126,55 @@ source ~/.zshrc
 ```
 
 Now, both `wpscan` and `msfconsole` can be used from anywhere in the system with their respective Ruby versions.
+
+#### Alternative 2
+
+I finally went for this.
+
+I'm using rbenv, with rbenv global set to system, and ruby version to 3.3.7. 
+
+Create the bash script `~/.local/bin/run_tool`:
+
+```bash
+#!/bin/bash
+
+# Tool → Ruby version mapping
+declare -A ruby_versions=(
+  [wpscan]="3.0.6"
+  [msfconsole]="system"
+#  Adding a new tool:
+# [msfvenom]="system"
+)
+
+tool="$1"
+shift  # Remove the tool from the argument list
+
+if [[ -z "$tool" ]]; then
+  echo "Usage: ./run_tool.sh <tool> [args...]"
+  exit 1
+fi
+
+if [[ ${ruby_versions[$tool]+_} ]]; then
+  export RBENV_VERSION="${ruby_versions[$tool]}"
+  echo "[*] Using Ruby version: $RBENV_VERSION for $tool"
+else
+  echo "[!] No Ruby version mapped for $tool — using current rbenv version."
+fi
+
+# Rehash to ensure shims are updated
+eval "$(rbenv init -)" &>/dev/null
+rbenv rehash
+
+# Execute the tool
+exec "$tool" "$@"
+```
+
+We need to be sure that `~/.local/bin/` is in the $PATH environmental variable.
+
+Now in my ~/.zshr, I added these lines and, after that I sourced the file:
+
+```
+alias wpscan='~/.local/bin/run_tool wpscan'
+alias msfconsole='~/.local/bin/run_tool msfconsole'
+```
+

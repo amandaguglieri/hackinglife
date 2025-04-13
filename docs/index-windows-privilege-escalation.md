@@ -51,12 +51,15 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 	- User privileges:
 		- [Abusing User privileges](windows-user-privileges.md)
+		- [Scripts for enabling privileges](script-for-enabling-privileges.md)
 	    - [JuicyPotato: SeImpersonate or SeAssignPrimaryToken](juicypotato.md)
         - [PrintNightmare](printnightmare.md)
         - [Print Spooler / PrintSpoofer: SeImpersonatePrivilege + Windows Print Spooler service](printspoofer.md)
         - [SeDebugPrivilege](sedebugprivilege.md)
-	    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)  
+	    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)
 	- [Abusing Group privileges](windows-group-privileges.md)
+	- [UAC User Account Control](uac-user-account-control.md)
+	- [Abusing weak permissions](windows-abusing-weak-permissions.md)
 	- Services:
 		- [Abusing processes in windows](abusing-processes-windows.md)
 		- DLL Hacking
@@ -66,7 +69,14 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	    - [Windows binaries: LOLBAS](windows-binaries.md).
 	    - bin Path.
 	    - Creating a service with PsExec.
-	- Kernel.
+	- [Kernel exploits](windows-kernel-exploits.md):
+	    - MS08-067.
+	    - MS17-010 (EternalBlue).
+	    - ALPC Task Scheduler 0-Day.
+	    - [HiveNightmare, aka SeriosSam (CVE-2021-36934)](hivenightmare.md).
+	    - [PrintNightmare](printnightmare.md).
+	    - [Print Spooler](printspoofer.md).
+	    - Enumerating Missing Patches.
 	- Password Mining:
 		- [Cached SAM](active-directory-from-windows-privilege-escalation.md#attacking-sam).
 		- [Cached LSASS](active-directory-from-windows-privilege-escalation.md#attacking-lsass).
@@ -90,16 +100,17 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 - [CrackMapexec](crackmapexec.md).
 - [mimikatz](mimikatz.md).
+- 
 
 
 ## Prominent Windows Exploits
 
-| **Vulnerability** | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `MS08-067`        | MS08-067 was a critical patch pushed out to many different Windows revisions due to an SMB flaw. This flaw made it extremely easy to infiltrate a Windows host. It was so efficient that the Conficker worm was using it to infect every vulnerable host it came across. Even Stuxnet took advantage of this vulnerability.                                                                                                                                                                                      |
-| `Eternal Blue`    | MS17-010 is an exploit leaked in the Shadow Brokers dump from the NSA. This exploit was most notably used in the WannaCry ransomware and NotPetya cyber attacks. This attack took advantage of a flaw in the SMB v1 protocol allowing for code execution. EternalBlue is believed to have infected upwards of 200,000 hosts just in 2017 and is still a common way to find access into a vulnerable Windows host.                                                                                                |
-| `PrintNightmare`  | A remote code execution vulnerability in the Windows Print Spooler. With valid credentials for that host or a low privilege shell, you can install a printer, add a driver that runs for you, and grants you system-level access to the host. This vulnerability has been ravaging companies through 2021. 0xdf wrote an awesome post on it [here](https://0xdf.gitlab.io/2021/07/08/playing-with-printnightmare.html).                                                                                          |
-| `BlueKeep`        | CVE 2019-0708 is a vulnerability in Microsoft's RDP protocol that allows for Remote Code Execution. This vulnerability took advantage of a miss-called channel to gain code execution, affecting every Windows revision from Windows 2000 to Server 2008 R2.                                                                                                                                                                                                                                                     |
-| `Sigred`          | CVE 2020-1350 utilized a flaw in how DNS reads SIG resource records. It is a bit more complicated than the other exploits on this list, but if done correctly, it will give the attacker Domain Admin privileges since it will affect the domain's DNS server which is commonly the primary Domain Controller.                                                                                                                                                                                                   |
-| `SeriousSam`      | CVE 2021-36924 exploits an issue with the way Windows handles permission on the `C:\Windows\system32\config` folder. Before fixing the issue, non-elevated users have access to the SAM database, among other files. This is not a huge issue since the files can't be accessed while in use by the pc, but this gets dangerous when looking at volume shadow copy backups. These same privilege mistakes exist on the backup files as well, allowing an attacker to read the SAM database, dumping credentials. |
-| `Zerologon`       | CVE 2020-1472 is a critical vulnerability that exploits a cryptographic flaw in Microsoft’s Active Directory Netlogon Remote Protocol (MS-NRPC). It allows users to log on to servers using NT LAN Manager (NTLM) and even send account changes via the protocol. The attack can be a bit complex, but it is trivial to execute since an attacker would have to make around 256 guesses at a computer account password before finding what they need. This can happen in a matter of a few seconds.              |
+| **Vulnerability**                     | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `MS08-067`                            | MS08-067 was a critical patch pushed out to many different Windows revisions due to an SMB flaw. This flaw made it extremely easy to infiltrate a Windows host. It was so efficient that the Conficker worm was using it to infect every vulnerable host it came across. Even Stuxnet took advantage of this vulnerability.                                                                                                                                                                                      |
+| MS17-010 Also known as `Eternal Blue` | MS17-010 is an exploit leaked in the Shadow Brokers dump from the NSA. This exploit was most notably used in the WannaCry ransomware and NotPetya cyber attacks. This attack took advantage of a flaw in the SMB v1 protocol allowing for code execution. EternalBlue is believed to have infected upwards of 200,000 hosts just in 2017 and is still a common way to find access into a vulnerable Windows host.                                                                                                |
+| [PrintNightmare](printnightmare.md)   | A remote code execution vulnerability in the Windows Print Spooler. With valid credentials for that host or a low privilege shell, you can install a printer, add a driver that runs for you, and grants you system-level access to the host. This vulnerability has been ravaging companies through 2021. 0xdf wrote an awesome post on it [here](https://0xdf.gitlab.io/2021/07/08/playing-with-printnightmare.html).                                                                                          |
+| `BlueKeep`                            | CVE 2019-0708 is a vulnerability in Microsoft's RDP protocol that allows for Remote Code Execution. This vulnerability took advantage of a miss-called channel to gain code execution, affecting every Windows revision from Windows 2000 to Server 2008 R2.                                                                                                                                                                                                                                                     |
+| `Sigred`                              | CVE 2020-1350 utilized a flaw in how DNS reads SIG resource records. It is a bit more complicated than the other exploits on this list, but if done correctly, it will give the attacker Domain Admin privileges since it will affect the domain's DNS server which is commonly the primary Domain Controller.                                                                                                                                                                                                   |
+| `SeriousSam`                          | CVE 2021-36924 exploits an issue with the way Windows handles permission on the `C:\Windows\system32\config` folder. Before fixing the issue, non-elevated users have access to the SAM database, among other files. This is not a huge issue since the files can't be accessed while in use by the pc, but this gets dangerous when looking at volume shadow copy backups. These same privilege mistakes exist on the backup files as well, allowing an attacker to read the SAM database, dumping credentials. |
+| `Zerologon`                           | CVE 2020-1472 is a critical vulnerability that exploits a cryptographic flaw in Microsoft’s Active Directory Netlogon Remote Protocol (MS-NRPC). It allows users to log on to servers using NT LAN Manager (NTLM) and even send account changes via the protocol. The attack can be a bit complex, but it is trivial to execute since an attacker would have to make around 256 guesses at a computer account password before finding what they need. This can happen in a matter of a few seconds.              |

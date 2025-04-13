@@ -11,10 +11,9 @@ tags:
 # Privilege escalation in Active Directory from Windows
 
 !!! quotes "Resources"
-	- [TheHacker.recipes](https://www.thehacker.recipes/ad/movement/dacl/forcechangepassword#forcechangepassword
+	- [TheHacker.recipes](https://www.thehacker.recipes/ad/movement/dacl/forcechangepassword#forcechangepassword)
 
 [Index of Active Directory](active-directory.md)
-
 [Hardening and auditing Active Directory ](hardening-auditing-active-directory.md)
 
 !!! tip "Attacking from linux"

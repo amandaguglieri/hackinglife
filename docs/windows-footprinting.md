@@ -30,6 +30,12 @@ Get-HotFix | ft -AutoSize
 tasklist /svc
 ```
 
+Print Windows version:
+
+```powershell
+[environment]::OSVersion.Version
+```
+
 It is essential to become familiar with standard Windows processes such as [Session Manager Subsystem (smss.exe)](https://en.wikipedia.org/wiki/Session_Manager_Subsystem), [Client Server Runtime Subsystem (csrss.exe)](https://en.wikipedia.org/wiki/Client/Server_Runtime_Subsystem), [WinLogon (winlogon.exe)](https://en.wikipedia.org/wiki/Winlogon), [Local Security Authority Subsystem Service (LSASS)](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service), and [Service Host (svchost.exe)](https://en.wikipedia.org/wiki/Svchost.exe), among others
 
 Environment variables:
@@ -121,6 +127,24 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 Get-AppLockerPolicy -Local | Test-AppLockerPolicy -path C:\Windows\System32\cmd.exe -User Everyone
 ```
 
+#### UAC
+
+[See User Account Control (UAC).](uac-user-account-control.md)
+
+**Confirming UAC is Enabled:**
+
+```cmd-session
+REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA
+```
+
+Output:
+
+```
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
+EnableLUA    REG_DWORD    0x1
+```
+
+REG_DWORD 0x1: The value 1 means UAC is turned ON.
 
 ## Processes
 
@@ -133,6 +157,9 @@ netstat -ano
 
 The main thing to look for with Active Network Connections are entries listening on loopback addresses (127.0.0.1 and ::1) that are not listening on the IP Address (10.129.43.8) or broadcast (0.0.0.0, ::/0).
 
+## PsService
+
+We can use  [PsService](https://docs.microsoft.com/en-us/sysinternals/downloads/psservice), which is part of the Sysinternals suite, to check permissions on the service.
 
 ## Nmap and TTL
 Nmap script

