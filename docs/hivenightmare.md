@@ -19,7 +19,7 @@ tags:
 
 The following [script](https://github.com/GossiTheDog/HiveNightmare/blob/master/Mitigation.ps1) can be used to detect the flaw and also fix the ACL issue. Let's take a look.
 
-```
+```powershell
 # Fix HiveNightmare ACLs and snapshots
 # v1.0
 
@@ -39,8 +39,6 @@ else {
     $vulnerable = $false
 }
 
- 
-
 #check permissions
 if ($vulnerable -eq $true) {
     $checkPermissions = icacls C:\windows\system32\config\sam
@@ -53,8 +51,6 @@ if ($vulnerable -eq $true) {
         Write-Host "Successfully reset permission inheritance on affected files."
     }
 }
-
- 
 
 #check shadow
 if ($vulnerable -eq $true) {
@@ -69,8 +65,6 @@ if ($vulnerable -eq $true) {
     }
 }
 
- 
-
 #check if fixed logic
 if ($vulnerable -eq $true) {
     if ($permissionsSucces -eq $true -and $shadowSucces -eq $true) {
@@ -84,15 +78,11 @@ else {
     $fixed = 'Not applicable'
 }
 
- 
-
 #create new shadow
 if ($vulnerable -eq $true -and $shadowSucces -eq $true -and $permissionsSucces -eq $true) {
     wmic shadowcopy call create Volume='C:\'
     Write-Host ""
 }
-
- 
 
 #output data
 write-host "vulnerable: $vulnerable"

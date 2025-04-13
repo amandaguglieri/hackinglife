@@ -51,12 +51,13 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 	- User privileges:
 		- [Abusing User privileges](windows-user-privileges.md)
+			- [SeImpersonatePrivilege](seimpersonateprivilege.md)
+			    - [JuicyPotato: SeImpersonate or SeAssignPrimaryToken](juicypotato.md)
+		        - [PrintNightmare](printnightmare.md)
+		        - [Print Spooler / PrintSpoofer: SeImpersonatePrivilege + Windows Print Spooler service](printspoofer.md)
+	        - [SeDebugPrivilege](sedebugprivilege.md)
+		    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)
 		- [Scripts for enabling privileges](script-for-enabling-privileges.md)
-	    - [JuicyPotato: SeImpersonate or SeAssignPrimaryToken](juicypotato.md)
-        - [PrintNightmare](printnightmare.md)
-        - [Print Spooler / PrintSpoofer: SeImpersonatePrivilege + Windows Print Spooler service](printspoofer.md)
-        - [SeDebugPrivilege](sedebugprivilege.md)
-	    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)
 	- [Abusing Group privileges](windows-group-privileges.md)
 	- [UAC User Account Control](uac-user-account-control.md)
 	- [Abusing weak permissions](windows-abusing-weak-permissions.md)
@@ -77,7 +78,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	    - [PrintNightmare](printnightmare.md).
 	    - [Print Spooler](printspoofer.md).
 	    - Enumerating Missing Patches.
-	- Password Mining:
+	- Password Mining:ll
 		- [Cached SAM](active-directory-from-windows-privilege-escalation.md#attacking-sam).
 		- [Cached LSASS](active-directory-from-windows-privilege-escalation.md#attacking-lsass).
 		- [Pass The Hash](pass-the-hash.md).

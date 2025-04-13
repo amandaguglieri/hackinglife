@@ -127,7 +127,7 @@ Major  Minor  Build  Revision
 
 To match the Build with the version see: [https://en.wikipedia.org/wiki/Windows_10_version_history](https://en.wikipedia.org/wiki/Windows_10_version_history)
 
-The [UACME](uacme.md) project maintains a list of UAC bypasses, including information on the affected Windows build number, the technique used, and if Microsoft has issued a security update to fix it.
+The UACME project (see below) maintains a list of UAC bypasses, including information on the affected Windows build number, the technique used, and if Microsoft has issued a security update to fix it.
 
 ## SystemPropertiesAdvanced.exe DLL Hijacking UAC Bypass
 
