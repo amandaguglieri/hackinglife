@@ -22,7 +22,7 @@ With those credentials you can follow instructions from this [impacket module](1
 
 With that, you will get user.txt in Desktop.
 
-For escalation of privileges, see technique [Recently accessed files and executed commands](windows-privilege-escalation-history.md). 
+For escalation of privileges, see technique [Recently accessed files and executed commands](windows-credentials.md). 
 
 ```ps
 type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt

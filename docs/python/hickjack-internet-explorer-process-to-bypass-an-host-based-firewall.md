@@ -47,7 +47,7 @@ From course: [Python For Offensive PenTest: A Complete Practical Course](https:/
 		- [Weak service file permission](privilege-escalation.md).
 
 
-For our script to bypass a host-based firewall (based on an ACL), we will hickjack the Internet Explorer process to conceal our traffick and bypass it.
+For our script to bypass a host-based firewall (based on an ACL), we will hijack the Internet Explorer process to conceal our traffic and bypass it.
 
 ## Client side
 

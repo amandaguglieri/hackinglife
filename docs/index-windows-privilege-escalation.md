@@ -61,15 +61,6 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	- [Abusing Group privileges](windows-group-privileges.md)
 	- [UAC User Account Control](uac-user-account-control.md)
 	- [Abusing weak permissions](windows-abusing-weak-permissions.md)
-	- Services:
-		- [Abusing processes in windows](abusing-processes-windows.md)
-		- DLL Hacking
-	    - Uniqued Path
-	    - [Named Pipes](named-pipes.md)
-	    - Registry.
-	    - [Windows binaries: LOLBAS](windows-binaries.md).
-	    - bin Path.
-	    - Creating a service with PsExec.
 	- [Kernel exploits](windows-kernel-exploits.md):
 	    - MS08-067.
 	    - MS17-010 (EternalBlue).
@@ -78,13 +69,23 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	    - [PrintNightmare](printnightmare.md).
 	    - [Print Spooler](printspoofer.md).
 	    - Enumerating Missing Patches.
-	- Password Mining:ll
+	    - CVE-2020-0668: Windows Service Tracing
+	- Services:
+		- [Abusing processes in windows](abusing-processes-windows.md)
+		- [Abusing vulnerable services](abusing-vulnerable-services.md)
+		- [DLL Injection](dll-injection.md)
+	    - Uniqued Path
+	    - [Named Pipes](named-pipes.md)
+	    - Registry.
+	    - [Windows binaries: LOLBAS](windows-binaries.md).
+	    - bin Path.
+	    - Creating a service with PsExec.
+	- Password Mining:
+		- [Credentials Hunting](windows-credentials.md)
 		- [Cached SAM](active-directory-from-windows-privilege-escalation.md#attacking-sam).
 		- [Cached LSASS](active-directory-from-windows-privilege-escalation.md#attacking-lsass).
 		- [Pass The Hash](pass-the-hash.md).
-		- Configuration files: unattend.xml, SiteList.xml, web.config, vnc.ini.
 		- Logs.
-		- [Credentials in recently accessed files/executed commands](windows-privilege-escalation-history.md)
 		- Memory: mimiktenz, Process Dump (minidump).
 		- .rdp Files.
 		- Registry: HKCU\Software\USERNAME\PuTTY\Sessions, AutoLogon, VNC.
