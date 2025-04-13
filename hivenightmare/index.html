@@ -64,6 +64,8 @@
     
       <link rel="stylesheet" href="../css/extra.css">
     
+      <link rel="stylesheet" href="../css/timeago.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -20352,16 +20354,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -20399,13 +20391,61 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_3_2_1" id="__nav_15_3_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Abusing user privileges
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_15_3_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_3_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Abusing user privileges
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../windows-user-privileges/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Abusing user privileges
+    Index
     
   </span>
   
@@ -20422,13 +20462,61 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3_2_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_15_3_2_1_2" id="__nav_15_3_2_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    SeImpersonatePrivilege
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_15_3_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_3_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            SeImpersonatePrivilege
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../script-for-enabling-privileges/" class="md-nav__link">
+      <a href="../seimpersonateprivilege/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Scripts for enabling privileges
+    SeImpersonatePrivilege
     
   </span>
   
@@ -20508,6 +20596,37 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setakeownershipprivilege/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SeTakeOwnershipPrivilege
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
               
                 
   
@@ -20531,6 +20650,14 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
               
                 
   
@@ -20538,12 +20665,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../setakeownershipprivilege/" class="md-nav__link">
+      <a href="../script-for-enabling-privileges/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    SeTakeOwnershipPrivilege
+    Scripts for enabling privileges
     
   </span>
   
@@ -21631,7 +21758,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </div>
 <p><code>CVE-2021-36934 HiveNightmare, aka SeriousSam</code> is a Windows 10 flaw that results in ANY user having rights to read the Windows registry and access sensitive information regardless of privilege level. Researchers quickly developed a PoC exploit to allow reading of the SAM, SYSTEM, and SECURITY registry hives and create copies of them to process offline later and extract password hashes (including local admin) using a tool such as SecretsDump.py. More information about this flaw can be found <a href="https://doublepulsar.com/hivenightmare-aka-serioussam-anybody-can-read-the-registry-in-windows-10-7a871c465fa5">here</a> and <a href="https://github.com/GossiTheDog/HiveNightmare/raw/master/Release/HiveNightmare.exe">this</a> exploit binary can be used to create copies of the three files to our working directory. </p>
 <p>The following <a href="https://github.com/GossiTheDog/HiveNightmare/blob/master/Mitigation.ps1">script</a> can be used to detect the flaw and also fix the ACL issue. Let's take a look.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
 <span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
@@ -21697,93 +21824,73 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-64">64</a></span>
 <span class="normal"><a href="#__codelineno-0-65">65</a></span>
 <span class="normal"><a href="#__codelineno-0-66">66</a></span>
-<span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span>
-<span class="normal"><a href="#__codelineno-0-69">69</a></span>
-<span class="normal"><a href="#__codelineno-0-70">70</a></span>
-<span class="normal"><a href="#__codelineno-0-71">71</a></span>
-<span class="normal"><a href="#__codelineno-0-72">72</a></span>
-<span class="normal"><a href="#__codelineno-0-73">73</a></span>
-<span class="normal"><a href="#__codelineno-0-74">74</a></span>
-<span class="normal"><a href="#__codelineno-0-75">75</a></span>
-<span class="normal"><a href="#__codelineno-0-76">76</a></span>
-<span class="normal"><a href="#__codelineno-0-77">77</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a># Fix HiveNightmare ACLs and snapshots
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a># v1.0
+<span class="normal"><a href="#__codelineno-0-67">67</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c"># Fix HiveNightmare ACLs and snapshots</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c"># v1.0</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a># Originally by unknown and adapted by @doctormay6 and @GossiTheDog
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c"># Originally by unknown and adapted by @doctormay6 and @GossiTheDog</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a># Schedule to run as SYSTEM in a deployment tool, test locally first
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a># Do not run on Windows Server in case you use VSS for backups
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="c"># Schedule to run as SYSTEM in a deployment tool, test locally first</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c"># Do not run on Windows Server in case you use VSS for backups</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>#change permissions and delete shadows
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>$checkPermissions = icacls c:\Windows\System32\config\sam
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>if ($checkPermissions -like &#39;*BUILTIN\Users:(I)(RX*)*&#39;) {
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>    icacls c:\windows\system32\config\*.* /inheritance:e
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>    vssadmin delete shadows /quiet /all
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>    $vulnerable = $true
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>}
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>else {
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>    $vulnerable = $false
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>}
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="c">#change permissions and delete shadows</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="nv">$checkPermissions</span> <span class="p">=</span> <span class="n">icacls</span> <span class="n">c</span><span class="p">:\</span><span class="n">Windows</span><span class="p">\</span><span class="n">System32</span><span class="p">\</span><span class="n">config</span><span class="p">\</span><span class="n">sam</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="k">if</span> <span class="p">(</span><span class="nv">$checkPermissions</span> <span class="o">-like</span> <span class="s1">&#39;*BUILTIN\Users:(I)(RX*)*&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="n">icacls</span> <span class="n">c</span><span class="p">:\</span><span class="n">windows</span><span class="p">\</span><span class="n">system32</span><span class="p">\</span><span class="n">config</span><span class="p">\*.*</span> <span class="p">/</span><span class="n">inheritance</span><span class="p">:</span><span class="n">e</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="n">vssadmin</span> <span class="n">delete</span> <span class="n">shadows</span> <span class="p">/</span><span class="n">quiet</span> <span class="p">/</span><span class="n">all</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="nv">$vulnerable</span> <span class="p">=</span> <span class="nv">$true</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="p">}</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="k">else</span> <span class="p">{</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="nv">$vulnerable</span> <span class="p">=</span> <span class="nv">$false</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="p">}</span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>#check permissions
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>if ($vulnerable -eq $true) {
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>    $checkPermissions = icacls C:\windows\system32\config\sam
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    if ($checkPermissions -like &#39;*BUILTIN\Users:(I)(RX*)*&#39;) {
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>        $permissionsSucces = $false
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>        write-host &quot;ACL change failed. Check permissions running script, e.g. run as SYSTEM.&quot;
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>    }
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    else {
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>        $permissionsSucces = $true
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>        Write-Host &quot;Successfully reset permission inheritance on affected files.&quot;
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>    }
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>}
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>#check shadow
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>if ($vulnerable -eq $true) {
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    $checkShadow = Get-WmiObject Win32_ShadowStorage -Property UsedSpace | Select-Object -ExpandProperty UsedSpace
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>    if (0 -eq $checkShadow) {
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>        $shadowSucces = $true
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>        Write-Host &quot;Successfully deleted old volume shadow copies.&quot;
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>    }
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>    else {
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>        $shadowSucces = $false
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>        write-host &quot;Shadow deletion failed. Security software may be blocking this action or check running permissions.&quot;
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>    }
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>}
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>#check if fixed logic
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>if ($vulnerable -eq $true) {
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>    if ($permissionsSucces -eq $true -and $shadowSucces -eq $true) {
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>        $fixed = $true
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>    }
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>    else {
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>        $fixed = $false
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>    }
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>}
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>else {
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>    $fixed = &#39;Not applicable&#39;
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>}
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="c">#check permissions</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="k">if</span> <span class="p">(</span><span class="nv">$vulnerable</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="nv">$checkPermissions</span> <span class="p">=</span> <span class="n">icacls</span> <span class="n">C</span><span class="p">:\</span><span class="n">windows</span><span class="p">\</span><span class="n">system32</span><span class="p">\</span><span class="n">config</span><span class="p">\</span><span class="n">sam</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="k">if</span> <span class="p">(</span><span class="nv">$checkPermissions</span> <span class="o">-like</span> <span class="s1">&#39;*BUILTIN\Users:(I)(RX*)*&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="nv">$permissionsSucces</span> <span class="p">=</span> <span class="nv">$false</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="nb">write-host</span> <span class="s2">&quot;ACL change failed. Check permissions running script, e.g. run as SYSTEM.&quot;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="p">}</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="k">else</span> <span class="p">{</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>        <span class="nv">$permissionsSucces</span> <span class="p">=</span> <span class="nv">$true</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>        <span class="nb">Write-Host</span> <span class="s2">&quot;Successfully reset permission inheritance on affected files.&quot;</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="p">}</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="p">}</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="c">#check shadow</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="k">if</span> <span class="p">(</span><span class="nv">$vulnerable</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="nv">$checkShadow</span> <span class="p">=</span> <span class="nb">Get-WmiObject</span> <span class="n">Win32_ShadowStorage</span> <span class="n">-Property</span> <span class="n">UsedSpace</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">UsedSpace</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="k">if</span> <span class="p">(</span><span class="n">0</span> <span class="o">-eq</span> <span class="nv">$checkShadow</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>        <span class="nv">$shadowSucces</span> <span class="p">=</span> <span class="nv">$true</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="nb">Write-Host</span> <span class="s2">&quot;Successfully deleted old volume shadow copies.&quot;</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="p">}</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="k">else</span> <span class="p">{</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="nv">$shadowSucces</span> <span class="p">=</span> <span class="nv">$false</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>        <span class="nb">write-host</span> <span class="s2">&quot;Shadow deletion failed. Security software may be blocking this action or check running permissions.&quot;</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="p">}</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="p">}</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="c">#check if fixed logic</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="k">if</span> <span class="p">(</span><span class="nv">$vulnerable</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="k">if</span> <span class="p">(</span><span class="nv">$permissionsSucces</span> <span class="o">-eq</span> <span class="nv">$true</span> <span class="o">-and</span> <span class="nv">$shadowSucces</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="nv">$fixed</span> <span class="p">=</span> <span class="nv">$true</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="p">}</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="k">else</span> <span class="p">{</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="nv">$fixed</span> <span class="p">=</span> <span class="nv">$false</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="p">}</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="p">}</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="k">else</span> <span class="p">{</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="nv">$fixed</span> <span class="p">=</span> <span class="s1">&#39;Not applicable&#39;</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="p">}</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="c">#create new shadow</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="k">if</span> <span class="p">(</span><span class="nv">$vulnerable</span> <span class="o">-eq</span> <span class="nv">$true</span> <span class="o">-and</span> <span class="nv">$shadowSucces</span> <span class="o">-eq</span> <span class="nv">$true</span> <span class="o">-and</span> <span class="nv">$permissionsSucces</span> <span class="o">-eq</span> <span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>    <span class="n">wmic</span> <span class="n">shadowcopy</span> <span class="n">call</span> <span class="n">create</span> <span class="n">Volume</span><span class="p">=</span><span class="s1">&#39;C:\&#39;</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="nb">Write-Host</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="p">}</span>
 </span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>#create new shadow
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>if ($vulnerable -eq $true -and $shadowSucces -eq $true -and $permissionsSucces -eq $true) {
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>    wmic shadowcopy call create Volume=&#39;C:\&#39;
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>    Write-Host &quot;&quot;
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>}
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>#output data
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>write-host &quot;vulnerable: $vulnerable&quot;
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>write-host &quot;Fixed: $fixed&quot;
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="c">#output data</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="nb">write-host</span> <span class="s2">&quot;vulnerable: $vulnerable&quot;</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="nb">write-host</span> <span class="s2">&quot;Fixed: $fixed&quot;</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="checking-permissions-on-the-sam-file">Checking Permissions on the SAM File</h2>
 <p>We can check for this vulnerability using icacls to check permissions on the SAM file. </p>
@@ -22001,7 +22108,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 13, 2025 08:35:24"><span class="timeago" datetime="2025-04-13T08:35:24+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 13, 2025 08:35:24">2025-04-13</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 13, 2025 13:19:01"><span class="timeago" datetime="2025-04-13T13:19:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 13, 2025 13:19:01">2025-04-13</span></small></br>
 
 
     <small>Created: April 13, 2025 08:35:24</small>
