@@ -12,13 +12,13 @@
         <meta name="author" content="amandaguglieri">
       
       
-        <link rel="canonical" href="https://amandaguglieri.github.io/hackinglife/windows-privilege-escalation-history/">
+        <link rel="canonical" href="https://amandaguglieri.github.io/hackinglife/execution-policy-bypasses/">
       
       
-        <link rel="prev" href="../access-control-list-abuse/">
+        <link rel="prev" href="../windows-credentials-storage/">
       
       
-        <link rel="next" href="../arp-poisoning/">
+        <link rel="next" href="../windows-footprinting/">
       
       
       <link rel="icon" href="../img/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Recently accessed files and executed commands - Hacking Life</title>
+        <title>Execution Policy bypasses - Hacking Life</title>
       
     
     
@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#windows-privilege-escalation-recently-accessed-files-and-executed-commands" class="md-skip">
+        <a href="#execution-policy-bypasses" class="md-skip">
           Skip to content
         </a>
       
@@ -128,7 +128,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Recently accessed files and executed commands
+              Execution Policy bypasses
             
           </span>
         </div>
@@ -20161,6 +20161,8 @@
       
         
       
+        
+      
     
     
     
@@ -20219,6 +20221,116 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Execution Policy bypasses
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Execution Policy bypasses
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-bypass-execution-policy-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use the "Bypass" Execution Policy Flag
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-unrestricted-execution-policy-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use the "Unrestricted" Execution Policy Flag
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-executionpolicy-for-the-process-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set the ExecutionPolicy for the Process Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-executionpolicy-for-the-currentuser-scope-via-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set the ExecutionPolicy for the CurrentUser Scope via Command
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-executionpolicy-for-the-currentuser-scope-via-the-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set the ExecutionPolicy for the CurrentUser Scope via the Registry
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
@@ -20242,14 +20354,10 @@
                 
   
   
-    
   
   
-  
     
     
-      
-        
       
         
       
@@ -20291,14 +20399,14 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_4" >
         
           
-          <label class="md-nav__link" for="__nav_15_3" id="__nav_15_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15_4" id="__nav_15_4_label" tabindex="0">
             
   
   
@@ -20311,8 +20419,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_15_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_4">
             <span class="md-nav__icon md-icon"></span>
             Privilege Escalation
           </label>
@@ -20362,10 +20470,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_4_2" >
         
           
-          <label class="md-nav__link" for="__nav_15_3_2" id="__nav_15_3_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15_4_2" id="__nav_15_4_2_label" tabindex="0">
             
   
   
@@ -20378,8 +20486,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_15_3_2">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_4_2">
             <span class="md-nav__icon md-icon"></span>
             User privileges
           </label>
@@ -20410,10 +20518,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3_2_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_4_2_1" >
         
           
-          <label class="md-nav__link" for="__nav_15_3_2_1" id="__nav_15_3_2_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15_4_2_1" id="__nav_15_4_2_1_label" tabindex="0">
             
   
   
@@ -20426,8 +20534,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_15_3_2_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_15_3_2_1">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_15_4_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_4_2_1">
             <span class="md-nav__icon md-icon"></span>
             Abusing user privileges
           </label>
@@ -20481,10 +20589,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3_2_1_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_4_2_1_2" >
         
           
-          <label class="md-nav__link" for="__nav_15_3_2_1_2" id="__nav_15_3_2_1_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15_4_2_1_2" id="__nav_15_4_2_1_2_label" tabindex="0">
             
   
   
@@ -20497,8 +20605,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_15_3_2_1_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_15_3_2_1_2">
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_15_4_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_4_2_1_2">
             <span class="md-nav__icon md-icon"></span>
             SeImpersonatePrivilege
           </label>
@@ -20773,6 +20881,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -20781,10 +20893,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_4_6" >
         
           
-          <label class="md-nav__link" for="__nav_15_3_6" id="__nav_15_3_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15_4_6" id="__nav_15_4_6_label" tabindex="0">
             
   
   
@@ -20797,8 +20909,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_3_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_15_3_6">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_4_6">
             <span class="md-nav__icon md-icon"></span>
             Services
           </label>
@@ -20817,6 +20929,52 @@
   
   <span class="md-ellipsis">
     Abusing processes in windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abusing-vulnerable-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Abusing vulnerable services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dll-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DLL injections
     
   </span>
   
@@ -20906,10 +21064,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_4_7" >
         
           
-          <label class="md-nav__link" for="__nav_15_3_7" id="__nav_15_3_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15_4_7" id="__nav_15_4_7_label" tabindex="0">
             
   
   
@@ -20922,8 +21080,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_3_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_15_3_7">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_4_7">
             <span class="md-nav__icon md-icon"></span>
             Kernel exploits
           </label>
@@ -21044,6 +21202,8 @@
       
         
       
+        
+      
     
     
     
@@ -21052,10 +21212,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_3_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_4_8" >
         
           
-          <label class="md-nav__link" for="__nav_15_3_8" id="__nav_15_3_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15_4_8" id="__nav_15_4_8_label" tabindex="0">
             
   
   
@@ -21068,12 +21228,35 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_3_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_15_3_8">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_15_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_4_8">
             <span class="md-nav__icon md-icon"></span>
             Password Mining
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credentials hunting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -21170,39 +21353,6 @@
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    Access to history of access to files or commands
-    
-  </span>
-  
-
-      </a>
-      
     </li>
   
 
@@ -21442,10 +21592,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15_5" >
         
           
-          <label class="md-nav__link" for="__nav_15_4" id="__nav_15_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_15_5" id="__nav_15_5_label" tabindex="0">
             
   
   
@@ -21458,8 +21608,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_15_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_15_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15_5">
             <span class="md-nav__icon md-icon"></span>
             Persistence
           </label>
@@ -21655,6 +21805,59 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-bypass-execution-policy-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use the "Bypass" Execution Policy Flag
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-unrestricted-execution-policy-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use the "Unrestricted" Execution Policy Flag
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-executionpolicy-for-the-process-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set the ExecutionPolicy for the Process Scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-executionpolicy-for-the-currentuser-scope-via-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set the ExecutionPolicy for the CurrentUser Scope via Command
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-executionpolicy-for-the-currentuser-scope-via-the-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set the ExecutionPolicy for the CurrentUser Scope via the Registry
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -21670,17 +21873,54 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 
-<h1 id="windows-privilege-escalation-recently-accessed-files-and-executed-commands">Windows: Privilege Escalation - Recently accessed files and executed commands</h1>
-<p>Check recently accessed files/executed commands. Mostly (default) our console history will be saved in </p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>C:\Users\&lt;account_name&gt;\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt . 
+<h1 id="execution-policy-bypasses">Execution Policy bypasses</h1>
+<p>Source: https://www.netspi.com/blog/technical-blog/network-penetration-testing/15-ways-to-bypass-the-powershell-execution-policy/</p>
+<p>The PowerShell execution policy is the setting that determines which type of PowerShell scripts (if any) can be run on the system. By default it is set to “Restricted“, which basically means none. However, it’s important to understand that the setting was never meant to be a security control.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c"># Check the execution policy:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="nb">Get-ExecutionPolicy</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c">#  print the execution policy settings for each scope on a host.</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="nb">Get-ExecutionPolicy</span> <span class="n">-List</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Example of output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>Scope ExecutionPolicy                                             ----- ---------------                                             MachinePolicy    Unrestricted
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>UserPolicy       Undefined
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>Process       Undefined
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>CurrentUser       Undefined
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>LocalMachine       Undefined  
+</span></code></pre></div></td></tr></table></div>
+<h2 id="use-the-bypass-execution-policy-flag">Use the "Bypass" Execution Policy Flag</h2>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="n">PowerShell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="p">.</span><span class="n">runme</span><span class="p">.</span><span class="n">ps1</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="use-the-unrestricted-execution-policy-flag">Use the "Unrestricted" Execution Policy Flag</h2>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="n">PowerShell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-ExecutionPolicy</span> <span class="n">UnRestricted</span> <span class="o">-File</span> <span class="p">.</span><span class="n">runme</span><span class="p">.</span><span class="n">ps1</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="set-the-executionpolicy-for-the-process-scope">Set the ExecutionPolicy for the Process Scope</h2>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>#This will change the policy for our current process using the -Scope parameter. Doing so will revert the policy once we vacate the process or terminate it. This is ideal because we won&#39;t be making a permanent change to the victim host.
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>Set-ExecutionPolicy Bypass -Scope Process   
+</span></code></pre></div></td></tr></table></div>
+<h2 id="set-the-executionpolicy-for-the-currentuser-scope-via-command">Set the ExecutionPolicy for the CurrentUser Scope via Command</h2>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nb">Set-Executionpolicy</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span> <span class="n">-ExecutionPolicy</span> <span class="n">UnRestricted</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="set-the-executionpolicy-for-the-currentuser-scope-via-the-registry">Set the ExecutionPolicy for the CurrentUser Scope via the Registry</h2>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>HKEY_CURRENT_USERSoftwareMicrosoftPowerShell1ShellIdsMicrosoft.PowerShell
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 23, 2023 19:52:08"><span class="timeago" datetime="2023-04-23T19:52:08+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 23, 2023 19:52:08">2023-04-23</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 13, 2025 19:25:48"><span class="timeago" datetime="2025-04-13T19:25:48+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 13, 2025 19:25:48">2025-04-13</span></small></br>
 
 
-    <small>Created: April 23, 2023 19:52:08</small>
+    <small>Created: April 13, 2025 19:25:48</small>
 
 
                 
