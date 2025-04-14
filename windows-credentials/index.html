@@ -21392,6 +21392,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#wifi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wifi
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#password-managers" class="md-nav__link">
     <span class="md-ellipsis">
       Password Managers
@@ -22173,6 +22182,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#wifi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wifi
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#password-managers" class="md-nav__link">
     <span class="md-ellipsis">
       Password Managers
@@ -22409,63 +22427,109 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>6.</strong> Check Scheduled Tasks: Sometimes credentials are stored in scheduled tasks.</p>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="nb">Get-ScheduledTask</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nb">Get-ScheduledTaskInfo</span> <span class="n">-TaskName</span> <span class="nv">$_</span><span class="p">.</span><span class="n">TaskName</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="n">-Pattern</span> <span class="s2">&quot;password|user&quot;</span>
 </span></code></pre></div></td></tr></table></div>
+<p><strong>7.</strong> Putty sessions</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="n">reg</span> <span class="n">query</span> <span class="n">HKEY_CURRENT_USER</span><span class="p">\</span><span class="n">SOFTWARE</span><span class="p">\</span><span class="n">SimonTatham</span><span class="p">\</span><span class="n">PuTTY</span><span class="p">\</span><span class="n">Sessions</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\kali%20ssh
+</span></code></pre></div></td></tr></table></div>
+<p>Next, we look at the keys and values of the discovered session "<code>kali%20ssh</code>":</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>reg query HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\kali%20ssh
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-26-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-26-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-26-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-26-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-26-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-26-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-26-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-26-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-26-10">10</a></span>
+<span class="normal"><a href="#__codelineno-26-11">11</a></span>
+<span class="normal"><a href="#__codelineno-26-12">12</a></span>
+<span class="normal"><a href="#__codelineno-26-13">13</a></span>
+<span class="normal"><a href="#__codelineno-26-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\kali%20ssh
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a>    Present    REG_DWORD    0x1
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a>    HostName    REG_SZ
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4"></a>    LogFileName    REG_SZ    putty.log
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5"></a>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6"></a>  &lt;SNIP&gt;
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7"></a>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8"></a>    ProxyDNS    REG_DWORD    0x1
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9"></a>    ProxyLocalhost    REG_DWORD    0x0
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10"></a>    ProxyMethod    REG_DWORD    0x5
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11"></a>    ProxyHost    REG_SZ    proxy
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12"></a>    ProxyPort    REG_DWORD    0x50
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13"></a>    ProxyUsername    REG_SZ    administrator
+</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14"></a>    ProxyPassword    REG_SZ    1_4m_th3_@cademy_4dm1n!  
+</span></code></pre></div></td></tr></table></div>
+<h2 id="wifi">Wifi</h2>
+<p>If we obtain local admin access to a user's workstation with a wireless card, we can list out any wireless networks they have recently connected to.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>netsh wlan show profile
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Retrieving Saved Wireless Passwords</strong>: Depending on the network configuration, we can retrieve the pre-shared key (<code>Key Content</code> below) and potentially access the target network.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a>netsh wlan show profile ilfreight_corp key=clear
+</span></code></pre></div></td></tr></table></div>
 <h2 id="password-managers">Password Managers</h2>
 <p>Many companies provide password managers to their users. This may be in the form of a desktop application such as <code>KeePass</code>, a cloud-based solution such as <code>1Password</code>, or an enterprise password vault such as <code>Thycotic</code> or <code>CyberArk</code>.</p>
 <p>Some password managers such as <code>KeePass</code> are stored locally on the host. If we find a <code>.kdbx</code> file on a server, workstation, or file share, we know we are dealing with a <code>KeePass</code> database which is often protected by just a master password. If we can download a <code>.kdbx</code> file to our attacking host, we can use a tool such as <a href="https://gist.githubusercontent.com/HarmJ0y/116fa1b559372804877e604d7d367bbc/raw/c0c6f45ad89310e61ec0363a69913e966fe17633/keepass2john.py">keepass2john</a> to extract the password hash and run it through a password cracking tool such as <a href="https://github.com/hashcat">Hashcat</a> or <a href="https://github.com/openwall/john">John the Ripper</a>.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
-<span class="normal"><a href="#__codelineno-23-2">2</a></span>
-<span class="normal"><a href="#__codelineno-23-3">3</a></span>
-<span class="normal"><a href="#__codelineno-23-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="go">python2.7 keepass2john.py ILFREIGHT_Help_Desk.kdbx </span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="gp"># </span>Cracking<span class="w"> </span>Hash<span class="w"> </span>Offline
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a><span class="go">hashcat -m 13400 keepass_hash /opt/useful/seclists/Passwords/Leaked-Databases/rockyou.txt</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span>
+<span class="normal"><a href="#__codelineno-29-2">2</a></span>
+<span class="normal"><a href="#__codelineno-29-3">3</a></span>
+<span class="normal"><a href="#__codelineno-29-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a><span class="go">python2.7 keepass2john.py ILFREIGHT_Help_Desk.kdbx </span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a><span class="gp"># </span>Cracking<span class="w"> </span>Hash<span class="w"> </span>Offline
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4"></a><span class="go">hashcat -m 13400 keepass_hash /opt/useful/seclists/Passwords/Leaked-Databases/rockyou.txt</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="email">Email</h2>
 <p>If we gain access to a domain-joined system in the context of a domain user with a Microsoft Exchange inbox, we can attempt to search the user's email for terms such as "pass," "creds," "credentials," etc. using the tool <a href="https://github.com/dafthack/MailSniper">MailSniper</a>.</p>
 <h2 id="other-files">Other files</h2>
 <p>In an Active Directory environment, we can use a tool such as <a href="https://github.com/SnaffCon/Snaffler">Snaffler</a> to crawl network share drives for interesting file extensions such as <code>.kdbx</code>, <code>.vmdk</code>, <code>.vdhx</code>, <code>.ppk</code>, etc.</p>
 <p>Some other files we may find credentials in include the following:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-24-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-24-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-24-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-24-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-24-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-24-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-24-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-24-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-24-10">10</a></span>
-<span class="normal"><a href="#__codelineno-24-11">11</a></span>
-<span class="normal"><a href="#__codelineno-24-12">12</a></span>
-<span class="normal"><a href="#__codelineno-24-13">13</a></span>
-<span class="normal"><a href="#__codelineno-24-14">14</a></span>
-<span class="normal"><a href="#__codelineno-24-15">15</a></span>
-<span class="normal"><a href="#__codelineno-24-16">16</a></span>
-<span class="normal"><a href="#__codelineno-24-17">17</a></span>
-<span class="normal"><a href="#__codelineno-24-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="gp">%</span>SYSTEMDRIVE%<span class="se">\p</span>agefile.sys
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="gp">%</span>WINDIR%<span class="se">\d</span>ebug<span class="se">\N</span>etSetup.log
-</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3"></a><span class="gp">%</span>WINDIR%<span class="se">\r</span>epair<span class="se">\s</span>am
-</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="gp">%</span>WINDIR%<span class="se">\r</span>epair<span class="se">\s</span>ystem
-</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5"></a><span class="gp">%</span>WINDIR%<span class="se">\r</span>epair<span class="se">\s</span>oftware,<span class="w"> </span>%WINDIR%<span class="se">\r</span>epair<span class="se">\s</span>ecurity
-</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6"></a><span class="gp">%</span>WINDIR%<span class="se">\i</span>is6.log
-</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\A</span>ppEvent.Evt
-</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\S</span>ecEvent.Evt
-</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\d</span>efault.sav
-</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\s</span>ecurity.sav
-</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\s</span>oftware.sav
-</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\s</span>ystem.sav
-</span><span id="__span-24-13"><a id="__codelineno-24-13" name="__codelineno-24-13"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\C</span>CM<span class="se">\l</span>ogs<span class="se">\*</span>.log
-</span><span id="__span-24-14"><a id="__codelineno-24-14" name="__codelineno-24-14"></a><span class="gp">%</span>USERPROFILE%<span class="se">\n</span>tuser.dat
-</span><span id="__span-24-15"><a id="__codelineno-24-15" name="__codelineno-24-15"></a><span class="gp">%</span>USERPROFILE%<span class="se">\L</span>ocalS~1<span class="se">\T</span>empor~1<span class="se">\C</span>ontent.IE5<span class="se">\i</span>ndex.dat
-</span><span id="__span-24-16"><a id="__codelineno-24-16" name="__codelineno-24-16"></a><span class="gp">%</span>WINDIR%<span class="se">\S</span>ystem32<span class="se">\d</span>rivers<span class="se">\e</span>tc<span class="se">\h</span>osts
-</span><span id="__span-24-17"><a id="__codelineno-24-17" name="__codelineno-24-17"></a><span class="go">C:\ProgramData\Configs\*</span>
-</span><span id="__span-24-18"><a id="__codelineno-24-18" name="__codelineno-24-18"></a><span class="go">C:\Program Files\Windows PowerShell\*</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-30-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-30-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-30-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-30-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-30-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-30-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-30-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-30-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-30-10">10</a></span>
+<span class="normal"><a href="#__codelineno-30-11">11</a></span>
+<span class="normal"><a href="#__codelineno-30-12">12</a></span>
+<span class="normal"><a href="#__codelineno-30-13">13</a></span>
+<span class="normal"><a href="#__codelineno-30-14">14</a></span>
+<span class="normal"><a href="#__codelineno-30-15">15</a></span>
+<span class="normal"><a href="#__codelineno-30-16">16</a></span>
+<span class="normal"><a href="#__codelineno-30-17">17</a></span>
+<span class="normal"><a href="#__codelineno-30-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a><span class="gp">%</span>SYSTEMDRIVE%<span class="se">\p</span>agefile.sys
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2"></a><span class="gp">%</span>WINDIR%<span class="se">\d</span>ebug<span class="se">\N</span>etSetup.log
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3"></a><span class="gp">%</span>WINDIR%<span class="se">\r</span>epair<span class="se">\s</span>am
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4"></a><span class="gp">%</span>WINDIR%<span class="se">\r</span>epair<span class="se">\s</span>ystem
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5"></a><span class="gp">%</span>WINDIR%<span class="se">\r</span>epair<span class="se">\s</span>oftware,<span class="w"> </span>%WINDIR%<span class="se">\r</span>epair<span class="se">\s</span>ecurity
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6"></a><span class="gp">%</span>WINDIR%<span class="se">\i</span>is6.log
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\A</span>ppEvent.Evt
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\S</span>ecEvent.Evt
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\d</span>efault.sav
+</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\s</span>ecurity.sav
+</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\s</span>oftware.sav
+</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\c</span>onfig<span class="se">\s</span>ystem.sav
+</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13"></a><span class="gp">%</span>WINDIR%<span class="se">\s</span>ystem32<span class="se">\C</span>CM<span class="se">\l</span>ogs<span class="se">\*</span>.log
+</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14"></a><span class="gp">%</span>USERPROFILE%<span class="se">\n</span>tuser.dat
+</span><span id="__span-30-15"><a id="__codelineno-30-15" name="__codelineno-30-15"></a><span class="gp">%</span>USERPROFILE%<span class="se">\L</span>ocalS~1<span class="se">\T</span>empor~1<span class="se">\C</span>ontent.IE5<span class="se">\i</span>ndex.dat
+</span><span id="__span-30-16"><a id="__codelineno-30-16" name="__codelineno-30-16"></a><span class="gp">%</span>WINDIR%<span class="se">\S</span>ystem32<span class="se">\d</span>rivers<span class="se">\e</span>tc<span class="se">\h</span>osts
+</span><span id="__span-30-17"><a id="__codelineno-30-17" name="__codelineno-30-17"></a><span class="go">C:\ProgramData\Configs\*</span>
+</span><span id="__span-30-18"><a id="__codelineno-30-18" name="__codelineno-30-18"></a><span class="go">C:\Program Files\Windows PowerShell\*</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="lazagne">LaZagne</h2>
+<p><a href="../lazagne/">See more on LaZagne</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 13, 2025 19:25:48"><span class="timeago" datetime="2025-04-13T19:25:48+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 13, 2025 19:25:48">2025-04-13</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 14, 2025 19:20:13"><span class="timeago" datetime="2025-04-14T19:20:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 14, 2025 19:20:13">2025-04-14</span></small></br>
 
 
     <small>Created: April 13, 2025 19:25:48</small>
