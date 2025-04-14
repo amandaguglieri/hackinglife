@@ -1,8 +1,14 @@
-
-
-
+---
+title: Credentials hunting
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentesting
+  - windows
+  - privilege
+---
 # Credentials hunting
-
 
 ## Application Configuration Files
 
@@ -245,6 +251,59 @@ cmdkey /list
 Get-ScheduledTask | ForEach-Object { Get-ScheduledTaskInfo -TaskName $_.TaskName } | Select-String -Pattern "password|user"
 ```
 
+**7.** Putty sessions
+
+```powershell
+reg query HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions
+```
+
+Output:
+
+```
+HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\kali%20ssh
+```
+
+Next, we look at the keys and values of the discovered session "`kali%20ssh`":
+
+```powershell-session
+reg query HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\kali%20ssh
+```
+
+Output:
+
+```powershell-session
+HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\kali%20ssh
+    Present    REG_DWORD    0x1
+    HostName    REG_SZ
+    LogFileName    REG_SZ    putty.log
+    
+  <SNIP>
+  
+    ProxyDNS    REG_DWORD    0x1
+    ProxyLocalhost    REG_DWORD    0x0
+    ProxyMethod    REG_DWORD    0x5
+    ProxyHost    REG_SZ    proxy
+    ProxyPort    REG_DWORD    0x50
+    ProxyUsername    REG_SZ    administrator
+    ProxyPassword    REG_SZ    1_4m_th3_@cademy_4dm1n!  
+```
+
+## Wifi
+
+If we obtain local admin access to a user's workstation with a wireless card, we can list out any wireless networks they have recently connected to.
+
+```cmd-session
+netsh wlan show profile
+```
+
+**Retrieving Saved Wireless Passwords**: Depending on the network configuration, we can retrieve the pre-shared key (`Key Content` below) and potentially access the target network.
+
+```cmd-session
+netsh wlan show profile ilfreight_corp key=clear
+```
+
+
+
 ## Password Managers
 
 Many companies provide password managers to their users. This may be in the form of a desktop application such as `KeePass`, a cloud-based solution such as `1Password`, or an enterprise password vault such as `Thycotic` or `CyberArk`.
@@ -290,3 +349,5 @@ C:\Program Files\Windows PowerShell\*
 ```
 
 ## LaZagne
+
+[See more on LaZagne](lazagne.md).
