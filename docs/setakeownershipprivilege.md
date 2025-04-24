@@ -269,7 +269,8 @@ icacls 'C:\Department Shares\Private\IT\cred.txt' /grant htb-student:F
 c:\inetpub\wwwwroot\web.config
 %WINDIR%\repair\sam
 %WINDIR%\repair\system
-%WINDIR%\repair\software, %WINDIR%\repair\security
+%WINDIR%\repair\software
+%WINDIR%\repair\security
 %WINDIR%\system32\config\SecEvent.Evt
 %WINDIR%\system32\config\default.sav
 %WINDIR%\system32\config\security.sav

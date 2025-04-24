@@ -102,8 +102,16 @@ net localgroup administrators
 
 # Get Password Policy & Other Account Information
 net accounts
+
+
 ```
 
+## Enumerate local shares
+
+```powershell
+# Enumerate the local shares:
+Get-SmbShare
+```
 
 ## Enumerating Protections
 

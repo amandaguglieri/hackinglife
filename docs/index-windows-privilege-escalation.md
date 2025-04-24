@@ -95,8 +95,11 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 	- Scheduled Tasks: 
 		- Binary Overwrite.
 		- Missing binary.
-	- Hot Potato.
+	- Restricted environments:
+		- [Citrix breakout](citrix-breakout.md)
+	- [Pillaging](pillaging-windows.md)
 	- Startup Applications
+	- [User interaction](user-interaction-windows.md)
 
 ## Privilege escalation tools
 

