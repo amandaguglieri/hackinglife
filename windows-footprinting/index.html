@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -20324,6 +20324,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#enumerate-local-shares" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumerate local shares
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#enumerating-protections" class="md-nav__link">
     <span class="md-ellipsis">
       Enumerating Protections
@@ -20409,6 +20418,12 @@
   
     
     
+      
+        
+      
+        
+      
+        
       
         
       
@@ -21616,6 +21631,75 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pillaging-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pillaging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../citrix-breakout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Restricted environments- Citrix breakout
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-interaction-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User interaction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -21890,6 +21974,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#enumerate-local-shares" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumerate local shares
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#enumerating-protections" class="md-nav__link">
     <span class="md-ellipsis">
       Enumerating Protections
@@ -22092,58 +22185,63 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25"></a># Get Password Policy &amp; Other Account Information
 </span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26"></a>net accounts
 </span></code></pre></div></td></tr></table></div>
+<h2 id="enumerate-local-shares">Enumerate local shares</h2>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c"># Enumerate the local shares:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="nb">Get-SmbShare</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="enumerating-protections">Enumerating Protections</h2>
 <p>Many organizations utilize some sort of application whitelisting solution to control what types of applications and files certain users can run. This may be used to attempt to block non-admin users from running <code>cmd.exe</code> or <code>powershell.exe</code> or other binaries and file types not needed for their day-to-day work. A popular solution offered by Microsoft is <a href="https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/applocker-overview">AppLocker</a>. We can use the <a href="https://docs.microsoft.com/en-us/powershell/module/applocker/get-applockerpolicy?view=windowsserver2019-ps">GetAppLockerPolicy</a> cmdlet to enumerate the local, effective (enforced), and domain AppLocker policies.</p>
 <p>Some EDR tools detect on or even block usage of common binaries such as <code>net.exe</code>, <code>tasklist</code>, etc.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>Get-MpComputerStatus
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>Get-MpComputerStatus
 </span></code></pre></div></td></tr></table></div>
 <h4 id="list-applocker-rules">List AppLocker Rules</h4>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 </span></code></pre></div></td></tr></table></div>
 <h4 id="test-applocker-policy">Test AppLocker Policy</h4>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>Get-AppLockerPolicy -Local | Test-AppLockerPolicy -path C:\Windows\System32\cmd.exe -User Everyone
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>Get-AppLockerPolicy -Local | Test-AppLockerPolicy -path C:\Windows\System32\cmd.exe -User Everyone
 </span></code></pre></div></td></tr></table></div>
 <h4 id="uac">UAC</h4>
 <p><a href="../uac-user-account-control/">See User Account Control (UAC).</a></p>
 <p><strong>Confirming UAC is Enabled:</strong></p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA
 </span></code></pre></div></td></tr></table></div>
 <p>Output:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
-<span class="normal"><a href="#__codelineno-12-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>EnableLUA    REG_DWORD    0x1
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>EnableLUA    REG_DWORD    0x1
 </span></code></pre></div></td></tr></table></div>
 <p>REG_DWORD 0x1: The value 1 means UAC is turned ON.</p>
 <h2 id="processes">Processes</h2>
 <p>Display Running Processes:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
-<span class="normal"><a href="#__codelineno-13-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a># With Netstat
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>netstat -ano
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a># With Netstat
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>netstat -ano
 </span></code></pre></div></td></tr></table></div>
 <p>The main thing to look for with Active Network Connections are entries listening on loopback addresses (127.0.0.1 and ::1) that are not listening on the IP Address (10.129.43.8) or broadcast (0.0.0.0, ::/0).</p>
 <h2 id="psservice">PsService</h2>
 <p>We can use  <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psservice">PsService</a>, which is part of the Sysinternals suite, to check permissions on the service.</p>
 <h2 id="nmap-and-ttl">Nmap and TTL</h2>
 <p>Nmap script</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
-<span class="normal"><a href="#__codelineno-14-2">2</a></span>
-<span class="normal"><a href="#__codelineno-14-3">3</a></span>
-<span class="normal"><a href="#__codelineno-14-4">4</a></span>
-<span class="normal"><a href="#__codelineno-14-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a># To determine the OS
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a> sudo nmap -v -O $ip
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a># To see banners of existing open ports
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a>sudo nmap -v $ip --script banner.nse
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span>
+<span class="normal"><a href="#__codelineno-15-3">3</a></span>
+<span class="normal"><a href="#__codelineno-15-4">4</a></span>
+<span class="normal"><a href="#__codelineno-15-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a># To determine the OS
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a> sudo nmap -v -O $ip
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a># To see banners of existing open ports
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a>sudo nmap -v $ip --script banner.nse
 </span></code></pre></div></td></tr></table></div>
 <p>TTL technique
 <strong><code>Time To Live</code> (TTL) counter</strong> when utilizing ICMP to determine if the host is up. </p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>ping $ip
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>ping $ip
 </span></code></pre></div></td></tr></table></div>
 <p>A typical response from a Windows host will either be 32 or 128. We can utilize this value since most hosts will never be more than 20 hops away from your point of origin, so there is little chance of the TTL counter dropping into the acceptable values of another OS type. More at <a href="https://subinsb.com/default-device-ttl-values/">https://subinsb.com/default-device-ttl-values/</a>.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 13, 2025 08:35:24"><span class="timeago" datetime="2025-04-13T08:35:24+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 13, 2025 08:35:24">2025-04-13</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 24, 2025 18:41:39"><span class="timeago" datetime="2025-04-24T18:41:39+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 24, 2025 18:41:39">2025-04-24</span></small></br>
 
 
     <small>Created: October 20, 2024 18:03:15</small>

