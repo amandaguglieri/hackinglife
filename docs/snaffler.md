@@ -21,4 +21,5 @@ Snaffler.exe -s -d $domain -o snaffler.log -v data
 # -d: specifies the domain to search within
 # -o: writes results to a logfile
 # -v: verbosity level. "data" is best as it only displays results to the screen
+# .\Snaffler.exe -s -d INLANEFREIGHT.LOCAL -o snaffler.log -v data
 ```

@@ -260,7 +260,6 @@ In the victim's machine (windows):
 # Encode File Using PowerShell
 [Convert]::ToBase64String((Get-Content -path "C:\Windows\system32\drivers\etc\hosts" -Encoding byte))
 
-
 Get-FileHash "C:\Windows\system32\drivers\etc\hosts" -Algorithm MD5 | select Hash
 ```
 

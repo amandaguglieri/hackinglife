@@ -8,7 +8,7 @@ tags:
   - windows
   - privilege
 ---
-# DLL Injectionç
+# DLL Injection
 
 DLL injection is a method that involves inserting a piece of code, structured as a Dynamic Link Library (DLL), into a running process. 
 

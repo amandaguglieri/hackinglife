@@ -299,7 +299,8 @@ Repo: [https://github.com/pentestmonkey/smtp-user-enum](https://github.com/pente
 Basic usage:
 
 ```shell-session
-smtp-user-enum -M RCPT -U userlist.txt -D inlanefreight.htb -t $ip
+# Go to ~/tools/smtp-user-enum
+./smtp-user-enum.pl -M RCPT -U userlist.txt -D inlanefreight.htb -t $ip
 # -M: Enumeration mode, it can be `VRFY`, `EXPN`, or `RCPT`
 # -U: file with list of users
 # -D: domain

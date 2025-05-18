@@ -24,13 +24,15 @@ findstr /si password *.xml *.ini *.txt *.config
 
 cd c:\Users\htb-student\Documents & findstr /SI /M "password" *.xml *.ini *.txt
 
-findstr /spin "password" *.*
+findstr /spin "password" *.* 
 ```
 
 ### Search File Contents with PowerShell
 
 ```powershell-session
 select-string -Path C:\Users\htb-student\Documents\*.txt -Pattern password
+
+Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | Select-String -Pattern "backupadm"
 
 Get-ChildItem C:\ -Recurse -Include *.rdp, *.config, *.vnc, *.cred -ErrorAction Ignore
 ```
@@ -54,7 +56,6 @@ For example, sensitive information such as passwords may be entered in an email 
 ```powershell
 gc 'C:\Users\htb-student\AppData\Local\Google\Chrome\User Data\Default\Custom Dictionary.txt' | Select-String password
 ```
-
 
 
 ## Browser Credentials

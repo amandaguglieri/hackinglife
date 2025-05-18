@@ -151,6 +151,35 @@ cat /etc/shadow
 
 Members of the adm group are able to read all logs stored in /var/log. This does not directly grant root access, but could be leveraged to gather sensitive data stored in log files or enumerate user actions and running cron jobs.
 
+We can use aureport to read audit logs on Linux systems, with the man page describing it as "aureport is a tool that produces summary reports of the audit system logs."
+
+For instance:
+
+```shell-session
+aureport --tty | less
+```
+
+will output in the example:
+
+```shell-session
+Error opening config file (Permission denied)
+NOTE - using built-in logs: /var/log/audit/audit.log
+WARNING: terminal is not fully functional
+-  (press RETURN)
+TTY Report
+===============================================
+# date time event auid term sess comm data
+===============================================
+1. 06/01/22 07:12:53 349 1004 ? 4 sh "bash",<nl>
+2. 06/01/22 07:13:14 350 1004 ? 4 su "ILFreightnixadm!",<nl>
+3. 06/01/22 07:13:16 355 1004 ? 4 sh "sudo su srvadm",<nl>
+4. 06/01/22 07:13:28 356 1004 ? 4 sudo "ILFreightnixadm!"
+5. 06/01/22 07:13:28 360 1004 ? 4 sudo <nl>
+6. 06/01/22 07:13:28 361 1004 ? 4 sh "exit",<nl>
+7. 06/01/22 07:13:36 364 1004 ? 4 bash "su srvadm",<ret>,"exit",<ret>
+```
+
+
 
 ## Related labs
 

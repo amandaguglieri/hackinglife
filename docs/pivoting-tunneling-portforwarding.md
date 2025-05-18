@@ -194,9 +194,12 @@ ssh UserNameInVictimMachine@VictimKnownIp
 ```
 
 ```powershell-session
-1..254 | % {"172.16.5.$($_): $(Test-Connection -count 1 -comp 172.15.5.$($_) -quiet)"}
+1..254 | % {"172.16.9.$($_): $(Test-Connection -count 1 -comp 172.16.9.$($_) -quiet)"}
 
 1..254 | % {"172.16.6.$($_): $(Test-Connection -count 1 -comp 172.16.6.$($_) -quiet)"}
+
+
+1..100 | % {"172.16.9.$($_): $(Test-Connection -count 1 -comp 172.16.9.$($_) -quiet)"}
 ```
 
 ##### Ping Sweep For Loop Using CMD
@@ -941,7 +944,7 @@ ssh ubuntu@10.10.10.3
 # In the Ubuntu compromised machine, our Pivot Host
 #######
 
-./chisel server -v -p 1234 --socks5
+lklll
 ```
 
 The Chisel listener will listen for incoming connections on port 1234 using SOCKS5 (--socks5) and forward it to all the networks that are accessible from the pivot host. In our case, the pivot host has an interface on the 172.16.5.0/23 network, which will allow us to reach hosts on that network.

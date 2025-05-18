@@ -15,6 +15,8 @@ enum4linux is used to exploit [null session attacks](windows-null-session-attack
 
 Preinstalled in kali. 
 
+In my case with env tooling3.10 as it requires python 3.10
+
 ## Basic commands
 
 ```bash

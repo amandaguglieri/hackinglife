@@ -46,3 +46,31 @@ reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestric
 ```
 
 Once the registry key is added, we can use xfreerdp with the option /pth to gain RDP access.
+
+
+### Troubleshooting loging
+
+If we obtain:
+
+```
+[ERROR][com.freerdp.core] - transport_connect_tls:freerdp_set_last_error_ex ERRCONNECT_TLS_CONNECT_FAILED [0x00020008]
+```
+
+if the server requires old-style login), we can try:
+
+```bash
+xfreerdp /v:10.129.37.186 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore /sec:rdp
+```
+
+
+We can also force older security:
+
+```bash
+xfreerdp /v:10.129.37.186 /u:htb-student /p:HTB_@cademy_stdnt! /cert:ignore /sec:rdp /tls-seclevel:0
+```
+
+Other suggestions:
+
+```
+rdesktop -u htb-student -p HTB_@cademy_stdnt! [IP Address]
+```

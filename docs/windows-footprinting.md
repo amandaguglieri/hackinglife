@@ -111,6 +111,10 @@ net accounts
 ```powershell
 # Enumerate the local shares:
 Get-SmbShare
+
+# Then you can do a tree for further enumeration
+tree "C:\Department Shares" /F /A
+
 ```
 
 ## Enumerating Protections

