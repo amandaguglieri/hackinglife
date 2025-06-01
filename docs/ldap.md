@@ -23,6 +23,7 @@ Active Directory (AD) is a directory service for Windows network environments.  
 
 ```bash
 xfreerdp /v:$ip /u:htb-student /p:<password> /cert-ignore
+
 ```
 
 
