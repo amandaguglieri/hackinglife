@@ -148,7 +148,7 @@ wget -m --no-passive ftp://anonymous:anonymous@$ip
 
 ```bash
 # Brute force FTP logging
-medusa -u fiona -P /usr/share/wordlists/rockyou.txt -h $IP -M ftp
+medusa -u fiona -P /usr/share/wordlists/rockyou.txt -h $IP -M ftpno se
 # -u: username
 # -U: list of Usernames
 # -p: password

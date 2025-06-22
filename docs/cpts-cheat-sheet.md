@@ -163,10 +163,10 @@ tags:
 
 ##### IMAP/POP3
 
-| **Command**                                            | **Description**                         |
-| ------------------------------------------------------ | --------------------------------------- |
-| `openssl s_client -connect <FQDN/IP>:imaps`            | Connect to the IMAPS service.           |
-| `openssl s_client -connect <FQDN/IP>:pop3s`            | Connect to the POP3s service.           |
+| **Command**                                 | **Description**               |
+| ------------------------------------------- | ----------------------------- |
+| `openssl s_client -connect <FQDN/IP>:imaps` | Connect to the IMAPS service. |
+| `openssl s_client -connect <FQDN/IP>:pop3s` | Connect to the POP3s service. |
 After connection is established, see the IMAP and POP3 commands:
 
 ```
@@ -751,12 +751,12 @@ By leveraging the Wayback Machine, you can gain a historical perspective on your
 
 ### Password Mutations
 
-|**Command**|**Description**|
-|---|---|
-|`cewl https://www.inlanefreight.com -d 4 -m 6 --lowercase -w inlane.wordlist`|Uses cewl to generate a wordlist based on keywords present on a website.|
-|`hashcat --force password.list -r custom.rule --stdout > mut_password.list`|Uses Hashcat to generate a rule-based word list.|
-|`./username-anarchy -i /path/to/listoffirstandlastnames.txt`|Users username-anarchy tool in conjunction with a pre-made list of first and last names to generate a list of potential username.|
-|`curl -s https://fileinfo.com/filetypes/compressed \| html2text \| awk '{print tolower($1)}' \| grep "\." \| tee -a compressed_ext.txt`|Uses Linux-based commands curl, awk, grep and tee to download a list of file extensions to be used in searching for files that could contain passwords.|
+| **Command**                                                                                                                             | **Description**                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cewl https://www.inlanefreight.com -d 4 -m 6 --lowercase -w inlane.wordlist`                                                           | Uses cewl to generate a wordlist based on keywords present on a website.                                                                                |
+| `hashcat --force password.list -r custom.rule --stdout > mut_password.list`                                                             | Uses Hashcat to generate a rule-based word list.                                                                                                        |
+| `./username-anarchy -i /path/to/listoffirstandlastnames.txt`                                                                            | Users username-anarchy tool in conjunction with a pre-made list of first and last names to generate a list of potential username.                       |
+| `curl -s https://fileinfo.com/filetypes/compressed \| html2text \| awk '{print tolower($1)}' \| grep "\." \| tee -a compressed_ext.txt` | Uses Linux-based commands curl, awk, grep and tee to download a list of file extensions to be used in searching for files that could contain passwords. |
 
 ---
 
@@ -1476,11 +1476,11 @@ A trial-and-error method used to crack passwords, login credentials, or encrypti
 hydra [-l LOGIN|-L FILE] [-p PASS|-P FILE] [-C FILE] -m MODULE [service://server[:PORT][/OPT]]
 ```
 
-|Hydra Service|Service/Protocol|Description|Example Command|
-|---|---|---|---|
-|ftp|File Transfer Protocol (FTP)|Used to brute-force login credentials for FTP services, commonly used to transfer files over a network.|`hydra -l admin -P /path/to/password_list.txt ftp://192.168.1.100`|
-|ssh|Secure Shell (SSH)|Targets SSH services to brute-force credentials, commonly used for secure remote login to systems.|`hydra -l root -P /path/to/password_list.txt ssh://192.168.1.100`|
-|http-get/post|HTTP Web Services|Used to brute-force login credentials for HTTP web login forms using either GET or POST requests.|`hydra -l admin -P /path/to/password_list.txt 127.0.0.1 http-post-form "/login.php:user=^USER^&pass=^PASS^:F=incorrect"`|
+| Hydra Service | Service/Protocol             | Description                                                                                             | Example Command                                                                                                          |
+| ------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| ftp           | File Transfer Protocol (FTP) | Used to brute-force login credentials for FTP services, commonly used to transfer files over a network. | `hydra -l admin -P /path/to/password_list.txt ftp://192.168.1.100`                                                       |
+| ssh           | Secure Shell (SSH)           | Targets SSH services to brute-force credentials, commonly used for secure remote login to systems.      | `hydra -l root -P /path/to/password_list.txt ssh://192.168.1.100`                                                        |
+| http-get/post | HTTP Web Services            | Used to brute-force login credentials for HTTP web login forms using either GET or POST requests.       | `hydra -l admin -P /path/to/password_list.txt 127.0.0.1 http-post-form "/login.php:user=^USER^&pass=^PASS^:F=incorrect"` |
 
 #### Medusa
 

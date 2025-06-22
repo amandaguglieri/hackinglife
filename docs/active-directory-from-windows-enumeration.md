@@ -931,7 +931,7 @@ $ExecutionContext.SessionState.LanguageMode
 # Check current execution policy. If the answer is
 # - "Restricted": Ps scripts cannot run.
 # - "RemoteSigned": Downloaded scripts will require the script to be signed by a trusted publisher.
-Get-Execution-Policy
+Get-ExecutionPolicy
 
 # Bypass execution policy
 powershell -ep bypass

@@ -59,6 +59,7 @@ The `office2john` script is preinstalled in kali linux:
 
 ```
 office2john MS_Word_Document.docx > hash
+office2john 'Important Document.docx' > /home/lala/CPTS/hash
 cat hash
 john --wordlist=/root/Desktop/wordlists/1000000-password-seclists.txt hash
 ```

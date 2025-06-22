@@ -67,6 +67,8 @@ WHOIS lookups can be performed through the command line interface via the whois 
 
 ```shell-session
  whois $TARGET
+
+whois example.com -h $ipTarget
 ```
 
 
@@ -736,7 +738,7 @@ for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-11000
 
 #### Sublist3r 
 
-[Sublist3r](sublist3r.md)  enumerates ubdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS. Easily blocked by Google.
+[Sublist3r](sublist3r.md)  enumerates subdomains using many search engines such as Google, Yahoo, Bing, Baidu and Ask. Sublist3r also enumerates subdomains using Netcraft, Virustotal, ThreatCrowd, DNSdumpster and ReverseDNS. Easily blocked by Google.
 
 
 ```bash

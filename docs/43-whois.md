@@ -25,6 +25,8 @@ whois $TARGET
 
 # windows
 whois.exe $TARGET
+
+
 ```
 
 
