@@ -183,7 +183,13 @@ ssh UserNameInVictimMachine@VictimKnownIp
 ```
 
 ```shell-session
-for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
+for i in {1..254} ;do (ping -c 1 172.16.139.$i | grep "bytes from" &) ;done
+```
+
+Another way:
+
+```bash
+for i in $(seq 1 254); do host 172.16.5.$i; done | grep -v "not found"
 ```
 
 ##### Ping Sweep Using PowerShell
@@ -201,6 +207,13 @@ ssh UserNameInVictimMachine@VictimKnownIp
 
 1..100 | % {"172.16.9.$($_): $(Test-Connection -count 1 -comp 172.16.9.$($_) -quiet)"}
 ```
+
+Scanning ports in Powershell:
+
+```powershell
+foreach ($ports in 1..1024) {If (($a=Test-NetConnection 10.10.12.123 -Port $port -WarningAction SilentlyContinue).tcpTestSucceeded -eq $true){ "TCP port $port is open}}
+```
+
 
 ##### Ping Sweep For Loop Using CMD
 

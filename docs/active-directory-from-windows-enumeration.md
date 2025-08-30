@@ -485,6 +485,18 @@ cmdkey /list
 Get-ScheduledTask | ForEach-Object { Get-ScheduledTaskInfo -TaskName $_.TaskName } | Select-String -Pattern "password|user"
 ```
 
+**7.** Check Vaults:
+
+```powershell
+# List vaults (gets you the exact, non-localized names & GUIDs)
+vaultcmd /list
+
+# Common vaults to enumerate (adjust names to what /list shows)
+vaultcmd /listcreds:"Windows Credentials" /all
+vaultcmd /listcreds:"Web Credentials" /all
+
+```
+
 
 ### Querying patterns of files with findstr
 
@@ -1094,6 +1106,15 @@ dsquery * -filter "(&(objectClass=user)(userAccountControl:1.2.840.113556.1.4.80
 
 
 ## 6. Shares
+
+### net view
+
+```powershell
+# List shared resources at domain dc01
+new view \\dc01 /all
+# /all: includes also administrator shares
+```
+
 
 ### Snaffler
 

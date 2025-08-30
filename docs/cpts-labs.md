@@ -34,7 +34,7 @@ tags:
 - [File Upload Attacks](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-20-fileuploadattacks.md)
 - [Command injections](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-21-commandinjections.md)
 - [Web attacks](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-22-webattacks.md)
-- [Attacking Common Applications](cpts-labs-23-attackingcommonapplications.md)
+- [Attacking Common Applications](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-23-attackingcommonapplications.md)
 - [Linux Privilege Escalation](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-24-linuxprivilegeescalation.md)
 -  [Windows Privilege Escalation](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-25-windowsprivilegeescalation.md)
 - [Documentation & Reporting](https://github.com/amandaguglieri/CPTS/blob/main/cpts-labs-26-documentationandreporting.md)

@@ -102,7 +102,14 @@ Invoke-Expression $Command
 # Gets content from a web page on the internet.
 Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1 -OutFile PowerView.ps1
 # alias: `iwr`, `curl`, and `wget`
+
+
+# Ping a port
+Test-Connection -Port 445 $ip
+Test-NetConnection -Port 445 $ip
+
 ```
+
 
 ## Basic commands for reconnaissance and enumeration
 
@@ -156,6 +163,16 @@ echo %logonserver%
 Get-ADUser -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=2)' | select name
 
 ```
+
+### Ports, services
+
+Scanning ports in Powershell:
+
+```powershell
+foreach ($ports in 1..1024) {If (($a=Test-NetConnection 10.10.12.123 -Port $port -WarningAction SilentlyContinue).tcpTestSucceeded -eq $true){ "TCP port $port is open}}
+```
+
+
 
 ### Processes 
 

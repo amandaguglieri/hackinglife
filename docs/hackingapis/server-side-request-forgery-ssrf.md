@@ -17,7 +17,7 @@ tags:
     - [API Authorization Attacks](api-authentication-attacks.md).
     - [Exploiting API Authorization](exploiting-api-authorization.md).
     - [Testing for Improper Assets Management](improper-assets-management.md).
-    - [Mass Assignment](docs/hackingapis/mass-assignment.md).
+    - [Mass Assignment](mass-assignment.md).
     - [Server side Request Forgery](server-side-request-forgery-ssrf.md).
     - [Injection Attacks](injection-attacks.md). 
     - [Evasion and Combining techniques](evasion-combining-techniques.md).

@@ -73,6 +73,13 @@ arp -a
 route print
 ```
 
+Scanning ports in Powershell:
+
+```powershell
+foreach ($ports in 1..1024) {If (($a=Test-NetConnection 10.10.12.123 -Port $port -WarningAction SilentlyContinue).tcpTestSucceeded -eq $true){ "TCP port $port is open}}
+```
+
+
 ## Users and groups
 
 ```

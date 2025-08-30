@@ -18,7 +18,17 @@ Preinstalled with Linux: dsnrecon is a simple python script that enables to gath
 ## Basic usage
 
 
-```
-dnsrecon -d example.com
+```bash
+dnsrecon -d example.com 
+
+# Another way to do it
+dnsrecon -d example.com -t std
+# -t: type os scan to perform. Standard one is std.
+
+
+dnsrecon -d example.com -D wordlist.txt -t brt
+# -t brt: type bruteforce
+# -D: wordlist of subdomains.
+# -d: domain
 ```
 

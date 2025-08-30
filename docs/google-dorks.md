@@ -45,16 +45,16 @@ Google hacking, also named Google dorking, is a hacker technique that uses Googl
 
 This is an awesome database with more than 7K googledork entries: [https://www.exploit-db.com/google-hacking-database](https://www.exploit-db.com/google-hacking-database).
 
-| Google Dorking Query | Expected results |
-| ---- | ---- |
-| intitle:"api" site: "example.com" | Finds all publicly available API related content in a given hostname. Another cool example for API versions:  inurl:"/api/v1" site: "example.com" |
-| intitle:"json" site: "example.com" | Many APIs use json, so this might be a cool filter |
-| inurl:"/wp-son/wp/v2/users" | Finds all publicly available WordPress API user directories. |
-| intitle:"index.of" intext:"api.txt" | Finds publicly available API key files. |
-| inurl:"/api/v1" intext:"index of /" | Finds potentially interesting API directories. |
-| intitle:"index of" api_key OR "api key" OR apiKey -pool | This is one of my favorite queries. It lists potentially exposed API keys. |
-| site:*.domain.com | It enumerates subdomains for the given domain "domain.com" |
-| site:*.domain.com filetype:pdf sales | It searches for pdf files named "sales" in all subdomains. |
-| cache:domain.com/page | It will display the google.com cache of that page. |
-| inurl:passwd.txt | It retrieves pages that contains that in the url. |
+| Google Dorking Query                                    | Expected results                                                                                                                                  |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| intitle:"api" site: "example.com"                       | Finds all publicly available API related content in a given hostname. Another cool example for API versions:  inurl:"/api/v1" site: "example.com" |
+| intitle:"json" site: "example.com"                      | Many APIs use json, so this might be a cool filter                                                                                                |
+| inurl:"/wp-son/wp/v2/users"                             | Finds all publicly available WordPress API user directories.                                                                                      |
+| intitle:"index.of" intext:"api.txt"                     | Finds publicly available API key files.                                                                                                           |
+| inurl:"/api/v1" intext:"index of /"                     | Finds potentially interesting API directories.                                                                                                    |
+| intitle:"index of" api_key OR "api key" OR apiKey -pool | This is one of my favorite queries. It lists potentially exposed API keys.                                                                        |
+| site:*.domain.com                                       | It enumerates subdomains for the given domain "domain.com"                                                                                        |
+| site:*.domain.com filetype:pdf sales                    | It searches for pdf files named "sales" in all subdomains.                                                                                        |
+| cache:domain.com/page                                   | It will display the google.com cache of that page.                                                                                                |
+| inurl:passwd.txt                                        | It retrieves pages that contains that in the url.                                                                                                 |
 

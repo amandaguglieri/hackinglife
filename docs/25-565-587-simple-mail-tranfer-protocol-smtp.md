@@ -307,6 +307,20 @@ Basic usage:
 # -t: target
 ```
 
+**Enumerating from Windows?** Test-NetConnection can not perform VRFY connections on port 25. We may try with telnet if installed. If installed we can enable it with:
+
+```powershell
+dism /online /Enable-feature /FeatureName:TelnetClient
+```
+
+And now, perform enumeration:
+
+```powershell
+telnet $ip 25
+VRFY root
+```
+
+Otherwise, installing telnet requires administrator permissions.
 
 ### Cloud mail server implementation
 

@@ -369,6 +369,7 @@ SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_C
 | -------------------------------------------------- | --------------------------- |
 | nmap -sV -sC $ip -p5985,5986 --disable-arp-ping -n | Footprinting WinRM          |
 | `evil-winrm -i <FQDN/IP> -u <user> -p <password>`  | Log in to the WinRM server. |
+|                                                    |                             |
 
 #### [WMI](135-windows-management-instrumentation-wmi.md)
 

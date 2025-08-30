@@ -21,21 +21,26 @@ nslookup $TARGET
 
 # We can use the `-query` parameter to search specific resource records
 # Querying: A Records for a Subdomain
-nslookup -query=A $TARGET
+nslookup -query=A example.com
 
 # Querying: PTR Records for an IP Address
 nslookup -query=PTR 31.13.92.36
 
 # Querying: ANY Existing Records
-nslookup -query=ANY $TARGET
+nslookup -query=ANY example.com
 
 # Querying: TXT Records
-nslookup -query=TXT $TARGET
+nslookup -query=TXT example.com
 
 # Querying: MX Records
-nslookup -query=MX $TARGET
+nslookup -query=MX example.com
 
 #  Specify a nameserver if needed by adding `@<nameserver/IP>` to the command
+
+
+# Query `A` records by submitting a domain name: default behaviour
+nslookup -type=txt example.com $ip
+
 ```
 
 

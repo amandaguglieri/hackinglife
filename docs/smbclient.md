@@ -107,6 +107,14 @@ smbclient //dc01/username -k -c ls
 
 Also we can use [rpcclient tool](rpcclient.md) for connecting to the shared folders.
 
+Trick to do the tree:
+
+```
+recurse ON
+prompt OFF
+ls
+```
+
 
 ## Basic commands in SMBclient
 

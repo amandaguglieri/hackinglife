@@ -55,8 +55,19 @@ Or Passive server enumeration.
 
 DNS lookup utility. 
 
-```
+```bash
+# By default host command search for A records:
 host domain.com
+
+# Search for type mx
+host -t mx domain.com
+
+# Using wordlists to discover hostnames:
+for ip in $(cat list.txt); do host $ip.domain.com; done
+
+
+# Enumerate hosts:
+for i in $(seq 1 254); do host 172.16.5.$i; done | grep -v "not found"
 ```
 
 #### whois command
@@ -163,9 +174,9 @@ Some of these files:
 !!! quote ""
 	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.1. Conduct search engine discovery reconnaissance for information leakage
 
-|ID|Link to Hackinglife|Link to OWASP|Objectives|
-|:---|:---|:---|:---|
-|1.1|[WSTG-INFO-01](OWASP/WSTG-INFO-01.md) |[Conduct Search Engine Discovery Reconnaissance for Information Leakage](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/01-Conduct_Search_Engine_Discovery_Reconnaissance_for_Information_Leakage)|- Identify what sensitive design and configuration information of the application, system, or organization is exposed directly (on the organization's website) or indirectly (via third-party services).|
+| ID  | Link to Hackinglife                   | Link to OWASP                                                                                                                                                                                                                                                                   | Objectives                                                                                                                                                                                               |
+| :-- | :------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.1 | [WSTG-INFO-01](OWASP/WSTG-INFO-01.md) | [Conduct Search Engine Discovery Reconnaissance for Information Leakage](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/01-Conduct_Search_Engine_Discovery_Reconnaissance_for_Information_Leakage) | - Identify what sensitive design and configuration information of the application, system, or organization is exposed directly (on the organization's website) or indirectly (via third-party services). |
 
 ### 1.5. Cloud resources
 
