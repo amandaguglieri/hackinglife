@@ -61,6 +61,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 		    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)
 		- [Scripts for enabling privileges](script-for-enabling-privileges.md)
 	- [Abusing Group privileges](windows-group-privileges.md)
+	- [Access Control List (ACL)Abuse](access-control-list-abuse.md) 
 	- [UAC User Account Control](uac-user-account-control.md)
 	- [Abusing weak permissions](windows-abusing-weak-permissions.md)
 	- [Kernel exploits](windows-kernel-exploits.md):

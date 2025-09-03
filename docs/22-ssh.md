@@ -46,6 +46,7 @@ OpenSSH 7.6p1 Ubuntu ubuntu0.3 is well known for some vulnerabilities.
 
 ## Connect with ssh
 
+
 ```bash
 ssh <user>@$ip
 
@@ -53,6 +54,38 @@ ssh <user>@$ip
 ssh -i id_rsa <user>@$ip
 ```
 
+### Connect with kerberos
+
+```bash
+ssh -k <user>@<kdc>
+# Example: ssh -k f.frizzle@frizzdc.frizz.htb
+```
+
+But before that, generate the kerberos ticket and make sure to have the /etc/krb5.conf file in place.
+
+Use [nxc](nxc.md) for generating the krb5.conf file and save it as /etc/krb5.conf:
+
+```bash
+netexec smb $kdc -u $username -p '$password' -k --generate-krb5-file krb5.conf 
+
+# Example: netexec smb frizzdc.frizz.htb -u f.frizzle -p '<REDACTED>' -k --generate-krb5-file krb5.conf 
+```
+
+Next, generate TGT ticket and export variable:
+
+```
+getTGT.py $domain/'$username':'$password'       
+# Example: getTGT.py frizz.htb/'f.frizzle':'<REDACTED>'       
+
+export KRB5CCNAME=$(pwd)/$username.ccache 
+# Example: export KRB5CCNAME=$(pwd)/f.frizzle.ccache 
+```
+
+**Important note:**  Kerberos relies on the hostname used in the SSH command to match the service principal (SPN) in the ticket request. This means that the order in which the hosts are entered in /etc/hosts matters. Server identifies itself by the first name mapped to the IP, meaning that in this case the tester should add this to the /etc/hosts:
+
+```bash
+echo "10.129.232.168	frizzdc.frizz.htb frizz.htb" | sudo tee -a /etc/hosts
+```
 
 
 ## Installing a ssh service

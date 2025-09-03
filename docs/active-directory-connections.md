@@ -96,3 +96,4 @@ impacket-psexec egotistical-bank.local/administrator@$ip -hashes aad3b435b51404e
 
 
 ## mstsc.exe 
+

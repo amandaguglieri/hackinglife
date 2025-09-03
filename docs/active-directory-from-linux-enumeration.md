@@ -263,7 +263,7 @@ LDAP anonymous binds allow unauthenticated attackers to retrieve information fro
 ```shell-session
 ldapsearch -h $ip -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" "
 
-ldapsearch -x -H ldaps://$ip -b "DC=CASCADE,DC=LOCAL" "(objectClass=user)" | grep sAMAccountName: | cut -f2 -d" "
+ldapsearch -x -H ldap://$ip -b "DC=CASCADE,DC=LOCAL" "(objectClass=user)" | grep sAMAccountName: | cut -f2 -d" "
 
 ```
 

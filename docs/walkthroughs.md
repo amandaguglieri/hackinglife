@@ -77,8 +77,10 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB bank](htb-bank.md)
 -   [HTB base](htb-base.md)
 -   [HTB Cap](htb-cap.md)
+-   [HTB Cascade](htb-cascade.md)
 -   [HTB crocodile](htb-crocodile.md)
 -   [HTB data](htb-data.md)
+-   [HTB Escape Two](htb-escapetwo.md)
 -   [HTB explosion](htb-explosion.md)
 -   [HTB forest](htb-forest.md)
 -   [HTB friendzone](htb-friendzone.md)
@@ -109,5 +111,6 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB unified](htb-unified.md)
 -   [HTB usage](htb-usage.md)
 -   [HTB vaccine](htb-vaccine.md)
+-   [HTB Voleur](htb-voleur.md)
 
 

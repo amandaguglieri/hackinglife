@@ -51,7 +51,7 @@ ffuf -w  /path/to/vhost/wordlist:FUZZ -u http://example.com:$port/ -H 'Host: FUZ
 
 # Enumerating extensions
 # Note: The wordlist we chose already contains a dot (.), so we will not have to add the dot after "index" in our fuzzing.
-fuf -w /usr/share/seclists/Discovery/Web-Content/web-extensions.txt:FUZZ -u http://$ip:$port/folderexample/indexFUZZ
+ffuf -w /usr/share/seclists/Discovery/Web-Content/web-extensions.txt:FUZZ -u http://$ip:$port/folderexample/indexFUZZ
 
 
 # Enumerating directories and folders:
