@@ -114,3 +114,6 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 -   [HTB Voleur](htb-voleur.md)
 
 
+Preparing OSCP
+
+-   [HTB Voleur](oscp-twiggy.md)

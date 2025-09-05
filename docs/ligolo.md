@@ -62,7 +62,7 @@ Second, start the proxy:
 Third, connect the agent (in the pivot machine) to our proxy in the kali:
 
 ```
-./agent -connect 10.10.14.49:11601 --ignore-cert
+./agent -connect 10.10.14.72:11601 --ignore-cert
 
 ```
 
