@@ -116,4 +116,4 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 
 Preparing OSCP
 
--   [HTB Voleur](oscp-twiggy.md)
+-   [OSCP Twiggy - A Playground Practice machine](oscp-twiggy.md)

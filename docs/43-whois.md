@@ -18,15 +18,15 @@ The [Internet Corporation of Assigned Names and Numbers](https://www.icann.org/g
 
 [Sysinternals WHOIS](https://docs.microsoft.com/en-gb/sysinternals/downloads/whois) for Windows or Linux [WHOIS](https://linux.die.net/man/1/whois) command-line utility are our preferred tools for gathering information. However, there are some online versions like [whois.domaintools.com](https://whois.domaintools.com) we can also use.
 
-
-```shell-session
-# linux
+```bash
+# Retrieve the registration details
 whois $TARGET
 
-# windows
-whois.exe $TARGET
-
-
+# Reverse lookup
+whois example.com -h $ipTarget
 ```
 
-
+```powershell
+# windows
+whois.exe $TARGET
+```

@@ -18,3 +18,8 @@ Seatbelt is a C# project that performs a number of security oriented host-survey
 Github repo: [https://github.com/GhostPack/Seatbelt](https://github.com/GhostPack/Seatbelt).
 
 We can also find pre-compiled binaries of `Seatbelt` and `SharpUp`:  [https://github.com/r3motecontrol/Ghostpack-CompiledBinaries](https://github.com/r3motecontrol/Ghostpack-CompiledBinaries)
+
+```
+.\Seatbelt.exe -group=all
+
+```

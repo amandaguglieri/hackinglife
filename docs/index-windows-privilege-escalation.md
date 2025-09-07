@@ -58,6 +58,7 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 		        - [PrintNightmare](printnightmare.md)
 		        - [Print Spooler / PrintSpoofer: SeImpersonatePrivilege + Windows Print Spooler service](printspoofer.md)
 	        - [SeDebugPrivilege](sedebugprivilege.md)
+	        - [SeManageVolumePrivilege](semanagevolumeprivilege.md)
 		    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)
 		- [Scripts for enabling privileges](script-for-enabling-privileges.md)
 	- [Abusing Group privileges](windows-group-privileges.md)

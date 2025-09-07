@@ -76,17 +76,18 @@ WHOIS is a query and response protocol that is used to query databases that stor
 
 WHOIS lookups can be performed through the command line interface via the whois client or through some third party web-based tools to lookup the domain ownership details from different databases.
 
-```shell-session
- whois $TARGET
+```bash
+# Retrieve the registration details
+whois $TARGET
 
+# Reverse lookup
 whois example.com -h $ipTarget
 ```
 
-
-```cmd-session
-whois.exe <TARGET>
+```powershell
+# windows
+whois.exe $TARGET
 ```
-
 #### netcraft
 
 [Netcraft](https://www.netcraft.com) can offer us information about the servers without even interacting with them, and this is something valuable from a passive information gathering point of view. We can use the service by visiting `https://sitereport.netcraft.com` and entering the target domain. We need to pay special attention to the latest IPs used. Sometimes we can spot the actual IP address from the webserver before it was placed behind a load balancer, web application firewall, or IDS, allowing us to connect directly to it if the configuration.
@@ -395,7 +396,11 @@ python3 ReconSpider.py http://domain.com
 
 After running `ReconSpider.py`, the data will be saved in a JSON file, `results.json`. This file can be explored using any text editor. 
 
+### 1.10. Credentials
 
+See [gitleaks](gitleaks.md).
+
+See [gitrob](gitrob.md)
 
 ## 2. Active  information gathering
 
