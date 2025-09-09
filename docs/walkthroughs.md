@@ -116,4 +116,6 @@ It feels like an eternity since I embarked on my first walkthroughs of the Overt
 
 Preparing OSCP
 
+-   [OSCP Access - A Playground Practice machine](oscp-access.md)
+-   [OSCP Algernon - A Playground Practice machine](oscp-algernon.md)
 -   [OSCP Twiggy - A Playground Practice machine](oscp-twiggy.md)

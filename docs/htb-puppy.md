@@ -27,6 +27,8 @@ Enumeration:
 sudo nmap $ip -sC -sV -Pn -p-
 ```
 
+Output:
+
 ```
 PORT      STATE SERVICE       VERSION
 53/tcp    open  domain        Simple DNS Plus
@@ -81,7 +83,7 @@ Host script results:
 
 ```
 
-
+Enumerate shares with user levi.james:
 
 ```
 crackmapexec smb 10.129.232.75 -u levi.james -p 'KingofAkron2025!' --shares
