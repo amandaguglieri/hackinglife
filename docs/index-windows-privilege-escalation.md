@@ -49,62 +49,63 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 ## Privilege escalation techniques  
 
-!!! abstract "Techniques"
 
-	- User privileges:
-		- [Abusing User privileges](windows-user-privileges.md)
-			- [SeImpersonatePrivilege](seimpersonateprivilege.md)
-			    - [JuicyPotato: SeImpersonate or SeAssignPrimaryToken](juicypotato.md)
-		        - [PrintNightmare](printnightmare.md)
-		        - [Print Spooler / PrintSpoofer: SeImpersonatePrivilege + Windows Print Spooler service](printspoofer.md)
-	        - [SeDebugPrivilege](sedebugprivilege.md)
-	        - [SeManageVolumePrivilege](semanagevolumeprivilege.md)
-		    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)
-		- [Scripts for enabling privileges](script-for-enabling-privileges.md)
-	- [Abusing Group privileges](windows-group-privileges.md)
-	- [Access Control List (ACL)Abuse](access-control-list-abuse.md) 
-	- [UAC User Account Control](uac-user-account-control.md)
-	- [Abusing weak permissions](windows-abusing-weak-permissions.md)
-	- [Kernel exploits](windows-kernel-exploits.md):
-	    - MS08-067.
-	    - MS17-010 (EternalBlue).
-	    - ALPC Task Scheduler 0-Day.
-	    - [HiveNightmare, aka SeriosSam (CVE-2021-36934)](hivenightmare.md).
-	    - [PrintNightmare](printnightmare.md).
-	    - [Print Spooler](printspoofer.md).
-	    - Enumerating Missing Patches.
-	    - CVE-2020-0668: Windows Service Tracing
-	- Services:
-		- [Abusing processes in windows](abusing-processes-windows.md)
-		- [Abusing vulnerable services](abusing-vulnerable-services.md)
-		- [DLL Injection](dll-injection.md)
-	    - [Named Pipes](named-pipes.md)
-	    - Registry.
-	    - [Windows binaries: LOLBAS](windows-binaries.md).
-	    - bin Path.
-	    - Creating a service with PsExec.
-	- Password Mining:
-		- [Credentials Hunting](windows-credentials.md)
-		- [Cached SAM](active-directory-from-windows-privilege-escalation.md#attacking-sam).
-		- [Cached LSASS](active-directory-from-windows-privilege-escalation.md#attacking-lsass).
-		- [Pass The Hash](pass-the-hash.md).
-		- Logs.
-		- Memory: mimiktenz, Process Dump (minidump).
-		- .rdp Files.
-	- [Mount VHDX/VMDK](windows-mount-vHDX-VMDK.md)
-	- Registry: 
-		- Registry: HKCU\Software\USERNAME\PuTTY\Sessions, AutoLogon, VNC.
-		- Autorun.
-		- [AlwaysInstallElevated](alwaysinstallelevated.md)
-	- Certificates:
-		- [CVE-2019-1388 hhupd.exe](CVE-2019-1388.md)
-	- [Scheduled Tasks](scheduled-tasks.md) 
-	- [User/Computer Description Field](windows-user-computer-description-field.md)
-	- Restricted environments:
-		- [Citrix breakout](citrix-breakout.md)
-	- [Pillaging](pillaging-windows.md)
-	- [End of Life Systems](windows-end-of-life-systems.md)
-	- [User interaction](user-interaction-windows.md)
+- User privileges:
+	- [Abusing User privileges](windows-user-privileges.md)
+		- [SeImpersonatePrivilege](seimpersonateprivilege.md)
+			   - [JuicyPotato: SeImpersonate or SeAssignPrimaryToken](juicypotato.md)
+	        - [PrintNightmare](printnightmare.md)
+	        - [Print Spooler / PrintSpoofer: SeImpersonatePrivilege + Windows Print Spooler service](printspoofer.md)
+        - [SeDebugPrivilege](sedebugprivilege.md)
+        - [SeLoadDriverPrivilege](seloaddriverprivilege.md)
+        - [SeManageVolumePrivilege](semanagevolumeprivilege.md)
+        - [SeRestorePrivilege](serestoreprivilege.md)
+	    - [SeTakeOwnershipPrivilege](setakeownershipprivilege.md)
+	- [Scripts for enabling privileges](script-for-enabling-privileges.md)
+- [Abusing Group privileges](windows-group-privileges.md)
+- [Access Control List (ACL)Abuse](access-control-list-abuse.md) 
+- [UAC User Account Control](uac-user-account-control.md)
+- [Abusing weak permissions](windows-abusing-weak-permissions.md)
+- [Kernel exploits](windows-kernel-exploits.md):
+	   - MS08-067.
+    - MS17-010 (EternalBlue).
+    - ALPC Task Scheduler 0-Day.
+	- [HiveNightmare, aka SeriosSam (CVE-2021-36934)](hivenightmare.md).
+    - [PrintNightmare](printnightmare.md).
+    - [Print Spooler](printspoofer.md).
+    - Enumerating Missing Patches.
+    - CVE-2020-0668: Windows Service Tracing
+- Services:
+	- [Abusing processes in windows](abusing-processes-windows.md)
+	- [Abusing vulnerable services](abusing-vulnerable-services.md)
+	- [DLL Injection](dll-injection.md)
+    - [Named Pipes](named-pipes.md)
+    - Registry.
+    - [Windows binaries: LOLBAS](windows-binaries.md).
+    - bin Path.
+    - Creating a service with PsExec.
+- Password Mining:
+	- [Credentials Hunting](windows-credentials.md)
+	- [Cached SAM](active-directory-from-windows-privilege-escalation.md#attacking-sam).
+	- [Cached LSASS](active-directory-from-windows-privilege-escalation.md#attacking-lsass).
+	- [Pass The Hash](pass-the-hash.md).
+	- Logs.
+	- Memory: mimiktenz, Process Dump (minidump).
+	- .rdp Files.
+- [Mount VHDX/VMDK](windows-mount-vHDX-VMDK.md)
+- Registry: 
+	- Registry: HKCU\Software\USERNAME\PuTTY\Sessions, AutoLogon, VNC.
+	- Autorun.
+	- [AlwaysInstallElevated](alwaysinstallelevated.md)
+- Certificates:
+	- [CVE-2019-1388 hhupd.exe](CVE-2019-1388.md)
+- [Scheduled Tasks](scheduled-tasks.md) 
+- [User/Computer Description Field](windows-user-computer-description-field.md)
+- Restricted environments:
+	- [Citrix breakout](citrix-breakout.md)
+- [Pillaging](pillaging-windows.md)
+- [End of Life Systems](windows-end-of-life-systems.md)
+- [User interaction](user-interaction-windows.md)
 
 
 

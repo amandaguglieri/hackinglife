@@ -118,4 +118,5 @@ Preparing OSCP
 
 -   [OSCP Access - A Playground Practice machine](oscp-access.md)
 -   [OSCP Algernon - A Playground Practice machine](oscp-algernon.md)
+-   [OSCP Heist - A Playground Practice machine](oscp-heist.md)
 -   [OSCP Twiggy - A Playground Practice machine](oscp-twiggy.md)

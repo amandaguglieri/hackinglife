@@ -283,7 +283,7 @@ Other tools related to ldap: `windapsearch.py`, `ldapsearch`, `ad-ldapdomaindu
 # -d: indicates domain
 
 # Enumerate users with no user foothold
-
+./windapsearch.py --dc-ip $ip -u "" -U
 # -u: specifies username. "" for blank
 # -U: returns only USERS
 

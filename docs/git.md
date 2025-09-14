@@ -233,6 +233,83 @@ git commit -m "updating author"
 git push --force origin main
 ```
 
+## Submodules
+
+#### Use Git Submodules – recommended if want to keep each original repo’s history
+
+
+```bash
+mkdir Privescalation
+cd Privescalation
+git init
+git remote add origin git@github.com:[USERNAME]/Privescalation.git
+
+
+git clone  https://github.com/itm4n/PrivescCheck.git temp
+mkdir -p tools
+mv temp tools/PrivescCheck
+rm -rf tools/PrivescCheck/.git
+
+git add tools/PrivescCheck
+git commit -m "Add PrivescCheck source"
+git push -u origin main
+```
+
+The following tools will be
+
+```bash
+cd Privescalation
+
+git clone  https://github.com/repo/toolName.git temp
+mv temp tools/toolName
+rm -rf tools/toolName/.git
+
+git add tools/toolName
+git commit -m "Add toolName source"
+git push -u origin main
+```
+
+For instance, this [SeRestoreAbuse](https://github.com/xct/SeRestoreAbuse) repo:
+
+```bash
+cd Privescalation
+
+git clone https://github.com/xct/SeRestoreAbuse.git temp
+mv temp tools/SeRestoreAbuse
+rm -rf tools/SeRestoreAbuse/.git
+
+git add tools/SeRestoreAbuse
+git commit -m "Add SeRestoreAbuse source"
+git push -u origin main
+
+
+git commit -m "Add SeRestoreAbuse binaries"
+```
+
+Or this other https://github.com/rvazarkar/GMSAPasswordReader.git
+
+```bash
+cd Privescalation
+
+git clone https://github.com/rvazarkar/GMSAPasswordReader.git temp
+mv temp tools/GMSAPasswordReader
+rm -rf tools/GMSAPasswordReader/.git
+
+git add tools/GMSAPasswordReader
+git commit -m "Add GMSAPasswordReader tools from rvazarkar/GMSAPasswordReader source"
+git push -u origin main
+
+
+git commit -m "Add SeLoadDriverPrivilege binaries"
+```
+
+Troubleshooting. It's very common for third parties to have a .gitignore file that prevents folder Debug and folder Release to be uploaded. Locate it with:
+
+```bash
+git check-ignore -v tools/SeManageVolumeAbuse/releases/x64/SeManageVolumeAbuse.exe 
+```
+
+
 ## Pentesting git
 
 Source: https://thecyberpunker.com/tools/git-exposed-pentesting-git-tools/
