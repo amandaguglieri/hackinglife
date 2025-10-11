@@ -37,7 +37,7 @@ net user $username
 **4.** Creating Shadow Copy of C: We can use vssadmin to create a Volume Shadow Copy (VSS) of the C: drive or whatever volume the admin chose when initially installing AD. It is very likely that NTDS will be stored on C: as that is the default location selected at install.
 
 ```shell-session
-vssadmin CREATE SHADOW /For=C:
+vssadmin CREATE  SHADOW /For=C:
 ```
 
 Results:

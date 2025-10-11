@@ -85,3 +85,21 @@ sudo ip route add 172.16.139.0/24 dev ligolo
 
 Invoke-DomainPasswordSpray -Password '!QAZXCFGHJKOP' -OutFile spray_success -ErrorAction SilentlyContinue
 ```
+
+
+## Building versions
+
+### agent.exe for windows architexture x86
+
+```
+cd ligolo-ng/cmd/agent
+GOOS=windows GOARCH=386 go build -o agent_x86.exe main.go
+```
+
+
+### proxy for linux architexture amd64
+
+```
+cd ligolo-ng/cmd/proxy
+GOOS=linux GOARCH=amd64 go build -o proxy main.go
+```

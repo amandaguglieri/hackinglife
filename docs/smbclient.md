@@ -165,3 +165,18 @@ smbclient //\<target\>/\<share$\> -c 'mkdir .\target_folder\new_folder' password
 # Rename a file in a specific share folder
 smbclient //\<target\>/\<share$\> -c 'rename current_file.txt new_file.txt' password -U username
 ```
+
+
+## How do I recursively download a directory using smbclient?
+
+Once accessed the smb share:
+
+```
+mask ""
+recurse ON
+prompt OFF
+cd 'path\to\remote\dir'
+lcd '~/path/to/download/to/'
+mget *
+```
+

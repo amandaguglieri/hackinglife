@@ -47,15 +47,24 @@ df -H
 
 ### grep
 
+The command used to search text using patterns.
+
 ```shell-session
 grep -rn /mnt/Finance/ -ie cred
-# `grep`: The command used to search text using patterns.
 #  `-r`: Recursive search, meaning it will search through all files and subdirectories in `/mnt/Finance/`.
 #  `-n`: Displays the line number where the pattern is found within the files.
 #  `/mnt/Finance/`: The directory path where the search is performed.
 #  `-i`: Makes the search case-insensitive, so it will match "cred", "CRED", "Cred", etc.
 #  `-e cred`: Specifies the search pattern `"cred"`. It will search for any occurrence of the string "cred" in the files.
 ```
+
+Find the exact string "Backup Completed" in the file fileMonitorBackup_UTF8.log:
+
+```
+grep -F 'Backup Completed' fileMonitorBackup_UTF8.log
+# -F: it disables regex and searches for the exact text you give
+```
+
 
 ### host
 
@@ -74,6 +83,30 @@ Example:
 ```shell-session
 host example.com 8.8.8.8
 ```
+
+### iconv
+
+A utility to **convert text from one character encoding to another**.
+
+Transform a file in UTF-16 into UTF-8
+
+```bash
+iconv -f UTF-16 -t UTF-8 fileMonitorBackup.log -o fileMonitorBackup3.log  
+```
+
+Beforehand, check encoding with:
+
+```bash
+file fileMonitorBackup.log 
+```
+
+We know is UTF-16, because of the output:
+
+```
+fileMonitorBackup.log: Unicode text, UTF-16, little-endian text, with CRLF line terminators
+```
+
+
 
 ### lsblk 
 
@@ -321,6 +354,7 @@ mkvirtualenv -p python3.11 env-name -r requirements.txt
 setvirtualenvproject
 
 ```
+
 
 
 ### bluetoothctl

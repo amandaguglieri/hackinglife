@@ -97,11 +97,9 @@ A list of vulnerabilities targeting the BIND9 server can be found at [CVEdetails
 
 ## Footprinting DNS
 
-**nmap**
+### From windows
 
-```shell-session
-nmap -p53 -Pn -sV -sC $ip
-```
+#### nslookup
 
 See [nslookup](nslookup.md).
 
@@ -128,6 +126,68 @@ nslookup -query=MX $TARGET
 #  Specify a nameserver if needed by adding `@<nameserver/IP>` to the command
 ```
 
+```powershell
+nslookup -type=ANY infomegacorptwo.com 192.168.175.151
+# 192.168.175.151 is the DNS server
+```
+
+
+### From linux
+#### nmap
+
+```shell-session
+nmap -p53 -Pn -sV -sC $ip
+```
+
+#### dnsenum
+
+See [dnsenum](dnsenum.md).
+
+
+ Used for active fingerprinting:
+
+```
+dnsenum domain.com
+```
+
+One cool thing about dnsenum is that it can perform dns transfer zone, like [dig]](dig.md). 
+
+It performs DNS brute force with /usr/share/dnsenum/dns.txt.
+
+```bash
+dnsenum --enum example.com -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -r
+# -f Indicate the wordlist file
+```
+
+#### nslookup
+
+See [nslookup](nslookup.md).
+
+```bash
+# Query `A` records by submitting a domain name: default behaviour
+nslookup $TARGET
+
+# We can use the `-query` parameter to search specific resource records
+# Querying: A Records for a Subdomain
+nslookup -query=A $TARGET
+
+# Querying: PTR Records for an IP Address
+nslookup -query=PTR 31.13.92.36
+
+# Querying: ANY Existing Records
+nslookup -query=ANY $TARGET
+
+# Querying: TXT Records
+nslookup -query=TXT $TARGET
+
+# Querying: MX Records
+nslookup -query=MX $TARGET
+
+#  Specify a nameserver if needed by adding `@<nameserver/IP>` to the command
+```
+
+
+#### dig
 
 See [dig](dig.md).
 
@@ -175,7 +235,9 @@ dig axfr example.htb @$ip
 
 If the administrator used a subnet for the `allow-transfer` option for testing purposes or as a workaround solution or set it to `any`, everyone would query the entire zone file at the DNS server.
 
-Another tools for transferring zones:
+Another tools for transferring zones: fierce
+
+#### Fierce
 
 [Fierce](fierce.md):
 
@@ -187,6 +249,7 @@ fierce -dns domain.com
 fierce --domain zonetransfer.me
 ```
 
+### dnsenum
 [dnsenum](dnsenum.md):
 
 ```
@@ -205,7 +268,7 @@ dnsenum domain.com
 for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
 ```
 
-### **dnsenum**
+#### **dnsenum**
 
 [dnsenum](dnsenum.md)
 

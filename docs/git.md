@@ -286,21 +286,22 @@ git push -u origin main
 git commit -m "Add SeRestoreAbuse binaries"
 ```
 
-Or this other https://github.com/rvazarkar/GMSAPasswordReader.git
+Or this other https://github.com/wh0amitz/PetitPotato.git
 
 ```bash
 cd Privescalation
 
-git clone https://github.com/rvazarkar/GMSAPasswordReader.git temp
-mv temp tools/GMSAPasswordReader
-rm -rf tools/GMSAPasswordReader/.git
+git clone https://github.com/wh0amitz/PetitPotato.git temp
+mv temp tools/PetitPotato
+rm -rf tools/PetitPotato/.git
 
-git add tools/GMSAPasswordReader
-git commit -m "Add GMSAPasswordReader tools from rvazarkar/GMSAPasswordReader source"
+git add tools/PetitPotato
+
+git commit -m "Add PetitPotato tools from wh0amitz/PetitPotato source"
 git push -u origin main
 
 
-git commit -m "Add SeLoadDriverPrivilege binaries"
+git commit -m "Add PetitPotato binaries"
 ```
 
 Troubleshooting. It's very common for third parties to have a .gitignore file that prevents folder Debug and folder Release to be uploaded. Locate it with:
