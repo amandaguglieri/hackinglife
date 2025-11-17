@@ -128,6 +128,7 @@ nslookup -query=MX $TARGET
 
 ```powershell
 nslookup -type=ANY infomegacorptwo.com 192.168.175.151
+nslookup -type=TXT infomegacorptwo.com 192.168.175.151
 # 192.168.175.151 is the DNS server
 ```
 
@@ -258,8 +259,6 @@ dnsenum domain.com
 ```
 
 
-
-
 ## Subdomain brute enumeration
 
 ### **Bash** command Using Sec wordlist
@@ -273,7 +272,7 @@ for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-11000
 [dnsenum](dnsenum.md)
 
 ```shell-session
- dnsenum --dnsserver $ip --enum -p 0 -s 0 -o subdomains.txt -f /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt inlanefreight.htb
+dnsenum --dnsserver $ip --enum -p 0 -s 0 -o subdomains.txt -f /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt inlanefreight.htb
 
 ```
 

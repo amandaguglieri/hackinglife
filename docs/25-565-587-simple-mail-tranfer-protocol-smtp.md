@@ -174,16 +174,29 @@ We will focus on typical misconfigurations
 The SMTP server has different commands that can be used to enumerate valid usernames `VRFY`, `EXPN`, and `RCPT TO`. If we successfully enumerate valid usernames, we can attempt to password spray, brute-forcing, or guess a valid password.
 ##### VRFY 
 
-First we try to connect to the server:
+First we try to connect to the server. From linux:
 
 ```bash
 telnet $ip 25
 ```
 
+From Windows with Powershell:
+
+```
+Test-NetConnection -Port 25 $ip
+
+# If Test-NetConnection cannot fully interact with SMTP, we can install the Microsoft version of the Telnet client with:
+dism /online /Enable-Feature /Feature-Name:TelnetClient
+# installing Telnet requires administrative privileges
+
+# Alternative, grab the Telnet binary located on another development machine of ours at c:\windows\system32\telnet.exe and transfer it to the Windows machine we are testing from.
+```
+
+
 If anonymous login is enabled, we are in. Otherwise we could try to login, for instance with user `root`:
 
 ```
-VFFY root
+VRFY root
 ```
 
 The code 252 in the answer means that the user exists. The code 550 means that it is an unknown user. 
@@ -289,6 +302,47 @@ Results from script in user enumeration:
 220 InFreight ESMTP v2.11
 252 2.0.0 robin                 
 ```
+
+We may also use this python script:
+
+```python
+#!/usr/bin/python
+
+import socket
+import sys
+
+if len(sys.argv) != 3:
+        print("Usage: vrfy.py <username> <target_ip>")
+        sys.exit(0)
+
+# Create a Socket
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Connect to the Server
+ip = sys.argv[2]
+connect = s.connect((ip,25))
+
+# Receive the banner
+banner = s.recv(1024)
+
+print(banner)
+
+# VRFY a user
+user = (sys.argv[1]).encode()
+s.send(b'VRFY ' + user + b'\r\n')
+result = s.recv(1024)
+
+print(result)
+
+# Close the socket
+s.close()
+```
+
+```bash
+# Run the above script smtp.py with:
+python3 smtp.py root 192.168.50.8
+```
+
 
 #### smtp-user-enum
 
