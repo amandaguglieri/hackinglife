@@ -47,6 +47,16 @@ Download from: https://www.jython.org/download.html
 
 Download from:  https://www.jruby.org/download
 
+
+## Removing the captive portal from captured traffic
+
+A [captive portal](https://en.wikipedia.org/wiki/Captive_portal) is a web page that serves as a sort of gateway page when attempting to browse the Internet. It is often displayed when accepting a user agreement or authenticating through a browser to a Wi-Fi network.
+
+To ignore this, simply enter about:config in the address bar. Firefox will present a warning, but we can proceed by clicking I accept the risk!.
+
+Finally, search for "network.captive-portal-service.enabled" and double-click it to change the value to "false". This will prevent these messages from appearing in the proxy history.
+
+
 ## Extensions that make your life better
 
 ### Autorize 

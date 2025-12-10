@@ -53,6 +53,23 @@ gobuster vhost -u http://$ip -w <wordlist_file> --append-domain
 - The `-k` flag can ignore SSL/TLS certificate errors.
 - You can use the `-o` flag to save the output to a file for later analysis.
 
+
+## Enumerating following a pattern
+
+Pattern will be saved as a file. For instance, the file pattern.txt with the following content:
+
+```
+{GOBUSTER}/v1
+{GOBUSTER}/v2
+```
+
+Now, to run the command:
+
+```bash
+gobuster dir -u http://192.168.188.16:5002 -w /usr/share/wordlists/dirb/big.txt -p pattern.txt
+```
+
+
 ## Examples from real life
 
 
