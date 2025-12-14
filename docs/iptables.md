@@ -1,20 +1,13 @@
 ---
-
 title: iptables - Linux packet filtering and NAT framework  
 author: amandaguglieri  
 draft: false  
 TableOfContents: true  
 tags:
-
 - firewall
-    
 - packetfiltering
-    
 - linux
-    
 - postexploitation
-    
-
 ---
 
 # iptables - Linux packet filtering and NAT framework

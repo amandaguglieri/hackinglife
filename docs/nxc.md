@@ -1,4 +1,14 @@
+---
+title: nxc
+author: amandaguglieri  
+draft: false  
+TableOfContents: true  
+tags:
+- factive directory
+---
 
+
+# Nxc
 
 
 

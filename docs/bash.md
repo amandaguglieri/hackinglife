@@ -199,7 +199,20 @@ netstat -rn
 # -r: Display the kernel routing tables. Replacement for netstat -r is "ip route".
 # -n: Show numerical addresses instead of trying to determine symbolic host, port or user names.
 ```
- 
+
+### pwsh
+
+Change the terminal to powershell:
+
+```bash
+pwsh
+```
+
+When done:
+
+```powershell
+exit
+```
 
 
 ### sed 

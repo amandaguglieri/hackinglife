@@ -1,5 +1,13 @@
+---
+title: scans
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - active directory
+---
 
-
+# Scans
 ## IP
 
 ### Linux

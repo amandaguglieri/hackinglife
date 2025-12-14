@@ -42,13 +42,17 @@ mariadb -h <host/IP> -u root
 ### From Linux
 
 ```bash
-mysql -u username -pPassword123 -h $ip
+mysql -u username -p'Password123' -h $ip -P 3306 --skip-ssl-verify-server-cert
 # -h host/ip   
 # -u user As default mysql has a root user with no authentication
+# If ERROR 2026 (HY000) TLS/SSL error shows up, we can append --skip-ssl at the end of the command to connect to the database.
 
 mysql --host=INSTANCE_IP --user=root --password=thepassword
 mysql -h <host/IP> -u root -p<password>
 mysql -u root -h <host/IP>
+
+mysql -u root -h example.com -P 3306 -p'Password123'
+# -P: port
 ```
 
 #### sqsh
@@ -64,8 +68,12 @@ sqsh -S $ip -U .\\username -P 'MyPassword!' -h
 
 #### mssqlclient.py from impacket 
 
+We can run impacket-mssqlclient to connect to the remote Windows machine running MSSQL by providing a username, a password, and the remote IP, together with the -windows-auth keyword. This forces NTLM authentication (as opposed to Kerberos).
+
 ```bash
 mssqlclient.py -p $port username@$ip 
+
+#Example: impacket-mssqlclient Administrator:Lab123@192.168.50.18 -windows-auth
 ```
 
 If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (`Transact-SQL`). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.
@@ -168,12 +176,18 @@ SELECT * FROM oficina UNION SELECT * from persona;
 ### Enumeration queries 
 
 ```mysql
+# retrieve the version of the running SQL instance.
+select version();
+
+# verify the current database user for the ongoing session via the system_user() function, which returns the current username and hostname for the MySQL connection.
+select system_user();
+
 # Show current user
-current_user()
-user()
+select current_user();
+select user();
 
 # Show current database
-database()
+show databases();
 ```
 
 ## Command execution

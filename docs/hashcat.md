@@ -182,6 +182,19 @@ https://hashcat.net/wiki/doku.php?id=example_hashes
 - `13100` - Crack Kerberoast(ed) hash.
 - `27100` - Crack Net-NTLMv2 to an NTLM hash.
 
+
+
+### Module 400:  phpass, WordPress (MD5),  Joomla (MD5)
+
+The WordPress password hasher implements the [Portable PHP password hashing framework](http://www.openwall.com/phpass/), which is used in Content Management Systems like WordPress and Drupal. They used to use MD5 in the older versions, but thankfully, no more. You can generate hashes using this encryption scheme at
+
+Crack with hashcat:
+
+```shell-session
+hashcat -m 400 -a 0 hash.txt /usr/share/wordlists/rockyou.txt
+```
+
+
 ### Module 500:  MD5 Hashes
 
 ```shell-session

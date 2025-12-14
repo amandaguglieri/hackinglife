@@ -62,15 +62,16 @@ sudo nmap $ip -sV -sC -p3306 --script mysql*
 ### From Linux
 
 ```bash
-mysql -u username -pPassword123 -h $ip 
+mysql -u username -p'Password123' -h $ip -P 3306 --skip-ssl-verify-server-cert
 # -h host/ip   
 # -u user As default mysql has a root user with no authentication
+# If ERROR 2026 (HY000) TLS/SSL error shows up, we can append --skip-ssl at the end of the command to connect to the database.
 
 mysql --host=INSTANCE_IP --user=root --password=thepassword
 mysql -h <host/IP> -u root -p<password>
 mysql -u root -h <host/IP>
 
-mysql -u root -h example.com -P 3306 -pPassword123
+mysql -u root -h example.com -P 3306 -p'Password123'
 # -P: port
 ```
 
@@ -112,6 +113,9 @@ mysql.exe -u username -pPassword123 -h $IP
 ```powershell
 sqlcmd -S <server> -U <username> -P 'MyPassword!' -y 30 -Y 30
 # When we authenticate to MSSQL using `sqlcmd` we can use the parameters `-y` (SQLCMDMAXVARTYPEWIDTH) and `-Y` (SQLCMDMAXFIXEDTYPEWIDTH) for better looking output. Keep in mind it may affect performance.
+
+sqlcmd -S <server> -E
+# -E for AD OAuth
 ```
 
 

