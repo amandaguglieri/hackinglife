@@ -10862,6 +10862,8 @@
       
         
       
+        
+      
     
     
     
@@ -11952,6 +11954,34 @@
     
   
     Machines and lab resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../macros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    macros
   
 
     
@@ -27491,14 +27521,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../malware-and-custom-payloads.md" class="md-nav__link">
+      <a href="../malware-custom-payloads-phishing/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Malware and custom payloads
+    Malware -custom payloads -phishing
   
 
     
@@ -27738,45 +27768,55 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-36">36</a></span>
 <span class="normal"><a href="#__codelineno-0-37">37</a></span>
 <span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a># Print common meta information for all images in &quot;dir&quot;.  &quot;-common&quot; is a shortcut tag representing common EXIF meta information.
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>exiftool -common dir
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a># List specified meta information in tab-delimited column form for all images in &quot;dir&quot; to an output text file named &quot;out.txt&quot;.
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>exiftool -T -createdate -aperture -shutterspeed -iso dir &gt; out.txt
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a># Print ImageSize and ExposureTime tag names and values.
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>exiftool -s -ImageSize -ExposureTime b.jpg
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a># Print standard Canon information from two image files.
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>exiftool -l -canon c.jpg d.jpg
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a># Recursively extract common meta information from files in &quot;pictures&quot; directory, writing text output to &quot;.txt&quot; files with the same names.
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>exiftool -r -w .txt -common pictures
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a># Save thumbnail image from &quot;image.jpg&quot; to a file called &quot;thumbnail.jpg&quot;.
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>exiftool -b -ThumbnailImage image.jpg &gt; thumbnail.jpg
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a># Recursively extract JPG image from all Nikon NEF files in the current directory, adding &quot;_JFR.JPG&quot; for the name of the output JPG files.
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>exiftool -b -JpgFromRaw -w _JFR.JPG -ext NEF -r .
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a># Extract all types of preview images (ThumbnailImage, PreviewImage, JpgFromRaw, etc.) from files in directory &quot;dir&quot;, adding the tag name to the output preview image file names.
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>exiftool -a -b -W %d%f_%t%-c.%s -preview:all dir
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a># Print formatted date/time for all JPG files in the current directory.
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>exiftool -d &#39;%r %a, %B %e, %Y&#39; -DateTimeOriginal -S -s -ext jpg 
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a># Extract image resolution from EXIF IFD1 information (thumbnail image IFD)
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>exiftool -IFD1:XResolution -IFD1:YResolution image.jpg
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a># Extract all tags with names containing the word &quot;Resolution&quot; from an image.
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>exiftool &#39;-*resolution*&#39; image.jpg
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a># Extract all author-related XMP information from an image.
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>exiftool -xmp:author:all -a image.jpg
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a># Extract complete XMP data record intact from &quot;a.jpg&quot; and write it to &quot;out.xmp&quot; using the special &quot;XMP&quot; tag (see the Extra tags in Image::ExifTool::TagNames).
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>exiftool -xmp -b a.jpg &gt; out.xmp
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a># Print metadata of the file brochure.pdf
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>exiftool -a -u brochure.pdf
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a># -a to display duplicated tags
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a># -u to display unknown tags
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a># Print common meta information for all images in &quot;dir&quot;.  &quot;-common&quot; is a shortcut tag representing common EXIF meta information.
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>exiftool -common dir
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a># List specified meta information in tab-delimited column form for all images in &quot;dir&quot; to an output text file named &quot;out.txt&quot;.
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>exiftool -T -createdate -aperture -shutterspeed -iso dir &gt; out.txt
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a># Print ImageSize and ExposureTime tag names and values.
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>exiftool -s -ImageSize -ExposureTime b.jpg
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a># Print standard Canon information from two image files.
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>exiftool -l -canon c.jpg d.jpg
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a># Recursively extract common meta information from files in &quot;pictures&quot; directory, writing text output to &quot;.txt&quot; files with the same names.
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>exiftool -r -w .txt -common pictures
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a># Save thumbnail image from &quot;image.jpg&quot; to a file called &quot;thumbnail.jpg&quot;.
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>exiftool -b -ThumbnailImage image.jpg &gt; thumbnail.jpg
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a># Recursively extract JPG image from all Nikon NEF files in the current directory, adding &quot;_JFR.JPG&quot; for the name of the output JPG files.
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>exiftool -b -JpgFromRaw -w _JFR.JPG -ext NEF -r .
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a># Extract all types of preview images (ThumbnailImage, PreviewImage, JpgFromRaw, etc.) from files in directory &quot;dir&quot;, adding the tag name to the output preview image file names.
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>exiftool -a -b -W %d%f_%t%-c.%s -preview:all dir
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a># Print formatted date/time for all JPG files in the current directory.
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>exiftool -d &#39;%r %a, %B %e, %Y&#39; -DateTimeOriginal -S -s -ext jpg 
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a># Extract image resolution from EXIF IFD1 information (thumbnail image IFD)
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>exiftool -IFD1:XResolution -IFD1:YResolution image.jpg
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a># Extract all tags with names containing the word &quot;Resolution&quot; from an image.
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>exiftool &#39;-*resolution*&#39; image.jpg
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a># Extract all author-related XMP information from an image.
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>exiftool -xmp:author:all -a image.jpg
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a># Extract complete XMP data record intact from &quot;a.jpg&quot; and write it to &quot;out.xmp&quot; using the special &quot;XMP&quot; tag (see the Extra tags in Image::ExifTool::TagNames).
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>exiftool -xmp -b a.jpg &gt; out.xmp
 </span></code></pre></div></td></tr></table></div>
 <h2 id="tag-names">Tag names</h2>
 <p>See table with all tag names: <a href="https://exiftool.org/TagNames/">https://exiftool.org/TagNames/</a>.</p>
@@ -27835,7 +27875,7 @@ Tag names are entered on the command line with a leading '<code>-</code>', in th
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="February 4, 2024 09:05:11 UTC"><span class="timeago" datetime="2024-02-04T09:05:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="February 4, 2024 09:05:11 UTC">2024-02-04</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 16, 2025 15:39:15 UTC"><span class="timeago" datetime="2025-12-16T15:39:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 16, 2025 15:39:15 UTC">2025-12-16</span></small></br>
 
 
     <small>Created: January 19, 2023 22:13:19</small>
