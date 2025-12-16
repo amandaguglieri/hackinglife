@@ -164,6 +164,12 @@ smbclient //\<target\>/\<share$\> -c 'mkdir .\target_folder\new_folder' password
  
 # Rename a file in a specific share folder
 smbclient //\<target\>/\<share$\> -c 'rename current_file.txt new_file.txt' password -U username
+
+# List permissions
+smbclient \\192.168.150.172\DocumentsShare -N -c "allinfo auditTracker.exe"
+
+
+
 ```
 
 

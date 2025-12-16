@@ -23,6 +23,11 @@ Download from [https://exiftool.org/index.html](https://exiftool.org/index.html)
 
 
 ```
+# Print metadata of the file brochure.pdf
+exiftool -a -u brochure.pdf
+# -a to display duplicated tags
+# -u to display unknown tags
+
 # Print common meta information for all images in "dir".  "-common" is a shortcut tag representing common EXIF meta information.
 exiftool -common dir
 

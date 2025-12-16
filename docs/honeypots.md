@@ -36,6 +36,12 @@ Some other honeypots:
 
 ## Installation
 
+### Canary Tokens
+
+URL: https://canarytokens.com/nest/
+Repo: https://github.com/thinkst/canarytokens-docs/tree/master
+
+**Canary Tokens** are **decoy artifacts** placed in systems to **detect unauthorized access or misuse**. When someone interacts with the token, it silently triggers an alert to the owner.
 
 1. Use canary for creating an alert
  https://canarytokens.org/nest/ Use the module "# Create JS cloned website Token"
