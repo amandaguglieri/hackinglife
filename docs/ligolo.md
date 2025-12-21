@@ -81,9 +81,8 @@ ifconfig
 # Add a route to the new interface (in a new kali terminal)
 sudo ip route add 172.16.139.0/24 dev ligolo
 
-
-
-Invoke-DomainPasswordSpray -Password '!QAZXCFGHJKOP' -OutFile spray_success -ErrorAction SilentlyContinue
+# Start the tunnel
+start
 ```
 
 

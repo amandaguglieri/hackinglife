@@ -63,7 +63,7 @@ ssh -k <user>@<kdc>
 
 But before that, generate the kerberos ticket and make sure to have the /etc/krb5.conf file in place.
 
-Use [nxc](nxc.md) for generating the krb5.conf file and save it as /etc/krb5.conf:
+Use [nxc-netexec](nxc-netexec.md) for generating the krb5.conf file and save it as /etc/krb5.conf:
 
 ```bash
 netexec smb $kdc -u $username -p '$password' -k --generate-krb5-file krb5.conf 

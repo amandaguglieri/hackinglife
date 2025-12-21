@@ -7,7 +7,7 @@ tags:
   - pentesting
   - windows
   - privilege
-  - SeManageVolumePrivilege
+  - SeRestorePrivilege
 ---
 # SeRestorePrivilege
 

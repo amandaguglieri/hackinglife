@@ -6,8 +6,8 @@ TableOfContents: true
 tags:
   - code
 ---
-# Compilation
-## Windows
+# Compilation 
+## Windows C++
 
 
 Example with the [https://github.com/amandaguglieri/Privescalation/tree/main/tools/enabling-privileges](https://github.com/amandaguglieri/Privescalation/tree/main/tools/enabling-privileges) where I have cloned the awesome work of https://github.com/3gstudent.

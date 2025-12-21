@@ -48,3 +48,8 @@ sudo apt install python3 python3-pip
 - [secretsdump](impacket-secretsdump.md)
 
 
+```
+# Check a TGT ticket - Alternative to klist
+impacket-describeTicket username.ccache
+
+```
