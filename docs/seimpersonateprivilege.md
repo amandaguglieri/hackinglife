@@ -49,3 +49,9 @@ The Print Spooler exploitation leverages the Windows Print Spooler service in co
 
 [See more on PrintSpoofer](printspoofer.md)
 
+### 🥔 GodPotato: SeImpersonate 
+
+Repo: https://github.com/BeichenDream/GodPotato
+
+
+[See more on godpotato](godpotato.md)

@@ -49,7 +49,7 @@ After we save the document, we can begin creating our first macro. To get to the
 
 **1.** Craft an executable
 
-Use for instance [veil](../veil.md).
+Use for instance [veil](veil.md).
 
 Some examples:
 

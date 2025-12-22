@@ -138,5 +138,3 @@ hashcat -m 13100 ServiceName_tgs_hashcat /usr/share/wordlists/rockyou.txt
 ```
 
 If we decide to skip the base64 output with Mimikatz and type `mimikatz # kerberos::list /export`, the .kirbi file (or files) will be written to disk. In this case, we can download the file(s) and run `kirbi2john.py` against them directly, skipping the base64 decoding step.
-
-pri

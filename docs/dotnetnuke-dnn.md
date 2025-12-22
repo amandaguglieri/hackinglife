@@ -1,4 +1,16 @@
 
+
+## Default password
+
+**For the Host (Superuser) Account:**  
+Username: **host**  
+Password: **dnnhost  
+  
+For the Admin Account**  
+Username: **admin**  
+Password: **dnnadmin**
+
+
 If you enter as **administrator** in DNN it's easy to obtain RCE.
 
 ## Via SQL

@@ -180,7 +180,7 @@ Once accessed the smb share:
 ```
 mask ""
 recurse ON
-prompt OFF
+-R
 cd 'path\to\remote\dir'
 lcd '~/path/to/download/to/'
 mget *

