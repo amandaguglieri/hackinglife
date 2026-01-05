@@ -169,6 +169,12 @@ sudo updatedb
 
 # Also:
 locate scripts/<nameOfservice>
+
+# Search for a script:
+nmap --script-help=clamav-exec.nse
+
+# Grep Exploits:
+grep Exploits /usr/share/nmap/scripts/*.nse
 ```
 
 Run a script:

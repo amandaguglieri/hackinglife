@@ -23,10 +23,19 @@ Download from github repo: [https://github.com/mar10/wsgidav](https://github.com
 
 ```bash
 sudo pip install wsgidav cheroot
+
+# Another method for installing it:
+pip3 install wsgidav
 ```
 
 ## Basis usage
 
+Create a folder to serve from there:
+
 ```bash
-sudo wsgidav --host=0.0.0.0 --port=80 --root=/tmp --auth=anonymous 
+mkdir /home/kali/webdav
+
+cd /home/kali/webdav
+
+wsgidav --host=0.0.0.0 --port=80 --root=/home/kali/webdav --auth=anonymous 
 ```

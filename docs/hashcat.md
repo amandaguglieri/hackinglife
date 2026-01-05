@@ -267,6 +267,36 @@ hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt
 ```
 
 
+
+### Module 13400: keepass
+
+```bash
+keepass2john Database.kdbx
+```
+
+Output:
+
+```
+Database:$keepass$*2*60000*0*682a0e535986c0ab7f02ef294ddfdf869d39bf9e29e17a2d521eb0cdcbd744c0*3d7849d98a8eae59f70b27b1eba401db19dbbae8c095b8be52ef08ffd05a747a*c56d10e5ace50d5924d4b6a9781af20a*947c768ced6729f3741485b9f6ee0737ad70e11933ebdb727c627fe5bc66491a*55de9df220b1d816eb6bad76da248c383a8fde3dbfb2d77e3bb50a25b5ef6133
+```
+
+Save as keepass_hash the following:
+
+```text
+$keepass$*2*60000*0*682a0e535986c0ab7f02ef294ddfdf869d39bf9e29e17a2d521eb0cdcbd744c0*3d7849d98a8eae59f70b27b1eba401db19dbbae8c095b8be52ef08ffd05a747a*c56d10e5ace50d5924d4b6a9781af20a*947c768ced6729f3741485b9f6ee0737ad70e11933ebdb727c627fe5bc66491a*55de9df220b1d816eb6bad76da248c383a8fde3dbfb2d77e3bb50a25b5ef6133
+```
+
+Crack:
+
+```bash
+hashcat -m 13400 keepass_hash /usr/share/wordlists/rockyou.txt
+
+```
+
+Output: welcome1
+
+
+
 ### Module 19700: kerberos AES
 
 ```bash
@@ -287,5 +317,28 @@ hashcat -m 18200 asrep /usr/share/wordlists/rockyou.txt
 hashcat -m 22100 backup.hash /usr/share/wordlists/rockyou.txt -o backup.cracked
 
 cat backup.cracked 
+```
+
+
+### Module 22911: crack a id_rsa key
+
+Pass the key to a key.hash format:
+
+```
+/usr/share/john/ssh2john.py id_ana2 > key.hash
+```
+
+and then, crack it:
+
+```bash
+hashcat -m 22911 key.hash /usr/share/wordlists/rockyou.txt --force
+```
+
+If the private key is not rsa, but ecdsa-sha2-* keys or ed25519 keys, use john:
+
+```
+/usr/share/john/ssh2john.py id_ana2 > id.hash
+
+john id.hash --wordlist=/usr/share/wordlists/rockyou.txt
 ```
 

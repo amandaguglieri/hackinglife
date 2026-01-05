@@ -123,6 +123,7 @@ perl:  exec "/bin/sh";
 ```bash
  # using python for a pseudo terminal
 python -c 'import os; os.system("/bin/sh")'
+python3 -c 'import os; os.system("/bin/sh")'
 ```
 
 ```bash

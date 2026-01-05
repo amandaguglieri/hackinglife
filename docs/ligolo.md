@@ -48,7 +48,7 @@ chmod +x ./proxy
 First, we need to create a tun interface:
 
 ```
-sudo ip tuntap add user lala mode tun ligolo
+sudo ip tuntap add user kali mode tun ligolo
 sudo ip link set ligolo up
 ```
 
@@ -102,3 +102,31 @@ GOOS=windows GOARCH=386 go build -o agent_x86.exe main.go
 cd ligolo-ng/cmd/proxy
 GOOS=linux GOARCH=amd64 go build -o proxy main.go
 ```
+
+
+## Using ligolo to redirect an internal service
+
+Our kali attacking machine has netowork interface 192.168.45.184. Out target machine is at 192.168.120.246. We gain a foothold at the target and notice an internal website running at 127.0.0.1:8000.  Of course it is not accessible from kali. We need to establish a tunnel and a reverse connection to redirect the 127.0.0.1 traffic to our kali and be able this way to open our browser and browse that internal site.
+
+In our kali:
+
+```bash
+sudo ip tuntap add user kali mode tun ligolo
+sudo ip link set ligolo up
+sudo ip route add 240.0.0.1/32 dev ligolo
+```
+
+Then we launch the proxy and the agent as usual. The key piece here is:
+
+```
+sudo ip route add 240.0.0.1/32 dev ligolo
+```
+
+All we have to do now is browse to http://240.0.0.1:8000 from our Kali machine to reach the internal web server running on port 8000.
+
+To remove this redirection:
+
+```
+sudo ip route delete 240.0.0.1/32 dev ligolo
+```
+
