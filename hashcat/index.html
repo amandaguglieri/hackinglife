@@ -3082,6 +3082,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#module-13400-keepass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module 13400: keepass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#module-19700-kerberos-aes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3108,6 +3119,17 @@
     <span class="md-ellipsis">
       
         Module 22100: bitlocker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-22911-crack-a-id_rsa-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module 22911: crack a id_rsa key
       
     </span>
   </a>
@@ -28066,6 +28088,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#module-13400-keepass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module 13400: keepass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#module-19700-kerberos-aes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -28092,6 +28125,17 @@
     <span class="md-ellipsis">
       
         Module 22100: bitlocker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-22911-crack-a-id_rsa-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module 22911: crack a id_rsa key
       
     </span>
   </a>
@@ -28368,23 +28412,50 @@ In the event of an HP iLO using a factory default password, we can use this Hash
 <h3 id="module-13100-kerberos-rc4">Module 13100: kerberos RC4</h3>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">13100</span><span class="w"> </span>rc4_to_crack<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
 </span></code></pre></div></td></tr></table></div>
+<h3 id="module-13400-keepass">Module 13400: keepass</h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>keepass2john<span class="w"> </span>Database.kdbx
+</span></code></pre></div></td></tr></table></div>
+<p>Output:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>Database:$keepass$*2*60000*0*682a0e535986c0ab7f02ef294ddfdf869d39bf9e29e17a2d521eb0cdcbd744c0*3d7849d98a8eae59f70b27b1eba401db19dbbae8c095b8be52ef08ffd05a747a*c56d10e5ace50d5924d4b6a9781af20a*947c768ced6729f3741485b9f6ee0737ad70e11933ebdb727c627fe5bc66491a*55de9df220b1d816eb6bad76da248c383a8fde3dbfb2d77e3bb50a25b5ef6133
+</span></code></pre></div></td></tr></table></div>
+<p>Save as keepass_hash the following:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>$keepass$*2*60000*0*682a0e535986c0ab7f02ef294ddfdf869d39bf9e29e17a2d521eb0cdcbd744c0*3d7849d98a8eae59f70b27b1eba401db19dbbae8c095b8be52ef08ffd05a747a*c56d10e5ace50d5924d4b6a9781af20a*947c768ced6729f3741485b9f6ee0737ad70e11933ebdb727c627fe5bc66491a*55de9df220b1d816eb6bad76da248c383a8fde3dbfb2d77e3bb50a25b5ef6133
+</span></code></pre></div></td></tr></table></div>
+<p>Crack:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">13400</span><span class="w"> </span>keepass_hash<span class="w"> </span>/usr/share/wordlists/rockyou.txt
+</span></code></pre></div></td></tr></table></div>
+<p>Output: welcome1</p>
 <h3 id="module-19700-kerberos-aes">Module 19700: kerberos AES</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">19700</span><span class="w"> </span>aes_to_crack<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">19700</span><span class="w"> </span>aes_to_crack<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="module-18200-kerberos-asrep">Module 18200: kerberos asrep</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">18200</span><span class="w"> </span>asrep<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">18200</span><span class="w"> </span>asrep<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="module-22100-bitlocker">Module 22100: bitlocker</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
-<span class="normal"><a href="#__codelineno-22-2">2</a></span>
-<span class="normal"><a href="#__codelineno-22-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">22100</span><span class="w"> </span>backup.hash<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>-o<span class="w"> </span>backup.cracked
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a>cat<span class="w"> </span>backup.cracked<span class="w"> </span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">22100</span><span class="w"> </span>backup.hash<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>-o<span class="w"> </span>backup.cracked
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a>cat<span class="w"> </span>backup.cracked<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
+<h3 id="module-22911-crack-a-id_rsa-key">Module 22911: crack a id_rsa key</h3>
+<p>Pass the key to a key.hash format:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>/usr/share/john/ssh2john.py id_ana2 &gt; key.hash
+</span></code></pre></div></td></tr></table></div>
+<p>and then, crack it:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">22911</span><span class="w"> </span>key.hash<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>--force
+</span></code></pre></div></td></tr></table></div>
+<p>If the private key is not rsa, but ecdsa-sha2-* keys or ed25519 keys, use john:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span>
+<span class="normal"><a href="#__codelineno-29-2">2</a></span>
+<span class="normal"><a href="#__codelineno-29-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>/usr/share/john/ssh2john.py id_ana2 &gt; id.hash
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a>john id.hash --wordlist=/usr/share/wordlists/rockyou.txt
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 14, 2025 10:44:38 UTC"><span class="timeago" datetime="2025-12-14T10:44:38+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 14, 2025 10:44:38 UTC">2025-12-14</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 5, 2026 15:32:57 UTC"><span class="timeago" datetime="2026-01-05T15:32:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 5, 2026 15:32:57 UTC">2026-01-05</span></small></br>
 
 
     <small>Created: January 18, 2023 23:33:16</small>

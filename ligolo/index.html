@@ -3777,6 +3777,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-ligolo-to-redirect-an-internal-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using ligolo to redirect an internal service
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -27795,6 +27806,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-ligolo-to-redirect-an-internal-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using ligolo to redirect an internal service
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -27857,7 +27879,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h2 id="basic-usage">Basic usage</h2>
 <p>First, we need to create a tun interface:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
-<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo ip tuntap add user lala mode tun ligolo
+<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo ip tuntap add user kali mode tun ligolo
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>sudo ip link set ligolo up
 </span></code></pre></div></td></tr></table></div>
 <p>Second, start the proxy:</p>
@@ -27903,10 +27925,26 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>cd ligolo-ng/cmd/proxy
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>GOOS=linux GOARCH=amd64 go build -o proxy main.go
 </span></code></pre></div></td></tr></table></div>
+<h2 id="using-ligolo-to-redirect-an-internal-service">Using ligolo to redirect an internal service</h2>
+<p>Our kali attacking machine has netowork interface 192.168.45.184. Out target machine is at 192.168.120.246. We gain a foothold at the target and notice an internal website running at 127.0.0.1:8000.  Of course it is not accessible from kali. We need to establish a tunnel and a reverse connection to redirect the 127.0.0.1 traffic to our kali and be able this way to open our browser and browse that internal site.</p>
+<p>In our kali:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>sudo<span class="w"> </span>ip<span class="w"> </span>tuntap<span class="w"> </span>add<span class="w"> </span>user<span class="w"> </span>kali<span class="w"> </span>mode<span class="w"> </span>tun<span class="w"> </span>ligolo
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>sudo<span class="w"> </span>ip<span class="w"> </span>link<span class="w"> </span><span class="nb">set</span><span class="w"> </span>ligolo<span class="w"> </span>up
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span><span class="m">240</span>.0.0.1/32<span class="w"> </span>dev<span class="w"> </span>ligolo
+</span></code></pre></div></td></tr></table></div>
+<p>Then we launch the proxy and the agent as usual. The key piece here is:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>sudo ip route add 240.0.0.1/32 dev ligolo
+</span></code></pre></div></td></tr></table></div>
+<p>All we have to do now is browse to http://240.0.0.1:8000 from our Kali machine to reach the internal web server running on port 8000.</p>
+<p>To remove this redirection:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>sudo ip route delete 240.0.0.1/32 dev ligolo
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 21, 2025 12:46:39 UTC"><span class="timeago" datetime="2025-12-21T12:46:39+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 21, 2025 12:46:39 UTC">2025-12-21</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 5, 2026 15:32:57 UTC"><span class="timeago" datetime="2026-01-05T15:32:57+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 5, 2026 15:32:57 UTC">2026-01-05</span></small></br>
 
 
     <small>Created: June 1, 2025 11:12:15</small>
