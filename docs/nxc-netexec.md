@@ -56,6 +56,18 @@ netexec smb ip -u user -p password --generate-krb5-file /path
 export KRB5_CONFIG=/path
 
 
+### 
+# Execute commands
+netexec smb ip -d corp.com -u user -p password  -x "type c:\Users\Administrator\Desktop\flag.txt"
+ 
+#### 
+# List the shares
+netexec smb ip -d corp.com -u user -p password  --shares 
+ 
+ 
+
+
+
 
 
 

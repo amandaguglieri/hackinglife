@@ -16,6 +16,7 @@ tags:
     - [Netcat for windows 32/64 bit](https://github.com/int0x33/nc.exe) 
     - [Pentesmonkey](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
     - [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) 
+    - [SharpyShell](sharpyshell.md)
 
 ??? abstract "All about shells"
     | **Shell Type** | **Description** |
@@ -43,6 +44,10 @@ A Reverse Shell is handy when we want to get a quick, reliable connection to our
 Located under `/usr/share/seclists/Web-Shells` folder. 
 
 
+
+## SharpyShell
+
+Go to [SharpyShell](sharpyshell.md).
 
 ## bash
 
