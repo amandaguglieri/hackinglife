@@ -26,7 +26,7 @@ Official documentation: https://hashcat.net/wiki/doku.php?id=rule_based_attack
 hashcat -help 
 
 # To crack a hash with a dictionary
-hashcat -m 0 -a 0 -D2 example0.hash example.dict
+hashcat -m 0 -a 0 -D2 example0.hash example.dict --force
 # -m:  to specify the module of the algorithm we’ll be running. Then -m 0 specifies an MD5 type of hash
 # -a: type of attack. Then -a 0 is a dictionary attack
 # Results are stored in file hashcat.potfile

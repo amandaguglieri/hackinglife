@@ -58,6 +58,10 @@ See
 smbclient -L -N //$ip
 # -N: Suppresses the password prompt.
 # -L: retrieve a list of available shares on the remote host
+
+
+# Connect via pass the hash
+smbclient \\\\192.168.50.212\\secrets -U Administrator --pw-nt-hash 7a38310ea6f0027ee955abed1762964b
 ```
 
 Smbclient will attempt to connect to the remote host and check if there is any authentication required. If there is, it will ask you for a user and a password for your local username. If we do not specify a specific username to smbclient when attempting to connect to the remote host, it will just use your local machine's username.If vulnerable and performing a Null Attack, we will hit Enter when prompted for a password.

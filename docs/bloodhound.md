@@ -114,3 +114,6 @@ MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:S
 
 ![](img/blood02.png)
 
+## 4. Bloodhount queries for ALL
+
+https://queries.specterops.io/
