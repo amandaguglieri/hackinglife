@@ -17,6 +17,9 @@ Display Running Processes:
 ```
 # With Netstat
 netstat -ano
+
+# With Get-CimInstance
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
 ```
 
 The main thing to look for with Active Network Connections are entries listening on loopback addresses (127.0.0.1 and ::1) that are not listening on the IP Address (10.129.43.8) or broadcast (0.0.0.0, ::/0).

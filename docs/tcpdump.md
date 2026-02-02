@@ -32,8 +32,6 @@ tcpdump -nntttAr <nameOfFile.pcap>
 # Read  from  a saved  packet  file
 -r
 
-# Print out all captured packages
+# Print out all captured packages in ASCII
 -A
-
-
 ```

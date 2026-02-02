@@ -9,6 +9,7 @@ tags:
 ---
 # Footprinting Windows
 
+
 ## System Information
 
 ```powershell
@@ -62,15 +63,18 @@ Get-WmiObject -Class Win32_Product |  select Name, Version
 
 ## Interface(s), IP Address(es), DNS Information
 
-```cmd-session
+```
+# List network interfaces
 ipconfig /all
-
 
 # ARP Table
 arp -a
 
-# Routing Table
+# Print Routing Table
 route print
+
+# Active TCP connections with TCP/UDP ports, no name resolution, return process ID
+netstat -ano
 ```
 
 Scanning ports in Powershell:
@@ -111,6 +115,55 @@ net localgroup administrators
 net accounts
 
 
+###### Username and hostname
+# Whoami and my privs
+whoami
+whoami /priv
+# Which computer
+hostname
+# Group memberships of the current user
+whoami /groups
+
+###### Existing users and groups
+# Users in the Computer
+net user
+# Users in the Computer (tells you if enabled or not)
+Get-LocalUser
+# Get specific Local user
+Get-LocalUser SAMnameOfUser
+# Localgroups in the Computer
+Get-LocalGroup 
+# Get specific Localgroup
+Get-LocalGroupMember localgroupname
+net localgroup "Remote Management Users"
+```
+
+## Enumerate Interesting Files
+
+```powershell
+###### File enumeration
+# Retrieve files with certain extensions, like keepas
+Get-ChildItem -Path C:\users -Include *.kdbx -File -Recurse -ErrorAction SilentlyContinue
+Get-ChildItem -Path C:\xampp -Include *.txt,*.ini -File -Recurse -ErrorAction SilentlyContinue
+Get-ChildItem -Path C:\users -Include *.txt,*.ini -File -Recurse -ErrorAction SilentlyContinue
+
+# Retrieve files containing certain string, like "password"
+Get-ChildItem -Recurse -Path C:\ | Select-String "password" -List
+```
+
+## Enumerate History Files
+
+```powershell
+###### History files
+# Retrieve history:
+Get-History
+
+
+# To retrieve the history from PSReadline. Long history short: Most Administrators use the Clear-History command to clear the PowerShell history. But this Cmdlet is only clearing PowerShell's own history, which can be retrieved with Get-History. Starting with PowerShell v5, v5.1, and v7, a module named PSReadline is included, which is used for line-editing and command history functionality.
+(Get-PSReadlineOption).HistorySavePath
+
+
+### Mitigations: Administrators can prevent PSReadline from recording commands by setting the -HistorySaveStyle option to SaveNothing with the [_Set-PSReadlineOption_](https://learn.microsoft.com/en-us/powershell/module/psreadline/set-psreadlineoption?view=powershell-7.2) Cmdlet. Alternatively, they can clear the history file manually.
 ```
 
 ## Enumerate local shares
@@ -172,10 +225,52 @@ Display Running Processes:
 ```
 # With Netstat
 netstat -ano
+
+###### Running processes
+# List running processes:
+Get-Process
+
+
+###### Installed services
+# Several method for retrieving services:
+# 1. GUI snap-in services.msc
+# 2. Get-Service cmd-let
+# 3. Get-Ciminstance cmd-let (super seeding Get-WmiObject)
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+
 ```
 
 The main thing to look for with Active Network Connections are entries listening on loopback addresses (127.0.0.1 and ::1) that are not listening on the IP Address (10.129.43.8) or broadcast (0.0.0.0, ::/0).
 
+
+## Installed applications
+
+```powershell
+# Important: Review C:\ for applications not completely installed
+
+
+# 32-bit applications 
+Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+
+# 64-bit applications
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+
+# Important: Review C:\ for applications not completely installed
+
+```
+
+
+## Enumerating LOGS: Event Viewer +  Script Block loggings
+
+```
+###### LOGS
+# Retrieve Powershell (or any other applicaiton) Logs
+# Open Event Viewer: Press `WIN + R`, type event.msc and press Enter 
+# Navigate to the Powershell logs: In the event viewer go to Application and Services Logs > Microsoft > Windows > Powershell > Operational.
+# Search relevant Script Blog Logging Events: You can fileter for relevant events by right clicking on Operaitonal and selecting `Filter Current Log`. In the filter window, set the EVENT ID to `4104` which is the id related to Script Block Loggins. Click ok. 
+```
 ## PsService
 
 We can use  [PsService](https://docs.microsoft.com/en-us/sysinternals/downloads/psservice), which is part of the Sysinternals suite, to check permissions on the service.

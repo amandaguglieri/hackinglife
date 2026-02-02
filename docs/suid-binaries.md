@@ -11,6 +11,9 @@ tags:
 ---
 # Suid and Setgid Binaries
 
+When a user or a system-automated script launches a process, it inherits the UID/GID of its initiating script: this is known as the real UID/GID. User passwords are stored as hashes within /etc/shadow, which is owned and writable only by root (uid=0). How, then, can non-privileged users access this file to change their own password?  To circumvent this issue, the effective UID/GID was introduced, which represents the actual value being checked when performing sensitive operations.
+
+
 ## Suid binaries
 
 The Set-Group-ID (setgid) permission is another special permission that allows us to run binaries as if we were part of the group that created them. 

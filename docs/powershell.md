@@ -22,8 +22,12 @@ gci
 # Count files from a directory
 (Get-ChildItem -File -Recurse | Measure-Object).Count
 
+# Find file with extension of Keepass
+Get-ChildItem -Path C:\ -Recurse -Include *.kdbx, *.kdb -File -Force -ErrorAction SilentlyContinue
+
+
 # Find specific items from the directory specified by the Path parameter that contains the string cred.
-Get-ChildItem -Recurse -Path N:\ -Include *cred* -File
+Get-ChildItem -Recurse -Path C:\ -Include *steve* -File
 
 # Print working directory
 pwd
@@ -51,7 +55,7 @@ CTRL-R
 
 # Select-String: The `Select-String` cmdlet uses regular expression matching to search for text patterns in input strings and files. We can use `Select-String` similar to `grep` in UNIX or `findstr.exe` in Windows.
 Get-ChildItem -Recurse -Path N:\ | Select-String "cred" -List
-
+Get-ChildItem -Recurse -Path C:\Users | Select-String "password" -List
 
 
 # Clear screen

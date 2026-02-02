@@ -7,8 +7,9 @@ tags:
   - privilege escalation
   - linux
 ---
+# Process capabilities
 
-# Process capabilities: getcap
+Capabilities are extra attributes that can be applied to processes, binaries, and services to assign specific privileges normally reserved for administrative operations, such as traffic capturing or adding kernel modules. Similarly to setuid binaries, if misconfigured, these capabilities could allow an attacker to elevate their privileges to root.
 
 Linux capabilities **provide a subset of the available root privileges** to a process. For the purpose of performing permission checks, traditional UNIX implementations distinguish two categories of processes: _privileged_ processes (whose effective user ID is 0, referred to as superuser or root), and _unprivileged_ processes (whose effective UID is nonzero). Privileged processes bypass all kernel permission checks, while unprivileged processes are subject to full permission checking based on the process's credentials (usually: effective UID, effective GID, and supplementary group list).
 
@@ -21,7 +22,24 @@ Scan all files in system and check capabilities:
 
 ```shell-session
 getcap -r / 2>/dev/null
+
+# Or
+/usr/sbin/getcap -r / 2>/dev/null
 ```
+
+Example of output:
+
+```text
+/usr/bin/ping = cap_net_raw+ep
+/usr/bin/perl = cap_setuid+ep
+/usr/bin/perl5.28.1 = cap_setuid+ep
+/usr/bin/gnome-keyring-daemon = cap_ipc_lock+ep
+/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper = cap_net_bind_service,cap_net_admin+ep
+```
+
+>The two perl binaries stand out as they have setuid capabilities enabled, along with the +ep flag specifying that these capabilities are effective and permitted. Even though they seem similar, capabilities, setuid, and the setuid flag are located in different places within the Linux ELF file format.
+
+**How to exploit**: To exploit this capability misconfiguration, we could check the [_GTFOBins_](https://gtfobins.github.io/) website. This site provides an organized list of UNIX binaries and how can they be misused to elevate our privileges. Searching for "Perl" on the GTFOBins website, we'll find precise instructions for which command to use to exploit capabilities.
 
 Check what every capability means in [https://linux.die.net/man/7/capabilities](https://linux.die.net/man/7/capabilities)
 
