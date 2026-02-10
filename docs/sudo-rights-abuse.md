@@ -11,6 +11,8 @@ tags:
 ---
 # Sudo Rights Abuse
 
+`sudo` stands for "superuser-do". This commands changes the effective userID of the executed commands.
+
 When the `sudo` command is issued, the system will check if the user issuing the command has the appropriate rights, as configured in `/etc/sudoers`. 
 
 Therefore the  `/etc/sudoers` file specifies which users or groups are allowed to run specific programs and with what privileges.
@@ -23,6 +25,18 @@ Sometimes we will need to know the user's password to list their `sudo` rights
 
 ```
 sudo -l
+```
+
+If the response contains a list of binaries, try to elevate privileges with the returned commands and the [https://gtfobins.org/](https://gtfobins.org/). If not possible, look for the command in logs and see if apparmor is preventing the privilege escalation: 
+
+```bash
+cat /var/sys/log | grep command
+```
+
+Sometimes these commands are protected with Apparmor. Check the status of Apparmor:
+
+```bash
+aa-status
 ```
 
 

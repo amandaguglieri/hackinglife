@@ -54,7 +54,7 @@ See [Linux Enumeration Cheat sheet](linux-enumeration.md)
 	- Password Mining: logs, memory, history, configuration files
 	- [Path Abuse](linux-path-abuse.md)
 	- [Polkit](polkit.md)
-	- [Process capabilities: getcap](process-capabilities-getcap.md)
+	- [Process capabilities: getcap](process-capabilities.md)
 	- [Python Library Hickjacking](python-library-hijacking.md)
 	- [Shared libraries: LD_PRELOAD / LD_LIBRARY_PATH.](shared-libraries-ldpreload-ldlibrarypath.md)
 	- [Shared object hijacking](shared-object-hijacking.md)

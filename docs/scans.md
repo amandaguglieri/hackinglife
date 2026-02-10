@@ -44,6 +44,10 @@ TCP
 
 ```bash
 nc -nvv -w 1 -z 192.168.50.152 3388-3390
+
+# In a machine
+nc -nvv -w 1 -z 10.4.187.63 1-65534 2>&1 | tee lala.txt
+cat lala.txt | grep succeeded
 ```
 
 UDP 

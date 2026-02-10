@@ -18,6 +18,9 @@ Scheduled tasks are listed under the /etc/cron.* directories, there * represents
 ```bash
 # Check scheduled cron jobs
 ls -la /etc/cron.*
+
+# Identify in Sys logs running CRON jobs
+rep "CRON" /var/log/syslog
 ```
 
 System admin sometimes add their own scheduled task in the `/etc/crontab` file:

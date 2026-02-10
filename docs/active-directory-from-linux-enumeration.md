@@ -408,7 +408,7 @@ Enumerating all these categories will allow us to increase the probability of su
 
 ### Enumerating interesting files in a linux AD machine
 
-[More about Linux and enumeration](linux.md).
+[More about Linux and enumeration](linux-enumeration.md).
 
 Assuming that we have a foothold on the active directory and it's a linux machine:
 

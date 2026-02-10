@@ -9,7 +9,7 @@ tags:
 ---
 # Antivirus Evasion techniques
 
-Some tooling: [https://kleenscan.com](https://kleenscan.com/index) and [virustotal.com/](virustotal.com/gui/)
+Some tooling: [https://kleenscan.com](https://kleenscan.com/index) and [virustotal.com/](https://virustotal.com/gui/)
 
 
 ```powershell

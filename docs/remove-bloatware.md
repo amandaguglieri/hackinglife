@@ -313,3 +313,296 @@ pm uninstall --user 0 com.miui.home
 pm uninstall --user 0 com.miui.aod
 ```
 
+
+
+# Workshop in Android
+
+
+Getting the .apk as the first step to to the static analysis. 
+After launching the app, run again some checks on the possible folders created locally in your device.
+
+We will follow the OWASP MAS methodology: MASVS MASWE MASTG
+Mobile application Security List would be ours: mass.owasp.org and specially: https://mas.owasp.org/MASTG/
+
+MASTG is the guide for mobile pentesting, similar to the WSTG, with tools, techniques...
+
+
+Backmarket for buying stuff to testing 
+
+Solutions for emulation: ADV from Android Studio, Genymotion (version free and  paid one), Android Corellium (paid). 
+
+Tools: Android Studio, Magisk, adb. MobSF, BurpSuite, Frida, APKTool, JADX, Drozer, and Objection.
+
+
+## Lab
+
+Follow the setup guide. 
+
+Attention in Frida installation. We need to take into account the target architecture. Also we need to have same Frida version in the mobile and in the laptop.
+
+**Low Hanging Fruits**
+- Permissions of the Application: do they make sense?
+- How is the data protected? What is the nature of that data (creds, sensible data...) Is HTTP is place or HTTPS? Other protocols...
+- Sandboxes? Can you access other apps from yours?
+- Update and patches
+
+Basic checklist (see document from zip)
+
+
+**Application formats**
+
+- APK
+- Split APKs (it's like the apk but segmented in different packages): ready for uploading to stores.
+- App bundle (AAB)
+
+
+
+Cheat sheet
+
+Enable Deb tools in mobile by clicking 7 times on the About the device option
+
+```bash
+# Check devices and connectivity
+adb devices
+
+# Connect
+adb connect 10.0.2.2
+
+# Enter the shell
+adb shell 
+
+
+# Install an apk
+adb install app.apk
+
+# reinstall but keeping data
+adb install -r aap.apk 
+
+# Install the splitted format of an apk
+adb install-multiple base.apk split_config.arm64_v8a.apk split_config.xxhdpi.apk
+```
+
+Starting the lab
+
+```
+# Show installed packages in mobile
+adb shell pm list packages
+
+# What is the name of the packeage of your application
+adb instalñ AndroGoat.apk
+
+# Where is it installed
+adb shell pm path owasp.sat.agoat
+# it returns a path
+
+# We can download the package to our kali
+adb pull <paht of the package>
+
+```
+
+From code to  apk: (slide 38)
+
+Anatomy of an apk:
+- AndroidManifest.xml
+- classes.dex
+- assets/
+- lib/
+- ....
+- (slide 39)
+
+
+great resource for understanding the basic and it's free, in slide 40
+
+Reversing tools:
+
+Apktool - > Manifest + Smali + Res
+Dex2jar -> classess.dex -> .jar
+JD-GUI/JDAX -Z Java
+
+**Hoe to installl apktool:**
+
+Apktools is for compiling and decompiling applicaitons, so cooool
+
+```
+sudo apt update
+sudo apt install apktool
+apktoll d application.apk
+```
+
+
+```
+apktool d AndroGoat.apk
+```
+
+Version that goes ok, v. 2.7.0, for windows. Other gives problems
+
+After running apktool the app has been decompiled and we can access folders and files. It returns the SMALI. 
+
+
+**Now, how to convert the classes.dex to java, with JADX.**
+
+Install Jadx-gui (48):
+
+```
+sudo apt install default-jdk
+
+sudo apt install jadx
+
+jadx-gui
+```
+
+For windows follow the instructions from slide 49.
+
+Now inside the JADX-GUI we can go to the source code of the application,. 
+
+Interesting files:
+
+- Interestingly enough the resources.arsc/res/values/string.xml, which is the equivalent to running a strings command on the app.
+- resources.arsc/res/xml/network_security_config.xml It may says if the traffic is plain, configuration of subdomains, certificates...).
+- Another interesting thing to do is using the Search. Look for password, admin and similar relevant string for the application.
+- The installed apps in a device are located at /data/data. There you may find the folder cache and code_cache. It's worth having a look at. 
+
+
+**MobsF**
+
+Installing (slide 52 and 53)
+It has a part for dynamic analysis, but it requires certain configurations and connections to other tools such as Andoid Studio.  defaul creds: mobsf:monsf
+
+
+Has the app the debug mode enabled? See in AndroidManisfest.xml-
+
+
+**Activities**
+
+Pay attention to the exported ones, since they might be accessed from the outside
+
+Have a look at the Firebase and see if the db is accesible 
+
+```
+https://exampledomain.firebase.io/.json
+```
+
+Tools gap checker github in https://github.com/joanbono/gap
+
+
+### AndroidManifest analysis
+The installed apps in a device are located at /data/data. There you may find the folder cache and code_cache. It's worth having a look at. 
+
+slide 56
+
+### Drozer
+
+Security tool for mobile app. What can you do (slide 57).
+
+install in slide 58
+
+```
+pipx install drozer
+
+wget https://pathinSlide59
+
+# once downloaded, check that we are connected to the device with adb and then
+adb install drozer
+
+adb forward tcp:31415 tcp:31515
+adb drozer connect
+> list
+> run app.package.info -a <PackageName> 
+```
+
+Activities
+
+Activities represent a View in the application. Basically a Screenshot.
+It also contains workflows. It's declared in the manisfest
+
+See slide 
+
+```
+adb shell dumpsys package PackageName> 
+```
+
+
+After listing the attack surface we may see activities exported, providers and services... 
+
+```
+run app.package.attackSurface -a <applicationPackage> 
+
+run app.activity.start <ActivityName> --component <application package> <application package>.<ActivityName>  
+
+```
+
+
+This way we may start the activity directly (we have not logged yet)- Same thing can be achieve with adb
+
+```
+adb shell am start -n <packageName>/.<ActivityviewName>
+```
+
+If an activity is exported it can be access by other apps from the mobile.
+
+
+Next, we have intents, two types: implicit and explicit. An intent may be defined as a way of Android to tell open an screen or execute this component. 61
+
+```
+# Syntax
+android.intent.<whatever> 
+```
+
+**Service exploitation**
+
+slide 70
+
+A service is a functionality that provides a service to the application. Examples: download an invoice, run a player with music...
+
+When it comes to exploitability, we may abuse services to get them executed. If they are exported, another  application within the device may trigger them.
+
+```
+run app.service.start --action DownloadInvoice --component owasp.sat.agoat owasp.sat.agoat.DownloadInvoice
+```
+
+
+
+**Content Providers (slide 73)**
+
+Component that allows the access to data within an application.
+
+
+**Fragment**
+
+Fragment is part of the activity. It represents a section of the View. Belonging to the Activity, it inherits their vulnerabilities.
+
+
+**IPC**
+
+IPC is the mechanism that allows inter process - communication among processes and applications.
+
+
+**Permissions**
+
+(slide 79)
+
+Recap in slide 80
+
+
+**Deep links exploitation**
+
+```
+# adb shell am start -W -a android.intent.action.VIEW -d scheme://host/congrats?expectedParameter=value
+
+adb shell am start -W -a android.intent.action.VIEW -d allsafe://infosecadventures/congrats?key=a
+```
+
+**Webview**
+
+Webview is an android component that allows us to display ...
+
+
+More attacks on different components UP TO  slide 87
+
+### Static analysis
+
+from slide 87
+
+
+
+

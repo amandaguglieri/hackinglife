@@ -1,5 +1,14 @@
-
-
+---
+title: Disassemblers
+author: amandaguglieri
+draft: false
+TableOfContents: true
+tags:
+  - linux
+  - reverse-engineering
+  - windows
+---
+# Disassemblers
 ### objdump
 
 [objdump](https://man7.org/linux/man-pages/man1/objdump.1.html), installed by default on Kali.

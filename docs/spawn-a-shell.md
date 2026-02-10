@@ -177,7 +177,7 @@ and you’ll catch a fully interactive TTY session. It supports tab-completion, 
 
 ```bash
 # In reverse shell
-$ python -c 'import pty; pty.spawn("/bin/bash")'
+$ python3 -c 'import pty; pty.spawn("/bin/bash")'
 
 # Ctrl-Z
  

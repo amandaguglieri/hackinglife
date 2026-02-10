@@ -136,6 +136,8 @@ And in the wifi settings of the virtual device running on GenyMotion (for instan
 # Display active processes, and installed
 frida-ps -Ua
 
+# List connected devices
+frida-ls-devices
 
 # Restaurate class loaders
 Java.perform(function() {
