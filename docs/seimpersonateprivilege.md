@@ -13,11 +13,7 @@ tags:
 
 ## 🤷 Abusing SeImpersonate and SeAssignPrimaryToke
 
-In Windows, every process has a token that has information about the account that is running it. These tokens are not considered secure resources, as they are just locations within memory.
-
- To utilize the token, the `SeImpersonate` privilege is needed.  It is only given to administrative accounts.
-
-We will often run into this privilege after gaining remote code execution via an application that runs in the context of a service account. 
+In Windows, every process has a token that has information about the account that is running it. These tokens are not considered secure resources, as they are just locations within memory.   To utilize the token, the `SeImpersonate` privilege is needed.  It is only given to administrative accounts. We will often run into this privilege after gaining remote code execution via an application that runs in the context of a service account. 
  
 **List our privileges**
 
@@ -27,10 +23,15 @@ whoami /priv
 
 If the command `whoami /priv` confirms that [SeImpersonatePrivilege](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege) is listed, we may  use it to impersonate a privileged account such as `NT AUTHORITY\SYSTEM`.
 
-For that there are several tools such as [JuicyPotato](https://github.com/ohpe/juicy-potato), [PrintSpoofer](https://github.com/itm4n/PrintSpoofer), or [RoguePotato](https://github.com/antonioCoco/RoguePotato) to escalate to `SYSTEM` level privileges, depending on the target host.
+For that there are several tools such as [JuicyPotato](https://github.com/ohpe/juicy-potato), [PrintSpoofer](https://github.com/itm4n/PrintSpoofer), Godpotato, or [RoguePotato](https://github.com/antonioCoco/RoguePotato) to escalate to `SYSTEM` level privileges, depending on the target host.
 
 
 ### 🥔 JuicyPotato: SeImpersonate or SeAssignPrimaryToken
+
+If the machine is **>= Windows 10 1809 & Windows Server 2019** - Try **Rogue Potato**  
+
+If the machine is **< Windows 10 1809 < Windows Server 2019** - Try **Juicy Potato**
+
 
 [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) and its [variants](https://github.com/decoder-it/lonelypotato) leverages the privilege escalation chain based on [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [service](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) having the MiTM listener on `127.0.0.1:6666` and when you have `SeImpersonate` or `SeAssignPrimaryToken` privileges. During a Windows build review we found a setup where `BITS` was intentionally disabled and port `6666` was taken.
 
@@ -55,3 +56,5 @@ Repo: https://github.com/BeichenDream/GodPotato
 
 
 [See more on godpotato](godpotato.md)
+
+

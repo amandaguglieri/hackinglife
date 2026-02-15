@@ -54,6 +54,22 @@ ssh <user>@$ip
 ssh -i id_rsa <user>@$ip
 ```
 
+#### Troubleshooting 
+
+```bash
+ssh -i root root@localhost 
+# Received disconnect from 127.0.0.1 port 22:2: 
+# Too many authentication failures 
+# Disconnected from 127.0.0.1 port 22
+```
+
+But with this, it works:
+
+```
+ssh -i root -o IdentitiesOnly=yes root@127.0.0.1
+# IdentitiesOnly=yes means "Do NOT try agent keys. Only use the one I specify."
+```
+
 ### Connect with kerberos
 
 ```bash

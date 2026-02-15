@@ -151,6 +151,19 @@ Get-ChildItem -Path C:\users -Include *.txt,*.ini -File -Recurse -ErrorAction Si
 Get-ChildItem -Recurse -Path C:\ | Select-String "password" -List
 ```
 
+And with cmd:
+
+```
+# Find the file local.txt in C:\ with recursivity
+dir C:\local.txt /s /b 2>nul
+
+# Find the file local.txt in C:\Users with recursivity
+dir C:\Users\local.txt /s /b 2>nul
+
+```
+
+
+
 ## Enumerate History Files
 
 ```powershell

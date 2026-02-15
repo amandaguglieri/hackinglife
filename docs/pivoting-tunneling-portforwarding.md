@@ -953,7 +953,9 @@ xfreerdp /v:$IpInterface1:8080 /u:$username /p:$password
 
 
 
-## DNS tunneling with Dnscat2 
+## DNS tunneling 
+
+### Dnscat2 
 
 [Dnscat2](https://github.com/iagox86/dnscat2) is a tunneling tool that uses DNS protocol to send data between two hosts. It uses an encrypted `Command-&-Control` (`C&C` or `C2`) channel and sends data inside TXT records within the DNS protocol.
 
