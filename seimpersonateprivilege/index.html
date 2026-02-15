@@ -19904,6 +19904,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -19987,6 +19991,34 @@
     
   
     browsers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pentesting-cassandra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cassandra
   
 
     
@@ -20127,6 +20159,34 @@
     
   
     drupal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pentesting-filemanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filemanager
   
 
     
@@ -28240,15 +28300,15 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <h1 id="seimpersonateprivilege">SeImpersonatePrivilege</h1>
 <h2 id="abusing-seimpersonate-and-seassignprimarytoke">🤷 Abusing SeImpersonate and SeAssignPrimaryToke</h2>
-<p>In Windows, every process has a token that has information about the account that is running it. These tokens are not considered secure resources, as they are just locations within memory.</p>
-<p>To utilize the token, the <code>SeImpersonate</code> privilege is needed.  It is only given to administrative accounts.</p>
-<p>We will often run into this privilege after gaining remote code execution via an application that runs in the context of a service account. </p>
+<p>In Windows, every process has a token that has information about the account that is running it. These tokens are not considered secure resources, as they are just locations within memory.   To utilize the token, the <code>SeImpersonate</code> privilege is needed.  It is only given to administrative accounts. We will often run into this privilege after gaining remote code execution via an application that runs in the context of a service account. </p>
 <p><strong>List our privileges</strong></p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>whoami /priv
 </span></code></pre></div></td></tr></table></div>
 <p>If the command <code>whoami /priv</code> confirms that <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege">SeImpersonatePrivilege</a> is listed, we may  use it to impersonate a privileged account such as <code>NT AUTHORITY\SYSTEM</code>.</p>
-<p>For that there are several tools such as <a href="https://github.com/ohpe/juicy-potato">JuicyPotato</a>, <a href="https://github.com/itm4n/PrintSpoofer">PrintSpoofer</a>, or <a href="https://github.com/antonioCoco/RoguePotato">RoguePotato</a> to escalate to <code>SYSTEM</code> level privileges, depending on the target host.</p>
+<p>For that there are several tools such as <a href="https://github.com/ohpe/juicy-potato">JuicyPotato</a>, <a href="https://github.com/itm4n/PrintSpoofer">PrintSpoofer</a>, Godpotato, or <a href="https://github.com/antonioCoco/RoguePotato">RoguePotato</a> to escalate to <code>SYSTEM</code> level privileges, depending on the target host.</p>
 <h3 id="juicypotato-seimpersonate-or-seassignprimarytoken">🥔 JuicyPotato: SeImpersonate or SeAssignPrimaryToken</h3>
+<p>If the machine is <strong>&gt;= Windows 10 1809 &amp; Windows Server 2019</strong> - Try <strong>Rogue Potato</strong>  </p>
+<p>If the machine is <strong>&lt; Windows 10 1809 &lt; Windows Server 2019</strong> - Try <strong>Juicy Potato</strong></p>
 <p><a href="https://github.com/breenmachine/RottenPotatoNG">RottenPotatoNG</a> and its <a href="https://github.com/decoder-it/lonelypotato">variants</a> leverages the privilege escalation chain based on <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799(v=vs.85).aspx"><code>BITS</code></a> <a href="https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126">service</a> having the MiTM listener on <code>127.0.0.1:6666</code> and when you have <code>SeImpersonate</code> or <code>SeAssignPrimaryToken</code> privileges. During a Windows build review we found a setup where <code>BITS</code> was intentionally disabled and port <code>6666</code> was taken.</p>
 <p><a href="../juicypotato/">See more on JuicyPotato</a></p>
 <h3 id="printnightmare">🖨️ PrintNightmare</h3>
@@ -28263,7 +28323,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 22, 2025 15:20:59 UTC"><span class="timeago" datetime="2025-12-22T15:20:59+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 22, 2025 15:20:59 UTC">2025-12-22</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="February 15, 2026 15:52:07 UTC"><span class="timeago" datetime="2026-02-15T15:52:07+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="February 15, 2026 15:52:07 UTC">2026-02-15</span></small></br>
 
 
     <small>Created: April 13, 2025 13:19:01</small>
