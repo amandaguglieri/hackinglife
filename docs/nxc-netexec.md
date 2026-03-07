@@ -64,12 +64,6 @@ netexec smb ip -d corp.com -u user -p password  -x "type c:\Users\Administrator\
 # List the shares
 netexec smb ip -d corp.com -u user -p password  --shares 
  
- 
-
-
-
-
-
 
 
 ```

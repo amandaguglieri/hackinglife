@@ -46,7 +46,15 @@ Also, Nmap does not always recognize all information by default. Sometimes you c
  nc -nv $ip <PORT NUMBER>
 ```
 
+List all scans related to a service, for example smb
 
+```
+# List scripts in nmap related to smb
+ls -l /usr/share/nmap/scripts/smb*
+
+# If we want to run all scripts
+nmap --script smb-* -p139,445 $ip
+```
 
 ## Cheat Sheet
 

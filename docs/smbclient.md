@@ -14,45 +14,8 @@ tags:
 ---
 # smbclient - A tool for interacting with smb shares
 
-See [Quick Cheat sheet for smbclient](#quick-cheat-sheet).
-
-## smbclient installation 
-
-```bash
-sudo apt-get install smbclient
-```
-
-
-## smbclient configuration
-
-Default settings are in `/etc/samba/smb.conf`.
-
-```shell-session
- cat /etc/samba/smb.conf | grep -v "#\|\;" 
-```
-
-
-| **Setting**                    | **Description**                                                       |
-| ------------------------------ | --------------------------------------------------------------------- |
-| `[sharename]`                  | The name of the network share.                                        |
-| `workgroup = WORKGROUP/DOMAIN` | Workgroup that will appear when clients query.                        |
-| `path = /path/here/`           | The directory to which user is to be given access.                    |
-| `server string = STRING`       | The string that will show up when a connection is initiated.          |
-| `unix password sync = yes`     | Synchronize the UNIX password with the SMB password?                  |
-| `usershare allow guests = yes` | Allow non-authenticated users to access defined shared?               |
-| `map to guest = bad user`      | What to do when a user login request doesn't match a valid UNIX user? |
-| `browseable = yes`             | Should this share be shown in the list of available shares?           |
-| `guest ok = yes`               | Allow connecting to the service without using a password?             |
-| `read only = yes`              | Allow users to read files only?                                       |
-| `create mask = 0700`           | What permissions need to be set for newly created files?              |
-
-
-[For pentesting notes on ports 137, 138, 139 and 445 with a smb service, see 137-138-139-445-smb](137-138-139-445-smb.md). 
-
-
 ## smbclient connection
 
-See 
 ```bash
 # [-L|--list=HOST] : Selecting the targeted host for the connection request.
 smbclient -L -N //$ip
@@ -189,4 +152,37 @@ cd 'path\to\remote\dir'
 lcd '~/path/to/download/to/'
 mget *
 ```
+
+
+
+## smbclient installation and configuration
+
+```bash
+sudo apt-get install smbclient
+```
+
+Default settings are in `/etc/samba/smb.conf`.
+
+```shell-session
+ cat /etc/samba/smb.conf | grep -v "#\|\;" 
+```
+
+
+| **Setting**                    | **Description**                                                       |
+| ------------------------------ | --------------------------------------------------------------------- |
+| `[sharename]`                  | The name of the network share.                                        |
+| `workgroup = WORKGROUP/DOMAIN` | Workgroup that will appear when clients query.                        |
+| `path = /path/here/`           | The directory to which user is to be given access.                    |
+| `server string = STRING`       | The string that will show up when a connection is initiated.          |
+| `unix password sync = yes`     | Synchronize the UNIX password with the SMB password?                  |
+| `usershare allow guests = yes` | Allow non-authenticated users to access defined shared?               |
+| `map to guest = bad user`      | What to do when a user login request doesn't match a valid UNIX user? |
+| `browseable = yes`             | Should this share be shown in the list of available shares?           |
+| `guest ok = yes`               | Allow connecting to the service without using a password?             |
+| `read only = yes`              | Allow users to read files only?                                       |
+| `create mask = 0700`           | What permissions need to be set for newly created files?              |
+
+
+[For pentesting notes on ports 137, 138, 139 and 445 with a smb service, see 137-138-139-445-smb](137-138-139-445-smb.md). 
+
 

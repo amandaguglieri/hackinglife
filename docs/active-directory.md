@@ -27,6 +27,7 @@ tags:
 	- [Privileges escalation in Active Directory from Linux](active-directory-from-linux-privilege-escalation.md)
 
 !!! tip "Attacking from Windows"
+	- [Enumerate with ldap](ldap.md)
 	- [Enumerating Active Directory from Windows](active-directory-from-windows-enumeration.md)
 	- [Active directory: connecting to other hosts](active-directory-connections.md)
 	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)

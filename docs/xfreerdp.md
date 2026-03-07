@@ -36,7 +36,18 @@ xfreerdp [/d:domain] /u:<username> /pth:<hash> /v:$ip /cert:ignore
 
 xfreerdp  /v:172.16.1.20 /d:DANTE.LOCAL /u:xadmin /pth:649f65073a6672a9898cb4eb61f9684a
 
-# Enable clipboard
+#############
+# Some more flags
+xfreerdp3 /u:stephanie /p:'LegmanTeamBenzoin!!' /d:corp.com /v:192.168.179.75 +dynamic-resolution
+# --dynamic-resolution    # allows the RDP session to resize dynamically when you resize the client window
+
+# /f                   # full screen
+# /cert:ignore         # ignore certificate warnings
+# +clipboard           # enable clipboard sharing
+# +auto-reconnect      # reconnect automatically
+
+
+# For example, let's enable clipboard
 xfreerdp  /v:172.16.1.20 /d:DANTE.LOCAL /u:xadmin /pth:649f65073a6672a9898cb4eb61f9684a +clipboard
 ```
 

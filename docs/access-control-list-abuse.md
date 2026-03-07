@@ -40,6 +40,12 @@ Import-Module .\PowerView.ps1
 
 # Now enumerate
 Find-InterestingDomainAcl
+
+# Conver SID to Name
+Convert-SidToName $sid
+
+# Convert Name to Sid
+Convert-NameToSid $name
 ```
 
 Now, there is a way to use a tool such as PowerView more effectively -- by performing targeted enumeration starting with a user that we have control over. 
@@ -48,17 +54,31 @@ Now, there is a way to use a tool such as PowerView more effectively -- by perfo
 # First import PowerView module
 Import-Module .\PowerView.ps1
 
-# Obtain the SID of the user you have control on, for instance wley, and set it to variable $sid
+# Dump all ACLs of a user:
+Get-ObjectAcl -Identity stephanie
+
+# BUT THAT can be overwhelming, we may take another approach, equally overwhelming:
+# 1. Obtain the SID of the user you have control on, for instance wley, and set it to variable $sid
 $sid = Convert-NameToSid wley
 
-#  Find all domain objects that our user has rights over 
+#  2. And find all domain objects that our user has rights over 
+powerhsell -ep bypass
+Import-Module .\PowerView.ps1
 Get-DomainObjectACL -ResolveGUIDs -Identity * | ? {$_.SecurityIdentifier -eq $sid}
 # -ResolveGUIDs: PowerView flag that will return the ObjectAceType property in a readable way and not as a GUID value that is not human readable.
 
-# Lists of objects which you have Force-Change-Password right over. First, get your current user’s sid by executing `whoami /user`, import powerview, then execute the below command to get the list of objects on which you have _Force-Change-Password_.
-get-objectacl -resolveguids | ? {($_.securityidentifier -eq "[your_current_user_sid]") -and ($_.objectacetype -eq "User-Force-Change-Password")}
 
-# Examine the rights that a user has over a group
+
+# Let's see if we only want to lists objects which your user has Force-Change-Password right over. 
+# First, get your current user’s sid by executing `whoami /user`.
+$sid = Convert-NameToSid $userSamAccountName
+
+# 2. Then  import powerview and execute the below command to get the list of objects on which you have "Force-Change-Password".
+powerhsell -ep bypass
+Import-Module .\PowerView.ps1
+Get-ObjectAcl -ResolveGuids | ? {($_.securityidentifier -eq "$sid") -and ($_.ObjectAceType -eq "User-Force-Change-Password")}
+
+# Let's see if we only want to examine the rights that a user has over a group
 $sid = Convert-NameToSid $userSamAccountName
 Get-DomainObjectACL -Identity "$groupName" -ResolveGUIDs | ? {$_.SecurityIdentifier -eq $sid}
 

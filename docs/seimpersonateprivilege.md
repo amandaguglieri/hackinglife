@@ -11,6 +11,16 @@ tags:
 ---
 # SeImpersonatePrivilege 
 
+
+!!! abstract "But It's a Potato!"
+	**Remarkable explanation about the Potato world and what is going under the hood**: [https://jlajara.gitlab.io/Potatoes_Windows_Privesc](https://jlajara.gitlab.io/Potatoes_Windows_Privesc)
+
+
+!!! note "Hot binaries!"
+	My potato compiled binaries: [https://github.com/amandaguglieri/Privescalation/tree/main/tools/SeImpersonatePrivilege](https://github.com/amandaguglieri/Privescalation/tree/main/tools/SeImpersonatePrivilege)
+
+
+
 ## 🤷 Abusing SeImpersonate and SeAssignPrimaryToke
 
 In Windows, every process has a token that has information about the account that is running it. These tokens are not considered secure resources, as they are just locations within memory.   To utilize the token, the `SeImpersonate` privilege is needed.  It is only given to administrative accounts. We will often run into this privilege after gaining remote code execution via an application that runs in the context of a service account. 
@@ -58,3 +68,9 @@ Repo: https://github.com/BeichenDream/GodPotato
 [See more on godpotato](godpotato.md)
 
 
+
+###  🍟 SweetPotato
+
+Repo: https://github.com/CCob/SweetPotato/tree/master
+
+See more on sweetpotato

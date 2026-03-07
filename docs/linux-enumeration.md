@@ -335,6 +335,7 @@ cat /etc/crontab
 
 # Other way
 crontab -l
+aa-exec /bin/sh 
 
 # Check also with sudo
 sudo crontab -l

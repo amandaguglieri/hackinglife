@@ -23,6 +23,7 @@ tags:
 	- [Privileges escalation in Active Directory from Linux](active-directory-from-linux-privilege-escalation.md)
 
 !!! tip "Attacking from Windows"
+	- [Enumerate with ldap](ldap.md)
 	- [Enumerating Active Directory from Windows](active-directory-from-windows-enumeration.md)
 	- [Active directory: connecting to other hosts](active-directory-connections.md)
 	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
@@ -56,7 +57,7 @@ By default, the NTDS file (NTDS.dit) is located in `%SystemRoot%\NTDS\Ntds.dit`
 
 Kerberoasting is a lateral movement/privilege escalation technique in Active Directory environments.
 
-[See more about Kerberoasting](kerberoasting.md)
+[See more about Kerberoasting](kerberos-attacks.md)
 
 
 

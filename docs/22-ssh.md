@@ -66,9 +66,27 @@ ssh -i root root@localhost
 But with this, it works:
 
 ```
-ssh -i root -o IdentitiesOnly=yes root@127.0.0.1
+ssh -i root root@127.0.0.1 -o IdentitiesOnly=yes 
 # IdentitiesOnly=yes means "Do NOT try agent keys. Only use the one I specify."
 ```
+
+Another workaround:
+
+```bash
+ssh -i root root@127.0.0.1 -o IdentitiesOnly=yes -o BatchMode=yes ---v 
+```
+
+
+If ssh complain about libcrypto or keyformat, normaliza the file:
+
+```bash
+dos2unix ~/.ssh/id_rsa
+
+vim -- clean ~/.ssh/id_rsa
+# inside vim: type :wq then hit Return
+```
+
+
 
 ### Connect with kerberos
 

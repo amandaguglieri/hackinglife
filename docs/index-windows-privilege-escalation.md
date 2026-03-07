@@ -33,6 +33,15 @@ This is a nice summary related to Local Privilege Escalation by [@s4gi_](https:/
 
 ### From local Administrator to nt authority\system
 
+!!! note "Quick checks"
+	 [PrivescCheck - Latest release](https://github.com/itm4n/PrivescCheck/releases/latest/)-  Download the script here: [PrivescCheck.ps1](https://github.com/itm4n/PrivescCheck/releases/latest/download/PrivescCheck.ps1) 
+	
+	Run:
+	```powershell
+	powershell -ep bypass -c ". .\PrivescCheck.ps1; Invoke-PrivescCheck -Extended -Report PrivescCheck_$($env:COMPUTERNAME) -Format TXT,HTML"
+	```
+
+
 Checkout architecture (to know which binaries will work):
 
 ```powershell

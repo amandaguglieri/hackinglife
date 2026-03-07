@@ -9,6 +9,16 @@ tags:
 ---
 # 🥔 JuicyPotato
 
+
+!!! abstract "But It's a Potato!"
+	**Remarkable explanation about the Potato world and what is going under the hood**: [https://jlajara.gitlab.io/Potatoes_Windows_Privesc](https://jlajara.gitlab.io/Potatoes_Windows_Privesc)
+
+
+!!! note "Hot binaries!"
+	My potato compiled binaries: [https://github.com/amandaguglieri/Privescalation/tree/main/tools/SeImpersonatePrivilege](https://github.com/amandaguglieri/Privescalation/tree/main/tools/SeImpersonatePrivilege)
+
+
+
 If the machine is **>= Windows 10 1809 & Windows Server 2019** - Try **Rogue Potato**  
 
 If the machine is **< Windows 10 1809 < Windows Server 2019** - Try **Juicy Potato**

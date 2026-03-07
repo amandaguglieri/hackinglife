@@ -99,7 +99,6 @@ More posibilities with wget:
 ```
 # Download all available files at once
 wget -m --no-passive ftp://anonymous:anonymous@$ip
-
 ```
 
 ## Footprinting with nmap

