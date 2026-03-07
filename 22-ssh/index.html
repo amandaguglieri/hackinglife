@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
     
     
       
@@ -281,6 +281,8 @@
   
     
     
+      
+        
       
         
       
@@ -5545,6 +5547,34 @@
     
   
     rubeus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runascs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    runascs
   
 
     
@@ -20046,6 +20076,8 @@
       
         
       
+        
+      
     
     
     
@@ -20157,6 +20189,34 @@
     
   
     cassandra
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pentesting-cockpit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cockpit
   
 
     
@@ -25939,6 +25999,8 @@
       
         
       
+        
+      
     
     
     
@@ -26022,6 +26084,34 @@
     
   
     JuicyPotato- SeImpersonate or SeAssignPrimaryToken
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sweetpotato/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SweetPotato- Seimpersonate
   
 
     
@@ -27411,14 +27501,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../kerberoasting/" class="md-nav__link">
+      <a href="../kerberos-attacks/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Kerberoasting
+    Kerberos Attacks
   
 
     
@@ -28305,35 +28395,47 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p>But with this, it works:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
-<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>ssh -i root -o IdentitiesOnly=yes root@127.0.0.1
+<span class="normal"><a href="#__codelineno-4-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>ssh -i root root@127.0.0.1 -o IdentitiesOnly=yes 
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a># IdentitiesOnly=yes means &quot;Do NOT try agent keys. Only use the one I specify.&quot;
 </span></code></pre></div></td></tr></table></div>
+<p>Another workaround:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>ssh<span class="w"> </span>-i<span class="w"> </span>root<span class="w"> </span>root@127.0.0.1<span class="w"> </span>-o<span class="w"> </span><span class="nv">IdentitiesOnly</span><span class="o">=</span>yes<span class="w"> </span>-o<span class="w"> </span><span class="nv">BatchMode</span><span class="o">=</span>yes<span class="w"> </span>---v<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div>
+<p>If ssh complain about libcrypto or keyformat, normaliza the file:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>dos2unix<span class="w"> </span>~/.ssh/id_rsa
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>vim<span class="w"> </span>--<span class="w"> </span>clean<span class="w"> </span>~/.ssh/id_rsa
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c1"># inside vim: type :wq then hit Return</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="connect-with-kerberos">Connect with kerberos</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
-<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>ssh<span class="w"> </span>-k<span class="w"> </span>&lt;user&gt;@&lt;kdc&gt;
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="c1"># Example: ssh -k f.frizzle@frizzdc.frizz.htb</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>ssh<span class="w"> </span>-k<span class="w"> </span>&lt;user&gt;@&lt;kdc&gt;
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="c1"># Example: ssh -k f.frizzle@frizzdc.frizz.htb</span>
 </span></code></pre></div></td></tr></table></div>
 <p>But before that, generate the kerberos ticket and make sure to have the /etc/krb5.conf file in place.</p>
 <p>Use <a href="../nxc-netexec/">nxc-netexec</a> for generating the krb5.conf file and save it as /etc/krb5.conf:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
-<span class="normal"><a href="#__codelineno-6-2">2</a></span>
-<span class="normal"><a href="#__codelineno-6-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>netexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$kdc</span><span class="w"> </span>-u<span class="w"> </span><span class="nv">$username</span><span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;$password&#39;</span><span class="w"> </span>-k<span class="w"> </span>--generate-krb5-file<span class="w"> </span>krb5.conf<span class="w"> </span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="c1"># Example: netexec smb frizzdc.frizz.htb -u f.frizzle -p &#39;&lt;REDACTED&gt;&#39; -k --generate-krb5-file krb5.conf </span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>netexec<span class="w"> </span>smb<span class="w"> </span><span class="nv">$kdc</span><span class="w"> </span>-u<span class="w"> </span><span class="nv">$username</span><span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;$password&#39;</span><span class="w"> </span>-k<span class="w"> </span>--generate-krb5-file<span class="w"> </span>krb5.conf<span class="w"> </span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="c1"># Example: netexec smb frizzdc.frizz.htb -u f.frizzle -p &#39;&lt;REDACTED&gt;&#39; -k --generate-krb5-file krb5.conf </span>
 </span></code></pre></div></td></tr></table></div>
 <p>Next, generate TGT ticket and export variable:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
-<span class="normal"><a href="#__codelineno-7-2">2</a></span>
-<span class="normal"><a href="#__codelineno-7-3">3</a></span>
-<span class="normal"><a href="#__codelineno-7-4">4</a></span>
-<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>getTGT.py $domain/&#39;$username&#39;:&#39;$password&#39;       
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a># Example: getTGT.py frizz.htb/&#39;f.frizzle&#39;:&#39;&lt;REDACTED&gt;&#39;       
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>export KRB5CCNAME=$(pwd)/$username.ccache 
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a># Example: export KRB5CCNAME=$(pwd)/f.frizzle.ccache 
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>getTGT.py $domain/&#39;$username&#39;:&#39;$password&#39;       
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a># Example: getTGT.py frizz.htb/&#39;f.frizzle&#39;:&#39;&lt;REDACTED&gt;&#39;       
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>export KRB5CCNAME=$(pwd)/$username.ccache 
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a># Example: export KRB5CCNAME=$(pwd)/f.frizzle.ccache 
 </span></code></pre></div></td></tr></table></div>
 <p><strong>Important note:</strong>  Kerberos relies on the hostname used in the SSH command to match the service principal (SPN) in the ticket request. This means that the order in which the hosts are entered in /etc/hosts matters. Server identifies itself by the first name mapped to the IP, meaning that in this case the tester should add this to the /etc/hosts:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;10.129.232.168    frizzdc.frizz.htb frizz.htb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/hosts
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;10.129.232.168    frizzdc.frizz.htb frizz.htb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>/etc/hosts
 </span></code></pre></div></td></tr></table></div>
 <h2 id="installing-a-ssh-service">Installing a ssh service</h2>
 <p>The sshd_config file, responsible for the OpenSSH server, has only a few of the settings configured by default. However, the default configuration includes X11 forwarding, which contained a command injection vulnerability in version 7.2p1 of OpenSSH in 2016. </p>
@@ -28385,7 +28487,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="February 15, 2026 15:52:07 UTC"><span class="timeago" datetime="2026-02-15T15:52:07+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="February 15, 2026 15:52:07 UTC">2026-02-15</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 7, 2026 21:02:17 UTC"><span class="timeago" datetime="2026-03-07T21:02:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 7, 2026 21:02:17 UTC">2026-03-07</span></small></br>
 
 
     <small>Created: April 23, 2023 19:52:08</small>
