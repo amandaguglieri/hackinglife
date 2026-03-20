@@ -86,6 +86,12 @@ foreach ($ports in 1..1024) {If (($a=Test-NetConnection 10.10.12.123 -Port $port
 
 ## Users and groups
 
+Default user: 
+
+```
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+```
+
 ```
 # Logged-In Users
 query user
@@ -148,7 +154,7 @@ Get-ChildItem -Path C:\xampp -Include *.txt,*.ini -File -Recurse -ErrorAction Si
 Get-ChildItem -Path C:\users -Include *.txt,*.ini -File -Recurse -ErrorAction SilentlyContinue
 
 # Retrieve files containing certain string, like "password"
-Get-ChildItem -Recurse -Path C:\ | Select-String "password" -List
+Get-ChildItem -Recurse -Path C:\ | Select-String "Tim" -List
 ```
 
 And with cmd:

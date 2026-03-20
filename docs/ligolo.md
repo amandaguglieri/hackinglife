@@ -56,6 +56,7 @@ Second, start the proxy:
 
 ```
 ./proxy -selfcert
+./ligolo-ng-proxy-linux_amd64 -selfcert 
 
 ```
 
@@ -63,7 +64,7 @@ Third, connect the agent (in the pivot machine) to our proxy in the kali:
 
 ```
 ./agent -connect 10.10.14.72:11601 --ignore-cert
-
+.\ligolo-ng-agent-windows_amd64.exe -connect 192.168.45.152:11601 --ignore-cert
 ```
 
 Once you start the proxy, it listens on the port “11601” by default. So when you connect to your proxy, you need to specify your IP and that default port (unless other configurations are in place).
@@ -79,7 +80,7 @@ session
 ifconfig
 
 # Add a route to the new interface (in a new kali terminal)
-sudo ip route add 172.16.139.0/24 dev ligolo
+sudo ip route add 10.10.100.0/24 dev ligolo
 
 # Start the tunnel
 start

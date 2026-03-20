@@ -77,6 +77,7 @@ As you can see - my device was somehow not connected. And thus not responsive. W
 
 ```
 [bluetooth]# connect FB:59:51:BF:60:XX
+[bluetooth]# pair FB:59:51:BF:60:XX
 ```
 
 Output:
@@ -428,6 +429,9 @@ xrandr --output eDP-1  --left-of DP-2
 
 # Place 34'' to the right of DP-2 (27'')
 xrandr --output HDMI-1 --right-of DP-2
+
+# If the monitor HDMI-1  is still in blank we need to enable it with a mode
+xrandr --output HDMI-1 --auto --right-of DP-2
 
 # Rotate 27''
 xrandr --output DP-2  --rotate left 

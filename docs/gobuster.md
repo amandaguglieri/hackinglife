@@ -47,6 +47,7 @@ gobuster vhost -u http://$ip -w <wordlist_file> --append-domain
 # The `-u` flag specifies the target URL
 # The `-w` flag specifies the wordlist file 
 # The `--append-domain` flag appends the base domain to each word in the wordlist. In newer versions of Gobuster, the --append-domain flag is required to append the base domain to each word in the wordlist when performing virtual host discovery. This flag ensures that Gobuster correctly constructs the full virtual hostnames, which is essential for the accurate enumeration of potential subdomains. In older versions of Gobuster, this functionality was handled differently, and the --append-domain flag was not necessary.
+# the --exclude-length For exluding certain lengths
 ```
 
 - Consider using the `-t` flag to increase the number of threads for faster scanning.

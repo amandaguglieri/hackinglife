@@ -136,6 +136,31 @@ It displays all commits and their commit message. Every commit has an id associa
 git log
 ```
 
+Example output from offse:
+
+```
+commit 44a055daf7a0cd777f28f444c0d29ddf3ff08c54 (HEAD -> main)
+Author: Stuart <luke@challenge.pwk>
+Date:   Fri Nov 18 16:58:34 2022 -0500
+
+    Security Update
+
+commit 621a2e79b3a4a08bba12effe6331ff4513bad91a (origin/main, origin/HEAD)
+Author: PWK-Challenge-Lab <118549472+PWK-Challenge-Lab@users.noreply.github.com>
+Date:   Fri Nov 18 23:57:12 2022 +0200
+
+    Create database.php
+```
+
+Show the content of the commit:
+
+```
+git show 621a2e79b3a4a08bba12effe6331ff4513bad91a
+```
+
+Babum! It shows the file changes.
+
+
 ### git revert
 
 It allows us to revert back to a previous version of our project.
@@ -319,3 +344,15 @@ Source: https://thecyberpunker.com/tools/git-exposed-pentesting-git-tools/
 
 [https://github.com/arthaud/git-dumper](https://github.com/arthaud/git-dumper)
 
+
+Also, if we find
+
+```
+mget -r -np http://192.168.112.144/.git/
+```
+
+Now access and use git:
+
+```
+git log
+```
