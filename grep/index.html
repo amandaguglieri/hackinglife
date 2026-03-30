@@ -28134,10 +28134,24 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a># -C return 5 lines up and 5 lines down the line where the criteria is matched
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>cat text.txt  | grep -C 5 &quot;password&quot;`
 </span></code></pre></div></td></tr></table></div>
+<p>TRouble shootung:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>file upgrader_default.log  
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>xxd -l 64 upgrader_default.log
+</span></code></pre></div></td></tr></table></div>
+<p>If it says something like <code>Little-endian UTF-16 Unicode text</code>, use one of these:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>grep -a &quot;Exiting&quot; upgrader_default.log
+</span></code></pre></div></td></tr></table></div>
+<p>or better:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>iconv -f UTF-16LE -t UTF-8 upgrader_default.log | grep &quot;Exiting&quot;
+</span></code></pre></div></td></tr></table></div>
+<p>with context:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>iconv -f UTF-16LE -t UTF-8 upgrader_default.log | grep -C 2 &quot;Exiting&quot;
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="May 2, 2023 20:07:02 UTC"><span class="timeago" datetime="2023-05-02T20:07:02+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="May 2, 2023 20:07:02 UTC">2023-05-02</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 30, 2026 20:15:40 UTC"><span class="timeago" datetime="2026-03-30T20:15:40+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 30, 2026 20:15:40 UTC">2026-03-30</span></small></br>
 
 
     <small>Created: March 4, 2023 12:42:52</small>

