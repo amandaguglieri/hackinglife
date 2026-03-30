@@ -49,6 +49,10 @@ xfreerdp3 /u:stephanie /p:'LegmanTeamBenzoin!!' /d:corp.com /v:192.168.179.75 +d
 
 # For example, let's enable clipboard
 xfreerdp  /v:172.16.1.20 /d:DANTE.LOCAL /u:xadmin /pth:649f65073a6672a9898cb4eb61f9684a +clipboard
+
+# Or dynamic-resolution
+xfreerdp3 /u:svc_mssql /p:'Service1' /d:nagoya-industries.com /v:192.168.209.21 +dynamic-resolution
+
 ```
 
 ### Troubleshoot in PtH attack

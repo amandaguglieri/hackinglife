@@ -424,20 +424,30 @@ Listing current settings helps you out to see the name of the outputs of your sc
 In my case:
 
 ```shell-session
-# Place laptop to the left of DP-2 (27'')
-xrandr --output eDP-1  --left-of DP-2
+# Place laptop to the left of HDMI-1 (34'')
+xrandr --output eDP-1  --left-of HDMI-1 
 
-# Place 34'' to the right of DP-2 (27'')
-xrandr --output HDMI-1 --right-of DP-2
+# Place  DP-2 (27'') to the right of 34''
+xrandr --output DP-2 --right-of HDMI-1 
 
 # If the monitor HDMI-1  is still in blank we need to enable it with a mode
-xrandr --output HDMI-1 --auto --right-of DP-2
+xrandr --output HDMI-1 --auto --right-of eDP-1
+
+# Mirror display
+xrandr --output eDP-1 --same-as DP-2
+
+
+
+xrandr --output eDP-1  --left-of HDMI-1 
+xrandr --output DP-2 --right-of HDMI-1 
+xrandr --output HDMI-1 --auto --right-of eDP-1
+
+xrandr --output eDP-1 --same-as DP-2
+
 
 # Rotate 27''
 xrandr --output DP-2  --rotate left 
 
-# Mirror display
-xrandr --output DP-2 --same-as eDP-1
 ```
 
 ```

