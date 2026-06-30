@@ -51,7 +51,7 @@ Also:
 find /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -type f -exec getcap {} \;
 ```
 
-Example in [HackTheBox: nunchucks](htb-nunchucks.md) in which perl command has " cap_setuid+ep" capabilities, which means that at some point may run as sudo.
+Example in "HackTheBox: nunchucks" in which perl command has " cap_setuid+ep" capabilities, which means that at some point may run as sudo.
 
 
 | **Capability**         | **Description**                                                                                                                                           |
@@ -124,8 +124,7 @@ root::0:0:root:/root:/bin/bash
 
 ## Labs
 
-[HackTheBox: nunchucks](htb-nunchucks.md)
-
+HackTheBox: nunchucks.
 
 
 ## Resources

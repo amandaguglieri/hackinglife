@@ -401,7 +401,7 @@ steal_token <PID>
 getpid
 
 # Dumps the contents of the SAM database
-hashdump      
+idhashdump      
 
 # Dumps ...
 lsa_dump_sam

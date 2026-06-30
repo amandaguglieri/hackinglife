@@ -24,11 +24,29 @@ Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Ob
 
 The main thing to look for with Active Network Connections are entries listening on loopback addresses (127.0.0.1 and ::1) that are not listening on the IP Address (10.129.43.8) or broadcast (0.0.0.0, ::/0).
 
+```
+# Print running processes with CMD
+tasklist
+
+# Filter by SYSTEM processes
+tasklist /v | findstr /i "SYSTEM"
+
+# With powershell
+Get-Process
+
+# Filter by script execution
+tasklist | findstr /i "powershell cmd wscript cscript"
+```
+
+
 ## PowerUp
 
 Download from PowerSploit Github repo: [https://github.com/ZeroDayLab/PowerSploit](https://github.com/ZeroDayLab/PowerSploit).
 
 ```powershell
+
+powershell -ExecutionPolicy Bypass -NoProfile -Command "Import-Module .\PowerUp.ps1"
+
 # Import the module
 Import-Module .\PowerUp.ps1
 

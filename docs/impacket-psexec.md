@@ -13,7 +13,7 @@ The [PSExec service](https://github.com/SecureAuthCorp/impacket/blob/master/exam
 
 ## Installation 
 
-Donwload from: [Impacket PsExec](https://github.com/SecureAuthCorp/impacket/blob/master/examples/psexec.py) -
+Download from: [Impacket PsExec](https://github.com/SecureAuthCorp/impacket/blob/master/examples/psexec.py) -
 
 ## Basic commands
 

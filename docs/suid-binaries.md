@@ -73,7 +73,8 @@ vi
 :set shell=/bin/sh
 :shell
 ```
-Used at [HTB machine Vaccine](htb-vaccine.md).
+
+Used at HTB machine Vaccine.
 
 
 #### Sudo

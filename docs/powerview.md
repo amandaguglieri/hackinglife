@@ -119,6 +119,7 @@ Get-DomainObjectAcl -Identity "Domain Admins"
 # Resolve GUIDs in ACL output
 Get-DomainObjectAcl -ResolveGUIDs
 
+
 # Find users who can modify groups
 Get-DomainObjectAcl -Identity "Domain Admins" -ResolveGUIDs
 ```
@@ -394,7 +395,7 @@ Find-InterestingDomainAcl
 
 ---
 
-# High Value Discovery (Threaded Meta Functions)
+# High Value Discovery (Threaded Meta Functions)[[delete2#WKS01]]
 
 ```powershell
 Find-DomainUserLocation

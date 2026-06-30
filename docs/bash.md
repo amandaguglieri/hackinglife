@@ -6,7 +6,6 @@ TableOfContents: true
 tags:
   - bash
 ---
-
 # Bash  - Bourne Again Shell
 
 ## File descriptors and redirections

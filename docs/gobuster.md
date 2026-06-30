@@ -28,10 +28,11 @@ gobuster dir -u <exact target url> -w </path/dic.txt> -b 403,4.4 -x .php,.txt -r
 From HackTheBox machine - Three:
 
 ```bash
-gobuster vhost -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u http://thetoppers.htb
+gobuster vhost -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u http://thetoppers.htb --append-domain
 # vhost : Uses VHOST for brute-forcing
 # -w : Path to the wordlist
 # -u : Specify the URL
+# --append-domain: ensure that if the word doesn't look like a full domain, it may still try combining it with the base domain, So effectively, it behaves as if: admin → admin.thetoppers.htb
 ```
 
 ## Enumerate Virtual Hosts

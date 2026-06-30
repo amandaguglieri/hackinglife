@@ -23,6 +23,10 @@ Download from PowerSploit Github repo: [https://github.com/ZeroDayLab/PowerSploi
 
 ```ps
 Import-Module .\PowerUp.ps1
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Import-Module .\PowerUp.ps1
+
 ```
 
 

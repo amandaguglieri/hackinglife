@@ -106,7 +106,7 @@ Install-Module PostgreSQLCmdlets
 \dt
 
 # Dump content from a column
-SELECT * FROM NameOfColumn;
+SELECT * FROM N\ameOfColumn;
 # Watch out! Case sensitive
 ```
 

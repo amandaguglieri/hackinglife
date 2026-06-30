@@ -9,7 +9,7 @@ tags:
 
 # 69 - ftpt
 
-Trivial File Transfer Protocol (TFTP) uses UDP port 69 and requires no authentication—clients read from, and write to servers using the datagram format outlined in RFC 1350. Due to deficiencies within the protocol (namely lack of authentication and no transport security), it is uncommon to find servers on the public Internet. Within large internal networks, however, TFTP is used to serve configuration files and ROM images to VoIP handsets and other devices.
+Trivial File Transfer Protocol (TFTP) uses UDP port 69 and requires no authentication-clients read from, and write to servers using the datagram format outlined in RFC 1350. Due to deficiencies within the protocol (namely lack of authentication and no transport security), it is uncommon to find servers on the public Internet. Within large internal networks, however, TFTP is used to serve configuration files and ROM images to VoIP handsets and other devices.
 
 You can spot the open port after running a UDP scan. But also, when reading /etc/passwd, you might find service/user tftp. 
 
@@ -58,4 +58,4 @@ With that information, you can access the directory and from there launch your r
 
 ## Related labs
 
-[HackTheBox machine: included](htb-included.md).
+"HackTheBox machine: included".

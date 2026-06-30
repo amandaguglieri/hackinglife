@@ -40,13 +40,14 @@ cl /DUNICODE /D_UNICODE EnableSeLoadDriverPrivilege.cpp
 
 ## Linux
 
-### gcc
+### gcc and c
 
 Normal compilation
 
 ```bash
 gcc -static -O2 50808.c  -o write_anything
 ```
+
 
 
 
@@ -65,7 +66,7 @@ You can run from your kali a docker image to compile again the poc.
 
 ```
 docker run -it --rm ubuntu:20.04 bash
-apt update && apt install gcc make -y
+	apt update && apt install gcc make -y
 
 # Clone targeted CVE repo, and generate the exploit. Below an example:
 git clone https://github.com/arthepsy/CVE-2021-4034.git
@@ -82,6 +83,13 @@ docker ps
 # Copy from container to your kali
 docker cp <container_id>:/path/to/poc ./poc
 ```
+
+### g++ and cpp
+
+```
+g++  50808.cpp  -o exploit.exe
+```
+
 
 
 
@@ -120,4 +128,11 @@ Now, compile:
 
 ```
 x86_64-w64-mingw32-gcc adduser.c -o adduser2.exe
+```
+
+
+We also have crosscompiler for cpp files:
+
+```
+x86_64-w64-mingw32-g++ adduser.cpp -o adduser.exe
 ```

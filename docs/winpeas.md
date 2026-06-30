@@ -30,7 +30,17 @@ Releases:
 
 
 
+If you have a good console but still does not get color, you can run:
 
+```
+reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1 /f
+Start-Process cmd.exe -ArgumentList '/k winPEASx64.exe'
+```
+
+```
+.\winPEASx64.exe > winpeas.txt 2>&1
+type  winpeas.txt
+```
 
 ## What it does
 

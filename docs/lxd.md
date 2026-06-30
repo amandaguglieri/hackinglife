@@ -183,5 +183,5 @@ TTY Report
 
 ## Related labs
 
-[HackTheBox machine Included](htb-included.md).
+"HackTheBox machine Included".
 

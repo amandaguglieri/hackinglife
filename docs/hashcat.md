@@ -174,6 +174,39 @@ Princess
 ```
 
 
+```
+base = ["lala"]  
+  
+suffixes = ["", "1", "123", "123!"]  
+  
+seasons = ["Spring","Autumn","Fall","Summer","Winter"]  
+cases = [  
+str.lower,  
+str.upper,  
+str.title  
+]  
+  
+separators = ["", ".", "_", "-"]  
+  
+years = ["", "2020","2021","2022","2023","2024","2025","2026"]  
+  
+out = set()  
+  
+for b in base:  
+for s in suffixes:  
+base_word = b + s  
+out.add(base_word)  
+for season in seasons:  
+for case in cases:  
+season_mod = case(season)  
+for sep in separators:  
+for y in years:  
+out.add(f"{base_word}{sep}{season_mod}{y}")  
+  
+for w in sorted(out):  
+print(w)
+```
+
 ## Mask attacks 
 
 These are the possible masks that you can use:

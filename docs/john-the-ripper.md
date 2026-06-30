@@ -354,3 +354,30 @@ john --wordlist=ssh.passwords --rules=sshRules ssh.hash
 pdf2john.py PDF.pdf > pdf.hash
 john --wordlist=rockyou.txt pdf.hash
 ```
+
+
+## Cracking a keychain
+
+```
+keychain2john some.keychain.db > keychain.hash
+
+
+# Basic
+john keychain.hash
+
+# with wordlist
+john --wordlist=/usr/share/wordlists/rockyou.txt keychain.hash
+
+
+# Add rules  
+john --wordlist=/usr/share/wordlists/rockyou.txt --rules keychain.hash 
+
+# Incremental brute force
+john --incremental keychain.hash
+```
+
+When done:
+
+```
+john --show keychain.hash
+```

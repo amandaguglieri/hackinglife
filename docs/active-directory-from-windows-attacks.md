@@ -53,8 +53,6 @@ New-Object System.DirectoryServices.DirectoryEntry($SearchString, "pete", "Nexus
 
 ### Spray-Passwords.ps1
 
-See [spray-passwords](files/spray-passwords.md)
-
 Basic usage:
 
 ```

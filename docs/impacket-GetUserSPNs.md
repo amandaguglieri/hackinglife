@@ -96,8 +96,6 @@ sudo hashcat -m 13100 hashes.kerberoast2 /usr/share/wordlists/rockyou.txt -r /us
 
 ## Example from htb-active machine
 
-[Complete walkthrough](htb-active.md)
-
 **1.** Gather a listing of SPNs in the domain. We will need a set of valid domain credentials and the IP address of a Domain Controller.
 
 ```bash

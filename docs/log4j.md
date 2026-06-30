@@ -101,7 +101,7 @@ Connection: close
 {"username":"lala","password":"lele","remember":false,"strict":true}
 ```
 
-This request is from [HackTheBox machine: Unified](htb-unified.md). As we can read from the Unifi version exploit, the injectable parameter is "remember". So we insert there our payload and with Repeater, send the request:
+This request is from "HackTheBox machine: Unified". As we can read from the Unifi version exploit, the injectable parameter is "remember". So we insert there our payload and with Repeater, send the request:
 
 
 ```
@@ -143,6 +143,5 @@ GovCERT.ch has created an excellent graphical representation of the Log4j vulner
 
 ## Related labs
 
-[Walkthrough HackTheBox machine: Unified](htb-unified.md).
-
+See "HackTheBox machine".
 

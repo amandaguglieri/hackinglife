@@ -17,7 +17,7 @@ By default, installed on kali. [See winrm](5985-5986-winrm-windows-remote-manage
 
 ## Basic usage
 
-Example from [HTB machine: Responder](htb-responder.md).
+Example from "HTB machine: Responder".
 
 ```bash
 evil-winrm -i $ip -u <username -p <password>
@@ -75,7 +75,7 @@ proxychains evil-winrm -i dc01 -r inlanefreight.htb
 ```
 
 
-Example from [HTB machine: Voleur](htb-voleur.md).
+Example from "HTB machine: Voleur".
 
 The `/etc/krb5.conf` is:
 

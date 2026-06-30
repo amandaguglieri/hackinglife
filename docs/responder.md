@@ -83,5 +83,4 @@ Hashes are also stored in a SQLite database that can be configured in the `Resp
 
 ## Practical example 
 
-[HackTheBox machine: Responder](htb-responder.md).
-
+See "HackTheBox machine: Responder".

@@ -64,6 +64,13 @@ The permissions
 | W    | Write-only access       |
 When reading the output for the icacls command, the indicator `(I)` preceding the permission means Inherited.
 
+Find the service:
+
+```
+sc query state=all | findstr "SERVICE_NAME"
+```
+
+
 ### Checking Permissions with AccessChk
 
 Next, we'll use [AccessChk](https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk) from the Sysinternals suite to enumerate permissions on the service. The flags we use, in order, are `-q` (omit banner), `-u` (suppress errors), `-v` (verbose), `-c` (specify name of a Windows service), and `-w` (show only objects that have write access). 
@@ -358,7 +365,7 @@ net localgroup administrators
 
 ## Permissive Registry ACLs
 
-It is also worth searching for weak service ACLs in the Windows Registry. We can do this using `accesschk`.  Checking for Weak Service ACLs in Registry:
+It is also worth searching for weak service ACLs in the Windows Registry. We can do this using `caccesschk`.  Checking for Weak Service ACLs in Registry:
 
 ```cmd-session
 accesschk.exe /accepteula "mrb3n" -kvuqsw hklm\System\CurrentControlSet\services

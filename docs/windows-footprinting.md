@@ -14,6 +14,16 @@ tags:
 
 ```powershell
 systeminfo
+
+# Sometimes with evilwinrm you will need:
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" |   Select-Object ProductName, CurrentVersion, CurrentBuild, ReleaseId
+echo $env:COMPUTERNAME  
+echo $env:USERDOMAIN
+
+
+# And
+Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+
 ```
 
 If `systeminfo` doesn't display hotfixes, they may be queriable with [WMI](https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page) using the WMI-Command binary with [QFE (Quick Fix Engineering)](https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering) to display patches.
@@ -160,6 +170,9 @@ Get-ChildItem -Recurse -Path C:\ | Select-String "Tim" -List
 And with cmd:
 
 ```
+# Find interesting files: Also C:\\ProgramData, C:\\Users\\AllUsers and application specific folders like c:\\Program Files.
+dir /s /b C:\\Users\\Public\\*.config
+
 # Find the file local.txt in C:\ with recursivity
 dir C:\local.txt /s /b 2>nul
 

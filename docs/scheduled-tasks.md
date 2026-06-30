@@ -17,7 +17,7 @@ tags:
 We can use the [schtasks](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks) command to enumerate scheduled tasks on the system.
 
 ```cmd
-schtasks /query /fo LIST /v
+schtasks /query /fo LIST /v | findstr "Scripts"
 ```
 
 With powershell:

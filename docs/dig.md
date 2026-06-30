@@ -191,7 +191,7 @@ If the administrator used a subnet for the `allow-transfer` option for testing p
 
 Some HackTheBox machines exploits DNS zone transfer:
 
-In the example of [Friendzone machine](htb-friendzone.md), accessible web page on port 80 provides an email in which a different domain is appreciated. Also port 53 is open, which is an indicator of some possible DNS zone transfer.
+In the example of "HTB Friendzone machine", accessible web page on port 80 provides an email in which a different domain is appreciated. Also port 53 is open, which is an indicator of some possible DNS zone transfer.
 
 In friendzone, we will transfer our zone to all zones spotted in different scanners:
 

