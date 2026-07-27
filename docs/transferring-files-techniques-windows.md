@@ -16,8 +16,7 @@ tags:
 
 
 ??? abstract "Quick link to resources"
-    - [PayloadsAllTheThings: Windows download and execute methods](
-https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute.md)
+    - [PayloadsAllTheThings: Windows download and execute methods](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute.md)
     
 
 
