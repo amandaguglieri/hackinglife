@@ -15,9 +15,13 @@ ADB or Android Debug Bridge is a command-line tool developed to facilitate commu
 - **Daemon**: Or, ADBD is a background process that runs on both connected devices. It’s responsible for running commands on a connected emulator or Android device.
 - **Server**: It runs in the background and works as a bridge between the Client and the Daemon and manages the communication. which manages communication between the client and the daemon.
 
+## Installation
+
+```bash
+sudo apt install -y android-tools-adb
+```
 
 ## Basic commands
-
 
 ```bash
 # Activate remote shell command console on the connected Android smartphone or tablet.
