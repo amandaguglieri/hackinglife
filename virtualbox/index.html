@@ -26710,16 +26710,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>In VirtualBox, go to File &gt; Virtual Media Manager and use the slider to adjust the disk size. In VMWare, right-click your virtual machine (VM), then go to Settings &gt; Hard Disk &gt; Expand, and expand the disk. Finally, boot your VM and expand the partition using GParted on Linux or Disk Management on Windows.</p>
 <h2 id="virtualbox-troubleshooting-guide-memory-ballooning-issue">VirtualBox Troubleshooting Guide (Memory Ballooning Issue)</h2>
 <p><strong>1. Check VirtualBox Memory Settings</strong></p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>VBoxManage<span class="w"> </span>showvminfo<span class="w"> </span><span class="s2">&quot;VM_NAME&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>memory
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>VBoxManage<span class="w"> </span>showvminfo<span class="w"> </span><span class="s2">"VM_NAME"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>memory
 </span></code></pre></div></td></tr></table></div>
 <p><strong>Ensure <code>Configured memory balloon</code> is set to <code>0MB</code>.</strong></p>
 <hr />
 <p><strong>2. Disable Memory Ballooning</strong></p>
 <p><strong>Using VBoxManage</strong></p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>VBoxManage<span class="w"> </span>modifyvm<span class="w"> </span><span class="s2">&quot;VM_NAME&quot;</span><span class="w"> </span>--guest-memory-balloon<span class="w"> </span><span class="m">0</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>VBoxManage<span class="w"> </span>modifyvm<span class="w"> </span><span class="s2">"VM_NAME"</span><span class="w"> </span>--guest-memory-balloon<span class="w"> </span><span class="m">0</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Then verify:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>VBoxManage<span class="w"> </span>showvminfo<span class="w"> </span><span class="s2">&quot;VM_NAME&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>memory
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>VBoxManage<span class="w"> </span>showvminfo<span class="w"> </span><span class="s2">"VM_NAME"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>memory
 </span></code></pre></div></td></tr></table></div>
 <p><strong>Using VirtualBox GUI</strong>
 1. Open <strong>VirtualBox</strong>.
@@ -26749,7 +26749,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <hr />
 <p><strong>6. Start the VM Again</strong></p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>VBoxManage<span class="w"> </span>startvm<span class="w"> </span><span class="s2">&quot;VM_NAME&quot;</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>VBoxManage<span class="w"> </span>startvm<span class="w"> </span><span class="s2">"VM_NAME"</span>
 </span></code></pre></div></td></tr></table></div>
 <hr />
 <p><strong>7. Check for Secure Boot Issues</strong>ç</p>

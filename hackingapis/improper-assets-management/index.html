@@ -26789,8 +26789,8 @@ Accept api-version=3
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>POST /api/accounts
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>{
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>&quot;ver&quot;:1.0,
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>&quot;user&quot;:&quot;hapihacker&quot;;
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>"ver":1.0,
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>"user":"hapihacker";
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>}
 </span></code></pre></div></td></tr></table></div>
 <p>The discovery of non-production versions of an API might not be treated with the same security controls as the production version. </p>
@@ -26798,7 +26798,7 @@ Accept api-version=3
 <p>We'll use postman. We are assuming that we have build our collection of requests and that we have identify those parameters regarding API version.</p>
 <p><strong>0</strong>.  On collection, right click and select "Run Collection". In the following screen you can unmark those requests that don't need to be run.  But, first, define a Test.</p>
 <p><strong>1.</strong> Run a test "Status code: Code is 200". In your collection options, go to tab Test and select the option that gives you this code:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>pm.test(&quot;Status code is 200&quot;, function () { pm.response.to.have.status(200); })
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>pm.test("Status code is 200", function () { pm.response.to.have.status(200); })
 </span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Run an unauthenticated baseline scan of the crAPI collection with the Collection Runner. Make sure that "Save Responses" is checked. Important. Review the results from your unauthenticated baseline scan to have an idea of how the API provider responds to requests using supported production versioning. After that, repeat the same but this time with an Authenticated user, to obtain an authenticated baseline.</p>
 <p><strong>3.</strong> Next, use "Find and Replace" to turn the collection's current versions into a variable. For that, use Environmental variables.</p>
@@ -26824,10 +26824,10 @@ Accept api-version=3
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>Also, body response in /v2 is different from body response in /v3: 
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>The /v2 password reset request responds with the body (left):
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>{&quot;message&quot;:&quot;Invalid OTP! Please try again..&quot;,&quot;status&quot;:500}
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>{"message":"Invalid OTP! Please try again..","status":500}
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>The /v3 password reset request responds with the body (right):
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>{&quot;message&quot;:&quot;ERROR..&quot;,&quot;status&quot;:500}
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>{"message":"ERROR..","status":500}
 </span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>That might be a sign of improper assets management. Going further and testing it, you can discover that /v2 does not have a limitation on the number of times we can guess the OTP. With a four-digit OTP, we should be able to brute force the OTP within 10,000 requests. Since this endpoint manages resetting passwords, in the end this vulnerability allows you to gain control on any account in the system. 
 </span></code></pre></div></td></tr></table></div>

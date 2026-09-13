@@ -26839,7 +26839,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-2-68">68</a></span>
 <span class="normal"><a href="#__codelineno-2-69">69</a></span>
 <span class="normal"><a href="#__codelineno-2-70">70</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>## All Credit goes to Lee Holmes (@Lee_Holmes on twitter).  I found the code here https://www.leeholmes.com/blog/2010/09/24/adjusting-token-privileges-in-powershell/
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>$definition = @&#39;
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>$definition = @'
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>using System;
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>using System.Collections.Generic;
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>using System.Diagnostics;
@@ -26850,12 +26850,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>{
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>    public class SetTokenPriv
 </span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>    {
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>        [DllImport(&quot;advapi32.dll&quot;, ExactSpelling = true, SetLastError = true)]
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>        [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>        internal static extern bool AdjustTokenPrivileges(IntPtr htok, bool disall,
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>        ref TokPriv1Luid newst, int len, IntPtr prev, IntPtr relen);
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>        [DllImport(&quot;advapi32.dll&quot;, ExactSpelling = true, SetLastError = true)]
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>        [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
 </span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>        internal static extern bool OpenProcessToken(IntPtr h, int acc, ref IntPtr phtok);
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a>        [DllImport(&quot;advapi32.dll&quot;, SetLastError = true)]
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a>        [DllImport("advapi32.dll", SetLastError = true)]
 </span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a>        internal static extern bool LookupPrivilegeValue(string host, string name, ref long pluid);
 </span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a>        [StructLayout(LayoutKind.Sequential, Pack = 1)]
 </span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a>        internal struct TokPriv1Luid
@@ -26876,17 +26876,17 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36"></a>            hproc = Process.GetCurrentProcess().Handle;
 </span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37"></a>            IntPtr htok = IntPtr.Zero;
 </span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38"></a>
-</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39"></a>            List&lt;string&gt; privs = new List&lt;string&gt;() {  &quot;SeAssignPrimaryTokenPrivilege&quot;, &quot;SeAuditPrivilege&quot;, &quot;SeBackupPrivilege&quot;,
-</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40"></a>            &quot;SeChangeNotifyPrivilege&quot;, &quot;SeCreateGlobalPrivilege&quot;, &quot;SeCreatePagefilePrivilege&quot;,
-</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41"></a>            &quot;SeCreatePermanentPrivilege&quot;, &quot;SeCreateSymbolicLinkPrivilege&quot;, &quot;SeCreateTokenPrivilege&quot;,
-</span><span id="__span-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42"></a>            &quot;SeDebugPrivilege&quot;, &quot;SeEnableDelegationPrivilege&quot;, &quot;SeImpersonatePrivilege&quot;, &quot;SeIncreaseBasePriorityPrivilege&quot;,
-</span><span id="__span-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43"></a>            &quot;SeIncreaseQuotaPrivilege&quot;, &quot;SeIncreaseWorkingSetPrivilege&quot;, &quot;SeLoadDriverPrivilege&quot;,
-</span><span id="__span-2-44"><a id="__codelineno-2-44" name="__codelineno-2-44"></a>            &quot;SeLockMemoryPrivilege&quot;, &quot;SeMachineAccountPrivilege&quot;, &quot;SeManageVolumePrivilege&quot;,
-</span><span id="__span-2-45"><a id="__codelineno-2-45" name="__codelineno-2-45"></a>            &quot;SeProfileSingleProcessPrivilege&quot;, &quot;SeRelabelPrivilege&quot;, &quot;SeRemoteShutdownPrivilege&quot;,
-</span><span id="__span-2-46"><a id="__codelineno-2-46" name="__codelineno-2-46"></a>            &quot;SeRestorePrivilege&quot;, &quot;SeSecurityPrivilege&quot;, &quot;SeShutdownPrivilege&quot;, &quot;SeSyncAgentPrivilege&quot;,
-</span><span id="__span-2-47"><a id="__codelineno-2-47" name="__codelineno-2-47"></a>            &quot;SeSystemEnvironmentPrivilege&quot;, &quot;SeSystemProfilePrivilege&quot;, &quot;SeSystemtimePrivilege&quot;,
-</span><span id="__span-2-48"><a id="__codelineno-2-48" name="__codelineno-2-48"></a>            &quot;SeTakeOwnershipPrivilege&quot;, &quot;SeTcbPrivilege&quot;, &quot;SeTimeZonePrivilege&quot;, &quot;SeTrustedCredManAccessPrivilege&quot;,
-</span><span id="__span-2-49"><a id="__codelineno-2-49" name="__codelineno-2-49"></a>            &quot;SeUndockPrivilege&quot;, &quot;SeUnsolicitedInputPrivilege&quot;, &quot;SeDelegateSessionUserImpersonatePrivilege&quot; };
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39"></a>            List&lt;string&gt; privs = new List&lt;string&gt;() {  "SeAssignPrimaryTokenPrivilege", "SeAuditPrivilege", "SeBackupPrivilege",
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40"></a>            "SeChangeNotifyPrivilege", "SeCreateGlobalPrivilege", "SeCreatePagefilePrivilege",
+</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41"></a>            "SeCreatePermanentPrivilege", "SeCreateSymbolicLinkPrivilege", "SeCreateTokenPrivilege",
+</span><span id="__span-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42"></a>            "SeDebugPrivilege", "SeEnableDelegationPrivilege", "SeImpersonatePrivilege", "SeIncreaseBasePriorityPrivilege",
+</span><span id="__span-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43"></a>            "SeIncreaseQuotaPrivilege", "SeIncreaseWorkingSetPrivilege", "SeLoadDriverPrivilege",
+</span><span id="__span-2-44"><a id="__codelineno-2-44" name="__codelineno-2-44"></a>            "SeLockMemoryPrivilege", "SeMachineAccountPrivilege", "SeManageVolumePrivilege",
+</span><span id="__span-2-45"><a id="__codelineno-2-45" name="__codelineno-2-45"></a>            "SeProfileSingleProcessPrivilege", "SeRelabelPrivilege", "SeRemoteShutdownPrivilege",
+</span><span id="__span-2-46"><a id="__codelineno-2-46" name="__codelineno-2-46"></a>            "SeRestorePrivilege", "SeSecurityPrivilege", "SeShutdownPrivilege", "SeSyncAgentPrivilege",
+</span><span id="__span-2-47"><a id="__codelineno-2-47" name="__codelineno-2-47"></a>            "SeSystemEnvironmentPrivilege", "SeSystemProfilePrivilege", "SeSystemtimePrivilege",
+</span><span id="__span-2-48"><a id="__codelineno-2-48" name="__codelineno-2-48"></a>            "SeTakeOwnershipPrivilege", "SeTcbPrivilege", "SeTimeZonePrivilege", "SeTrustedCredManAccessPrivilege",
+</span><span id="__span-2-49"><a id="__codelineno-2-49" name="__codelineno-2-49"></a>            "SeUndockPrivilege", "SeUnsolicitedInputPrivilege", "SeDelegateSessionUserImpersonatePrivilege" };
 </span><span id="__span-2-50"><a id="__codelineno-2-50" name="__codelineno-2-50"></a>
 </span><span id="__span-2-51"><a id="__codelineno-2-51" name="__codelineno-2-51"></a>
 </span><span id="__span-2-52"><a id="__codelineno-2-52" name="__codelineno-2-52"></a>
@@ -26904,7 +26904,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-64"><a id="__codelineno-2-64" name="__codelineno-2-64"></a>        }
 </span><span id="__span-2-65"><a id="__codelineno-2-65" name="__codelineno-2-65"></a>    }  
 </span><span id="__span-2-66"><a id="__codelineno-2-66" name="__codelineno-2-66"></a>}
-</span><span id="__span-2-67"><a id="__codelineno-2-67" name="__codelineno-2-67"></a>&#39;@
+</span><span id="__span-2-67"><a id="__codelineno-2-67" name="__codelineno-2-67"></a>'@
 </span><span id="__span-2-68"><a id="__codelineno-2-68" name="__codelineno-2-68"></a>
 </span><span id="__span-2-69"><a id="__codelineno-2-69" name="__codelineno-2-69"></a>$type = Add-Type $definition -PassThru
 </span><span id="__span-2-70"><a id="__codelineno-2-70" name="__codelineno-2-70"></a>$type[0]::EnablePrivilege() 2&gt;&amp;1
@@ -27004,14 +27004,14 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>{
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>    param (
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>        [Parameter()]
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>        [ValidateSet(&quot;SeAssignPrimaryTokenPrivilege&quot;, &quot;SeAuditPrivilege&quot;, &quot;SeBackupPrivilege&quot;, &quot;SeChangeNotifyPrivilege&quot;, &quot;SeCreateGlobalPrivilege&quot;,
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>            &quot;SeCreatePagefilePrivilege&quot;, &quot;SeCreatePermanentPrivilege&quot;, &quot;SeCreateSymbolicLinkPrivilege&quot;, &quot;SeCreateTokenPrivilege&quot;,
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>            &quot;SeDebugPrivilege&quot;, &quot;SeEnableDelegationPrivilege&quot;, &quot;SeImpersonatePrivilege&quot;, &quot;SeIncreaseBasePriorityPrivilege&quot;,
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>            &quot;SeIncreaseQuotaPrivilege&quot;, &quot;SeIncreaseWorkingSetPrivilege&quot;, &quot;SeLoadDriverPrivilege&quot;, &quot;SeLockMemoryPrivilege&quot;, &quot;SeMachineAccountPrivilege&quot;,
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>            &quot;SeManageVolumePrivilege&quot;, &quot;SeProfileSingleProcessPrivilege&quot;, &quot;SeRelabelPrivilege&quot;, &quot;SeRemoteShutdownPrivilege&quot;, &quot;SeRestorePrivilege&quot;,
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>            &quot;SeSecurityPrivilege&quot;, &quot;SeShutdownPrivilege&quot;, &quot;SeSyncAgentPrivilege&quot;, &quot;SeSystemEnvironmentPrivilege&quot;, &quot;SeSystemProfilePrivilege&quot;,
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>            &quot;SeSystemtimePrivilege&quot;, &quot;SeTakeOwnershipPrivilege&quot;, &quot;SeTcbPrivilege&quot;, &quot;SeTimeZonePrivilege&quot;, &quot;SeTrustedCredManAccessPrivilege&quot;,
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>            &quot;SeUndockPrivilege&quot;, &quot;SeUnsolicitedInputPrivilege&quot;)]
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>        [ValidateSet("SeAssignPrimaryTokenPrivilege", "SeAuditPrivilege", "SeBackupPrivilege", "SeChangeNotifyPrivilege", "SeCreateGlobalPrivilege",
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>            "SeCreatePagefilePrivilege", "SeCreatePermanentPrivilege", "SeCreateSymbolicLinkPrivilege", "SeCreateTokenPrivilege",
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>            "SeDebugPrivilege", "SeEnableDelegationPrivilege", "SeImpersonatePrivilege", "SeIncreaseBasePriorityPrivilege",
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>            "SeIncreaseQuotaPrivilege", "SeIncreaseWorkingSetPrivilege", "SeLoadDriverPrivilege", "SeLockMemoryPrivilege", "SeMachineAccountPrivilege",
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>            "SeManageVolumePrivilege", "SeProfileSingleProcessPrivilege", "SeRelabelPrivilege", "SeRemoteShutdownPrivilege", "SeRestorePrivilege",
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>            "SeSecurityPrivilege", "SeShutdownPrivilege", "SeSyncAgentPrivilege", "SeSystemEnvironmentPrivilege", "SeSystemProfilePrivilege",
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>            "SeSystemtimePrivilege", "SeTakeOwnershipPrivilege", "SeTcbPrivilege", "SeTimeZonePrivilege", "SeTrustedCredManAccessPrivilege",
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>            "SeUndockPrivilege", "SeUnsolicitedInputPrivilege")]
 </span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>        [String]
 </span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>        $Privilege
 </span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>    )
@@ -27019,7 +27019,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>    [IntPtr]$ThreadHandle = $GetCurrentThread.Invoke()
 </span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a>    if ($ThreadHandle -eq [IntPtr]::Zero)
 </span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>    {
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a>        Throw &quot;Unable to get the handle to the current thread&quot;
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a>        Throw "Unable to get the handle to the current thread"
 </span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22"></a>    }
 </span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23"></a>
 </span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24"></a>    [IntPtr]$ThreadToken = [IntPtr]::Zero
@@ -27079,7 +27079,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-3-78"><a id="__codelineno-3-78" name="__codelineno-3-78"></a>
 </span><span id="__span-3-79"><a id="__codelineno-3-79" name="__codelineno-3-79"></a>    $Global:TokenPriv = $TokenPrivileges
 </span><span id="__span-3-80"><a id="__codelineno-3-80" name="__codelineno-3-80"></a>
-</span><span id="__span-3-81"><a id="__codelineno-3-81" name="__codelineno-3-81"></a>    Write-Verbose &quot;Attempting to enable privilege: $Privilege&quot;
+</span><span id="__span-3-81"><a id="__codelineno-3-81" name="__codelineno-3-81"></a>    Write-Verbose "Attempting to enable privilege: $Privilege"
 </span><span id="__span-3-82"><a id="__codelineno-3-82" name="__codelineno-3-82"></a>    $Result = $AdjustTokenPrivileges.Invoke($ThreadToken, $false, [Ref] $TokenPrivileges, $TokenPrivSize, [IntPtr]::Zero, [IntPtr]::Zero)
 </span><span id="__span-3-83"><a id="__codelineno-3-83" name="__codelineno-3-83"></a>    if ($Result -eq $false)
 </span><span id="__span-3-84"><a id="__codelineno-3-84" name="__codelineno-3-84"></a>    {
@@ -27087,7 +27087,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-3-86"><a id="__codelineno-3-86" name="__codelineno-3-86"></a>    }
 </span><span id="__span-3-87"><a id="__codelineno-3-87" name="__codelineno-3-87"></a>
 </span><span id="__span-3-88"><a id="__codelineno-3-88" name="__codelineno-3-88"></a>    $CloseHandle.Invoke($ThreadToken) | Out-Null
-</span><span id="__span-3-89"><a id="__codelineno-3-89" name="__codelineno-3-89"></a>    Write-Verbose &quot;Enabled privilege: $Privilege&quot;
+</span><span id="__span-3-89"><a id="__codelineno-3-89" name="__codelineno-3-89"></a>    Write-Verbose "Enabled privilege: $Privilege"
 </span><span id="__span-3-90"><a id="__codelineno-3-90" name="__codelineno-3-90"></a>}                                      
 </span></code></pre></div></td></tr></table></div>
 <p>More on the blog:  https://www.leeholmes.com/adjusting-token-privileges-in-powershell/</p>
@@ -27120,20 +27120,20 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>SeIncreaseWorkingSetPrivilege Increase a process working set           Enabled
 </span></code></pre></div></td></tr></table></div>
 <p><strong>4.</strong> Choose with object (file, folder, shares...) you want to change owner. For instance: <code>C:\Department Shares\Private\IT\cred.txt</code>.  Check out the target file to gather a bit more information about it.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>Get-ChildItem -Path &#39;C:\Department Shares\Private\IT\cred.txt&#39; | Select Fullname,LastWriteTime,Attributes,@{Name=&quot;Owner&quot;;Expression={ (Get-Acl $_.FullName).Owner }}
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>Get-ChildItem -Path 'C:\Department Shares\Private\IT\cred.txt' | Select Fullname,LastWriteTime,Attributes,@{Name="Owner";Expression={ (Get-Acl $_.FullName).Owner }}
 </span></code></pre></div></td></tr></table></div>
 <p><strong>5.</strong> Checking File Ownership:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>cmd /c dir /q &#39;C:\Department Shares\Private\IT&#39;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>cmd /c dir /q 'C:\Department Shares\Private\IT'
 </span></code></pre></div></td></tr></table></div>
 <p>Like this we can see who owns the share.</p>
 <p><strong>6.</strong> Taking Ownership of the File:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>takeown /f &#39;C:\Department Shares\Private\IT\cred.txt&#39;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>takeown /f 'C:\Department Shares\Private\IT\cred.txt'
 </span></code></pre></div></td></tr></table></div>
 <p><strong>7.</strong> Confirm change of ownership:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>Get-ChildItem -Path &#39;C:\Department Shares\Private\IT\cred.txt&#39; | select name,directory, @{Name=&quot;Owner&quot;;Expression={(Get-ACL $_.Fullname).Owner}}
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>Get-ChildItem -Path 'C:\Department Shares\Private\IT\cred.txt' | select name,directory, @{Name="Owner";Expression={(Get-ACL $_.Fullname).Owner}}
 </span></code></pre></div></td></tr></table></div>
 <p><strong>8.</strong> However we still need to modify ACL to get to read the file.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>icacls &#39;C:\Department Shares\Private\IT\cred.txt&#39; /grant htb-student:F
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>icacls 'C:\Department Shares\Private\IT\cred.txt' /grant htb-student:F
 </span></code></pre></div></td></tr></table></div>
 <h4 id="files-of-interest">Files of Interest</h4>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>

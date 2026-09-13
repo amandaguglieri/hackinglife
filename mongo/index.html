@@ -26709,7 +26709,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>mongo<span class="w"> </span><span class="nv">$ip</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>mongo<span class="w"> </span>&lt;HOST&gt;:&lt;PORT&gt;
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>mongo<span class="w"> </span>&lt;HOST&gt;:&lt;PORT&gt;/&lt;DB&gt;
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>mongo<span class="w"> </span>&lt;database&gt;<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;&lt;password&gt;&#39;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>mongo<span class="w"> </span>&lt;database&gt;<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">'&lt;password&gt;'</span>
 </span></code></pre></div></td></tr></table></div>
 <p>A collection is a group of documents in the database.</p>
 <h2 id="basic-usage">Basic usage</h2>
@@ -26794,44 +26794,44 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a>db.&lt;collection&gt;.count() 
 </span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a>
 </span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a># Find in current db the username admin
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>db.current.find({&quot;username&quot;:&quot;admin&quot;}) 
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>db.current.find({"username":"admin"}) 
 </span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a>
 </span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a># Find in city collection all cities that matches the criteria (= MA) and return the count
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a>db.city.find({&quot;city&quot;:&quot;MA&quot;}).count() 
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a>db.city.find({"city":"MA"}).count() 
 </span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a>
 </span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a># How many cities of state “Indiana” have population greater than 15000 in collection “city” in database “city”?
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>db.city.find({$and:[{&quot;state&quot;:&quot;IN&quot;}, {&quot;pop&quot;:{$gt:15000}}]}).count()
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>db.city.find({$and:[{"state":"IN"}, {"pop":{$gt:15000}}]}).count()
 </span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a>
 </span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a>
 </span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a>####################
 </span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a># Operators
 </span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a>####################
 </span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a># Greater than: $gt
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a>db.city.find({&quot;population&quot;:{$gt:150000}}).count() 
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a>db.city.find({"population":{$gt:150000}}).count() 
 </span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a>
 </span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a># And operator: $and
-</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a>db.city.find({$and:[{population:{$gt:150000}},{&quot;state&quot;:&quot;FLORIDA&quot;}]})
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a>db.city.find({$and:[{population:{$gt:150000}},{"state":"FLORIDA"}]})
 </span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a>
 </span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a># Or operator: $or
-</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a>db.city.find({$or:[{population:{$lt:1000}},{&quot;state&quot;:&quot;FLORIDA&quot;}]})
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a>db.city.find({$or:[{population:{$lt:1000}},{"state":"FLORIDA"}]})
 </span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a>
 </span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44"></a># Not equal operator: $ne
 </span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45"></a># equal operator: $e
 </span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46"></a>
 </span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47"></a># Additionally, you can use regex: Cities that starts with HA: 
-</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48"></a>db.city.find({&quot;city&quot;:{$regex:&quot;^HA.*&quot;}})
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48"></a>db.city.find({"city":{$regex:"^HA.*"}})
 </span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49"></a>
 </span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50"></a># What is the name of 101st city in collection “city” when sorted in ascending order according to “city” in database “city”?
-</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51"></a>db.city.find().sort({&quot;city&quot;:1}).skip(100).limit(1)
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51"></a>db.city.find().sort({"city":1}).skip(100).limit(1)
 </span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52"></a>
 </span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53"></a>#####################
 </span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54"></a># Operations
 </span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55"></a>#####################
 </span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56"></a># Perform an average on an aggregate of documents
-</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57"></a>db.city.aggregate({&quot;$group&quot;:{&quot;_id&quot;:null, avg:{$avg:{&quot;$population&quot;}} }})
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57"></a>db.city.aggregate({"$group":{"_id":null, avg:{$avg:{"$population"}} }})
 </span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58"></a>
 </span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59"></a>
-</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60"></a># We can dump the contents of the documents present in the flag collection by using the db.collection.find() command. Let&#39;s replace the collection name flag in the command and also use pretty() in order to receive the output in a beautified format.
+</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60"></a># We can dump the contents of the documents present in the flag collection by using the db.collection.find() command. Let's replace the collection name flag in the command and also use pretty() in order to receive the output in a beautified format.
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->

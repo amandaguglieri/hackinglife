@@ -26856,10 +26856,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 
 <h1 id="crack-sensitive-files-linux">Crack  sensitive files: Linux</h1>
 <h2 id="hunting-for-encoded-files">Hunting for Encoded Files</h2>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">for ext in $(echo &quot;.xls .xls* .xltx .csv .od* .doc .doc* .pdf .pot .pot* .pp*&quot;);do echo -e &quot;\nFile extension: &quot; $ext; find / -name *$ext 2&gt;/dev/null | grep -v &quot;lib\|fonts\|share\|core&quot; ;done</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="go">for ext in $(echo ".xls .xls* .xltx .csv .od* .doc .doc* .pdf .pot .pot* .pp*");do echo -e "\nFile extension: " $ext; find / -name *$ext 2&gt;/dev/null | grep -v "lib\|fonts\|share\|core" ;done</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="crack-ssh-key-with-ssh2johnpy">Crack ssh key with ssh2john.py</h2>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">grep -rnw &quot;PRIVATE KEY&quot; /* 2&gt;/dev/null | grep &quot;:1&quot;</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="go">grep -rnw "PRIVATE KEY" /* 2&gt;/dev/null | grep ":1"</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Most SSH keys we will find nowadays are encrypted. We can recognize this by the header of the SSH key because this shows the encryption method in use.</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
@@ -26893,7 +26893,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-5-2">2</a></span>
 <span class="normal"><a href="#__codelineno-5-3">3</a></span>
 <span class="normal"><a href="#__codelineno-5-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>office2john MS_Word_Document.docx &gt; hash
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>office2john &#39;Important Document.docx&#39; &gt; /home/lala/CPTS/hash
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>office2john 'Important Document.docx' &gt; /home/lala/CPTS/hash
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>cat hash
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>john --wordlist=/root/Desktop/wordlists/1000000-password-seclists.txt hash
 </span></code></pre></div></td></tr></table></div>
@@ -26904,7 +26904,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <h2 id="cracking-password-of-a-zip-file">Cracking password of a zip file</h2>
 <p>List compressed files:</p>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="go">curl -s https://fileinfo.com/filetypes/compressed | html2text | awk &#39;{print tolower($1)}&#39; | grep &quot;\.&quot; | tee -a compressed_ext.txt</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="go">curl -s https://fileinfo.com/filetypes/compressed | html2text | awk '{print tolower($1)}' | grep "\." | tee -a compressed_ext.txt</span>
 </span></code></pre></div></td></tr></table></div>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
 <span class="normal"><a href="#__codelineno-8-2">2</a></span>
@@ -26921,7 +26921,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-9-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="go">file filename.gzip </span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="gp"># </span>Output:
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="gp"># </span>filename.gzip:<span class="w"> </span>openssl<span class="w"> </span>enc<span class="err">&#39;</span>d<span class="w"> </span>data<span class="w"> </span>with<span class="w"> </span>salted<span class="w"> </span>password
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="gp"># </span>filename.gzip:<span class="w"> </span>openssl<span class="w"> </span>enc<span class="err">'</span>d<span class="w"> </span>data<span class="w"> </span>with<span class="w"> </span>salted<span class="w"> </span>password
 </span></code></pre></div></td></tr></table></div>
 <p>Extract files with <code>openssl</code> in a <code>for loop</code>:</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="go">for i in $(cat rockyou.txt);do openssl enc -aes-256-cbc -d -in GZIP.gzip -k $i 2&gt;/dev/null| tar xz;done</span>
@@ -26933,7 +26933,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>We can use a script called <code>bitlocker2john</code> to extract the hash we need to crack:</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
 <span class="normal"><a href="#__codelineno-11-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="go">bitlocker2john -i Backup.vhd &gt; backup.hashes</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="go">grep &quot;bitlocker\$0&quot; backup.hashes &gt; backup.hash</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="go">grep "bitlocker\$0" backup.hashes &gt; backup.hash</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Using hashcat:</p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>

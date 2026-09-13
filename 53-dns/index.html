@@ -27554,7 +27554,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20"></a><span class="c1">#  `@` character specifies the DNS server we want to query.</span>
 </span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21"></a><span class="c1"># here, $ip refers to ip of DNS server</span>
 </span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22"></a>
-</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23"></a><span class="c1"># Display version. query a DNS server&#39;s version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23"></a><span class="c1"># Display version. query a DNS server's version using a class CHAOS query and type TXT. However, this entry must exist on the DNS server.</span>
 </span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24"></a>dig<span class="w"> </span>CH<span class="w"> </span>TXT<span class="w"> </span>version.bind<span class="w"> </span><span class="nv">$ip</span>
 </span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25"></a>
 </span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26"></a><span class="c1"># Querying: PTR Records for an IP Address</span>
@@ -27591,7 +27591,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <h2 id="subdomain-brute-enumeration">Subdomain brute enumeration</h2>
 <h3 id="bash-command-using-sec-wordlist"><strong>Bash</strong> command Using Sec wordlist</h3>
-<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v &#39;;\|SOA&#39; | sed -r &#39;/^\s*$/d&#39; | grep $sub | tee -a subdomains.txt;done</span>
+<div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="go">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.example.com @$ip | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done</span>
 </span></code></pre></div></td></tr></table></div>
 <h4 id="dnsenum_2"><strong>dnsenum</strong></h4>
 <p><a href="../dnsenum/">dnsenum</a></p>

