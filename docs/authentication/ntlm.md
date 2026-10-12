@@ -25,7 +25,9 @@ Key facts:
 >**NTLM is not a network protocol. It has no “wire” of its own.** It’s just a credential-validation _conversation_ made of three little data blobs (the NTLMSSP messages: Negotiate → Challenge → Authenticate).
 > Those three blobs have to hitch a ride inside **some other protocol that’s already connected** — SMB, HTTP, LDAP, SMTP, MSSQL, etc. That host protocol is the **envelope**. NTLM is the **letter** inside it.
 
-![[ntlm_sheet.png]]
+
+![ntlm](../img/ntlm_sheet.png)
+
 
 
 ---
