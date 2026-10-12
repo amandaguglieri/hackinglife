@@ -18,14 +18,6 @@ tags:
 	- [NoSQL injection](webexploitation/nosql-injection.md)
 	- [SQLite injections](webexploitation/sqlite-injections.md)
 
-??? quote "OWASP"
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 7. Data Validation Testing > 7.5. Testing for SQL Injection
-
-	| ID  | Link to Hackinglife             | Link to OWASP     | Description                                                                                                                       | 
-	| :-- | :------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
-	| 7.5 | [WSTG-INPV-05](OWASP/WSTG-INPV-05.md) | [Testing for SQL Injection](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05-Testing_for_SQL_Injection) | - Identify SQL injection points.  - Assess the severity of the injection and the level of access that can be achieved through it. |
-
-
 ??? example "Languages and dictionaries"
 	| Server | Dictionary |
 	| -- | -- |
@@ -356,9 +348,6 @@ More interesting queries:
 
 ??? example "Dictionaries"
     [https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based](https://github.com/amandaguglieri/dictionaries/blob/main/SQL/time-based)
-
-!!! quote "Resources"
-    - [OWASP resources](https://owasp.org/www-community/attacks/Blind_SQL_Injection)
 
 Vulnerable SQL query:
 

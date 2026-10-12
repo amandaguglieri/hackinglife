@@ -20,7 +20,7 @@ Scheduled tasks are listed under the /etc/cron.* directories, there * represents
 ls -la /etc/cron.*
 
 # Identify in Sys logs running CRON jobs
-rep "CRON" /var/log/syslog
+grep "CRON" /var/log/syslog
 ```
 
 System admin sometimes add their own scheduled task in the `/etc/crontab` file:

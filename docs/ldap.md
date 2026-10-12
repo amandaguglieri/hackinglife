@@ -11,6 +11,8 @@ tags:
 ---
 # LDAP - Active directory
 
+Active Directory (AD) is a directory service for Windows network environments.  Lightweight Directory Access Protocol (LDAP) is an integral part of Active Directory (AD). The **Lightweight Directory Access Protocol** (**LDAP**) is an open, vendor-neutral, industry standard application protocol for accessing and maintaining distributed directory information services over a TCP/IP Internet Protocol (IP) network.
+
 [Index of Active Directory](active-directory.md)
 
 [Hardening and auditing Active Directory ](hardening-auditing-active-directory.md)
@@ -38,7 +40,7 @@ The LDAP path's prototype looks like this:
 LDAP://HostName[:PortNumber][/DistinguishedName]
 ```
 
-Active Directory (AD) is a directory service for Windows network environments.  Lightweight Directory Access Protocol (LDAP) is an integral part of Active Directory (AD). The **Lightweight Directory Access Protocol** (**LDAP**) is an open, vendor-neutral, industry standard application protocol for accessing and maintaining distributed directory information services over a TCP/IP Internet Protocol (IP) network.
+
 
 [And what about LDAP? See here](389-636-ldap.md).
 
@@ -55,6 +57,61 @@ xfreerdp /v:$ip /u:htb-student /p:<password> /cert-ignore
 
 
 ### RSAT (Remote Server Administration Tools)
+
+The `Remote Server Administration Tools` (`RSAT`) have been part of Windows since the days of Windows 2000. RSAT allows systems administrators to remotely manage Windows Server roles and features from a workstation running Windows 10, Windows 8.1, Windows 7, or Windows Vista.
+
+The full listing of tools included with `RSAT` is:
+
+- SMTP Server Tools
+- Hyper-V Management Tools
+- Hyper-V Module for Windows PowerShell
+- Hyper-V GUI Management Tools
+- Windows Server Update Services Tools
+- API and PowerShell cmdlets
+- User Interface Management Console
+- Active Directory Users and Computers Snap-in
+- Active Directory Sites and Services Snap-in
+- Active Directory Domains and Trusts Snap-in
+- Active Directory Administrative Center Snap-in
+- ADSI Edit Snap-in
+- Active Directory Schema Snap-in (Not Registered)
+- Active Directory Command Line Tools
+- Active Directory Module for Windows PowerShell
+- IIS Management Tools
+- IIS Management Console
+- IIS Management Compatibility
+- Feature Tools
+- Remote Desktop Services Tools
+- Role Tools
+- Update Services Tools
+- Group Policy Tools
+
+#### Installation
+
+[Install RSAT](Install-RSATv1809v1903v1909.md).
+
+We can check which, if any, RSAT tools are installed using PowerShell.
+
+```powershell
+Get-WindowsCapability -Name RSAT* -Online | Select-Object -Property Name, State
+```
+
+From here, we can choose to install all available tools using the following command:
+
+```powershell
+Get-WindowsCapability -Name RSAT* -Online | Add-WindowsCapability –Online
+```
+
+We can also install tools one at a time as needed.
+
+```
+Add-WindowsCapability -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 –Online
+```
+
+Once installed, all of the tools will be available under Administrative Tools in the Control Panel.
+
+
+
 
 [RSAT (Remote Server Administration Tools)](rsat-remote-server-administration-tools.md) cheat sheet:
 
