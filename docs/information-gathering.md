@@ -15,7 +15,6 @@ tags:
 ??? abstract "Sources for these notes"
     - [Hack The Box: Penetration Testing Learning Path](https://academy.hackthebox.com/path/preview/penetration-tester)
     - [INE eWPT2 Preparation course](https://my.ine.com/CyberSecurity/courses/79af5ed1/web-application-penetration-testing-web-fingerprinting-and-enumeration)
-    - [OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering 
     - My own notes coming from experience pentesting.
 
 
@@ -43,13 +42,6 @@ Information gathering is typically broken down into two types:
 ### 1.1. Fingerprint Web Server
 
 Or Passive server enumeration.
-
-!!! quote ""
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.2. Fingerprint Web Server
-
-| ID  | Link to Hackinglife                   | Link to OWASP                                                                                                                                                                   | Objectives                                                                                                         |
-| :-- | :------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------- |
-| 1.2 | [WSTG-INFO-02](OWASP/WSTG-INFO-02.md) | [Fingerprint Web Server](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/02-Fingerprint_Web_Server) | - Determine the version and type of a running web server to enable further discovery of any known vulnerabilities. |
 
 #### host command
 
@@ -152,14 +144,6 @@ Worth trying: [DNSRecon](dnsrecon.md) and https://domain.glass/
 
 ### 1.3. Reviewing server metafiles
 
-!!! quote ""
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.5. Review Webpage content for Information Leakage
-
-|ID|Link to Hackinglife|Link to OWASP|Objectives|
-|:---|:---|:---|:---|
-|1.5|[WSTG-INFO-05](OWASP/WSTG-INFO-05.md) |[Review Webpage Content for Information Leakage](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/05-Review_Webpage_Content_for_Information_Leakage)|- Review webpage comments, metadata, and redirect bodies to find any information leakage.  - Gather JavaScript files and review the JS code to better understand the application and to find any information leakage.  - Identify if source map files or other front-end debug files exist.|
-
-
 Some of these files:
 
 - robots.txt
@@ -172,13 +156,6 @@ Some of these files:
 !!! tip "Dorking"
     - [Complete google dork guide](google-dorks.md).
     - [Complete github dork guide](github-dorks.md).
-
-!!! quote ""
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.1. Conduct search engine discovery reconnaissance for information leakage
-
-| ID  | Link to Hackinglife                   | Link to OWASP                                                                                                                                                                                                                                                                   | Objectives                                                                                                                                                                                               |
-| :-- | :------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.1 | [WSTG-INFO-01](OWASP/WSTG-INFO-01.md) | [Conduct Search Engine Discovery Reconnaissance for Information Leakage](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/01-Conduct_Search_Engine_Discovery_Reconnaissance_for_Information_Leakage) | - Identify what sensitive design and configuration information of the application, system, or organization is exposed directly (on the organization's website) or indirectly (via third-party services). |
 
 ### 1.5. Cloud resources
 
@@ -199,13 +176,6 @@ A tool for continuously monitoring **Git, Jira, Slack, Confluence, Microsoft Te
 
 ### 1.6. Fingerprint web application technology and frameworks
 
-!!! quote ""
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.8. Fingerprint Web Application Framework
-
-|ID|Link to Hackinglife|Link to OWASP|Objectives|
-|:---|:---|:---|:---|
-|1.8|[WSTG-INFO-08](OWASP/WSTG-INFO-08.md) |[Fingerprint Web Application Framework](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/08-Fingerprint_Web_Application_Framework)|- Fingerprint the components being used by the web applications.  - Find the type of web application framework/CMS from HTTP headers, Cookies, Source code, Specific files and folders, Error message.|
-
 If we discover the webserver behind the target application, it can give us a good idea of what operating system is running on the back-end server. 
 
 For instance:
@@ -225,8 +195,6 @@ X-Powered-By and cookies:
 - .NET: `ASPSESSIONID<RANDOM>=<COOKIE_VALUE>`
 - PHP: `PHPSESSID=<COOKIE_VALUE>`
 - JAVA: `JSESSION=<COOKIE_VALUE>`
-
-More manual techniques on  [OWASP 4.2: WSTG-INFO-08](OWASP/WSTG-INFO-08.md)
 
 
 **Banner Grabbing / Web Server Headers**
@@ -315,15 +283,6 @@ nmap -p443 --script http-waf-detect <host>
 
 ### 1.8. Code analysis: HTTRack and EyeWitness
 
-!!! quote ""
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.7. Map Execution Paths through applications
-
-|ID|Link to Hackinglife|Link to OWASP|Objectives|
-|:---|:---|:---|:---|
-|1.7|[WSTG-INFO-07](OWASP/WSTG-INFO-07.md)|[Map Execution Paths Through Application](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/07-Map_Execution_Paths_Through_Application)|- Map the target application and understand the principal workflows.  - Use HTTP(s) Proxy Spider/Crawler feature aligned with application walkthrough|
-
-
-
 #### HTTRack
 
 [HTTRack tutorial](httrack.md)
@@ -407,13 +366,6 @@ See [gitrob](gitrob.md)
 
 ### 2.1. Enumerate applications and services on Webserver
 
-!!! quote ""
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.4. Enumerate Applications on Webserver
-
-|ID|Link to Hackinglife|Link to OWASP|Objectives|
-|:---|:---|:---|:---|
-|1.4|[WSTG-INFO-04](OWASP/WSTG-INFO-04.md)|[Enumerate Applications on Webserver](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/04-Enumerate_Applications_on_Webserver)|- Enumerate the applications within the scope that exist on a web server.  - Find applications hosted in the webserver (Virtual hosts/Subdomain), non-standard ports, DNS zone transfers|
-
 Hostname discovery
 
 ```shell-session
@@ -427,13 +379,6 @@ nmap -sV -sC -- <target>
 ```
 
 ### 2.2. Web Server Fingerprinting
-
-!!! quote ""
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.2. Fingerprint Web Server
-
-|ID|Link to Hackinglife|Link to OWASP|Objectives|
-|:---|:---|:---|:---|
-|1.2|[WSTG-INFO-02](OWASP/WSTG-INFO-02.md) |[Fingerprint Web Server](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/02-Fingerprint_Web_Server)|- Determine the version and type of a running web server to enable further discovery of any known vulnerabilities.|
 
 #### HTTP headers and source code
 
@@ -496,13 +441,6 @@ nikto -h http://domain.com/index.php?page=target-page.php -Tuning 5 -Display V
 
 
 ### 2.3. # Well-Known URIs
-
-!!! quote "OWASP"
-	[OWASP Web Security Testing Guide 4.2](OWASP/index.md) > 1. Information Gathering > 1.3. Review Webserver Metafiles for Information Leakage
-
-| ID  | Link to Hackinglife                   | Link to OWASP                                                                                                                                                                                                                           | Objectives                                                                                                                                                                                                                                   |
-| :-- | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.3 | [WSTG-INFO-03](OWASP/WSTG-INFO-03.md) | [Review Webserver Metafiles for Information Leakage](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/01-Information_Gathering/03-Review_Webserver_Metafiles_for_Information_Leakage) | - Identify hidden or obfuscated paths and functionality through the analysis of metadata files (robots.txt, `<META>` tag, sitemap.xml) - Extract and map other information that could lead to a better understanding of the systems at hand. |
 
 The `.well-known` standard, defined in [RFC 8615](https://datatracker.ietf.org/doc/html/rfc8615), serves as a standardized directory within a website's root domain. This designated location, typically accessible via the `/.well-known/` path on a web server, centralizes a website's critical metadata, including configuration files and information related to its services, protocols, and security mechanisms.
 
